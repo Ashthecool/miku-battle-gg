@@ -149,12 +149,19 @@
     </div>
   </div>
 
-  <button id="btn-settings" title="Audio">♫</button>
+  <button id="btn-settings" title="Settings">♫</button>
   <div id="settings">
     <label>Music <input id="vol-music" type="range" min="0" max="1" step="0.05"></label>
     <label>Effects <input id="vol-sfx" type="range" min="0" max="1" step="0.05"></label>
     <label>Jukebox <select id="jukebox"></select></label>
     <div id="now-playing"></div>
+    <div class="save-row">
+      <span>Save data</span>
+      <button id="save-export" class="btn small" title="Download your progress as a file">Export</button>
+      <button id="save-import" class="btn small" title="Load progress from an exported file">Import</button>
+      <input id="save-file" type="file" accept=".json,application/json" hidden>
+    </div>
+    <div id="save-status"></div>
   </div>
 </div>
 

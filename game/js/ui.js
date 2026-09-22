@@ -4,24 +4,85 @@
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const DECK_SIZE = 20;
 
-  const save = Object.assign({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' },
-    JSON.parse(localStorage.getItem('mb-save') || '{}'));
+  // ---------------------------------------------------------------- save
+  // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
+  // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
+  const SAVE_VERSION = 1;
+  const MIGRATIONS = [
+    (s) => {
+      // older saves predate unlocks: start them on commons plus the rivals they already beat
+      if (!Array.isArray(s.unlocked)) s.unlocked = [...new Set([...MB.STARTER_CARDS, ...MB.STORY.slice(0, s.story || 0).map((st) => st.foe)])];
+      // story progress is kept per chapter; old saves only had chapter 1
+      if (!Array.isArray(s.progress)) s.progress = [s.story || 0];
+    },
+  ];
+  const freshSave = () => ({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
+
+  // upgrades an old save, then fills in whatever content added since it was written
+  function loadSave(raw) {
+    const s = Object.assign(freshSave(), raw);
+    for (let v = s.version || 0; v < SAVE_VERSION; v++) MIGRATIONS[v](s);
+    s.version = SAVE_VERSION;
+    // commons added by later novels are owned right away
+    s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
+    MB.CHAPTERS.forEach((_, i) => { s.progress[i] = s.progress[i] || 0; });
+    if (s.deck.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) s.deck = MB.STARTER_DECK.slice();
+    s.costumes = s.costumes || {}; // character id -> chosen costume id
+    return s;
+  }
+  function validSave(s) {
+    const obj = (x) => x && typeof x === 'object' && !Array.isArray(x);
+    return obj(s) && !(s.version > SAVE_VERSION)
+      && ['deck', 'leaders', 'unlocked', 'progress'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && (s.costumes === undefined || obj(s.costumes));
+  }
+  function readStored() {
+    const raw = localStorage.getItem('mb-save');
+    try {
+      const s = JSON.parse(raw || '{}');
+      if (validSave(s)) return s;
+    } catch (e) { /* fall through */ }
+    // keep the unreadable save around instead of silently losing it
+    localStorage.setItem('mb-save-broken-' + Date.now(), raw);
+    return {};
+  }
+
+  const save = loadSave(readStored());
   const persist = () => localStorage.setItem('mb-save', JSON.stringify(save));
+  persist();
+
+  function exportSave() {
+    const data = { game: 'miku-battle', exported: new Date().toISOString(), save };
+    const a = el('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    a.download = `miku-battle-save-${new Date().toLocaleDateString('sv')}.json`; // local YYYY-MM-DD
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    saveStatus('Save downloaded.');
+  }
+  async function importSave(file) {
+    let data;
+    try { data = JSON.parse(await file.text()); } catch (e) { return saveStatus('That file isn\'t a save.', true); }
+    const s = data && data.game === 'miku-battle' ? data.save : data;
+    if (!validSave(s)) return saveStatus(s && s.version > SAVE_VERSION ? 'That save is from a newer version of the game.' : 'That file isn\'t a save.', true);
+    if (!confirm('Replace your current progress with this save?')) return;
+    Object.keys(save).forEach((k) => delete save[k]);
+    Object.assign(save, loadSave(s));
+    persist();
+    saveStatus('Save loaded.');
+    if ($('#arena').classList.contains('gallery-mode')) MB.view.clear();
+    title();
+  }
+  function saveStatus(msg, bad) {
+    const n = $('#save-status');
+    n.textContent = msg;
+    n.classList.toggle('bad', !!bad);
+  }
 
   const deckCards = () => Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token);
   const maxCopies = (id) => (MB.CARDS[id].rarity === 'legendary' ? 1 : 2);
 
   // ---------------------------------------------------------------- collection
-  // older saves predate unlocks: start them on commons plus the rivals they already beat
-  if (!Array.isArray(save.unlocked)) save.unlocked = [...new Set([...MB.STARTER_CARDS, ...MB.STORY.slice(0, save.story).map((s) => s.foe)])];
-  // commons added by later novels are owned right away
-  save.unlocked = [...new Set([...save.unlocked, ...MB.STARTER_CARDS])];
-  // story progress is kept per chapter; old saves only had chapter 1
-  if (!Array.isArray(save.progress)) save.progress = [save.story || 0];
-  MB.CHAPTERS.forEach((_, i) => { save.progress[i] = save.progress[i] || 0; });
-  if (save.deck.some((id) => !MB.CARDS[id] || !save.unlocked.includes(id))) save.deck = MB.STARTER_DECK.slice();
-  save.costumes = save.costumes || {}; // character id -> chosen costume id
-  persist();
 
   const isUnlocked = (id) => save.unlocked.includes(id);
   function lockedByRarity() {
@@ -539,6 +600,14 @@
     $('#deck-reset').onclick = () => { save.deck = MB.STARTER_DECK.slice(); persist(); renderDeck(); };
     $('#deck-clear').onclick = () => { save.deck = []; persist(); renderDeck(); };
     $('#btn-settings').onclick = settings;
+    $('#save-export').onclick = () => { MB.audio.sfx('click'); exportSave(); };
+    $('#save-import').onclick = () => {
+      MB.audio.sfx('click');
+      // swapping saves mid-battle would pay out rewards to the wrong save
+      if (MB.battle && !MB.battle.over && !$('#arena').classList.contains('gallery-mode')) return saveStatus('Finish or forfeit the battle first.', true);
+      $('#save-file').click();
+    };
+    $('#save-file').onchange = (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) importSave(f); };
     bindMenuFx();
     MB.Cards.bind();
     $('#vol-music').value = MB.audio.settings.music;

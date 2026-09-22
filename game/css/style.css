@@ -406,6 +406,11 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #settings label { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 14px; }
 #settings select { max-width: 180px; }
 #now-playing { font-size: 12px; opacity: .7; }
+#settings .save-row { display: flex; align-items: center; gap: 8px; font-size: 14px; border-top: 1px solid #ffffff22; padding-top: 10px; }
+#settings .save-row span { flex: 1; }
+#settings .btn.small { font-size: 13px; padding: 6px 12px; border-radius: 10px; box-shadow: 0 3px 0 #120c33; }
+#save-status { font-size: 12px; color: #7ee08a; min-height: 1em; }
+#save-status.bad { color: #ff7a7a; }
 
 #loading { position: fixed; inset: 0; z-index: 100; background: #0b0816; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font: 800 22px 'Segoe UI'; }
 #loading .bar { width: 400px; height: 10px; background: #ffffff22; border-radius: 10px; overflow: hidden; }
