@@ -7,7 +7,14 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 1;
+  const SAVE_VERSION = 2;
+  const DECK_SLOTS = 3;
+  // scales each fight's own AI skill (0..1) and enemy leader HP
+  const DIFFICULTY = {
+    easy:   { name: 'Easy',   ai: (a) => a * 0.5,               hp: 0.8 },
+    normal: { name: 'Normal', ai: (a) => a,                     hp: 1 },
+    hard:   { name: 'Hard',   ai: (a) => Math.min(1, a + 0.25), hp: 1.25 },
+  };
   const MIGRATIONS = [
     (s) => {
       // older saves predate unlocks: start them on commons plus the rivals they already beat
@@ -15,26 +22,46 @@
       // story progress is kept per chapter; old saves only had chapter 1
       if (!Array.isArray(s.progress)) s.progress = [s.story || 0];
     },
+    (s) => {
+      // one deck became several slots; the old deck is slot 1
+      s.decks = [{ name: 'Deck 1', cards: Array.isArray(s.deck) ? s.deck : MB.STARTER_DECK.slice() }];
+      s.activeDeck = 0;
+    },
   ];
   const freshSave = () => ({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
+  const obj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 
   // upgrades an old save, then fills in whatever content added since it was written
   function loadSave(raw) {
     const s = Object.assign(freshSave(), raw);
     for (let v = s.version || 0; v < SAVE_VERSION; v++) MIGRATIONS[v](s);
     s.version = SAVE_VERSION;
+    // a hand-edited or partial save may claim a version but lack fields
+    ['unlocked', 'progress', 'decks'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
     // commons added by later novels are owned right away
     s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
     MB.CHAPTERS.forEach((_, i) => { s.progress[i] = s.progress[i] || 0; });
-    if (s.deck.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) s.deck = MB.STARTER_DECK.slice();
+    // decks: always DECK_SLOTS of them, and a deck holding a card you don't own goes back to the starter
+    for (let i = 0; i < DECK_SLOTS; i++) {
+      const d = obj(s.decks[i]) ? s.decks[i] : {};
+      if (!Array.isArray(d.cards) || d.cards.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) d.cards = MB.STARTER_DECK.slice();
+      d.name = String(d.name || '').slice(0, 20) || 'Deck ' + (i + 1);
+      s.decks[i] = d;
+    }
+    s.decks.length = DECK_SLOTS;
+    if (!(s.activeDeck >= 0 && s.activeDeck < DECK_SLOTS)) s.activeDeck = 0;
+    s.deck = s.decks[s.activeDeck].cards.slice(); // working copy of the active deck; persist() writes it back
     s.costumes = s.costumes || {}; // character id -> chosen costume id
+    if (!DIFFICULTY[s.difficulty]) s.difficulty = 'normal';
+    // stats groups map an id to [wins, losses]
+    s.stats = Object.assign({ leaders: {}, foes: {}, difficulty: {}, streak: 0, bestStreak: 0 }, s.stats);
+    ['leaders', 'foes', 'difficulty'].forEach((k) => { if (!obj(s.stats[k])) s.stats[k] = {}; });
     return s;
   }
   function validSave(s) {
-    const obj = (x) => x && typeof x === 'object' && !Array.isArray(x);
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'leaders', 'unlocked', 'progress'].every((k) => s[k] === undefined || Array.isArray(s[k]))
-      && (s.costumes === undefined || obj(s.costumes));
+      && ['deck', 'decks', 'leaders', 'unlocked', 'progress'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['costumes', 'stats'].every((k) => s[k] === undefined || obj(s[k]));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -48,11 +75,25 @@
   }
 
   const save = loadSave(readStored());
-  const persist = () => localStorage.setItem('mb-save', JSON.stringify(save));
+  // the active deck is edited through save.deck; write it back into its slot before saving
+  function snapshot() {
+    save.decks[save.activeDeck].cards = save.deck.slice();
+    const { deck, ...out } = save;
+    return out;
+  }
+  const persist = () => localStorage.setItem('mb-save', JSON.stringify(snapshot()));
   persist();
 
+  function switchDeck(i) {
+    if (i === save.activeDeck) return;
+    persist();
+    save.activeDeck = i;
+    save.deck = save.decks[i].cards.slice();
+    persist();
+  }
+
   function exportSave() {
-    const data = { game: 'miku-battle', exported: new Date().toISOString(), save };
+    const data = { game: 'miku-battle', exported: new Date().toISOString(), save: snapshot() };
     const a = el('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
     a.download = `miku-battle-save-${new Date().toLocaleDateString('sv')}.json`; // local YYYY-MM-DD
@@ -260,6 +301,7 @@
   // ---------------------------------------------------------------- leader select
   function leaderSelect(onPick, foeId) {
     show('screen-leader');
+    battleOpts();
     const grid = $('#leader-grid');
     grid.innerHTML = '';
     let novel = null;
@@ -279,6 +321,26 @@
       }
       grid.appendChild(t);
     });
+  }
+
+  // deck + difficulty pickers shown above the leader grid
+  function battleOpts() {
+    const box = $('#battle-opts');
+    box.innerHTML = '';
+    const sel = el('select');
+    save.decks.forEach((d, i) => {
+      const cards = i === save.activeDeck ? save.deck : d.cards;
+      sel.appendChild(new Option(`${d.name} (${cards.length}/${DECK_SIZE})`, i, false, i === save.activeDeck));
+    });
+    sel.onchange = () => { MB.audio.sfx('click'); switchDeck(+sel.value); };
+    const seg = el('div', 'seg');
+    Object.entries(DIFFICULTY).forEach(([k, d]) => {
+      const b = el('button', k === save.difficulty ? 'on' : '', d.name);
+      b.onclick = () => { MB.audio.sfx('click'); save.difficulty = k; persist(); battleOpts(); };
+      seg.appendChild(b);
+    });
+    const lab = (text, ctl) => { const l = el('label', null, `<span>${text}</span>`); l.appendChild(ctl); return l; };
+    box.append(lab('Deck', sel), lab('Difficulty', seg));
   }
 
   // ---------------------------------------------------------------- story
@@ -367,18 +429,29 @@
 
   let current = null;
   async function startBattle(cfg) {
-    if (save.deck.length !== DECK_SIZE) { alert('Your deck needs exactly ' + DECK_SIZE + ' cards.'); deck(); return; }
-    current = cfg;
+    if (save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
+    const diff = DIFFICULTY[save.difficulty];
+    current = { ...cfg, difficulty: save.difficulty };
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
     setBg('assets/' + (cfg.bgSrc || bgByName(cfg.bg).src));
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
-    const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: cfg.foeHp,
+    const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
       playerDeck: save.deck.slice(), enemyDeck: aiDeck(cfg.foe) });
-    b.aiSkill = cfg.ai;
+    b.aiSkill = diff.ai(cfg.ai);
     MB.battle = b;
     MB.view.b = b;
     MB.view.run(() => b.start());
+  }
+
+  function recordResult(cfg, win) {
+    const st = save.stats;
+    const bump = (group, id) => { const r = (group[id] = group[id] || [0, 0]); r[win ? 0 : 1]++; };
+    bump(st.leaders, cfg.leader);
+    bump(st.foes, cfg.foe);
+    bump(st.difficulty, cfg.difficulty);
+    st.streak = win ? st.streak + 1 : 0;
+    st.bestStreak = Math.max(st.bestStreak, st.streak);
   }
 
   function battleOver(win) {
@@ -393,6 +466,7 @@
       if (unlock(cfg.foe)) rewards.push(cfg.foe);
     }
     if (win) { const drop = rollDrop(); if (unlock(drop)) rewards.push(drop); }
+    recordResult(cfg, win);
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
     show('screen-result');
@@ -431,9 +505,33 @@
     return c;
   }
   const rarityRank = (id) => MB.RARITY[MB.CARDS[id].rarity].stars;
+  function renderDeckTabs() {
+    const tabs = $('#deck-tabs');
+    tabs.innerHTML = '';
+    save.decks.forEach((d, i) => {
+      const on = i === save.activeDeck, n = on ? save.deck.length : d.cards.length;
+      const t = el('div', 'deck-tab' + (on ? ' on' : '') + (n !== DECK_SIZE ? ' bad' : ''), `<span class="dt-name"></span><small>${n}/${DECK_SIZE}</small>`);
+      t.querySelector('.dt-name').textContent = d.name;
+      if (on) {
+        const pen = el('b', 'dt-rename', '✎');
+        pen.title = 'Rename deck';
+        pen.onclick = () => {
+          const name = prompt('Deck name:', d.name);
+          if (name == null || !name.trim()) return;
+          d.name = name.trim().slice(0, 20); persist(); renderDeckTabs();
+        };
+        t.appendChild(pen);
+      } else {
+        t.title = 'Switch to this deck';
+        t.onclick = () => { MB.audio.sfx('click'); switchDeck(i); renderDeck(); };
+      }
+      tabs.appendChild(t);
+    });
+  }
   function renderDeck(added) {
     const col = $('#collection'), list = $('#deck-list');
     col.innerHTML = ''; list.innerHTML = '';
+    renderDeckTabs();
     deckCards().sort((a, b) => (isUnlocked(b) - isUnlocked(a)) || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b)).forEach((id) => {
       const c = cardEl(id);
       c.classList.add('collect');
@@ -476,6 +574,31 @@
     save.deck.forEach((id) => curve[Math.min(7, MB.CARDS[id].cost)]++);
     const mx = Math.max(1, ...curve);
     $('#deck-curve').innerHTML = curve.map((n, i) => `<div class="bar"><i style="height:${(n / mx) * 100}%"></i><span>${i === 7 ? '7+' : i}</span></div>`).join('');
+  }
+
+  // ---------------------------------------------------------------- stats
+  const pct = ([w, l]) => (w + l ? Math.round((w / (w + l)) * 100) : 0);
+  function stats() {
+    hideBattle();
+    show('screen-stats');
+    MB.audio.music(MB.MUSIC.title);
+    const st = save.stats, body = $('#stats-body');
+    const total = Object.values(st.difficulty).reduce((t, [w, l]) => [t[0] + w, t[1] + l], [0, 0]);
+    if (!(total[0] + total[1])) { body.innerHTML = '<p class="stats-empty">No battles yet. Go win some!</p>'; return; }
+    const tile = (big, label) => `<div class="st-tile"><b>${big}</b><span>${label}</span></div>`;
+    const table = (title, group) => {
+      const rows = Object.entries(group).filter(([id]) => MB.charById(id))
+        .sort((a, b) => b[1][0] + b[1][1] - (a[1][0] + a[1][1]) || pct(b[1]) - pct(a[1]))
+        .map(([id, r]) => `<div class="st-row"><img src="${MB.spriteUrl(id, 'idle')}"><span class="st-name">${MB.charById(id).name}</span>
+          <span class="st-wl">${r[0]}W · ${r[1]}L</span><span class="st-bar"><i style="width:${pct(r)}%"></i></span><span class="st-pct">${pct(r)}%</span></div>`);
+      return `<div class="st-col"><h2>${title}</h2>${rows.join('')}</div>`;
+    };
+    body.innerHTML = `<div class="st-tiles">
+        ${tile(total[0] + total[1], 'Battles')}${tile(total[0], 'Wins')}${tile(pct(total) + '%', 'Win rate')}
+        ${tile(st.streak, 'Current streak')}${tile(st.bestStreak, 'Best streak')}
+      </div>
+      <div class="st-diff">${Object.entries(DIFFICULTY).map(([k, d]) => { const r = st.difficulty[k] || [0, 0]; return `<span><b>${d.name}</b> ${r[0]}W · ${r[1]}L</span>`; }).join('')}</div>
+      <div class="st-cols">${table('As leader', st.leaders)}${table('Against', st.foes)}</div>`;
   }
 
   // ---------------------------------------------------------------- attack gallery
@@ -593,6 +716,7 @@
     $('#btn-deck').onclick = () => { MB.audio.sfx('click'); deck(); };
     $('#btn-gallery').onclick = () => { MB.audio.sfx('click'); gallery(); };
     $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
+    $('#btn-stats').onclick = () => { MB.audio.sfx('click'); stats(); };
     document.querySelectorAll('[data-back]').forEach((b) => (b.onclick = () => { MB.audio.sfx('click'); title(); }));
     $('#result-menu').onclick = () => { MB.audio.sfx('click'); title(); };
     $('#gal-attack').onclick = galAttack;

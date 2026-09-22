@@ -317,7 +317,7 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .menu-btn .sheen { position: absolute; top: 0; bottom: 0; left: 0; width: 40%; pointer-events: none; transform: translateX(-120%) skewX(-20deg);
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); }
 
-#leader-grid { display: grid; grid-template-columns: repeat(8, 174px); gap: 12px; max-height: 700px; padding: 6px 10px 10px; }
+#leader-grid { display: grid; grid-template-columns: repeat(8, 174px); gap: 12px; max-height: 650px; padding: 6px 10px 10px; }
 .grid-head { grid-column: 1 / -1; font: 900 20px 'Segoe UI'; color: #ffe680; text-shadow: 0 2px 0 #000; border-bottom: 2px solid #ffffff22; padding: 6px 2px 4px; }
 .leader-tile { height: 320px; border-radius: 16px; background: linear-gradient(#2c2456dd, #120e2cdd); border: 2px solid #ffffff33; position: relative; overflow: hidden; cursor: pointer; text-align: center; }
 .leader-tile img { height: 210px; margin-top: 8px; }
@@ -375,6 +375,16 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .dc { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(#ffe680, #d99a00); color: #3a2500; font-weight: 900; display: flex; align-items: center; justify-content: center; }
 .dn { flex: 1; font-weight: 700; }
 .dx { font-weight: 900; color: #ffd84a; }
+#deck-tabs { display: flex; gap: 6px; }
+.deck-tab { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; cursor: pointer;
+  background: rgba(12,8,30,.8); border: 2px solid #ffffff22; font-weight: 700; font-size: 14px; }
+.deck-tab:hover { filter: brightness(1.3); }
+.deck-tab.on { cursor: default; border-color: #ff6fae; background: linear-gradient(#3d2d78, #22185a); filter: none; }
+.deck-tab .dt-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.deck-tab small { opacity: .7; }
+.deck-tab.bad small { color: #ff7a7a; opacity: 1; }
+.dt-rename { cursor: pointer; opacity: .7; }
+.dt-rename:hover { opacity: 1; color: #ffd84a; }
 #deck-curve { height: 90px; display: flex; align-items: flex-end; gap: 6px; background: rgba(12,8,30,.8); border-radius: 12px; padding: 8px 12px; }
 #deck-curve .bar { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 #deck-curve .bar i { width: 100%; background: linear-gradient(#ffe680, #ff6fae); border-radius: 4px 4px 0 0; }
@@ -411,6 +421,37 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #settings .btn.small { font-size: 13px; padding: 6px 12px; border-radius: 10px; box-shadow: 0 3px 0 #120c33; }
 #save-status { font-size: 12px; color: #7ee08a; min-height: 1em; }
 #save-status.bad { color: #ff7a7a; }
+
+/* leader select: deck + difficulty */
+#battle-opts { margin: -8px 0 12px; display: flex; gap: 18px; align-items: center; font-weight: 800; font-size: 15px; }
+#battle-opts label { display: flex; align-items: center; gap: 8px; }
+#battle-opts label > span { opacity: .75; }
+#battle-opts select { font: 700 15px 'Segoe UI'; padding: 6px 8px; border-radius: 8px; max-width: 200px; }
+.seg { display: flex; border: 2px solid #ffffff33; border-radius: 10px; overflow: hidden; }
+.seg button { font: 800 14px 'Segoe UI'; color: #fff; background: rgba(12,8,30,.85); border: 0; padding: 7px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid #ffffff22; }
+.seg button:hover { background: #3d2d78; }
+.seg button.on { background: linear-gradient(#ff6fae, #d8337e); }
+
+/* stats */
+#stats-body { width: 1200px; max-height: 730px; display: flex; flex-direction: column; gap: 16px; }
+.stats-empty { font-size: 22px; text-align: center; opacity: .8; margin-top: 120px; }
+.st-tiles { display: flex; gap: 14px; }
+.st-tile { flex: 1; background: rgba(14,10,34,.9); border: 2px solid #ffffff33; border-radius: 16px; padding: 14px; text-align: center; }
+.st-tile b { display: block; font: 900 40px 'Segoe UI'; color: #ffe680; text-shadow: 0 3px 0 #000; }
+.st-tile span { font-size: 14px; opacity: .8; }
+.st-diff { display: flex; gap: 30px; justify-content: center; align-self: center; font-size: 16px; background: rgba(14,10,34,.9); border: 2px solid #ffffff33; border-radius: 12px; padding: 8px 22px; }
+.st-diff b { color: #ff8fc6; margin-right: 4px; }
+.st-cols { display: flex; gap: 20px; align-items: flex-start; }
+.st-col { flex: 1; background: rgba(14,10,34,.9); border: 2px solid #ffffff33; border-radius: 16px; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; }
+.st-col h2 { margin: 0 0 4px; font: 900 22px 'Segoe UI'; color: #ffe680; }
+.st-row { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.st-row img { width: 40px; height: 40px; object-fit: cover; object-position: top; border-radius: 50%; background: #ffffff14; }
+.st-name { flex: 1; font-weight: 700; }
+.st-wl { width: 90px; text-align: right; opacity: .85; }
+.st-bar { width: 120px; height: 8px; background: #ffffff18; border-radius: 8px; overflow: hidden; }
+.st-bar i { display: block; height: 100%; background: linear-gradient(90deg, #ff6fae, #ffd84a); }
+.st-pct { width: 44px; text-align: right; font-weight: 800; }
 
 #loading { position: fixed; inset: 0; z-index: 100; background: #0b0816; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font: 800 22px 'Segoe UI'; }
 #loading .bar { width: 400px; height: 10px; background: #ffffff22; border-radius: 10px; overflow: hidden; }

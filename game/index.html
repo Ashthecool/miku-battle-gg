@@ -79,12 +79,20 @@
       <button id="btn-quick" class="menu-btn"><i>⚡</i><span>Quick Battle</span></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
       <button id="btn-gallery" class="menu-btn"><i>✦</i><span>Attack Gallery</span></button>
+      <button id="btn-stats" class="menu-btn"><i>📊</i><span>Stats</span></button>
       <button id="btn-howto" class="menu-btn"><i>?</i><span>How to Play</span></button>
     </div>
   </div>
 
+  <div id="screen-stats" class="screen">
+    <h1>Stats</h1>
+    <div id="stats-body" class="scroll-y"></div>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
   <div id="screen-leader" class="screen">
     <h1>Choose your Leader</h1>
+    <div id="battle-opts"></div>
     <div id="leader-grid" class="scroll-y"></div>
     <button class="btn back" data-back>← Back</button>
   </div>
@@ -109,6 +117,7 @@
     <h1>Deck Builder <span id="deck-count"></span> <span id="coll-count"></span></h1>
     <div id="collection" class="scroll-y"></div>
     <div id="deck-side">
+      <div id="deck-tabs"></div>
       <div id="deck-curve"></div>
       <div id="deck-list" class="scroll-y"></div>
       <div class="row">
@@ -129,6 +138,7 @@
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
       <p>You start with the <b>Common</b> cards. Every win drops a new <b style="color:#4aa3ff">Rare</b>, <b style="color:#b35cff">Epic</b> or <b style="color:#ffc93c">Legendary</b> card, and beating a Story rival adds their card. <b>Right-click</b> any card for a close-up.</p>
       <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse. Preview them in the Attack Gallery.</p>
+      <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one). Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
       <p>👗 <b>Costumes:</b> right-click a character you own and pick an outfit from its <b>Wardrobe</b>.</p>
       <div class="kw-list"></div>
       <p>Every character has their own <b>attack style</b> — preview them all in the <b>Attack Gallery</b>.</p>
