@@ -34,6 +34,14 @@
     })));
   }
 
+  // offline support; service workers don't run from file://, so opening index.html directly still works without it
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => navigator.serviceWorker.ready)
+      .then((reg) => reg.active.postMessage('precache'))
+      .catch((e) => console.warn('Offline mode unavailable:', e));
+  }
+
   window.addEventListener('DOMContentLoaded', async () => {
     fit();
     await preload();

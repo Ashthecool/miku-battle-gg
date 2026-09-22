@@ -8,3 +8,6 @@ Desktop.ini
 .DS_Store
 __pycache__/
 *.pyc
+
+# miku.gg exports and chat history: local input for tools/fetch_assets.py, not published
+novels/
