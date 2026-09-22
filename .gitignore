@@ -1,0 +1,10 @@
+# local editor / tool state
+.claude/settings.local.json
+.vscode/
+
+# OS / Python junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+__pycache__/
+*.pyc

@@ -1,0 +1,560 @@
+// Menus, story, deck builder, attack gallery and result screens.
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const DECK_SIZE = 20;
+
+  const save = Object.assign({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' },
+    JSON.parse(localStorage.getItem('mb-save') || '{}'));
+  const persist = () => localStorage.setItem('mb-save', JSON.stringify(save));
+
+  const deckCards = () => Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token);
+  const maxCopies = (id) => (MB.CARDS[id].rarity === 'legendary' ? 1 : 2);
+
+  // ---------------------------------------------------------------- collection
+  // older saves predate unlocks: start them on commons plus the rivals they already beat
+  if (!Array.isArray(save.unlocked)) save.unlocked = [...new Set([...MB.STARTER_CARDS, ...MB.STORY.slice(0, save.story).map((s) => s.foe)])];
+  // commons added by later novels are owned right away
+  save.unlocked = [...new Set([...save.unlocked, ...MB.STARTER_CARDS])];
+  // story progress is kept per chapter; old saves only had chapter 1
+  if (!Array.isArray(save.progress)) save.progress = [save.story || 0];
+  MB.CHAPTERS.forEach((_, i) => { save.progress[i] = save.progress[i] || 0; });
+  if (save.deck.some((id) => !MB.CARDS[id] || !save.unlocked.includes(id))) save.deck = MB.STARTER_DECK.slice();
+  save.costumes = save.costumes || {}; // character id -> chosen costume id
+  persist();
+
+  const isUnlocked = (id) => save.unlocked.includes(id);
+  function lockedByRarity() {
+    const groups = {};
+    deckCards().filter((id) => !isUnlocked(id)).forEach((id) => (groups[MB.CARDS[id].rarity] = groups[MB.CARDS[id].rarity] || []).push(id));
+    const total = Object.keys(groups).reduce((s, r) => s + MB.RARITY[r].weight, 0);
+    return { groups, total };
+  }
+  function dropChance(id) {
+    if (isUnlocked(id)) return 0;
+    const { groups, total } = lockedByRarity(), r = MB.CARDS[id].rarity;
+    return MB.RARITY[r].weight / total / groups[r].length;
+  }
+  function rollDrop() {
+    const { groups, total } = lockedByRarity();
+    if (!total) return null;
+    let x = Math.random() * total;
+    for (const r of Object.keys(groups)) { x -= MB.RARITY[r].weight; if (x <= 0) return MB.pick(groups[r]); }
+    return MB.pick(Object.values(groups).pop());
+  }
+  function unlock(id) { if (id && MB.CARDS[id] && !isUnlocked(id)) { save.unlocked.push(id); return true; } return false; }
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('active', s.id === id));
+    const s = document.getElementById(id);
+    if (s) gsap.fromTo(s.children, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.04, ease: 'power2.out' });
+  }
+  function hideBattle() {
+    $('#battle-hud').classList.add('hidden');
+    $('#arena').classList.add('hidden');
+    $('#arena').classList.remove('gallery-mode');
+    $('#gallery-panel').classList.add('hidden');
+    MB.UI.preview(null);
+  }
+
+  function setBg(src) {
+    const bg = $('#bg');
+    const next = el('div', 'bg-img');
+    next.style.backgroundImage = `url("${src}")`;
+    bg.appendChild(next);
+    gsap.fromTo(next, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out', onComplete: () => { while (bg.children.length > 1) bg.firstChild.remove(); } });
+    return next;
+  }
+  const bgByName = (name) => (MB.manifest.backgrounds.find((b) => b.name.trim().toLowerCase() === name.toLowerCase()) || MB.pick(MB.manifest.backgrounds));
+
+  // ---------------------------------------------------------------- cards
+  function cardEl(card) {
+    const def = card.cid ? card : MB.cardDef(card.id || card);
+    const c = el('div', `card r-${def.rarity} t-${def.type}`);
+    const color = def.type === 'spell' ? def.color : def.attack.color;
+    const rar = MB.RARITY[def.rarity];
+    c.dataset.id = def.id;
+    c.style.setProperty('--c', color);
+    let art;
+    if (def.type === 'spell') art = `<img class="item-art" src="${MB.itemIcon(def.id)}">`;
+    else if (def.emoji) art = `<div class="emoji-art">${def.emoji}</div>`;
+    else if (def.fused) art = MB.duoHtml(def);
+    else art = `<img src="${MB.spriteUrl(def.id, 'idle')}">`;
+    const bonds = def.fused ? [def.bond] : def.type === 'unit' ? MB.bondsOf(def.id) : [];
+    const badge = bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '';
+    const kws = (def.kw || []).map((k) => `<b>${MB.KEYWORDS[k].icon} ${MB.KEYWORDS[k].name}</b>`).join(' ');
+    c.innerHTML = `
+      <div class="card-art${def.fused ? ' duo' : ''}">${art}</div>${badge}
+      <div class="cost">${def.cost}</div>
+      <div class="card-name">${def.name}</div>
+      <div class="card-body">
+        ${kws ? `<div class="kws">${kws}</div>` : ''}
+        <div class="card-text">${def.text || ''}</div>
+        ${def.type === 'unit' && def.attack.name ? `<div class="card-attack">✦ ${def.attack.name}</div>` : ''}
+      </div>
+      ${def.type === 'unit' ? `<div class="stat atk">${def.atk}</div><div class="stat hp">${def.hp}</div>` : '<div class="spell-tag">ITEM</div>'}
+      ${def.rarity !== 'token' ? `<div class="r-gem" title="${rar.name}"></div>` : ''}`;
+    return c;
+  }
+
+  function preview(ent) {
+    const p = $('#preview');
+    if (!ent) { p.classList.remove('show'); return; }
+    p.innerHTML = '';
+    if (ent.isLeader) {
+      const ch = MB.charById(ent.charId), pw = MB.POWERS[ent.charId];
+      p.appendChild(el('div', 'leader-info', `
+        <img src="${MB.spriteUrl(ent.charId, 'idle')}">
+        <h3>${ch.name}</h3><div class="hpline">❤ ${Math.max(0, ent.hp)} / ${ent.maxHp}</div>
+        <div class="pw"><b>${pw.name}</b> (${pw.cost} gold)<br>${pw.text}</div>
+        <p>${ch.short}</p>`));
+    } else {
+      const c = cardEl(ent.card);
+      c.querySelector('.atk').textContent = ent.atk;
+      c.querySelector('.hp').textContent = Math.max(0, ent.hp);
+      p.appendChild(c);
+      const notes = [];
+      if (ent.frozen) notes.push('❄️ Frozen — skips its next attack.');
+      if (ent.burning) notes.push('♨️ Burning — takes 1 damage each turn until healed.');
+      if (ent.shield) notes.push('🔰 Shielded.');
+      if (ent.sick && ent.attacksLeft === 0) notes.push('💤 Just arrived — can attack next turn.');
+      if (ent.card.fused) notes.push(`💞 <b>${ent.card.members.map((m) => MB.charById(m.id).name).join(' & ')}</b> — ${ent.card.bond.relation}`);
+      [...ent.kw].forEach((k) => notes.push(`${MB.KEYWORDS[k].icon} <b>${MB.KEYWORDS[k].name}</b>: ${MB.KEYWORDS[k].text}`));
+      if (notes.length) p.appendChild(el('div', 'notes', notes.join('<br>')));
+    }
+    p.classList.add('show');
+  }
+
+  // ---------------------------------------------------------------- title
+  // just the scenery, the music and the buttons: backgrounds slowly pan and crossfade
+  let titleTimer = null;
+  function titleScene() {
+    if (!$('#screen-title').classList.contains('active')) { titleTimer = null; return; }
+    const pool = MB.manifest.backgrounds.filter((b) => /street|beach|sunset|campus|school|city|forrest|mountain|shore/i.test(b.name));
+    const img = setBg('assets/' + MB.pick(pool).src);
+    const dir = Math.random() < 0.5 ? -1 : 1;
+    gsap.to(img, { scale: 1.14, x: dir * 40, y: MB.pick([-20, 20]), duration: 14, delay: 1.2, ease: 'sine.inOut' });
+    titleTimer = gsap.delayedCall(11, titleScene);
+  }
+  // letters drop in one by one, then bob in a wave with a glint sweeping across
+  let logoLoop = [];
+  function logoIntro() {
+    const split = (node) => {
+      if (!node.dataset.split) { node.innerHTML = [...node.textContent].map((ch) => `<span>${ch === ' ' ? '&nbsp;' : ch}</span>`).join(''); node.dataset.split = 1; }
+      return node.querySelectorAll('span');
+    };
+    const top = split($('.logo-top')), main = split($('.logo-main')), sub = $('.logo-sub');
+    logoLoop.forEach((t) => t.kill());
+    gsap.set([top, main], { clearProps: 'all' });
+    const tl = gsap.timeline({ delay: 0.15 });
+    tl.fromTo(main, { y: -220, opacity: 0, rotationX: -100, scale: 0.4 },
+      { y: 0, opacity: 1, rotationX: 0, scale: 1, duration: 0.9, stagger: 0.07, ease: 'back.out(2.2)' })
+      .call(() => MB.audio.sfx('slam'), null, 0.45)
+      .fromTo(top, { opacity: 0, x: -40, filter: 'blur(8px)' }, { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.5, stagger: 0.06, ease: 'power3.out' }, 0.35)
+      .fromTo(sub, { opacity: 0, letterSpacing: '30px' }, { opacity: 1, letterSpacing: '6px', duration: 0.8, ease: 'power3.out' }, 0.7)
+      .fromTo('#logo', { scale: 1.06 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1,0.4)' }, 0.55);
+    tl.call(() => {
+      logoLoop = [
+        gsap.to(main, { y: -8, duration: 1.4, ease: 'sine.inOut', stagger: { each: 0.12, repeat: -1, yoyo: true } }),
+        gsap.timeline({ repeat: -1, repeatDelay: 3.5 })
+          .to(main, { filter: 'brightness(1.7)', duration: 0.12, stagger: 0.06 })
+          .to(main, { filter: 'brightness(1)', duration: 0.3, stagger: 0.06 }, 0.12),
+      ];
+    });
+  }
+
+  function title() {
+    hideBattle();
+    show('screen-title');
+    MB.audio.music(MB.MUSIC.title);
+    if (titleTimer) titleTimer.kill();
+    titleScene();
+    logoIntro();
+    const btns = document.querySelectorAll('#screen-title .menu-btn');
+    gsap.fromTo(btns, { opacity: 0, x: -80, rotationY: -35, filter: 'blur(10px)' },
+      { opacity: 1, x: 0, rotationY: 0, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, delay: 0.25, ease: 'power3.out', clearProps: 'filter' });
+  }
+
+  function bindMenuFx() {
+    document.querySelectorAll('#screen-title .menu-btn').forEach((b) => {
+      const sheen = el('b', 'sheen');
+      b.appendChild(sheen);
+      b.addEventListener('pointerenter', () => {
+        MB.audio.sfx('hover');
+        gsap.to(b, { x: 18, scale: 1.04, duration: 0.3, ease: 'back.out(2)' });
+        gsap.to(b.querySelector('i'), { rotation: 360, scale: 1.25, duration: 0.5, ease: 'back.out(2)' });
+        gsap.fromTo(sheen, { xPercent: -120 }, { xPercent: 260, duration: 0.7, ease: 'power2.inOut' });
+      });
+      b.addEventListener('pointerleave', () => {
+        gsap.to(b, { x: 0, scale: 1, duration: 0.35, ease: 'power2.out' });
+        gsap.to(b.querySelector('i'), { rotation: 0, scale: 1, duration: 0.35 });
+      });
+      b.addEventListener('pointerdown', (e) => {
+        gsap.fromTo(b, { scale: 0.96 }, { scale: 1.04, duration: 0.4, ease: 'elastic.out(1,0.4)' });
+        if (MB.Cards) MB.Cards.burst(e.clientX, e.clientY, getComputedStyle(b).getPropertyValue('--glow').trim() || '#ff6fae', 18);
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- leader select
+  function leaderSelect(onPick, foeId) {
+    show('screen-leader');
+    const grid = $('#leader-grid');
+    grid.innerHTML = '';
+    let novel = null;
+    MB.manifest.characters.forEach((ch) => {
+      const unlocked = save.leaders.includes(ch.id);
+      if (ch.id === foeId) return;
+      if (ch.novel !== novel) { novel = ch.novel; grid.appendChild(el('div', 'grid-head', novel)); }
+      const pw = MB.POWERS[ch.id];
+      const t = el('div', 'leader-tile' + (unlocked ? '' : ' locked') + (save.leader === ch.id ? ' chosen' : ''), `
+        <img src="${MB.spriteUrl(ch.id, 'idle')}">
+        <div class="lt-name">${ch.name}</div>
+        <div class="lt-power">${unlocked ? `<b>${pw.name}</b> (${pw.cost})<br>${pw.text}` : '🔒 Beat them in Story'}</div>`);
+      if (unlocked) {
+        t.addEventListener('pointerenter', () => { gsap.to(t.querySelector('img'), { y: -12, scale: 1.06, duration: 0.25 }); t.querySelector('img').src = MB.spriteUrl(ch.id, 'taunt'); MB.audio.sfx('hover'); });
+        t.addEventListener('pointerleave', () => { gsap.to(t.querySelector('img'), { y: 0, scale: 1, duration: 0.25 }); t.querySelector('img').src = MB.spriteUrl(ch.id, 'idle'); });
+        t.addEventListener('click', () => { MB.audio.sfx('click'); save.leader = ch.id; persist(); onPick(ch.id); });
+      }
+      grid.appendChild(t);
+    });
+  }
+
+  // ---------------------------------------------------------------- story
+  // stages of one chapter as [{ st, i }] where i is the index into MB.STORY
+  const chapterStages = (c) => MB.STORY.map((st, i) => ({ st, i })).filter((s) => s.st.chapter === c);
+  const stagePos = (i) => chapterStages(MB.STORY[i].chapter).findIndex((s) => s.i === i);
+
+  function story() {
+    hideBattle();
+    show('screen-story');
+    MB.audio.music(MB.MUSIC.title);
+    const list = $('#story-list');
+    list.innerHTML = '';
+    MB.CHAPTERS.forEach((chap, c) => {
+      const stages = chapterStages(c), done = Math.min(save.progress[c], stages.length);
+      const box = el('div', 'chapter', `<h2>Chapter ${c + 1} — ${chap.title} <small>${done === stages.length ? '★ Complete' : `${done}/${stages.length}`}</small></h2>`);
+      const row = el('div', 'chapter-row');
+      box.appendChild(row);
+      list.appendChild(box);
+      stages.forEach(({ st, i }, pos) => row.appendChild(stageEl(st, i, pos, save.progress[c])));
+    });
+    const next = list.querySelector('.stage.next');
+    if (next) list.scrollTop = next.closest('.chapter').offsetTop - list.offsetTop - 10;
+  }
+
+  function stageEl(st, i, pos, progress) {
+    const ch = MB.charById(st.foe), bg = bgByName(st.bg);
+    const state = pos < progress ? 'cleared' : pos === progress ? 'next' : 'locked';
+    const n = el('div', `stage ${state}`, `
+      <div class="stage-bg" style="background-image:url('assets/${bg.src}')"></div>
+      <img src="${MB.spriteUrl(st.foe, state === 'cleared' ? 'lose' : 'idle')}">
+      <div class="stage-num">${pos + 1}</div>
+      <div class="stage-name">${ch.name}</div>
+      <div class="stage-loc">📍 ${bg.name}</div>
+      <div class="stage-state">${state === 'cleared' ? '★ Cleared' : state === 'next' ? '▶ Fight' : '🔒'}</div>`);
+    if (state !== 'locked') n.addEventListener('click', () => { MB.audio.sfx('click'); leaderSelect((lid) => intro(i, lid), st.foe); });
+    return n;
+  }
+
+  // visual-novel style intro before each story battle
+  function intro(i, leaderId) {
+    const st = MB.STORY[i], ch = MB.charById(st.foe);
+    setBg('assets/' + bgByName(st.bg).src);
+    MB.audio.music(st.music);
+    show('screen-intro');
+    $('#intro-foe').src = MB.spriteUrl(st.foe, 'taunt');
+    $('#intro-me').src = MB.spriteUrl(leaderId, 'idle');
+    $('#intro-name').textContent = ch.name;
+    $('#intro-text').textContent = '';
+    gsap.fromTo('#intro-foe', { x: 400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
+    gsap.fromTo('#intro-me', { x: -400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
+    const text = st.intro;
+    const o = { n: 0 };
+    gsap.to(o, { n: text.length, duration: text.length * 0.03, delay: 0.6, ease: 'none', onUpdate: () => { $('#intro-text').textContent = text.slice(0, o.n | 0); } });
+    $('#intro-go').onclick = () => {
+      MB.audio.sfx('click');
+      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music: st.music, story: i });
+    };
+  }
+
+  // ---------------------------------------------------------------- quick battle
+  function quick() {
+    leaderSelect((lid) => {
+      const foes = MB.manifest.characters.map((c) => c.id).filter((id) => id !== lid);
+      const foe = MB.pick(foes);
+      const bg = MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
+      const upbeat = MB.manifest.music.filter((m) => /exciting|fast|fun|happy/i.test(m.tags.join(' ') + m.name));
+      startBattle({ leader: lid, foe, foeHp: 30, ai: 0.7, bgSrc: bg.src, music: MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
+    });
+  }
+
+  function aiDeck(foeId) {
+    const pool = deckCards().filter((id) => id !== foeId);
+    const deck = [];
+    const couples = MB.BONDS.filter((bd) => !bd.pair.includes(foeId));
+    if (couples.length && Math.random() < 0.6) MB.pick(couples).pair.forEach((id) => { for (let i = 0; i < maxCopies(id); i++) deck.push(id); });
+    const cheap = MB.shuffle(pool.filter((id) => MB.CARDS[id].cost <= 2));
+    while (deck.length < 7) deck.push(cheap[deck.length % cheap.length]);
+    let guard = 0;
+    while (deck.length < DECK_SIZE && guard++ < 500) {
+      const id = MB.pick(pool);
+      if (deck.filter((d) => d === id).length < maxCopies(id)) deck.push(id);
+    }
+    return deck;
+  }
+
+  let current = null;
+  async function startBattle(cfg) {
+    if (save.deck.length !== DECK_SIZE) { alert('Your deck needs exactly ' + DECK_SIZE + ' cards.'); deck(); return; }
+    current = cfg;
+    document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
+    setBg('assets/' + (cfg.bgSrc || bgByName(cfg.bg).src));
+    MB.audio.music(cfg.music);
+    $('#arena').classList.remove('gallery-mode');
+    const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: cfg.foeHp,
+      playerDeck: save.deck.slice(), enemyDeck: aiDeck(cfg.foe) });
+    b.aiSkill = cfg.ai;
+    MB.battle = b;
+    MB.view.b = b;
+    MB.view.run(() => b.start());
+  }
+
+  function battleOver(win) {
+    const cfg = current, r = $('#screen-result');
+    let unlocked = null;
+    const rewards = [];
+    const chap = cfg.story != null ? MB.STORY[cfg.story].chapter : null;
+    const finale = cfg.story != null && stagePos(cfg.story) === chapterStages(chap).length - 1;
+    if (win && cfg.story != null) {
+      save.progress[chap] = Math.max(save.progress[chap], stagePos(cfg.story) + 1);
+      if (!save.leaders.includes(cfg.foe)) { save.leaders.push(cfg.foe); unlocked = cfg.foe; }
+      if (unlock(cfg.foe)) rewards.push(cfg.foe);
+    }
+    if (win) { const drop = rollDrop(); if (unlock(drop)) rewards.push(drop); }
+    persist();
+    MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
+    show('screen-result');
+    $('#result-title').textContent = win ? 'VICTORY!' : 'DEFEAT...';
+    r.className = 'screen active ' + (win ? 'win' : 'lose');
+    $('#result-me').src = MB.spriteUrl(cfg.leader, win ? 'win' : 'lose');
+    $('#result-foe').src = MB.spriteUrl(cfg.foe, win ? 'lose' : 'win');
+    const foe = MB.charById(cfg.foe);
+    $('#result-text').innerHTML = win
+      ? (unlocked ? `${foe.name} joins your roster! You can now pick them as a leader.` : `You beat ${foe.name}!`) +
+        (finale ? `<br><b>${MB.CHAPTERS[chap].outro}</b>` : '')
+      : `${foe.name} wins this round. Tweak your deck and try again!`;
+    if (rewards.length) $('#result-text').innerHTML += `<br>🎴 New card${rewards.length > 1 ? 's' : ''}: ` +
+      rewards.map((id) => `<b style="color:${MB.RARITY[MB.CARDS[id].rarity].color}">${MB.cardDef(id).name}</b>`).join(', ');
+    else if (win && !lockedByRarity().total) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    if (rewards.length) gsap.delayedCall(1.1, () => MB.Cards.reveal(rewards));
+    gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
+    gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
+    gsap.fromTo('#result-foe', { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.story != null ? story() : startBattle({ ...cfg, foe: cfg.foe }); };
+    $('#result-again').textContent = cfg.story != null ? 'Story Map' : 'Rematch';
+  }
+
+  // ---------------------------------------------------------------- deck builder
+  function deck() {
+    hideBattle();
+    show('screen-deck');
+    MB.audio.music(MB.MUSIC.deck);
+    renderDeck();
+    gsap.fromTo('#collection .card', { opacity: 0, y: 50, rotationX: -50, scale: 0.85 },
+      { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 0.55, stagger: 0.025, delay: 0.15, ease: 'back.out(1.4)' });
+  }
+  function lockCard(c) {
+    c.classList.add('locked');
+    c.appendChild(el('div', 'lock-veil', `<b>🔒</b><span>${MB.RARITY[MB.CARDS[c.dataset.id].rarity].name}</span>`));
+    return c;
+  }
+  const rarityRank = (id) => MB.RARITY[MB.CARDS[id].rarity].stars;
+  function renderDeck(added) {
+    const col = $('#collection'), list = $('#deck-list');
+    col.innerHTML = ''; list.innerHTML = '';
+    deckCards().sort((a, b) => (isUnlocked(b) - isUnlocked(a)) || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b)).forEach((id) => {
+      const c = cardEl(id);
+      c.classList.add('collect');
+      col.appendChild(c);
+      if (!isUnlocked(id)) {
+        lockCard(c);
+        c.addEventListener('click', () => { MB.audio.sfx('error'); gsap.fromTo(c, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); });
+        return;
+      }
+      const n = save.deck.filter((d) => d === id).length;
+      c.appendChild(el('div', 'copies', `${n}/${maxCopies(id)}`));
+      if (n >= maxCopies(id)) c.classList.add('maxed');
+      c.addEventListener('click', () => {
+        if (save.deck.length >= DECK_SIZE || n >= maxCopies(id)) { MB.audio.sfx('error'); gsap.fromTo(c, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); return; }
+        save.deck.push(id); persist(); MB.audio.sfx('play');
+        MB.Cards.flyToDeck(c, $('#deck-list'));
+        renderDeck(id);
+      });
+    });
+    const counts = {};
+    save.deck.forEach((id) => (counts[id] = (counts[id] || 0) + 1));
+    Object.keys(counts).sort((a, b) => MB.CARDS[a].cost - MB.CARDS[b].cost).forEach((id) => {
+      const d = MB.cardDef(id);
+      const row = el('div', `deck-row r-${d.rarity}`, `<span class="dc">${d.cost}</span><span class="dn">${d.name}</span><span class="dx">×${counts[id]}</span>`);
+      row.style.setProperty('--c', d.type === 'spell' ? d.color : d.attack.color);
+      row.style.setProperty('--rc', MB.RARITY[d.rarity].color);
+      row.style.backgroundImage = d.type === 'spell' ? '' : `linear-gradient(90deg, rgba(20,16,40,.95) 45%, rgba(20,16,40,.3)), url("${MB.spriteUrl(id, 'idle')}")`;
+      row.addEventListener('click', () => {
+        MB.audio.sfx('click');
+        gsap.to(row, { x: -60, opacity: 0, duration: 0.18, ease: 'power2.in', onComplete: () => { save.deck.splice(save.deck.indexOf(id), 1); persist(); renderDeck(); } });
+      });
+      list.appendChild(row);
+      if (id === added) gsap.fromTo(row, { x: 50, filter: 'brightness(2.2)' }, { x: 0, filter: 'brightness(1)', duration: 0.6, delay: 0.35, ease: 'back.out(2)', clearProps: 'filter' });
+    });
+    const owned = deckCards().filter(isUnlocked).length;
+    $('#coll-count').textContent = `· 🎴 ${owned}/${deckCards().length}`;
+    $('#deck-count').textContent = `${save.deck.length}/${DECK_SIZE}`;
+    $('#deck-count').classList.toggle('bad', save.deck.length !== DECK_SIZE);
+    const curve = new Array(8).fill(0);
+    save.deck.forEach((id) => curve[Math.min(7, MB.CARDS[id].cost)]++);
+    const mx = Math.max(1, ...curve);
+    $('#deck-curve').innerHTML = curve.map((n, i) => `<div class="bar"><i style="height:${(n / mx) * 100}%"></i><span>${i === 7 ? '7+' : i}</span></div>`).join('');
+  }
+
+  // ---------------------------------------------------------------- attack gallery
+  let gal = null;
+  function gallery() {
+    document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
+    MB.audio.music(MB.MUSIC.gallery);
+    setBg('assets/' + bgByName('Gym Class').src);
+    $('#arena').classList.add('gallery-mode');
+    $('#gallery-panel').classList.remove('hidden');
+    const list = $('#gallery-list');
+    list.innerHTML = '';
+    const b = new MB.Battle({ view: MB.view, playerLeader: 'hayley-kate', enemyLeader: 'james-lone', playerDeck: [], enemyDeck: [] });
+    MB.battle = b;
+    MB.view.init(b);
+    $('#battle-hud').classList.add('hidden');
+    gal = { b, unit: null, dummy: null };
+    b.summon(1, MB.cardDef('dummy'), 1).then((d) => { gal.dummy = d; });
+    b.summon(1, MB.cardDef('dummy'), 2).then((d) => { gal.dummy2 = d; });
+    list.appendChild(el('div', 'gal-head', '💞 RELATIONSHIPS'));
+    MB.BONDS.forEach((bond) => {
+      const row = el('div', 'gal-row bond', `${bond.pair.map((id, i) => `<img src="${MB.spriteUrl(id, 'idle', bond.costumes[i])}">`).join('')}
+        <div><b>${MB.BOND_TIERS[bond.tier].hearts} ${bond.name}</b><span>✦ ${bond.attack.name}</span></div>`);
+      row.style.setProperty('--c', bond.attack.color);
+      row.addEventListener('click', () => galBond(bond, row));
+      list.appendChild(row);
+    });
+    list.appendChild(el('div', 'gal-head', '✦ CHARACTERS'));
+    deckCards().filter((id) => MB.CARDS[id].type !== 'spell').forEach((id) => {
+      const d = MB.cardDef(id);
+      const row = el('div', 'gal-row', `<img src="${MB.spriteUrl(id, 'idle')}"><div><b>${d.name}</b><span>✦ ${d.attack.name}</span></div>`);
+      row.style.setProperty('--c', d.attack.color);
+      row.addEventListener('click', () => galPick(id, row));
+      list.appendChild(row);
+    });
+    const firstChar = list.querySelector('.gal-row:not(.bond)');
+    galPick(deckCards()[0], firstChar);
+  }
+  // empty the player's side of the gallery board
+  async function galClear() {
+    const b = gal.b;
+    await Promise.all(b.units(0).map((u) => {
+      const old = MB.view.ents.get(u.uid);
+      b.me(0).board[u.slot] = null;
+      MB.view.ents.delete(u.uid);
+      return old ? gsap.to(old.el, { opacity: 0, duration: 0.15, onComplete: () => old.el.remove() }) : null;
+    }));
+    gal.unit = null;
+  }
+  // summon both partners and let them fuse
+  async function galBond(bond, row) {
+    if (gal.busy) return;
+    document.querySelectorAll('.gal-row').forEach((r) => r.classList.toggle('on', r === row));
+    const b = gal.b;
+    gal.busy = true;
+    await galClear();
+    b.active = 0;
+    b.me(0).fatigue = 0; b.me(0).leader.hp = b.me(0).leader.maxHp; // "draw cards" fusions don't wear the hidden leader down
+    await b.summon(0, MB.cardDef(bond.pair[0]), 0);
+    await b.summon(0, MB.cardDef(bond.pair[1]), 2);
+    await b.checkBonds(0);
+    gal.unit = b.units(0).find((u) => u.card.fused) || b.units(0)[0];
+    $('#gal-info').innerHTML = `<b>${MB.BOND_TIERS[bond.tier].hearts} ${bond.name}</b> — ✦ ${bond.attack.name}<br>
+      <small>${bond.relation} · ${MB.BOND_TIERS[bond.tier].name}. ${bond.text || 'Summed stats, new keywords and a special attack.'}</small>`;
+    gal.busy = false;
+  }
+  async function galPick(id, row) {
+    if (gal.busy) return;
+    document.querySelectorAll('.gal-row').forEach((r) => r.classList.toggle('on', r === row));
+    const b = gal.b;
+    gal.busy = true;
+    await galClear();
+    gal.unit = await b.summon(0, MB.cardDef(id), 1);
+    $('#gal-info').innerHTML = `<b>${gal.unit.name}</b> — ✦ ${gal.unit.card.attack.name}<br><small>${MB.charById(id).short}</small>`;
+    gal.busy = false;
+  }
+  async function galAttack() {
+    if (!gal || gal.busy || !gal.unit) return;
+    gal.busy = true;
+    const b = gal.b;
+    b.active = 0;
+    gal.unit.attacksLeft = 1; gal.unit.frozen = false; gal.unit.hp = gal.unit.maxHp;
+    const target = MB.pick([gal.dummy, gal.dummy2].filter(Boolean));
+    target.hp = 99; target.frozen = false; target.shield = false; target.burning = false;
+    await b.attack(gal.unit, target);
+    gal.busy = false;
+  }
+
+  // ---------------------------------------------------------------- wardrobe
+  const costumesOf = (id) => {
+    const c = MB.charById(id), hidden = MB.HIDDEN_COSTUMES[id] || [];
+    return c ? c.costumes.filter((o) => !hidden.includes(o.id)) : [];
+  };
+  function setCostume(id, costume) {
+    if (costume) save.costumes[id] = costume; else delete save.costumes[id];
+    persist();
+    if (MB.view) MB.view.ents.forEach((v) => MB.view.setSprite(v, v.emotion));
+    if ($('#screen-deck').classList.contains('active')) renderDeck();
+  }
+
+  // ---------------------------------------------------------------- settings / jukebox
+  function settings() {
+    const p = $('#settings');
+    p.classList.toggle('open');
+    const sel = $('#jukebox');
+    if (!sel.options.length) {
+      MB.manifest.music.forEach((m) => sel.appendChild(new Option(m.name, m.id)));
+      sel.addEventListener('change', () => MB.audio.music(sel.value));
+    }
+  }
+
+  function bind() {
+    $('#btn-story').onclick = () => { MB.audio.sfx('click'); story(); };
+    $('#btn-quick').onclick = () => { MB.audio.sfx('click'); quick(); };
+    $('#btn-deck').onclick = () => { MB.audio.sfx('click'); deck(); };
+    $('#btn-gallery').onclick = () => { MB.audio.sfx('click'); gallery(); };
+    $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
+    document.querySelectorAll('[data-back]').forEach((b) => (b.onclick = () => { MB.audio.sfx('click'); title(); }));
+    $('#result-menu').onclick = () => { MB.audio.sfx('click'); title(); };
+    $('#gal-attack').onclick = galAttack;
+    $('#gal-back').onclick = () => { MB.audio.sfx('click'); MB.view.clear(); title(); };
+    $('#deck-reset').onclick = () => { save.deck = MB.STARTER_DECK.slice(); persist(); renderDeck(); };
+    $('#deck-clear').onclick = () => { save.deck = []; persist(); renderDeck(); };
+    $('#btn-settings').onclick = settings;
+    bindMenuFx();
+    MB.Cards.bind();
+    $('#vol-music').value = MB.audio.settings.music;
+    $('#vol-sfx').value = MB.audio.settings.sfx;
+    $('#vol-music').oninput = (e) => MB.audio.setVolume('music', +e.target.value);
+    $('#vol-sfx').oninput = (e) => MB.audio.setVolume('sfx', +e.target.value);
+    $('#btn-forfeit').onclick = () => {
+      if (!MB.battle || MB.battle.over || $('#arena').classList.contains('gallery-mode')) return;
+      if (!confirm('Forfeit this battle?')) return;
+      MB.battle.over = true; MB.battle.overShown = true; MB.view.cancelAim();
+      battleOver(false);
+    };
+    document.addEventListener('mb-music', (e) => { $('#now-playing').textContent = '♪ ' + e.detail; });
+    // browsers block autoplay until the first interaction
+    window.addEventListener('pointerdown', () => { MB.audio.unlock(); MB.audio.retry(); });
+  }
+
+  MB.UI = { cardEl, lockCard, preview, title, battleOver, bind, save, show, isUnlocked, dropChance, maxCopies, costumesOf, setCostume };
+})();
