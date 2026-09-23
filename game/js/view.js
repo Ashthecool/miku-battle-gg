@@ -123,7 +123,7 @@
     // ---------- entity elements ----------
     makeFigure(ent, h) {
       const card = ent.card;
-      const wrap = el('div', ent.isLeader ? 'unit leader' : 'unit');
+      const wrap = el('div', ent.isLeader ? 'unit leader' : card && card.fused ? 'unit duo' : 'unit');
       wrap.dataset.uid = ent.uid;
       const shadow = el('div', 'unit-shadow');
       const stand = el('div', 'stand');
@@ -131,7 +131,7 @@
       const figure = el('div', 'figure');
       let img;
       if (card && card.emoji) { img = el('div', 'emoji-sprite', card.emoji); }
-      else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); }
+      else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); img.style.setProperty('--c', card.attack.color); }
       else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle'); img.draggable = false; }
       figure.appendChild(img);
       const status = el('div', 'status');

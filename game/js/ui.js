@@ -224,13 +224,18 @@
     else art = `<img src="${MB.spriteUrl(def.id, 'idle', undefined, big)}">`;
     const bonds = def.fused ? [def.bond] : def.type === 'unit' ? MB.bondsOf(def.id) : [];
     const badge = bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '';
-    const kws = (def.kw || []).map((k) => `<b>${MB.KEYWORDS[k].icon} ${MB.KEYWORDS[k].name}</b>`).join(' ');
+    // three or more keywords only fit as icons (the close-up spells them out); long texts get a smaller font
+    const kwList = def.kw || [], iconsOnly = kwList.length >= 3;
+    const kws = kwList.map((k) => iconsOnly ? `<b title="${MB.KEYWORDS[k].name}">${MB.KEYWORDS[k].icon}</b>` : `<b>${MB.KEYWORDS[k].icon} ${MB.KEYWORDS[k].name}</b>`).join(' ');
+    const len = (def.text || '').length + (def.type === 'unit' ? def.attack.name.length : 0)
+      + (iconsOnly ? 20 : kwList.reduce((n, k) => n + MB.KEYWORDS[k].name.length + 4, 0));
+    const dense = len > 100 ? ' dense-2' : len > 88 ? ' dense' : '';
     c.innerHTML = `
       <div class="card-art${def.fused ? ' duo' : ''}">${art}</div>${badge}
       <div class="cost">${def.cost}</div>
       <div class="card-name">${def.name}</div>
-      <div class="card-body">
-        ${kws ? `<div class="kws">${kws}</div>` : ''}
+      <div class="card-body${dense}">
+        ${kws ? `<div class="kws${iconsOnly ? ' icons' : ''}">${kws}</div>` : ''}
         <div class="card-text">${def.text || ''}</div>
         ${def.type === 'unit' && def.attack.name ? `<div class="card-attack">✦ ${def.attack.name}</div>` : ''}
       </div>

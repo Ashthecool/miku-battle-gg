@@ -440,6 +440,11 @@
           if (allies.length) await fx('Pep Talk!', allies, () => allies.forEach((a) => this.buff(a, 1, 0)), '#ffb0d9');
           break;
         }
+        case 'chainCheer': {
+          const allies = this.units(side).filter((a) => a !== u), t = foeUnits.slice().sort((x, y) => y.atk - x.atk)[0];
+          if (allies.length || t) await fx('Cheer & Chain!', t ? [...allies, t] : allies, () => { allies.forEach((a) => this.buff(a, 1, 0)); if (t) this.freeze(t); }, '#ff7ac6');
+          break;
+        }
         case 'partyGuests':
           if (this.freeSlots(side).length) await fx('Party Guests!', [], () => {}, '#c58cff');
           for (let i = 0; i < 2 && this.freeSlots(side).length; i++) await this.summon(side, cardDef('teddy'), this.nearestFree(side, u.slot));
