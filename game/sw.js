@@ -34,7 +34,9 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k !== SHELL && k !== ASSETS) await caches.delete(k);
-    await self.clients.claim();
+    // no clients.claim(): taking over a page mid-session makes the browser fetch its already-loaded images
+    // again (through here) instead of reusing the decoded ones, which is the lag the preload avoids.
+    // The first visit runs without the worker; every later one starts under it.
   })());
 });
 

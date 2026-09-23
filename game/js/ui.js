@@ -468,17 +468,53 @@
     return deck;
   }
 
-  let current = null;
+  // the board sprites were loaded at boot (main.js; listed again in case that timed out); a battle also needs its background and the full-size
+  // fusion cut-ins, and later shows close-ups of the decks' cards and the result screen
+  function battleImages(cfg, bgSrc, decks) {
+    const need = [...MB.bootImages, MB.asset(bgSrc)], later = [];
+    MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => {
+      need.push(MB.bigSpriteUrl(id, 'play', bd.costumes[i]));
+      later.push(MB.bigSpriteUrl(id, 'idle', bd.costumes[i]));
+    }));
+    // item cards aren't characters, so their urls come back empty and are skipped
+    new Set([cfg.leader, cfg.foe, ...decks.flat()]).forEach((id) => later.push(MB.bigSpriteUrl(id, 'idle'), MB.bigSpriteUrl(id, 'taunt')));
+    [cfg.leader, cfg.foe].forEach((id) => later.push(MB.bigSpriteUrl(id, 'win'), MB.bigSpriteUrl(id, 'lose')));
+    return { need, later };
+  }
+
+  // shows the loading screen only if the images aren't ready within a moment
+  async function loadImages(urls) {
+    const load = $('#loading'), bar = load.querySelector('.bar i');
+    const show = setTimeout(() => {
+      load.firstElementChild.textContent = 'Loading battle…';
+      load.classList.remove('hidden');
+      gsap.fromTo(load, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+    }, 150);
+    bar.style.width = '0';
+    await Promise.race([MB.preloadImages(urls, (f) => { bar.style.width = f * 100 + '%'; }), new Promise((res) => setTimeout(res, 30000))]);
+    clearTimeout(show);
+    if (!load.classList.contains('hidden')) gsap.to(load, { opacity: 0, duration: 0.3, onComplete: () => load.classList.add('hidden') });
+  }
+
+  let current = null, starting = false;
   async function startBattle(cfg) {
     if (save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
+    if (starting) return;
     const diff = DIFFICULTY[save.difficulty];
+    const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
+    const playerDeck = save.deck.slice(), enemyDeck = aiDeck(cfg.foe);
+    const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
+    starting = true;
+    await loadImages(imgs.need);
+    starting = false;
+    MB.preloadImages(imgs.later);
     current = { ...cfg, difficulty: save.difficulty };
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
-    setBg(MB.asset(cfg.bgSrc || bgByName(cfg.bg).src));
+    setBg(MB.asset(bgSrc));
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
     const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
-      playerDeck: save.deck.slice(), enemyDeck: aiDeck(cfg.foe) });
+      playerDeck, enemyDeck });
     b.aiSkill = diff.ai(cfg.ai);
     $('#player-avatar').src = MB.avatarUrl(save.avatar);
     MB.battle = b;

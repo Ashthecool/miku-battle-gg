@@ -18,39 +18,50 @@
   window.addEventListener('resize', fit);
   fit();
 
-  function preload() {
-    const urls = new Set();
-    MB.manifest.characters.forEach((c) => Object.values(c.sprites).forEach((s) => urls.add(MB.spriteSrc(s))));
-    MB.manifest.items.forEach((i) => urls.add(MB.asset(i.icon)));
-    Object.keys(MB.PACKS).forEach((t) => urls.add(MB.packArt(t)));
-    urls.add(MB.avatarUrl(MB.UI.save.avatar));
-    // fusion costumes and the wardrobe picks, so outfit changes don't pop in
-    const costume = (id, cos) => { const o = cos && byId.get(id).costumes.find((x) => x.id === cos); if (o) Object.values(o.sprites).forEach((s) => urls.add(MB.spriteSrc(s))); };
-    MB.BONDS.forEach((b) => b.pair.forEach((id, i) => costume(id, b.costumes[i])));
-    Object.entries(MB.UI.save.costumes).forEach(([id, cos]) => byId.has(id) && costume(id, cos));
-    const list = [...urls];
+  // decoded images stay referenced here so the browser keeps them ready: nothing has to be fetched or
+  // decoded the first time a sprite shows up mid-battle
+  const images = new Map(); // url -> promise of the decoded Image
+  MB.preloadImages = (urls, onProgress) => {
+    const list = [...new Set(urls)].filter(Boolean);
     let done = 0;
+    return Promise.all(list.map((u) => {
+      let p = images.get(u);
+      if (!p) {
+        const img = new Image();
+        img.src = u;
+        p = img.decode().then(() => img, () => { images.delete(u); }); // a failed one is tried again next time
+        images.set(u, p);
+      }
+      return p.then(() => { done++; if (onProgress) onProgress(done / list.length); });
+    }));
+  };
+
+  // every sprite in the size the board uses (all outfits, so wardrobe changes and fusions don't pop in),
+  // item icons, pack art and the profile picture; each battle adds its background and close-ups (ui.js)
+  function preload() {
+    const urls = [];
+    const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
+    MB.manifest.characters.forEach((c) => { sprites(c.sprites); c.costumes.forEach((o) => sprites(o.sprites)); });
+    MB.manifest.items.forEach((i) => urls.push(MB.asset(i.icon)));
+    Object.keys(MB.PACKS).forEach((t) => urls.push(MB.packArt(t)));
+    urls.push(MB.avatarUrl(MB.UI.save.avatar));
+    MB.bootImages = urls; // battles wait for any of these still loading when the timeout below started the game
     const bar = document.querySelector('#loading i');
-    const all = Promise.all(list.map((u) => new Promise((res) => {
-      const img = new Image();
-      img.onload = img.onerror = () => { done++; bar.style.width = (done / list.length) * 100 + '%'; res(); };
-      img.src = u;
-    })));
+    const all = MB.preloadImages(urls, (f) => { bar.style.width = f * 100 + '%'; });
     // images come from the bucket over the network: a stalled request mustn't keep the game from starting
-    return Promise.race([all, new Promise((res) => setTimeout(res, 20000))]);
+    return Promise.race([all, new Promise((res) => setTimeout(res, 30000))]);
   }
 
   // offline support; service workers don't run from file://, so opening index.html directly still works without it
-  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => navigator.serviceWorker.ready)
-      .then((reg) => reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES }))
-      .catch((e) => console.warn('Offline mode unavailable:', e));
-  }
+  const sw = 'serviceWorker' in navigator && location.protocol !== 'file:'
+    ? navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).catch((e) => console.warn('Offline mode unavailable:', e))
+    : Promise.resolve();
 
   window.addEventListener('DOMContentLoaded', async () => {
     fit();
     await preload();
+    // the offline copy of everything else downloads after the sprites, so the two don't share the bandwidth
+    sw.then((reg) => reg && reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES }));
     MB.view = new MB.View();
     MB.UI.bind();
     // browsers only allow music after a user gesture, so the title waits for one click/key
@@ -66,6 +77,7 @@
     pulse.kill();
     MB.audio.unlock();
     MB.UI.title();
-    gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => load.remove() });
+    // kept for the battle loading screen (ui.js)
+    gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
   });
 })();
