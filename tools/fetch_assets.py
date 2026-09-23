@@ -1,18 +1,21 @@
-"""Download sprites, backgrounds and item icons referenced by the miku.gg novels
-and write them (resized) into game/assets plus one merged manifest the game reads (music is streamed by URL).
+"""Download sprites, backgrounds and item icons referenced by the miku.gg novels, resize them and upload
+them to the Supabase "game-assets" bucket, then write game/assets/manifest.{json,js}, the one merged
+manifest the game reads (image paths are relative to the bucket; music is streamed by URL).
 
-Usage:  py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
-Set MIKU_TOKEN to send the miku.gg auth token with each request.
+Usage:  SUPABASE_SECRET_KEY=sb_secret_... py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
+Images already in the bucket are skipped. Set MIKU_TOKEN to send the miku.gg auth token with each request.
 """
 import io, json, os, re, sys, glob, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
+import supabase_storage as sb
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "game", "assets")
 ASSET_DB = "https://assets.miku.services"
 ASSET_DB_OPT = "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com"
 TOKEN = os.environ.get("MIKU_TOKEN", "")
+SMALL_H = 450  # height of the sm/ sprite copies (MB.spriteSrc in game/js/config.js)
 
 # Emotions the battle system uses; first match per role wins.
 ROLES = {
@@ -54,7 +57,7 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
-def save_img(data, path, max_w=None, max_h=None, fmt="WEBP", quality=86):
+def convert_img(data, max_w=None, max_h=None, fmt="WEBP", quality=86):
     im = Image.open(io.BytesIO(data))
     im = im.convert("RGBA" if im.mode in ("RGBA", "LA", "P") else "RGB")
     if im.mode == "RGBA":  # trim transparent padding so sprites stand on the ground
@@ -65,9 +68,9 @@ def save_img(data, path, max_w=None, max_h=None, fmt="WEBP", quality=86):
     scale = min((max_w or w) / w, (max_h or h) / h, 1)
     if scale < 1:
         im = im.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    im.save(path, fmt, quality=quality, method=5)
-    return im.size
+    buf = io.BytesIO()
+    im.save(buf, fmt, quality=quality, method=5)
+    return buf.getvalue()
 
 
 def add_novel(novel, manifest):
@@ -140,14 +143,20 @@ def main():
         manifest["novels"].append(novel["title"])
         jobs += add_novel(novel, manifest)
 
+    sb.ensure_bucket(sb.GAME_BUCKET)
+    uploaded = set(sb.list_objects(sb.GAME_BUCKET))
+
+    # sprites also get a half-size copy under sm/, which the game uses for cards and the board
     def run(job):
         src, prefix, rel, opts = job
-        path = os.path.join(OUT, rel)
-        if os.path.exists(path):
+        small = "sm/" + rel if rel.startswith("sprites/") else None
+        if rel in uploaded and (not small or small in uploaded):
             return rel, "cached"
         try:
             data = get(src, prefix)
-            save_img(data, path, **opts)
+            sb.upload(sb.GAME_BUCKET, rel, convert_img(data, **opts))
+            if small:
+                sb.upload(sb.GAME_BUCKET, small, convert_img(data, **{**opts, "max_h": SMALL_H, "quality": 88}))
             return rel, "ok"
         except Exception as e:
             return rel, f"FAIL {e}"

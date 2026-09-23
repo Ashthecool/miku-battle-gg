@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 2;
+  const SAVE_VERSION = 3;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -27,7 +27,14 @@
       s.decks = [{ name: 'Deck 1', cards: Array.isArray(s.deck) ? s.deck : MB.STARTER_DECK.slice() }];
       s.activeDeck = 0;
     },
+    (s) => {
+      // card packs and profile pictures arrived; everyone gets a welcome pack
+      s.packs = { common: 1 };
+      s.avatars = [MB.STARTER_AVATAR];
+      s.avatar = MB.STARTER_AVATAR;
+    },
   ];
+  const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
   const freshSave = () => ({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
   const obj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 
@@ -37,7 +44,7 @@
     for (let v = s.version || 0; v < SAVE_VERSION; v++) MIGRATIONS[v](s);
     s.version = SAVE_VERSION;
     // a hand-edited or partial save may claim a version but lack fields
-    ['unlocked', 'progress', 'decks'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+    ['unlocked', 'progress', 'decks', 'avatars'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
     // commons added by later novels are owned right away
     s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
     MB.CHAPTERS.forEach((_, i) => { s.progress[i] = s.progress[i] || 0; });
@@ -53,6 +60,11 @@
     s.deck = s.decks[s.activeDeck].cards.slice(); // working copy of the active deck; persist() writes it back
     s.costumes = s.costumes || {}; // character id -> chosen costume id
     if (!DIFFICULTY[s.difficulty]) s.difficulty = 'normal';
+    // packs: tier -> how many are waiting to be opened
+    s.packs = Object.fromEntries(Object.keys(MB.PACKS).map((t) => [t, Math.max(0, (obj(s.packs) && s.packs[t]) | 0)]));
+    s.avatars = [...new Set([MB.STARTER_AVATAR, ...s.avatars.filter((a) => typeof a === 'string')])];
+    if (!s.avatars.includes(s.avatar) || !avatarById.has(s.avatar)) s.avatar = MB.STARTER_AVATAR;
+    s.name = String(s.name || '').slice(0, 20) || 'Player';
     // stats groups map an id to [wins, losses]
     s.stats = Object.assign({ leaders: {}, foes: {}, difficulty: {}, streak: 0, bestStreak: 0 }, s.stats);
     ['leaders', 'foes', 'difficulty'].forEach((k) => { if (!obj(s.stats[k])) s.stats[k] = {}; });
@@ -60,8 +72,8 @@
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'decks', 'leaders', 'unlocked', 'progress'].every((k) => s[k] === undefined || Array.isArray(s[k]))
-      && ['costumes', 'stats'].every((k) => s[k] === undefined || obj(s[k]));
+      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['costumes', 'stats', 'packs'].every((k) => s[k] === undefined || obj(s[k]));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -126,9 +138,11 @@
   // ---------------------------------------------------------------- collection
 
   const isUnlocked = (id) => save.unlocked.includes(id);
-  function lockedByRarity() {
+  // locked cards grouped by rarity, only rarities worth at least minStars
+  function lockedByRarity(minStars = 0) {
     const groups = {};
-    deckCards().filter((id) => !isUnlocked(id)).forEach((id) => (groups[MB.CARDS[id].rarity] = groups[MB.CARDS[id].rarity] || []).push(id));
+    deckCards().filter((id) => !isUnlocked(id) && MB.RARITY[MB.CARDS[id].rarity].stars >= minStars)
+      .forEach((id) => (groups[MB.CARDS[id].rarity] = groups[MB.CARDS[id].rarity] || []).push(id));
     const total = Object.keys(groups).reduce((s, r) => s + MB.RARITY[r].weight, 0);
     return { groups, total };
   }
@@ -137,14 +151,39 @@
     const { groups, total } = lockedByRarity(), r = MB.CARDS[id].rarity;
     return MB.RARITY[r].weight / total / groups[r].length;
   }
-  function rollDrop() {
-    const { groups, total } = lockedByRarity();
+  function rollDrop(minStars) {
+    const { groups, total } = lockedByRarity(minStars);
     if (!total) return null;
     let x = Math.random() * total;
     for (const r of Object.keys(groups)) { x -= MB.RARITY[r].weight; if (x <= 0) return MB.pick(groups[r]); }
     return MB.pick(Object.values(groups).pop());
   }
   function unlock(id) { if (id && MB.CARDS[id] && !isUnlocked(id)) { save.unlocked.push(id); return true; } return false; }
+
+  // ---------------------------------------------------------------- packs & profile pictures
+  const hasAvatar = (id) => save.avatars.includes(id);
+  const lockedAvatars = () => MB.AVATARS.filter((a) => !hasAvatar(a.id)).map((a) => a.id);
+  const ownedAvatars = () => MB.AVATARS.filter((a) => hasAvatar(a.id)).length;
+  const allCollected = () => !lockedByRarity().total && !lockedAvatars().length;
+  const packCount = () => Object.values(save.packs).reduce((a, b) => a + b, 0);
+
+  // spends one pack of this tier and unlocks what's inside: [{ card } | { avatar }], pictures first, rarest card last
+  function openPack(tier) {
+    if (!(save.packs[tier] > 0)) return null;
+    save.packs[tier]--;
+    const card = (min) => { const id = rollDrop(min) || rollDrop(0); return unlock(id) ? { card: id } : null; };
+    const avatar = () => { const ids = lockedAvatars(); if (!ids.length) return null; const id = MB.pick(ids); save.avatars.push(id); return { avatar: id }; };
+    const got = MB.PACKS[tier].slots.map((slot) => (slot === 'avatar' ? avatar() || card(0) : card(slot === 'card' ? 0 : MB.RARITY[slot].stars) || avatar())).filter(Boolean);
+    persist();
+    const rank = (g) => (g.avatar ? -1 : rarityRank(g.card));
+    return got.sort((a, b) => rank(a) - rank(b));
+  }
+  function setAvatar(id) {
+    if (!hasAvatar(id)) return;
+    save.avatar = id;
+    persist();
+    refreshProfileBits();
+  }
 
   function show(id) {
     document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('active', s.id === id));
@@ -170,7 +209,8 @@
   const bgByName = (name) => (MB.manifest.backgrounds.find((b) => b.name.trim().toLowerCase() === name.toLowerCase()) || MB.pick(MB.manifest.backgrounds));
 
   // ---------------------------------------------------------------- cards
-  function cardEl(card) {
+  // big: the art will be shown zoomed in (close-up, reveal)
+  function cardEl(card, big) {
     const def = card.cid ? card : MB.cardDef(card.id || card);
     const c = el('div', `card r-${def.rarity} t-${def.type}`);
     const color = def.type === 'spell' ? def.color : def.attack.color;
@@ -180,8 +220,8 @@
     let art;
     if (def.type === 'spell') art = `<img class="item-art" src="${MB.itemIcon(def.id)}">`;
     else if (def.emoji) art = `<div class="emoji-art">${def.emoji}</div>`;
-    else if (def.fused) art = MB.duoHtml(def);
-    else art = `<img src="${MB.spriteUrl(def.id, 'idle')}">`;
+    else if (def.fused) art = MB.duoHtml(def, 'idle', big);
+    else art = `<img src="${MB.spriteUrl(def.id, 'idle', undefined, big)}">`;
     const bonds = def.fused ? [def.bond] : def.type === 'unit' ? MB.bondsOf(def.id) : [];
     const badge = bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '';
     const kws = (def.kw || []).map((k) => `<b>${MB.KEYWORDS[k].icon} ${MB.KEYWORDS[k].name}</b>`).join(' ');
@@ -233,7 +273,7 @@
   function titleScene() {
     if (!$('#screen-title').classList.contains('active')) { titleTimer = null; return; }
     const pool = MB.manifest.backgrounds.filter((b) => /street|beach|sunset|campus|school|city|forrest|mountain|shore/i.test(b.name));
-    const img = setBg('assets/' + MB.pick(pool).src);
+    const img = setBg(MB.asset(MB.pick(pool).src));
     const dir = Math.random() < 0.5 ? -1 : 1;
     gsap.to(img, { scale: 1.14, x: dir * 40, y: MB.pick([-20, 20]), duration: 14, delay: 1.2, ease: 'sine.inOut' });
     titleTimer = gsap.delayedCall(11, titleScene);
@@ -272,6 +312,7 @@
     if (titleTimer) titleTimer.kill();
     titleScene();
     logoIntro();
+    refreshProfileBits();
     const btns = document.querySelectorAll('#screen-title .menu-btn');
     gsap.fromTo(btns, { opacity: 0, x: -80, rotationY: -35, filter: 'blur(10px)' },
       { opacity: 1, x: 0, rotationY: 0, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, delay: 0.25, ease: 'power3.out', clearProps: 'filter' });
@@ -370,7 +411,7 @@
     const ch = MB.charById(st.foe), bg = bgByName(st.bg);
     const state = pos < progress ? 'cleared' : pos === progress ? 'next' : 'locked';
     const n = el('div', `stage ${state}`, `
-      <div class="stage-bg" style="background-image:url('assets/${bg.src}')"></div>
+      <div class="stage-bg" style="background-image:url('${MB.asset(bg.src)}')"></div>
       <img src="${MB.spriteUrl(st.foe, state === 'cleared' ? 'lose' : 'idle')}">
       <div class="stage-num">${pos + 1}</div>
       <div class="stage-name">${ch.name}</div>
@@ -383,11 +424,11 @@
   // visual-novel style intro before each story battle
   function intro(i, leaderId) {
     const st = MB.STORY[i], ch = MB.charById(st.foe);
-    setBg('assets/' + bgByName(st.bg).src);
+    setBg(MB.asset(bgByName(st.bg).src));
     MB.audio.music(st.music);
     show('screen-intro');
-    $('#intro-foe').src = MB.spriteUrl(st.foe, 'taunt');
-    $('#intro-me').src = MB.spriteUrl(leaderId, 'idle');
+    $('#intro-foe').src = MB.bigSpriteUrl(st.foe, 'taunt');
+    $('#intro-me').src = MB.bigSpriteUrl(leaderId, 'idle');
     $('#intro-name').textContent = ch.name;
     $('#intro-text').textContent = '';
     gsap.fromTo('#intro-foe', { x: 400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
@@ -433,12 +474,13 @@
     const diff = DIFFICULTY[save.difficulty];
     current = { ...cfg, difficulty: save.difficulty };
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
-    setBg('assets/' + (cfg.bgSrc || bgByName(cfg.bg).src));
+    setBg(MB.asset(cfg.bgSrc || bgByName(cfg.bg).src));
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
     const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
       playerDeck: save.deck.slice(), enemyDeck: aiDeck(cfg.foe) });
     b.aiSkill = diff.ai(cfg.ai);
+    $('#player-avatar').src = MB.avatarUrl(save.avatar);
     MB.battle = b;
     MB.view.b = b;
     MB.view.run(() => b.start());
@@ -460,20 +502,27 @@
     const rewards = [];
     const chap = cfg.story != null ? MB.STORY[cfg.story].chapter : null;
     const finale = cfg.story != null && stagePos(cfg.story) === chapterStages(chap).length - 1;
+    const firstClear = win && cfg.story != null && save.progress[chap] <= stagePos(cfg.story);
     if (win && cfg.story != null) {
       save.progress[chap] = Math.max(save.progress[chap], stagePos(cfg.story) + 1);
       if (!save.leaders.includes(cfg.foe)) { save.leaders.push(cfg.foe); unlocked = cfg.foe; }
       if (unlock(cfg.foe)) rewards.push(cfg.foe);
     }
-    if (win) { const drop = rollDrop(); if (unlock(drop)) rewards.push(drop); }
     recordResult(cfg, win);
+    // packs: Common for a win, Rare on Hard or a first Story clear, Epic for a first chapter clear and every 5-win streak
+    const packs = [];
+    if (win && !allCollected()) {
+      packs.push(firstClear && finale ? 'epic' : firstClear || cfg.difficulty === 'hard' ? 'rare' : 'common');
+      if (save.stats.streak % 5 === 0) packs.push('epic');
+      packs.forEach((t) => save.packs[t]++);
+    }
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
     show('screen-result');
     $('#result-title').textContent = win ? 'VICTORY!' : 'DEFEAT...';
     r.className = 'screen active ' + (win ? 'win' : 'lose');
-    $('#result-me').src = MB.spriteUrl(cfg.leader, win ? 'win' : 'lose');
-    $('#result-foe').src = MB.spriteUrl(cfg.foe, win ? 'lose' : 'win');
+    $('#result-me').src = MB.bigSpriteUrl(cfg.leader, win ? 'win' : 'lose');
+    $('#result-foe').src = MB.bigSpriteUrl(cfg.foe, win ? 'lose' : 'win');
     const foe = MB.charById(cfg.foe);
     $('#result-text').innerHTML = win
       ? (unlocked ? `${foe.name} joins your roster! You can now pick them as a leader.` : `You beat ${foe.name}!`) +
@@ -481,7 +530,11 @@
       : `${foe.name} wins this round. Tweak your deck and try again!`;
     if (rewards.length) $('#result-text').innerHTML += `<br>🎴 New card${rewards.length > 1 ? 's' : ''}: ` +
       rewards.map((id) => `<b style="color:${MB.RARITY[MB.CARDS[id].rarity].color}">${MB.cardDef(id).name}</b>`).join(', ');
-    else if (win && !lockedByRarity().total) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
+      `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
+    else if (win) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    $('#result-packs').classList.toggle('hidden', !packCount());
+    $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     if (rewards.length) gsap.delayedCall(1.1, () => MB.Cards.reveal(rewards));
     gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
     gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
@@ -606,7 +659,7 @@
   function gallery() {
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
     MB.audio.music(MB.MUSIC.gallery);
-    setBg('assets/' + bgByName('Gym Class').src);
+    setBg(MB.asset(bgByName('Gym Class').src));
     $('#arena').classList.add('gallery-mode');
     $('#gallery-panel').classList.remove('hidden');
     const list = $('#gallery-list');
@@ -699,6 +752,113 @@
     if ($('#screen-deck').classList.contains('active')) renderDeck();
   }
 
+  // ---------------------------------------------------------------- packs screen
+  function packs() {
+    hideBattle();
+    show('screen-packs');
+    MB.audio.music(MB.MUSIC.deck);
+    renderPacks();
+    gsap.fromTo('.pack-tile', { opacity: 0, y: 80, rotation: (i) => (i - 1) * 8 }, { opacity: 1, y: 0, rotation: 0, duration: 0.7, stagger: 0.1, delay: 0.1, ease: 'back.out(1.6)' });
+  }
+  function slotsText(slots) {
+    const n = (k) => slots.filter((s) => s === k).length;
+    const lines = [];
+    if (n('epic')) lines.push(`${n('epic')} <b style="color:${MB.RARITY.epic.color}">Epic+</b> card`);
+    if (n('rare')) lines.push(`${n('rare')} <b style="color:${MB.RARITY.rare.color}">Rare+</b> card`);
+    if (n('card')) lines.push(`${n('card')} card`);
+    if (n('avatar')) lines.push(`${n('avatar')} profile picture${n('avatar') > 1 ? 's' : ''}`);
+    return lines.join('<br>');
+  }
+  let opening = false;
+  function renderPacks() {
+    const list = $('#pack-list');
+    list.innerHTML = '';
+    Object.entries(MB.PACKS).forEach(([tier, p]) => {
+      const n = save.packs[tier];
+      const t = el('div', `pack-tile t-${tier}${n ? '' : ' empty'}`, `
+        <div class="pack-art"><img src="${MB.packArt(tier)}" alt=""></div>
+        <div class="pack-count">×${n}</div>
+        <div class="pack-name">${p.name}</div>
+        <div class="pack-slots">${slotsText(p.slots)}</div>`);
+      t.style.setProperty('--rc', p.color);
+      const b = el('button', 'btn primary', n ? 'Open' : 'None yet');
+      b.disabled = !n;
+      b.onclick = async () => {
+        if (opening) return;
+        const got = openPack(tier);
+        if (!got) return;
+        opening = true;
+        MB.audio.sfx('click');
+        await MB.Cards.openPack(tier, got, t.querySelector('.pack-art'));
+        opening = false;
+        renderPacks();
+      };
+      t.appendChild(b);
+      list.appendChild(t);
+    });
+    const cards = deckCards();
+    $('#pack-progress').innerHTML = `🎴 Cards <b>${cards.filter(isUnlocked).length}/${cards.length}</b> · 🖼 Profile pictures <b>${ownedAvatars()}/${MB.AVATARS.length}</b>`
+      + (allCollected() ? ' · <b class="done">Collection complete!</b>' : '');
+    refreshProfileBits();
+  }
+
+  // ---------------------------------------------------------------- profile
+  function profile() {
+    hideBattle();
+    show('screen-profile');
+    MB.audio.music(MB.MUSIC.title);
+    renderProfile();
+  }
+  function renderProfile() {
+    const a = avatarById.get(save.avatar), st = save.stats;
+    const wins = Object.values(st.difficulty).reduce((t, [w]) => t + w, 0);
+    $('#profile-avatar').src = MB.avatarUrl(save.avatar);
+    $('#profile-name').textContent = save.name;
+    $('#profile-pic-name').textContent = a.name;
+    const cards = deckCards();
+    $('#profile-tiles').innerHTML = [
+      [`${ownedAvatars()}/${MB.AVATARS.length}`, 'Pictures'], [`${cards.filter(isUnlocked).length}/${cards.length}`, 'Cards'],
+      [wins, 'Wins'], [packCount(), 'Packs to open'],
+    ].map(([big, label]) => `<div class="st-tile"><b>${big}</b><span>${label}</span></div>`).join('');
+    $('#avatar-count').textContent = `${ownedAvatars()}/${MB.AVATARS.length}`;
+    const grid = $('#avatar-grid');
+    grid.innerHTML = '';
+    // owned first, both halves alphabetical
+    [...MB.AVATARS].sort((x, y) => hasAvatar(y.id) - hasAvatar(x.id)).forEach((av) => {
+      const own = hasAvatar(av.id);
+      const t = el('div', `pfp${own ? '' : ' locked'}${av.id === save.avatar ? ' on' : ''}`, `<img loading="lazy" src="${MB.avatarUrl(av.id)}" alt=""><span>${own ? av.name : '🔒'}</span>`);
+      t.title = own ? av.name : 'Find it in a card pack';
+      t.onclick = () => {
+        if (!own) { MB.audio.sfx('error'); gsap.fromTo(t, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); return; }
+        MB.audio.sfx('buff');
+        setAvatar(av.id);
+        grid.querySelectorAll('.pfp.on').forEach((x) => x.classList.remove('on'));
+        t.classList.add('on');
+        $('#profile-avatar').src = MB.avatarUrl(av.id);
+        $('#profile-pic-name').textContent = av.name;
+        gsap.fromTo('#profile-avatar', { scale: 0.8, rotation: -8 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' });
+      };
+      grid.appendChild(t);
+    });
+  }
+  function renameProfile() {
+    const name = prompt('Your name:', save.name);
+    if (name == null || !name.trim()) return;
+    save.name = name.trim().slice(0, 20);
+    persist();
+    renderProfile();
+    refreshProfileBits();
+  }
+  // the title screen's profile chip and pack badge
+  function refreshProfileBits() {
+    $('#chip-avatar').src = MB.avatarUrl(save.avatar);
+    $('#chip-name').textContent = save.name;
+    $('#chip-sub').textContent = `🖼 ${ownedAvatars()}/${MB.AVATARS.length}`;
+    const n = packCount(), badge = $('#packs-badge');
+    badge.textContent = n;
+    badge.classList.toggle('hidden', !n);
+  }
+
   // ---------------------------------------------------------------- settings / jukebox
   function settings() {
     const p = $('#settings');
@@ -717,6 +877,10 @@
     $('#btn-gallery').onclick = () => { MB.audio.sfx('click'); gallery(); };
     $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
     $('#btn-stats').onclick = () => { MB.audio.sfx('click'); stats(); };
+    $('#btn-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
+    $('#profile-chip').onclick = () => { MB.audio.sfx('click'); profile(); };
+    $('#profile-rename').onclick = () => { MB.audio.sfx('click'); renameProfile(); };
+    $('#result-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
     document.querySelectorAll('[data-back]').forEach((b) => (b.onclick = () => { MB.audio.sfx('click'); title(); }));
     $('#result-menu').onclick = () => { MB.audio.sfx('click'); title(); };
     $('#gal-attack').onclick = galAttack;
@@ -749,5 +913,6 @@
     window.addEventListener('pointerdown', () => { MB.audio.unlock(); MB.audio.retry(); });
   }
 
-  MB.UI = { cardEl, lockCard, preview, title, battleOver, bind, save, show, isUnlocked, dropChance, maxCopies, costumesOf, setCostume };
+  MB.UI = { cardEl, lockCard, preview, title, battleOver, bind, save, show, isUnlocked, dropChance, maxCopies, costumesOf, setCostume,
+    avatarById: (id) => avatarById.get(id) };
 })();

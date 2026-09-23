@@ -42,6 +42,7 @@
     <div id="enemy-hand"></div>
 
     <div id="player-panel" class="panel">
+      <img id="player-avatar" class="p-avatar" alt="">
       <div class="p-name" id="player-name"></div>
       <div class="gold" id="player-gold"></div>
       <div class="p-row"><span>🂠 Deck <b id="player-deck"></b></span></div>
@@ -73,6 +74,7 @@
 
   <!-- ============ screens ============ -->
   <div id="screen-title" class="screen">
+    <button id="profile-chip" title="Profile"><img id="chip-avatar" alt=""><span><b id="chip-name"></b><small id="chip-sub"></small></span></button>
     <div id="logo">
       <div class="logo-top">MIKU</div>
       <div class="logo-main">BATTLE</div>
@@ -82,6 +84,7 @@
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
       <button id="btn-quick" class="menu-btn"><i>⚡</i><span>Quick Battle</span></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
+      <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
       <button id="btn-gallery" class="menu-btn"><i>✦</i><span>Attack Gallery</span></button>
       <button id="btn-stats" class="menu-btn"><i>📊</i><span>Stats</span></button>
       <button id="btn-howto" class="menu-btn"><i>?</i><span>How to Play</span></button>
@@ -91,6 +94,31 @@
   <div id="screen-stats" class="screen">
     <h1>Stats</h1>
     <div id="stats-body" class="scroll-y"></div>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-packs" class="screen">
+    <h1>Card Packs</h1>
+    <div id="pack-progress"></div>
+    <div id="pack-list"></div>
+    <p class="pack-tip">Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-profile" class="screen">
+    <h1>Profile</h1>
+    <div id="profile-body">
+      <div id="profile-card">
+        <img id="profile-avatar" alt="">
+        <div class="profile-name-row"><span id="profile-name"></span><button id="profile-rename" title="Rename">✎</button></div>
+        <div id="profile-pic-name"></div>
+        <div id="profile-tiles"></div>
+      </div>
+      <div id="avatar-side">
+        <h2>Profile pictures <span id="avatar-count"></span></h2>
+        <div id="avatar-grid" class="scroll-y"></div>
+      </div>
+    </div>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -140,7 +168,8 @@
       <p><b>Drag from a glowing character</b> to an enemy to attack. Both deal their ATK to each other — unless the attacker is 🏹 Ranged. Hitting the leader is free.</p>
       <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
-      <p>You start with the <b>Common</b> cards. Every win drops a new <b style="color:#4aa3ff">Rare</b>, <b style="color:#b35cff">Epic</b> or <b style="color:#ffc93c">Legendary</b> card, and beating a Story rival adds their card. <b>Right-click</b> any card for a close-up.</p>
+      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> — open it in <b>Card Packs</b> for new <b style="color:#4aa3ff">Rare</b>, <b style="color:#b35cff">Epic</b> or <b style="color:#ffc93c">Legendary</b> cards and <b>profile pictures</b>. Beating a Story rival also adds their card. <b>Right-click</b> any card for a close-up.</p>
+      <p>🖼 <b>Profile:</b> click your name at the top right of the main menu to pick a profile picture from the ones you've unlocked.</p>
       <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse. Preview them in the Attack Gallery.</p>
       <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one). Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
       <p>👗 <b>Costumes:</b> right-click a character you own and pick an outfit from its <b>Wardrobe</b>.</p>
@@ -158,6 +187,7 @@
       <p id="result-text"></p>
       <div class="row">
         <button id="result-again" class="btn primary">Again</button>
+        <button id="result-packs" class="btn hidden"></button>
         <button id="result-menu" class="btn">Main Menu</button>
       </div>
     </div>
@@ -182,7 +212,9 @@
 <div id="loading"><div>Loading sprites…</div><div class="bar"><i></i></div></div>
 
 <script src="lib/gsap.min.js"></script>
+<script src="js/config.js"></script>
 <script src="assets/manifest.js"></script>
+<script src="js/avatars.js"></script>
 <script src="js/data.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>

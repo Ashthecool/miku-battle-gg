@@ -240,6 +240,16 @@ MB.RARITY = {
 
 MB.STARTER_CARDS = Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].rarity === 'common' && !MB.CARDS[id].token);
 
+// Packs are earned by winning and opened from the Packs screen. Each slot is a card of at least that
+// rarity ('card' = any), or 'avatar' for a profile picture (MB.AVATARS, from js/avatars.js).
+// A slot with nothing left to unlock gives the other kind instead.
+MB.PACKS = {
+  common: { name: 'Common Pack', color: '#c9d1dc', slots: ['card', 'avatar'] },
+  rare:   { name: 'Rare Pack',   color: '#4aa3ff', slots: ['rare', 'card', 'avatar', 'avatar'] },
+  epic:   { name: 'Epic Pack',   color: '#b35cff', slots: ['epic', 'rare', 'avatar', 'avatar', 'avatar'] },
+};
+MB.STARTER_AVATAR = 'hayley';
+
 MB.STARTER_DECK = [
   'julie-hunley', 'julie-hunley', 'school-bag', 'school-bag', 'towel',
   'hayley-kate', 'hayley-kate', 'keiko-ghan', 'keiko-ghan', 'luther-jones', 'luther-jones',

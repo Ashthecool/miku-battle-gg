@@ -11,3 +11,8 @@ __pycache__/
 
 # miku.gg exports and chat history: local input for tools/fetch_assets.py, not published
 novels/
+
+# images live in the Supabase "game-assets" bucket; local copies are only tool output
+game/assets/*
+!game/assets/manifest.js
+!game/assets/manifest.json

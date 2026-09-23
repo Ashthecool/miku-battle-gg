@@ -9,16 +9,18 @@
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // costume: a costume id from the manifest, null for the usual outfit, undefined for the wardrobe choice
-  MB.spriteUrl = (charId, role, costume) => {
+  // big: the full-size image, for sprites shown several hundred px tall (see MB.spriteSrc)
+  MB.spriteUrl = (charId, role, costume, big) => {
     const c = MB.charById(charId);
     if (!c) return '';
     if (costume === undefined) costume = MB.UI && MB.UI.save.costumes[charId];
     const o = costume && c.costumes.find((x) => x.id === costume);
     const set = o ? o.sprites : c.sprites;
-    return 'assets/' + (set[role] || set.idle);
+    return MB.spriteSrc(set[role] || set.idle, big);
   };
+  MB.bigSpriteUrl = (charId, role, costume) => MB.spriteUrl(charId, role, costume, true);
   // a relationship duo: both partners side by side in their fusion costumes
-  MB.duoHtml = (card, role = 'idle') => card.members.map((m) => `<img class="sprite" draggable="false" src="${MB.spriteUrl(m.id, role, m.costume)}">`).join('');
+  MB.duoHtml = (card, role = 'idle', big) => card.members.map((m) => `<img class="sprite" draggable="false" src="${MB.spriteUrl(m.id, role, m.costume, big)}">`).join('');
 
   class View {
     constructor() {

@@ -19,9 +19,26 @@ npx serve game
 | Path | What |
 | --- | --- |
 | `game/` | The whole game: plain HTML/CSS/JS, no build step. This folder is what gets published. |
-| `game/assets/` | Sprites, backgrounds and item icons, plus `manifest.js` describing them. Generated. |
-| `game/sw.js` | Service worker for offline play. Bump `ASSETS` after regenerating assets. |
-| `tools/fetch_assets.py` | Downloads assets for the novels in `novels/` (kept local, not in the repo) and writes `game/assets/`. |
+| `game/assets/manifest.js` | Characters, sprites, backgrounds, items and music of the novels. Generated. |
+| `game/js/avatars.js` | The unlockable profile pictures. Generated. |
+| `game/js/config.js` | Where the images live (the Supabase bucket). |
+| `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |
+| `tools/fetch_assets.py` | Downloads the images for the novels in `novels/` (kept local, not in the repo), uploads them to the bucket and writes the manifest. |
+| `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
+
+## Images (Supabase)
+
+The images are not in the repo. They live in the public Supabase Storage bucket `game-assets`:
+
+- `sprites/`, `backgrounds/`, `items/`, `portraits/`: from `tools/fetch_assets.py`
+- `sm/sprites/`: half-size sprite copies used for cards and the board, so they stay sharp when drawn small
+- `avatars/`, `packs/`: profile picture thumbnails and the Common/Rare/Epic pack art, made by `tools/sync_avatars.py` from the `card-images` bucket
+
+The game only reads public URLs and needs no key. The tools write to the buckets, so they need the secret key in the environment (never commit it):
+
+```sh
+SUPABASE_SECRET_KEY=sb_secret_... py tools/sync_avatars.py
+```
 
 ## Saves
 

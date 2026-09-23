@@ -991,7 +991,7 @@
     ov.className = 'bond-cutin t' + tier;
     ov.style.setProperty('--c', bond.attack.color);
     ov.innerHTML = `<div class="bc-flash"></div><div class="bc-band"><div class="bc-rays"></div></div>
-      <img class="bc-a" src="${MB.spriteUrl(a, 'play', bond.costumes[0])}"><img class="bc-b" src="${MB.spriteUrl(b, 'play', bond.costumes[1])}">
+      <img class="bc-a" src="${MB.bigSpriteUrl(a, 'play', bond.costumes[0])}"><img class="bc-b" src="${MB.bigSpriteUrl(b, 'play', bond.costumes[1])}">
       <div class="bc-title"><small>${T.name.toUpperCase()} ${T.hearts}</small><b>${bond.name}</b><span>${bond.relation}</span></div>`;
     document.getElementById('ui-root').appendChild(ov);
     const band = ov.querySelector('.bc-band'), A = ov.querySelector('.bc-a'), B = ov.querySelector('.bc-b'), title = ov.querySelector('.bc-title');

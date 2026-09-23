@@ -1,4 +1,4 @@
-// Card close-up modal (right-click any card), new-card reveals and screen-space particle FX.
+// Card close-up modal (right-click any card), pack opening, new-card reveals and screen-space particle FX.
 (function () {
   const $ = (s) => document.querySelector(s);
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
@@ -81,7 +81,7 @@
   const starStr = (r) => [1, 2, 3, 4].map((i) => `<i class="${i <= r.stars ? 'on' : ''}">★</i>`).join('');
   function bigCard(card, stats) {
     const def = card.cid ? card : defOf(card.id || card);
-    const c = MB.UI.cardEl(card);
+    const c = MB.UI.cardEl(card, true);
     if (stats && def.type === 'unit') {
       const a = c.querySelector('.stat.atk'), h = c.querySelector('.stat.hp');
       a.textContent = stats.atk; h.textContent = Math.max(0, stats.hp);
@@ -110,7 +110,7 @@
     const ov = el('div', 'cm', `
       <div class="cm-backdrop"></div>
       <div class="cm-rays"></div>
-      ${def.type === 'unit' && !def.emoji && !def.fused ? `<img class="cm-sprite" src="${MB.spriteUrl(def.id, locked ? 'idle' : 'taunt')}">` : ''}
+      ${def.type === 'unit' && !def.emoji && !def.fused ? `<img class="cm-sprite" src="${MB.bigSpriteUrl(def.id, locked ? 'idle' : 'taunt')}">` : ''}
       <div class="cm-pivot"><div class="cm-tilt"></div></div>
       <div class="cm-info"></div>
       <div class="cm-fx"></div>
@@ -130,9 +130,9 @@
       MB.UI.setCostume(def.id, btn.dataset.costume);
       info.querySelectorAll('[data-costume]').forEach((x) => x.classList.toggle('on', x === btn));
       const art = c.querySelector('.card-art img');
-      if (art) art.src = MB.spriteUrl(def.id, 'idle');
+      if (art) art.src = MB.bigSpriteUrl(def.id, 'idle');
       if (sprite) {
-        sprite.src = MB.spriteUrl(def.id, 'taunt');
+        sprite.src = MB.bigSpriteUrl(def.id, 'taunt');
         gsap.fromTo(sprite, { filter: 'brightness(3) drop-shadow(0 0 30px #fff)' }, { filter: '', duration: 0.6, clearProps: 'filter' });
       }
       spray(layer, CARD_X, CARD_Y, col, 24, { dist: [120, 320] });
@@ -215,7 +215,7 @@
     let own;
     if (def.fused) own = `<div class="cm-own">💞 ${MB.BOND_TIERS[def.bond.tier].name} fusion — formed when both partners share the board.</div>`;
     else if (def.rarity === 'token') own = '<div class="cm-own">Token — created by other cards, never in decks.</div>';
-    else if (locked) own = `<div class="cm-own lockedtxt">🔒 Not in your collection yet.<br>Win a battle for a <b>${(MB.UI.dropChance(def.id) * 100).toFixed(1)}%</b> chance to find it${MB.STORY.some((s) => s.foe === def.id) ? ' — or beat them in Story' : ''}.</div>`;
+    else if (locked) own = `<div class="cm-own lockedtxt">🔒 Not in your collection yet.<br>Find it in 🎁 card packs (won in battle): <b>${(MB.UI.dropChance(def.id) * 100).toFixed(1)}%</b> per pack card${MB.STORY.some((s) => s.foe === def.id) ? ' — or beat them in Story' : ''}.</div>`;
     else own = `<div class="cm-own">✔ In your collection · ${inDeck}/${MB.UI.maxCopies(def.id)} in deck</div>`;
     return `
       <div class="cm-rarity"><span class="stars">${starStr(r)}</span> ${r.name.toUpperCase()}</div>
@@ -249,31 +249,48 @@
     return `<div class="cm-wardrobe"><span>👗 Wardrobe</span>${btn('', MB.charById(def.id).outfit)}${list.map((o) => btn(o.id, o.name)).join('')}</div>`;
   }
 
-  // ---------------------------------------------------------------- new card reveal
+  // ---------------------------------------------------------------- new card / picture reveal
+  // items: card ids, or { card } / { avatar } from a pack
   let revealing = false;
-  async function reveal(ids) {
-    if (!ids.length) return;
-    revealing = true;
+  function revealLayer() {
     const ov = el('div', 'rv', `<div class="rv-bg"></div><div class="rv-rays"></div><div class="rv-fx"></div>
       <div class="rv-title"></div><div class="rv-sub"></div><div class="rv-hint">Click to continue</div><div class="rv-flash"></div>`);
     root().appendChild(ov);
     gsap.fromTo(ov.querySelector('.rv-bg'), { opacity: 0 }, { opacity: 1, duration: 0.4 });
-    for (let i = 0; i < ids.length; i++) await revealOne(ov, ids[i], i, ids.length);
+    return ov;
+  }
+  async function reveal(items, ov) {
+    if (!items.length && !ov) return;
+    revealing = true;
+    ov = ov || revealLayer();
+    for (let i = 0; i < items.length; i++) await revealOne(ov, items[i], i, items.length);
     await gsap.to(ov, { opacity: 0, duration: 0.35 });
     ov.remove();
     revealing = false;
   }
 
-  function revealOne(ov, id, i, n) {
-    const def = defOf(id), r = rarityOf(def), col = r.color, lvl = Math.max(1, r.stars);
+  // a profile picture framed like a card, at reveal size
+  function avatarCard(id, w, h) {
+    const a = MB.UI.avatarById(id);
+    const c = el('div', 'rv-pfp', `<img src="${MB.avatarUrl(id)}" alt=""><div class="rv-pfp-name">${a.name}</div><div class="rv-pfp-tag">PROFILE PICTURE</div>`);
+    Object.assign(c.style, { width: w + 'px', height: h + 'px' });
+    c.appendChild(el('div', 'glare'));
+    return c;
+  }
+
+  const AVATAR_COLOR = '#ff6fae';
+  function revealOne(ov, item, i, n) {
+    const it = typeof item === 'string' ? { card: item } : item;
     const X = 800, Y = 440, S = 1.9;
+    const def = it.card && defOf(it.card), r = def ? rarityOf(def) : null;
+    const col = r ? r.color : AVATAR_COLOR, lvl = r ? Math.max(1, r.stars) : 2;
     const layer = ov.querySelector('.rv-fx'), rays = ov.querySelector('.rv-rays'), flash = ov.querySelector('.rv-flash');
     const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub'), hint = ov.querySelector('.rv-hint');
     ov.style.setProperty('--rc', col);
     const glow = el('div', 'rv-glow');
     const back = el('div', 'rv-back', '<div class="rv-back-emblem">✦</div>');
-    const { c: card } = bigCard(id);
-    card.style.zoom = S;
+    const card = def ? bigCard(it.card).c : avatarCard(it.avatar, W * S, H * S);
+    if (def) card.style.zoom = S;
     const front = el('div', 'rv-front');
     Object.assign(front.style, { width: W * S + 'px', height: H * S + 'px' });
     front.appendChild(card);
@@ -281,9 +298,11 @@
     gsap.set([glow, back, front], { x: X, y: Y, xPercent: -50, yPercent: -50 });
     gsap.set(front, { rotationY: -90, opacity: 0, transformPerspective: 1200 });
     gsap.set(glow, { opacity: 0 });
-    title.textContent = r.name.toUpperCase() + '!';
+    title.textContent = def ? r.name.toUpperCase() + '!' : 'NEW PICTURE!';
     title.style.color = col;
-    sub.innerHTML = `<b>${def.name}</b> joined your collection${n > 1 ? ` <small>(${i + 1}/${n})</small>` : ''}`;
+    const count = n > 1 ? ` <small>(${i + 1}/${n})</small>` : '';
+    sub.innerHTML = def ? `<b>${def.name}</b> joined your collection${count}`
+      : `<b>${MB.UI.avatarById(it.avatar).name}</b> is now a profile picture${count}`;
     gsap.set([title, sub, hint], { opacity: 0 });
 
     let stopMotes = null;
@@ -344,6 +363,80 @@
     });
   }
 
+  // ---------------------------------------------------------------- pack opening
+  // the pack drops in; clicking it tears the top off, then each item is revealed
+  function openPack(tier, items, fromEl) {
+    revealing = true;
+    const p = MB.PACKS[tier], col = p.color, lvl = { common: 1, rare: 2, epic: 3 }[tier] || 1;
+    const X = 800, Y = 450, PW = 346, PH = 560, TEAR = 0.15; // TEAR: the strip that rips off, as a share of the height
+    const ov = revealLayer();
+    ov.style.setProperty('--rc', col);
+    const layer = ov.querySelector('.rv-fx'), flash = ov.querySelector('.rv-flash'), rays = ov.querySelector('.rv-rays');
+    const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub');
+    const glow = el('div', 'rv-glow');
+    const pack = el('div', 'rv-pack', '<div class="rv-pack-body"></div><div class="rv-pack-top"></div>');
+    Object.assign(pack.style, { width: PW + 'px', height: PH + 'px' });
+    pack.style.setProperty('--art', `url("${MB.packArt(tier)}")`);
+    pack.style.setProperty('--tear', TEAR * 100 + '%');
+    ov.insertBefore(glow, layer); ov.insertBefore(pack, layer);
+    const top = pack.querySelector('.rv-pack-top'), body = pack.querySelector('.rv-pack-body');
+    title.textContent = p.name.toUpperCase();
+    title.style.color = col;
+    sub.textContent = 'Click the pack to tear it open';
+    const from = fromEl && fromEl.isConnected ? rectOf(fromEl) : { x: X, y: -300, w: PW };
+    gsap.set([pack, glow], { x: X, y: Y, xPercent: -50, yPercent: -50 });
+    gsap.set(glow, { opacity: 0 });
+    gsap.set([title, sub, ov.querySelector('.rv-hint')], { opacity: 0 });
+
+    const idle = [];
+    const intro = gsap.timeline()
+      .call(() => MB.audio.sfx('whoosh'))
+      .fromTo(pack, { x: from.x, y: from.y, scale: from.w / PW, rotation: -12 }, { x: X, y: Y, scale: 1, rotation: 0, duration: 0.75, ease: 'back.out(1.4)' })
+      .to(glow, { opacity: 0.6, scale: 1.1, duration: 0.5 }, '<0.3')
+      .fromTo(title, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'back.out(2)' }, '<')
+      .to(sub, { opacity: 0.85, duration: 0.4 })
+      .call(() => {
+        idle.push(gsap.to(pack, { y: Y - 14, rotation: 2, duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+        idle.push(gsap.to(glow, { scale: 1.25, opacity: 0.8, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+      });
+
+    return new Promise((res) => {
+      const onClick = (e) => {
+        if (e.button !== 0) return;
+        if (intro.progress() < 1) { intro.progress(1); return; } // first click skips the drop-in
+        ov.removeEventListener('pointerdown', onClick);
+        idle.forEach((t) => t.kill());
+        const charge = 0.3 + lvl * 0.25, lip = Y - PH / 2 + PH * TEAR;
+        const tl = gsap.timeline({ onComplete: () => { pack.remove(); glow.remove(); reveal(items, ov).then(res); } });
+        tl.to([title, sub], { opacity: 0, duration: 0.2 }, 0)
+          .to(pack, { y: Y, rotation: 0, scale: 1.04, duration: 0.15 }, 0)
+          .fromTo(pack, { x: X - 4 * lvl }, { x: X + 4 * lvl, duration: 0.05, repeat: Math.round(charge / 0.05), yoyo: true, ease: 'none' }, 0.15)
+          .to(glow, { opacity: 1, scale: 1.2 + lvl * 0.15, duration: charge, ease: 'power1.in' }, 0.15)
+          .call(() => converge(layer, X, Y, col, 14 * lvl, charge), null, 0.15)
+          .set(pack, { x: X }, 0.15 + charge)
+          // rip: the top strip flies off and light pours out of the opening
+          .call(() => {
+            MB.audio.sfx('slam');
+            MB.audio.sfx(lvl >= 3 ? 'win' : 'sparkle');
+            spray(layer, X, lip, col, 30 + lvl * 15, { dist: [120, 460], size: [5, 14], gravity: -40 });
+            spray(layer, X, lip, '#ffffff', 16, { dist: [80, 300], size: [3, 7], gravity: -40 });
+            ring(layer, X, lip, col, { size: 180, scale: 4 + lvl, dur: 0.8 });
+          })
+          .to(top, { x: 260, y: -260, rotation: 50, opacity: 0, duration: 0.7, ease: 'power2.out' })
+          .fromTo(flash, { opacity: 0 }, { opacity: 0.35 + lvl * 0.15, duration: 0.06 }, '<')
+          .to(flash, { opacity: 0, duration: 0.5 })
+          .fromTo(rays, { opacity: 0, scale: 0.2 }, { opacity: 0.2 + lvl * 0.1, scale: 1, duration: 0.6 }, '<')
+          .to(body, { y: 420, rotation: -6, opacity: 0, duration: 0.55, ease: 'power2.in' }, '<0.15')
+          .to([glow, rays], { opacity: 0, duration: 0.3 }, '<0.2');
+        if (!items.length) {
+          tl.call(() => { sub.textContent = 'Nothing new inside — your collection is complete!'; gsap.to(sub, { opacity: 1, duration: 0.3 }); });
+          tl.to({}, { duration: 1.6 });
+        }
+      };
+      ov.addEventListener('pointerdown', onClick);
+    });
+  }
+
   // ---------------------------------------------------------------- deck builder: card flies into the list
   function flyToDeck(cardNode, target) {
     const from = rectOf(cardNode), to = rectOf(target);
@@ -387,5 +480,5 @@
     }, true);
   }
 
-  MB.Cards = { bind, open, close, reveal, flyToDeck, burst };
+  MB.Cards = { bind, open, close, reveal, openPack, flyToDeck, burst };
 })();
