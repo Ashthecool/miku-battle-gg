@@ -377,7 +377,6 @@
     const [a, b] = box.querySelectorAll('img'), heart = box.querySelector('.cm-duo-heart');
     const c = def.attack.color, tier = def.bond.tier, T = MB.BOND_TIERS[tier];
     const flavor = DUO_FLAVOR[def.attack.style] || [def.attack.emoji || '💞'];
-    const meet = () => ({ x: box.offsetLeft + b.offsetLeft, y: box.offsetTop + box.offsetHeight * 0.3 });
     return gsap.timeline()
       .call(() => MB.audio.sfx('whoosh'))
       .fromTo(a, { x: -520, opacity: 0, rotation: -10 }, { x: 0, opacity: SPRITE_OP, rotation: 0, duration: 0.6, ease: 'power3.out' }, 0)
@@ -385,14 +384,18 @@
       .to(a, { x: 34, rotation: 4, duration: 0.14, ease: 'power2.in' })
       .to(b, { x: -34, rotation: -4, duration: 0.14, ease: 'power2.in' }, '<')
       .call(() => {
-        const p = meet();
+        // the heart hovers just above the taller head (object-fit leaves wide sprites shorter than the box)
+        const drawnH = (im) => (im.naturalWidth ? Math.min(im.offsetHeight, (im.offsetWidth * im.naturalHeight) / im.naturalWidth) : im.offsetHeight);
+        const top = Math.max(0, box.offsetHeight - Math.max(drawnH(a), drawnH(b)) - 40);
+        heart.style.top = top + 'px';
+        const p = { x: box.offsetLeft + b.offsetLeft, y: box.offsetTop + top + 70 };
         MB.audio.sfx('bond', tier);
         spray(L, p.x, p.y, c, 24 + tier * 14, { dist: [140, 460], stars: 0.5 });
         spray(L, p.x, p.y, '#ffffff', 10 + tier * 6, { dist: [100, 320], size: [3, 8] });
         ring(L, p.x, p.y, c, { size: 160, scale: 3 + tier, dur: 0.9, width: 8 });
         if (tier >= 2) ring(L, p.x, p.y, '#ffffff', { size: 120, scale: 2 + tier, dur: 0.7, width: 4 });
         fling(L, p.x, p.y, [...flavor, '💗', '💕'], 8 + tier * 5);
-        word(L, p.x, p.y - 150, `${T.hearts} ${T.name.toUpperCase()}!`, c, 44 + tier * 6);
+        word(L, 1390, Math.max(90, p.y - 170), `${T.hearts} ${T.name.toUpperCase()}!`, c, 34 + tier * 4); // clear of the info panel
         if (tier >= 3) { screenFlash(L, '#ffffff', 0.35); shake(ov, 14); }
       })
       .to([a, b], { x: 0, rotation: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' })
