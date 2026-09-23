@@ -28,6 +28,7 @@ ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
 SKIP_OUTFITS = {
     # underwear, towels and the like
     "quinta/quinta-5", "doe/doe-3", "cheetor/cheetor-4", "jill/jill-2", "maria/maria-2", "quistis/quistis-4",
+    "rirarra-charca/the-equality-beach",
     "anya/anya-2", "cream/cream-2", "juniper/juniper-5", "adam/adam-4", "alexis/alexis-4", "misaki/morning",
     # blank or placeholder art
     "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",

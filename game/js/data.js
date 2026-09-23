@@ -583,7 +583,7 @@ MB.BONDS = [
   { id: 'whose-rock', pair: ['melanika-carchara', 'rirarra-charca'], costumes: ['holding-bat', 'holding-bat'], tier: 1,
     name: 'Whose Rock?', short: 'Rock Feud', relation: 'Rock rivals', bonus: [0, 1], kw: ['taunt'],
     text: '', attack: { style: 'combo', name: 'Rock Bottom', color: '#ffb347', emoji: '🪨' } },
-  { id: 'manners-class', pair: ['brizz-bigeyed', 'rirarra-charca'], costumes: [null, 'the-equality-beach'], tier: 1,
+  { id: 'manners-class', pair: ['brizz-bigeyed', 'rirarra-charca'], costumes: [null, null], tier: 1,
     name: 'Human Manners 101', short: 'Manners', relation: 'Tutor & Student', bonus: [1, 1], kw: ['lifesteal'],
     text: '', attack: { style: 'combo', name: 'No Biting!', color: '#3fd0a8', emoji: '📋' } },
   // The yuri assist
@@ -769,7 +769,7 @@ MB.BONDS.sort((a, b) => b.tier - a.tier);
 MB.bondsOf = (id) => MB.BONDS.filter((b) => b.pair.includes(id));
 
 // alternate outfits that aren't real clothes, kept out of the wardrobe
-MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'] };
+MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'], 'rirarra-charca': ['the-equality-beach'] };
 
 MB.STARTER_LEADERS = ['hayley-kate', 'james-lone', 'maiko-ghan', 'luther-jones'];
 
