@@ -21,6 +21,23 @@
   MB.bigSpriteUrl = (charId, role, costume) => MB.spriteUrl(charId, role, costume, true);
   // a relationship duo: both partners side by side in their fusion costumes
   MB.duoHtml = (card, role = 'idle', big) => card.members.map((m) => `<img class="sprite" draggable="false" src="${MB.spriteUrl(m.id, role, m.costume, big)}">`).join('');
+  // Draw both partners equally tall: sprites range from narrow full-body shots to square busts (aspect
+  // 0.35-1), so one fixed height would make a wide pair far too wide. The pair shares the largest height
+  // (up to maxH) at which both fit side by side in maxW, overlapping by `overlap` px. Sized once, from the
+  // first images that load, so emotion swaps don't make the pair jump in size.
+  MB.fitDuo = (box, maxH, maxW, overlap) => {
+    const imgs = [...box.querySelectorAll('img')];
+    const fit = () => {
+      if (box.dataset.fitted || !imgs.every((i) => i.naturalWidth)) return;
+      const aspects = imgs.reduce((s, i) => s + i.naturalWidth / i.naturalHeight, 0);
+      const h = Math.min(maxH, (maxW + overlap) / aspects);
+      imgs.forEach((i) => { i.style.height = h + 'px'; });
+      box.style.setProperty('--top', maxH - h + 'px'); // where their heads are (the box is maxH tall), for props above them
+      box.dataset.fitted = 1;
+    };
+    imgs.forEach((i) => i.addEventListener('load', fit));
+    fit();
+  };
 
   class View {
     constructor() {
@@ -131,7 +148,7 @@
       const figure = el('div', 'figure');
       let img;
       if (card && card.emoji) { img = el('div', 'emoji-sprite', card.emoji); }
-      else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); img.style.setProperty('--c', card.attack.color); }
+      else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); img.style.setProperty('--c', card.attack.color); MB.fitDuo(img, h, 330, 18); }
       else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle'); img.draggable = false; }
       figure.appendChild(img);
       const status = el('div', 'status');

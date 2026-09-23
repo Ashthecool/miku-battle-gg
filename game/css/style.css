@@ -510,13 +510,45 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .cm-own.lockedtxt { color: #ffd0a0; line-height: 1.45; }
 .cm-hint { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-size: 13px; opacity: 0; pointer-events: none; }
 .cm-fx { position: absolute; inset: 0; pointer-events: none; }
-/* relationship close-up: both partners side by side */
-.cm-duo { position: absolute; right: 0; bottom: 0; height: 700px; display: flex; align-items: flex-end; pointer-events: none; }
-.cm-duo img { height: 100%; width: auto; max-width: 360px; object-fit: contain; object-position: 50% 100%; opacity: 0; transform-origin: 50% 100%;
+/* relationship close-up: both partners side by side, equally tall (MB.fitDuo), plus the props of their scene.
+   z-index 0 keeps the props' stacking inside the duo, under the info panel */
+.cm.duo .cm-rays { left: 290px; }
+.cm.duo .cm-info { left: 530px; width: 400px; }
+.cm-duo { position: absolute; right: 20px; bottom: 0; height: 700px; display: flex; align-items: flex-end; pointer-events: none; z-index: 0; }
+.cm-duo img { position: relative; z-index: 1; height: 100%; width: auto; opacity: 0; transform-origin: 50% 100%;
   filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 22px var(--rc)); }
 .cm-duo img + img { margin-left: -40px; }
-.cm-duo-heart { position: absolute; left: 50%; top: 2%; font: 900 64px/1 'Segoe UI'; color: #fff; opacity: 0;
-  text-shadow: 0 0 10px var(--rc), 0 0 30px var(--rc), 0 3px 3px #000; }
+.cm-prop { position: absolute; left: 50%; pointer-events: none; }
+.cm-loveheart { top: calc(var(--top, 0px) - 60px); font: 900 520px/1 'Segoe UI'; color: var(--c); opacity: 0;
+  filter: blur(3px) drop-shadow(0 0 40px var(--c)); mix-blend-mode: screen; }
+.cm-table { bottom: -10px; width: 118%; height: 150px; display: flex; justify-content: space-around; align-items: flex-start;
+  border-radius: 18px 18px 0 0; background: linear-gradient(#b0703a, #7a4520 30%, #5a3014); border-top: 8px solid #d59055;
+  box-shadow: 0 -8px 24px #0009, inset 0 6px 10px #fff3; }
+.cm-table i { font-style: normal; font-size: 72px; margin-top: -54px; filter: drop-shadow(0 6px 4px #0008); }
+.cm-steam { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, #fffc, transparent 70%); filter: blur(3px); }
+.cm-tvlight { --h: 0deg; left: -20%; width: 140%; top: var(--top, 0px); bottom: 0;
+  background: radial-gradient(ellipse at 50% 115%, rgba(110,180,255,.9), rgba(160,110,255,.4) 45%, transparent 70%);
+  mix-blend-mode: screen; filter: hue-rotate(var(--h)); opacity: 0; }
+.cm-popcorn { bottom: 96px; font-size: 120px; line-height: 1; filter: drop-shadow(0 8px 6px #0009); }
+.cm-vs { top: calc(var(--top, 0px) + 80px); font: italic 900 120px/1 'Segoe UI Black', 'Segoe UI'; color: #fff;
+  -webkit-text-stroke: 4px #000; paint-order: stroke fill; text-shadow: -6px 0 24px #ff4a1c, 6px 0 24px #ffe9a0, 0 6px 0 #000; opacity: 0; }
+.cm-chalkboard { top: calc(var(--top, 0px) - 190px); width: 460px; height: 190px; border-radius: 10px; background: #1e4a33;
+  border: 12px solid #a0683a; box-shadow: 0 10px 24px #000a, inset 0 0 30px #0006; opacity: 0; }
+.cm-chalkboard span { position: absolute; left: 24px; top: 40px; font: 700 44px 'Comic Sans MS', 'Segoe Print', 'Segoe UI'; color: #f4f4ea; text-shadow: 0 0 2px #fff; }
+.cm-chalkboard b { position: absolute; right: 18px; bottom: 6px; font: 900 72px 'Comic Sans MS', 'Segoe UI'; color: #ff4d5e; opacity: 0; text-shadow: 0 0 10px #ff4d5e; }
+.cm-floaty { top: calc(var(--top, 0px) + 200px); font-size: 86px; line-height: 1; filter: drop-shadow(0 6px 6px #0008); }
+.cm-frame { top: calc(var(--top, 0px) - 150px); font-size: 130px; line-height: 1; opacity: 0; filter: drop-shadow(0 0 20px #fff8); }
+.cm-bubble { max-width: 300px; padding: 9px 16px; border-radius: 18px; background: #fff; color: #1a1030; border: 3px solid var(--c);
+  font: 800 21px/1.2 'Segoe UI'; text-align: center; white-space: normal; box-shadow: 0 6px 16px #0008; }
+.cm-bubble::after { content: ''; position: absolute; left: 50%; bottom: -14px; margin-left: -10px; border: 10px solid transparent; border-top: 14px solid #fff; border-bottom: 0; }
+.cm-paper { width: 170px; padding: 14px 10px 18px; border-radius: 6px; text-align: center; color: #333;
+  background: repeating-linear-gradient(#fdfcf5 0 26px, #cfe0f0 26px 27px); box-shadow: 0 8px 18px #0009; }
+.cm-paper small { display: block; font: 800 16px 'Segoe UI'; letter-spacing: 4px; }
+.cm-paper b { display: inline-block; margin-top: 8px; padding: 4px 12px; font: 900 40px 'Comic Sans MS', 'Segoe UI'; color: #e0102a;
+  border: 4px solid #e0102a; border-radius: 50%; transform: rotate(-8deg); }
+.cm-relplate { padding: 8px 22px; border-radius: 30px; background: rgba(12,8,30,.92); border: 2px solid var(--c); white-space: nowrap;
+  font: 800 20px 'Segoe UI'; box-shadow: 0 0 18px color-mix(in srgb, var(--c) 60%, transparent), 0 6px 14px #0009; }
+.cm-relplate i { font-style: normal; color: var(--c); margin-left: 10px; filter: brightness(1.3); }
 /* close-up entrance effects (cards.js INTRO) */
 .cm-fx > * { position: absolute; left: 0; top: 0; pointer-events: none; }
 .cm-word { font: 900 54px 'Segoe UI', sans-serif; color: #fff; white-space: nowrap; -webkit-text-stroke: 2px #000; paint-order: stroke fill;
@@ -561,13 +593,12 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .rv-hint { position: absolute; left: 0; right: 0; bottom: 60px; text-align: center; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; pointer-events: none; }
 
 /* ================= relationships & costumes ================= */
-/* a duo stands side by side, shoulders just touching (sprites are 80-140px wide, so a fixed overlap
-   would hide the slimmer partner), with a heart floating between them */
+/* a duo stands side by side, shoulders just touching, with a heart floating over their heads */
 .duo-sprite { position: relative; height: 100%; display: flex; align-items: flex-end; justify-content: center; pointer-events: none; transform-origin: 50% 100%; }
-/* max-width: some outfits are wide bust crops that would tower over their partner at full height */
-.duo-sprite img { height: 100%; width: auto; max-width: 165px; object-fit: contain; object-position: 50% 100%; transform-origin: 50% 100%; }
+/* heights are set by MB.fitDuo so both partners are equally tall */
+.duo-sprite img { height: 100%; width: auto; transform-origin: 50% 100%; }
 .duo-sprite img + img { margin-left: -18px; }
-.duo-sprite::after { content: '♥'; position: absolute; left: 50%; top: -30px; font: 900 28px/1 'Segoe UI'; color: #fff; pointer-events: none;
+.duo-sprite::after { content: '♥'; position: absolute; left: 50%; top: calc(var(--top, 0px) - 30px); font: 900 28px/1 'Segoe UI'; color: #fff; pointer-events: none;
   text-shadow: 0 0 6px var(--c, #ff5fa2), 0 0 14px var(--c, #ff5fa2), 0 2px 2px #000; animation: duo-heart 1.3s ease-in-out infinite alternate; }
 @keyframes duo-heart { from { transform: translateX(-50%) scale(.85); } to { transform: translateX(-50%) translateY(-6px) scale(1.1); } }
 .ghost .duo-sprite { height: 100%; }

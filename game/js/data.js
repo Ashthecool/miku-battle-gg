@@ -136,7 +136,7 @@ MB.BOND_TIERS = {
 };
 MB.BONDS = [
   { id: 'infernal-harmony', pair: ['lilith', 'celeste'], costumes: ['prom-outfit', 'prom-outfit'], tier: 3,
-    name: 'Infernal Harmony', short: 'Harmony', relation: 'Rivals → Prom Partners', bonus: [2, 2], kw: ['burn', 'guardian', 'shield'], onFuse: 'judgment',
+    name: 'Infernal Harmony', short: 'Harmony', relation: 'Ancient enemies, same human', bonus: [2, 2], kw: ['burn', 'guardian', 'shield'], onFuse: 'judgment',
     text: 'On fusion: deal 2 damage to all enemy monsters and set them ablaze.',
     attack: { style: 'harmony', name: 'Heaven & Hell Duet', color: '#ff7ad9' } },
   { id: 'gothic-love', pair: ['james-lone', 'kayla-kate'], costumes: ['goth-outfit', 'black-jacket'], tier: 3,
@@ -222,6 +222,40 @@ MB.BONDS = [
     name: "Teacher's Pet", short: 'Class', relation: 'Teacher & Student', bonus: [1, 1], kw: ['taunt'],
     text: '', attack: { style: 'lesson', name: 'Detention Slip', color: '#9a8cff' } },
 ];
+// Close-up scenes (cards.js). kind: lovers, family, rivals, friends or school; scene picks the family/school
+// variant; lines are said by the partners in pair order; food sits on the table of a meal.
+MB.BOND_SCENES = {
+  // ancient enemies who only team up to protect their human; `guard` is what each promises the human
+  'infernal-harmony': { kind: 'rivals', lines: ['The human is MINE, halo-head!', 'Hands off my human, devil.'], colors: ['#ff4a1c', '#ffe9a0'],
+    guard: ['Stay behind me!', "I'll protect you, darling."] },
+  'gothic-love':      { kind: 'lovers', lines: ["...don't let go.", "Wasn't going to."] },
+  'cheer-and-chain':  { kind: 'lovers', lines: ['Smile, James!', '...fine. Only for you.'] },
+  'happily-married':  { kind: 'lovers', lines: ['Still the one, hon.', 'Oh, stop it~ ♥'] },
+  'hunley-sisters':   { kind: 'family', scene: 'meal', lines: ["Dinner's ready!", 'Merry Christmas, sis~'], food: ['🍗', '🥧', '🎂'] },
+  'jones-fortune':    { kind: 'family', scene: 'meal', lines: ['Only the finest, darling.', "Mom... it's just pizza."], food: ['🍕', '🦞', '🍰'] },
+  'mothers-day':      { kind: 'family', scene: 'meal', lines: ['Aww, my sweetie~', 'Breakfast in bed, Mom!'], food: ['🥞', '🍓', '☕'] },
+  'kitchen-helpers':  { kind: 'family', scene: 'meal', lines: ['Taste this, sweetie!', 'Mmm! Yummy!'], food: ['🍳', '🥘', '🧁'] },
+  'tough-love':       { kind: 'family', scene: 'meal', lines: ['Eat your veggies.', "...they're green."], food: ['🥦', '🥕', '🍚'] },
+  'like-father':      { kind: 'family', scene: 'meal', lines: ['Ice cream race!', 'BRAIN FREEZE!!'], food: ['🍦', '🍨', '🍧'] },
+  'brier-tide':       { kind: 'family', scene: 'meal', lines: ['Yes, Mom...', 'Eat up, Ben.'], food: ['🍙', '🐟', '🍉'] },
+  'kate-sisters':     { kind: 'family', scene: 'movie', lines: ['Horror movie night!', "...you'll scream."] },
+  'little-sisters':   { kind: 'family', scene: 'movie', lines: ['Cartoon time!', 'Teddy watches too!'] },
+  'dads-worry':       { kind: 'family', scene: 'movie', lines: ['Home by ten, young lady.', 'Ugh. Fine, Dad.'] },
+  'middle-kids':      { kind: 'family', scene: 'movie', lines: ['One more level!', "...you're so bad at this."] },
+  // strict parenting: the test comes back 98/100, then it's back to the dojo
+  'ghan-dojo':        { kind: 'family', scene: 'strict', lines: ['I-I got 98, Mom!', 'Where are the other 2 points?!'],
+    score: '98/100', drill: ['Ichi!', 'Ni!', 'San!', 'Shi!'], praise: '...Good. Again tomorrow.' },
+  'lone-wolves':      { kind: 'family', scene: 'laugh', lines: ['Dad. No.', 'What do wolves eat? Howl-mburgers!'] },
+  'sister-party':     { kind: 'family', scene: 'laugh', lines: ["Let's dance, Julie!", 'Wheee~!'] },
+  'daddys-girl':      { kind: 'family', scene: 'laugh', lines: ["Who's my little champ?", 'Daaad, stop~!'] },
+  'sibling-squabble': { kind: 'family', scene: 'laugh', lines: ["That's MY pudding!", 'Finders keepers~!'] },
+  'sleepover':        { kind: 'friends', lines: ['Honestly? Best night ever.', 'Besties forever!!'] },
+  'unlikely-duo':     { kind: 'friends', lines: ["Honestly, you're okay.", '...thanks. I guess.'] },
+  'art-club':         { kind: 'school', scene: 'club', lines: ['Chapter three needs art.', 'On it!'] },
+  'extra-credit':     { kind: 'school', scene: 'class', lines: ['Huh?! From the top!', 'Y-yes, sir!'], board: 'Art = 10/10' },
+  'teachers-pet':     { kind: 'school', scene: 'class', lines: ['Future president says...', 'I did the extra credit too.'], board: 'Pop Quiz!' },
+};
+
 // the strongest bond wins when a character could fuse with more than one partner (sort is stable)
 MB.BONDS.sort((a, b) => b.tier - a.tier);
 MB.bondsOf = (id) => MB.BONDS.filter((b) => b.pair.includes(id));
