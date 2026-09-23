@@ -510,6 +510,31 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .cm-own.lockedtxt { color: #ffd0a0; line-height: 1.45; }
 .cm-hint { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font-size: 13px; opacity: 0; pointer-events: none; }
 .cm-fx { position: absolute; inset: 0; pointer-events: none; }
+/* relationship close-up: both partners side by side */
+.cm-duo { position: absolute; right: 0; bottom: 0; height: 700px; display: flex; align-items: flex-end; pointer-events: none; }
+.cm-duo img { height: 100%; width: auto; max-width: 360px; object-fit: contain; object-position: 50% 100%; opacity: 0; transform-origin: 50% 100%;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 22px var(--rc)); }
+.cm-duo img + img { margin-left: -40px; }
+.cm-duo-heart { position: absolute; left: 50%; top: 2%; font: 900 64px/1 'Segoe UI'; color: #fff; opacity: 0;
+  text-shadow: 0 0 10px var(--rc), 0 0 30px var(--rc), 0 3px 3px #000; }
+/* close-up entrance effects (cards.js INTRO) */
+.cm-fx > * { position: absolute; left: 0; top: 0; pointer-events: none; }
+.cm-word { font: 900 54px 'Segoe UI', sans-serif; color: #fff; white-space: nowrap; -webkit-text-stroke: 2px #000; paint-order: stroke fill;
+  text-shadow: 0 4px 0 #000, 0 0 18px var(--c), 0 0 30px var(--c); }
+.cm-emoji { line-height: 1; filter: drop-shadow(0 3px 4px #0008); }
+.cm-after { opacity: .5; filter: brightness(2) drop-shadow(0 0 20px var(--rc)) !important; }
+.cm-bolt { filter: drop-shadow(0 0 12px #fff); }
+.cm-flash { width: 1600px; height: 900px; background: radial-gradient(circle at 75% 50%, #fff, var(--c) 45%, transparent 80%); mix-blend-mode: screen; }
+.cm-slash { width: 760px; height: 12px; border-radius: 50%; background: linear-gradient(90deg, transparent, var(--c) 20%, #fff 50%, var(--c) 80%, transparent);
+  box-shadow: 0 0 20px var(--c); }
+.cm-splat { width: 240px; height: 240px; background: var(--c); opacity: .85;
+  clip-path: polygon(50% 0, 60% 30%, 90% 12%, 72% 42%, 100% 55%, 70% 62%, 82% 95%, 52% 72%, 30% 100%, 32% 68%, 0 70%, 26% 48%, 6% 20%, 36% 30%); }
+.cm-confetti { width: 12px; height: 20px; border-radius: 2px; }
+.cm-scan { width: 10px; background: #fff; box-shadow: 0 0 20px var(--c), 0 0 50px var(--c), 0 0 90px var(--c); border-radius: 5px; }
+.cm-light, .cm-fire, .cm-water { width: 440px; height: 1000px; mix-blend-mode: screen; border-radius: 220px 220px 0 0; }
+.cm-light { background: linear-gradient(to top, #fff 0%, color-mix(in srgb, var(--c) 70%, #fff) 30%, transparent 95%); }
+.cm-fire { background: radial-gradient(ellipse at 50% 100%, #ffe066 0%, #ff7a1c 25%, var(--c) 45%, transparent 70%); }
+.cm-water { height: 520px; background: linear-gradient(to top, #e8f8ff 0%, var(--c) 40%, transparent 90%); }
 
 /* ================= new-card reveal ================= */
 .rv { position: absolute; inset: 0; z-index: 110; cursor: pointer; perspective: 1400px; }
@@ -555,7 +580,7 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .unit.duo .status .zzz { right: 20px; }
 .plate .pname.bond { color: #ffd0e8; border-color: #ff5fa2; box-shadow: 0 0 10px #ff5fa288; }
 .card.r-bond { --rc: #ff5fa2; box-shadow: 0 0 16px #ff5fa288, 0 8px 18px rgba(0,0,0,.6); }
-.card-art.duo img { width: 62%; }
+.card-art.duo img { width: 62%; height: auto; } /* height: .sprite's 100% would squash them sideways */
 .card-art.duo img:first-child { left: -4%; }
 .card-art.duo img:last-child { left: auto; right: -4%; }
 .card-bond { position: absolute; top: 4px; right: 6px; font-size: 13px; color: #ff8fc6; text-shadow: 0 0 6px #ff5fa2, 0 1px 2px #000; }
