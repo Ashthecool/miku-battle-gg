@@ -1,8 +1,8 @@
-// Offline support. Code (html/js/css) is fetched network-first so updates arrive whenever
+// Offline support. Code (html/js/css) is fetched network-first (skipping the browser's HTTP cache) so updates arrive whenever
 // you're online; images come from the Supabase bucket (MB.ASSET_BASE) and are cache-first.
 // Music streams from the miku.gg CDN and needs a connection.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v2';
+const SHELL = 'mb-shell-v3';
 const ASSETS = 'mb-assets-v3';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
@@ -74,7 +74,7 @@ async function cacheFirst(url) {
 async function networkFirst(req) {
   const cache = await caches.open(SHELL);
   try {
-    const res = await fetch(req);
+    const res = await fetch(req, { cache: 'no-cache' }); // revalidate: Pages lets browsers keep files for 10 minutes
     if (res.ok) cache.put(req, res.clone());
     return res;
   } catch (err) {
