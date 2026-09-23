@@ -19,6 +19,7 @@
   }
 
   function spellPlan(b, side, card) {
+    if (typeof card.effect === 'object') return MB.Effects.plan(b, side, card);
     switch (card.effect) {
       case 'bagSwing': {
         const t = b.units(1 - side).filter((u) => u.hp <= 2 || u.shield).sort((a, c) => value(c) - value(a))[0];
@@ -69,6 +70,7 @@
   function powerPlan(b, side) {
     const pw = b.me(side).power;
     if (!b.canPower(side)) return null;
+    if (typeof pw.effect === 'object') return MB.Effects.plan(b, side, pw);
     const kind = {
       hug: 'buff', cheerUp: 'buff', pump: 'buff', giveShield: 'buff', overtime: 'buff',
       ping: 'damage', heal3: 'heal', gloom: 'debuff', bribe: 'kill', freezeOne: 'debuff',

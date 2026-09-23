@@ -1,10 +1,10 @@
 # Miku Battle — miku.gg All-Stars
 
-A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth* and *The yuri assist*.
+A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!* and *New Haven*.
 
 **Play:** https://ashthecool.github.io/miku-battle-gg/
 
-It installs as an app (Chrome/Edge: the install icon in the address bar; phones: "Add to Home Screen") and works offline after the first load, except music, which streams from the miku.gg CDN.
+It installs as an app (Chrome/Edge: the install icon in the address bar; phones: "Add to Home Screen") and works offline after the first load, except music, which streams from the miku.gg CDN, and costumes, which are kept for offline use once they've been shown.
 
 ## Running locally
 
@@ -24,6 +24,11 @@ npx serve game
 | `game/js/config.js` | Where the images live (the Supabase bucket). |
 | `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |
 | `tools/fetch_assets.py` | Downloads the images for the novels in `novels/` (kept local, not in the repo), uploads them to the bucket and writes the manifest. `--local` writes them to `game/assets/` instead, for trying out a new novel before uploading. |
+| `tools/outfit_sheets.py` | Contact sheets of a novel's outfits, to check them by eye before uploading. |
+| `tools/novel_brief.py` | Condenses the novels into a design brief (characters, items, backgrounds, music). |
+| `tools/check_game.js` | Validates the cards, bonds and story against the manifest and plays AI-vs-AI battles (`node tools/check_game.js`). |
+| `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
+| `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
 
 ## Images (Supabase)

@@ -36,12 +36,19 @@
     }));
   };
 
-  // every sprite in the size the board uses (all outfits, so wardrobe changes and fusions don't pop in),
-  // item icons, pack art and the profile picture; each battle adds its background and close-ups (ui.js)
+  // every character's sprites in the size the board uses, in the outfit they wear (the usual one, or the
+  // wardrobe's pick) and in their relationship costumes so fusions don't pop in; item icons, pack art and the
+  // profile picture. Other costumes load when first shown; each battle adds its background and close-ups (ui.js)
   function preload() {
     const urls = [];
     const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
-    MB.manifest.characters.forEach((c) => { sprites(c.sprites); c.costumes.forEach((o) => sprites(o.sprites)); });
+    const costume = (c, id) => id && c && c.costumes.find((o) => o.id === id);
+    MB.manifest.characters.forEach((c) => {
+      sprites(c.sprites);
+      const worn = costume(c, MB.UI.save.costumes[c.id]);
+      if (worn) sprites(worn.sprites);
+    });
+    MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => { const o = costume(MB.charById(id), bd.costumes[i]); if (o) sprites(o.sprites); }));
     MB.manifest.items.forEach((i) => urls.push(MB.asset(i.icon)));
     Object.keys(MB.PACKS).forEach((t) => urls.push(MB.packArt(t)));
     urls.push(MB.avatarUrl(MB.UI.save.avatar));

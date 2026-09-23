@@ -146,7 +146,7 @@
     let first = true;
     const shots = [];
     for (let i = 0; i < 7; i++) {
-      const s = V.billboard('star-shot', '✦', A.x, A.y);
+      const s = V.billboard('star-shot', a.card.attack.emoji || '✦', A.x, A.y);
       s.body.style.setProperty('--c', c);
       const side = rnd(-150, 150), peak = rnd(90, 220), TT = { x: T.x + rnd(-25, 25), y: T.y + rnd(-10, 10) };
       shots.push(wait(i * 0.07).then(() => new Promise((res) => {
@@ -215,14 +215,15 @@
 
   S.orb = async (V, a, t, impact) => {
     const { v, A, T, perp, hA, hT, c } = ctx(V, a, t);
-    const o = V.billboard('petal-orb', '<span>🌸</span><span>🌸</span><span>🌸</span>', A.x, A.y);
+    const em = a.card.attack.emoji || '🌸';
+    const o = V.billboard('petal-orb', `<span>${em}</span><span>${em}</span><span>${em}</span>`, A.x, A.y);
     o.body.style.setProperty('--c', c);
     gsap.to(o.body.querySelectorAll('span'), { rotation: 360, duration: 0.6, repeat: -1, ease: 'none' });
     await gsap.to(v.figure, { y: -25, duration: 0.2 });
     MB.audio.sfx('sparkle');
     await path(o, (k) => ({ ...arc(A, T, hA, hT, 160, 60, perp)(k), s: 0.7 + k * 0.5 }), 0.75, 'sine.inOut', (p) => {
       if (Math.random() < 0.35) {
-        const pe = V.billboard('petal', '🌸', p.x, p.y);
+        const pe = V.billboard('petal', em, p.x, p.y);
         gsap.set(pe.body, { y: -p.h, scale: rnd(0.4, 0.8) });
         gsap.to(pe.body, { y: -p.h + rnd(40, 90), rotation: rnd(-200, 200), opacity: 0, duration: 1, onComplete: () => pe.remove() });
       }
@@ -230,7 +231,7 @@
     o.remove();
     impact(); hit(V, t, c);
     for (let i = 0; i < 10; i++) {
-      const pe = V.billboard('petal', '🌸', T.x, T.y);
+      const pe = V.billboard('petal', em, T.x, T.y);
       gsap.set(pe.body, { y: -hT });
       gsap.to(pe, { x: T.x + rnd(-120, 120), y: T.y + rnd(-60, 60), duration: 0.9 });
       gsap.to(pe.body, { y: -hT - rnd(-40, 120), rotation: rnd(-300, 300), opacity: 0, duration: 0.9, onComplete: () => pe.remove() });
@@ -302,7 +303,7 @@
 
   S.boomerang = async (V, a, t, impact) => {
     const { v, A, T, perp, hA, hT, c } = ctx(V, a, t);
-    const pan = V.billboard('thrown', '🍳', A.x, A.y);
+    const pan = V.billboard('thrown', a.card.attack.emoji || '🍳', A.x, A.y);
     await gsap.to(v.figure, { rotation: -8, duration: 0.2 });
     MB.audio.sfx('whoosh');
     gsap.to(v.figure, { rotation: 6, duration: 0.15 });
@@ -338,7 +339,7 @@
 
   S.frost = async (V, a, t, impact) => {
     const { v, A, T, hA, hT, c } = ctx(V, a, t);
-    const cone = V.billboard('thrown', '🍦', A.x, A.y);
+    const cone = V.billboard('thrown', a.card.attack.emoji || '🍦', A.x, A.y);
     await gsap.to(v.figure, { rotation: -10, duration: 0.18 });
     gsap.to(v.figure, { rotation: 0, duration: 0.2 });
     MB.audio.sfx('whoosh');
@@ -398,6 +399,44 @@
     await gsap.to(v.figure, { scaleX: 0.05, opacity: 0, duration: 0.1 });
     gsap.set(v.el, A);
     await gsap.to(v.figure, { scaleX: 1, opacity: 1, duration: 0.15 });
+  };
+
+  // generic: a shower of attack.emoji comes down on the target
+  S.shower = async (V, a, t, impact) => {
+    const { v, T, hT, c } = ctx(V, a, t), em = a.card.attack.emoji || '⭐';
+    V.emote(a, 'taunt', 0);
+    await gsap.to(v.figure, { y: -30, duration: 0.25 });
+    let first = true;
+    const drops = [];
+    for (let i = 0; i < 16; i++) {
+      const P = { x: T.x + rnd(-80, 80), y: T.y + rnd(-30, 30) };
+      const d = V.billboard('thrown', em, P.x, P.y);
+      gsap.set(d.body, { y: -700 - rnd(0, 200), rotation: rnd(-60, 60) });
+      drops.push(wait(i * 0.045).then(() => gsap.to(d.body, { y: -hT * rnd(0.2, 1.1), rotation: `+=${rnd(-200, 200)}`, duration: 0.45, ease: 'power2.in' }).then(() => {
+        if (first) { first = false; impact(); hit(V, t, c, true); }
+        if (i % 4 === 0) MB.audio.sfx('hit');
+        burst(V, P, c, 3, { h: hT * 0.5, spread: 50 });
+        gsap.to(d.body, { opacity: 0, scale: 1.6, duration: 0.25, onComplete: () => d.remove() });
+      })));
+    }
+    await Promise.all(drops);
+    ring(V, T, c, 2.2);
+    await gsap.to(v.figure, { y: 0, duration: 0.3 });
+  };
+
+  // generic: winds up and shouts; the words (attack.shout, or the attack name) fly over and burst on the target
+  S.shout = async (V, a, t, impact) => {
+    const { v, A, T, d, hA, hT, c } = ctx(V, a, t), words = (a.card.attack.shout || a.card.attack.name || 'HA!').toUpperCase();
+    await gsap.timeline().to(v.figure, { x: -d.x * 20, rotation: -d.x * 8, duration: 0.25 }).to(v.img, { scaleY: 1.08, duration: 0.25 }, 0);
+    gsap.to(v.figure, { x: d.x * 16, rotation: d.x * 6, duration: 0.12 });
+    MB.audio.sfx('whoosh');
+    const w = V.billboard('float-text ability', words, A.x, A.y);
+    w.body.style.color = c;
+    await path(w, (k) => ({ ...arc(A, T, hA + 30, hT, 60)(k), s: 0.8 + k * 0.8 }), 0.5, 'power2.in');
+    impact(); hit(V, t, c, true); V.shake(12);
+    ring(V, T, c, 2, 0.5); ring(V, T, '#ffffff', 1.4, 0.4);
+    gsap.to(w.body, { scale: 2.6, opacity: 0, duration: 0.35, onComplete: () => w.remove() });
+    await gsap.timeline().to(v.figure, { x: 0, rotation: 0, duration: 0.3 }).to(v.img, { scaleY: 1, duration: 0.3 }, 0);
   };
 
   // ---------------------------------------------------------------- Infernal Harmony styles

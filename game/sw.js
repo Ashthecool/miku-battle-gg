@@ -6,7 +6,7 @@ const SHELL = 'mb-shell-v3';
 const ASSETS = 'mb-assets-v3';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
-  'js/data.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/cards.js', 'js/main.js',
+  'js/data.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/cards.js', 'js/main.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 
@@ -14,13 +14,14 @@ const SHELL_FILES = [
 self.window = self;
 importScripts('js/config.js', 'assets/manifest.js', 'js/avatars.js');
 
-// every image the game shows: sprites (in the size this screen uses; the other size is cached when first
-// shown), costumes, backgrounds, items, portraits, profile pictures, pack art
+// the images to keep offline: every character's usual outfit (in the size this screen uses; the other size is
+// cached when first shown), backgrounds, items, portraits, profile pictures, pack art. Costumes (a few thousand
+// sprites) are cached the first time they are shown.
 function assetUrls(small) {
   const out = new Set();
   (function walk(v) {
     if (typeof v === 'string') { if (/\.(webp|png|jpe?g|gif)$/i.test(v) && !/^https?:/.test(v)) out.add(v.startsWith('sprites/') ? MB.spriteSrc(v, !small) : MB.asset(v)); }
-    else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+    else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => { if (k !== 'costumes') walk(x); });
   })(self.MIKU_MANIFEST);
   MB.AVATARS.forEach((a) => out.add(MB.avatarUrl(a.id)));
   ['common', 'rare', 'epic'].forEach((t) => out.add(MB.packArt(t)));

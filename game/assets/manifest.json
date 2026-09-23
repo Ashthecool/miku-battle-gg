@@ -2,8 +2,12 @@
  "title": "Miku Battle",
  "novels": [
   "Adoptive Life RPG",
+  "Atarashī gakkō; Secret Garden!",
   "Between the Peaks",
+  "Bloodline",
+  "Fake It to Make It!",
   "Infernal Harmony",
+  "New Haven",
   "The Lifeguard has Teeth",
   "The yuri assist"
  ],
@@ -141,7 +145,15 @@
    "name": "Hayley Kate",
    "outfit": "School Outfit",
    "short": "Hayley is a 18 year old high-school student, she's bubbly, excited, active, cuddly, ginger.",
-   "traits": [],
+   "traits": [
+    "Bubbly",
+    "curious",
+    "silly",
+    "impulsive",
+    "affectionate",
+    "extroverted",
+    "lively"
+   ],
    "sprites": {
     "idle": "sprites/hayley-kate/neutral.webp",
     "play": "sprites/hayley-kate/happy.webp",
@@ -803,8 +815,7 @@
     "player",
     "nice",
     "loving",
-    "bullying",
-    ""
+    "bullying"
    ],
    "sprites": {
     "idle": "sprites/ben-brier/neutral.webp",
@@ -965,6 +976,281 @@
    "costumes": [],
    "portrait": "portraits/keiko-ghan.webp",
    "novel": "Adoptive Life RPG"
+  },
+  {
+   "id": "yumi",
+   "name": "Yumi",
+   "outfit": "default",
+   "short": "We Swear Yumi has no mental problems..",
+   "traits": [
+    "cheerful",
+    "Dreamy",
+    "air-headed",
+    "is paying attention",
+    "strange",
+    "unserious"
+   ],
+   "sprites": {
+    "idle": "sprites/yumi/neutral.webp",
+    "play": "sprites/yumi/happy.webp",
+    "attack": "sprites/yumi/angry.webp",
+    "special": "sprites/yumi/angry.webp",
+    "hurt": "sprites/yumi/scared.webp",
+    "lose": "sprites/yumi/sad.webp",
+    "win": "sprites/yumi/happy.webp",
+    "taunt": "sprites/yumi/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/yumi.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "eri",
+   "name": "Eri",
+   "outfit": "default",
+   "short": "Classical Tsundere.",
+   "traits": [
+    "Energetic",
+    "Tsundere",
+    "playful"
+   ],
+   "sprites": {
+    "idle": "sprites/eri/neutral.webp",
+    "play": "sprites/eri/happy.webp",
+    "attack": "sprites/eri/angry.webp",
+    "special": "sprites/eri/angry.webp",
+    "hurt": "sprites/eri/scared.webp",
+    "lose": "sprites/eri/sad.webp",
+    "win": "sprites/eri/happy.webp",
+    "taunt": "sprites/eri/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/eri.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "arisa",
+   "name": "Arisa",
+   "outfit": "default",
+   "short": "Scheming Student council president",
+   "traits": [
+    "master manipulator",
+    "cruel",
+    "innocent",
+    "girly",
+    "approachable",
+    "spoiled",
+    "trickster"
+   ],
+   "sprites": {
+    "idle": "sprites/arisa/neutral.webp",
+    "play": "sprites/arisa/happy.webp",
+    "attack": "sprites/arisa/angry.webp",
+    "special": "sprites/arisa/angry.webp",
+    "hurt": "sprites/arisa/scared.webp",
+    "lose": "sprites/arisa/sad.webp",
+    "win": "sprites/arisa/happy.webp",
+    "taunt": "sprites/arisa/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/arisa.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "misaki",
+   "name": "Misaki",
+   "outfit": "default",
+   "short": "Your Cousin, who is a also a...teacher?",
+   "traits": [
+    "Shrewd",
+    "straight-man",
+    "loves money",
+    "loves slacking off"
+   ],
+   "sprites": {
+    "idle": "sprites/misaki/neutral.webp",
+    "play": "sprites/misaki/happy.webp",
+    "attack": "sprites/misaki/angry.webp",
+    "special": "sprites/misaki/angry.webp",
+    "hurt": "sprites/misaki/scared.webp",
+    "lose": "sprites/misaki/sad.webp",
+    "win": "sprites/misaki/happy.webp",
+    "taunt": "sprites/misaki/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/misaki.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "helga",
+   "name": "Helga",
+   "outfit": "default",
+   "short": "Emotionally dead headmaster",
+   "traits": [
+    "blank",
+    "workaholic",
+    "does not care",
+    "indifferent"
+   ],
+   "sprites": {
+    "idle": "sprites/helga/neutral.webp",
+    "play": "sprites/helga/happy.webp",
+    "attack": "sprites/helga/angry.webp",
+    "special": "sprites/helga/angry.webp",
+    "hurt": "sprites/helga/scared.webp",
+    "lose": "sprites/helga/sad.webp",
+    "win": "sprites/helga/happy.webp",
+    "taunt": "sprites/helga/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/helga.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "suzu",
+   "name": "Suzu",
+   "outfit": "default",
+   "short": "the ultimate lack of common sense in a girly form",
+   "traits": [
+    "curious",
+    "studious",
+    "completely innocent",
+    "high IQ",
+    "believes in astrology"
+   ],
+   "sprites": {
+    "idle": "sprites/suzu/neutral.webp",
+    "play": "sprites/suzu/happy.webp",
+    "attack": "sprites/suzu/angry.webp",
+    "special": "sprites/suzu/angry.webp",
+    "hurt": "sprites/suzu/scared.webp",
+    "lose": "sprites/suzu/sad.webp",
+    "win": "sprites/suzu/happy.webp",
+    "taunt": "sprites/suzu/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/suzu.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "shiina",
+   "name": "Shiina",
+   "outfit": "default",
+   "short": "The Two faced math teacher at Shirayuki",
+   "traits": [
+    "Studious",
+    "easily flustered"
+   ],
+   "sprites": {
+    "idle": "sprites/shiina/neutral.webp",
+    "play": "sprites/shiina/happy.webp",
+    "attack": "sprites/shiina/angry.webp",
+    "special": "sprites/shiina/angry.webp",
+    "hurt": "sprites/shiina/scared.webp",
+    "lose": "sprites/shiina/sad.webp",
+    "win": "sprites/shiina/happy.webp",
+    "taunt": "sprites/shiina/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/shiina.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "ai",
+   "name": "Ai",
+   "outfit": "default",
+   "short": "The world's biggest fan-girl",
+   "traits": [
+    "giggly",
+    "creepy",
+    "smiling",
+    "obsessive",
+    "possessive",
+    "yandere"
+   ],
+   "sprites": {
+    "idle": "sprites/ai/neutral.webp",
+    "play": "sprites/ai/happy.webp",
+    "attack": "sprites/ai/angry.webp",
+    "special": "sprites/ai/rage.webp",
+    "hurt": "sprites/ai/scared.webp",
+    "lose": "sprites/ai/sad.webp",
+    "win": "sprites/ai/excited.webp",
+    "taunt": "sprites/ai/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ai.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "evil-villainess-chan",
+   "name": "Evil Villainess chan",
+   "outfit": "default",
+   "short": "The world's most devious highschool girl. (It's just AI but for the joke routes)",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/evil-villainess-chan/neutral.webp",
+    "play": "sprites/evil-villainess-chan/happy.webp",
+    "attack": "sprites/evil-villainess-chan/angry.webp",
+    "special": "sprites/evil-villainess-chan/rage.webp",
+    "hurt": "sprites/evil-villainess-chan/scared.webp",
+    "lose": "sprites/evil-villainess-chan/sad.webp",
+    "win": "sprites/evil-villainess-chan/excited.webp",
+    "taunt": "sprites/evil-villainess-chan/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/evil-villainess-chan.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "mariko",
+   "name": "Mariko",
+   "outfit": "default",
+   "short": "Eccentric nurse and scientist.",
+   "traits": [
+    "playful",
+    "air-headed",
+    "smart",
+    "has a PHD",
+    "likes trolling"
+   ],
+   "sprites": {
+    "idle": "sprites/mariko/neutral.webp",
+    "play": "sprites/mariko/happy.webp",
+    "attack": "sprites/mariko/angry.webp",
+    "special": "sprites/mariko/rage.webp",
+    "hurt": "sprites/mariko/scared.webp",
+    "lose": "sprites/mariko/sad.webp",
+    "win": "sprites/mariko/excited.webp",
+    "taunt": "sprites/mariko/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/mariko.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
+  },
+  {
+   "id": "keiko",
+   "name": "Keiko",
+   "outfit": "default",
+   "short": "",
+   "traits": [
+    "Chūnibyō",
+    "whimsical",
+    "joyful"
+   ],
+   "sprites": {
+    "idle": "sprites/keiko/neutral.webp",
+    "play": "sprites/keiko/happy.webp",
+    "attack": "sprites/keiko/angry.webp",
+    "special": "sprites/keiko/rage.webp",
+    "hurt": "sprites/keiko/scared.webp",
+    "lose": "sprites/keiko/sad.webp",
+    "win": "sprites/keiko/excited.webp",
+    "taunt": "sprites/keiko/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/keiko.webp",
+   "novel": "Atarashī gakkō; Secret Garden!"
   },
   {
    "id": "lisa-reed",
@@ -1185,6 +1471,742 @@
    "costumes": [],
    "portrait": "portraits/dan-birk.webp",
    "novel": "Between the Peaks"
+  },
+  {
+   "id": "rimu-hiraga",
+   "name": "Rimu Hiraga",
+   "outfit": "Rimu red kimono",
+   "short": "Rimu is the childhood best friend",
+   "traits": [
+    "Assertive & Loud"
+   ],
+   "sprites": {
+    "idle": "sprites/rimu-hiraga/neutral.webp",
+    "play": "sprites/rimu-hiraga/happy.webp",
+    "attack": "sprites/rimu-hiraga/angry.webp",
+    "special": "sprites/rimu-hiraga/rage.webp",
+    "hurt": "sprites/rimu-hiraga/scared.webp",
+    "lose": "sprites/rimu-hiraga/sad.webp",
+    "win": "sprites/rimu-hiraga/excited.webp",
+    "taunt": "sprites/rimu-hiraga/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "rimu-pink-outfit",
+     "name": "Rimu pink outfit",
+     "sprites": {
+      "idle": "sprites/rimu-hiraga/rimu-pink-outfit/neutral.webp",
+      "play": "sprites/rimu-hiraga/rimu-pink-outfit/happy.webp",
+      "attack": "sprites/rimu-hiraga/rimu-pink-outfit/angry.webp",
+      "special": "sprites/rimu-hiraga/rimu-pink-outfit/rage.webp",
+      "hurt": "sprites/rimu-hiraga/rimu-pink-outfit/scared.webp",
+      "lose": "sprites/rimu-hiraga/rimu-pink-outfit/sad.webp",
+      "win": "sprites/rimu-hiraga/rimu-pink-outfit/excited.webp",
+      "taunt": "sprites/rimu-hiraga/rimu-pink-outfit/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/rimu-hiraga.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "sakura-tooyama",
+   "name": "Sakura Tooyama",
+   "outfit": "sakura main",
+   "short": "*Rika from the popular visual novel aokana*",
+   "traits": [
+    "especially"
+   ],
+   "sprites": {
+    "idle": "sprites/sakura-tooyama/neutral.webp",
+    "play": "sprites/sakura-tooyama/happy.webp",
+    "attack": "sprites/sakura-tooyama/angry.webp",
+    "special": "sprites/sakura-tooyama/rage.webp",
+    "hurt": "sprites/sakura-tooyama/scared.webp",
+    "lose": "sprites/sakura-tooyama/sad.webp",
+    "win": "sprites/sakura-tooyama/excited.webp",
+    "taunt": "sprites/sakura-tooyama/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "sakura-white-yukata",
+     "name": "sakura white yukata",
+     "sprites": {
+      "idle": "sprites/sakura-tooyama/sakura-white-yukata/neutral.webp",
+      "play": "sprites/sakura-tooyama/sakura-white-yukata/happy.webp",
+      "attack": "sprites/sakura-tooyama/sakura-white-yukata/angry.webp",
+      "special": "sprites/sakura-tooyama/sakura-white-yukata/rage.webp",
+      "hurt": "sprites/sakura-tooyama/sakura-white-yukata/scared.webp",
+      "lose": "sprites/sakura-tooyama/sakura-white-yukata/sad.webp",
+      "win": "sprites/sakura-tooyama/sakura-white-yukata/excited.webp",
+      "taunt": "sprites/sakura-tooyama/sakura-white-yukata/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/sakura-tooyama.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "aoi-kananori",
+   "name": "Aoi Kananori",
+   "outfit": "Aoi",
+   "short": "*Aoi from the popular visual novel*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/aoi-kananori/neutral.webp",
+    "play": "sprites/aoi-kananori/happy.webp",
+    "attack": "sprites/aoi-kananori/angry.webp",
+    "special": "sprites/aoi-kananori/rage.webp",
+    "hurt": "sprites/aoi-kananori/scared.webp",
+    "lose": "sprites/aoi-kananori/sad.webp",
+    "win": "sprites/aoi-kananori/excited.webp",
+    "taunt": "sprites/aoi-kananori/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "aoi-violate",
+     "name": "aoi violate",
+     "sprites": {
+      "idle": "sprites/aoi-kananori/aoi-violate/neutral.webp",
+      "play": "sprites/aoi-kananori/aoi-violate/happy.webp",
+      "attack": "sprites/aoi-kananori/aoi-violate/angry.webp",
+      "special": "sprites/aoi-kananori/aoi-violate/rage.webp",
+      "hurt": "sprites/aoi-kananori/aoi-violate/scared.webp",
+      "lose": "sprites/aoi-kananori/aoi-violate/sad.webp",
+      "win": "sprites/aoi-kananori/aoi-violate/excited.webp",
+      "taunt": "sprites/aoi-kananori/aoi-violate/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/aoi-kananori.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "ayaka-yamanami",
+   "name": "Ayaka Yamanami",
+   "outfit": "ayaka",
+   "short": "Ayaka",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ayaka-yamanami/neutral.webp",
+    "play": "sprites/ayaka-yamanami/happy.webp",
+    "attack": "sprites/ayaka-yamanami/angry.webp",
+    "special": "sprites/ayaka-yamanami/rage.webp",
+    "hurt": "sprites/ayaka-yamanami/scared.webp",
+    "lose": "sprites/ayaka-yamanami/sad.webp",
+    "win": "sprites/ayaka-yamanami/excited.webp",
+    "taunt": "sprites/ayaka-yamanami/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ayaka-yamanami.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "shino-okita",
+   "name": "Shino Okita",
+   "outfit": "shino",
+   "short": "cold calm closed off girl",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/shino-okita/neutral.webp",
+    "play": "sprites/shino-okita/happy.webp",
+    "attack": "sprites/shino-okita/angry.webp",
+    "special": "sprites/shino-okita/rage.webp",
+    "hurt": "sprites/shino-okita/scared.webp",
+    "lose": "sprites/shino-okita/sad.webp",
+    "win": "sprites/shino-okita/excited.webp",
+    "taunt": "sprites/shino-okita/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "black-yukata",
+     "name": "black yukata",
+     "sprites": {
+      "idle": "sprites/shino-okita/black-yukata/neutral.webp",
+      "play": "sprites/shino-okita/black-yukata/happy.webp",
+      "attack": "sprites/shino-okita/black-yukata/angry.webp",
+      "special": "sprites/shino-okita/black-yukata/rage.webp",
+      "hurt": "sprites/shino-okita/black-yukata/scared.webp",
+      "lose": "sprites/shino-okita/black-yukata/sad.webp",
+      "win": "sprites/shino-okita/black-yukata/excited.webp",
+      "taunt": "sprites/shino-okita/black-yukata/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/shino-okita.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "saito-iroha",
+   "name": "Saito Iroha",
+   "outfit": "Saito Iroha",
+   "short": "the air head",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/saito-iroha/neutral.webp",
+    "play": "sprites/saito-iroha/happy.webp",
+    "attack": "sprites/saito-iroha/angry.webp",
+    "special": "sprites/saito-iroha/rage.webp",
+    "hurt": "sprites/saito-iroha/scared.webp",
+    "lose": "sprites/saito-iroha/sad.webp",
+    "win": "sprites/saito-iroha/excited.webp",
+    "taunt": "sprites/saito-iroha/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/saito-iroha.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "mai-yamanobe",
+   "name": "Mai Yamanobe",
+   "outfit": "Mai",
+   "short": "the shop keeper",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/mai-yamanobe/neutral.webp",
+    "play": "sprites/mai-yamanobe/happy.webp",
+    "attack": "sprites/mai-yamanobe/angry.webp",
+    "special": "sprites/mai-yamanobe/rage.webp",
+    "hurt": "sprites/mai-yamanobe/scared.webp",
+    "lose": "sprites/mai-yamanobe/sad.webp",
+    "win": "sprites/mai-yamanobe/excited.webp",
+    "taunt": "sprites/mai-yamanobe/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/mai-yamanobe.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "haruka-hijikata",
+   "name": "Haruka Hijikata",
+   "outfit": "default",
+   "short": "the guy",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/haruka-hijikata/neutral.webp",
+    "play": "sprites/haruka-hijikata/happy.webp",
+    "attack": "sprites/haruka-hijikata/angry.webp",
+    "special": "sprites/haruka-hijikata/rage.webp",
+    "hurt": "sprites/haruka-hijikata/scared.webp",
+    "lose": "sprites/haruka-hijikata/sad.webp",
+    "win": "sprites/haruka-hijikata/excited.webp",
+    "taunt": "sprites/haruka-hijikata/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/haruka-hijikata.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "shogun-kagetora",
+   "name": "Shogun Kagetora",
+   "outfit": "shogun",
+   "short": "shogun",
+   "traits": [
+    "Protective",
+    "Strict",
+    "caring",
+    "responsible",
+    "wise",
+    "calm"
+   ],
+   "sprites": {
+    "idle": "sprites/shogun-kagetora/neutral.webp",
+    "play": "sprites/shogun-kagetora/happy.webp",
+    "attack": "sprites/shogun-kagetora/angry.webp",
+    "special": "sprites/shogun-kagetora/angry.webp",
+    "hurt": "sprites/shogun-kagetora/scared.webp",
+    "lose": "sprites/shogun-kagetora/sad.webp",
+    "win": "sprites/shogun-kagetora/happy.webp",
+    "taunt": "sprites/shogun-kagetora/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/shogun-kagetora.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "bandit",
+   "name": "Bandit",
+   "outfit": "Bandit",
+   "short": "bandit ",
+   "traits": [
+    "Evil",
+    "Rude",
+    "foulmouthed"
+   ],
+   "sprites": {
+    "idle": "sprites/bandit/neutral.webp",
+    "play": "sprites/bandit/happy.webp",
+    "attack": "sprites/bandit/angry.webp",
+    "special": "sprites/bandit/angry.webp",
+    "hurt": "sprites/bandit/scared.webp",
+    "lose": "sprites/bandit/sad.webp",
+    "win": "sprites/bandit/happy.webp",
+    "taunt": "sprites/bandit/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/bandit.webp",
+   "novel": "Bloodline"
+  },
+  {
+   "id": "ellis-maidun",
+   "name": "Ellis Maidun",
+   "outfit": "Main outfit",
+   "short": "Ellis is a dude, easily mistaken for a girl, called the femboy, he's kind, innocent and shy.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ellis-maidun/neutral.webp",
+    "play": "sprites/ellis-maidun/happy.webp",
+    "attack": "sprites/ellis-maidun/angry.webp",
+    "special": "sprites/ellis-maidun/rage.webp",
+    "hurt": "sprites/ellis-maidun/scared.webp",
+    "lose": "sprites/ellis-maidun/sad.webp",
+    "win": "sprites/ellis-maidun/excited.webp",
+    "taunt": "sprites/ellis-maidun/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/ellis-maidun/cheerleader-uniform/neutral.webp",
+      "play": "sprites/ellis-maidun/cheerleader-uniform/happy.webp",
+      "attack": "sprites/ellis-maidun/cheerleader-uniform/angry.webp",
+      "special": "sprites/ellis-maidun/cheerleader-uniform/rage.webp",
+      "hurt": "sprites/ellis-maidun/cheerleader-uniform/scared.webp",
+      "lose": "sprites/ellis-maidun/cheerleader-uniform/sad.webp",
+      "win": "sprites/ellis-maidun/cheerleader-uniform/excited.webp",
+      "taunt": "sprites/ellis-maidun/cheerleader-uniform/proud.webp"
+     }
+    },
+    {
+     "id": "sleepwear",
+     "name": "Sleepwear",
+     "sprites": {
+      "idle": "sprites/ellis-maidun/sleepwear/neutral.webp",
+      "play": "sprites/ellis-maidun/sleepwear/happy.webp",
+      "attack": "sprites/ellis-maidun/sleepwear/angry.webp",
+      "special": "sprites/ellis-maidun/sleepwear/angry.webp",
+      "hurt": "sprites/ellis-maidun/sleepwear/scared.webp",
+      "lose": "sprites/ellis-maidun/sleepwear/sad.webp",
+      "win": "sprites/ellis-maidun/sleepwear/happy.webp",
+      "taunt": "sprites/ellis-maidun/sleepwear/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/ellis-maidun.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "megan-dilourice",
+   "name": "Megan Dilourice",
+   "outfit": "Casual wear",
+   "short": "Megan Dilourice is a formal young woman, who is a friendly, fair leader, who loves democracy.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/megan-dilourice/neutral.webp",
+    "play": "sprites/megan-dilourice/happy.webp",
+    "attack": "sprites/megan-dilourice/angry.webp",
+    "special": "sprites/megan-dilourice/rage.webp",
+    "hurt": "sprites/megan-dilourice/scared.webp",
+    "lose": "sprites/megan-dilourice/sad.webp",
+    "win": "sprites/megan-dilourice/excited.webp",
+    "taunt": "sprites/megan-dilourice/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/megan-dilourice/cheerleader-uniform/neutral.webp",
+      "play": "sprites/megan-dilourice/cheerleader-uniform/happy.webp",
+      "attack": "sprites/megan-dilourice/cheerleader-uniform/angry.webp",
+      "special": "sprites/megan-dilourice/cheerleader-uniform/rage.webp",
+      "hurt": "sprites/megan-dilourice/cheerleader-uniform/scared.webp",
+      "lose": "sprites/megan-dilourice/cheerleader-uniform/sad.webp",
+      "win": "sprites/megan-dilourice/cheerleader-uniform/excited.webp",
+      "taunt": "sprites/megan-dilourice/cheerleader-uniform/proud.webp"
+     }
+    },
+    {
+     "id": "white-nightgown",
+     "name": "White Nightgown",
+     "sprites": {
+      "idle": "sprites/megan-dilourice/white-nightgown/neutral.webp",
+      "play": "sprites/megan-dilourice/white-nightgown/happy.webp",
+      "attack": "sprites/megan-dilourice/white-nightgown/angry.webp",
+      "special": "sprites/megan-dilourice/white-nightgown/angry.webp",
+      "hurt": "sprites/megan-dilourice/white-nightgown/scared.webp",
+      "lose": "sprites/megan-dilourice/white-nightgown/sad.webp",
+      "win": "sprites/megan-dilourice/white-nightgown/happy.webp",
+      "taunt": "sprites/megan-dilourice/white-nightgown/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/megan-dilourice.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "owain-owegrain",
+   "name": "Owain Owegrain",
+   "outfit": "Casual outfit",
+   "short": "Owain Owegrain is the cheerleader group manager, he control who's in it and who's not.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/owain-owegrain/neutral.webp",
+    "play": "sprites/owain-owegrain/happy.webp",
+    "attack": "sprites/owain-owegrain/angry.webp",
+    "special": "sprites/owain-owegrain/rage.webp",
+    "hurt": "sprites/owain-owegrain/scared.webp",
+    "lose": "sprites/owain-owegrain/sad.webp",
+    "win": "sprites/owain-owegrain/excited.webp",
+    "taunt": "sprites/owain-owegrain/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/owain-owegrain.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "carys-crowner",
+   "name": "Carys Crowner",
+   "outfit": "School Uniform",
+   "short": "Carys Crowner, the social star of the cheerleader club, super happy, innocent and dense.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/carys-crowner/neutral.webp",
+    "play": "sprites/carys-crowner/happy.webp",
+    "attack": "sprites/carys-crowner/angry.webp",
+    "special": "sprites/carys-crowner/rage.webp",
+    "hurt": "sprites/carys-crowner/scared.webp",
+    "lose": "sprites/carys-crowner/sad.webp",
+    "win": "sprites/carys-crowner/excited.webp",
+    "taunt": "sprites/carys-crowner/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/carys-crowner/cheerleader-uniform/neutral.webp",
+      "play": "sprites/carys-crowner/cheerleader-uniform/happy.webp",
+      "attack": "sprites/carys-crowner/cheerleader-uniform/angry.webp",
+      "special": "sprites/carys-crowner/cheerleader-uniform/rage.webp",
+      "hurt": "sprites/carys-crowner/cheerleader-uniform/scared.webp",
+      "lose": "sprites/carys-crowner/cheerleader-uniform/sad.webp",
+      "win": "sprites/carys-crowner/cheerleader-uniform/excited.webp",
+      "taunt": "sprites/carys-crowner/cheerleader-uniform/proud.webp"
+     }
+    },
+    {
+     "id": "pajamas",
+     "name": "Pajamas",
+     "sprites": {
+      "idle": "sprites/carys-crowner/pajamas/neutral.webp",
+      "play": "sprites/carys-crowner/pajamas/happy.webp",
+      "attack": "sprites/carys-crowner/pajamas/angry.webp",
+      "special": "sprites/carys-crowner/pajamas/angry.webp",
+      "hurt": "sprites/carys-crowner/pajamas/scared.webp",
+      "lose": "sprites/carys-crowner/pajamas/sad.webp",
+      "win": "sprites/carys-crowner/pajamas/happy.webp",
+      "taunt": "sprites/carys-crowner/pajamas/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/carys-crowner.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "jack-lockster",
+   "name": "Jack Lockster",
+   "outfit": "Football outfit",
+   "short": "Jack Lockster is the leader/most popular American football club player in the Welsh university.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/jack-lockster/neutral.webp",
+    "play": "sprites/jack-lockster/happy.webp",
+    "attack": "sprites/jack-lockster/angry.webp",
+    "special": "sprites/jack-lockster/angry.webp",
+    "hurt": "sprites/jack-lockster/scared.webp",
+    "lose": "sprites/jack-lockster/sad.webp",
+    "win": "sprites/jack-lockster/happy.webp",
+    "taunt": "sprites/jack-lockster/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "sleepy-outfit",
+     "name": "Sleepy outfit",
+     "sprites": {
+      "idle": "sprites/jack-lockster/sleepy-outfit/neutral.webp",
+      "play": "sprites/jack-lockster/sleepy-outfit/happy.webp",
+      "attack": "sprites/jack-lockster/sleepy-outfit/angry.webp",
+      "special": "sprites/jack-lockster/sleepy-outfit/angry.webp",
+      "hurt": "sprites/jack-lockster/sleepy-outfit/scared.webp",
+      "lose": "sprites/jack-lockster/sleepy-outfit/sad.webp",
+      "win": "sprites/jack-lockster/sleepy-outfit/happy.webp",
+      "taunt": "sprites/jack-lockster/sleepy-outfit/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/jack-lockster.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "seren-lockster",
+   "name": "Seren Lockster",
+   "outfit": "Casual attire",
+   "short": "Seren Lockster is a cheerleader in the cheer group and a supportive one.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/seren-lockster/neutral.webp",
+    "play": "sprites/seren-lockster/happy.webp",
+    "attack": "sprites/seren-lockster/angry.webp",
+    "special": "sprites/seren-lockster/angry.webp",
+    "hurt": "sprites/seren-lockster/scared.webp",
+    "lose": "sprites/seren-lockster/sad.webp",
+    "win": "sprites/seren-lockster/happy.webp",
+    "taunt": "sprites/seren-lockster/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/seren-lockster/cheerleader-uniform/neutral.webp",
+      "play": "sprites/seren-lockster/cheerleader-uniform/happy.webp",
+      "attack": "sprites/seren-lockster/cheerleader-uniform/angry.webp",
+      "special": "sprites/seren-lockster/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/seren-lockster/cheerleader-uniform/scared.webp",
+      "lose": "sprites/seren-lockster/cheerleader-uniform/sad.webp",
+      "win": "sprites/seren-lockster/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/seren-lockster/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/seren-lockster.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "eira-randers",
+   "name": "Eira Randers",
+   "outfit": "Casual outfit",
+   "short": "Eira Randers is her own most popular kid, which she tries to act like it.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/eira-randers/neutral.webp",
+    "play": "sprites/eira-randers/happy.webp",
+    "attack": "sprites/eira-randers/angry.webp",
+    "special": "sprites/eira-randers/angry.webp",
+    "hurt": "sprites/eira-randers/scared.webp",
+    "lose": "sprites/eira-randers/sad.webp",
+    "win": "sprites/eira-randers/happy.webp",
+    "taunt": "sprites/eira-randers/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/eira-randers/cheerleader-uniform/neutral.webp",
+      "play": "sprites/eira-randers/cheerleader-uniform/happy.webp",
+      "attack": "sprites/eira-randers/cheerleader-uniform/angry.webp",
+      "special": "sprites/eira-randers/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/eira-randers/cheerleader-uniform/scared.webp",
+      "lose": "sprites/eira-randers/cheerleader-uniform/sad.webp",
+      "win": "sprites/eira-randers/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/eira-randers/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/eira-randers.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "rhiannon-davis",
+   "name": "Rhiannon Davis",
+   "outfit": "Casual Waitress Uniform",
+   "short": "Rhiannon Davis is a student focusing on becoming a teacher focused on religion",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rhiannon-davis/neutral.webp",
+    "play": "sprites/rhiannon-davis/happy.webp",
+    "attack": "sprites/rhiannon-davis/angry.webp",
+    "special": "sprites/rhiannon-davis/angry.webp",
+    "hurt": "sprites/rhiannon-davis/scared.webp",
+    "lose": "sprites/rhiannon-davis/sad.webp",
+    "win": "sprites/rhiannon-davis/happy.webp",
+    "taunt": "sprites/rhiannon-davis/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/rhiannon-davis/cheerleader-uniform/neutral.webp",
+      "play": "sprites/rhiannon-davis/cheerleader-uniform/happy.webp",
+      "attack": "sprites/rhiannon-davis/cheerleader-uniform/angry.webp",
+      "special": "sprites/rhiannon-davis/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/rhiannon-davis/cheerleader-uniform/scared.webp",
+      "lose": "sprites/rhiannon-davis/cheerleader-uniform/sad.webp",
+      "win": "sprites/rhiannon-davis/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/rhiannon-davis/cheerleader-uniform/happy.webp"
+     }
+    },
+    {
+     "id": "sleepwear",
+     "name": "Sleepwear",
+     "sprites": {
+      "idle": "sprites/rhiannon-davis/sleepwear/neutral.webp",
+      "play": "sprites/rhiannon-davis/sleepwear/happy.webp",
+      "attack": "sprites/rhiannon-davis/sleepwear/angry.webp",
+      "special": "sprites/rhiannon-davis/sleepwear/angry.webp",
+      "hurt": "sprites/rhiannon-davis/sleepwear/scared.webp",
+      "lose": "sprites/rhiannon-davis/sleepwear/sad.webp",
+      "win": "sprites/rhiannon-davis/sleepwear/happy.webp",
+      "taunt": "sprites/rhiannon-davis/sleepwear/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/rhiannon-davis.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "catrin-purl",
+   "name": "Catrin Purl",
+   "outfit": "Normal clothes",
+   "short": "Catrin Purl is a cheerleader and a victim of damages, yet remaining pure though purled wounds",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/catrin-purl/neutral.webp",
+    "play": "sprites/catrin-purl/happy.webp",
+    "attack": "sprites/catrin-purl/angry.webp",
+    "special": "sprites/catrin-purl/angry.webp",
+    "hurt": "sprites/catrin-purl/scared.webp",
+    "lose": "sprites/catrin-purl/sad.webp",
+    "win": "sprites/catrin-purl/happy.webp",
+    "taunt": "sprites/catrin-purl/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/catrin-purl/cheerleader-uniform/neutral.webp",
+      "play": "sprites/catrin-purl/cheerleader-uniform/happy.webp",
+      "attack": "sprites/catrin-purl/cheerleader-uniform/angry.webp",
+      "special": "sprites/catrin-purl/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/catrin-purl/cheerleader-uniform/scared.webp",
+      "lose": "sprites/catrin-purl/cheerleader-uniform/sad.webp",
+      "win": "sprites/catrin-purl/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/catrin-purl/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/catrin-purl.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "alice-orejin",
+   "name": "Alice Orejin",
+   "outfit": "Usual Outfit",
+   "short": "A girl known for her lovely and helpful comments, but addicted to sugar.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/alice-orejin/neutral.webp",
+    "play": "sprites/alice-orejin/happy.webp",
+    "attack": "sprites/alice-orejin/angry.webp",
+    "special": "sprites/alice-orejin/angry.webp",
+    "hurt": "sprites/alice-orejin/scared.webp",
+    "lose": "sprites/alice-orejin/sad.webp",
+    "win": "sprites/alice-orejin/happy.webp",
+    "taunt": "sprites/alice-orejin/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/alice-orejin/cheerleader-uniform/neutral.webp",
+      "play": "sprites/alice-orejin/cheerleader-uniform/happy.webp",
+      "attack": "sprites/alice-orejin/cheerleader-uniform/angry.webp",
+      "special": "sprites/alice-orejin/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/alice-orejin/cheerleader-uniform/scared.webp",
+      "lose": "sprites/alice-orejin/cheerleader-uniform/sad.webp",
+      "win": "sprites/alice-orejin/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/alice-orejin/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/alice-orejin.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "alys-porter",
+   "name": "Alys Porter",
+   "outfit": "Casual outfit",
+   "short": "Alys Porter is a cheerleader who's main focus is to be appreciated, as an adult.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/alys-porter/neutral.webp",
+    "play": "sprites/alys-porter/happy.webp",
+    "attack": "sprites/alys-porter/angry.webp",
+    "special": "sprites/alys-porter/angry.webp",
+    "hurt": "sprites/alys-porter/scared.webp",
+    "lose": "sprites/alys-porter/sad.webp",
+    "win": "sprites/alys-porter/happy.webp",
+    "taunt": "sprites/alys-porter/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/alys-porter/cheerleader-uniform/neutral.webp",
+      "play": "sprites/alys-porter/cheerleader-uniform/happy.webp",
+      "attack": "sprites/alys-porter/cheerleader-uniform/angry.webp",
+      "special": "sprites/alys-porter/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/alys-porter/cheerleader-uniform/scared.webp",
+      "lose": "sprites/alys-porter/cheerleader-uniform/sad.webp",
+      "win": "sprites/alys-porter/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/alys-porter/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/alys-porter.webp",
+   "novel": "Fake It to Make It!"
+  },
+  {
+   "id": "linda-garmund",
+   "name": "Linda Garmund",
+   "outfit": "Casual attire",
+   "short": "Linda Lakedon is the fact girl of the cheerleader group, knowing all weird facts",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/linda-garmund/neutral.webp",
+    "play": "sprites/linda-garmund/happy.webp",
+    "attack": "sprites/linda-garmund/angry.webp",
+    "special": "sprites/linda-garmund/angry.webp",
+    "hurt": "sprites/linda-garmund/scared.webp",
+    "lose": "sprites/linda-garmund/sad.webp",
+    "win": "sprites/linda-garmund/happy.webp",
+    "taunt": "sprites/linda-garmund/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheerleader-uniform",
+     "name": "Cheerleader Uniform",
+     "sprites": {
+      "idle": "sprites/linda-garmund/cheerleader-uniform/neutral.webp",
+      "play": "sprites/linda-garmund/cheerleader-uniform/happy.webp",
+      "attack": "sprites/linda-garmund/cheerleader-uniform/angry.webp",
+      "special": "sprites/linda-garmund/cheerleader-uniform/angry.webp",
+      "hurt": "sprites/linda-garmund/cheerleader-uniform/scared.webp",
+      "lose": "sprites/linda-garmund/cheerleader-uniform/sad.webp",
+      "win": "sprites/linda-garmund/cheerleader-uniform/happy.webp",
+      "taunt": "sprites/linda-garmund/cheerleader-uniform/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/linda-garmund.webp",
+   "novel": "Fake It to Make It!"
   },
   {
    "id": "lilith",
@@ -1491,6 +2513,836 @@
    "costumes": [],
    "portrait": "portraits/clara-click.webp",
    "novel": "Infernal Harmony"
+  },
+  {
+   "id": "diana",
+   "name": "Diana",
+   "outfit": "Diana 1",
+   "short": "Diana Bullen is a 25 year old anthropomorphic Whitetail Deer.",
+   "traits": [
+    "Mexican accent",
+    "wholesome",
+    "loyal",
+    "caring",
+    "kind-hearted",
+    "insecure",
+    "easily scared"
+   ],
+   "sprites": {
+    "idle": "sprites/diana/neutral.webp",
+    "play": "sprites/diana/happy.webp",
+    "attack": "sprites/diana/angry.webp",
+    "special": "sprites/diana/angry.webp",
+    "hurt": "sprites/diana/scared.webp",
+    "lose": "sprites/diana/sad.webp",
+    "win": "sprites/diana/happy.webp",
+    "taunt": "sprites/diana/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "diana-2",
+     "name": "Diana 2",
+     "sprites": {
+      "idle": "sprites/diana/diana-2/neutral.webp",
+      "play": "sprites/diana/diana-2/happy.webp",
+      "attack": "sprites/diana/diana-2/angry.webp",
+      "special": "sprites/diana/diana-2/angry.webp",
+      "hurt": "sprites/diana/diana-2/scared.webp",
+      "lose": "sprites/diana/diana-2/sad.webp",
+      "win": "sprites/diana/diana-2/happy.webp",
+      "taunt": "sprites/diana/diana-2/amused.webp"
+     }
+    },
+    {
+     "id": "diana-3",
+     "name": "Diana 3",
+     "sprites": {
+      "idle": "sprites/diana/diana-3/neutral.webp",
+      "play": "sprites/diana/diana-3/happy.webp",
+      "attack": "sprites/diana/diana-3/angry.webp",
+      "special": "sprites/diana/diana-3/angry.webp",
+      "hurt": "sprites/diana/diana-3/scared.webp",
+      "lose": "sprites/diana/diana-3/sad.webp",
+      "win": "sprites/diana/diana-3/happy.webp",
+      "taunt": "sprites/diana/diana-3/amused.webp"
+     }
+    },
+    {
+     "id": "diana-5",
+     "name": "Diana 5",
+     "sprites": {
+      "idle": "sprites/diana/diana-5/neutral.webp",
+      "play": "sprites/diana/diana-5/happy.webp",
+      "attack": "sprites/diana/diana-5/angry.webp",
+      "special": "sprites/diana/diana-5/angry.webp",
+      "hurt": "sprites/diana/diana-5/scared.webp",
+      "lose": "sprites/diana/diana-5/sad.webp",
+      "win": "sprites/diana/diana-5/happy.webp",
+      "taunt": "sprites/diana/diana-5/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/diana.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "marija",
+   "name": "Marija",
+   "outfit": "Marija 1",
+   "short": "Marija is Diana's mother and head of the New Haven Institute.",
+   "traits": [
+    "Mexican accent",
+    "motherly",
+    "firm",
+    "commanding",
+    "strong-willed",
+    "impulsive",
+    "insecure"
+   ],
+   "sprites": {
+    "idle": "sprites/marija/neutral.webp",
+    "play": "sprites/marija/happy.webp",
+    "attack": "sprites/marija/angry.webp",
+    "special": "sprites/marija/angry.webp",
+    "hurt": "sprites/marija/scared.webp",
+    "lose": "sprites/marija/sad.webp",
+    "win": "sprites/marija/happy.webp",
+    "taunt": "sprites/marija/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "marija-2",
+     "name": "Marija 2",
+     "sprites": {
+      "idle": "sprites/marija/marija-2/neutral.webp",
+      "play": "sprites/marija/marija-2/happy.webp",
+      "attack": "sprites/marija/marija-2/angry.webp",
+      "special": "sprites/marija/marija-2/angry.webp",
+      "hurt": "sprites/marija/marija-2/scared.webp",
+      "lose": "sprites/marija/marija-2/sad.webp",
+      "win": "sprites/marija/marija-2/happy.webp",
+      "taunt": "sprites/marija/marija-2/amused.webp"
+     }
+    },
+    {
+     "id": "marija-4",
+     "name": "Marija 4",
+     "sprites": {
+      "idle": "sprites/marija/marija-4/neutral.webp",
+      "play": "sprites/marija/marija-4/happy.webp",
+      "attack": "sprites/marija/marija-4/angry.webp",
+      "special": "sprites/marija/marija-4/angry.webp",
+      "hurt": "sprites/marija/marija-4/scared.webp",
+      "lose": "sprites/marija/marija-4/sad.webp",
+      "win": "sprites/marija/marija-4/happy.webp",
+      "taunt": "sprites/marija/marija-4/amused.webp"
+     }
+    },
+    {
+     "id": "marija-5",
+     "name": "Marija 5",
+     "sprites": {
+      "idle": "sprites/marija/marija-5/neutral.webp",
+      "play": "sprites/marija/marija-5/happy.webp",
+      "attack": "sprites/marija/marija-5/angry.webp",
+      "special": "sprites/marija/marija-5/angry.webp",
+      "hurt": "sprites/marija/marija-5/scared.webp",
+      "lose": "sprites/marija/marija-5/sad.webp",
+      "win": "sprites/marija/marija-5/happy.webp",
+      "taunt": "sprites/marija/marija-5/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/marija.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "quinta",
+   "name": "Quinta",
+   "outfit": "Quinta 1",
+   "short": "Quinta is Diana's best friend and fellow scientist.",
+   "traits": [
+    "New England accent",
+    "jealous",
+    "joking",
+    "strong-willed",
+    "impulsive"
+   ],
+   "sprites": {
+    "idle": "sprites/quinta/neutral.webp",
+    "play": "sprites/quinta/happy.webp",
+    "attack": "sprites/quinta/angry.webp",
+    "special": "sprites/quinta/angry.webp",
+    "hurt": "sprites/quinta/scared.webp",
+    "lose": "sprites/quinta/sad.webp",
+    "win": "sprites/quinta/happy.webp",
+    "taunt": "sprites/quinta/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "quinta-2",
+     "name": "Quinta 2",
+     "sprites": {
+      "idle": "sprites/quinta/quinta-2/neutral.webp",
+      "play": "sprites/quinta/quinta-2/happy.webp",
+      "attack": "sprites/quinta/quinta-2/angry.webp",
+      "special": "sprites/quinta/quinta-2/angry.webp",
+      "hurt": "sprites/quinta/quinta-2/scared.webp",
+      "lose": "sprites/quinta/quinta-2/sad.webp",
+      "win": "sprites/quinta/quinta-2/happy.webp",
+      "taunt": "sprites/quinta/quinta-2/amused.webp"
+     }
+    },
+    {
+     "id": "quinta-3",
+     "name": "Quinta 3",
+     "sprites": {
+      "idle": "sprites/quinta/quinta-3/neutral.webp",
+      "play": "sprites/quinta/quinta-3/happy.webp",
+      "attack": "sprites/quinta/quinta-3/angry.webp",
+      "special": "sprites/quinta/quinta-3/angry.webp",
+      "hurt": "sprites/quinta/quinta-3/scared.webp",
+      "lose": "sprites/quinta/quinta-3/sad.webp",
+      "win": "sprites/quinta/quinta-3/happy.webp",
+      "taunt": "sprites/quinta/quinta-3/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/quinta.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "clara",
+   "name": "Clara",
+   "outfit": "Clara 1",
+   "short": "Clara is a scientist at the New Haven Institute and Diana's other best friend.",
+   "traits": [
+    "Texan accent",
+    "mature",
+    "caring",
+    "brave",
+    "friendly",
+    "calm",
+    "playful"
+   ],
+   "sprites": {
+    "idle": "sprites/clara/neutral.webp",
+    "play": "sprites/clara/happy.webp",
+    "attack": "sprites/clara/angry.webp",
+    "special": "sprites/clara/angry.webp",
+    "hurt": "sprites/clara/scared.webp",
+    "lose": "sprites/clara/sad.webp",
+    "win": "sprites/clara/happy.webp",
+    "taunt": "sprites/clara/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "clara-2",
+     "name": "Clara 2",
+     "sprites": {
+      "idle": "sprites/clara/clara-2/neutral.webp",
+      "play": "sprites/clara/clara-2/happy.webp",
+      "attack": "sprites/clara/clara-2/angry.webp",
+      "special": "sprites/clara/clara-2/angry.webp",
+      "hurt": "sprites/clara/clara-2/scared.webp",
+      "lose": "sprites/clara/clara-2/sad.webp",
+      "win": "sprites/clara/clara-2/happy.webp",
+      "taunt": "sprites/clara/clara-2/happy.webp"
+     }
+    },
+    {
+     "id": "clara-3",
+     "name": "Clara 3",
+     "sprites": {
+      "idle": "sprites/clara/clara-3/neutral.webp",
+      "play": "sprites/clara/clara-3/happy.webp",
+      "attack": "sprites/clara/clara-3/angry.webp",
+      "special": "sprites/clara/clara-3/angry.webp",
+      "hurt": "sprites/clara/clara-3/scared.webp",
+      "lose": "sprites/clara/clara-3/sad.webp",
+      "win": "sprites/clara/clara-3/happy.webp",
+      "taunt": "sprites/clara/clara-3/happy.webp"
+     }
+    },
+    {
+     "id": "clara-5",
+     "name": "Clara 5",
+     "sprites": {
+      "idle": "sprites/clara/clara-5/neutral.webp",
+      "play": "sprites/clara/clara-5/happy.webp",
+      "attack": "sprites/clara/clara-5/angry.webp",
+      "special": "sprites/clara/clara-5/angry.webp",
+      "hurt": "sprites/clara/clara-5/scared.webp",
+      "lose": "sprites/clara/clara-5/sad.webp",
+      "win": "sprites/clara/clara-5/happy.webp",
+      "taunt": "sprites/clara/clara-5/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/clara.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "jane",
+   "name": "Jane",
+   "outfit": "Jane 1",
+   "short": "Jane is a student at University of New Haven and sister to Diana.",
+   "traits": [
+    "Mexican Accent",
+    "kind-hearted",
+    "empathetic",
+    "excitable",
+    "hopeful",
+    "passionate",
+    "charming",
+    "naïve"
+   ],
+   "sprites": {
+    "idle": "sprites/jane/neutral.webp",
+    "play": "sprites/jane/happy.webp",
+    "attack": "sprites/jane/angry.webp",
+    "special": "sprites/jane/angry.webp",
+    "hurt": "sprites/jane/scared.webp",
+    "lose": "sprites/jane/sad.webp",
+    "win": "sprites/jane/happy.webp",
+    "taunt": "sprites/jane/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "jane-2",
+     "name": "Jane 2",
+     "sprites": {
+      "idle": "sprites/jane/jane-2/neutral.webp",
+      "play": "sprites/jane/jane-2/happy.webp",
+      "attack": "sprites/jane/jane-2/angry.webp",
+      "special": "sprites/jane/jane-2/angry.webp",
+      "hurt": "sprites/jane/jane-2/scared.webp",
+      "lose": "sprites/jane/jane-2/sad.webp",
+      "win": "sprites/jane/jane-2/happy.webp",
+      "taunt": "sprites/jane/jane-2/amused.webp"
+     }
+    },
+    {
+     "id": "jane-4",
+     "name": "Jane 4",
+     "sprites": {
+      "idle": "sprites/jane/jane-4/neutral.webp",
+      "play": "sprites/jane/jane-4/happy.webp",
+      "attack": "sprites/jane/jane-4/angry.webp",
+      "special": "sprites/jane/jane-4/angry.webp",
+      "hurt": "sprites/jane/jane-4/scared.webp",
+      "lose": "sprites/jane/jane-4/sad.webp",
+      "win": "sprites/jane/jane-4/happy.webp",
+      "taunt": "sprites/jane/jane-4/amused.webp"
+     }
+    },
+    {
+     "id": "jane-5",
+     "name": "Jane 5",
+     "sprites": {
+      "idle": "sprites/jane/jane-5/neutral.webp",
+      "play": "sprites/jane/jane-5/happy.webp",
+      "attack": "sprites/jane/jane-5/angry.webp",
+      "special": "sprites/jane/jane-5/angry.webp",
+      "hurt": "sprites/jane/jane-5/scared.webp",
+      "lose": "sprites/jane/jane-5/sad.webp",
+      "win": "sprites/jane/jane-5/happy.webp",
+      "taunt": "sprites/jane/jane-5/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/jane.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "juliana",
+   "name": "Juliana",
+   "outfit": "Juliana 1",
+   "short": "Juliana is Diana's neighbour and a cook in the cafeteria of the New Haven Institute.",
+   "traits": [
+    "Cultivated Australian accent",
+    "chatty",
+    "joking",
+    "motherly",
+    "sweet and playful"
+   ],
+   "sprites": {
+    "idle": "sprites/juliana/neutral.webp",
+    "play": "sprites/juliana/happy.webp",
+    "attack": "sprites/juliana/angry.webp",
+    "special": "sprites/juliana/angry.webp",
+    "hurt": "sprites/juliana/scared.webp",
+    "lose": "sprites/juliana/sad.webp",
+    "win": "sprites/juliana/happy.webp",
+    "taunt": "sprites/juliana/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "juliana-2",
+     "name": "Juliana 2",
+     "sprites": {
+      "idle": "sprites/juliana/juliana-2/neutral.webp",
+      "play": "sprites/juliana/juliana-2/happy.webp",
+      "attack": "sprites/juliana/juliana-2/angry.webp",
+      "special": "sprites/juliana/juliana-2/angry.webp",
+      "hurt": "sprites/juliana/juliana-2/scared.webp",
+      "lose": "sprites/juliana/juliana-2/sad.webp",
+      "win": "sprites/juliana/juliana-2/happy.webp",
+      "taunt": "sprites/juliana/juliana-2/amused.webp"
+     }
+    },
+    {
+     "id": "juliana-4",
+     "name": "Juliana 4",
+     "sprites": {
+      "idle": "sprites/juliana/juliana-4/neutral.webp",
+      "play": "sprites/juliana/juliana-4/happy.webp",
+      "attack": "sprites/juliana/juliana-4/angry.webp",
+      "special": "sprites/juliana/juliana-4/angry.webp",
+      "hurt": "sprites/juliana/juliana-4/scared.webp",
+      "lose": "sprites/juliana/juliana-4/sad.webp",
+      "win": "sprites/juliana/juliana-4/happy.webp",
+      "taunt": "sprites/juliana/juliana-4/amused.webp"
+     }
+    },
+    {
+     "id": "juliana-5",
+     "name": "Juliana 5",
+     "sprites": {
+      "idle": "sprites/juliana/juliana-5/neutral.webp",
+      "play": "sprites/juliana/juliana-5/happy.webp",
+      "attack": "sprites/juliana/juliana-5/angry.webp",
+      "special": "sprites/juliana/juliana-5/angry.webp",
+      "hurt": "sprites/juliana/juliana-5/scared.webp",
+      "lose": "sprites/juliana/juliana-5/sad.webp",
+      "win": "sprites/juliana/juliana-5/happy.webp",
+      "taunt": "sprites/juliana/juliana-5/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/juliana.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "asuka",
+   "name": "Asuka",
+   "outfit": "Asuka 1",
+   "short": "A Data Coordinator in Lab A-3 at the New Haven Institute of Science",
+   "traits": [
+    "Western Japanese accent",
+    "aloof",
+    "stoic",
+    "focused",
+    "blunt",
+    "kuudere"
+   ],
+   "sprites": {
+    "idle": "sprites/asuka/neutral.webp",
+    "play": "sprites/asuka/happy.webp",
+    "attack": "sprites/asuka/angry.webp",
+    "special": "sprites/asuka/angry.webp",
+    "hurt": "sprites/asuka/scared.webp",
+    "lose": "sprites/asuka/sad.webp",
+    "win": "sprites/asuka/happy.webp",
+    "taunt": "sprites/asuka/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "asuka-2",
+     "name": "Asuka 2",
+     "sprites": {
+      "idle": "sprites/asuka/asuka-2/neutral.webp",
+      "play": "sprites/asuka/asuka-2/happy.webp",
+      "attack": "sprites/asuka/asuka-2/angry.webp",
+      "special": "sprites/asuka/asuka-2/angry.webp",
+      "hurt": "sprites/asuka/asuka-2/scared.webp",
+      "lose": "sprites/asuka/asuka-2/sad.webp",
+      "win": "sprites/asuka/asuka-2/happy.webp",
+      "taunt": "sprites/asuka/asuka-2/happy.webp"
+     }
+    },
+    {
+     "id": "asuka-4",
+     "name": "Asuka 4",
+     "sprites": {
+      "idle": "sprites/asuka/asuka-4/neutral.webp",
+      "play": "sprites/asuka/asuka-4/happy.webp",
+      "attack": "sprites/asuka/asuka-4/angry.webp",
+      "special": "sprites/asuka/asuka-4/angry.webp",
+      "hurt": "sprites/asuka/asuka-4/scared.webp",
+      "lose": "sprites/asuka/asuka-4/sad.webp",
+      "win": "sprites/asuka/asuka-4/happy.webp",
+      "taunt": "sprites/asuka/asuka-4/happy.webp"
+     }
+    },
+    {
+     "id": "asuka-5",
+     "name": "Asuka 5",
+     "sprites": {
+      "idle": "sprites/asuka/asuka-5/neutral.webp",
+      "play": "sprites/asuka/asuka-5/happy.webp",
+      "attack": "sprites/asuka/asuka-5/angry.webp",
+      "special": "sprites/asuka/asuka-5/angry.webp",
+      "hurt": "sprites/asuka/asuka-5/scared.webp",
+      "lose": "sprites/asuka/asuka-5/sad.webp",
+      "win": "sprites/asuka/asuka-5/happy.webp",
+      "taunt": "sprites/asuka/asuka-5/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/asuka.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "natalie",
+   "name": "Natalie",
+   "outfit": "Natalie 1",
+   "short": "Scientist at New Haven Institute",
+   "traits": [
+    "French accent",
+    "shy",
+    "jumpy",
+    "clumsy",
+    "joking",
+    "naive",
+    "excitable"
+   ],
+   "sprites": {
+    "idle": "sprites/natalie/neutral.webp",
+    "play": "sprites/natalie/happy.webp",
+    "attack": "sprites/natalie/angry.webp",
+    "special": "sprites/natalie/angry.webp",
+    "hurt": "sprites/natalie/scared.webp",
+    "lose": "sprites/natalie/sad.webp",
+    "win": "sprites/natalie/happy.webp",
+    "taunt": "sprites/natalie/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "natalie-2",
+     "name": "Natalie 2",
+     "sprites": {
+      "idle": "sprites/natalie/natalie-2/neutral.webp",
+      "play": "sprites/natalie/natalie-2/happy.webp",
+      "attack": "sprites/natalie/natalie-2/angry.webp",
+      "special": "sprites/natalie/natalie-2/angry.webp",
+      "hurt": "sprites/natalie/natalie-2/scared.webp",
+      "lose": "sprites/natalie/natalie-2/sad.webp",
+      "win": "sprites/natalie/natalie-2/happy.webp",
+      "taunt": "sprites/natalie/natalie-2/amused.webp"
+     }
+    },
+    {
+     "id": "natalie-4",
+     "name": "Natalie 4",
+     "sprites": {
+      "idle": "sprites/natalie/natalie-4/neutral.webp",
+      "play": "sprites/natalie/natalie-4/happy.webp",
+      "attack": "sprites/natalie/natalie-4/angry.webp",
+      "special": "sprites/natalie/natalie-4/angry.webp",
+      "hurt": "sprites/natalie/natalie-4/scared.webp",
+      "lose": "sprites/natalie/natalie-4/sad.webp",
+      "win": "sprites/natalie/natalie-4/happy.webp",
+      "taunt": "sprites/natalie/natalie-4/amused.webp"
+     }
+    },
+    {
+     "id": "natalie-5",
+     "name": "Natalie 5",
+     "sprites": {
+      "idle": "sprites/natalie/natalie-5/neutral.webp",
+      "play": "sprites/natalie/natalie-5/happy.webp",
+      "attack": "sprites/natalie/natalie-5/angry.webp",
+      "special": "sprites/natalie/natalie-5/angry.webp",
+      "hurt": "sprites/natalie/natalie-5/scared.webp",
+      "lose": "sprites/natalie/natalie-5/sad.webp",
+      "win": "sprites/natalie/natalie-5/happy.webp",
+      "taunt": "sprites/natalie/natalie-5/amused.webp"
+     }
+    },
+    {
+     "id": "natalie-6",
+     "name": "Natalie 6",
+     "sprites": {
+      "idle": "sprites/natalie/natalie-6/neutral.webp",
+      "play": "sprites/natalie/natalie-6/happy.webp",
+      "attack": "sprites/natalie/natalie-6/angry.webp",
+      "special": "sprites/natalie/natalie-6/angry.webp",
+      "hurt": "sprites/natalie/natalie-6/scared.webp",
+      "lose": "sprites/natalie/natalie-6/sad.webp",
+      "win": "sprites/natalie/natalie-6/happy.webp",
+      "taunt": "sprites/natalie/natalie-6/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/natalie.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "joseph",
+   "name": "Joseph",
+   "outfit": "Joseph 1",
+   "short": "Joseph works at the cafeteria in New Haven Institute and is Jill's son.",
+   "traits": [
+    "Australian accent",
+    "friendly",
+    "chatty",
+    "bashful"
+   ],
+   "sprites": {
+    "idle": "sprites/joseph/neutral.webp",
+    "play": "sprites/joseph/happy.webp",
+    "attack": "sprites/joseph/angry.webp",
+    "special": "sprites/joseph/angry.webp",
+    "hurt": "sprites/joseph/scared.webp",
+    "lose": "sprites/joseph/sad.webp",
+    "win": "sprites/joseph/happy.webp",
+    "taunt": "sprites/joseph/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "joseph-2",
+     "name": "Joseph 2",
+     "sprites": {
+      "idle": "sprites/joseph/joseph-2/neutral.webp",
+      "play": "sprites/joseph/joseph-2/happy.webp",
+      "attack": "sprites/joseph/joseph-2/angry.webp",
+      "special": "sprites/joseph/joseph-2/angry.webp",
+      "hurt": "sprites/joseph/joseph-2/scared.webp",
+      "lose": "sprites/joseph/joseph-2/sad.webp",
+      "win": "sprites/joseph/joseph-2/happy.webp",
+      "taunt": "sprites/joseph/joseph-2/happy.webp"
+     }
+    },
+    {
+     "id": "joseph-4",
+     "name": "Joseph 4",
+     "sprites": {
+      "idle": "sprites/joseph/joseph-4/neutral.webp",
+      "play": "sprites/joseph/joseph-4/happy.webp",
+      "attack": "sprites/joseph/joseph-4/angry.webp",
+      "special": "sprites/joseph/joseph-4/angry.webp",
+      "hurt": "sprites/joseph/joseph-4/scared.webp",
+      "lose": "sprites/joseph/joseph-4/sad.webp",
+      "win": "sprites/joseph/joseph-4/happy.webp",
+      "taunt": "sprites/joseph/joseph-4/happy.webp"
+     }
+    },
+    {
+     "id": "joseph-5",
+     "name": "Joseph 5",
+     "sprites": {
+      "idle": "sprites/joseph/joseph-5/neutral.webp",
+      "play": "sprites/joseph/joseph-5/happy.webp",
+      "attack": "sprites/joseph/joseph-5/angry.webp",
+      "special": "sprites/joseph/joseph-5/angry.webp",
+      "hurt": "sprites/joseph/joseph-5/scared.webp",
+      "lose": "sprites/joseph/joseph-5/sad.webp",
+      "win": "sprites/joseph/joseph-5/happy.webp",
+      "taunt": "sprites/joseph/joseph-5/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/joseph.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "cheetor",
+   "name": "Cheetor",
+   "outfit": "Cheetor 1",
+   "short": "A scientist who enjoys taking it easy and enjoying life.",
+   "traits": [
+    "Southern California accent",
+    "lazy",
+    "chilled",
+    "chatty",
+    "joking"
+   ],
+   "sprites": {
+    "idle": "sprites/cheetor/neutral.webp",
+    "play": "sprites/cheetor/happy.webp",
+    "attack": "sprites/cheetor/angry.webp",
+    "special": "sprites/cheetor/angry.webp",
+    "hurt": "sprites/cheetor/scared.webp",
+    "lose": "sprites/cheetor/sad.webp",
+    "win": "sprites/cheetor/happy.webp",
+    "taunt": "sprites/cheetor/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "cheetor-2",
+     "name": "Cheetor 2",
+     "sprites": {
+      "idle": "sprites/cheetor/cheetor-2/neutral.webp",
+      "play": "sprites/cheetor/cheetor-2/happy.webp",
+      "attack": "sprites/cheetor/cheetor-2/angry.webp",
+      "special": "sprites/cheetor/cheetor-2/angry.webp",
+      "hurt": "sprites/cheetor/cheetor-2/scared.webp",
+      "lose": "sprites/cheetor/cheetor-2/sad.webp",
+      "win": "sprites/cheetor/cheetor-2/happy.webp",
+      "taunt": "sprites/cheetor/cheetor-2/amused.webp"
+     }
+    },
+    {
+     "id": "cheetor-5",
+     "name": "Cheetor 5",
+     "sprites": {
+      "idle": "sprites/cheetor/cheetor-5/neutral.webp",
+      "play": "sprites/cheetor/cheetor-5/happy.webp",
+      "attack": "sprites/cheetor/cheetor-5/angry.webp",
+      "special": "sprites/cheetor/cheetor-5/angry.webp",
+      "hurt": "sprites/cheetor/cheetor-5/scared.webp",
+      "lose": "sprites/cheetor/cheetor-5/sad.webp",
+      "win": "sprites/cheetor/cheetor-5/happy.webp",
+      "taunt": "sprites/cheetor/cheetor-5/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/cheetor.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "aria",
+   "name": "Aria",
+   "outfit": "Aria 1",
+   "short": "Aria is a Security Guard at New Haven institute and Natalie's mom.",
+   "traits": [
+    "New York accent",
+    "Confident",
+    "calm",
+    "determined",
+    "serious",
+    "deadpan",
+    "loyal"
+   ],
+   "sprites": {
+    "idle": "sprites/aria/neutral.webp",
+    "play": "sprites/aria/happy.webp",
+    "attack": "sprites/aria/angry.webp",
+    "special": "sprites/aria/angry.webp",
+    "hurt": "sprites/aria/scared.webp",
+    "lose": "sprites/aria/sad.webp",
+    "win": "sprites/aria/happy.webp",
+    "taunt": "sprites/aria/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "aria-2",
+     "name": "Aria 2",
+     "sprites": {
+      "idle": "sprites/aria/aria-2/neutral.webp",
+      "play": "sprites/aria/aria-2/happy.webp",
+      "attack": "sprites/aria/aria-2/angry.webp",
+      "special": "sprites/aria/aria-2/angry.webp",
+      "hurt": "sprites/aria/aria-2/scared.webp",
+      "lose": "sprites/aria/aria-2/sad.webp",
+      "win": "sprites/aria/aria-2/happy.webp",
+      "taunt": "sprites/aria/aria-2/happy.webp"
+     }
+    },
+    {
+     "id": "aria-4",
+     "name": "Aria 4",
+     "sprites": {
+      "idle": "sprites/aria/aria-4/neutral.webp",
+      "play": "sprites/aria/aria-4/happy.webp",
+      "attack": "sprites/aria/aria-4/angry.webp",
+      "special": "sprites/aria/aria-4/angry.webp",
+      "hurt": "sprites/aria/aria-4/scared.webp",
+      "lose": "sprites/aria/aria-4/sad.webp",
+      "win": "sprites/aria/aria-4/happy.webp",
+      "taunt": "sprites/aria/aria-4/happy.webp"
+     }
+    },
+    {
+     "id": "aria-5",
+     "name": "Aria 5",
+     "sprites": {
+      "idle": "sprites/aria/aria-5/neutral.webp",
+      "play": "sprites/aria/aria-5/happy.webp",
+      "attack": "sprites/aria/aria-5/angry.webp",
+      "special": "sprites/aria/aria-5/angry.webp",
+      "hurt": "sprites/aria/aria-5/scared.webp",
+      "lose": "sprites/aria/aria-5/sad.webp",
+      "win": "sprites/aria/aria-5/happy.webp",
+      "taunt": "sprites/aria/aria-5/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/aria.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "saria",
+   "name": "Saria",
+   "outfit": "Saria 1",
+   "short": "Captain of the cheerleaders at University of New Haven and a pro-Predator believer.",
+   "traits": [
+    "confident",
+    "cruel",
+    "uncaring",
+    "racist",
+    "bully",
+    "not smart",
+    "attention-hoarder",
+    "mean"
+   ],
+   "sprites": {
+    "idle": "sprites/saria/neutral.webp",
+    "play": "sprites/saria/happy.webp",
+    "attack": "sprites/saria/angry.webp",
+    "special": "sprites/saria/angry.webp",
+    "hurt": "sprites/saria/scared.webp",
+    "lose": "sprites/saria/sad.webp",
+    "win": "sprites/saria/happy.webp",
+    "taunt": "sprites/saria/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "saria-2",
+     "name": "Saria 2",
+     "sprites": {
+      "idle": "sprites/saria/saria-2/neutral.webp",
+      "play": "sprites/saria/saria-2/happy.webp",
+      "attack": "sprites/saria/saria-2/angry.webp",
+      "special": "sprites/saria/saria-2/angry.webp",
+      "hurt": "sprites/saria/saria-2/scared.webp",
+      "lose": "sprites/saria/saria-2/sad.webp",
+      "win": "sprites/saria/saria-2/happy.webp",
+      "taunt": "sprites/saria/saria-2/happy.webp"
+     }
+    },
+    {
+     "id": "saria-4",
+     "name": "Saria 4",
+     "sprites": {
+      "idle": "sprites/saria/saria-4/neutral.webp",
+      "play": "sprites/saria/saria-4/happy.webp",
+      "attack": "sprites/saria/saria-4/angry.webp",
+      "special": "sprites/saria/saria-4/angry.webp",
+      "hurt": "sprites/saria/saria-4/scared.webp",
+      "lose": "sprites/saria/saria-4/sad.webp",
+      "win": "sprites/saria/saria-4/happy.webp",
+      "taunt": "sprites/saria/saria-4/happy.webp"
+     }
+    },
+    {
+     "id": "saria-5",
+     "name": "Saria 5",
+     "sprites": {
+      "idle": "sprites/saria/saria-5/neutral.webp",
+      "play": "sprites/saria/saria-5/happy.webp",
+      "attack": "sprites/saria/saria-5/angry.webp",
+      "special": "sprites/saria/saria-5/angry.webp",
+      "hurt": "sprites/saria/saria-5/scared.webp",
+      "lose": "sprites/saria/saria-5/sad.webp",
+      "win": "sprites/saria/saria-5/happy.webp",
+      "taunt": "sprites/saria/saria-5/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/saria.webp",
+   "novel": "New Haven"
   },
   {
    "id": "rirarra-charca",
@@ -1840,7 +3692,11 @@
    "name": "Brizz Bigeyed",
    "outfit": "Medic Swimsuit",
    "short": "Brizz is a female thresher shark/human hybrid, she's the beach's medical expert.",
-   "traits": [],
+   "traits": [
+    "bold",
+    "a mischievous smile",
+    "talks fast"
+   ],
    "sprites": {
     "idle": "sprites/brizz-bigeyed/neutral.webp",
     "play": "sprites/brizz-bigeyed/happy.webp",
@@ -1903,7 +3759,11 @@
    "name": "Andrea Lyle",
    "outfit": "Pajamas",
    "short": "Andrea Lyle is a former prodigy in aesthetic surgery",
-   "traits": [],
+   "traits": [
+    "Sarcastic",
+    "loyal",
+    "sharp-witted"
+   ],
    "sprites": {
     "idle": "sprites/andrea-lyle/neutral.webp",
     "play": "sprites/andrea-lyle/happy.webp",
@@ -1938,7 +3798,11 @@
    "name": "Linda Penn",
    "outfit": "Casual attire",
    "short": "Linda Penn is a strong-willed, formal, and a natural leader.",
-   "traits": [],
+   "traits": [
+    "Strong-willed",
+    "formal",
+    "reliable"
+   ],
    "sprites": {
     "idle": "sprites/linda-penn/neutral.webp",
     "play": "sprites/linda-penn/happy.webp",
@@ -1958,7 +3822,13 @@
    "name": "Eva Vinn",
    "outfit": "Default clothes",
    "short": "Eva V, is the geek of the school, being panicked and cuddly at the same time.",
-   "traits": [],
+   "traits": [
+    "Geeky",
+    "nerdy",
+    "lovey",
+    "cuddly",
+    "warm"
+   ],
    "sprites": {
     "idle": "sprites/eva-vinn/neutral.webp",
     "play": "sprites/eva-vinn/happy.webp",
@@ -1978,7 +3848,9 @@
    "name": "Ashley Lennette",
    "outfit": "Neutral outfit",
    "short": "Ashley Lennette is a tomboy, energetic, humorous, basketball lover.",
-   "traits": [],
+   "traits": [
+    "lives for basketball"
+   ],
    "sprites": {
     "idle": "sprites/ashley-lennette/neutral.webp",
     "play": "sprites/ashley-lennette/happy.webp",
@@ -2566,6 +4438,126 @@
    "src": "backgrounds/back-door-route-6a9e44.webp"
   },
   {
+   "id": "eecd2110-546e-4ca7-921a-1eb24b0dc4b4",
+   "name": "On the way to school.",
+   "desc": "",
+   "src": "backgrounds/on-the-way-to-school-eecd21.webp"
+  },
+  {
+   "id": "27930fcb-1d21-42be-afd2-538fc623f7b9",
+   "name": "Your bedroom",
+   "desc": "",
+   "src": "backgrounds/your-bedroom-27930f.webp"
+  },
+  {
+   "id": "1d717d37-18e8-4f92-9ab4-06001091098a",
+   "name": "Misaki's Room.",
+   "desc": "",
+   "src": "backgrounds/misaki-s-room-1d717d.webp"
+  },
+  {
+   "id": "47937801-4c8b-48d6-b5f7-151a4673220d",
+   "name": "Masaki's living room",
+   "desc": "",
+   "src": "backgrounds/masaki-s-living-room-479378.webp"
+  },
+  {
+   "id": "3b1efbb8-5115-4042-ba33-4e0cc5cd7f96",
+   "name": "Shirayuki Front gates",
+   "desc": "",
+   "src": "backgrounds/shirayuki-front-gates-3b1efb.webp"
+  },
+  {
+   "id": "735d044c-81c1-4e22-9abd-864b1d228864",
+   "name": "Shirayuki; Front door.",
+   "desc": "",
+   "src": "backgrounds/shirayuki-front-door-735d04.webp"
+  },
+  {
+   "id": "9b29a6bb-a95f-4b2f-8d71-e1f2bfc27da9",
+   "name": "Shirayuki; A backdoor",
+   "desc": "",
+   "src": "backgrounds/shirayuki-a-backdoor-9b29a6.webp"
+  },
+  {
+   "id": "f3bc3ece-654b-47e6-8728-2aad9f3e8fd5",
+   "name": "Arisa Layer (Student council room)",
+   "desc": "",
+   "src": "backgrounds/arisa-layer-student-council-room-f3bc3e.webp"
+  },
+  {
+   "id": "e71241b6-1a48-40a9-89cb-17c90cdef927",
+   "name": "Shirayuki; Homeroom",
+   "desc": "",
+   "src": "backgrounds/shirayuki-homeroom-e71241.webp"
+  },
+  {
+   "id": "cc7da064-3b6a-4e8b-bc59-57b61c25b280",
+   "name": "Shirayuki; Misaki's Lab",
+   "desc": "",
+   "src": "backgrounds/shirayuki-misaki-s-lab-cc7da0.webp"
+  },
+  {
+   "id": "68d5da02-baed-48a4-b07d-780e5b9612fa",
+   "name": "Shirayuki; Cafeteria ",
+   "desc": "",
+   "src": "backgrounds/shirayuki-cafeteria-68d5da.webp"
+  },
+  {
+   "id": "af9cf689-db67-40cf-b157-ab13040636b7",
+   "name": "Shirayuki; Hall",
+   "desc": "",
+   "src": "backgrounds/shirayuki-hall-af9cf6.webp"
+  },
+  {
+   "id": "90dfa892-ce13-422c-b7fe-d58e436fc3bd",
+   "name": "Shirayuki; rooftop ",
+   "desc": "",
+   "src": "backgrounds/shirayuki-rooftop-90dfa8.webp"
+  },
+  {
+   "id": "76f019bc-0ee4-4403-8049-b4fd09c2525c",
+   "name": "Ahirayuki; Auditorium.",
+   "desc": "",
+   "src": "backgrounds/ahirayuki-auditorium-76f019.webp"
+  },
+  {
+   "id": "33d4fb2e-7539-4cf3-951f-ba3d11f15afe",
+   "name": "NSFW End of Day CG",
+   "desc": "",
+   "src": "backgrounds/nsfw-end-of-day-cg-33d4fb.webp"
+  },
+  {
+   "id": "8f203105-8e1c-4cab-9524-e44ace4d3b76",
+   "name": "SFW End of Day CG",
+   "desc": "",
+   "src": "backgrounds/sfw-end-of-day-cg-8f2031.webp"
+  },
+  {
+   "id": "0a9d3e74-a46a-4e44-af7a-7bc270bca15c",
+   "name": "Shirayuki: Library",
+   "desc": "",
+   "src": "backgrounds/shirayuki-library-0a9d3e.webp"
+  },
+  {
+   "id": "efd3cafc-38e5-42ac-8740-202543347f1c",
+   "name": "Shirayuki; Hallway 2",
+   "desc": "",
+   "src": "backgrounds/shirayuki-hallway-2-efd3ca.webp"
+  },
+  {
+   "id": "15b89f46-3c8b-4c6e-befa-6456ecec2728",
+   "name": "Anime moment",
+   "desc": "",
+   "src": "backgrounds/anime-moment-15b89f.webp"
+  },
+  {
+   "id": "2a81bcd3-3f61-4fe2-945b-d2a712a8867c",
+   "name": "Helga CG",
+   "desc": "",
+   "src": "backgrounds/helga-cg-2a81bc.webp"
+  },
+  {
    "id": "69be346c-0369-4aaa-86b4-131362f3b28a",
    "name": "Lisa's room",
    "desc": "",
@@ -2704,6 +4696,714 @@
    "src": "backgrounds/bedroom-night-136999.webp"
   },
   {
+   "id": "5e87981e-4591-49d4-8162-f6fdaec46dc7",
+   "name": "background-1",
+   "desc": "",
+   "src": "backgrounds/background-1-5e8798.webp"
+  },
+  {
+   "id": "de2c825b-dff8-412d-9502-b199cafdea72",
+   "name": "palace",
+   "desc": "",
+   "src": "backgrounds/palace-de2c82.webp"
+  },
+  {
+   "id": "0b7bda09-60a5-42d8-9e0b-96b3bacffe6a",
+   "name": "",
+   "desc": "Rimu's room",
+   "src": "backgrounds/-0b7bda.webp"
+  },
+  {
+   "id": "473db0f8-07cc-413c-a35b-21f172886173",
+   "name": "sushi shop",
+   "desc": "",
+   "src": "backgrounds/sushi-shop-473db0.webp"
+  },
+  {
+   "id": "73d5ea74-cdcc-4819-892c-8d0821f7c341",
+   "name": "road night time",
+   "desc": "",
+   "src": "backgrounds/road-night-time-73d5ea.webp"
+  },
+  {
+   "id": "2c2fc51a-9691-4b98-9eed-f64258abe7c0",
+   "name": "cherry road night",
+   "desc": "",
+   "src": "backgrounds/cherry-road-night-2c2fc5.webp"
+  },
+  {
+   "id": "eef66dfd-d277-4f19-8b18-d389f587da74",
+   "name": "cheery road day",
+   "desc": "",
+   "src": "backgrounds/cheery-road-day-eef66d.webp"
+  },
+  {
+   "id": "13235e50-1ab5-4eef-9d4f-9ddb95be65f0",
+   "name": "haruka room",
+   "desc": "",
+   "src": "backgrounds/haruka-room-13235e.webp"
+  },
+  {
+   "id": "f021fe7e-ba9d-497e-9ec0-0fa3262a33f3",
+   "name": "meeting room",
+   "desc": "",
+   "src": "backgrounds/meeting-room-f021fe.webp"
+  },
+  {
+   "id": "10ff558a-ff1f-40b4-aa02-868b1be9fe3f",
+   "name": "cheery main road day",
+   "desc": "",
+   "src": "backgrounds/cheery-main-road-day-10ff55.webp"
+  },
+  {
+   "id": "2a9cfdf3-79dd-433c-a832-624cd0700999",
+   "name": "palace entrance ",
+   "desc": "",
+   "src": "backgrounds/palace-entrance-2a9cfd.webp"
+  },
+  {
+   "id": "c2e091a5-28fc-4a19-960b-9d1c81f9907e",
+   "name": "your room",
+   "desc": "",
+   "src": "backgrounds/your-room-c2e091.webp"
+  },
+  {
+   "id": "68aaddf3-6c3b-4631-b733-76640289fe91",
+   "name": "sakura room",
+   "desc": "",
+   "src": "backgrounds/sakura-room-68aadd.webp"
+  },
+  {
+   "id": "ba0d476d-48ef-429c-a3b0-ff2e8ed9ec11",
+   "name": "ayaka's room",
+   "desc": "",
+   "src": "backgrounds/ayaka-s-room-ba0d47.webp"
+  },
+  {
+   "id": "4b83ea1d-3a20-42c8-af39-9415330a4b7e",
+   "name": "okita's rom",
+   "desc": "",
+   "src": "backgrounds/okita-s-rom-4b83ea.webp"
+  },
+  {
+   "id": "d2f72e4d-e045-430a-8c49-084f12aef84f",
+   "name": "saito's room",
+   "desc": "",
+   "src": "backgrounds/saito-s-room-d2f72e.webp"
+  },
+  {
+   "id": "ddacac81-4268-4820-8c57-4d15fc990ced",
+   "name": "living room",
+   "desc": "",
+   "src": "backgrounds/living-room-ddacac.webp"
+  },
+  {
+   "id": "9e1a9787-bb50-48d6-89b8-db5543b9dd2f",
+   "name": "living room night",
+   "desc": "",
+   "src": "backgrounds/living-room-night-9e1a97.webp"
+  },
+  {
+   "id": "d582c27b-8fd2-4645-8295-1487e79a3c36",
+   "name": "training room",
+   "desc": "",
+   "src": "backgrounds/training-room-d582c2.webp"
+  },
+  {
+   "id": "8de6db36-434f-4b33-b5c4-6234861d3db6",
+   "name": "mountain top",
+   "desc": "",
+   "src": "backgrounds/mountain-top-8de6db.webp"
+  },
+  {
+   "id": "3542a1ba-30f6-4fac-b816-0abe9d8d2bde",
+   "name": "mountain house",
+   "desc": "",
+   "src": "backgrounds/mountain-house-3542a1.webp"
+  },
+  {
+   "id": "796d33ce-8e2b-46fb-8689-e2ac4e7da132",
+   "name": "mountain path",
+   "desc": "",
+   "src": "backgrounds/mountain-path-796d33.webp"
+  },
+  {
+   "id": "aae105bd-8a22-4484-a3e8-5a920b359eaf",
+   "name": "village",
+   "desc": "",
+   "src": "backgrounds/village-aae105.webp"
+  },
+  {
+   "id": "9f4384a5-1c44-4380-8fb1-3e4526225d49",
+   "name": "town square",
+   "desc": "",
+   "src": "backgrounds/town-square-9f4384.webp"
+  },
+  {
+   "id": "05d66c18-84a2-4f39-8038-758344c7dde5",
+   "name": "library ",
+   "desc": "",
+   "src": "backgrounds/library-05d66c.webp"
+  },
+  {
+   "id": "8c1fb21c-f072-47ee-8011-e241eff5972d",
+   "name": "market",
+   "desc": "",
+   "src": "backgrounds/market-8c1fb2.webp"
+  },
+  {
+   "id": "8fc1cd77-90b1-48b7-ad20-bde200a6c581",
+   "name": "bridge",
+   "desc": "",
+   "src": "backgrounds/bridge-8fc1cd.webp"
+  },
+  {
+   "id": "5623fda0-3e8e-4ea3-a2fc-c3354944c2f1",
+   "name": "sweet shop",
+   "desc": "",
+   "src": "backgrounds/sweet-shop-5623fd.webp"
+  },
+  {
+   "id": "9383bfd3-9fd1-4f04-8517-cd3496f20372",
+   "name": "old house",
+   "desc": "",
+   "src": "backgrounds/old-house-9383bf.webp"
+  },
+  {
+   "id": "da088a3f-26ef-4e18-ace4-b591736f3f70",
+   "name": "crime scene",
+   "desc": "",
+   "src": "backgrounds/crime-scene-da088a.webp"
+  },
+  {
+   "id": "50034315-8b8a-495d-9578-af4ae68479fe",
+   "name": "aoi room",
+   "desc": "",
+   "src": "backgrounds/aoi-room-500343.webp"
+  },
+  {
+   "id": "8f5ab2f7-6413-4b54-a54b-8c26c6a1ffe4",
+   "name": "sakura tree at night",
+   "desc": "",
+   "src": "backgrounds/sakura-tree-at-night-8f5ab2.webp"
+  },
+  {
+   "id": "b6f3f2d3-d72d-417a-a8d9-7f2e7bec6d38",
+   "name": "bridge afternoon",
+   "desc": "",
+   "src": "backgrounds/bridge-afternoon-b6f3f2.webp"
+  },
+  {
+   "id": "56f151e2-03a7-4dec-ba7b-ca32bbe59d8d",
+   "name": "palace back side",
+   "desc": "",
+   "src": "backgrounds/palace-back-side-56f151.webp"
+  },
+  {
+   "id": "b2994936-aabc-40bd-9ab7-6bbb4bcbf1c7",
+   "name": "infirmary ",
+   "desc": "",
+   "src": "backgrounds/infirmary-b29949.webp"
+  },
+  {
+   "id": "c2677b68-a1a4-445a-86dc-41d1d6372f42",
+   "name": "background-36",
+   "desc": "",
+   "src": "backgrounds/background-36-c2677b.webp"
+  },
+  {
+   "id": "9f28cfa3-d8a0-46ef-8529-6e598f6a12ba",
+   "name": "night forest",
+   "desc": "",
+   "src": "backgrounds/night-forest-9f28cf.webp"
+  },
+  {
+   "id": "b477a58c-05dd-487a-9892-312168ec30c7",
+   "name": "house near river",
+   "desc": "",
+   "src": "backgrounds/house-near-river-b477a5.webp"
+  },
+  {
+   "id": "034f4b85-6e22-4cfe-8a4d-a4ed95644c1f",
+   "name": "forest ",
+   "desc": "",
+   "src": "backgrounds/forest-034f4b.webp"
+  },
+  {
+   "id": "1293af71-5db5-4073-8c2c-aeaf22d08be3",
+   "name": "mai house at night",
+   "desc": "",
+   "src": "backgrounds/mai-house-at-night-1293af.webp"
+  },
+  {
+   "id": "d2520b55-1a00-498d-98b4-21ee8c275f69",
+   "name": "Hallway",
+   "desc": "",
+   "src": "backgrounds/hallway-d2520b.webp"
+  },
+  {
+   "id": "dbf78382-d3d5-4965-bdff-ac25198731c2",
+   "name": "RImu",
+   "desc": "",
+   "src": "backgrounds/rimu-dbf783.webp"
+  },
+  {
+   "id": "e3f8a486-7b76-42ae-bcc4-7ed7e766b75d",
+   "name": "background-43",
+   "desc": "",
+   "src": "backgrounds/background-43-e3f8a4.webp"
+  },
+  {
+   "id": "1b6862b9-3874-4afd-a090-7686ebbcf39b",
+   "name": "RImu room",
+   "desc": "",
+   "src": "backgrounds/rimu-room-1b6862.webp"
+  },
+  {
+   "id": "7233a3fa-47e1-4e3d-9015-85a2b51cfc18",
+   "name": "sakura",
+   "desc": "",
+   "src": "backgrounds/sakura-7233a3.webp"
+  },
+  {
+   "id": "12ce6e3e-c0b1-4a4e-bb9d-a7954245a2a7",
+   "name": "rimu Crying",
+   "desc": "",
+   "src": "backgrounds/rimu-crying-12ce6e.webp"
+  },
+  {
+   "id": "4fcc43c7-7639-4a83-8707-671d93baae27",
+   "name": "sakura 1",
+   "desc": "",
+   "src": "backgrounds/sakura-1-4fcc43.webp"
+  },
+  {
+   "id": "19aa5222-2b6c-43f5-968e-2c7d40531f6b",
+   "name": "sakura 2",
+   "desc": "",
+   "src": "backgrounds/sakura-2-19aa52.webp"
+  },
+  {
+   "id": "f190ba65-f57e-43ca-938d-23e6148f3247",
+   "name": "gossip ",
+   "desc": "",
+   "src": "backgrounds/gossip-f190ba.webp"
+  },
+  {
+   "id": "4f8c66d4-cbad-49af-bf4b-d76622badb25",
+   "name": "daoawf",
+   "desc": "",
+   "src": "backgrounds/daoawf-4f8c66.webp"
+  },
+  {
+   "id": "eab05269-7e13-4d80-a562-efefba24005c",
+   "name": "sakura sad",
+   "desc": "",
+   "src": "backgrounds/sakura-sad-eab052.webp"
+  },
+  {
+   "id": "31bae730-d9dd-413c-bb99-229f15d686ec",
+   "name": "Night road",
+   "desc": "",
+   "src": "backgrounds/night-road-31bae7.webp"
+  },
+  {
+   "id": "6f2a2d67-8898-48d0-b6ee-3e4608918fdb",
+   "name": "walk at night",
+   "desc": "",
+   "src": "backgrounds/walk-at-night-6f2a2d.webp"
+  },
+  {
+   "id": "16f5491c-849a-4b55-aaaa-870369322d50",
+   "name": "background-54",
+   "desc": "",
+   "src": "backgrounds/background-54-16f549.webp"
+  },
+  {
+   "id": "21ba6358-4b69-4991-8dc7-dcf9fb7fbe33",
+   "name": "open training ground",
+   "desc": "",
+   "src": "backgrounds/open-training-ground-21ba63.webp"
+  },
+  {
+   "id": "656fac28-575e-45af-bdfc-8008514a732f",
+   "name": "saito room night",
+   "desc": "",
+   "src": "backgrounds/saito-room-night-656fac.webp"
+  },
+  {
+   "id": "09e866e5-09ba-41e6-a7ae-5c8deb3cb571",
+   "name": "hallway",
+   "desc": "",
+   "src": "backgrounds/hallway-09e866.webp"
+  },
+  {
+   "id": "9e601a69-c039-4e79-8383-63bfadc355a1",
+   "name": "backyard",
+   "desc": "",
+   "src": "backgrounds/backyard-9e601a.webp"
+  },
+  {
+   "id": "199ebe23-7b02-4126-b613-67871f471187",
+   "name": "room",
+   "desc": "",
+   "src": "backgrounds/room-199ebe.webp"
+  },
+  {
+   "id": "cbb77bb1-aa36-4a3d-a310-0fe23a05db1e",
+   "name": "night ",
+   "desc": "",
+   "src": "backgrounds/night-cbb77b.webp"
+  },
+  {
+   "id": "2ba41f1f-1c2a-4b49-935f-d6851f043b40",
+   "name": "background-61",
+   "desc": "",
+   "src": "backgrounds/background-61-2ba41f.webp"
+  },
+  {
+   "id": "e7e496e6-87f9-40f1-8c0c-9299f88bf2e3",
+   "name": "shino room",
+   "desc": "",
+   "src": "backgrounds/shino-room-e7e496.webp"
+  },
+  {
+   "id": "51d5947e-0a1f-4fe2-9217-f6bd5e129bdd",
+   "name": "Aoi",
+   "desc": "",
+   "src": "backgrounds/aoi-51d594.webp"
+  },
+  {
+   "id": "fa8fca7c-d5ac-4845-9ad7-3fdc38b008ab",
+   "name": "road on ",
+   "desc": "",
+   "src": "backgrounds/road-on-fa8fca.webp"
+  },
+  {
+   "id": "c194037a-4875-47f4-95e4-d089a7adc140",
+   "name": "aoi room night",
+   "desc": "",
+   "src": "backgrounds/aoi-room-night-c19403.webp"
+  },
+  {
+   "id": "7e38be5f-c0c0-45e9-953b-3af167f810d4",
+   "name": "reading room",
+   "desc": "",
+   "src": "backgrounds/reading-room-7e38be.webp"
+  },
+  {
+   "id": "48090d08-d2a8-44fe-9bd7-25d4c77c37c0",
+   "name": "LOca",
+   "desc": "",
+   "src": "backgrounds/loca-48090d.webp"
+  },
+  {
+   "id": "51b08d55-3424-4d0d-b66e-4f0fad6fabff",
+   "name": "local town",
+   "desc": "",
+   "src": "backgrounds/local-town-51b08d.webp"
+  },
+  {
+   "id": "79429dfc-ca0f-4377-8445-b8da04353739",
+   "name": "backyard",
+   "desc": "",
+   "src": "backgrounds/backyard-79429d.webp"
+  },
+  {
+   "id": "3517eb1b-f203-4d65-be5f-7e9e121ff519",
+   "name": "Rimu morning",
+   "desc": "",
+   "src": "backgrounds/rimu-morning-3517eb.webp"
+  },
+  {
+   "id": "c4d23b44-fbba-495a-9fd4-fa58d0b9ef8f",
+   "name": "ayaka room night",
+   "desc": "",
+   "src": "backgrounds/ayaka-room-night-c4d23b.webp"
+  },
+  {
+   "id": "ef21b954-9d67-44ce-bdfb-2be04e257ce1",
+   "name": "Ellis' Bedroom",
+   "desc": "",
+   "src": "backgrounds/ellis-bedroom-ef21b9.webp"
+  },
+  {
+   "id": "11d597bc-130e-448d-9786-2ad76e107478",
+   "name": "Catrins Bedroom",
+   "desc": "",
+   "src": "backgrounds/catrins-bedroom-11d597.webp"
+  },
+  {
+   "id": "4726b03e-a300-4af4-ad8a-f11e8ca62b9d",
+   "name": "Hallway",
+   "desc": "",
+   "src": "backgrounds/hallway-4726b0.webp"
+  },
+  {
+   "id": "27cf86af-0cdd-484e-82a9-66b0e5031376",
+   "name": "Boys Locker Room",
+   "desc": "",
+   "src": "backgrounds/boys-locker-room-27cf86.webp"
+  },
+  {
+   "id": "9fd9f479-eca4-49ad-b346-afa44f3af277",
+   "name": "Girls locker room.",
+   "desc": "",
+   "src": "backgrounds/girls-locker-room-9fd9f4.webp"
+  },
+  {
+   "id": "2b56f9d7-9e8d-4ed1-8784-251b5d9ee831",
+   "name": "Shower - Locker rooms",
+   "desc": "",
+   "src": "backgrounds/shower-locker-rooms-2b56f9.webp"
+  },
+  {
+   "id": "02f86fbe-2ca1-4dd6-82c8-b2a2d479c3fe",
+   "name": "Stadium outside",
+   "desc": "",
+   "src": "backgrounds/stadium-outside-02f86f.webp"
+  },
+  {
+   "id": "3c87e798-9779-4310-8553-4e0b88057557",
+   "name": "Classroom 1",
+   "desc": "",
+   "src": "backgrounds/classroom-1-3c87e7.webp"
+  },
+  {
+   "id": "e7e00119-3e70-4b93-9c8e-2b31e561f186",
+   "name": "Classroom 2",
+   "desc": "",
+   "src": "backgrounds/classroom-2-e7e001.webp"
+  },
+  {
+   "id": "ca14a3ae-4175-4ec7-82a7-539d5bfb748f",
+   "name": "Cafeteria",
+   "desc": "",
+   "src": "backgrounds/cafeteria-ca14a3.webp"
+  },
+  {
+   "id": "05bdb767-44ea-4b74-9f20-872d169e1279",
+   "name": "Study Desk",
+   "desc": "",
+   "src": "backgrounds/study-desk-05bdb7.webp"
+  },
+  {
+   "id": "e0c77233-a999-48c3-941a-511165126e41",
+   "name": "Principals Office",
+   "desc": "",
+   "src": "backgrounds/principals-office-e0c772.webp"
+  },
+  {
+   "id": "aebba2d7-7019-4723-b39f-de7280f77d48",
+   "name": "Street",
+   "desc": "",
+   "src": "backgrounds/street-aebba2.webp"
+  },
+  {
+   "id": "f8ac542f-1501-4457-8fc4-dfbeebf4f6b7",
+   "name": "Outside University",
+   "desc": "",
+   "src": "backgrounds/outside-university-f8ac54.webp"
+  },
+  {
+   "id": "52aa28a4-d8d6-483c-a17a-621bf51b451f",
+   "name": "Indoors gym",
+   "desc": "",
+   "src": "backgrounds/indoors-gym-52aa28.webp"
+  },
+  {
+   "id": "ec1472b8-7db4-4d3e-add8-1df65ec3aba3",
+   "name": "Indoors Gym 2",
+   "desc": "",
+   "src": "backgrounds/indoors-gym-2-ec1472.webp"
+  },
+  {
+   "id": "0283229b-47e9-4947-9ffe-457409dd841b",
+   "name": "Indoors Gym 3",
+   "desc": "",
+   "src": "backgrounds/indoors-gym-3-028322.webp"
+  },
+  {
+   "id": "1f0d2293-38a3-4950-b0ff-40a3d4df383a",
+   "name": "Indoors Gym 4 (With pointer stuck at 64!)",
+   "desc": "",
+   "src": "backgrounds/indoors-gym-4-with-pointer-stuck-at-64-1f0d22.webp"
+  },
+  {
+   "id": "d5621472-f6fe-4f5b-b563-2965aeb77439",
+   "name": "Hallway 2",
+   "desc": "",
+   "src": "backgrounds/hallway-2-d56214.webp"
+  },
+  {
+   "id": "2caa6d62-8154-4bef-a070-695b98230ab8",
+   "name": "Outside Locker rooms",
+   "desc": "",
+   "src": "backgrounds/outside-locker-rooms-2caa6d.webp"
+  },
+  {
+   "id": "f901ba12-0217-4160-bf8c-cb33b336887c",
+   "name": "Locker Cornered",
+   "desc": "",
+   "src": "backgrounds/locker-cornered-f901ba.webp"
+  },
+  {
+   "id": "e741ddf1-c64c-4725-9379-dc45ddaad5b6",
+   "name": "Hallway Outside",
+   "desc": "",
+   "src": "backgrounds/hallway-outside-e741dd.webp"
+  },
+  {
+   "id": "e75309e5-0307-4419-9080-8e0aea205d1e",
+   "name": "Streets 3",
+   "desc": "",
+   "src": "backgrounds/streets-3-e75309.webp"
+  },
+  {
+   "id": "f29c5375-8c81-4ea7-8667-5ddd1d18a359",
+   "name": "Outside Restaurant",
+   "desc": "",
+   "src": "backgrounds/outside-restaurant-f29c53.webp"
+  },
+  {
+   "id": "e84b7489-69f6-4223-af40-8891d1abf3c6",
+   "name": "The Bento Dragon 1",
+   "desc": "",
+   "src": "backgrounds/the-bento-dragon-1-e84b74.webp"
+  },
+  {
+   "id": "6414abe6-824e-4f34-bc02-b96c9cc68ad9",
+   "name": "The Bento Dragon 2",
+   "desc": "",
+   "src": "backgrounds/the-bento-dragon-2-6414ab.webp"
+  },
+  {
+   "id": "5203def8-5e1d-44d1-a897-ad6d91a0cc82",
+   "name": "From the seats",
+   "desc": "",
+   "src": "backgrounds/from-the-seats-5203de.webp"
+  },
+  {
+   "id": "9696a8da-cb93-4dd0-9ef9-5ca35fc695c0",
+   "name": "Park (1)",
+   "desc": "",
+   "src": "backgrounds/park-1-9696a8.webp"
+  },
+  {
+   "id": "8796237f-a670-4737-a9fa-392eec1e25ba",
+   "name": "Park (2)",
+   "desc": "",
+   "src": "backgrounds/park-2-879623.webp"
+  },
+  {
+   "id": "96ff213d-dabe-467c-a639-925f6a6cdc4e",
+   "name": "City",
+   "desc": "",
+   "src": "backgrounds/city-96ff21.webp"
+  },
+  {
+   "id": "08d2d4c9-2dd9-4f86-b180-5729e47d248a",
+   "name": "City (2)",
+   "desc": "",
+   "src": "backgrounds/city-2-08d2d4.webp"
+  },
+  {
+   "id": "9dbab4a2-4d34-4783-8700-2679b24a84ec",
+   "name": "City (Night)",
+   "desc": "",
+   "src": "backgrounds/city-night-9dbab4.webp"
+  },
+  {
+   "id": "53d49b40-a215-4f24-93be-979c0894092b",
+   "name": "Jack's Room",
+   "desc": "",
+   "src": "backgrounds/jack-s-room-53d49b.webp"
+  },
+  {
+   "id": "efdefee7-71c4-43cf-aa53-f9dbf18abea0",
+   "name": "Seren's room",
+   "desc": "",
+   "src": "backgrounds/seren-s-room-efdefe.webp"
+  },
+  {
+   "id": "7681cf63-4e23-42b6-ab27-7f66cb4b614d",
+   "name": "Megan's room",
+   "desc": "",
+   "src": "backgrounds/megan-s-room-7681cf.webp"
+  },
+  {
+   "id": "3e13ce1c-53d0-425b-af18-b2cdea7d07eb",
+   "name": "Carys' room (Day)",
+   "desc": "",
+   "src": "backgrounds/carys-room-day-3e13ce.webp"
+  },
+  {
+   "id": "3e7dc6d5-313b-4dbf-9c01-b1d661218f67",
+   "name": "Your Room",
+   "desc": "",
+   "src": "backgrounds/your-room-3e7dc6.webp"
+  },
+  {
+   "id": "b87c8b0c-af69-4cd6-882a-c3557a568ee9",
+   "name": "Guest Room",
+   "desc": "",
+   "src": "backgrounds/guest-room-b87c8b.webp"
+  },
+  {
+   "id": "71330e56-d5ed-42e9-aec1-1002be314dc5",
+   "name": "Party Room!",
+   "desc": "",
+   "src": "backgrounds/party-room-71330e.webp"
+  },
+  {
+   "id": "c031d843-b993-4f41-b5fa-cd0dd1e19634",
+   "name": "Alice's bedroom",
+   "desc": "",
+   "src": "backgrounds/alice-s-bedroom-c031d8.webp"
+  },
+  {
+   "id": "fd8aae30-8e69-4fa3-8d51-7a67c582e558",
+   "name": "Alys' Room (The Brightest Room)",
+   "desc": "",
+   "src": "backgrounds/alys-room-the-brightest-room-fd8aae.webp"
+  },
+  {
+   "id": "e9bca5c5-9e71-49a8-8f42-e237f454a244",
+   "name": "Eira's room",
+   "desc": "",
+   "src": "backgrounds/eira-s-room-e9bca5.webp"
+  },
+  {
+   "id": "fd700053-5864-4580-af53-5e12c1e2cca2",
+   "name": "Hallway (Night)",
+   "desc": "",
+   "src": "backgrounds/hallway-night-fd7000.webp"
+  },
+  {
+   "id": "0e1af3ee-4114-4b49-9e88-4ed25da038c1",
+   "name": "Carys' room (Night)",
+   "desc": "",
+   "src": "backgrounds/carys-room-night-0e1af3.webp"
+  },
+  {
+   "id": "0c3b38d6-b23e-4ba6-b397-a6a015358ed9",
+   "name": "Linda's fancy room!",
+   "desc": "",
+   "src": "backgrounds/linda-s-fancy-room-0c3b38.webp"
+  },
+  {
+   "id": "0dde061f-76da-4a27-bde6-ec3c842bca79",
+   "name": "Ellis' Room (Night)",
+   "desc": "",
+   "src": "backgrounds/ellis-room-night-0dde06.webp"
+  },
+  {
+   "id": "53508a64-ee58-481d-9fb3-d87eb7279eac",
+   "name": "Rhiannon's room",
+   "desc": "",
+   "src": "backgrounds/rhiannon-s-room-53508a.webp"
+  },
+  {
    "id": "846c6c72-e96f-456a-af7d-c27cabe04d9b",
    "name": "Fire..",
    "desc": "Fire up to the dead night",
@@ -2828,6 +5528,762 @@
    "name": "Final Stretch",
    "desc": "",
    "src": "backgrounds/final-stretch-ffe365.webp"
+  },
+  {
+   "id": "83797693-a4b1-443c-ae21-a68e468873bf",
+   "name": "New Haven Arcades",
+   "desc": "",
+   "src": "backgrounds/new-haven-arcades-837976.webp"
+  },
+  {
+   "id": "fd14cae6-95e4-4bac-8b14-ec5f8ef249e4",
+   "name": "Asuka's Balcony",
+   "desc": "",
+   "src": "backgrounds/asuka-s-balcony-fd14ca.webp"
+  },
+  {
+   "id": "702a66a1-4b6c-4ec3-9eff-020b9e18ce62",
+   "name": "Cat's Meow",
+   "desc": "",
+   "src": "backgrounds/cat-s-meow-702a66.webp"
+  },
+  {
+   "id": "264d2484-2186-4cc5-a9c3-76214be1b08b",
+   "name": "The Refreshing Pasture",
+   "desc": "",
+   "src": "backgrounds/the-refreshing-pasture-264d24.webp"
+  },
+  {
+   "id": "81fb6061-25b4-478c-a660-8ff23b0178f6",
+   "name": "Bathroom",
+   "desc": "",
+   "src": "backgrounds/bathroom-81fb60.webp"
+  },
+  {
+   "id": "5873f79b-afbe-4987-bf6e-0fc829b28632",
+   "name": "background-28",
+   "desc": "",
+   "src": "backgrounds/background-28-5873f7.webp"
+  },
+  {
+   "id": "c8c5e26b-a77e-447a-aae9-4e0e7bc0e4bd",
+   "name": "background-30",
+   "desc": "",
+   "src": "backgrounds/background-30-c8c5e2.webp"
+  },
+  {
+   "id": "dc57b6c4-4969-411d-af74-7e01002f6744",
+   "name": "background-32",
+   "desc": "",
+   "src": "backgrounds/background-32-dc57b6.webp"
+  },
+  {
+   "id": "40852993-8b26-4728-a722-bc28bafde0ed",
+   "name": "background-33",
+   "desc": "",
+   "src": "backgrounds/background-33-408529.webp"
+  },
+  {
+   "id": "21adca30-02b1-41ac-b862-fe1164c55a44",
+   "name": "background-34",
+   "desc": "",
+   "src": "backgrounds/background-34-21adca.webp"
+  },
+  {
+   "id": "65e3782f-b909-4583-8a54-5950d2266900",
+   "name": "background-35",
+   "desc": "",
+   "src": "backgrounds/background-35-65e378.webp"
+  },
+  {
+   "id": "ec35d4ac-0b3c-4491-a217-a6d71a41800d",
+   "name": "background-36",
+   "desc": "",
+   "src": "backgrounds/background-36-ec35d4.webp"
+  },
+  {
+   "id": "51a45374-faf1-4102-8b6d-df7b295c01fc",
+   "name": "Lab A-3 Daytime",
+   "desc": "",
+   "src": "backgrounds/lab-a-3-daytime-51a453.webp"
+  },
+  {
+   "id": "ffe3109b-d399-452f-9c4d-67fd186fa76f",
+   "name": "New Haven Rain",
+   "desc": "",
+   "src": "backgrounds/new-haven-rain-ffe310.webp"
+  },
+  {
+   "id": "e234a607-fa8c-4ed6-bd31-d5b395e7fb9c",
+   "name": "Roberts House",
+   "desc": "",
+   "src": "backgrounds/roberts-house-e234a6.webp"
+  },
+  {
+   "id": "251432a2-3383-4480-a7e4-b95349550f2f",
+   "name": "New Haven - Night",
+   "desc": "",
+   "src": "backgrounds/new-haven-night-251432.webp"
+  },
+  {
+   "id": "a1fff394-bb5c-4e43-91ac-139789681051",
+   "name": "Bullen House",
+   "desc": "",
+   "src": "backgrounds/bullen-house-a1fff3.webp"
+  },
+  {
+   "id": "43dd72ff-9af6-4b41-880e-1d0cecfc7f0d",
+   "name": "Haven University- Day",
+   "desc": "",
+   "src": "backgrounds/haven-university-day-43dd72.webp"
+  },
+  {
+   "id": "3e501a53-eb43-493e-95e1-e1ac4f45d6ea",
+   "name": "New Haven - Day",
+   "desc": "",
+   "src": "backgrounds/new-haven-day-3e501a.webp"
+  },
+  {
+   "id": "246ad58c-7648-496e-8e5e-ccfb92a9947e",
+   "name": "New Haven Institute - Shower room",
+   "desc": "",
+   "src": "backgrounds/new-haven-institute-shower-room-246ad5.webp"
+  },
+  {
+   "id": "0fa3357a-e1ee-4076-a9d7-b9d221b04a17",
+   "name": "Bergeron House",
+   "desc": "",
+   "src": "backgrounds/bergeron-house-0fa335.webp"
+  },
+  {
+   "id": "a9aff120-cd89-45d0-8556-f98cce9bf59d",
+   "name": "Roberts house - Night",
+   "desc": "",
+   "src": "backgrounds/roberts-house-night-a9aff1.webp"
+  },
+  {
+   "id": "f2af91ab-2cd6-41d6-a06e-d2f6a7d7e4cb",
+   "name": "Dr Doe's lab",
+   "desc": "",
+   "src": "backgrounds/dr-doe-s-lab-f2af91.webp"
+  },
+  {
+   "id": "14a50069-9c79-4050-a99c-34c9415741a2",
+   "name": "New Haven - Night 2",
+   "desc": "",
+   "src": "backgrounds/new-haven-night-2-14a500.webp"
+  },
+  {
+   "id": "dec33064-1e5e-46b4-9e23-ea41dd8e16dc",
+   "name": "New Haven - Stag's Head",
+   "desc": "",
+   "src": "backgrounds/new-haven-stag-s-head-dec330.webp"
+  },
+  {
+   "id": "f9ac510a-78c2-4bcf-befe-1527aede34ac",
+   "name": "University - Evening",
+   "desc": "",
+   "src": "backgrounds/university-evening-f9ac51.webp"
+  },
+  {
+   "id": "8843f69d-f325-418e-acdb-c4fd8bb6cef1",
+   "name": "Lab A-3 - Night",
+   "desc": "",
+   "src": "backgrounds/lab-a-3-night-8843f6.webp"
+  },
+  {
+   "id": "323cbeeb-d40c-4c42-902f-b254ebe34b67",
+   "name": "Valentine's house",
+   "desc": "",
+   "src": "backgrounds/valentine-s-house-323cbe.webp"
+  },
+  {
+   "id": "324a72ae-9af2-424f-ad63-02420e575df2",
+   "name": "Cheetor's apartment - Front walkway",
+   "desc": "",
+   "src": "backgrounds/cheetor-s-apartment-front-walkway-324a72.webp"
+  },
+  {
+   "id": "72e01ac9-a3cc-4db4-8561-3e2d26e3899f",
+   "name": "Institute - Day",
+   "desc": "",
+   "src": "backgrounds/institute-day-72e01a.webp"
+  },
+  {
+   "id": "dac02c00-2ae0-4e01-97eb-a8189a65d32a",
+   "name": "Joseph's Room - night",
+   "desc": "",
+   "src": "backgrounds/joseph-s-room-night-dac02c.webp"
+  },
+  {
+   "id": "69fc666e-e7f3-4eef-8883-257452dfa07e",
+   "name": "New Haven - market street",
+   "desc": "",
+   "src": "backgrounds/new-haven-market-street-69fc66.webp"
+  },
+  {
+   "id": "e352d521-0c59-455b-b3ef-5f54c0187918",
+   "name": "Institute - Night",
+   "desc": "",
+   "src": "backgrounds/institute-night-e352d5.webp"
+  },
+  {
+   "id": "d022d80f-d442-46cc-b1a5-df51f9403865",
+   "name": "Institute locker room",
+   "desc": "",
+   "src": "backgrounds/institute-locker-room-d022d8.webp"
+  },
+  {
+   "id": "cecfb6a0-98c9-443f-ad91-0d0271c9df00",
+   "name": "Institute cafeteria",
+   "desc": "",
+   "src": "backgrounds/institute-cafeteria-cecfb6.webp"
+  },
+  {
+   "id": "892a766a-04f2-4bb3-9449-faf779e61a44",
+   "name": "Natalie's room",
+   "desc": "",
+   "src": "backgrounds/natalie-s-room-892a76.webp"
+  },
+  {
+   "id": "85449bd4-cecd-4d09-96dc-f6d902612988",
+   "name": "New Haven Coast",
+   "desc": "",
+   "src": "backgrounds/new-haven-coast-85449b.webp"
+  },
+  {
+   "id": "d37e3a81-a369-4f95-944b-f0cbfdfd4a5e",
+   "name": "New Haven Coast 2",
+   "desc": "",
+   "src": "backgrounds/new-haven-coast-2-d37e3a.webp"
+  },
+  {
+   "id": "90a90bad-0ea8-4975-9573-bf76fee24dce",
+   "name": "Marija's Office",
+   "desc": "",
+   "src": "backgrounds/marija-s-office-90a90b.webp"
+  },
+  {
+   "id": "a482090f-c626-4495-85bd-c6bda062c4b0",
+   "name": "New Haven Lake Day",
+   "desc": "",
+   "src": "backgrounds/new-haven-lake-day-a48209.webp"
+  },
+  {
+   "id": "37a04c77-8252-4141-b85a-b0ff368f97b0",
+   "name": "New Haven Lake - Night",
+   "desc": "",
+   "src": "backgrounds/new-haven-lake-night-37a04c.webp"
+  },
+  {
+   "id": "afa915a3-a3f9-434b-b94c-4eb23cda4406",
+   "name": "Doe's lab - Night",
+   "desc": "",
+   "src": "backgrounds/doe-s-lab-night-afa915.webp"
+  },
+  {
+   "id": "a0a639e8-6478-4e05-9e95-dae0e3941b5d",
+   "name": "Lab B-2",
+   "desc": "",
+   "src": "backgrounds/lab-b-2-a0a639.webp"
+  },
+  {
+   "id": "e229367f-0e36-4199-bd2d-4a20e9110614",
+   "name": "Blood Rush",
+   "desc": "",
+   "src": "backgrounds/blood-rush-e22936.webp"
+  },
+  {
+   "id": "beb3dbd6-de44-4c67-80f9-0e4317032e46",
+   "name": "Ruined Lab A-3, Earth 3",
+   "desc": "",
+   "src": "backgrounds/ruined-lab-a-3-earth-3-beb3db.webp"
+  },
+  {
+   "id": "a876759d-4ada-482c-b0dd-433bc30e8596",
+   "name": "Institute Rooftop - BAD SUN",
+   "desc": "",
+   "src": "backgrounds/institute-rooftop-bad-sun-a87675.webp"
+  },
+  {
+   "id": "89538af2-6468-4fad-9106-0f5a07c888b8",
+   "name": "Lab A-3, Afternoon",
+   "desc": "",
+   "src": "backgrounds/lab-a-3-afternoon-89538a.webp"
+  },
+  {
+   "id": "13c954ba-2ee1-4753-8bd7-6397cd943b9b",
+   "name": "New Haven Coast 3",
+   "desc": "",
+   "src": "backgrounds/new-haven-coast-3-13c954.webp"
+  },
+  {
+   "id": "7d474956-b000-48aa-aaad-ca42682f1b32",
+   "name": "New Haven Coast 4",
+   "desc": "",
+   "src": "backgrounds/new-haven-coast-4-7d4749.webp"
+  },
+  {
+   "id": "09767613-5bc0-4144-8368-cf05e6d0b8d1",
+   "name": "Doe Earth 2",
+   "desc": "",
+   "src": "backgrounds/doe-earth-2-097676.webp"
+  },
+  {
+   "id": "7d77d970-8619-4cb3-a0d5-6992813b55b6",
+   "name": "Sauna - Doe Earth",
+   "desc": "",
+   "src": "backgrounds/sauna-doe-earth-7d77d9.webp"
+  },
+  {
+   "id": "75e16e0b-3120-48bf-b07f-c7d81c28312d",
+   "name": "Doe world 3",
+   "desc": "",
+   "src": "backgrounds/doe-world-3-75e16e.webp"
+  },
+  {
+   "id": "b1afef07-2aa5-4e69-a073-062f5cb5b6a8",
+   "name": "Doe world 4",
+   "desc": "",
+   "src": "backgrounds/doe-world-4-b1afef.webp"
+  },
+  {
+   "id": "e1809348-9db0-4215-a741-f70f856f95a5",
+   "name": "Doe's bedroom.",
+   "desc": "",
+   "src": "backgrounds/doe-s-bedroom-e18093.webp"
+  },
+  {
+   "id": "92aa8ebe-5e68-4c65-918a-dc07abac7e8b",
+   "name": "Queen's bedroom",
+   "desc": "",
+   "src": "backgrounds/queen-s-bedroom-92aa8e.webp"
+  },
+  {
+   "id": "11862c1b-df70-43d9-b064-cdd613a555d7",
+   "name": "Lab B-2 before rift",
+   "desc": "",
+   "src": "backgrounds/lab-b-2-before-rift-11862c.webp"
+  },
+  {
+   "id": "aad067e3-7fd4-4e9d-875f-cbc690f51e69",
+   "name": "Cafeteria late afternoon",
+   "desc": "",
+   "src": "backgrounds/cafeteria-late-afternoon-aad067.webp"
+  },
+  {
+   "id": "be0dc571-2238-42a2-ba9e-54d19e607573",
+   "name": "Bergeron home - night",
+   "desc": "",
+   "src": "backgrounds/bergeron-home-night-be0dc5.webp"
+  },
+  {
+   "id": "5415d92a-d27f-40ad-93bf-782fb41c3b75",
+   "name": "University Field",
+   "desc": "",
+   "src": "backgrounds/university-field-5415d9.webp"
+  },
+  {
+   "id": "8d841b6f-bd8e-4c06-9723-dc3dc1cc2e7c",
+   "name": "Earth 3 story 1",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-1-8d841b.webp"
+  },
+  {
+   "id": "79b27316-bf92-46b9-b20f-86723d9e550e",
+   "name": "Earth 3 Story 2",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-2-79b273.webp"
+  },
+  {
+   "id": "d4486114-32d3-435c-aa2e-e90c60a4df08",
+   "name": "Earth 3 Story 3",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-3-d44861.webp"
+  },
+  {
+   "id": "97337fa1-b6de-45bb-82cf-b336e26e9620",
+   "name": "Earth 3 Story 4",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-4-97337f.webp"
+  },
+  {
+   "id": "7838634e-f5a3-40c4-bbef-4f242a3ddf26",
+   "name": "Earth 3 Story 5",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-5-783863.webp"
+  },
+  {
+   "id": "d97d59f9-b72d-4ae4-8197-7bc236aed935",
+   "name": "Earth 3 Story 6",
+   "desc": "",
+   "src": "backgrounds/earth-3-story-6-d97d59.webp"
+  },
+  {
+   "id": "01bb8259-e080-41e6-b596-c7dc95bcfc45",
+   "name": "background-76",
+   "desc": "",
+   "src": "backgrounds/background-76-01bb82.webp"
+  },
+  {
+   "id": "6050bd9d-8f1d-43da-b5df-7d0cb2b068e9",
+   "name": "background-77",
+   "desc": "",
+   "src": "backgrounds/background-77-6050bd.webp"
+  },
+  {
+   "id": "5f661ed0-f155-46fe-8ab2-7bf3d0c5bfc4",
+   "name": "background-78",
+   "desc": "",
+   "src": "backgrounds/background-78-5f661e.webp"
+  },
+  {
+   "id": "8924a27d-cd55-47d4-86ff-391f18edb847",
+   "name": "background-79",
+   "desc": "",
+   "src": "backgrounds/background-79-8924a2.webp"
+  },
+  {
+   "id": "8cc5d3df-0cc7-4202-bdac-4757f2edc191",
+   "name": "background-80",
+   "desc": "",
+   "src": "backgrounds/background-80-8cc5d3.webp"
+  },
+  {
+   "id": "a41a268a-7c7e-42f5-9a17-3af351d1be30",
+   "name": "Sauna Entrance",
+   "desc": "",
+   "src": "backgrounds/sauna-entrance-a41a26.webp"
+  },
+  {
+   "id": "16949673-7d8a-46d9-b203-7ce62d763c75",
+   "name": "Origin Club",
+   "desc": "",
+   "src": "backgrounds/origin-club-169496.webp"
+  },
+  {
+   "id": "6ac609a9-091d-4772-a3b2-e252dad639cc",
+   "name": "Train Station 2",
+   "desc": "",
+   "src": "backgrounds/train-station-2-6ac609.webp"
+  },
+  {
+   "id": "06d529d6-80a5-4a16-8c21-e3c228f188c2",
+   "name": "Library",
+   "desc": "",
+   "src": "backgrounds/library-06d529.webp"
+  },
+  {
+   "id": "e5907554-b541-4665-a51f-79e447362d93",
+   "name": "background-85",
+   "desc": "",
+   "src": "backgrounds/background-85-e59075.webp"
+  },
+  {
+   "id": "271236eb-24a7-43ed-88a4-202a64e08052",
+   "name": "background-86",
+   "desc": "",
+   "src": "backgrounds/background-86-271236.webp"
+  },
+  {
+   "id": "87dcb537-31d7-4b44-98f1-74ff9a7d50d4",
+   "name": "Noelle's house",
+   "desc": "",
+   "src": "backgrounds/noelle-s-house-87dcb5.webp"
+  },
+  {
+   "id": "72421267-4362-49bf-97ce-ec05a509056a",
+   "name": "background-89",
+   "desc": "",
+   "src": "backgrounds/background-89-724212.webp"
+  },
+  {
+   "id": "558d14a4-4409-4f86-ba8e-0613e4c44f1f",
+   "name": "Wrestling ring",
+   "desc": "",
+   "src": "backgrounds/wrestling-ring-558d14.webp"
+  },
+  {
+   "id": "efcc9b9f-2937-4049-bfb6-1951f08126b1",
+   "name": "background-90",
+   "desc": "",
+   "src": "backgrounds/background-90-efcc9b.webp"
+  },
+  {
+   "id": "46752109-9103-405c-8c2a-0e2e6c7adae8",
+   "name": "background-91",
+   "desc": "",
+   "src": "backgrounds/background-91-467521.webp"
+  },
+  {
+   "id": "e181eebf-a928-44c7-a256-da94178b4a9a",
+   "name": "Ray's room (SFW)",
+   "desc": "",
+   "src": "backgrounds/ray-s-room-sfw-e181ee.webp"
+  },
+  {
+   "id": "9aa85017-f20b-49ee-aa5c-23aaf3eb6216",
+   "name": "Ray's Room (NSFW)",
+   "desc": "",
+   "src": "backgrounds/ray-s-room-nsfw-9aa850.webp"
+  },
+  {
+   "id": "306adb8a-4d28-47fd-a780-5d147473266e",
+   "name": "Joseph's room (Before Ray)",
+   "desc": "",
+   "src": "backgrounds/joseph-s-room-before-ray-306adb.webp"
+  },
+  {
+   "id": "05b7b1b6-49a3-4b32-880d-f4b33d13aa2b",
+   "name": "Joseph's Room (Ray)",
+   "desc": "",
+   "src": "backgrounds/joseph-s-room-ray-05b7b1.webp"
+  },
+  {
+   "id": "7ba9a8fc-bea1-4de5-ae1d-c801f8e79278",
+   "name": "Quinta's room (SFW)",
+   "desc": "",
+   "src": "backgrounds/quinta-s-room-sfw-7ba9a8.webp"
+  },
+  {
+   "id": "eb6eada4-47e7-4c73-919a-4b173f6dd767",
+   "name": "Quinta's Room (NSFW)",
+   "desc": "",
+   "src": "backgrounds/quinta-s-room-nsfw-eb6ead.webp"
+  },
+  {
+   "id": "6a426fdb-b0d0-4b38-9342-3598ff3f5b49",
+   "name": "Bucky's bedroom",
+   "desc": "",
+   "src": "backgrounds/bucky-s-bedroom-6a426f.webp"
+  },
+  {
+   "id": "3371fc03-3afa-40e7-bbc3-bdbbac580cd7",
+   "name": "Rhoda/John's bedroom",
+   "desc": "",
+   "src": "backgrounds/rhoda-john-s-bedroom-3371fc.webp"
+  },
+  {
+   "id": "a4147cae-2b17-4a49-b543-0e2ff9a9e8a9",
+   "name": "Marija's",
+   "desc": "",
+   "src": "backgrounds/marija-s-a4147c.webp"
+  },
+  {
+   "id": "94f112a9-cd9f-4035-84dd-f65b0bf574b5",
+   "name": "Saria's",
+   "desc": "",
+   "src": "backgrounds/saria-s-94f112.webp"
+  },
+  {
+   "id": "0f7f6d2e-0106-44b3-b626-418f910a7aa5",
+   "name": "Taylor Family",
+   "desc": "",
+   "src": "backgrounds/taylor-family-0f7f6d.webp"
+  },
+  {
+   "id": "67cc84e7-477e-4be1-8324-545caa5fab32",
+   "name": "Susan",
+   "desc": "",
+   "src": "backgrounds/susan-67cc84.webp"
+  },
+  {
+   "id": "5e96a770-4cf6-4caa-abf5-434ec63b3e02",
+   "name": "Juniper",
+   "desc": "",
+   "src": "backgrounds/juniper-5e96a7.webp"
+  },
+  {
+   "id": "24d9e63e-7d1c-4560-8fef-b58bd9d9e414",
+   "name": "Diana",
+   "desc": "",
+   "src": "backgrounds/diana-24d9e6.webp"
+  },
+  {
+   "id": "304fdd8c-ff61-4dfa-99e3-f72c613237e6",
+   "name": "Jane",
+   "desc": "",
+   "src": "backgrounds/jane-304fdd.webp"
+  },
+  {
+   "id": "13b8d242-256b-45bf-b748-36dd41c104be",
+   "name": "Asuka",
+   "desc": "",
+   "src": "backgrounds/asuka-13b8d2.webp"
+  },
+  {
+   "id": "0a901674-7a49-46d8-afc9-cc5f792c6b39",
+   "name": "Cheetor Single",
+   "desc": "",
+   "src": "backgrounds/cheetor-single-0a9016.webp"
+  },
+  {
+   "id": "e954198e-007a-493a-a202-76ffb3730a6b",
+   "name": "Cheetor Dating",
+   "desc": "",
+   "src": "backgrounds/cheetor-dating-e95419.webp"
+  },
+  {
+   "id": "9192cc64-d454-4e74-b1d5-9ae71a683302",
+   "name": "Clara living",
+   "desc": "",
+   "src": "backgrounds/clara-living-9192cc.webp"
+  },
+  {
+   "id": "aa4e02e5-fb49-4c09-8e34-05f8baafc140",
+   "name": "Clara Bedroom",
+   "desc": "",
+   "src": "backgrounds/clara-bedroom-aa4e02.webp"
+  },
+  {
+   "id": "452fd4b4-7678-48c6-8659-ff511e57f74f",
+   "name": "Anya",
+   "desc": "",
+   "src": "backgrounds/anya-452fd4.webp"
+  },
+  {
+   "id": "f3438aa4-aac2-424f-8b45-ce0ba3a7e1a2",
+   "name": "Shenzi's garage",
+   "desc": "",
+   "src": "backgrounds/shenzi-s-garage-f3438a.webp"
+  },
+  {
+   "id": "f5425d52-577b-4923-9de1-5a57c7188238",
+   "name": "Delhpine's room",
+   "desc": "",
+   "src": "backgrounds/delhpine-s-room-f5425d.webp"
+  },
+  {
+   "id": "074f2986-e952-447f-9e54-ec83b9026ba1",
+   "name": "background-107",
+   "desc": "",
+   "src": "backgrounds/background-107-074f29.webp"
+  },
+  {
+   "id": "a903e457-e025-4cd7-8254-a2f2bad54da4",
+   "name": "background-108",
+   "desc": "",
+   "src": "backgrounds/background-108-a903e4.webp"
+  },
+  {
+   "id": "fc09afa1-6ac3-474a-8287-b15ccabb659e",
+   "name": "background-109",
+   "desc": "",
+   "src": "backgrounds/background-109-fc09af.webp"
+  },
+  {
+   "id": "efe415c5-6c9a-456d-884b-8419b2ef0c98",
+   "name": "background-110",
+   "desc": "",
+   "src": "backgrounds/background-110-efe415.webp"
+  },
+  {
+   "id": "fcef8a4e-3b21-4f7a-bce3-3fc8fda29127",
+   "name": "background-110",
+   "desc": "",
+   "src": "backgrounds/background-110-fcef8a.webp"
+  },
+  {
+   "id": "4bbc02b1-1a4e-4698-ae39-e33518ed7850",
+   "name": "background-111",
+   "desc": "",
+   "src": "backgrounds/background-111-4bbc02.webp"
+  },
+  {
+   "id": "1f28aa0d-933f-4213-b160-3f85cc10cbbf",
+   "name": "background-112",
+   "desc": "",
+   "src": "backgrounds/background-112-1f28aa.webp"
+  },
+  {
+   "id": "2b863cf1-f644-42b3-b539-28c34f9ed432",
+   "name": "NHIS Reception",
+   "desc": "",
+   "src": "backgrounds/nhis-reception-2b863c.webp"
+  },
+  {
+   "id": "bb8ded6e-5ce7-4fb2-9166-3be6be3e0cf5",
+   "name": "NHIS reception Earth 7",
+   "desc": "",
+   "src": "backgrounds/nhis-reception-earth-7-bb8ded.webp"
+  },
+  {
+   "id": "aef88b91-b4ad-43b1-a8f5-6a1a8d32b4b3",
+   "name": "Digital Fever",
+   "desc": "",
+   "src": "backgrounds/digital-fever-aef88b.webp"
+  },
+  {
+   "id": "47b76391-b849-40b6-892a-9f3b9db1e638",
+   "name": "Lab B-2 Earth 7 Rift",
+   "desc": "",
+   "src": "backgrounds/lab-b-2-earth-7-rift-47b763.webp"
+  },
+  {
+   "id": "c66e3b13-7cbe-4382-883e-80a0f1e3a8b6",
+   "name": "Derek's Apartment",
+   "desc": "",
+   "src": "backgrounds/derek-s-apartment-c66e3b.webp"
+  },
+  {
+   "id": "48f881aa-48b2-4d30-99a7-6fb4c350d168",
+   "name": "Miller Household",
+   "desc": "",
+   "src": "backgrounds/miller-household-48f881.webp"
+  },
+  {
+   "id": "0ed1bf06-5162-44f9-b34c-18f876f4ddfc",
+   "name": "Rosita's Bedroom",
+   "desc": "",
+   "src": "backgrounds/rosita-s-bedroom-0ed1bf.webp"
+  },
+  {
+   "id": "e9b85174-a9b6-4b6e-bdbe-d70cfe687f3b",
+   "name": "Earth 4 Lab A-1",
+   "desc": "",
+   "src": "backgrounds/earth-4-lab-a-1-e9b851.webp"
+  },
+  {
+   "id": "a0477c9e-a381-42d3-9839-394a23886c38",
+   "name": "Earth 4 Lab A-1 Data center.",
+   "desc": "",
+   "src": "backgrounds/earth-4-lab-a-1-data-center-a0477c.webp"
+  },
+  {
+   "id": "88e4abe6-6426-4fed-85a6-9e83fb74a26b",
+   "name": "Connecticut Insitute Supply Hall",
+   "desc": "",
+   "src": "backgrounds/connecticut-insitute-supply-hall-88e4ab.webp"
+  },
+  {
+   "id": "9df5f049-aa8b-490c-8e62-eb2f3be5e756",
+   "name": "beach night",
+   "desc": "",
+   "src": "backgrounds/beach-night-9df5f0.webp"
+  },
+  {
+   "id": "4783a8ac-1092-4bf7-8e92-0697dff28adc",
+   "name": "gym",
+   "desc": "",
+   "src": "backgrounds/gym-4783a8.webp"
+  },
+  {
+   "id": "8013e528-ef24-407d-8da2-62618646f0bd",
+   "name": "Earth 4 bed",
+   "desc": "",
+   "src": "backgrounds/earth-4-bed-8013e5.webp"
+  },
+  {
+   "id": "5f767c0d-740c-4574-aa07-7d60e5fd2601",
+   "name": "Earth 4 room residence",
+   "desc": "",
+   "src": "backgrounds/earth-4-room-residence-5f767c.webp"
+  },
+  {
+   "id": "e1371a0a-05dd-4be9-8bee-389100f96e56",
+   "name": "reactor",
+   "desc": "",
+   "src": "backgrounds/reactor-e1371a.webp"
   },
   {
    "id": "46115b31-11bf-486c-919f-7c303b01f6be",
@@ -3156,6 +6612,54 @@
    "icon": "items/necklace.webp"
   },
   {
+   "id": "noted-rules",
+   "name": "Noted Rules",
+   "desc": "A note from Megan of the cheerleader club rules.",
+   "icon": "items/noted-rules.webp"
+  },
+  {
+   "id": "noted-schedule",
+   "name": "Noted Schedule",
+   "desc": "The cheerleader schedule, from Monday to Friday. Given by Owain.",
+   "icon": "items/noted-schedule.webp"
+  },
+  {
+   "id": "friendship-bracelet",
+   "name": "Friendship Bracelet!",
+   "desc": "Given by Carys to show Ellis is a part of the cheerleader group as a friend.",
+   "icon": "items/friendship-bracelet.webp"
+  },
+  {
+   "id": "skip-scroll",
+   "name": "Skip Scroll",
+   "desc": "You want to skip to another segment of the story? [Items needed included]",
+   "icon": "items/skip-scroll.webp"
+  },
+  {
+   "id": "eira-s-promise",
+   "name": "Eira's Promise",
+   "desc": "\"I owe ya 💜\"",
+   "icon": "items/eira-s-promise.webp"
+  },
+  {
+   "id": "bad-reviews-for-owain",
+   "name": "Bad Reviews for Owain",
+   "desc": "A block of post it notes for bad reviews of the Manager Owain",
+   "icon": "items/bad-reviews-for-owain.webp"
+  },
+  {
+   "id": "invitation",
+   "name": "Invitation",
+   "desc": "A invitation to an American football match tomorrow",
+   "icon": "items/invitation.webp"
+  },
+  {
+   "id": "magical-stick",
+   "name": "\"Magical\" Stick",
+   "desc": "Ellis' magical stick!",
+   "icon": "items/magical-stick.webp"
+  },
+  {
    "id": "gift-card",
    "name": "Gift card",
    "desc": "Used to get snacks at the bar at prom.",
@@ -3178,6 +6682,18 @@
    "name": "Jay's pencil",
    "desc": "Jay's pencil to show friendship between you and Jay.",
    "icon": "items/jay-s-pencil.webp"
+  },
+  {
+   "id": "kuru-cure-a",
+   "name": "Kuru Cure A",
+   "desc": "The only two doses of a prototype for curing the Kuru Disease on Earth 3.",
+   "icon": "items/kuru-cure-a.webp"
+  },
+  {
+   "id": "kuru-cure-b",
+   "name": "Kuru Cure B",
+   "desc": "The only two doses of a prototype for curing the Kuru Disease on Earth 3.",
+   "icon": "items/kuru-cure-b.webp"
   },
   {
    "id": "watermelon",
@@ -3735,6 +7251,76 @@
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/78c70e9e-fb85-4f14-a1ec-f14181ec3bcf.mpeg"
   },
   {
+   "id": "the-song-of-friendship",
+   "name": "The song of friendship",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/46a0be01-514d-4426-a768-ff0646700784.mpeg"
+  },
+  {
+   "id": "main-theme-our-life",
+   "name": "Main theme: Our life",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/b1ac94c8-d3ee-41d6-a67f-13d2d81e4280.mpeg"
+  },
+  {
+   "id": "days-that-will-continue",
+   "name": "Days that will continue",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/51675fb7-d05f-437d-b3f9-dcb8552b3325.mpeg"
+  },
+  {
+   "id": "day-dreaming-girl",
+   "name": "Day dreaming girl.",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/4faceb97-699c-4118-9967-c04816d6b8d1.mpeg"
+  },
+  {
+   "id": "distant-cousins",
+   "name": "Distant cousins.",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/8f66d0e7-503d-42f9-a7b3-88c36c70114d.mpeg"
+  },
+  {
+   "id": "an-all-girls-school",
+   "name": "An All-girls School.",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/914fe641-d79d-4226-91f8-bb63dbc34929.mpeg"
+  },
+  {
+   "id": "unbelievable-sisters",
+   "name": "Unbelievable Sisters.",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/46582ed7-e4ca-440f-abc9-5b461a5ef556.mpeg"
+  },
+  {
+   "id": "underestimated-girl",
+   "name": "Underestimated Girl",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/f08fa99a-c2c6-4c58-8baa-97d80f780e15.mpeg"
+  },
+  {
+   "id": "calming-cutesy-class-time",
+   "name": "Calming cutesy class time",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/61afd5d2-e47b-4f00-924f-5b0aefa574ee.mpeg"
+  },
+  {
+   "id": "crazy-cutesy-classtime",
+   "name": "Crazy Cutesy classtime",
+   "tags": [],
+   "novel": "Atarashī gakkō; Secret Garden!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/5a21e33e-8954-4a2b-be1d-ec5b67ac0da7.mpeg"
+  },
+  {
    "id": "desirable",
    "name": "Desirable",
    "tags": [],
@@ -3824,6 +7410,426 @@
    "tags": [],
    "novel": "Between the Peaks",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/c3e88fe3-b336-4423-87da-e5c687ea91b2.mpeg"
+  },
+  {
+   "id": "silce-of-life",
+   "name": "silce of life",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/2d3e3135-af90-49ef-925d-a3dcf71a2ce1.mpeg"
+  },
+  {
+   "id": "royal-palace",
+   "name": "royal palace",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/1397f31d-1951-4caf-bd73-cf717142498b.mpeg"
+  },
+  {
+   "id": "calm",
+   "name": "calm",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/262ab617-335c-44e5-8569-99fb0e5c7be5.mpeg"
+  },
+  {
+   "id": "danger",
+   "name": "danger",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/f23b2f40-af44-4a66-a0ac-1325be56394c.mpeg"
+  },
+  {
+   "id": "happy-melody",
+   "name": "happy melody",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/97ab1504-5600-442c-a985-d4e26dd140c8.mpeg"
+  },
+  {
+   "id": "calm-2",
+   "name": "calm 2",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/8c1da5c0-c9eb-4338-9cf0-7bce295940dd.ogg"
+  },
+  {
+   "id": "happy-slice-of-ife",
+   "name": "happy slice of ;ife",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/ae7f7d4f-2962-4222-a6b2-d031a56437d7.ogg"
+  },
+  {
+   "id": "melancoly-again",
+   "name": "melancoly again",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/0571cb07-286f-42d5-991f-2bd06b6179e3.ogg"
+  },
+  {
+   "id": "melancholy",
+   "name": "melancholy",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/24e82d83-9502-47c6-8739-c53c638b5c8d.ogg"
+  },
+  {
+   "id": "mood",
+   "name": "mood",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/a8f80244-f91a-4f8d-ae8a-4f4161663da2.ogg"
+  },
+  {
+   "id": "royal-2",
+   "name": "royal 2",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/292015e4-3f4d-48f8-9cc7-f2b9cccff118.ogg"
+  },
+  {
+   "id": "sad",
+   "name": "sad",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/fa2e7dab-692d-4e0d-83db-badb4e5fb6f0.ogg"
+  },
+  {
+   "id": "emotional",
+   "name": "emotional",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/4253b6c3-a75d-46c7-845e-edf16e7a0804.ogg"
+  },
+  {
+   "id": "slice-of-life-2",
+   "name": "slice of life 2",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/47a76d4e-1ea9-4520-81a5-6a96e5fcc4ba.ogg"
+  },
+  {
+   "id": "slice-of-life-3",
+   "name": "slice of life 3",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/19e4868e-44eb-4021-ab34-997af62bf5f6.ogg"
+  },
+  {
+   "id": "power",
+   "name": "power",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/1c8472a4-2ad4-45c8-829d-420be9026a50.ogg"
+  },
+  {
+   "id": "little-sad",
+   "name": "little sad",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/ff51de14-8325-418b-bfdb-47503f3b07a7.ogg"
+  },
+  {
+   "id": "burn",
+   "name": "burn",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/6bc99068-1729-46b5-9d72-a944972425f4.mpeg"
+  },
+  {
+   "id": "fight",
+   "name": "fight",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/09531545-c955-456a-8fa6-e5a975533ac5.ogg"
+  },
+  {
+   "id": "funny-energy",
+   "name": "funny energy",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/9fc90b86-2828-48be-a1fc-f8c800442e6f.ogg"
+  },
+  {
+   "id": "slice-of-life",
+   "name": "slice of life",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/e8f16d01-fad9-4014-8366-37fb218edcc5.mpeg"
+  },
+  {
+   "id": "emotional-2",
+   "name": "emotional 2",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/a36b37b2-b043-434f-aefd-8cbef4459f73.mpeg"
+  },
+  {
+   "id": "ayaka",
+   "name": "ayaka",
+   "tags": [],
+   "novel": "Bloodline",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/85a46097-3da7-4f97-94ed-ee31d3c46efa.mpeg"
+  },
+  {
+   "id": "piano-medley",
+   "name": "Piano Medley",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/544f3e3e-f963-44d8-a2e2-398ee162535d.mpeg"
+  },
+  {
+   "id": "chilling-choir",
+   "name": "Chilling Choir",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/45309744-e3c4-4d0d-a410-a8bf2d7c3929.mpeg"
+  },
+  {
+   "id": "chilling-jazz",
+   "name": "Chilling Jazz",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f12318dd-aed9-407f-9d59-9b6c4dbc800b.mpeg"
+  },
+  {
+   "id": "a-helping-finger",
+   "name": "A helping Finger?",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8736f40d-7ec0-43b6-a7a7-4a18a4d019e4.mpeg"
+  },
+  {
+   "id": "jazzerings",
+   "name": "Jazzerings",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/fe366f40-8582-418f-a5fe-35cff7b8af17.mpeg"
+  },
+  {
+   "id": "jeerleaders",
+   "name": "Jeerleaders!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/7b9e44ae-6f99-4e95-9b53-8b2111bb541c.mpeg"
+  },
+  {
+   "id": "cheering-cheers",
+   "name": "Cheering! CHEERS!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d4f529e4-49b5-4cae-bc44-0403a97022bf.mpeg"
+  },
+  {
+   "id": "change-oooh",
+   "name": "Change Oooh",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/0adf8d82-394d-4807-b7aa-6bb570371117.mpeg"
+  },
+  {
+   "id": "changeleaders",
+   "name": "Changeleaders!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/0541afac-ab38-495f-a278-1f29d8efc5e1.mpeg"
+  },
+  {
+   "id": "calm-cresting",
+   "name": "Calm Cresting",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/e5afd8fc-4b73-4f08-a0bb-709a816323ff.mpeg"
+  },
+  {
+   "id": "snap-snap-clap-clap",
+   "name": "Snap Snap Clap Clap!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2cbb8757-cc2b-4f5f-9907-18bd7e4b260b.mpeg"
+  },
+  {
+   "id": "cartoonishly-fun",
+   "name": "Cartoonishly fun!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/65caa375-7dc9-4a2e-bf4e-363c02860724.mpeg"
+  },
+  {
+   "id": "rhythm-of-silence",
+   "name": "Rhythm of Silence",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/60a76f0d-32ed-4dfc-8d1f-0fb4b2f1a316.mpeg"
+  },
+  {
+   "id": "banger-banger-beatz",
+   "name": "Banger Banger Beatz!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/04531cb2-211b-4e45-bfa5-1e2d8526165f.mpeg"
+  },
+  {
+   "id": "fun-times",
+   "name": "Fun TimeS!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/16e6f8d8-05ec-40a1-97a1-0af852523636.mpeg"
+  },
+  {
+   "id": "the-holy-grailz",
+   "name": "The Holy Grailz",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/00e6331a-881c-4185-9dbd-94cde17274ad.mpeg"
+  },
+  {
+   "id": "the-chilling-aftermath",
+   "name": "The Chilling Aftermath",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/e60bc832-8f71-4519-a0fb-0c58e40e76ba.mpeg"
+  },
+  {
+   "id": "let-s-go",
+   "name": "Let's go!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/1bc8962b-2d44-4417-b344-2a174c9ca307.mpeg"
+  },
+  {
+   "id": "riffing-ya-off",
+   "name": "Riffing ya off!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/ed34d5d3-eee1-4d77-a9ea-160509e43ca7.mpeg"
+  },
+  {
+   "id": "morning-type-beat",
+   "name": "Morning Type Beat",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/07657b03-b9f3-46f3-be27-61cb79dcb66a.mpeg"
+  },
+  {
+   "id": "boom-bap-blap",
+   "name": "Boom Bap Blap!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/dbc88e5e-3c55-4d25-a613-43ea559a4fb1.mpeg"
+  },
+  {
+   "id": "light-hit-hats",
+   "name": "Light Hit Hats",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/262e2334-9e7f-4682-86c5-6a218618a273.mpeg"
+  },
+  {
+   "id": "battle-of-power",
+   "name": "Battle of Power",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8044f9ab-bfcd-47ee-9a07-1f8f0fd9d403.mpeg"
+  },
+  {
+   "id": "gladly",
+   "name": "Gladly!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/43ebedf7-1317-46f3-bea4-8bcbf730d1ea.mpeg"
+  },
+  {
+   "id": "a-daring-game",
+   "name": "A Daring Game",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/a73e64cb-3770-45f3-bc12-8cc51f29579b.mpeg"
+  },
+  {
+   "id": "fair-loser",
+   "name": "Fair Loser!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/dc75e628-f6e3-477b-bd7d-10d13ee47562.mpeg"
+  },
+  {
+   "id": "party-1",
+   "name": "Party 1",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/cc15975d-f526-40d2-8bab-e8a9cbff155f.mpeg"
+  },
+  {
+   "id": "winner",
+   "name": "Winner!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d398487b-7486-4a2d-a12c-c56415938221.mpeg"
+  },
+  {
+   "id": "party-2",
+   "name": "Party 2",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3152348c-0059-46e0-a235-4c9df0473dba.mpeg"
+  },
+  {
+   "id": "party-3",
+   "name": "Party 3",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/6525c663-cbd0-4138-b845-d05e1b053d4b.mpeg"
+  },
+  {
+   "id": "swingy-clingy-beat",
+   "name": "Swingy Clingy Beat",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/04687a04-c633-49ed-95f3-e932d367c465.mpeg"
+  },
+  {
+   "id": "here-we-go-official-party-theme",
+   "name": "Here we go! (Official Party Theme)",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/ae4158c6-8079-474c-bf40-9934b20aa409.mpeg"
+  },
+  {
+   "id": "believer-dreamer",
+   "name": "Believer Dreamer!",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d44d5fe6-a01b-4f0f-8cc4-0a3e4ff55c58.mpeg"
+  },
+  {
+   "id": "park-pranking",
+   "name": "Park Pranking",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/bfb155cc-7c19-4993-a61b-8d5db0b2a363.mpeg"
+  },
+  {
+   "id": "chose-you",
+   "name": "Chose YOU",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/4e2a7a70-850d-4810-8e94-d6b60677437b.mpeg"
+  },
+  {
+   "id": "mr-knight-good-night",
+   "name": "Mr. Knight, Good night",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/05542fc2-d47a-406b-b9ec-1f43f060becd.mpeg"
+  },
+  {
+   "id": "resting-caressing-rest",
+   "name": "Resting Caressing Rest",
+   "tags": [],
+   "novel": "Fake It to Make It!",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d676ca11-65e3-449c-ba25-06d73f33b3d6.mpeg"
   },
   {
    "id": "hello-lilith",
@@ -4049,6 +8055,566 @@
    ],
    "novel": "Infernal Harmony",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3b2f0afd-578f-4c07-933c-5653ed705048.mpeg"
+  },
+  {
+   "id": "new-haven-institute-of-science",
+   "name": "New Haven Institute of Science",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/18fbc57d-579d-490d-bfce-08db3f8c84fe.mpeg"
+  },
+  {
+   "id": "welcome-to-the-city-day",
+   "name": "Welcome to the City - Day",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/84ab8eeb-af74-400f-8197-4d947a052da2.mpeg"
+  },
+  {
+   "id": "welcome-to-the-city-night",
+   "name": "Welcome to the City - Night",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/cbb2b105-6771-4d5b-8de9-90004863e2f6.mpeg"
+  },
+  {
+   "id": "romance-theme",
+   "name": "Romance theme.",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/91e89a4a-7f1d-47bd-b71d-3f83a00a36a1.mpeg"
+  },
+  {
+   "id": "new-haven-institute-welcome",
+   "name": "New Haven Institute - Welcome",
+   "tags": [
+    "Front Mission 3"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/71089df4-3099-4c82-9aa0-974279ac2618.mpeg"
+  },
+  {
+   "id": "cafeteria-2",
+   "name": "Cafeteria",
+   "tags": [
+    "Front Mission 3"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/72e4ddec-f162-4ae5-9e25-937972108ed6.mpeg"
+  },
+  {
+   "id": "classroom-2",
+   "name": "Classroom",
+   "tags": [
+    "Doki Doki Literature Club"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/6848a52a-de80-4595-bc02-774b096de2b5.mpeg"
+  },
+  {
+   "id": "the-market-street",
+   "name": "The Market Street",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/85bb126d-f00b-4200-9b4f-2f07ca35f223.mpeg"
+  },
+  {
+   "id": "institute-evening",
+   "name": "Institute Evening.",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/56cb5315-7232-4ef3-9014-1b62a966cd56.mpeg"
+  },
+  {
+   "id": "the-unknown-tear",
+   "name": "The Unknown Tear",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/1f8a57c4-6262-4168-aefc-33054e88516f.mpeg"
+  },
+  {
+   "id": "getting-close",
+   "name": "Getting Close",
+   "tags": [
+    "Deadmau5"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/9ccc959b-52c2-4ed1-a0e5-e14ac9bedb83.mpeg"
+  },
+  {
+   "id": "close-encounter",
+   "name": "Close Encounter",
+   "tags": [
+    "Mittsies"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/bf28b2cd-e57e-4a35-ad2a-57fd505aa904.mpeg"
+  },
+  {
+   "id": "love-machine",
+   "name": "Love Machine",
+   "tags": [
+    "Mittsies"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/02849932-9f11-4034-81d2-f789de9f6df2.mpeg"
+  },
+  {
+   "id": "growing-fear",
+   "name": "Growing Fear",
+   "tags": [
+    "Skyrim"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/207db64f-6a8d-4c06-b578-a6d069844888.mpeg"
+  },
+  {
+   "id": "night-at-the-lake",
+   "name": "Night at the Lake",
+   "tags": [
+    "Skyrim"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/b6c12215-6dec-443c-817b-a4c03a911002.mpeg"
+  },
+  {
+   "id": "forest-lake-day",
+   "name": "Forest - Lake day",
+   "tags": [
+    "Skyrim"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/8d85eee6-89b3-47a6-98f7-e47cc1589d25.mpeg"
+  },
+  {
+   "id": "blood-rush-music",
+   "name": "Blood Rush Music",
+   "tags": [
+    "Chicane"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/6c8073a8-f399-4436-b6e4-d6d7a51f0b34.mpeg"
+  },
+  {
+   "id": "no-good-layabout",
+   "name": "No Good Layabout",
+   "tags": [
+    "Mikugg"
+   ],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/nogoodlayabout.mp3"
+  },
+  {
+   "id": "jazz-brunch",
+   "name": "Jazz Brunch",
+   "tags": [
+    "Mikugg"
+   ],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/jazz_brunch.mp3"
+  },
+  {
+   "id": "dispersion-relation",
+   "name": "Dispersion Relation",
+   "tags": [
+    "Mikugg"
+   ],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/dispersion_relation.mp3"
+  },
+  {
+   "id": "arcades",
+   "name": "Arcades",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/c855b897-0cdb-410b-b49b-f011b875775c.mpeg"
+  },
+  {
+   "id": "bowling",
+   "name": "Bowling",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/23d67340-51f0-4987-98ac-60e0ca948f63.mpeg"
+  },
+  {
+   "id": "a-ruined-earth",
+   "name": "A Ruined Earth?",
+   "tags": [
+    "Cyberpunk 2077"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/fa3941f4-ad76-48cc-a7bf-bdc97a2ad776.mpeg"
+  },
+  {
+   "id": "bad-sun",
+   "name": "BAD SUN",
+   "tags": [
+    "Cyberpunk 2077"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/fff66e4c-61da-4dc8-859d-6af003090d2e.mpeg"
+  },
+  {
+   "id": "beach-theme-1",
+   "name": "Beach theme 1",
+   "tags": [
+    "MMBN"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/08a473d3-3ada-49fa-ba24-975632be042c.mpeg"
+  },
+  {
+   "id": "beach-theme-2",
+   "name": "Beach theme 2",
+   "tags": [
+    "MMBN"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/74fe7152-3e2e-4e4a-b01e-e71f4230d728.mpeg"
+  },
+  {
+   "id": "sauna",
+   "name": "Sauna",
+   "tags": [
+    "Koikatsu"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/3f0ed4d1-ebff-4d26-aef9-617dbce4dcad.mpeg"
+  },
+  {
+   "id": "doe-s-world",
+   "name": "Doe's world",
+   "tags": [
+    "MMBN"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/180f9db9-3969-44ab-8b1c-cda6e59ec80e.mpeg"
+  },
+  {
+   "id": "i-m-smart-john-s-theme",
+   "name": "I'm smart! - John's Theme",
+   "tags": [
+    "Undertale"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/c4a2cfbd-05cb-4ef4-ab6c-8f34870b36a8.mpeg"
+  },
+  {
+   "id": "friendly-debate",
+   "name": "Friendly debate",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/3695b91b-06ce-4a2d-825e-e4df005c1bb3.mpeg"
+  },
+  {
+   "id": "go-team",
+   "name": "Go Team!",
+   "tags": [
+    "Rivals of Aether"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/1f961373-c91c-4857-9d7d-3e54c6306bba.mpeg"
+  },
+  {
+   "id": "doomsday-clock-midnight",
+   "name": "Doomsday Clock, Midnight",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/08eb13de-afac-4fdc-a2b3-9635cfc7ad97.mpeg"
+  },
+  {
+   "id": "doomsday-clock-five-minutes-past-midnight",
+   "name": "Doomsday Clock; Five minutes past Midnight",
+   "tags": [],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/b4fba5b4-bf42-4eec-91d3-6bf3bfdcc451.mpeg"
+  },
+  {
+   "id": "a-broken-world",
+   "name": "A broken world",
+   "tags": [
+    "Blood Dragon"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/aec599c4-96fa-40bb-b176-66f3a82231aa.mpeg"
+  },
+  {
+   "id": "bloodied-hands",
+   "name": "Bloodied Hands",
+   "tags": [
+    "Silent Hill 2"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/cfa88f72-d2cd-41f1-8d5f-517baadf3220.mpeg"
+  },
+  {
+   "id": "trance-music-earth-2",
+   "name": "Trance Music Earth 2",
+   "tags": [
+    "Aphex Twin"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/0bfd426d-a9f2-4c8f-9df3-e26d2b822123.mpeg"
+  },
+  {
+   "id": "university",
+   "name": "University",
+   "tags": [
+    "Doki Doki Literature Club"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/c7af5170-574b-4c96-97fa-959b6b165a7c.mpeg"
+  },
+  {
+   "id": "natalie-noelle-christmas-special",
+   "name": "Natalie/Noelle Christmas Special",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/428a9b32-1408-4e8d-a704-01bd2b6bdc83.mpeg"
+  },
+  {
+   "id": "student-meetup",
+   "name": "Student Meetup",
+   "tags": [
+    "Doki Doki Literature Club"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/bf09fb93-0091-4d61-91c6-6d94b542e374.mpeg"
+  },
+  {
+   "id": "venus",
+   "name": "Venus",
+   "tags": [],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/venus.mp3"
+  },
+  {
+   "id": "dark-encounter",
+   "name": "Dark Encounter",
+   "tags": [
+    "Skyrim"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/141a0f53-82a3-481b-89d8-42c2d097fb3b.mpeg"
+  },
+  {
+   "id": "rough-pals",
+   "name": "Rough pals",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/63561f6c-0e5a-4b87-b653-02ac24f03da7.mpeg"
+  },
+  {
+   "id": "the-story-continues",
+   "name": "The Story Continues...",
+   "tags": [
+    "Cobalt Core"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/acfc678d-e174-4ca1-b62d-e01e6a588a86.mpeg"
+  },
+  {
+   "id": "another-earth",
+   "name": "Another Earth?",
+   "tags": [
+    "Cobalt Core"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/2e1a592f-d4c2-4b94-a347-93cf0ec83f50.mpeg"
+  },
+  {
+   "id": "let-s-wrestle",
+   "name": "Let's Wrestle!",
+   "tags": [
+    "Burrito Bison"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/0570d0db-25c7-48de-96a2-3a7eaf270a2e.mpeg"
+  },
+  {
+   "id": "altering-lives",
+   "name": "Altering Lives",
+   "tags": [
+    "Colbalt Core"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/32ed4267-a51b-4a9e-8192-aa9f6a9d5f29.mpeg"
+  },
+  {
+   "id": "the-lingering-question-of-what-if",
+   "name": "The lingering question of, 'What if?'",
+   "tags": [
+    "Colbalt Core"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/97dcdc4f-fd6a-4fc1-9510-ed1620ef740a.mpeg"
+  },
+  {
+   "id": "shopping-mall",
+   "name": "Shopping Mall",
+   "tags": [
+    "FNAF",
+    "Security Breach"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/dfb3afc9-0948-47bf-ad77-9151a1fd4950.mpeg"
+  },
+  {
+   "id": "not-all-as-it-seems",
+   "name": "Not all as it seems.",
+   "tags": [
+    "Discworld"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/f8406fc5-1e4f-4454-b8d9-a7fecfa03eda.mpeg"
+  },
+  {
+   "id": "deeper-in-the-forest",
+   "name": "Deeper in the Forest",
+   "tags": [
+    "Skyrim"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/a01a9037-3679-4397-aeb0-bf324dfeffc9.mpeg"
+  },
+  {
+   "id": "hallway",
+   "name": "Hallway",
+   "tags": [
+    "Discworld"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/eeea48e6-a708-4d88-9887-466882a4441d.mpeg"
+  },
+  {
+   "id": "tear-unknown",
+   "name": "Tear Unknown",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/f1237ea8-f9d3-4601-8150-bce8a61838fd.mpeg"
+  },
+  {
+   "id": "lonlier-streets-of-new-haven",
+   "name": "Lonlier Streets of New Haven",
+   "tags": [
+    "Deltarune"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/8212cb43-4e92-4d29-82e7-33d1027b32db.mpeg"
+  },
+  {
+   "id": "fading-new-haven-institute-of-science",
+   "name": "Fading New Haven Institute of Science",
+   "tags": [
+    "Universe"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/7edc5d18-7745-494b-8556-39eb6237f3e2.mpeg"
+  },
+  {
+   "id": "digital-fever-music",
+   "name": "Digital Fever Music",
+   "tags": [
+    "Chicane"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/72c6efe9-7830-4db1-8694-59a823355677.mpeg"
+  },
+  {
+   "id": "laid-back-guitars",
+   "name": "Laid Back Guitars",
+   "tags": [],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/laid_back_guitars.mp3"
+  },
+  {
+   "id": "neo-black-death",
+   "name": "Neo Black Death",
+   "tags": [
+    "Anna Von Hausswolff"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/013a4d27-f126-4429-b31e-a271cb693eb6.mpeg"
+  },
+  {
+   "id": "only-i-have-the-brains-to-breakdance-lylat",
+   "name": "Only I have the brains to breakdance Lylat!",
+   "tags": [
+    "Dankmus"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/b68bf046-08be-4f96-addf-582924942740.mpeg"
+  },
+  {
+   "id": "life-underground",
+   "name": "Life Underground.",
+   "tags": [
+    "Fallout 4"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/8a612a3b-8683-419a-a19f-041ca7ee8ef4.mpeg"
+  },
+  {
+   "id": "retrofuture",
+   "name": "RetroFuture",
+   "tags": [],
+   "novel": "New Haven",
+   "url": "https://assets.miku.services/retrofuture.mp3"
+  },
+  {
+   "id": "connecticut-institute",
+   "name": "Connecticut Institute",
+   "tags": [
+    "Fallout 4"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/f811eec9-0973-495f-9142-334cbd064cd7.mpeg"
+  },
+  {
+   "id": "beach-theme-night",
+   "name": "Beach Theme - Night",
+   "tags": [
+    "Cobalt Core"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/828032cf-2891-4416-93d4-b6a42f41e398.mpeg"
+  },
+  {
+   "id": "workout",
+   "name": "Workout",
+   "tags": [
+    "Mass Effect"
+   ],
+   "novel": "New Haven",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/115ad319-454d-46c6-8469-9abda7050ff5.mpeg"
   },
   {
    "id": "shark-attack",

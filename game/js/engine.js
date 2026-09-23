@@ -102,6 +102,7 @@
       if (this.over || this.active !== side || card.cost > p.gold) return false;
       if (card.type === 'unit') return this.freeSlots(side).length > 0;
       if (card.effect === 'callFriend' || card.effect === 'closet') return this.freeSlots(side).length > 0;
+      if (typeof card.effect === 'object' && MB.Effects.needsSlot(card.effect) && !this.freeSlots(side).length) return false;
       if (card.target) return this.targetsFor(side, card.target, card.filter).length > 0;
       return true;
     }
@@ -110,6 +111,7 @@
       const p = this.me(side), pw = p.power;
       if (this.over || this.active !== side || p.powerUsed || p.gold < pw.cost) return false;
       if (pw.effect === 'teddy' || pw.effect === 'seagull') return this.freeSlots(side).length > 0;
+      if (typeof pw.effect === 'object' && MB.Effects.needsSlot(pw.effect) && !this.freeSlots(side).length) return false;
       if (pw.target) return this.targetsFor(side, pw.target, pw.filter).length > 0;
       return true;
     }
@@ -164,8 +166,14 @@
         if (u && card.onPlay) await this.trigger(card.onPlay, u);
       } else {
         this.view.log(`${side ? 'Enemy' : 'You'} used ${card.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
-        await this.view.spellFx(side, card, target, () => this.spellEffect(side, card, target));
-        await this.spellAfter(side, card, target);
+        if (typeof card.effect === 'object') { // a spec (effects.js)
+          const r = MB.Effects.prepare(this, card.effect, { side, target });
+          await this.view.spellFx(side, card, target, () => r.sync());
+          await r.after();
+        } else {
+          await this.view.spellFx(side, card, target, () => this.spellEffect(side, card, target));
+          await this.spellAfter(side, card, target);
+        }
       }
       await this.resolveDeaths();
       await this.checkBonds(side);
@@ -182,8 +190,14 @@
       }
       p.gold -= pw.cost; p.powerUsed = true;
       this.view.log(`${side ? 'Enemy' : 'You'} used ${pw.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
-      await this.view.powerFx(side, pw, target, () => this.powerEffect(side, pw, target));
-      await this.powerAfter(side, pw, target);
+      if (typeof pw.effect === 'object') { // a spec (effects.js)
+        const r = MB.Effects.prepare(this, pw.effect, { side, target });
+        await this.view.powerFx(side, pw, target, () => r.sync(), r.targets);
+        await r.after();
+      } else {
+        await this.view.powerFx(side, pw, target, () => this.powerEffect(side, pw, target));
+        await this.powerAfter(side, pw, target);
+      }
       await this.resolveDeaths();
       this.view.refresh();
       return true;
@@ -299,7 +313,7 @@
       if (target.onHurt === 'scarred' && target.hp > 0) {
         target.atk++;
         this.view.react({ type: 'buff', ent: target, atk: 1, hp: 0, label: 'Scarred! +1 ATK' });
-      }
+      } else if (target.onHurt && target.hp > 0) (this.hurt || (this.hurt = [])).push(target); // runs in resolveDeaths
       return amount;
     }
 
@@ -349,6 +363,11 @@
     }
 
     async resolveDeaths() {
+      // onHurt specs of the monsters that survived damage since the last check
+      for (let guard = 0; this.hurt && this.hurt.length && guard < 20 && !this.over; guard++) {
+        const u = this.hurt.shift();
+        if (u.hp > 0 && this.find(u.uid)) await this.trigger(u.onHurt, u);
+      }
       for (let guard = 0; guard < 10; guard++) {
         for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
@@ -366,7 +385,8 @@
     async trigger(key, u) {
       const side = u.side, foeUnits = this.units(1 - side);
       const fx = (label, targets, fn, color) => this.view.abilityFx(u, label, targets, fn, color);
-      switch (key) {
+      if (typeof key === 'object') await MB.Effects.trigger(this, key, u); // a spec (effects.js)
+      else switch (key) {
         case 'momHug': {
           const allies = this.units(side).filter((a) => a !== u);
           if (allies.length) await fx("Mom's Hug", allies, () => allies.forEach((a) => this.buff(a, 0, 2)), '#5fd068');

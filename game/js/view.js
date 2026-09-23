@@ -348,7 +348,8 @@
       this.refresh();
     }
 
-    async powerFx(side, pw, target, fn) {
+    // others: targets of an untargeted power (effects.js specs), each gets an orb
+    async powerFx(side, pw, target, fn, others) {
       const leader = this.b.me(side).leader, from = LEADER_POS[side];
       this.emote(leader, 'attack', 1200);
       this.floatText(from, LEADER_H, pw.name, 'ability');
@@ -359,6 +360,7 @@
       const color = MB.CARDS[this.b.me(side).leaderId].attack.color;
       if (target) await MB.FX.orbTo(this, from, this.pos(target), color, this.heightOf(target), 0, 180);
       else if (pw.effect === 'facePunch') await MB.FX.orbTo(this, from, LEADER_POS[1 - side], color, LEADER_H, 0, 180);
+      else if (others && others.length) await Promise.all(others.map((t, i) => MB.FX.orbTo(this, from, this.pos(t), color, this.heightOf(t), i * 0.08, 180)));
       fn();
       this.refresh();
       await wait(350);

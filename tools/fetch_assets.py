@@ -18,20 +18,40 @@ ASSET_DB = "https://assets.miku.services"
 ASSET_DB_OPT = "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com"
 TOKEN = os.environ.get("MIKU_TOKEN", "")
 SMALL_H = 450  # height of the sm/ sprite copies (MB.spriteSrc in game/js/config.js)
-# characters that never appear on screen, and outfits kept out of the game
-SKIP_CHARACTERS = {"narrator"}
-SKIP_OUTFIT = re.compile(r"\b(nude|topless)\b", re.I)
+# characters that never appear on screen, and outfits kept out of the game (CG outfits are scene art, not
+# standing sprites). Characters without any description are unfinished placeholders ("char1") and are skipped too.
+SKIP_CHARACTERS = {"narrator", "narrador"}
+SKIP_OUTFIT = re.compile(r"\b(nude|topless|naked|cg)\b", re.I)
+# explicit outfits can hide behind plain names ("Diana 4") but come with their own set of emotions
+ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
+# outfits checked by eye (tools/outfit_sheets.py) and kept out anyway: "character-id/outfit-id"
+SKIP_OUTFITS = {
+    # underwear, towels and the like
+    "quinta/quinta-5", "doe/doe-3", "cheetor/cheetor-4", "jill/jill-2", "maria/maria-2", "quistis/quistis-4",
+    "anya/anya-2", "cream/cream-2", "juniper/juniper-5", "adam/adam-4", "alexis/alexis-4", "misaki/morning",
+    # blank or placeholder art
+    "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
+}
+
+# Novels with a big cast only bring their core characters (about 12): novel title -> character ids
+ONLY_CHARACTERS = {
+    "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
+                  "asuka", "saria"},
+    # without the alternate-universe copies of Misaki and Arisa
+    "Atarashī gakkō; Secret Garden!": {"yumi", "eri", "arisa", "misaki", "helga", "suzu", "shiina", "ai",
+                                       "evil-villainess-chan", "mariko", "keiko"},
+}
 
 # Emotions the battle system uses; first match per role wins.
 ROLES = {
     "idle":   ["neutral"],
-    "play":   ["happy", "excited"],
-    "attack": ["angry", "rage", "frustrated"],
-    "special":["rage", "angry"],
-    "hurt":   ["scared", "shocked", "surprised"],
-    "lose":   ["sad", "disappointed"],
-    "win":    ["excited", "proud", "happy"],
-    "taunt":  ["proud", "amused", "happy"],
+    "play":   ["happy", "excited", "confident"],
+    "attack": ["angry", "rage", "frustrated", "intensity"],
+    "special":["rage", "angry", "intensity"],
+    "hurt":   ["scared", "shocked", "surprised", "worried"],
+    "lose":   ["sad", "disappointed", "worried"],
+    "win":    ["excited", "proud", "happy", "confident"],
+    "taunt":  ["proud", "amused", "teasing", "confident", "happy"],
 }
 
 
@@ -79,6 +99,36 @@ def convert_img(data, max_w=None, max_h=None, fmt="WEBP", quality=86):
     return buf.getvalue()
 
 
+def outfits_of(c):
+    return [o for o in c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"]
+            if o["emotions"] and not SKIP_OUTFIT.search(o["name"]) and not ADULT_EMOTIONS & {e["id"] for e in o["emotions"]}
+            and f"{slug(c['name'])}/{slug(o['name'])}" not in SKIP_OUTFITS]
+
+
+def characters(novel):
+    """The playable characters of a novel: skips narrators and placeholders, and merges characters that share a
+    name (the same person from another route/universe) into the one with the most outfits."""
+    out = {}
+    for c in novel["characters"]:
+        name = c["name"].strip()
+        name = name[:1].upper() + name[1:]  # "sakura Tooyama"
+        if name.lower() in SKIP_CHARACTERS or not c["card"]["data"].get("description", "").strip() or not outfits_of(c):
+            continue
+        key = slug(name)
+        if key not in out:
+            out[key] = {"name": name, "src": c, "outfits": outfits_of(c)}
+            continue
+        prev = out[key]
+        if len(outfits_of(c)) > len(prev["outfits"]):
+            prev["src"], prev["outfits"], extra = c, outfits_of(c), prev["outfits"]
+        else:
+            extra = outfits_of(c)
+        names = {slug(o["name"]) for o in prev["outfits"]}
+        prev["outfits"] += [o for o in extra if slug(o["name"]) not in names]
+    only = ONLY_CHARACTERS.get(novel["title"])
+    return [e for k, e in out.items() if not only or k in only]
+
+
 def add_novel(novel, manifest):
     """Queue downloads for one novel and append its entries to the manifest."""
     jobs = []
@@ -93,26 +143,32 @@ def add_novel(novel, manifest):
             jobs.append((emo[pick], "1080p/", rel, dict(max_h=900)))
         return sprites
 
-    for c in novel["characters"]:
-        if c["name"].strip().lower() in SKIP_CHARACTERS:
-            continue
-        cid = slug(c["name"])
-        outfits = [o for o in c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"] if not SKIP_OUTFIT.search(o["name"])]
+    taken = {ch["id"] for ch in manifest["characters"]}
+    for entry in characters(novel):
+        c, outfits = entry["src"], entry["outfits"]
+        cid = slug(entry["name"])
+        if cid in taken:  # same name in an earlier novel
+            cid = f"{cid}-{slug(novel['title']).split('-')[0]}"
+        taken.add(cid)
         outfit = outfits[0]
         sprites = outfit_sprites(outfit, f"sprites/{cid}")
         # every other outfit becomes a costume (used by the wardrobe and by relationship fusions)
-        costumes = [{"id": slug(o["name"]), "name": o["name"].strip(),
-                     "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}")} for o in outfits[1:]]
+        seen, costumes = {slug(outfit["name"])}, []
+        for o in outfits[1:]:
+            if slug(o["name"]) not in seen:  # outfit names repeat now and then ("Joey 3" twice)
+                seen.add(slug(o["name"]))
+                costumes.append({"id": slug(o["name"]), "name": o["name"].strip(),
+                                 "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}")})
         portrait = None
         if c.get("profile_pic") and c["profile_pic"] != "empty_char.png":
             portrait = f"portraits/{cid}.webp"
             jobs.append((c["profile_pic"], "256p/", portrait, dict(max_w=400, max_h=560)))
         desc = c["card"]["data"].get("description", "")
-        m = re.search(r"Personality:\s*\[([^\]]+)", desc)
+        m = re.search(r"Personality:\s*\[?([^\]\n{}]+)", desc)
         manifest["characters"].append({
-            "id": cid, "name": c["name"].strip(), "outfit": outfit["name"],
+            "id": cid, "name": entry["name"], "outfit": outfit["name"],
             "short": c["short_description"].replace("{{user}}", "you"),
-            "traits": [t.strip(' ",') for t in m.group(1).split(",")][:8] if m else [],
+            "traits": [t for t in (x.strip(' ".,') for x in m.group(1).split(",")) if t and len(t.split()) <= 3][:8] if m else [],
             "sprites": sprites, "costumes": costumes, "portrait": portrait, "novel": novel["title"]})
 
     for b in novel["backgrounds"]:

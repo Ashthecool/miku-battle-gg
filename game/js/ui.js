@@ -473,16 +473,18 @@
     return deck;
   }
 
-  // the board sprites were loaded at boot (main.js; listed again in case that timed out); a battle also needs its background and the full-size
+  // the board sprites were loaded at boot (main.js; listed again in case that timed out); a battle also needs its background, the full-size
   // fusion cut-ins, and later shows close-ups of the decks' cards and the result screen
   function battleImages(cfg, bgSrc, decks) {
     const need = [...MB.bootImages, MB.asset(bgSrc)], later = [];
-    MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => {
+    const ids = new Set([cfg.leader, cfg.foe, ...decks.flat()]);
+    // only the relationships that can form in this battle
+    MB.BONDS.filter((bd) => bd.pair.every((id) => ids.has(id))).forEach((bd) => bd.pair.forEach((id, i) => {
       need.push(MB.bigSpriteUrl(id, 'play', bd.costumes[i]));
       later.push(MB.bigSpriteUrl(id, 'idle', bd.costumes[i]));
     }));
     // item cards aren't characters, so their urls come back empty and are skipped
-    new Set([cfg.leader, cfg.foe, ...decks.flat()]).forEach((id) => later.push(MB.bigSpriteUrl(id, 'idle'), MB.bigSpriteUrl(id, 'taunt')));
+    ids.forEach((id) => later.push(MB.bigSpriteUrl(id, 'idle'), MB.bigSpriteUrl(id, 'taunt')));
     [cfg.leader, cfg.foe].forEach((id) => later.push(MB.bigSpriteUrl(id, 'win'), MB.bigSpriteUrl(id, 'lose')));
     return { need, later };
   }
