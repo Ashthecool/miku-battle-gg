@@ -1,8 +1,11 @@
 {
- "title": "Adoptive Life RPG",
+ "title": "Miku Battle",
  "novels": [
   "Adoptive Life RPG",
-  "Infernal Harmony"
+  "Between the Peaks",
+  "Infernal Harmony",
+  "The Lifeguard has Teeth",
+  "The yuri assist"
  ],
  "characters": [
   {
@@ -964,6 +967,226 @@
    "novel": "Adoptive Life RPG"
   },
   {
+   "id": "lisa-reed",
+   "name": "Lisa Reed",
+   "outfit": "Usual",
+   "short": "A lazy girl who doesn't care for much, purple hair, black eyes, and is a member of The LLL Club",
+   "traits": [
+    "lazy",
+    "apathetic",
+    "indifferent",
+    "nonchalant",
+    "unmotivated",
+    "sarcastic",
+    "dry wit",
+    "slightly rebellious"
+   ],
+   "sprites": {
+    "idle": "sprites/lisa-reed/neutral.webp",
+    "play": "sprites/lisa-reed/happy.webp",
+    "attack": "sprites/lisa-reed/angry.webp",
+    "special": "sprites/lisa-reed/rage.webp",
+    "hurt": "sprites/lisa-reed/scared.webp",
+    "lose": "sprites/lisa-reed/sad.webp",
+    "win": "sprites/lisa-reed/excited.webp",
+    "taunt": "sprites/lisa-reed/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "sleepy-outfit",
+     "name": "Sleepy outfit",
+     "sprites": {
+      "idle": "sprites/lisa-reed/sleepy-outfit/neutral.webp",
+      "play": "sprites/lisa-reed/sleepy-outfit/happy.webp",
+      "attack": "sprites/lisa-reed/sleepy-outfit/angry.webp",
+      "special": "sprites/lisa-reed/sleepy-outfit/angry.webp",
+      "hurt": "sprites/lisa-reed/sleepy-outfit/scared.webp",
+      "lose": "sprites/lisa-reed/sleepy-outfit/sad.webp",
+      "win": "sprites/lisa-reed/sleepy-outfit/happy.webp",
+      "taunt": "sprites/lisa-reed/sleepy-outfit/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/lisa-reed.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "claire-larone",
+   "name": "Claire Laròne",
+   "outfit": "default",
+   "short": "Claire is a French girl who can speak many languages, who now lives in Asheville",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/claire-larone/neutral.webp",
+    "play": "sprites/claire-larone/happy.webp",
+    "attack": "sprites/claire-larone/angry.webp",
+    "special": "sprites/claire-larone/rage.webp",
+    "hurt": "sprites/claire-larone/scared.webp",
+    "lose": "sprites/claire-larone/sad.webp",
+    "win": "sprites/claire-larone/excited.webp",
+    "taunt": "sprites/claire-larone/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/claire-larone.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "betty-glee",
+   "name": "Betty Glee",
+   "outfit": "White shirt",
+   "short": "Betty lives in Asheville, is 19 years old, the president of the Scarred club",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/betty-glee/neutral.webp",
+    "play": "sprites/betty-glee/happy.webp",
+    "attack": "sprites/betty-glee/angry.webp",
+    "special": "sprites/betty-glee/rage.webp",
+    "hurt": "sprites/betty-glee/scared.webp",
+    "lose": "sprites/betty-glee/sad.webp",
+    "win": "sprites/betty-glee/excited.webp",
+    "taunt": "sprites/betty-glee/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/betty-glee.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "deiste-junko",
+   "name": "Deiste Junko",
+   "outfit": "Green sweater",
+   "short": "Deiste Junko is the mayors son, he's cocky, feisty and a little crazy.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/deiste-junko/neutral.webp",
+    "play": "sprites/deiste-junko/happy.webp",
+    "attack": "sprites/deiste-junko/angry.webp",
+    "special": "sprites/deiste-junko/angry.webp",
+    "hurt": "sprites/deiste-junko/scared.webp",
+    "lose": "sprites/deiste-junko/sad.webp",
+    "win": "sprites/deiste-junko/happy.webp",
+    "taunt": "sprites/deiste-junko/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/deiste-junko.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "olivia",
+   "name": "Olivia",
+   "outfit": "Apron",
+   "short": "Olivia is a bartender in a shop called \"Lucky Latte\" in Asheville",
+   "traits": [
+    "down-to-earth",
+    "warm-hearted",
+    "friendly",
+    "smiling",
+    "easy-going",
+    "inviting",
+    "welcoming",
+    "approachable"
+   ],
+   "sprites": {
+    "idle": "sprites/olivia/neutral.webp",
+    "play": "sprites/olivia/happy.webp",
+    "attack": "sprites/olivia/angry.webp",
+    "special": "sprites/olivia/angry.webp",
+    "hurt": "sprites/olivia/scared.webp",
+    "lose": "sprites/olivia/sad.webp",
+    "win": "sprites/olivia/happy.webp",
+    "taunt": "sprites/olivia/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/olivia.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "mason-moose",
+   "name": "Mason Moose",
+   "outfit": "Shirt",
+   "short": "Mason Moose is the post office manager of Asheville",
+   "traits": [
+    "affable",
+    "quirky",
+    "whimsical",
+    "friendly",
+    "smiling",
+    "eccentric",
+    "unique",
+    "approachable"
+   ],
+   "sprites": {
+    "idle": "sprites/mason-moose/neutral.webp",
+    "play": "sprites/mason-moose/happy.webp",
+    "attack": "sprites/mason-moose/angry.webp",
+    "special": "sprites/mason-moose/angry.webp",
+    "hurt": "sprites/mason-moose/scared.webp",
+    "lose": "sprites/mason-moose/sad.webp",
+    "win": "sprites/mason-moose/happy.webp",
+    "taunt": "sprites/mason-moose/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/mason-moose.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "benjamin-birk",
+   "name": "Benjamin Birk",
+   "outfit": "Normal clothing",
+   "short": "Benjamin Birk is the minimarket owner in Asheville.",
+   "traits": [
+    "steadfast",
+    "reliable",
+    "dedicated",
+    "hardworking",
+    "responsible",
+    "community-minded",
+    "loyal",
+    "family-oriented"
+   ],
+   "sprites": {
+    "idle": "sprites/benjamin-birk/neutral.webp",
+    "play": "sprites/benjamin-birk/happy.webp",
+    "attack": "sprites/benjamin-birk/angry.webp",
+    "special": "sprites/benjamin-birk/angry.webp",
+    "hurt": "sprites/benjamin-birk/scared.webp",
+    "lose": "sprites/benjamin-birk/sad.webp",
+    "win": "sprites/benjamin-birk/happy.webp",
+    "taunt": "sprites/benjamin-birk/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/benjamin-birk.webp",
+   "novel": "Between the Peaks"
+  },
+  {
+   "id": "dan-birk",
+   "name": "Dan Birk",
+   "outfit": "Casual outfit",
+   "short": "Dan Birk is the son to Benjamin Birk.",
+   "traits": [
+    "rebellious",
+    "freedom-seeking",
+    "adventurous",
+    "carefree",
+    "independent",
+    "mischievous",
+    "wild",
+    "daring"
+   ],
+   "sprites": {
+    "idle": "sprites/dan-birk/neutral.webp",
+    "play": "sprites/dan-birk/happy.webp",
+    "attack": "sprites/dan-birk/angry.webp",
+    "special": "sprites/dan-birk/angry.webp",
+    "hurt": "sprites/dan-birk/scared.webp",
+    "lose": "sprites/dan-birk/sad.webp",
+    "win": "sprites/dan-birk/happy.webp",
+    "taunt": "sprites/dan-birk/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/dan-birk.webp",
+   "novel": "Between the Peaks"
+  },
+  {
    "id": "lilith",
    "name": "Lilith",
    "outfit": "Main dress",
@@ -1268,6 +1491,507 @@
    "costumes": [],
    "portrait": "portraits/clara-click.webp",
    "novel": "Infernal Harmony"
+  },
+  {
+   "id": "rirarra-charca",
+   "name": "Rirarra Charca",
+   "outfit": "Life guard",
+   "short": "Rirarra is a shark/human hybrid, who serves as a lifeguard at the biggest city in the Coorong.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rirarra-charca/neutral.webp",
+    "play": "sprites/rirarra-charca/happy.webp",
+    "attack": "sprites/rirarra-charca/angry.webp",
+    "special": "sprites/rirarra-charca/rage.webp",
+    "hurt": "sprites/rirarra-charca/scared.webp",
+    "lose": "sprites/rirarra-charca/sad.webp",
+    "win": "sprites/rirarra-charca/excited.webp",
+    "taunt": "sprites/rirarra-charca/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "the-equality-beach",
+     "name": "The equality beach",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/the-equality-beach/neutral.webp",
+      "play": "sprites/rirarra-charca/the-equality-beach/happy.webp",
+      "attack": "sprites/rirarra-charca/the-equality-beach/angry.webp",
+      "special": "sprites/rirarra-charca/the-equality-beach/angry.webp",
+      "hurt": "sprites/rirarra-charca/the-equality-beach/scared.webp",
+      "lose": "sprites/rirarra-charca/the-equality-beach/sad.webp",
+      "win": "sprites/rirarra-charca/the-equality-beach/happy.webp",
+      "taunt": "sprites/rirarra-charca/the-equality-beach/happy.webp"
+     }
+    },
+    {
+     "id": "wategun-rirarra",
+     "name": "Wategun Rirarra!",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/wategun-rirarra/neutral.webp",
+      "play": "sprites/rirarra-charca/wategun-rirarra/happy.webp",
+      "attack": "sprites/rirarra-charca/wategun-rirarra/angry.webp",
+      "special": "sprites/rirarra-charca/wategun-rirarra/rage.webp",
+      "hurt": "sprites/rirarra-charca/wategun-rirarra/scared.webp",
+      "lose": "sprites/rirarra-charca/wategun-rirarra/sad.webp",
+      "win": "sprites/rirarra-charca/wategun-rirarra/excited.webp",
+      "taunt": "sprites/rirarra-charca/wategun-rirarra/proud.webp"
+     }
+    },
+    {
+     "id": "holding-bat",
+     "name": "Holding bat",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/holding-bat/neutral.webp",
+      "play": "sprites/rirarra-charca/holding-bat/happy.webp",
+      "attack": "sprites/rirarra-charca/holding-bat/angry.webp",
+      "special": "sprites/rirarra-charca/holding-bat/rage.webp",
+      "hurt": "sprites/rirarra-charca/holding-bat/scared.webp",
+      "lose": "sprites/rirarra-charca/holding-bat/sad.webp",
+      "win": "sprites/rirarra-charca/holding-bat/excited.webp",
+      "taunt": "sprites/rirarra-charca/holding-bat/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-godzilla",
+     "name": "Halloween - Godzilla",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/halloween-godzilla/neutral.webp",
+      "play": "sprites/rirarra-charca/halloween-godzilla/happy.webp",
+      "attack": "sprites/rirarra-charca/halloween-godzilla/angry.webp",
+      "special": "sprites/rirarra-charca/halloween-godzilla/angry.webp",
+      "hurt": "sprites/rirarra-charca/halloween-godzilla/scared.webp",
+      "lose": "sprites/rirarra-charca/halloween-godzilla/sad.webp",
+      "win": "sprites/rirarra-charca/halloween-godzilla/happy.webp",
+      "taunt": "sprites/rirarra-charca/halloween-godzilla/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/rirarra-charca.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "rowdy-brachy",
+   "name": "Rowdy Brachy",
+   "outfit": "Life guard",
+   "short": "Rowdy is a female shark/human hybrid, specifically a bronze whaler shark, gentle and not agressive.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rowdy-brachy/neutral.webp",
+    "play": "sprites/rowdy-brachy/happy.webp",
+    "attack": "sprites/rowdy-brachy/angry.webp",
+    "special": "sprites/rowdy-brachy/rage.webp",
+    "hurt": "sprites/rowdy-brachy/scared.webp",
+    "lose": "sprites/rowdy-brachy/sad.webp",
+    "win": "sprites/rowdy-brachy/excited.webp",
+    "taunt": "sprites/rowdy-brachy/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "holding-water-gun",
+     "name": "Holding water gun",
+     "sprites": {
+      "idle": "sprites/rowdy-brachy/holding-water-gun/neutral.webp",
+      "play": "sprites/rowdy-brachy/holding-water-gun/happy.webp",
+      "attack": "sprites/rowdy-brachy/holding-water-gun/angry.webp",
+      "special": "sprites/rowdy-brachy/holding-water-gun/rage.webp",
+      "hurt": "sprites/rowdy-brachy/holding-water-gun/scared.webp",
+      "lose": "sprites/rowdy-brachy/holding-water-gun/sad.webp",
+      "win": "sprites/rowdy-brachy/holding-water-gun/excited.webp",
+      "taunt": "sprites/rowdy-brachy/holding-water-gun/proud.webp"
+     }
+    },
+    {
+     "id": "holding-bat",
+     "name": "Holding bat",
+     "sprites": {
+      "idle": "sprites/rowdy-brachy/holding-bat/neutral.webp",
+      "play": "sprites/rowdy-brachy/holding-bat/happy.webp",
+      "attack": "sprites/rowdy-brachy/holding-bat/angry.webp",
+      "special": "sprites/rowdy-brachy/holding-bat/rage.webp",
+      "hurt": "sprites/rowdy-brachy/holding-bat/scared.webp",
+      "lose": "sprites/rowdy-brachy/holding-bat/sad.webp",
+      "win": "sprites/rowdy-brachy/holding-bat/excited.webp",
+      "taunt": "sprites/rowdy-brachy/holding-bat/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-alien",
+     "name": "Halloween - Alien",
+     "sprites": {
+      "idle": "sprites/rowdy-brachy/halloween-alien/neutral.webp",
+      "play": "sprites/rowdy-brachy/halloween-alien/happy.webp",
+      "attack": "sprites/rowdy-brachy/halloween-alien/angry.webp",
+      "special": "sprites/rowdy-brachy/halloween-alien/angry.webp",
+      "hurt": "sprites/rowdy-brachy/halloween-alien/scared.webp",
+      "lose": "sprites/rowdy-brachy/halloween-alien/sad.webp",
+      "win": "sprites/rowdy-brachy/halloween-alien/happy.webp",
+      "taunt": "sprites/rowdy-brachy/halloween-alien/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/rowdy-brachy.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "melanika-carchara",
+   "name": "Melanika Carchara",
+   "outfit": "Life guard",
+   "short": "Melanika is a blacktip reef shark/hybrid girl who's a lifeguard at the beach.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/melanika-carchara/neutral.webp",
+    "play": "sprites/melanika-carchara/happy.webp",
+    "attack": "sprites/melanika-carchara/angry.webp",
+    "special": "sprites/melanika-carchara/rage.webp",
+    "hurt": "sprites/melanika-carchara/scared.webp",
+    "lose": "sprites/melanika-carchara/sad.webp",
+    "win": "sprites/melanika-carchara/excited.webp",
+    "taunt": "sprites/melanika-carchara/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "water-gun",
+     "name": "Water gun",
+     "sprites": {
+      "idle": "sprites/melanika-carchara/water-gun/neutral.webp",
+      "play": "sprites/melanika-carchara/water-gun/happy.webp",
+      "attack": "sprites/melanika-carchara/water-gun/angry.webp",
+      "special": "sprites/melanika-carchara/water-gun/rage.webp",
+      "hurt": "sprites/melanika-carchara/water-gun/scared.webp",
+      "lose": "sprites/melanika-carchara/water-gun/sad.webp",
+      "win": "sprites/melanika-carchara/water-gun/excited.webp",
+      "taunt": "sprites/melanika-carchara/water-gun/proud.webp"
+     }
+    },
+    {
+     "id": "holding-bat",
+     "name": "Holding bat",
+     "sprites": {
+      "idle": "sprites/melanika-carchara/holding-bat/neutral.webp",
+      "play": "sprites/melanika-carchara/holding-bat/happy.webp",
+      "attack": "sprites/melanika-carchara/holding-bat/angry.webp",
+      "special": "sprites/melanika-carchara/holding-bat/rage.webp",
+      "hurt": "sprites/melanika-carchara/holding-bat/scared.webp",
+      "lose": "sprites/melanika-carchara/holding-bat/sad.webp",
+      "win": "sprites/melanika-carchara/holding-bat/excited.webp",
+      "taunt": "sprites/melanika-carchara/holding-bat/proud.webp"
+     }
+    },
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/melanika-carchara/new-outfit/neutral.webp",
+      "play": "sprites/melanika-carchara/new-outfit/happy.webp",
+      "attack": "sprites/melanika-carchara/new-outfit/angry.webp",
+      "special": "sprites/melanika-carchara/new-outfit/rage.webp",
+      "hurt": "sprites/melanika-carchara/new-outfit/scared.webp",
+      "lose": "sprites/melanika-carchara/new-outfit/sad.webp",
+      "win": "sprites/melanika-carchara/new-outfit/excited.webp",
+      "taunt": "sprites/melanika-carchara/new-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-slasher",
+     "name": "Halloween - Slasher",
+     "sprites": {
+      "idle": "sprites/melanika-carchara/halloween-slasher/neutral.webp",
+      "play": "sprites/melanika-carchara/halloween-slasher/happy.webp",
+      "attack": "sprites/melanika-carchara/halloween-slasher/angry.webp",
+      "special": "sprites/melanika-carchara/halloween-slasher/angry.webp",
+      "hurt": "sprites/melanika-carchara/halloween-slasher/scared.webp",
+      "lose": "sprites/melanika-carchara/halloween-slasher/sad.webp",
+      "win": "sprites/melanika-carchara/halloween-slasher/happy.webp",
+      "taunt": "sprites/melanika-carchara/halloween-slasher/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/melanika-carchara.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "rinco-typus",
+   "name": "Rinco Typus",
+   "outfit": "Life guard",
+   "short": "Rinco Typus is calm, wise, and nurturing an elegant wanderer",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rinco-typus/neutral.webp",
+    "play": "sprites/rinco-typus/happy.webp",
+    "attack": "sprites/rinco-typus/angry.webp",
+    "special": "sprites/rinco-typus/rage.webp",
+    "hurt": "sprites/rinco-typus/scared.webp",
+    "lose": "sprites/rinco-typus/sad.webp",
+    "win": "sprites/rinco-typus/excited.webp",
+    "taunt": "sprites/rinco-typus/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "holding-bat",
+     "name": "Holding bat",
+     "sprites": {
+      "idle": "sprites/rinco-typus/holding-bat/neutral.webp",
+      "play": "sprites/rinco-typus/holding-bat/happy.webp",
+      "attack": "sprites/rinco-typus/holding-bat/angry.webp",
+      "special": "sprites/rinco-typus/holding-bat/rage.webp",
+      "hurt": "sprites/rinco-typus/holding-bat/scared.webp",
+      "lose": "sprites/rinco-typus/holding-bat/sad.webp",
+      "win": "sprites/rinco-typus/holding-bat/excited.webp",
+      "taunt": "sprites/rinco-typus/holding-bat/proud.webp"
+     }
+    },
+    {
+     "id": "holding-water-gun",
+     "name": "Holding water gun",
+     "sprites": {
+      "idle": "sprites/rinco-typus/holding-water-gun/neutral.webp",
+      "play": "sprites/rinco-typus/holding-water-gun/happy.webp",
+      "attack": "sprites/rinco-typus/holding-water-gun/angry.webp",
+      "special": "sprites/rinco-typus/holding-water-gun/rage.webp",
+      "hurt": "sprites/rinco-typus/holding-water-gun/scared.webp",
+      "lose": "sprites/rinco-typus/holding-water-gun/sad.webp",
+      "win": "sprites/rinco-typus/holding-water-gun/excited.webp",
+      "taunt": "sprites/rinco-typus/holding-water-gun/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-devil",
+     "name": "Halloween - Devil",
+     "sprites": {
+      "idle": "sprites/rinco-typus/halloween-devil/neutral.webp",
+      "play": "sprites/rinco-typus/halloween-devil/happy.webp",
+      "attack": "sprites/rinco-typus/halloween-devil/angry.webp",
+      "special": "sprites/rinco-typus/halloween-devil/angry.webp",
+      "hurt": "sprites/rinco-typus/halloween-devil/scared.webp",
+      "lose": "sprites/rinco-typus/halloween-devil/sad.webp",
+      "win": "sprites/rinco-typus/halloween-devil/happy.webp",
+      "taunt": "sprites/rinco-typus/halloween-devil/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/rinco-typus.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "daphne-mokarran",
+   "name": "Daphne Mokarran",
+   "outfit": "Default clothes",
+   "short": "Daphne Mokarran is a hammerhead shark/hybrid, who's the engineer",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/daphne-mokarran/neutral.webp",
+    "play": "sprites/daphne-mokarran/happy.webp",
+    "attack": "sprites/daphne-mokarran/angry.webp",
+    "special": "sprites/daphne-mokarran/rage.webp",
+    "hurt": "sprites/daphne-mokarran/scared.webp",
+    "lose": "sprites/daphne-mokarran/sad.webp",
+    "win": "sprites/daphne-mokarran/excited.webp",
+    "taunt": "sprites/daphne-mokarran/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "holding-water-gun",
+     "name": "Holding water gun",
+     "sprites": {
+      "idle": "sprites/daphne-mokarran/holding-water-gun/neutral.webp",
+      "play": "sprites/daphne-mokarran/holding-water-gun/happy.webp",
+      "attack": "sprites/daphne-mokarran/holding-water-gun/angry.webp",
+      "special": "sprites/daphne-mokarran/holding-water-gun/rage.webp",
+      "hurt": "sprites/daphne-mokarran/holding-water-gun/scared.webp",
+      "lose": "sprites/daphne-mokarran/holding-water-gun/sad.webp",
+      "win": "sprites/daphne-mokarran/holding-water-gun/excited.webp",
+      "taunt": "sprites/daphne-mokarran/holding-water-gun/proud.webp"
+     }
+    },
+    {
+     "id": "holding-hammer",
+     "name": "Holding hammer",
+     "sprites": {
+      "idle": "sprites/daphne-mokarran/holding-hammer/neutral.webp",
+      "play": "sprites/daphne-mokarran/holding-hammer/happy.webp",
+      "attack": "sprites/daphne-mokarran/holding-hammer/angry.webp",
+      "special": "sprites/daphne-mokarran/holding-hammer/rage.webp",
+      "hurt": "sprites/daphne-mokarran/holding-hammer/scared.webp",
+      "lose": "sprites/daphne-mokarran/holding-hammer/sad.webp",
+      "win": "sprites/daphne-mokarran/holding-hammer/excited.webp",
+      "taunt": "sprites/daphne-mokarran/holding-hammer/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-vampire",
+     "name": "Halloween - Vampire",
+     "sprites": {
+      "idle": "sprites/daphne-mokarran/halloween-vampire/neutral.webp",
+      "play": "sprites/daphne-mokarran/halloween-vampire/happy.webp",
+      "attack": "sprites/daphne-mokarran/halloween-vampire/angry.webp",
+      "special": "sprites/daphne-mokarran/halloween-vampire/angry.webp",
+      "hurt": "sprites/daphne-mokarran/halloween-vampire/scared.webp",
+      "lose": "sprites/daphne-mokarran/halloween-vampire/sad.webp",
+      "win": "sprites/daphne-mokarran/halloween-vampire/happy.webp",
+      "taunt": "sprites/daphne-mokarran/halloween-vampire/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/daphne-mokarran.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "brizz-bigeyed",
+   "name": "Brizz Bigeyed",
+   "outfit": "Medic Swimsuit",
+   "short": "Brizz is a female thresher shark/human hybrid, she's the beach's medical expert.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/brizz-bigeyed/neutral.webp",
+    "play": "sprites/brizz-bigeyed/happy.webp",
+    "attack": "sprites/brizz-bigeyed/angry.webp",
+    "special": "sprites/brizz-bigeyed/rage.webp",
+    "hurt": "sprites/brizz-bigeyed/scared.webp",
+    "lose": "sprites/brizz-bigeyed/sad.webp",
+    "win": "sprites/brizz-bigeyed/excited.webp",
+    "taunt": "sprites/brizz-bigeyed/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "holding-water-gun",
+     "name": "Holding water gun",
+     "sprites": {
+      "idle": "sprites/brizz-bigeyed/holding-water-gun/neutral.webp",
+      "play": "sprites/brizz-bigeyed/holding-water-gun/happy.webp",
+      "attack": "sprites/brizz-bigeyed/holding-water-gun/angry.webp",
+      "special": "sprites/brizz-bigeyed/holding-water-gun/rage.webp",
+      "hurt": "sprites/brizz-bigeyed/holding-water-gun/scared.webp",
+      "lose": "sprites/brizz-bigeyed/holding-water-gun/sad.webp",
+      "win": "sprites/brizz-bigeyed/holding-water-gun/excited.webp",
+      "taunt": "sprites/brizz-bigeyed/holding-water-gun/proud.webp"
+     }
+    },
+    {
+     "id": "holding-scythe",
+     "name": "Holding scythe",
+     "sprites": {
+      "idle": "sprites/brizz-bigeyed/holding-scythe/neutral.webp",
+      "play": "sprites/brizz-bigeyed/holding-scythe/happy.webp",
+      "attack": "sprites/brizz-bigeyed/holding-scythe/angry.webp",
+      "special": "sprites/brizz-bigeyed/holding-scythe/rage.webp",
+      "hurt": "sprites/brizz-bigeyed/holding-scythe/scared.webp",
+      "lose": "sprites/brizz-bigeyed/holding-scythe/sad.webp",
+      "win": "sprites/brizz-bigeyed/holding-scythe/excited.webp",
+      "taunt": "sprites/brizz-bigeyed/holding-scythe/proud.webp"
+     }
+    },
+    {
+     "id": "halloween-mad-scientist",
+     "name": "Halloween - Mad Scientist",
+     "sprites": {
+      "idle": "sprites/brizz-bigeyed/halloween-mad-scientist/neutral.webp",
+      "play": "sprites/brizz-bigeyed/halloween-mad-scientist/happy.webp",
+      "attack": "sprites/brizz-bigeyed/halloween-mad-scientist/angry.webp",
+      "special": "sprites/brizz-bigeyed/halloween-mad-scientist/angry.webp",
+      "hurt": "sprites/brizz-bigeyed/halloween-mad-scientist/scared.webp",
+      "lose": "sprites/brizz-bigeyed/halloween-mad-scientist/sad.webp",
+      "win": "sprites/brizz-bigeyed/halloween-mad-scientist/happy.webp",
+      "taunt": "sprites/brizz-bigeyed/halloween-mad-scientist/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/brizz-bigeyed.webp",
+   "novel": "The Lifeguard has Teeth"
+  },
+  {
+   "id": "andrea-lyle",
+   "name": "Andrea Lyle",
+   "outfit": "Pajamas",
+   "short": "Andrea Lyle is a former prodigy in aesthetic surgery",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/andrea-lyle/neutral.webp",
+    "play": "sprites/andrea-lyle/happy.webp",
+    "attack": "sprites/andrea-lyle/angry.webp",
+    "special": "sprites/andrea-lyle/angry.webp",
+    "hurt": "sprites/andrea-lyle/scared.webp",
+    "lose": "sprites/andrea-lyle/sad.webp",
+    "win": "sprites/andrea-lyle/happy.webp",
+    "taunt": "sprites/andrea-lyle/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "natural-outfit",
+     "name": "Natural outfit",
+     "sprites": {
+      "idle": "sprites/andrea-lyle/natural-outfit/neutral.webp",
+      "play": "sprites/andrea-lyle/natural-outfit/happy.webp",
+      "attack": "sprites/andrea-lyle/natural-outfit/angry.webp",
+      "special": "sprites/andrea-lyle/natural-outfit/rage.webp",
+      "hurt": "sprites/andrea-lyle/natural-outfit/scared.webp",
+      "lose": "sprites/andrea-lyle/natural-outfit/sad.webp",
+      "win": "sprites/andrea-lyle/natural-outfit/excited.webp",
+      "taunt": "sprites/andrea-lyle/natural-outfit/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/andrea-lyle.webp",
+   "novel": "The yuri assist"
+  },
+  {
+   "id": "linda-penn",
+   "name": "Linda Penn",
+   "outfit": "Casual attire",
+   "short": "Linda Penn is a strong-willed, formal, and a natural leader.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/linda-penn/neutral.webp",
+    "play": "sprites/linda-penn/happy.webp",
+    "attack": "sprites/linda-penn/angry.webp",
+    "special": "sprites/linda-penn/angry.webp",
+    "hurt": "sprites/linda-penn/scared.webp",
+    "lose": "sprites/linda-penn/sad.webp",
+    "win": "sprites/linda-penn/happy.webp",
+    "taunt": "sprites/linda-penn/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/linda-penn.webp",
+   "novel": "The yuri assist"
+  },
+  {
+   "id": "eva-vinn",
+   "name": "Eva Vinn",
+   "outfit": "Default clothes",
+   "short": "Eva V, is the geek of the school, being panicked and cuddly at the same time.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/eva-vinn/neutral.webp",
+    "play": "sprites/eva-vinn/happy.webp",
+    "attack": "sprites/eva-vinn/angry.webp",
+    "special": "sprites/eva-vinn/angry.webp",
+    "hurt": "sprites/eva-vinn/scared.webp",
+    "lose": "sprites/eva-vinn/sad.webp",
+    "win": "sprites/eva-vinn/happy.webp",
+    "taunt": "sprites/eva-vinn/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/eva-vinn.webp",
+   "novel": "The yuri assist"
+  },
+  {
+   "id": "ashley-lennette",
+   "name": "Ashley Lennette",
+   "outfit": "Neutral outfit",
+   "short": "Ashley Lennette is a tomboy, energetic, humorous, basketball lover.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ashley-lennette/neutral.webp",
+    "play": "sprites/ashley-lennette/happy.webp",
+    "attack": "sprites/ashley-lennette/angry.webp",
+    "special": "sprites/ashley-lennette/angry.webp",
+    "hurt": "sprites/ashley-lennette/scared.webp",
+    "lose": "sprites/ashley-lennette/sad.webp",
+    "win": "sprites/ashley-lennette/happy.webp",
+    "taunt": "sprites/ashley-lennette/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ashley-lennette.webp",
+   "novel": "The yuri assist"
   }
  ],
  "backgrounds": [
@@ -1842,6 +2566,144 @@
    "src": "backgrounds/back-door-route-6a9e44.webp"
   },
   {
+   "id": "69be346c-0369-4aaa-86b4-131362f3b28a",
+   "name": "Lisa's room",
+   "desc": "",
+   "src": "backgrounds/lisa-s-room-69be34.webp"
+  },
+  {
+   "id": "880a3498-a882-4ec3-a0b0-308042f8a4c7",
+   "name": "Bedroom",
+   "desc": "",
+   "src": "backgrounds/bedroom-880a34.webp"
+  },
+  {
+   "id": "8ffaac63-7867-497c-8914-7f4125da9e15",
+   "name": "Hallway 1",
+   "desc": "",
+   "src": "backgrounds/hallway-1-8ffaac.webp"
+  },
+  {
+   "id": "0a020975-932d-4163-8007-64b046e1f764",
+   "name": "Hallway 2",
+   "desc": "",
+   "src": "backgrounds/hallway-2-0a0209.webp"
+  },
+  {
+   "id": "b3db650c-729d-4ced-99dc-c9cd3bbb27a8",
+   "name": "Hallway to gym",
+   "desc": "",
+   "src": "backgrounds/hallway-to-gym-b3db65.webp"
+  },
+  {
+   "id": "fbab2e70-72b5-4061-b517-f996568896cd",
+   "name": "Hallway out",
+   "desc": "",
+   "src": "backgrounds/hallway-out-fbab2e.webp"
+  },
+  {
+   "id": "8d20151e-3d7f-487a-839e-476c7f4b369f",
+   "name": "Street - Day (1)",
+   "desc": "",
+   "src": "backgrounds/street-day-1-8d2015.webp"
+  },
+  {
+   "id": "79f777e5-7697-4f04-9ae7-648f97d6046b",
+   "name": "In front of school - day",
+   "desc": "",
+   "src": "backgrounds/in-front-of-school-day-79f777.webp"
+  },
+  {
+   "id": "81a3a0f8-76e5-48ba-b931-0385d38502bc",
+   "name": "Street - Night (1)",
+   "desc": "",
+   "src": "backgrounds/street-night-1-81a3a0.webp"
+  },
+  {
+   "id": "bd467ee8-7e31-4985-883c-80ea1239c53e",
+   "name": "Street - Night (2)",
+   "desc": "",
+   "src": "backgrounds/street-night-2-bd467e.webp"
+  },
+  {
+   "id": "f1602f99-ccbb-4af5-a174-136b53ef761c",
+   "name": "Street - Night (3)",
+   "desc": "",
+   "src": "backgrounds/street-night-3-f1602f.webp"
+  },
+  {
+   "id": "347df56c-40a5-4c0f-9e0f-b4a216adf015",
+   "name": "Street - Day (2)",
+   "desc": "",
+   "src": "backgrounds/street-day-2-347df5.webp"
+  },
+  {
+   "id": "48049106-7371-4978-8378-1b89baecc925",
+   "name": "Street - Day (3)",
+   "desc": "",
+   "src": "backgrounds/street-day-3-480491.webp"
+  },
+  {
+   "id": "ed1367a3-1e68-485e-97bf-026fe769de8c",
+   "name": "Mountain (1)",
+   "desc": "",
+   "src": "backgrounds/mountain-1-ed1367.webp"
+  },
+  {
+   "id": "3551438b-a89f-4642-b5db-9aeae858faf1",
+   "name": "Mountain (2)",
+   "desc": "",
+   "src": "backgrounds/mountain-2-355143.webp"
+  },
+  {
+   "id": "ee450ee8-3c35-417e-b67e-ea3b38a0738a",
+   "name": "Forrest (1)",
+   "desc": "",
+   "src": "backgrounds/forrest-1-ee450e.webp"
+  },
+  {
+   "id": "caa9dece-49ec-4e3a-bba5-7436d57466ec",
+   "name": "Forrest (2)",
+   "desc": "",
+   "src": "backgrounds/forrest-2-caa9de.webp"
+  },
+  {
+   "id": "1b1e9f9e-d050-45e0-8f55-a50254401964",
+   "name": "\"Lucky Latte\" Cafe",
+   "desc": "",
+   "src": "backgrounds/lucky-latte-cafe-1b1e9f.webp"
+  },
+  {
+   "id": "cbb2996a-4971-44d5-9992-6bb51c805ee0",
+   "name": "Minimarket",
+   "desc": "",
+   "src": "backgrounds/minimarket-cbb299.webp"
+  },
+  {
+   "id": "c663df13-cc66-4a8e-8b77-8b2d0523f684",
+   "name": "Post office",
+   "desc": "",
+   "src": "backgrounds/post-office-c663df.webp"
+  },
+  {
+   "id": "3b9a4fc2-8ad4-43b6-8446-f3600ed18dc2",
+   "name": "Outskirts of city",
+   "desc": "",
+   "src": "backgrounds/outskirts-of-city-3b9a4f.webp"
+  },
+  {
+   "id": "b518a49f-ac06-4bf7-925d-a81a68cb52c8",
+   "name": "Mayors house",
+   "desc": "",
+   "src": "backgrounds/mayors-house-b518a4.webp"
+  },
+  {
+   "id": "13699965-d956-49aa-823e-e8a163d3fe0b",
+   "name": "Bedroom - Night",
+   "desc": "",
+   "src": "backgrounds/bedroom-night-136999.webp"
+  },
+  {
    "id": "846c6c72-e96f-456a-af7d-c27cabe04d9b",
    "name": "Fire..",
    "desc": "Fire up to the dead night",
@@ -1966,6 +2828,270 @@
    "name": "Final Stretch",
    "desc": "",
    "src": "backgrounds/final-stretch-ffe365.webp"
+  },
+  {
+   "id": "46115b31-11bf-486c-919f-7c303b01f6be",
+   "name": "Beach (1)",
+   "desc": "",
+   "src": "backgrounds/beach-1-46115b.webp"
+  },
+  {
+   "id": "a990fd7a-7f26-4c2a-8749-5f3f2aaac78d",
+   "name": "Beach (2)",
+   "desc": "",
+   "src": "backgrounds/beach-2-a990fd.webp"
+  },
+  {
+   "id": "699b2a4c-2f3c-4f45-812e-8d94372511fd",
+   "name": "Inside lifeguard tower",
+   "desc": "",
+   "src": "backgrounds/inside-lifeguard-tower-699b2a.webp"
+  },
+  {
+   "id": "643f7d49-d3c9-42df-ba39-7ce5ce66b5e2",
+   "name": "Watch house Night",
+   "desc": "",
+   "src": "backgrounds/watch-house-night-643f7d.webp"
+  },
+  {
+   "id": "9021ec01-0eea-4c1d-bfa9-dd5bd94b8217",
+   "name": "Inside lifeguard house afternoon",
+   "desc": "",
+   "src": "backgrounds/inside-lifeguard-house-afternoon-9021ec.webp"
+  },
+  {
+   "id": "19485708-77a4-403d-84e6-da1a3bc9e86d",
+   "name": "Beach night",
+   "desc": "",
+   "src": "backgrounds/beach-night-194857.webp"
+  },
+  {
+   "id": "3f5ffca3-ac41-4b92-ad50-2773b0b9e9e2",
+   "name": "Beach house",
+   "desc": "",
+   "src": "backgrounds/beach-house-3f5ffc.webp"
+  },
+  {
+   "id": "960770c7-9dfe-493c-ab5a-d5246a7b36b1",
+   "name": "The home afternoon",
+   "desc": "",
+   "src": "backgrounds/the-home-afternoon-960770.webp"
+  },
+  {
+   "id": "0c182ad3-d18e-4327-b622-d6f9389b55c5",
+   "name": "The house night",
+   "desc": "",
+   "src": "backgrounds/the-house-night-0c182a.webp"
+  },
+  {
+   "id": "b9ff4954-40a9-4a40-b511-6f7a4d148618",
+   "name": "The house day",
+   "desc": "",
+   "src": "backgrounds/the-house-day-b9ff49.webp"
+  },
+  {
+   "id": "04580daf-72ed-4f99-8dd4-9dd206c5b696",
+   "name": "The restroom",
+   "desc": "",
+   "src": "backgrounds/the-restroom-04580d.webp"
+  },
+  {
+   "id": "e34fae24-4962-4f57-8103-9274886c69d1",
+   "name": "Drowning jpg",
+   "desc": "",
+   "src": "backgrounds/drowning-jpg-e34fae.webp"
+  },
+  {
+   "id": "7e334334-d4d9-4dd4-867f-8907951df2c1",
+   "name": "From below",
+   "desc": "",
+   "src": "backgrounds/from-below-7e3343.webp"
+  },
+  {
+   "id": "5a60d6f6-5810-4eda-97d5-82366f9f16aa",
+   "name": "Beach (3)",
+   "desc": "",
+   "src": "backgrounds/beach-3-5a60d6.webp"
+  },
+  {
+   "id": "72a429b9-53b5-446e-845e-615933456f4c",
+   "name": "Beach Rock",
+   "desc": "",
+   "src": "backgrounds/beach-rock-72a429.webp"
+  },
+  {
+   "id": "00739197-cbde-43ff-a853-bbf63943d111",
+   "name": "Melanika and Rinco's cabin",
+   "desc": "",
+   "src": "backgrounds/melanika-and-rinco-s-cabin-007391.webp"
+  },
+  {
+   "id": "869f80c6-6de6-41bc-9371-50351714f282",
+   "name": "Surfboard",
+   "desc": "",
+   "src": "backgrounds/surfboard-869f80.webp"
+  },
+  {
+   "id": "002eb60d-a2ca-4eb2-8245-eed3c080f1c4",
+   "name": "Bench POV",
+   "desc": "",
+   "src": "backgrounds/bench-pov-002eb6.webp"
+  },
+  {
+   "id": "6a0e3968-ffe1-4e44-9f6e-f4318ba510d7",
+   "name": "Bar",
+   "desc": "",
+   "src": "backgrounds/bar-6a0e39.webp"
+  },
+  {
+   "id": "2e81b75c-ffd9-4561-ba84-00d6645c4dc8",
+   "name": "Beach (2)",
+   "desc": "",
+   "src": "backgrounds/beach-2-2e81b7.webp"
+  },
+  {
+   "id": "756ab8f8-9119-4a6c-86cf-d7c07f27e644",
+   "name": "Beach (3)",
+   "desc": "",
+   "src": "backgrounds/beach-3-756ab8.webp"
+  },
+  {
+   "id": "95a65bb1-4a7d-4293-857d-0a79b63c89dc",
+   "name": "Cabin Kitchen",
+   "desc": "",
+   "src": "backgrounds/cabin-kitchen-95a65b.webp"
+  },
+  {
+   "id": "dc5cdeb3-51e0-4e99-8aec-664372fd1378",
+   "name": "Hammer and scythe house",
+   "desc": "",
+   "src": "backgrounds/hammer-and-scythe-house-dc5cde.webp"
+  },
+  {
+   "id": "e88a80a2-c7a9-4d8a-aa92-c6492ef8e3df",
+   "name": "Rinco and Melanika's home",
+   "desc": "",
+   "src": "backgrounds/rinco-and-melanika-s-home-e88a80.webp"
+  },
+  {
+   "id": "16a7c3a3-c2e8-4c19-b51e-57b121d2ba15",
+   "name": "Rinco and Melanika's house (Night) ",
+   "desc": "",
+   "src": "backgrounds/rinco-and-melanika-s-house-night-16a7c3.webp"
+  },
+  {
+   "id": "8e5309e3-7993-485e-b321-cc87ceb9ec6e",
+   "name": "The medic and engineers house (Night)",
+   "desc": "",
+   "src": "backgrounds/the-medic-and-engineers-house-night-8e5309.webp"
+  },
+  {
+   "id": "a5300054-bf4e-4037-974e-c2c4e67cff8a",
+   "name": "Halloween Beach",
+   "desc": "",
+   "src": "backgrounds/halloween-beach-a53000.webp"
+  },
+  {
+   "id": "620c2660-e96a-4a6c-8369-06b5208659c9",
+   "name": "Home - Halloween",
+   "desc": "",
+   "src": "backgrounds/home-halloween-620c26.webp"
+  },
+  {
+   "id": "c9fc7015-2f38-48ac-9e11-18caf141aac2",
+   "name": "Bar - Halloween",
+   "desc": "",
+   "src": "backgrounds/bar-halloween-c9fc70.webp"
+  },
+  {
+   "id": "21e66d8e-e61d-4b92-90e2-9092b851b9f0",
+   "name": "Beach Halloween 2",
+   "desc": "",
+   "src": "backgrounds/beach-halloween-2-21e66d.webp"
+  },
+  {
+   "id": "599d9475-e835-425e-b526-a5e1b5b5538b",
+   "name": "Andrea's room",
+   "desc": "bedroom, white walls, posters, rock and roll posters, wooden floor, white walls, dark blue curtains, striped bed, green bed, desk, sun flare, daylight, window, lamp, ceiling lamp, clothes on floor, female clothes, hanging jacket, jacket on wall",
+   "src": "backgrounds/andrea-s-room-599d94.webp"
+  },
+  {
+   "id": "9db34d25-e886-4bc8-9128-744395438564",
+   "name": "Hallway 1",
+   "desc": "",
+   "src": "backgrounds/hallway-1-9db34d.webp"
+  },
+  {
+   "id": "47bf6b22-f69a-4a84-b7e7-e76dac899646",
+   "name": "Hallway (2)",
+   "desc": "",
+   "src": "backgrounds/hallway-2-47bf6b.webp"
+  },
+  {
+   "id": "6bb489f2-9762-4f07-b2f7-28d37d8332de",
+   "name": "Cafeteria",
+   "desc": "",
+   "src": "backgrounds/cafeteria-6bb489.webp"
+  },
+  {
+   "id": "3f19574a-a85d-49fc-a558-04656e11daf9",
+   "name": "Library",
+   "desc": "",
+   "src": "backgrounds/library-3f1957.webp"
+  },
+  {
+   "id": "e4cdcc9b-c466-4a2a-bc78-80c7a4384f1a",
+   "name": "Outside school",
+   "desc": "",
+   "src": "backgrounds/outside-school-e4cdcc.webp"
+  },
+  {
+   "id": "4b2a1ff4-adbe-43e0-91af-a80edf307f81",
+   "name": "Sidewalk",
+   "desc": "",
+   "src": "backgrounds/sidewalk-4b2a1f.webp"
+  },
+  {
+   "id": "f39dff5a-fe7e-4191-a785-1260dd6e3095",
+   "name": "Sidewalk 2",
+   "desc": "",
+   "src": "backgrounds/sidewalk-2-f39dff.webp"
+  },
+  {
+   "id": "97d53405-297a-4ca0-bab3-451f7644749a",
+   "name": "Park 1",
+   "desc": "",
+   "src": "backgrounds/park-1-97d534.webp"
+  },
+  {
+   "id": "15038eba-430b-41bb-b89f-a93a20483716",
+   "name": "Park 2",
+   "desc": "",
+   "src": "backgrounds/park-2-15038e.webp"
+  },
+  {
+   "id": "3dfd1a7e-ebc5-477a-a4a6-34ace8da2470",
+   "name": "Cafe",
+   "desc": "",
+   "src": "backgrounds/cafe-3dfd1a.webp"
+  },
+  {
+   "id": "5e37bfb6-4d52-4fec-a97e-be633ea55dc1",
+   "name": "The training field",
+   "desc": "",
+   "src": "backgrounds/the-training-field-5e37bf.webp"
+  },
+  {
+   "id": "ea55a1b1-0045-4633-abb8-115898083ab9",
+   "name": "The study room",
+   "desc": "",
+   "src": "backgrounds/the-study-room-ea55a1.webp"
+  },
+  {
+   "id": "7b685442-305b-42cf-b996-2ac5ae639506",
+   "name": "Your's room",
+   "desc": "",
+   "src": "backgrounds/user-s-room-7b6854.webp"
   }
  ],
  "items": [
@@ -2006,6 +3132,30 @@
    "icon": "items/mansion-key.webp"
   },
   {
+   "id": "coupon",
+   "name": "Coupon",
+   "desc": "A coupon that says \"Free anything from shop!\" for anything in the cafe \"Lucky Latte\"",
+   "icon": "items/coupon.webp"
+  },
+  {
+   "id": "delivery-box",
+   "name": "Delivery Box",
+   "desc": "A box you have to deliver to Mayor Harvey Junko",
+   "icon": "items/delivery-box.webp"
+  },
+  {
+   "id": "podium",
+   "name": "Podium",
+   "desc": "A small podium which says \"Mayor Harvey Junko\"",
+   "icon": "items/podium.webp"
+  },
+  {
+   "id": "necklace",
+   "name": "Necklace",
+   "desc": "A beautiful necklace with a green gem in the middle.",
+   "icon": "items/necklace.webp"
+  },
+  {
    "id": "gift-card",
    "name": "Gift card",
    "desc": "Used to get snacks at the bar at prom.",
@@ -2028,6 +3178,24 @@
    "name": "Jay's pencil",
    "desc": "Jay's pencil to show friendship between you and Jay.",
    "icon": "items/jay-s-pencil.webp"
+  },
+  {
+   "id": "watermelon",
+   "name": "Watermelon",
+   "desc": "A simple watermelon. (It's not alive, no beavers won't get to it. Don't worry.)",
+   "icon": "items/watermelon.webp"
+  },
+  {
+   "id": "diving-mask",
+   "name": "Diving mask",
+   "desc": "A pair of blue diving goggles and air pipe,",
+   "icon": "items/diving-mask.webp"
+  },
+  {
+   "id": "water-gun",
+   "name": "Water gun",
+   "desc": "A simple blue/orange water gun, looking like a shotgun.",
+   "icon": "items/water-gun.webp"
   }
  ],
  "music": [
@@ -2567,6 +3735,97 @@
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/78c70e9e-fb85-4f14-a1ec-f14181ec3bcf.mpeg"
   },
   {
+   "id": "desirable",
+   "name": "Desirable",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d4456fd5-4ada-4ae5-884d-f6aa663753de.mpeg"
+  },
+  {
+   "id": "mornin",
+   "name": "Mornin'",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/95f35b08-2704-482e-b632-54baced5d67e.mpeg"
+  },
+  {
+   "id": "minimarket-1",
+   "name": "Minimarket (1)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/b7c014ab-af30-4c4c-a526-56d6467de4fb.mpeg"
+  },
+  {
+   "id": "minimarket-2",
+   "name": "Minimarket (2)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/befe2a24-06f2-45be-8398-345ea5b338ae.mpeg"
+  },
+  {
+   "id": "school-1",
+   "name": "School (1)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/b89ede7b-f4e4-4244-84ea-9ce7b6c8cb54.mpeg"
+  },
+  {
+   "id": "school-2",
+   "name": "School (2)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8770356a-e7ef-49c0-8dd9-5b7cb4335ab5.mpeg"
+  },
+  {
+   "id": "village-1",
+   "name": "Village (1)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/20dbe1f4-c12f-424a-84bd-fee2894e925c.mpeg"
+  },
+  {
+   "id": "village-2",
+   "name": "Village (2)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/cc2ffb21-bc45-47b8-9268-d473dddcb4f1.mpeg"
+  },
+  {
+   "id": "village-3",
+   "name": "Village (3)",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/a216bbf9-81e4-4be5-a12a-4bed57e8964c.mpeg"
+  },
+  {
+   "id": "cafe",
+   "name": "Cafe",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/00fe0a8c-ddc3-4cb3-85eb-a44db28c82d5.mpeg"
+  },
+  {
+   "id": "forrest",
+   "name": "Forrest",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f160bc21-b8f5-4ba7-9124-dd12d95aaf80.mpeg"
+  },
+  {
+   "id": "2-to-bozos",
+   "name": "2 to Bozos",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/82cf6c58-821e-40c5-b8f4-5d5b1599dbe1.mpeg"
+  },
+  {
+   "id": "bare-bear-blair-hair-chair",
+   "name": "Bare Bear Blair Hair Chair",
+   "tags": [],
+   "novel": "Between the Peaks",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/c3e88fe3-b336-4423-87da-e5c687ea91b2.mpeg"
+  },
+  {
    "id": "hello-lilith",
    "name": "Hello Lilith..",
    "tags": [
@@ -2790,6 +4049,307 @@
    ],
    "novel": "Infernal Harmony",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3b2f0afd-578f-4c07-933c-5653ed705048.mpeg"
+  },
+  {
+   "id": "shark-attack",
+   "name": "Shark Attack!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/292605c8-730b-4fe2-8bc6-3fac0ec6f9b6.mpeg"
+  },
+  {
+   "id": "chill-jaws",
+   "name": "Chill Jaws!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3374eedf-0925-4689-b890-278ad73e3656.mpeg"
+  },
+  {
+   "id": "beach-break",
+   "name": "Beach Break",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8163c3c0-9544-4011-9603-273522ea2bd3.mpeg"
+  },
+  {
+   "id": "waves",
+   "name": "Waves",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f7e04f3b-b1f7-4dfb-b0b4-f4b91f34d3ad.mpeg"
+  },
+  {
+   "id": "calm-waves",
+   "name": "Calm waves",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/dbd1a581-9ac8-4623-b94f-ae105e2ee5ed.mpeg"
+  },
+  {
+   "id": "night-jaws",
+   "name": "Night Jaws",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/da771901-36ca-48ad-b829-23cf21f20e63.mpeg"
+  },
+  {
+   "id": "dark-sky",
+   "name": "Dark sky",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/1964ec95-0439-46c5-b48a-b6137adab804.mpeg"
+  },
+  {
+   "id": "mixtapes",
+   "name": "Mixtapes",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/c479664b-c275-4783-be90-9d96de1216bc.mpeg"
+  },
+  {
+   "id": "mixtape-2",
+   "name": "Mixtape 2",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/ab4b2a48-5590-4549-98c1-a6698c21d78c.mpeg"
+  },
+  {
+   "id": "watermelon-game",
+   "name": "Watermelon game",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/1c0f0599-bf76-422e-a52a-a112ade619b0.mpeg"
+  },
+  {
+   "id": "waves-2",
+   "name": "👋 waves",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/34354b37-e356-4971-abc0-f0beeee8b47e.mpeg"
+  },
+  {
+   "id": "water-gun-fight",
+   "name": "Water gun fight",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f42d6564-6a4e-4b07-89be-4873e1f7d220.mpeg"
+  },
+  {
+   "id": "underwater",
+   "name": "Underwater",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3f2ec804-10ff-4184-81eb-77b177a411da.mpeg"
+  },
+  {
+   "id": "beach-waves",
+   "name": "Beach Waves",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/82810729-b549-4bdc-b78a-50f52193b992.mpeg"
+  },
+  {
+   "id": "surfing-coach-melanika",
+   "name": "Surfing Coach Melanika",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8c460582-5bc8-44ef-bdfb-6cce3048d07e.mpeg"
+  },
+  {
+   "id": "new-territory",
+   "name": "New territory",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/ca424571-3845-4723-884e-57a277124f4c.mpeg"
+  },
+  {
+   "id": "bird-feeding",
+   "name": "Bird Feeding",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/4b7ecfaa-4a66-46d1-8bdb-b5859e0e1452.mpeg"
+  },
+  {
+   "id": "beach-bar",
+   "name": "Beach Bar",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/ab9a3db9-00e8-4607-8e7f-21cdf3f96cd6.mpeg"
+  },
+  {
+   "id": "catchy-waves",
+   "name": "Catchy Waves",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d73d8403-26d2-4344-bf4d-83cb724bced1.mpeg"
+  },
+  {
+   "id": "the-medic",
+   "name": "The Medic!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/c6667ae7-8945-4fb9-a462-c6f65e787654.mpeg"
+  },
+  {
+   "id": "medic-engineer",
+   "name": "Medic + Engineer",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d88a3e79-bfa5-4f8c-97a8-6f60049b03ad.mpeg"
+  },
+  {
+   "id": "hammer-head",
+   "name": "Hammer head",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/759d36b2-ea96-484e-8810-a2ff94ce9b21.mpeg"
+  },
+  {
+   "id": "whale-and-black-tip",
+   "name": "Whale and Black tip ",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/9e610494-de5b-461d-98b9-4b7aabc1f90d.mpeg"
+  },
+  {
+   "id": "night-knighting",
+   "name": "Night knighting",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/bfdc6b94-e9a4-49d7-9d79-ce6011241b0b.mpeg"
+  },
+  {
+   "id": "spooky-shore",
+   "name": "Spooky Shore",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/0fb1921c-8be7-461c-8a3c-59be4733a321.mpeg"
+  },
+  {
+   "id": "scary-stories-at-the-beach",
+   "name": "Scary Stories at the beach",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/9f7c3beb-d7a4-414f-bffd-2f8c3ddb13c4.mpeg"
+  },
+  {
+   "id": "spooky-stories-at-the-beach",
+   "name": "Spooky Stories at the beach!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/29ee43ae-3bd0-4abe-84cd-b2061ca6128b.mpeg"
+  },
+  {
+   "id": "jaw-dropping-spooks",
+   "name": "Jaw Dropping Spooks!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/73a0fc5d-df21-48de-a4f1-b34fda4df31b.mpeg"
+  },
+  {
+   "id": "hallow-beach",
+   "name": "Hallow Beach!",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/53635c35-42fc-4950-9c3e-58821c3f17ca.mpeg"
+  },
+  {
+   "id": "rirraras-and-rowdys-halloween-run",
+   "name": "Rirraras And Rowdys Halloween Run",
+   "tags": [],
+   "novel": "The Lifeguard has Teeth",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2a6ea617-e524-4a70-9159-41782892a86c.mpeg"
+  },
+  {
+   "id": "andrea-s-theme",
+   "name": "Andrea's theme",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/848522e3-53a6-47f7-aa2e-8084f9d672c5.mpeg"
+  },
+  {
+   "id": "the-yuri-plan",
+   "name": "The yuri plan",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f423ee4f-f763-47fd-9deb-d598dd691e79.mpeg"
+  },
+  {
+   "id": "searching",
+   "name": "Searching",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8e5ace0e-4078-4135-bbd6-5f2b7a5cff11.mpeg"
+  },
+  {
+   "id": "the-hopeful-trombone",
+   "name": "The hopeful trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/98ca6fd1-3c98-4637-8839-60c4350c423e.mpeg"
+  },
+  {
+   "id": "the-winning-trombone",
+   "name": "The winning Trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/641d94e0-84ae-45df-bde2-7caea8802ba8.mpeg"
+  },
+  {
+   "id": "the-trombone-of-trombones",
+   "name": "The Trombone of Trombones",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/06c00ad9-f456-4e67-9cce-2b3300facfed.mpeg"
+  },
+  {
+   "id": "calming-jazz-1",
+   "name": "Calming Jazz 1",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/715b372c-9b7d-4d57-b4ad-2bd356b082a9.mpeg"
+  },
+  {
+   "id": "park",
+   "name": "Park",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/eaf95c2a-bf79-4e15-aecd-c5a90c81fc1d.mpeg"
+  },
+  {
+   "id": "the-lovely-trombone",
+   "name": "The lovely Trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5de87d4b-5dff-46e2-b167-0249910c7539.mpeg"
+  },
+  {
+   "id": "the-soulful-trombone",
+   "name": "The soulful Trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/94436fda-a7ad-43d8-83be-1a78a5e7924d.mpeg"
+  },
+  {
+   "id": "the-bouncy-trombone",
+   "name": "The bouncy Trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/808ac64c-832f-4758-acef-e346cce6a712.mpeg"
+  },
+  {
+   "id": "the-calming-trombone",
+   "name": "The calming trombone",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/0d1afca2-cf49-4cfd-af5c-a8a6adb15c6d.mpeg"
+  },
+  {
+   "id": "no-trombone-here",
+   "name": "No Trombone Here",
+   "tags": [],
+   "novel": "The yuri assist",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2ceeed68-b155-442a-bc98-1bfca5501b36.mpeg"
   }
  ]
 }

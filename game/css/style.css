@@ -335,7 +335,7 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .chapter h2 { margin: 0 0 4px 14px; font: 900 26px 'Segoe UI'; text-shadow: 0 3px 0 #000, 0 0 16px #c58cff; }
 .chapter h2 small { font-size: 18px; color: #ffd84a; margin-left: 10px; }
 .chapter-row { display: flex; gap: 14px; justify-content: center; padding: 14px 0 22px; }
-.stage { width: 200px; height: 470px; flex: none; border-radius: 18px; overflow: hidden; position: relative; cursor: pointer; border: 3px solid #ffffff33; transition: transform .2s; }
+.stage { flex: 0 1 200px; min-width: 150px; height: 470px; border-radius: 18px; overflow: hidden; position: relative; cursor: pointer; border: 3px solid #ffffff33; transition: transform .2s; }
 .stage:hover:not(.locked) { transform: translateY(-10px); border-color: #ff6fae; }
 .stage-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(.6); }
 .stage img { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); height: 320px; filter: drop-shadow(0 8px 10px #000); }
@@ -346,7 +346,7 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .stage-num { position: absolute; top: 8px; left: 12px; font: 900 40px 'Segoe UI'; text-shadow: 0 3px 0 #000; }
 .stage-name, .stage-loc, .stage-state { position: absolute; left: 0; right: 0; text-align: center; background: rgba(12,8,30,.85); }
 .stage-name { bottom: 56px; font-weight: 900; font-size: 17px; padding: 4px; }
-.stage-loc { bottom: 34px; font-size: 12px; padding: 2px; }
+.stage-loc { bottom: 34px; font-size: 12px; padding: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stage-state { bottom: 0; font-weight: 900; padding: 6px; color: #ffd84a; }
 
 .vn-sprite { position: absolute; bottom: 0; height: 760px; filter: drop-shadow(0 10px 20px #000a); }
@@ -685,6 +685,22 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .whirlpool { width: 300px; height: 300px; border-radius: 50%;
   background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--c) 80%, #fff) 0 12deg, rgba(20,80,160,.55) 12deg 30deg);
   mask: radial-gradient(circle, transparent 12%, #000 16%, #000 55%, transparent 70%); box-shadow: 0 0 40px var(--c); }
+/* shark fin cutting through the board (stands on its base) and snapping jaws */
+.fin, .cm-fin { width: 60px; height: 80px; background: linear-gradient(100deg, color-mix(in srgb, var(--c) 55%, #1a1f2e), var(--c));
+  clip-path: polygon(0 100%, 30% 30%, 62% 0, 58% 40%, 100% 100%); filter: drop-shadow(0 0 6px #bfe9ff); }
+.cm-fin { width: 110px; height: 150px; }
+.jaw { width: 230px; height: 200px; }
+.jaw i { position: absolute; left: 0; right: 0; height: 92px; background: linear-gradient(#fff, #dfe6f5); filter: drop-shadow(0 0 8px var(--c)); }
+.jaw i:first-child { top: 0; clip-path: polygon(0 0, 100% 0, 100% 30%, 92% 100%, 83% 30%, 75% 100%, 67% 30%, 58% 100%, 50% 30%, 42% 100%, 33% 30%, 25% 100%, 17% 30%, 8% 100%, 0 30%); }
+.jaw i:last-child { bottom: 0; clip-path: polygon(0 100%, 100% 100%, 100% 70%, 92% 0, 83% 70%, 75% 0, 67% 70%, 58% 0, 50% 70%, 42% 0, 33% 70%, 25% 0, 17% 70%, 8% 0, 0 70%); }
+/* basketball hoop: backboard and rim */
+.hoop { width: 130px; height: 100px; }
+.hoop::before { content: ''; position: absolute; left: 15px; top: 0; width: 100px; height: 64px; border: 5px solid #fff; border-radius: 4px; background: #ffffff22; box-shadow: 0 0 10px #0008; }
+.hoop::after { content: ''; position: absolute; left: 30px; top: 58px; width: 60px; height: 14px; border: 5px solid #ff5a1f; border-radius: 50%; }
+/* rubber-stamped verdicts */
+.stamp-mark, .cm-stamp { font: 900 54px 'Segoe UI', sans-serif; letter-spacing: 4px; color: #e8283c; border: 8px solid currentColor; border-radius: 12px;
+  padding: 2px 18px; background: #fff3; text-shadow: 0 0 10px #fff8; }
+.cm-stamp { --c: #3fbf6a; color: var(--c); font-size: 64px; }
 
 /* ================= card packs ================= */
 .menu-btn .badge { margin-left: auto; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 17px; font: 900 18px/34px 'Segoe UI'; font-style: normal; text-align: center;

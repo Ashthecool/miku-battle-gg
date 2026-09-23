@@ -1,7 +1,7 @@
 {
-  "name": "Miku Battle — Adoptive Life Clash",
+  "name": "Miku Battle — miku.gg All-Stars",
   "short_name": "Miku Battle",
-  "description": "A card battler starring the cast of the Adoptive Life miku.gg novels.",
+  "description": "A card battler starring the casts of miku.gg novels.",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",

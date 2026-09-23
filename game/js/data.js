@@ -14,6 +14,7 @@ MB.KEYWORDS = {
   guardian:  { name: 'Guardian',  icon: '😇', text: 'Takes all damage aimed at your leader.' },
   stealth:   { name: 'Stealth',   icon: '👤', text: "Can't be attacked or targeted until it attacks." },
   tipsy:     { name: 'Tipsy',     icon: '🥴', text: 'Ignores Taunt, but attacks a random enemy.' },
+  rebel:     { name: 'Rebel',     icon: '🤘', text: 'Ignores Taunt.' },
 };
 
 // attack.style picks the animation in fx.js
@@ -67,6 +68,48 @@ MB.CARDS = {
   'charlie-and-jenny': { cost: 2, atk: 3, hp: 2, rarity: 'common', kw: ['tipsy'], name: 'Charlie & Jenny',
     text: '', attack: { style: 'stumble', name: 'Double Trouble', color: '#ffb347' } },
 
+  // Between the Peaks. `onHurt` runs whenever the monster survives damage.
+  'lisa-reed':       { cost: 2, atk: 1, hp: 5, rarity: 'common', kw: ['taunt'],
+    text: '', attack: { style: 'yawn', name: 'Sleepy Slouch', color: '#b48cff' } },
+  'claire-larone':   { cost: 3, atk: 2, hp: 3, rarity: 'rare', kw: [], onPlay: 'polyglot',
+    text: 'On play: draw a card for each other novel your allies come from (up to 2).', attack: { style: 'lingo', name: 'Bonjour Barrage', color: '#4f7dff' } },
+  'betty-glee':      { cost: 4, atk: 3, hp: 5, rarity: 'epic', kw: [], onHurt: 'scarred',
+    text: 'Scarred: gains +1 ATK whenever she survives damage.', attack: { style: 'scar', name: 'Scar Strike, mph', color: '#3fa9ff' } },
+  'deiste-junko':    { cost: 5, atk: 5, hp: 4, rarity: 'epic', kw: ['burn'], onPlay: 'flashbang',
+    text: 'On play: throw a flashbang. Freezes all enemy monsters... and himself.', attack: { style: 'dragon', name: 'Dragon King Blaze', color: '#ff6b3d' } },
+  'olivia':          { cost: 3, atk: 2, hp: 4, rarity: 'common', kw: [], onPlay: 'couponGift',
+    text: 'On play: add a Coupon to your hand.', attack: { style: 'latte', name: 'Latte Art Toss', color: '#c98a5a' } },
+  'mason-moose':     { cost: 2, atk: 2, hp: 2, rarity: 'common', kw: [], onPlay: 'parcel',
+    text: 'On play: give a random ally +1/+1.', attack: { style: 'mail', name: 'Priority Mail', color: '#e2b04a' } },
+  'benjamin-birk':   { cost: 5, atk: 3, hp: 7, rarity: 'rare', kw: ['taunt'], onTurnStart: 'steadfast',
+    text: 'Start of your turn: restore 2 HP to himself.', attack: { style: 'cart', name: 'Clean-Up on Aisle 5', color: '#4caf6a' } },
+  'dan-birk':        { cost: 3, atk: 3, hp: 2, rarity: 'common', kw: ['rebel'],
+    text: '', attack: { style: 'parkour', name: 'Wild Vault', color: '#ff9d2e' } },
+
+  // The Lifeguard has Teeth
+  'rirarra-charca':    { cost: 7, atk: 6, hp: 6, rarity: 'legendary', kw: ['frenzy'], onPlay: 'chomp',
+    text: 'On play: CHOMP! Destroy the enemy monster with the lowest HP.', attack: { style: 'jaws', name: 'Great White Chomp', color: '#8a6cff' } },
+  'rowdy-brachy':      { cost: 3, atk: 2, hp: 4, rarity: 'rare', kw: ['shield'], onPlay: 'wrestle',
+    text: 'On play: pin the strongest enemy monster (Freeze it).', attack: { style: 'suplex', name: 'Bronze Suplex', color: '#c8894a' } },
+  'melanika-carchara': { cost: 4, atk: 4, hp: 3, rarity: 'epic', kw: ['haste', 'ranged'],
+    text: '', attack: { style: 'surf', name: 'Blacktip Surf', color: '#ff9f1c' } },
+  'rinco-typus':       { cost: 7, atk: 4, hp: 9, rarity: 'legendary', kw: ['guardian'], onTurnStart: 'gentleGiant',
+    text: 'Start of your turn: restore 2 HP to your other characters.', attack: { style: 'whale', name: 'Gentle Giant Splash', color: '#5ec8e6' } },
+  'daphne-mokarran':   { cost: 5, atk: 5, hp: 5, rarity: 'epic', kw: [], onPlay: 'smashFix',
+    text: 'On play: smash a random enemy monster for 3, then fix a random hurt ally for 3.', attack: { style: 'hammer', name: 'Hammerhead Smash', color: '#e0463c' } },
+  'brizz-bigeyed':     { cost: 3, atk: 3, hp: 3, rarity: 'rare', kw: ['lifesteal'], onPlay: 'firstAid',
+    text: 'On play: restore 4 HP to your most injured character.', attack: { style: 'scythe', name: 'Thresher Tail Whip', color: '#3fd0a8' } },
+
+  // The yuri assist. `onAllyDeath` runs once for every other ally that dies.
+  'andrea-lyle':     { cost: 4, atk: 3, hp: 5, rarity: 'epic', kw: [], onAllyDeath: 'spite',
+    text: 'Spite: gains +2 ATK whenever another ally dies.', attack: { style: 'coffee', name: 'Caffeine & Spite', color: '#8e7dff' } },
+  'linda-penn':      { cost: 6, atk: 4, hp: 6, rarity: 'legendary', kw: ['taunt'], onPlay: 'rally',
+    text: 'On play: give your other monsters +1/+1. They can attack right away.', attack: { style: 'stamp', name: 'Executive Order', color: '#3f6fe0' } },
+  'eva-vinn':        { cost: 3, atk: 2, hp: 3, rarity: 'rare', kw: ['frenzy'],
+    text: '', attack: { style: 'hyper', name: 'HYPERFOCUS!!', color: '#2fbf71' } },
+  'ashley-lennette': { cost: 3, atk: 3, hp: 2, rarity: 'common', kw: ['ranged'], onPlay: 'buzzer',
+    text: 'On play: deal 1 damage to the enemy leader.', attack: { style: 'hoops', name: 'Buzzer Beater', color: '#f06a2a' } },
+
   // tokens (never in decks)
   'kid':   { cost: 1, atk: 1, hp: 1, rarity: 'token', kw: [], token: true, name: 'Kid', emoji: '🧒',
     text: '', attack: { style: 'bounce', name: 'Tiny Kick', color: '#ffd24a' } },
@@ -74,6 +117,8 @@ MB.CARDS = {
     text: '', attack: { style: 'bounce', name: 'Fluff Bump', color: '#c58cff' } },
   'dummy': { cost: 0, atk: 0, hp: 99, rarity: 'token', kw: [], token: true, name: 'Training Dummy', emoji: '🎯',
     text: '', attack: { style: 'dash', name: '', color: '#fff' } },
+  'seagull': { cost: 1, atk: 1, hp: 1, rarity: 'token', kw: ['ranged'], token: true, name: 'Seagull', emoji: '🐦',
+    text: '', attack: { style: 'bounce', name: 'Peck', color: '#dfe9f5' } },
 
   // item spells (icons from the novel's inventory)
   'school-bag':    { type: 'spell', cost: 1, rarity: 'common', target: 'anyUnit', effect: 'bagSwing',
@@ -96,7 +141,22 @@ MB.CARDS = {
     text: 'Sketch an ally: add a copy of it to your hand.', color: '#ffd23f' },
   'key-to-the-liquor-closet': { type: 'spell', cost: 4, rarity: 'epic', target: null, effect: 'closet', name: 'Liquor Closet Key',
     text: 'Unlock the closet: summon a random character from your deck.', color: '#c77dff' },
+  'coupon':        { type: 'spell', cost: 0, rarity: 'common', target: null, effect: 'coupon',
+    text: 'Gain 1 gold this turn.', color: '#ffd23f' },
+  'delivery-box':  { type: 'spell', cost: 2, rarity: 'rare', target: null, effect: 'deliveryBox',
+    text: 'Open it: add 2 random item cards to your hand.', color: '#c8894a' },
+  'podium':        { type: 'spell', cost: 3, rarity: 'rare', target: 'allyUnit', effect: 'podium',
+    text: 'Give an ally +2/+2 and Taunt.', color: '#6b7cff' },
+  'necklace':      { type: 'spell', cost: 2, rarity: 'epic', target: 'allyUnit', effect: 'necklace',
+    text: 'Give an ally Shield and Lifesteal.', color: '#3ddc84' },
+  'watermelon':    { type: 'spell', cost: 2, rarity: 'common', target: 'anyUnit', effect: 'melon',
+    text: 'Smash a monster for 3 damage. Restore 2 HP to your leader.', color: '#ff4f6d' },
+  'diving-mask':   { type: 'spell', cost: 1, rarity: 'common', target: 'allyUnit', effect: 'divingMask',
+    text: 'Give an ally Stealth.', color: '#3fb6ff' },
+  'water-gun':     { type: 'spell', cost: 2, rarity: 'rare', target: null, effect: 'waterGun',
+    text: 'Squirt 3 random enemy characters for 1 damage each.', color: '#29c5ff' },
 };
+MB.itemCards = () => Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].type === 'spell');
 
 // One leader power per character. target uses the same types as spells.
 MB.POWERS = {
@@ -123,6 +183,24 @@ MB.POWERS = {
   'janice-garmund':    { name: 'Research',      cost: 2, target: null,          effect: 'research',  text: 'Draw the cheapest card in your deck.' },
   'jay-lester':        { name: 'Quick Sketch',  cost: 2, target: 'allyUnit',    effect: 'swapStats', text: "Swap an ally's ATK and HP." },
   'charlie-and-jenny': { name: 'Party Foul',    cost: 2, target: null,          effect: 'partyFoul', text: 'Deal 1 damage to two random enemy characters.' },
+  'lisa-reed':       { name: 'Nap Time',          cost: 2, target: null,          effect: 'nap',         text: 'Restore 4 HP to your leader.' },
+  'claire-larone':   { name: 'Lost in Translation', cost: 3, target: 'enemyUnit', effect: 'untranslate', text: 'Remove all keywords and Shield from an enemy monster.', filter: 'hasKw' },
+  'betty-glee':      { name: 'Scar Pact',         cost: 2, target: 'allyUnit',    effect: 'scarPact',    text: 'Deal 1 damage to an ally, then give it +2 ATK.' },
+  'deiste-junko':    { name: 'Party Hard',        cost: 2, target: null,          effect: 'partyHard',   text: 'Give all your monsters +1 ATK. Your leader takes 2 damage.' },
+  'olivia':          { name: 'On the House',      cost: 2, target: 'friendlyAny', effect: 'onTheHouse',  text: 'Restore 2 HP to a friendly character. A monster also gets +1 ATK.' },
+  'mason-moose':     { name: 'Special Delivery',  cost: 2, target: null,          effect: 'delivery',    text: 'Add a random item card to your hand.' },
+  'benjamin-birk':   { name: 'Store Credit',      cost: 2, target: null,          effect: 'storeCredit', text: 'Draw an item card from your deck (any card if there are none).' },
+  'dan-birk':        { name: 'Sneak Out',         cost: 2, target: 'allyUnit',    effect: 'sneakOut',    text: 'Give an ally Rebel (ignores Taunt).', filter: 'noRebel' },
+  'rirarra-charca':    { name: 'Big Sis Hug',     cost: 2, target: 'allyUnit',    effect: 'bigSis',      text: 'Give an ally +0/+2 and Taunt.' },
+  'rowdy-brachy':      { name: 'Reading Time',    cost: 3, target: null,          effect: 'readUp',      text: 'Draw a card.' },
+  'melanika-carchara': { name: 'Crab Boil',       cost: 3, target: null,          effect: 'crabBoil',    text: 'Restore 3 HP to all your monsters.' },
+  'rinco-typus':       { name: 'Bird Feeding',    cost: 2, target: null,          effect: 'seagull',     text: 'Summon a 1/1 Seagull with Ranged.' },
+  'daphne-mokarran':   { name: 'Overhaul',        cost: 2, target: 'allyUnit',    effect: 'overhaul',    text: 'Smash an ally for 1, then fix it up: +1/+2.' },
+  'brizz-bigeyed':     { name: 'CPR',             cost: 2, target: 'friendlyAny', effect: 'cpr',         text: 'Restore 4 HP to a friendly character and thaw it.' },
+  'andrea-lyle':     { name: 'Dark Joke',         cost: 2, target: 'enemyUnit',   effect: 'darkJoke',    text: 'Deal 1 damage to an enemy monster. If it dies, draw a card.' },
+  'linda-penn':      { name: 'Take Charge',       cost: 3, target: 'allyUnit',    effect: 'takeCharge',  text: 'An ally with no attack left gets +1 ATK and can attack again.', filter: 'spent' },
+  'eva-vinn':        { name: 'Info Dump',         cost: 3, target: null,          effect: 'infoDump',    text: 'Draw the most expensive card in your deck.' },
+  'ashley-lennette': { name: 'Three-Pointer',     cost: 3, target: null,          effect: 'threePointer', text: 'Deal 3 damage to a random enemy character.' },
 };
 
 // Relationships. When both characters of a pair stand on the same side of the board they fuse into one
@@ -221,6 +299,59 @@ MB.BONDS = [
   { id: 'teachers-pet', pair: ['mr-dino', 'janice-garmund'], costumes: ['coach-outfit', null], tier: 1,
     name: "Teacher's Pet", short: 'Class', relation: 'Teacher & Student', bonus: [1, 1], kw: ['taunt'],
     text: '', attack: { style: 'lesson', name: 'Detention Slip', color: '#9a8cff' } },
+
+  // Between the Peaks
+  { id: 'birk-and-son', pair: ['dan-birk', 'benjamin-birk'], costumes: [null, null], tier: 2,
+    name: 'Birk & Son', short: 'Birks', relation: 'Father & Son', bonus: [1, 2], kw: ['taunt', 'rebel'], onFuse: 'aisleFive',
+    text: 'On fusion: add 2 random item cards to your hand.',
+    attack: { style: 'restock', name: 'Clearance Sale', color: '#4caf6a' } },
+  { id: 'trouble-duo', pair: ['deiste-junko', 'dan-birk'], costumes: [null, null], tier: 2,
+    name: 'Trouble Duo', short: 'Trouble', relation: 'Partners in crime', bonus: [1, 1], kw: ['rebel', 'burn'], onFuse: 'mayhem',
+    text: 'On fusion: deal 1 damage to every enemy character.',
+    attack: { style: 'flashbang', name: 'Flashbang Party', color: '#ffd23f' } },
+  { id: 'main-street', pair: ['olivia', 'mason-moose'], costumes: [null, null], tier: 1,
+    name: 'Main Street', short: 'Neighbors', relation: 'Neighbors', bonus: [1, 1], kw: ['lifesteal'],
+    text: '', attack: { style: 'combo', name: 'Coffee Delivery', color: '#c98a5a', emoji: '☕' } },
+  { id: 'french-lesson', pair: ['claire-larone', 'lisa-reed'], costumes: [null, 'sleepy-outfit'], tier: 1,
+    name: 'French Lesson', short: 'Français', relation: 'Classmates', bonus: [1, 1], kw: ['shield'],
+    text: '', attack: { style: 'combo', name: 'Oui Oui Combo', color: '#4f7dff', emoji: '🥐' } },
+  { id: 'club-rivals', pair: ['lisa-reed', 'betty-glee'], costumes: [null, null], tier: 1,
+    name: 'Club Rivals', short: 'Clubs', relation: 'LLL Club vs Scarred Club', bonus: [1, 1], kw: ['taunt'],
+    text: '', attack: { style: 'combo', name: 'Club War', color: '#6f8cff', emoji: '📣' } },
+  // The Lifeguard has Teeth
+  { id: 'cabin-sharks', pair: ['rirarra-charca', 'rowdy-brachy'], costumes: ['halloween-godzilla', 'halloween-alien'], tier: 3,
+    name: 'Cabin Sharks', short: 'Sharks', relation: 'Cabin mates', bonus: [2, 2], kw: ['frenzy', 'shield'], onFuse: 'feedingFrenzy',
+    text: 'On fusion: bite every enemy monster for 2 damage.',
+    attack: { style: 'feeding', name: 'Double Jaws Frenzy', color: '#7a8cff' } },
+  { id: 'soft-duo', pair: ['melanika-carchara', 'rinco-typus'], costumes: ['water-gun', 'holding-water-gun'], tier: 2,
+    name: 'The Soft Duo', short: 'Soft Duo', relation: 'Housemates', bonus: [1, 2], kw: ['guardian', 'ranged'], onFuse: 'crabFeast',
+    text: 'On fusion: restore 3 HP to all your characters.',
+    attack: { style: 'tidal', name: 'Whale & Blacktip Wave', color: '#4fc3e8' } },
+  { id: 'hammer-and-scythe', pair: ['daphne-mokarran', 'brizz-bigeyed'], costumes: ['holding-hammer', 'holding-scythe'], tier: 2,
+    name: 'Hammer & Scythe', short: 'H & S', relation: 'Engineer & Medic', bonus: [1, 2], kw: ['taunt', 'lifesteal'], onFuse: 'repairKit',
+    text: 'On fusion: fully heal your other monsters and give them +1 ATK.',
+    attack: { style: 'workshop', name: 'Smash & Stitch', color: '#ff7a45' } },
+  { id: 'whose-rock', pair: ['melanika-carchara', 'rirarra-charca'], costumes: ['holding-bat', 'holding-bat'], tier: 1,
+    name: 'Whose Rock?', short: 'Rock Feud', relation: 'Rock rivals', bonus: [0, 1], kw: ['taunt'],
+    text: '', attack: { style: 'combo', name: 'Rock Bottom', color: '#ffb347', emoji: '🪨' } },
+  { id: 'manners-class', pair: ['brizz-bigeyed', 'rirarra-charca'], costumes: [null, 'the-equality-beach'], tier: 1,
+    name: 'Human Manners 101', short: 'Manners', relation: 'Tutor & Student', bonus: [1, 1], kw: ['lifesteal'],
+    text: '', attack: { style: 'combo', name: 'No Biting!', color: '#3fd0a8', emoji: '📋' } },
+  // The yuri assist
+  { id: 'yuri-plan', pair: ['andrea-lyle', 'linda-penn'], costumes: ['natural-outfit', null], tier: 3,
+    name: 'The Yuri Plan', short: 'Yuri', relation: 'Falling for each other', bonus: [2, 2], kw: ['lifesteal', 'shield'], onFuse: 'firstDate',
+    text: 'On fusion: draw 2 cards and give your other monsters +1/+1.',
+    attack: { style: 'yuri', name: 'Lily Bloom Confession', color: '#ff7ab8' } },
+  { id: 'court-crush', pair: ['ashley-lennette', 'andrea-lyle'], costumes: [null, 'natural-outfit'], tier: 2,
+    name: 'Court Crush', short: 'Crush', relation: 'Flirting on the court', bonus: [1, 1], kw: ['ranged'], onFuse: 'swish',
+    text: 'On fusion: deal 3 damage to the enemy leader.',
+    attack: { style: 'alleyoop', name: 'Alley-Oop Kiss', color: '#ff8a3d' } },
+  { id: 'study-buddies', pair: ['eva-vinn', 'andrea-lyle'], costumes: [null, 'natural-outfit'], tier: 1,
+    name: 'Study Buddies', short: 'Study', relation: 'Study buddies', bonus: [1, 1], kw: ['shield'],
+    text: '', attack: { style: 'combo', name: 'All-Nighter', color: '#2fbf71', emoji: '📚' } },
+  { id: 'pickup-game', pair: ['ashley-lennette', 'eva-vinn'], costumes: [null, null], tier: 1,
+    name: 'Pickup Game', short: 'Hoops', relation: 'Classmates', bonus: [1, 1], kw: ['ranged'],
+    text: '', attack: { style: 'combo', name: 'PASS IT!!', color: '#f06a2a', emoji: '🏀' } },
 ];
 // Close-up scenes (cards.js). kind: lovers, family, rivals, friends or school; scene picks the family/school
 // variant; lines are said by the partners in pair order; food sits on the table of a meal.
@@ -254,6 +385,24 @@ MB.BOND_SCENES = {
   'art-club':         { kind: 'school', scene: 'club', lines: ['Chapter three needs art.', 'On it!'] },
   'extra-credit':     { kind: 'school', scene: 'class', lines: ['Huh?! From the top!', 'Y-yes, sir!'], board: 'Art = 10/10' },
   'teachers-pet':     { kind: 'school', scene: 'class', lines: ['Future president says...', 'I did the extra credit too.'], board: 'Pop Quiz!' },
+  // Dan clocks in late, so it's straight to stocking shelves
+  'birk-and-son':     { kind: 'family', scene: 'strict', lines: ['Made it! ...kinda on time?', 'Your shift started at NINE!'],
+    paper: 'CLOCKED IN', score: '11:58', order: 'STOCK. SHELVES.', drill: ['Box!', 'Can!', 'Crate!', 'Mop!'], praise: '...Good work, son.' },
+  'trouble-duo':      { kind: 'friends', lines: ["Livin' it like a dragon!", "Let's crash the mayor's party!"] },
+  'main-street':      { kind: 'friends', lines: ['Latte for the mailman?', 'Special delivery: one smile!'] },
+  'french-lesson':    { kind: 'school', scene: 'class', lines: ['Répète: "Bonjour!"', '...bonjour. Zzz.'], board: 'Bonjour = Hello' },
+  'club-rivals':      { kind: 'rivals', lines: ['LLL Club rules. Zzz...', 'Scarred Club forever, mph!'], colors: ['#b48cff', '#3fa9ff'] },
+  'cabin-sharks':     { kind: 'lovers', lines: ["C'mere, lil' sis!", '...fine. Five minutes.'] },
+  'soft-duo':         { kind: 'family', scene: 'meal', lines: ["Crab boil's ready!", 'Smells lovely, dear.'], food: ['🦀', '🦐', '🍤'] },
+  'hammer-and-scythe': { kind: 'school', scene: 'club', lines: ['Smash first, fix later!', "I'll patch you both up~"],
+    props: ['🔨', '🩺'], bits: [['🔩', '⚙️'], ['🩹', '💊']], result: '🛠️', cheer: 'Good as new!' },
+  'whose-rock':       { kind: 'rivals', lines: ['This rock is MINE!', 'I sat here FIRST!'], colors: ['#ff9f1c', '#8a6cff'] },
+  'manners-class':    { kind: 'school', scene: 'class', lines: ['Rule one: no biting!', 'Not even a nibble?!'], board: 'Manners 101' },
+  'yuri-plan':        { kind: 'lovers', lines: ['So... coffee sometime?', 'I could clear my schedule.'] },
+  'court-crush':      { kind: 'lovers', lines: ['Wanna see my dunk up close~?', 'Nice shot, Lennette.'] },
+  'study-buddies':    { kind: 'school', scene: 'club', lines: ['I NEED TO SHOW YOU THIS!!', "Okay, okay. I'm listening."],
+    props: ['📚', '☕'], bits: [['📄', '📝'], ['☕', '✨']], result: '💯', cheer: 'A+ NOTES!' },
+  'pickup-game':      { kind: 'friends', lines: ['Heads up, four-eyes.', 'PASS IT TO ME!!'] },
 };
 
 // the strongest bond wins when a character could fuse with more than one partner (sort is stable)
@@ -299,6 +448,9 @@ MB.STARTER_DECK = [
 MB.CHAPTERS = [
   { title: 'A New Life in Town', outro: 'You finished the story — Mom is proud of you. ❤' },
   { title: 'Infernal Harmony', outro: 'Heaven, hell and the whole prom bow to you. What a night! 🔥😇' },
+  { title: 'Between the Peaks', outro: "The whole town knows your name now, even the mayor's son. 🏔️" },
+  { title: 'The Lifeguard has Teeth', outro: 'You survived the shark crew. Big Sis Rirarra is VERY proud. 🦈' },
+  { title: 'The Yuri Assist', outro: 'Mission accomplished: Andrea has a date. Wingman of the year! 🌸' },
 ];
 
 // Story ladder: each opponent fights in their own location with their own music.
@@ -332,6 +484,45 @@ MB.STORY = [
     intro: 'Celeste smiles sweetly. "I\'m your guardian angel, darling. Let me protect you... from that devil."' },
   { chapter: 1, foe: 'lilith',            hp: 40, ai: 1.0,  bg: 'Fire..',                        music: 'party-music',
     intro: 'Lilith\'s horns glow in the firelight. "H-hey! Don\'t get the wrong idea... I just want ALL your attention!"' },
+
+  { chapter: 2, foe: 'lisa-reed',      hp: 20, ai: 0.3,  bg: "Lisa's room",        music: 'mornin',
+    intro: 'Lisa is sprawled across YOUR bed. "...Beat me at cards and maybe I\'ll move. Maybe."' },
+  { chapter: 2, foe: 'claire-larone',  hp: 22, ai: 0.4,  bg: 'Hallway 2',          music: 'school-1',
+    intro: 'Claire shuts her locker. "Bonjour! You\'re new too? Let\'s play. I know the rules in six languages."' },
+  { chapter: 2, foe: 'betty-glee',     hp: 24, ai: 0.5,  bg: 'Hallway to gym',     music: 'school-2',
+    intro: 'Betty blocks the gym doors. "Scarred Club president. You get past me first, mph."' },
+  { chapter: 2, foe: 'olivia',         hp: 26, ai: 0.55, bg: '"Lucky Latte" Cafe', music: 'cafe',
+    intro: 'Olivia slides a latte across the counter. "First one\'s free... if you win a round, sweetie."' },
+  { chapter: 2, foe: 'mason-moose',    hp: 26, ai: 0.6,  bg: 'Post office',        music: 'village-1',
+    intro: 'Mason pushes up his round glasses. "A package for you! Signature required... in the form of a card game!"' },
+  { chapter: 2, foe: 'dan-birk',       hp: 28, ai: 0.65, bg: 'Street - Night (2)', music: '2-to-bozos',
+    intro: 'Dan should be at the store. Instead he\'s on a rooftop. "Dad can wait. Bet you can\'t keep up!"' },
+  { chapter: 2, foe: 'benjamin-birk',  hp: 32, ai: 0.8,  bg: 'Minimarket',         music: 'minimarket-1',
+    intro: 'Benjamin folds his arms behind the register. "You helped my boy skip his shift? We settle this properly."' },
+  { chapter: 2, foe: 'deiste-junko',   hp: 38, ai: 1.0,  bg: 'Mayors house',       music: 'desirable',
+    intro: 'Deiste flips his white ponytail. "Livin\' it like a dragon. The king is I! Kneel, or play."' },
+
+  { chapter: 3, foe: 'rowdy-brachy',      hp: 22, ai: 0.35, bg: 'Inside lifeguard tower',           music: 'chill-jaws',
+    intro: 'Rowdy peeks over her book. "Oh! A human. Um... do humans like card games? I read that they do."' },
+  { chapter: 3, foe: 'brizz-bigeyed',     hp: 24, ai: 0.45, bg: 'Beach (1)',                        music: 'the-medic',
+    intro: 'Brizz drops her medic bag in the sand. "CPR lesson later! First a quick game. Loser does the drills!"' },
+  { chapter: 3, foe: 'melanika-carchara', hp: 26, ai: 0.55, bg: 'Surfboard',                        music: 'surfing-coach-melanika',
+    intro: '"Three whole seconds on the board. Impressive... for a human." Melanika grins. "Now let\'s see your cards."' },
+  { chapter: 3, foe: 'daphne-mokarran',   hp: 30, ai: 0.65, bg: 'Hammer and scythe house',          music: 'hammer-head',
+    intro: 'Daphne rests her giant hammer on her shoulder. "You\'re in my workshop. Play fast. I have a sink to smash."' },
+  { chapter: 3, foe: 'rinco-typus',       hp: 34, ai: 0.8,  bg: 'Bench POV',                        music: 'bird-feeding',
+    intro: 'Rinco pats the bench, all nine feet of her smiling. "Sit, little one. The birds are fed. Shall we play... gently?"' },
+  { chapter: 3, foe: 'rirarra-charca',    hp: 40, ai: 1.0,  bg: 'Beach night',                      music: 'shark-attack',
+    intro: 'Rirarra scoops you up under one arm. "MY human! Beat big sis and you can go home. ...Probably. Maybe. Nah!"' },
+
+  { chapter: 4, foe: 'andrea-lyle',     hp: 22, ai: 0.35, bg: "Andrea's room",      music: 'andrea-s-theme',
+    intro: 'Andrea flops onto her bed. "Help me find a girlfriend and I owe you forever. But first, cards. Prove you\'re wingman material."' },
+  { chapter: 4, foe: 'eva-vinn',        hp: 26, ai: 0.5,  bg: 'The study room',     music: 'the-bouncy-trombone',
+    intro: '"OH! You\'re Andrea\'s friend! WANNA PLAY?! I mean... hi. Wanna play?" Eva can\'t stop bouncing.' },
+  { chapter: 4, foe: 'ashley-lennette', hp: 30, ai: 0.7,  bg: 'The training field', music: 'the-winning-trombone',
+    intro: 'Ashley spins a basketball on one finger. "Cards, eh? Loser buys the poutine."' },
+  { chapter: 4, foe: 'linda-penn',      hp: 36, ai: 0.95, bg: 'Library',            music: 'the-hopeful-trombone',
+    intro: 'Linda closes her book without looking up. "Andrea sent you? Then show me she has good taste in friends."' },
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 

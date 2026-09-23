@@ -4,8 +4,10 @@ manifest the game reads (image paths are relative to the bucket; music is stream
 
 Usage:  SUPABASE_SECRET_KEY=sb_secret_... py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
 Images already in the bucket are skipped. Set MIKU_TOKEN to send the miku.gg auth token with each request.
+With --local the images are written to game/assets/ instead (no key needed; point MB.ASSET_BASE at 'assets/'
+to try them before uploading).
 """
-import io, json, os, re, sys, glob, urllib.request, urllib.error
+import io, json, os, re, sys, glob, unicodedata, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
 import supabase_storage as sb
@@ -16,6 +18,9 @@ ASSET_DB = "https://assets.miku.services"
 ASSET_DB_OPT = "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com"
 TOKEN = os.environ.get("MIKU_TOKEN", "")
 SMALL_H = 450  # height of the sm/ sprite copies (MB.spriteSrc in game/js/config.js)
+# characters that never appear on screen, and outfits kept out of the game
+SKIP_CHARACTERS = {"narrator"}
+SKIP_OUTFIT = re.compile(r"\b(nude|topless)\b", re.I)
 
 # Emotions the battle system uses; first match per role wins.
 ROLES = {
@@ -54,6 +59,7 @@ def get(src, prefix=""):
 
 
 def slug(s):
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()  # Laròne -> larone
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
@@ -88,8 +94,10 @@ def add_novel(novel, manifest):
         return sprites
 
     for c in novel["characters"]:
+        if c["name"].strip().lower() in SKIP_CHARACTERS:
+            continue
         cid = slug(c["name"])
-        outfits = c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"]
+        outfits = [o for o in c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"] if not SKIP_OUTFIT.search(o["name"])]
         outfit = outfits[0]
         sprites = outfit_sprites(outfit, f"sprites/{cid}")
         # every other outfit becomes a costume (used by the wardrobe and by relationship fusions)
@@ -135,16 +143,26 @@ def add_novel(novel, manifest):
 
 
 def main():
-    paths = sys.argv[1:] or sorted(glob.glob(os.path.join(ROOT, "novels", "*.json")))
-    jobs, manifest = [], {"title": None, "novels": [], "characters": [], "backgrounds": [], "items": [], "music": []}
+    local = "--local" in sys.argv
+    paths = [a for a in sys.argv[1:] if a != "--local"] or sorted(glob.glob(os.path.join(ROOT, "novels", "*.json")))
+    jobs, manifest = [], {"title": "Miku Battle", "novels": [], "characters": [], "backgrounds": [], "items": [], "music": []}
     for p in paths:
         novel = json.load(open(p, encoding="utf-8"))["novel"]
-        manifest["title"] = manifest["title"] or novel["title"]
         manifest["novels"].append(novel["title"])
         jobs += add_novel(novel, manifest)
 
-    sb.ensure_bucket(sb.GAME_BUCKET)
-    uploaded = set(sb.list_objects(sb.GAME_BUCKET))
+    if local:
+        def store(rel, data):
+            path = os.path.join(OUT, *rel.split("/"))
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as f:
+                f.write(data)
+        uploaded = {os.path.relpath(os.path.join(d, n), OUT).replace(os.sep, "/") for d, _, ns in os.walk(OUT) for n in ns}
+    else:
+        def store(rel, data):
+            sb.upload(sb.GAME_BUCKET, rel, data)
+        sb.ensure_bucket(sb.GAME_BUCKET)
+        uploaded = set(sb.list_objects(sb.GAME_BUCKET))
 
     # sprites also get a half-size copy under sm/, which the game uses for cards and the board
     def run(job):
@@ -154,9 +172,9 @@ def main():
             return rel, "cached"
         try:
             data = get(src, prefix)
-            sb.upload(sb.GAME_BUCKET, rel, convert_img(data, **opts))
+            store(rel, convert_img(data, **opts))
             if small:
-                sb.upload(sb.GAME_BUCKET, small, convert_img(data, **{**opts, "max_h": SMALL_H, "quality": 88}))
+                store(small, convert_img(data, **{**opts, "max_h": SMALL_H, "quality": 88}))
             return rel, "ok"
         except Exception as e:
             return rel, f"FAIL {e}"

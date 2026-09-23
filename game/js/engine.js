@@ -109,7 +109,7 @@
     canPower(side) {
       const p = this.me(side), pw = p.power;
       if (this.over || this.active !== side || p.powerUsed || p.gold < pw.cost) return false;
-      if (pw.effect === 'teddy') return this.freeSlots(side).length > 0;
+      if (pw.effect === 'teddy' || pw.effect === 'seagull') return this.freeSlots(side).length > 0;
       if (pw.target) return this.targetsFor(side, pw.target, pw.filter).length > 0;
       return true;
     }
@@ -127,6 +127,9 @@
       if (filter === 'lowAtk') t = t.filter((u) => u.atk <= 2);
       if (filter === 'sick') t = t.filter((u) => u.sick && !u.frozen && u.attacksLeft === 0);
       if (filter === 'guarded') t = t.filter((u) => u.kw.has('taunt') || u.shield);
+      if (filter === 'hasKw') t = t.filter((u) => u.kw.size || u.shield);
+      if (filter === 'noRebel') t = t.filter((u) => !u.kw.has('rebel'));
+      if (filter === 'spent') t = t.filter((u) => u.attacksLeft === 0 && !u.frozen && u.atk > 0);
       return t;
     }
 
@@ -135,7 +138,7 @@
     attackTargets(u) {
       const enemy = this.units(1 - u.side).filter((e) => !e.kw.has('stealth'));
       const taunts = enemy.filter((e) => e.kw.has('taunt'));
-      if (taunts.length && !u.kw.has('tipsy')) return taunts;
+      if (taunts.length && !u.kw.has('tipsy') && !u.kw.has('rebel')) return taunts;
       return [...enemy, this.foe(u.side).leader];
     }
 
@@ -180,7 +183,7 @@
       p.gold -= pw.cost; p.powerUsed = true;
       this.view.log(`${side ? 'Enemy' : 'You'} used ${pw.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
       await this.view.powerFx(side, pw, target, () => this.powerEffect(side, pw, target));
-      await this.powerAfter(side, pw);
+      await this.powerAfter(side, pw, target);
       await this.resolveDeaths();
       this.view.refresh();
       return true;
@@ -218,6 +221,7 @@
         atk: card.atk, hp: card.hp, maxHp: card.hp, kw: new Set(card.kw),
         shield: card.kw.includes('shield'), frozen: false, thaw: false, burning: false,
         sick: true, attacksLeft: 0, onTurnStart: card.onTurnStart, onDeath: card.onDeath,
+        onHurt: card.onHurt, onAllyDeath: card.onAllyDeath,
       };
       if (u.kw.has('haste')) { u.attacksLeft = u.kw.has('frenzy') ? 2 : 1; }
       p.board[slot] = u;
@@ -291,6 +295,11 @@
         if (!target.isLeader && source.kw.has('freeze') && target.hp > 0) this.freeze(target);
         if (!target.isLeader && source.kw.has('burn') && target.hp > 0) this.ignite(target);
       }
+      // Betty: every scar makes her tougher
+      if (target.onHurt === 'scarred' && target.hp > 0) {
+        target.atk++;
+        this.view.react({ type: 'buff', ent: target, atk: 1, hp: 0, label: 'Scarred! +1 ATK' });
+      }
       return amount;
     }
 
@@ -347,6 +356,7 @@
         for (const u of dead) this.me(u.side).board[u.slot] = null;
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
+        for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);
       }
       for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
       if (this.over && !this.overShown) { this.overShown = true; this.view.refresh(); await this.view.gameOver(this.winner); }
@@ -452,6 +462,95 @@
         case 'bookworm':
           if (this.me(side).hand.length <= 3) { await fx('Bookworm', [], () => {}, '#9a8cff'); await this.draw(side); }
           break;
+        // Between the Peaks
+        case 'polyglot': {
+          const own = MB.charById(u.card.id).novel, novels = new Set();
+          this.units(side).filter((a) => a !== u).forEach((a) => this.cardIds(a).forEach((id) => { const c = MB.charById(id); if (c && c.novel !== own) novels.add(c.novel); }));
+          const n = Math.min(2, novels.size);
+          await fx(n ? 'Polyglot!' : 'Bonjour?', [], () => {}, '#4f7dff');
+          for (let i = 0; i < n; i++) await this.draw(side);
+          break;
+        }
+        case 'flashbang': {
+          const hit = foeUnits.filter((t) => !t.frozen);
+          await fx('FLASHBANG!', [...hit, u], () => { hit.forEach((t) => this.freeze(t)); this.freeze(u); }, '#ffffff');
+          break;
+        }
+        case 'couponGift': await fx('Coupon!', [], () => {}, '#ffd23f'); await this.addToHand(side, 'coupon'); break;
+        case 'parcel': {
+          const allies = this.units(side).filter((a) => a !== u);
+          if (allies.length) { const a = pick(allies); await fx('Parcel!', [a], () => this.buff(a, 1, 1), '#e2b04a'); }
+          break;
+        }
+        case 'steadfast': if (u.hp < u.maxHp) await fx('Steadfast', [u], () => this.heal(u, 2), '#4caf6a'); break;
+        // The Lifeguard has Teeth
+        case 'chomp': {
+          const t = foeUnits.slice().sort((x, y) => x.hp - y.hp)[0];
+          if (t) await fx('CHOMP!', [t], () => { t.hp = 0; this.view.react({ type: 'poison', ent: t }); }, '#8a6cff');
+          break;
+        }
+        case 'wrestle': {
+          const t = foeUnits.filter((x) => !x.frozen).sort((x, y) => y.atk - x.atk)[0];
+          if (t) await fx('Pinned!', [t], () => this.freeze(t), '#c8894a');
+          break;
+        }
+        case 'gentleGiant': {
+          const all = [...this.units(side).filter((a) => a !== u), this.me(side).leader].filter((t) => t.hp < t.maxHp);
+          if (all.length) await fx('Gentle Giant', all, () => all.forEach((t) => this.heal(t, 2)), '#5ec8e6');
+          break;
+        }
+        case 'smashFix': {
+          if (foeUnits.length) { const t = pick(foeUnits); await fx('Smash!', [t], () => this.deal(t, 3, null), '#e0463c'); }
+          const hurt = this.units(side).filter((a) => a !== u && a.hp > 0 && a.hp < a.maxHp);
+          if (hurt.length) { const a = pick(hurt); await fx('...Fixed.', [a], () => this.heal(a, 3), '#6fff9a'); }
+          break;
+        }
+        case 'firstAid': {
+          const t = [...this.units(side), this.me(side).leader].filter((x) => x.hp < x.maxHp).sort((x, y) => (y.maxHp - y.hp) - (x.maxHp - x.hp))[0];
+          if (t) await fx('First Aid!', [t], () => this.heal(t, 4), '#3fd0a8');
+          break;
+        }
+        // The yuri assist
+        case 'spite': await fx('Spite!', [u], () => this.buff(u, 2, 0), '#8e7dff'); break;
+        case 'rally': {
+          const allies = this.units(side).filter((a) => a !== u);
+          if (allies.length) await fx('Rally!', allies, () => allies.forEach((a) => {
+            this.buff(a, 1, 1);
+            if (!a.frozen && this.active === side) a.attacksLeft = Math.max(a.attacksLeft, a.kw.has('frenzy') ? 2 : 1);
+          }), '#3f6fe0');
+          break;
+        }
+        case 'buzzer': { const t = this.foe(side).leader; await fx('Buzzer!', [t], () => this.deal(t, 1, null), '#f06a2a'); break; }
+        // new relationship fusions
+        case 'aisleFive':
+          await fx('Clearance!', [], () => {}, '#4caf6a');
+          for (let i = 0; i < 2; i++) await this.addToHand(side, pick(MB.itemCards()));
+          break;
+        case 'mayhem': {
+          const all = [...foeUnits, this.foe(side).leader];
+          await fx('MAYHEM!', all, () => all.forEach((t) => this.deal(t, 1, null)), '#ffd23f');
+          break;
+        }
+        case 'feedingFrenzy':
+          if (foeUnits.length) await fx('Feeding Frenzy!', foeUnits, () => foeUnits.forEach((t) => this.deal(t, 2, null)), '#7a8cff');
+          break;
+        case 'crabFeast': {
+          const all = [...this.units(side), this.me(side).leader].filter((t) => t.hp < t.maxHp);
+          if (all.length) await fx('Crab Feast!', all, () => all.forEach((t) => this.heal(t, 3)), '#4fc3e8');
+          break;
+        }
+        case 'repairKit': {
+          const allies = this.units(side).filter((a) => a !== u);
+          if (allies.length) await fx('Repair Kit!', allies, () => allies.forEach((a) => { this.heal(a, a.maxHp); this.buff(a, 1, 0); }), '#ff7a45');
+          break;
+        }
+        case 'firstDate': {
+          const allies = this.units(side).filter((a) => a !== u);
+          await fx('First Date!', allies, () => allies.forEach((a) => this.buff(a, 1, 1)), '#ff7ab8');
+          await this.draw(side); await this.draw(side);
+          break;
+        }
+        case 'swish': { const t = this.foe(side).leader; await fx('SWISH!', [t], () => this.deal(t, 3, null), '#ff8a3d'); break; }
       }
       await this.resolveDeaths();
       this.view.refresh();
@@ -473,11 +572,23 @@
         case 'stick': this.buff(t, 2, 2); break;
         case 'mansion': foeUnits.forEach((u) => this.deal(u, 3, null)); break;
         case 'beer': this.buff(t, 2, 0); this.giveKeyword(t, 'tipsy', 'Tipsy! *hic*'); break;
+        case 'coupon': this.me(side).gold++; break;
+        case 'podium': this.buff(t, 2, 2); this.giveKeyword(t, 'taunt', 'Speech!'); break;
+        case 'necklace': t.shield = true; this.giveKeyword(t, 'lifesteal', 'Lucky gem!'); break;
+        case 'melon': this.deal(t, 3, null); this.heal(this.me(side).leader, 2); break;
+        case 'divingMask': this.giveKeyword(t, 'stealth', 'Dive!'); break;
+        case 'waterGun':
+          for (let i = 0; i < 3; i++) {
+            const alive = [...foeUnits.filter((e) => e.hp > 0 && !e.kw.has('stealth')), this.foe(side).leader];
+            this.deal(pick(alive), 1, null);
+          }
+          break;
       }
     }
 
     async spellAfter(side, card, t) {
       if (card.effect === 'allowance') { await this.draw(side); await this.draw(side); }
+      if (card.effect === 'deliveryBox') for (let i = 0; i < 2; i++) await this.addToHand(side, pick(MB.itemCards()));
       if (card.effect === 'exchange' && t && t.hp > 0) {
         this.me(side).board[t.slot] = null;
         await this.view.unsummon(t);
@@ -530,20 +641,46 @@
             this.deal(pick(alive), 1, null);
           }
           break;
+        case 'nap': this.heal(me.leader, 4); break;
+        case 'untranslate':
+          t.kw.clear(); t.shield = false;
+          this.view.react({ type: 'debuff', ent: t, atk: 0, label: 'Lost in translation!' });
+          break;
+        case 'scarPact': this.deal(t, 1, null); if (t.hp > 0) this.buff(t, 2, 0); break;
+        case 'partyHard': this.units(side).forEach((u) => this.buff(u, 1, 0)); this.deal(me.leader, 2, null, false, true); break;
+        case 'onTheHouse': this.heal(t, 2); if (!t.isLeader) this.buff(t, 1, 0); break;
+        case 'sneakOut': this.giveKeyword(t, 'rebel', 'Rebel!'); break;
+        case 'bigSis': this.buff(t, 0, 2); this.giveKeyword(t, 'taunt', 'Big Sis Hug!'); break;
+        case 'crabBoil': this.units(side).forEach((u) => this.heal(u, 3)); break;
+        case 'overhaul': this.deal(t, 1, null); if (t.hp > 0) this.buff(t, 1, 2); break;
+        case 'cpr':
+          this.heal(t, 4);
+          if (t.frozen) { t.frozen = false; t.thaw = false; this.view.react({ type: 'thaw', ent: t }); }
+          break;
+        case 'darkJoke': this.deal(t, 1, null); break;
+        case 'takeCharge': this.buff(t, 1, 0); t.attacksLeft = 1; break;
+        case 'threePointer': this.deal(pick([...this.units(1 - side).filter((e) => !e.kw.has('stealth')), foe.leader]), 3, null); break;
       }
     }
 
-    async powerAfter(side, pw) {
-      if (pw.effect === 'chill') await this.draw(side);
-      if (pw.effect === 'research') {
-        const deck = this.me(side).deck;
-        if (!deck.length) return;
-        const c = deck.reduce((a, b) => (b.cost < a.cost ? b : a));
-        deck.splice(deck.indexOf(c), 1);
-        deck.push(c); // draw() takes from the end
-        await this.draw(side);
-      }
+    // puts the deck card choose(deck) returns on top (if any), then draws; nothing happens on an empty deck
+    async drawChosen(side, choose) {
+      const deck = this.me(side).deck;
+      if (!deck.length) return;
+      const c = choose(deck);
+      if (c) { deck.splice(deck.indexOf(c), 1); deck.push(c); } // draw() takes from the end
+      await this.draw(side);
+    }
+
+    async powerAfter(side, pw, t) {
+      if (pw.effect === 'chill' || pw.effect === 'readUp') await this.draw(side);
+      if (pw.effect === 'research') await this.drawChosen(side, (deck) => deck.reduce((a, b) => (b.cost < a.cost ? b : a)));
+      if (pw.effect === 'infoDump') await this.drawChosen(side, (deck) => deck.reduce((a, b) => (b.cost > a.cost ? b : a)));
+      if (pw.effect === 'storeCredit') await this.drawChosen(side, (deck) => deck.filter((c) => c.type === 'spell').pop());
+      if (pw.effect === 'delivery') await this.addToHand(side, pick(MB.itemCards()));
+      if (pw.effect === 'darkJoke' && t && t.hp <= 0) await this.draw(side);
       if (pw.effect === 'teddy') await this.summon(side, cardDef('teddy'), this.freeSlots(side)[0]);
+      if (pw.effect === 'seagull') await this.summon(side, cardDef('seagull'), this.freeSlots(side)[0]);
     }
   }
 

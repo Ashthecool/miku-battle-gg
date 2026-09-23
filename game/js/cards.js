@@ -363,6 +363,182 @@
       .fromTo(sp, { rotation: 12 }, { rotation: -10, duration: 0.27, repeat: 3, yoyo: true, ease: 'sine.inOut' }, 0)
       .to(sp, { rotation: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' })
       .call(() => { const p = spot(sp); word(L, p.x - 90, p.top + 90, '*hic*', '#ffe6a0', 40); fling(L, p.x, p.top + 120, ['🫧', '🍺', '✨'], 9); }, null, 0.4),
+
+    // Lisa: drags herself up in no hurry at all
+    yawn: (sp, L, c) => gsap.timeline()
+      .fromTo(sp, { opacity: SPRITE_OP, y: 260, rotation: -4, transformOrigin: '50% 100%' }, { y: 0, duration: 1.4, ease: 'sine.out' })
+      .call(() => { const p = spot(sp); ['Z', 'z', 'Z'].forEach((z, i) => gsap.delayedCall(i * 0.35, () => word(L, p.x + 90 + i * 45, p.top + 90 - i * 45, z, c, 40 + i * 10))); }, null, 0.4)
+      .to(sp, { rotation: 0, duration: 0.6, ease: 'sine.inOut' }, 1.2)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, '*yaaawn*', c, 46); }, null, 1.4),
+    // Claire: "hello" arrives in every language before she does
+    lingo: (sp, L, c) => {
+      const tl = gsap.timeline().set(sp, { opacity: 0 });
+      ['Bonjour!', 'Hello!', 'Hola!', 'Ciao!', 'Hallo!'].forEach((w, i) => tl.call(() => {
+        const p = spot(sp);
+        word(L, p.x + rnd(-260, 260), p.y + rnd(-260, 200), w, [c, '#ffffff', '#ff4f5e'][i % 3], 40);
+        MB.audio.sfx('click');
+      }, null, i * 0.14));
+      return tl.fromTo(sp, { opacity: 0, scale: 0.92 }, { opacity: SPRITE_OP, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.5)
+        .call(() => { const p = spot(sp); [c, '#ffffff', '#ff4f5e'].forEach((col) => spray(L, p.x, p.y, col, 16, { dist: [140, 400] })); MB.audio.sfx('sparkle'); }, null, 0.9);
+    },
+    // Betty: two slashes in the dark, then her silhouette lights up
+    scar: (sp, L, c, ov) => gsap.timeline()
+      .set(sp, { opacity: 0 })
+      .call(() => { const p = spot(sp); slashLine(L, p.x, p.y - 80, -35, c); MB.audio.sfx('whoosh'); })
+      .call(() => { const p = spot(sp); slashLine(L, p.x, p.y - 80, 35, c); MB.audio.sfx('hit'); shake(ov, 8); }, null, 0.2)
+      .fromTo(sp, { opacity: SPRITE_OP, filter: `brightness(0) drop-shadow(0 0 20px ${c})` }, { filter: `brightness(1) drop-shadow(0 0 0px ${c})`, duration: 0.8, clearProps: 'filter' }, 0.35)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, '...mph.', c, 46); }, null, 1),
+    // Deiste: a dragon flies past and he steps out of the fire
+    dragon: (sp, L, c, ov) => gsap.timeline()
+      .call(() => {
+        const p = spot(sp), d = fxEl(L, 'cm-emoji', '🐉');
+        d.style.fontSize = '150px';
+        MB.audio.sfx('whoosh');
+        gsap.fromTo(d, { x: -200, y: p.top + 60, xPercent: -50, yPercent: -50 }, { x: 1800, y: p.top - 40, duration: 1.2, ease: 'power1.inOut', onComplete: () => d.remove() });
+      })
+      .call(() => { const p = spot(sp); column(L, 'cm-fire', p, c, 0.5); riseFrom(L, p.x, p.bottom, ['#ff4a1c', '#ffb347', '#ffffff'], 40, 0.8); MB.audio.sfx('zap'); }, null, 0.5)
+      .fromTo(sp, { opacity: 0, scale: 1.1 }, { opacity: SPRITE_OP, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.6)
+      .call(() => { const p = spot(sp); shake(ov, 10); word(L, p.x, p.top + 60, 'The king is I!', c, 48); }, null, 1.1),
+    // Olivia: fresh coffee steam, and a warm welcome
+    latte: (sp, L, c) => gsap.timeline()
+      .call(() => {
+        const p = spot(sp);
+        for (let i = 0; i < 8; i++) {
+          const s = fxEl(L, 'cm-steam');
+          gsap.fromTo(s, { x: p.x + rnd(-120, 120), y: p.bottom - 100, xPercent: -50, opacity: 0.8, scale: 0.6 },
+            { y: p.top, opacity: 0, scale: 2, duration: 1.6, delay: i * 0.1, ease: 'sine.out', onComplete: () => s.remove() });
+        }
+      })
+      .fromTo(sp, { opacity: 0, x: -120 }, { opacity: SPRITE_OP, x: 0, duration: 0.8, ease: 'power2.out' }, 0.2)
+      .call(() => { const p = spot(sp); fling(L, p.x, p.y, ['☕', '🤎', '🥐'], 10, { gravity: -40 }); MB.audio.sfx('sparkle'); word(L, p.x, p.top + 60, 'Welcome in!', c, 46); }, null, 0.9),
+    // Mason: the mail comes down and he pops up out of the pile
+    mail: (sp, L, c) => gsap.timeline()
+      .call(() => { const p = spot(sp); rain(L, p.x - 300, p.x + 300, p.bottom, ['✉️', '📨', '📦'], 22, 0.7); MB.audio.sfx('draw'); })
+      .fromTo(sp, { opacity: SPRITE_OP, y: 400 }, { y: 0, duration: 0.5, ease: 'back.out(1.8)' }, 0.5)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'Special delivery!', c, 44); MB.audio.sfx('click'); }, null, 1),
+    // Benjamin: the cart rolls in, and so does he, steady as ever
+    cart: (sp, L, c, ov) => gsap.timeline()
+      .call(() => {
+        const p = spot(sp), k = fxEl(L, 'cm-emoji', '🛒');
+        k.style.fontSize = '120px';
+        MB.audio.sfx('whoosh');
+        gsap.fromTo(k, { x: 1750, y: p.bottom - 70, xPercent: -50, yPercent: -50 }, { x: p.x - 230, duration: 0.8, ease: 'power2.out',
+          onComplete: () => gsap.to(k, { opacity: 0, duration: 0.4, delay: 0.8, onComplete: () => k.remove() }) });
+      })
+      .fromTo(sp, { opacity: SPRITE_OP, x: 500 }, { x: 0, duration: 1.1, ease: 'power1.out' }, 0.1)
+      .call(() => { feetDust(L, sp); shake(ov, 6); MB.audio.sfx('slam'); }, null, 1.1)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'Open for business.', c, 42); }, null, 1.2),
+    // Dan: flips in over the top of the screen
+    parkour: (sp, L, c) => gsap.timeline()
+      .call(() => MB.audio.sfx('whoosh'))
+      .fromTo(sp, { opacity: SPRITE_OP, x: -700, y: -300, rotation: -360, transformOrigin: '50% 50%' }, { x: 0, y: 0, rotation: 0, duration: 0.7, ease: 'power2.out', onUpdate: () => afterimage(sp) })
+      .call(() => { feetDust(L, sp); MB.audio.sfx('hit'); })
+      .add(squash(sp))
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'Try and stop me!', c, 44); }, null, 0.8),
+    // Rirarra: a fin cuts across, then she bursts out of the water
+    jaws: (sp, L, c, ov) => gsap.timeline()
+      .set(sp, { opacity: 0 })
+      .call(() => {
+        const p = spot(sp), f = fxEl(L, 'cm-fin', '', c);
+        MB.audio.sfx('splash');
+        gsap.fromTo(f, { x: p.x - 520, y: p.bottom - 10, xPercent: -50, yPercent: -100 }, { x: p.x, duration: 0.8, ease: 'power2.inOut',
+          onComplete: () => gsap.to(f, { yPercent: 0, opacity: 0, duration: 0.2, onComplete: () => f.remove() }) });
+      })
+      .call(() => { const p = spot(sp); column(L, 'cm-water', p, c, 0.4); riseFrom(L, p.x, p.bottom, ['#bfe9ff', '#ffffff', c], 50, 0.8); MB.audio.sfx('splash'); shake(ov, 14); }, null, 0.85)
+      .fromTo(sp, { opacity: SPRITE_OP, y: 700 }, { y: 0, duration: 0.55, ease: 'back.out(1.5)' }, 0.9)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'BIG SIS IS HERE!', c, 50); fling(L, p.x, p.y, ['💧', '🦈', '💦'], 10); }, null, 1.3),
+    // Rowdy: walks in reading, notices you, and fumbles the book shut
+    suplex: (sp, L, c) => gsap.timeline()
+      .fromTo(sp, { opacity: SPRITE_OP, x: 300 }, { x: 0, duration: 0.9, ease: 'power2.out' })
+      .call(() => {
+        const p = spot(sp), b = fxEl(L, 'cm-emoji', '📖');
+        b.style.fontSize = '80px';
+        gsap.fromTo(b, { x: p.x - 60, y: p.y, xPercent: -50, yPercent: -50, scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' });
+        gsap.to(b, { scaleX: 0, duration: 0.2, delay: 0.8, onComplete: () => b.remove() });
+        MB.audio.sfx('draw');
+      }, null, 0.3)
+      .to(sp, { y: -20, duration: 0.15, yoyo: true, repeat: 1 }, 1.2)
+      .call(() => { const p = spot(sp); MB.audio.sfx('click'); word(L, p.x, p.top + 60, 'Oh! H-hi.', c, 44); }, null, 1.2),
+    // Melanika: surfs in from the side on a spray of sea
+    surf: (sp, L, c) => gsap.timeline()
+      .call(() => { const p = spot(sp); MB.audio.sfx('splash'); riseFrom(L, p.x, p.bottom, ['#bfe9ff', '#ffffff'], 30, 0.9); })
+      .fromTo(sp, { opacity: SPRITE_OP, x: -600, y: 120, rotation: -10 }, { x: 0, y: 0, rotation: 0, duration: 0.9, ease: 'power2.out', onUpdate: () => afterimage(sp) })
+      .call(() => { const p = spot(sp); spray(L, p.x, p.bottom - 20, '#bfe9ff', 30, { dist: [100, 360], gravity: -60, stars: 0 }); word(L, p.x, p.top + 60, "Surf's up!", c, 48); MB.audio.sfx('splash'); }, null, 0.85),
+    // Rinco: rises slowly out of the deep, and the birds come to her
+    whale: (sp, L, c) => gsap.timeline()
+      .call(() => { const p = spot(sp); riseFrom(L, p.x, p.bottom, ['#bfe9ff', c, '#ffffff'], 40, 1.2); MB.audio.sfx('splash'); })
+      .fromTo(sp, { opacity: 0, y: 300, filter: 'brightness(0.4) saturate(0.4) blur(4px)' }, { opacity: SPRITE_OP, y: 0, filter: 'brightness(1) saturate(1) blur(0px)', duration: 1.4, ease: 'sine.out', clearProps: 'filter' }, 0.1)
+      .call(() => { const p = spot(sp); fling(L, p.x, p.top + 80, ['🐦', '🕊️', '🍞'], 8, { gravity: -120 }); MB.audio.sfx('heal'); word(L, p.x, p.top + 60, 'Hello, little one~', c, 42); }, null, 1.3),
+    // Daphne: her hammer lands first
+    hammer: (sp, L, c, ov) => gsap.timeline()
+      .set(sp, { opacity: 0 })
+      .call(() => {
+        const p = spot(sp), h = fxEl(L, 'cm-emoji', '🔨');
+        h.style.fontSize = '220px';
+        MB.audio.sfx('whoosh');
+        gsap.fromTo(h, { x: p.x + 60, y: p.top + 40, xPercent: -50, yPercent: -50, rotation: -130 }, { rotation: 20, y: p.bottom - 120, duration: 0.3, ease: 'power4.in', onComplete: () => {
+          MB.audio.sfx('slam'); shake(ov, 22);
+          ring(L, p.x, p.bottom - 30, c, { size: 220, scale: 4, width: 10 });
+          fling(L, p.x, p.bottom - 40, ['🔩', '⚙️', '🪛'], 12);
+          gsap.to(h, { opacity: 0, duration: 0.3, delay: 0.1, onComplete: () => h.remove() });
+        } });
+      })
+      .fromTo(sp, { opacity: SPRITE_OP, scale: 0.9, transformOrigin: '50% 100%' }, { scale: 1, duration: 0.5, ease: 'elastic.out(1,0.4)' }, 0.32)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'Smash first!', c, 48); }, null, 0.7),
+    // Brizz: one tail whip wipes her into view
+    scythe: (sp, L, c) => gsap.timeline()
+      .call(() => { const p = spot(sp); slashLine(L, p.x, p.y, 0, c); MB.audio.sfx('whoosh'); })
+      .fromTo(sp, { opacity: SPRITE_OP, clipPath: 'inset(0% 0% 0% 100%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.3, ease: 'power3.out', clearProps: 'clipPath' }, 0.05)
+      .call(() => { const p = spot(sp); fling(L, p.x, p.y, ['🩹', '💊', '🍬'], 12); MB.audio.sfx('sparkle'); word(L, p.x, p.top + 60, 'Medic on duty~!', c, 46); }, null, 0.4),
+    // Andrea: shuffles in on caffeine alone
+    coffee: (sp, L, c) => gsap.timeline()
+      .fromTo(sp, { opacity: SPRITE_OP, x: 240 }, { x: 0, duration: 1, ease: 'power1.out' })
+      .fromTo(sp, { rotation: 1.5, transformOrigin: '50% 100%' }, { rotation: -1.5, duration: 0.25, repeat: 3, yoyo: true }, 0)
+      .to(sp, { rotation: 0, duration: 0.2 }, 1)
+      .call(() => {
+        const p = spot(sp), k = fxEl(L, 'cm-emoji', '☕');
+        k.style.fontSize = '90px';
+        gsap.fromTo(k, { x: p.x + 130, y: p.top + 200, xPercent: -50, yPercent: -50, scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' });
+        gsap.to(k, { opacity: 0, y: '-=40', duration: 0.4, delay: 1, onComplete: () => k.remove() });
+        word(L, p.x, p.top + 60, '*sips*', c, 40);
+      }, null, 0.7)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 120, "...'sup.", '#ffffff', 44); }, null, 1.5),
+    // Linda: a spotlight, the paperwork, and an approval stamp
+    stamp: (sp, L, c, ov) => gsap.timeline()
+      .call(() => { const p = spot(sp); column(L, 'cm-light', p, '#dfe6ff', 1); MB.audio.sfx('beam'); })
+      .fromTo(sp, { opacity: 0, y: 30 }, { opacity: SPRITE_OP, y: 0, duration: 0.7, ease: 'power2.out' }, 0.2)
+      .call(() => { const p = spot(sp); rain(L, p.x - 280, p.x + 280, p.bottom, ['📄', '📋', '📑'], 14, 0.6); }, null, 0.5)
+      .call(() => {
+        const p = spot(sp), s = fxEl(L, 'cm-stamp', 'APPROVED', '#3fbf6a');
+        gsap.fromTo(s, { x: p.x, y: p.top + 170, xPercent: -50, yPercent: -50, scale: 3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'power4.in', onComplete: () => {
+          MB.audio.sfx('slam'); shake(ov, 10);
+          gsap.to(s, { opacity: 0, duration: 0.4, delay: 0.9, onComplete: () => s.remove() });
+        } });
+      }, null, 1.1),
+    // Eva: zips back and forth before she can stand still
+    hyper: (sp, L, c) => {
+      const tl = gsap.timeline().set(sp, { opacity: SPRITE_OP, x: 700 });
+      [-420, 300, -200, 120, 0].forEach((x) => tl.call(() => MB.audio.sfx('whoosh')).to(sp, { x, duration: 0.12, ease: 'power2.inOut', onUpdate: () => afterimage(sp) }));
+      return tl.call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'HIII!!', c, 56); spray(L, p.x, p.y, c, 26, { dist: [120, 360], stars: 0.6 }); MB.audio.sfx('sparkle'); })
+        .call(() => { const p = spot(sp); word(L, p.x + 120, p.top + 150, '...hi.', '#ffffff', 32); }, null, '+=0.7');
+    },
+    // Ashley: the ball bounces in ahead of her
+    hoops: (sp, L, c) => gsap.timeline()
+      .set(sp, { opacity: 0 })
+      .call(() => {
+        const p = spot(sp), b = fxEl(L, 'cm-emoji', '🏀'), step = (1700 - p.x) / 3;
+        b.style.fontSize = '80px';
+        gsap.set(b, { x: 1700, y: p.bottom - 60, xPercent: -50, yPercent: -50 });
+        const btl = gsap.timeline({ onComplete: () => b.remove() });
+        for (let i = 0; i < 3; i++) {
+          btl.to(b, { x: `-=${step}`, rotation: '-=240', duration: 0.3, ease: 'none' })
+            .to(b, { y: p.bottom - 260 + i * 50, duration: 0.15, ease: 'power2.out' }, '<')
+            .to(b, { y: p.bottom - 60, duration: 0.15, ease: 'power2.in', onComplete: () => MB.audio.sfx('click') }, '>');
+        }
+        btl.to(b, { y: p.top + 220, x: p.x + 60, duration: 0.25, ease: 'power2.out' }).to(b, { opacity: 0, duration: 0.2 });
+      })
+      .fromTo(sp, { opacity: SPRITE_OP, y: 60 }, { y: 0, duration: 0.3, ease: 'back.out(2)' }, 0.9)
+      .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, 'Heads up, eh?', c, 46); MB.audio.sfx('hit'); }, null, 1.1),
   };
 
   // ---------------------------------------------------------------- relationship close-ups
@@ -481,7 +657,7 @@
           .call(() => { const p = midOf(S); floatUp(S, ['😂', '🤣'], p, 2); }, null, 0));
       } else if (scene === 'strict') { // strict parenting: the test isn't good enough, back to training
         const [kid, mom] = [a, b], cfg = S.cfg;
-        const paper = fxEl(L, 'cm-paper', `<small>TEST</small><b>${cfg.score}</b>`);
+        const paper = fxEl(L, 'cm-paper', `<small>${cfg.paper || 'TEST'}</small><b>${cfg.score}</b>`);
         gsap.set(paper, { opacity: 0 });
         tl.call(() => { // she proudly holds up her test...
           const h = headOf(S, kid);
@@ -498,7 +674,7 @@
           .to(kid, { scaleY: 0.93, y: 16, duration: 0.25 }, 3.7)
           .call(() => { mood(S, kid, 'lose'); const h = headOf(S, kid); word(L, h.x + 60, h.y + 40, '💧', '#8fe8ff', 46); word(L, h.x, h.y + 90, 'S-sorry...', '#cfe3ff', 30); MB.audio.sfx('debuff'); }, null, 3.8)
           .to(mom, { x: 0, scale: 1, rotation: -9, duration: 0.25 }, 4.5) // points: to the dojo
-          .call(() => { const p = midOf(S); word(L, p.x, p.y - 150, 'DOJO. NOW.', c, 54); MB.audio.sfx('hit'); }, null, 4.6)
+          .call(() => { const p = midOf(S); word(L, p.x, p.y - 150, cfg.order || 'DOJO. NOW.', c, 54); MB.audio.sfx('hit'); }, null, 4.6)
           .to(kid, { scaleY: 1, y: 0, duration: 0.2 }, 4.8)
           .call(() => mood(S, kid, 'attack'), null, 5); // game face on
         // training: a punch on every count, mom nodding along
@@ -623,13 +799,14 @@
           .fromTo(grade, { scale: 4, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: -12, duration: 0.3, ease: 'back.out(3)' }, 3.4)
           .call(() => { MB.audio.sfx('slam'); const r = grade.getBoundingClientRect(), p = toUi(r.left + r.width / 2, r.top + r.height / 2); spray(L, p.x, p.y, '#ffffff', 20, { dist: [60, 220], stars: 0 }); }, null, 3.55);
         idle.push(() => gsap.timeline({ repeat: -1, repeatDelay: 2.5 }).to(a, { rotation: -6, duration: 0.15, yoyo: true, repeat: 3 }));
-      } else { // club: book and palette meet in a picture
-        const book = prop(S, 'cm-floaty', '📖', 3), pal = prop(S, 'cm-floaty', '🎨', 3), pic = prop(S, 'cm-frame', '🖼️', 3);
+      } else { // club: their two things (a book and a palette, say) come together into one project
+        const [p1, p2] = cfg.props || ['📖', '🎨'], bits = cfg.bits || [['📄', '📃'], ['🟥', '🟨', '🟦']];
+        const book = prop(S, 'cm-floaty', p1, 3), pal = prop(S, 'cm-floaty', p2, 3), pic = prop(S, 'cm-frame', cfg.result || '🖼️', 3);
         book.style.left = '22%'; pal.style.left = '78%';
         tl.fromTo([book, pal], { xPercent: -50, scale: 0, y: 60 }, { scale: 1, y: 0, duration: 0.4, stagger: 0.15, ease: 'back.out(3)' }, 0.5);
         talk(S, tl, 1.1);
         tl.call(() => { // pages and paint swirl into the middle
-          [[book, ['📄', '📃']], [pal, ['🟥', '🟨', '🟦']]].forEach(([from, chars]) => {
+          [[book, bits[0]], [pal, bits[1]]].forEach(([from, chars]) => {
             const r = from.getBoundingClientRect(), f = toUi(r.left + r.width / 2, r.top + r.height / 2), p = midOf(S);
             for (let i = 0; i < 7; i++) {
               const k = fxEl(L, 'cm-emoji', MB.pick(chars)); k.style.fontSize = '24px';
@@ -639,7 +816,7 @@
           MB.audio.sfx('draw');
         }, null, 3.6)
           .fromTo(pic, { xPercent: -50, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(3)' }, 4.3)
-          .call(() => { const p = midOf(S); MB.audio.sfx('sparkle'); spray(L, p.x, p.y - 120, c, 30, { dist: [80, 300], stars: 0.8 }); word(L, p.x, p.y - 240, 'Masterpiece!', c, 48); }, null, 4.4);
+          .call(() => { const p = midOf(S); MB.audio.sfx('sparkle'); spray(L, p.x, p.y - 120, c, 30, { dist: [80, 300], stars: 0.8 }); word(L, p.x, p.y - 240, cfg.cheer || 'Masterpiece!', c, 48); }, null, 4.4);
         idle.push(() => gsap.to(book, { y: -14, rotation: -6, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
           () => gsap.to(pal, { y: -14, rotation: 6, duration: 1.4, delay: 0.7, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
           () => gsap.to(pic, { y: -8, duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));

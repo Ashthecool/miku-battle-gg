@@ -1,6 +1,6 @@
-# Miku Battle — Adoptive Life Clash
+# Miku Battle — miku.gg All-Stars
 
-A browser card battler starring the cast of the *Adoptive Life RPG* and *Infernal Harmony* miku.gg novels.
+A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth* and *The yuri assist*.
 
 **Play:** https://ashthecool.github.io/miku-battle-gg/
 
@@ -23,7 +23,7 @@ npx serve game
 | `game/js/avatars.js` | The unlockable profile pictures. Generated. |
 | `game/js/config.js` | Where the images live (the Supabase bucket). |
 | `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |
-| `tools/fetch_assets.py` | Downloads the images for the novels in `novels/` (kept local, not in the repo), uploads them to the bucket and writes the manifest. |
+| `tools/fetch_assets.py` | Downloads the images for the novels in `novels/` (kept local, not in the repo), uploads them to the bucket and writes the manifest. `--local` writes them to `game/assets/` instead, for trying out a new novel before uploading. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
 
 ## Images (Supabase)

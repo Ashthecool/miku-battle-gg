@@ -44,6 +44,24 @@
         return t && t.card.cost >= 3 && b.me(side).hand.length < 7 ? { target: t } : null;
       }
       case 'closet': return b.me(side).deck.some((c) => c.type === 'unit') ? {} : null;
+      case 'coupon': { // only worth it when the extra gold lets another card out
+        const p = b.me(side);
+        return p.hand.some((c) => c !== card && c.cost === p.gold + 1) ? {} : null;
+      }
+      case 'deliveryBox': return b.me(side).hand.length <= 5 ? {} : null;
+      case 'podium': { const t = bestTarget(b, side, card.target, null, { kind: 'buff' }); return t ? { target: t } : null; }
+      case 'necklace': {
+        const t = b.units(side).filter((u) => !u.kw.has('lifesteal')).sort((a, c) => value(c) - value(a))[0];
+        return t ? { target: t } : null;
+      }
+      case 'melon': {
+        const t = b.units(1 - side).filter((u) => !u.kw.has('stealth') && (u.hp <= 3 || u.shield)).sort((a, c) => value(c) - value(a))[0];
+        return t ? { target: t } : null;
+      }
+      case 'divingMask': {
+        const t = b.units(side).filter((u) => !u.kw.has('stealth') && !u.kw.has('taunt') && u.atk >= 3).sort((a, c) => value(c) - value(a))[0];
+        return t ? { target: t } : null;
+      }
       default: return {};
     }
   }
@@ -55,7 +73,23 @@
       hug: 'buff', cheerUp: 'buff', pump: 'buff', giveShield: 'buff', overtime: 'buff',
       ping: 'damage', heal3: 'heal', gloom: 'debuff', bribe: 'kill', freezeOne: 'debuff',
       drill: 'buff', bless: 'heal', ignite: 'debuff', tease: 'kill',
+      untranslate: 'kill', onTheHouse: 'heal', sneakOut: 'buff', bigSis: 'buff', cpr: 'heal', darkJoke: 'damage',
     }[pw.effect];
+    const me = b.me(side), hurt = [...b.units(side), me.leader].some((u) => u.hp < u.maxHp);
+    if (['readUp', 'delivery', 'storeCredit', 'infoDump'].includes(pw.effect) && me.hand.length >= 7) return null;
+    if (pw.effect === 'nap' && me.leader.hp > me.leader.maxHp - 3) return null;
+    if (pw.effect === 'crabBoil' && !b.units(side).some((u) => u.hp < u.maxHp)) return null;
+    if (pw.effect === 'partyHard' && (me.leader.hp <= 8 || b.units(side).length < 2)) return null;
+    if (pw.effect === 'cpr' && !hurt && !b.units(side).some((u) => u.frozen)) return null;
+    // "hurt it, then buff it" powers need an ally that survives the hit
+    if (pw.effect === 'scarPact' || pw.effect === 'overhaul') {
+      const t = b.units(side).filter((u) => u.hp >= 2 && !u.shield).sort((a, c) => value(c) - value(a))[0] || b.units(side).find((u) => u.shield);
+      return t ? { target: t } : null;
+    }
+    if (pw.effect === 'takeCharge') {
+      const t = b.targetsFor(side, 'allyUnit', 'spent').filter((u) => !u.sick || u.atk >= 3).sort((a, c) => c.atk - a.atk)[0];
+      return t ? { target: t } : null;
+    }
     if (pw.effect === 'chill' && b.me(side).leader.hp <= 8) return null;
     if (pw.effect === 'heal3' && b.me(side).leader.hp >= b.me(side).leader.maxHp - 2 && !b.units(side).some((u) => u.hp < u.maxHp)) return null;
     if (pw.effect === 'groan' && !b.units(1 - side).length) return null;
@@ -108,20 +142,27 @@
       if (!played) break;
     }
     // 2. leader power
-    if (!b.over) {
+    const power = async () => {
+      if (b.over) return;
       const plan = powerPlan(b, side);
       if (plan && Math.random() < 0.5 + skill) { await b.usePower(side, plan.target); await wait(400); }
-    }
+    };
+    await power();
     // 3. attacks
-    for (let guard = 0; guard < 16 && !b.over; guard++) {
-      const ready = b.units(side).filter((u) => b.canAttack(u)).sort((a, c) => c.atk - a.atk);
-      if (!ready.length) break;
-      const u = ready[0];
-      const t = chooseAttack(b, u, skill);
-      if (!t) break;
-      await b.attack(u, t);
-      await wait(350);
-    }
+    const attacks = async () => {
+      for (let guard = 0; guard < 16 && !b.over; guard++) {
+        const ready = b.units(side).filter((u) => b.canAttack(u)).sort((a, c) => c.atk - a.atk);
+        if (!ready.length) break;
+        const u = ready[0];
+        const t = chooseAttack(b, u, skill);
+        if (!t) break;
+        await b.attack(u, t);
+        await wait(350);
+      }
+    };
+    await attacks();
+    // powers that only make sense after attacking (Take Charge) get a second chance
+    if (!b.me(side).powerUsed) { await power(); await attacks(); }
     if (!b.over) { await wait(500); await b.endTurn(); }
   }
 
