@@ -4,11 +4,29 @@
   const settings = Object.assign({ music: 0.5, sfx: 0.7 }, JSON.parse(localStorage.getItem('mb-audio') || '{}'));
   let current = null, currentId = null, blocked = null;
 
-  // recorded effects in assets/sounds/ (from Pixabay). Once loaded one replaces the synth sound of the same name;
-  // vol scales it, max cuts a long tail short (seconds), vary detunes each play a little so repeats don't drone
+  // recorded effects in assets/sounds/ (Pixabay, and CC0 sounds from Freesound listed in CREDITS.md). Once loaded one
+  // replaces the synth sound of the same name; vol scales it, max cuts a long tail short (seconds), vary detunes each
+  // play a little so repeats don't drone
   const SAMPLES = {
     pow: { file: 'animated-cartoon-explosion-impact.mp3', vol: 0.8, max: 1.3, vary: 0.08 },
     blink: { file: 'cartoon-blinking.mp3', vol: 0.8 },
+    boing: { file: 'boing-540788.mp3', vol: 0.7, vary: 0.06 },
+    bonk: { file: 'bonk-467788.mp3', vol: 0.7, vary: 0.12 },
+    punch: { file: 'punch-563356.mp3', vol: 0.7, vary: 0.1 },
+    whistleUp: { file: 'whistle-up-497092.mp3', vol: 0.6 },
+    whistleDown: { file: 'whistle-down-395443.mp3', vol: 0.6 },
+    pop: { file: 'pop-221091.mp3', vol: 0.8, vary: 0.15 },
+    squeak: { file: 'squeak-468443.mp3', vol: 0.6, vary: 0.1 },
+    zip: { file: 'zip-361122.mp3', vol: 0.6, vary: 0.1 },
+    honk: { file: 'honk-468441.mp3', vol: 0.7 },
+    wobble: { file: 'wobble-95595.mp3', vol: 0.7 },
+    tweet: { file: 'tweet-403002.mp3', vol: 0.6 },
+    splat: { file: 'splat-445117.mp3', vol: 0.8, vary: 0.08 },
+    twang: { file: 'twang-540082.mp3', vol: 0.7 },
+    chomp: { file: 'chomp-353067.mp3', vol: 0.8 },
+    ding: { file: 'ding-360948.mp3', vol: 0.6 },
+    whistle: { file: 'whistle-538422.mp3', vol: 0.5 },
+    bubble: { file: 'bubble-540074.mp3', vol: 0.7, max: 1.3 },
   };
   const buffers = {};
 
@@ -120,8 +138,9 @@
     bubble: () => [0, 0.08, 0.15, 0.24, 0.3].forEach((d, i) => tone({ type: 'sine', f0: 300 + i * 90, f1: 900 + i * 200, dur: 0.06, vol: 0.14, delay: d })),
     // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
     blink: () => [0, 0.18].forEach((d) => tone({ type: 'sine', curve: [900, 1900, 1300], dur: 0.12, vol: 0.12, delay: d })),
-    // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
-    toon: (big) => big ? play('pow') : SFX.bonk(0.8 + Math.random() * 0.5),
+    punch: (p) => SFX.bonk(p),
+    // the cartoon layer under every hit: a bonk or a punch, or a POW for heavy ones
+    toon: (big) => play(big ? 'pow' : Math.random() < 0.5 ? 'punch' : 'bonk', 0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),
   };
 
