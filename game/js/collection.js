@@ -57,13 +57,16 @@ window.MB = window.MB || {};
   const stageAvatars = MB.STORY.map(() => []), avatarStage = {};
   (function share() {
     const left = MB.AVATARS.map((a) => a.id).filter((id) => id !== MB.STARTER_AVATAR);
+    // NSFW chapters give none, so every picture can be won the same way in either mode
     const take = (i, id) => { stageAvatars[i].push(id); avatarStage[id] = i; left.splice(left.indexOf(id), 1); };
     MB.STORY.forEach((st, i) => {
+      if (MB.CHAPTERS[st.chapter].nsfw) return;
       const first = st.foe.split('-')[0];
       left.filter((id) => id === st.foe || (first.length >= 3 && (id === first || id.startsWith(first + '-')))).forEach((id) => take(i, id));
     });
+    const open = MB.STORY.map((st, i) => i).filter((i) => !MB.CHAPTERS[MB.STORY[i].chapter].nsfw);
     let i = 0;
-    while (left.length) { take(i % MB.STORY.length, left[0]); i++; }
+    while (left.length) { take(open[i % open.length], left[0]); i++; }
   })();
 
   // the stages cleared in a save, as indexes into MB.STORY

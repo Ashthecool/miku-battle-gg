@@ -68,7 +68,7 @@
     fit();
     await preload();
     // the offline copy of everything else downloads after the sprites, so the two don't share the bandwidth
-    sw.then((reg) => reg && reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES }));
+    sw.then((reg) => reg && reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES, nsfw: MB.NSFW }));
     MB.view = new MB.View();
     MB.UI.bind();
     // browsers only allow music after a user gesture, so the title waits for one click/key

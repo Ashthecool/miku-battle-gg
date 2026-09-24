@@ -1,6 +1,6 @@
 # Miku Battle — miku.gg All-Stars
 
-A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!* and *New Haven*.
+A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG* and *Legend of You*, plus *Noble One* in NSFW mode.
 
 **Play:** https://ashthecool.github.io/miku-battle-gg/
 
@@ -44,6 +44,10 @@ The game only reads public URLs and needs no key. The tools write to the buckets
 ```sh
 SUPABASE_SECRET_KEY=sb_secret_... py tools/sync_avatars.py
 ```
+
+## NSFW mode
+
+**⚙️ → NSFW mode (18+)** adds the NSFW novels, outfits and backgrounds (tagged `nsfw` in the manifest by `tools/fetch_assets.py`, filtered out by `game/js/content.js` when the mode is off).
 
 ## Saves
 

@@ -23,7 +23,7 @@
   // ---------------------------------------------------------------- scenes: each fills the stage and returns a looping timeline
   function story(S) {
     const save = MB.UI.save;
-    const c = Math.max(0, MB.CHAPTERS.findIndex((_, i) => save.progress[i] < MB.STORY.filter((s) => s.chapter === i).length));
+    const c = Math.max(0, MB.CHAPTERS.findIndex((ch, i) => !ch.hidden && save.progress[i] < MB.STORY.filter((s) => s.chapter === i).length));
     const foes = MB.STORY.filter((s) => s.chapter === c).slice(0, 4).map((s) => s.foe);
     const xs = [40, 125, 210, 295], ys = [128, 104, 128, 104];
     const svg = el('div', 'mt-svg', `<svg width="${W}" height="${H}"><path d="M${xs.map((x, i) => `${x},${ys[i]}`).join(' L')}" /></svg>`);

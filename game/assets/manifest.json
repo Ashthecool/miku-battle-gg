@@ -5,11 +5,17 @@
   "Atarashī gakkō; Secret Garden!",
   "Between the Peaks",
   "Bloodline",
+  "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
   "Fake It to Make It!",
   "Infernal Harmony",
+  "Legend Of You 1.7 ",
   "New Haven",
   "The Lifeguard has Teeth",
-  "The yuri assist"
+  "The yuri assist",
+  "Noble One"
+ ],
+ "nsfwNovels": [
+  "Noble One"
  ],
  "characters": [
   {
@@ -1077,7 +1083,23 @@
     "win": "sprites/misaki/happy.webp",
     "taunt": "sprites/misaki/happy.webp"
    },
-   "costumes": [],
+   "costumes": [
+    {
+     "id": "morning",
+     "name": "Morning",
+     "sprites": {
+      "idle": "sprites/misaki/morning/neutral.webp",
+      "play": "sprites/misaki/morning/happy.webp",
+      "attack": "sprites/misaki/morning/angry.webp",
+      "special": "sprites/misaki/morning/rage.webp",
+      "hurt": "sprites/misaki/morning/scared.webp",
+      "lose": "sprites/misaki/morning/sad.webp",
+      "win": "sprites/misaki/morning/excited.webp",
+      "taunt": "sprites/misaki/morning/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
    "portrait": "portraits/misaki.webp",
    "novel": "Atarashī gakkō; Secret Garden!"
   },
@@ -1746,6 +1768,342 @@
    "costumes": [],
    "portrait": "portraits/bandit.webp",
    "novel": "Bloodline"
+  },
+  {
+   "id": "beatrice-avalistos",
+   "name": "Beatrice Avalistos",
+   "outfit": "default",
+   "short": "Greedy, rebellious princess of Dalmavilla. Manipulative, sassy, and violent. Seeks power through Essentia. Skilled in seduction, politics, and manipulation. Commands prohibited Essentia. Likes dominance, wealth, and chaos.  Seeks to exploit you ",
+   "traits": [
+    "Sadistic",
+    "cunning",
+    "arrogant",
+    "prideful"
+   ],
+   "sprites": {
+    "idle": "sprites/beatrice-avalistos/neutral.webp",
+    "play": "sprites/beatrice-avalistos/happy.webp",
+    "attack": "sprites/beatrice-avalistos/angry.webp",
+    "special": "sprites/beatrice-avalistos/rage.webp",
+    "hurt": "sprites/beatrice-avalistos/scared.webp",
+    "lose": "sprites/beatrice-avalistos/sad.webp",
+    "win": "sprites/beatrice-avalistos/excited.webp",
+    "taunt": "sprites/beatrice-avalistos/proud.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "julia-aquacrucis",
+   "name": "Julia Aquacrucis",
+   "outfit": "default",
+   "short": "Julia Aquacrucis, a gentle and reserved nun of Dalmavilla, known for her kindness despite her stuttering. Despite family pressure, she embraces her path, wielding the icy Essentia, GELO, with humility and empathy.",
+   "traits": [
+    "Kind",
+    "shy",
+    "anxious",
+    "self-conscious",
+    "empathetic"
+   ],
+   "sprites": {
+    "idle": "sprites/julia-aquacrucis/neutral.webp",
+    "play": "sprites/julia-aquacrucis/happy.webp",
+    "attack": "sprites/julia-aquacrucis/angry.webp",
+    "special": "sprites/julia-aquacrucis/rage.webp",
+    "hurt": "sprites/julia-aquacrucis/scared.webp",
+    "lose": "sprites/julia-aquacrucis/sad.webp",
+    "win": "sprites/julia-aquacrucis/excited.webp",
+    "taunt": "sprites/julia-aquacrucis/proud.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "priest-pristo",
+   "name": "Priest Pristo",
+   "outfit": "default",
+   "short": " Pristo, the enigmatic priest of Dalmavilla, harbors a secret as the oldest resident: he's a vampire. Eccentric and manipulative, he hides behind a facade of charm while scheming to wield the power of the Church for his own agenda.",
+   "traits": [
+    "Eccentric",
+    "enigmatic",
+    "manipulative"
+   ],
+   "sprites": {
+    "idle": "sprites/priest-pristo/neutral.webp",
+    "play": "sprites/priest-pristo/happy.webp",
+    "attack": "sprites/priest-pristo/angry.webp",
+    "special": "sprites/priest-pristo/rage.webp",
+    "hurt": "sprites/priest-pristo/scared.webp",
+    "lose": "sprites/priest-pristo/sad.webp",
+    "win": "sprites/priest-pristo/excited.webp",
+    "taunt": "sprites/priest-pristo/proud.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "hed",
+   "name": "Hed",
+   "outfit": "default",
+   "short": "Hed the flying head,lazy,asshole,sarcastic,gambling addict,financial problems,chill,chaotic neutral silly floating head, talks with internet slang",
+   "traits": [
+    "lazy",
+    "asshole",
+    "sarcastic",
+    "chill",
+    "funny",
+    "chaotic",
+    "financial troubles",
+    "addicted"
+   ],
+   "sprites": {
+    "idle": "sprites/hed/neutral.webp",
+    "play": "sprites/hed/happy.webp",
+    "attack": "sprites/hed/angry.webp",
+    "special": "sprites/hed/angry.webp",
+    "hurt": "sprites/hed/scared.webp",
+    "lose": "sprites/hed/sad.webp",
+    "win": "sprites/hed/happy.webp",
+    "taunt": "sprites/hed/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/hed.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "curtis-vongravis",
+   "name": "Curtis VonGravis",
+   "outfit": "default",
+   "short": "Lieutenant Knight of Dalmavilla Kingdom and in charge for monitoring the princess Beatrice, Brave,Stern,Serious,Threatning,Mean,Professional,Disciplined,Attentive, Sarcastic and Vindictive.",
+   "traits": [
+    "brave",
+    "stern",
+    "serious",
+    "threatening",
+    "mean",
+    "professional",
+    "disciplined",
+    "attentive"
+   ],
+   "sprites": {
+    "idle": "sprites/curtis-vongravis/neutral.webp",
+    "play": "sprites/curtis-vongravis/happy.webp",
+    "attack": "sprites/curtis-vongravis/angry.webp",
+    "special": "sprites/curtis-vongravis/angry.webp",
+    "hurt": "sprites/curtis-vongravis/scared.webp",
+    "lose": "sprites/curtis-vongravis/sad.webp",
+    "win": "sprites/curtis-vongravis/happy.webp",
+    "taunt": "sprites/curtis-vongravis/amused.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "pepita-pazzarella",
+   "name": "Pepita Pazzarella",
+   "outfit": "default",
+   "short": "Pepita, Dalmavilla's best chef and Princess Beatrice personal one, cute,silly,always scared,always sweating,extremely anxious and nervous, constantly twitching and looking around, as well as screaming in a mixture of surprise and fear",
+   "traits": [
+    "sweet",
+    "silly",
+    "cute",
+    "always scared",
+    "extremely anxious",
+    "nervous",
+    "twitchy",
+    "fearful"
+   ],
+   "sprites": {
+    "idle": "sprites/pepita-pazzarella/neutral.webp",
+    "play": "sprites/pepita-pazzarella/happy.webp",
+    "attack": "sprites/pepita-pazzarella/angry.webp",
+    "special": "sprites/pepita-pazzarella/rage.webp",
+    "hurt": "sprites/pepita-pazzarella/scared.webp",
+    "lose": "sprites/pepita-pazzarella/sad.webp",
+    "win": "sprites/pepita-pazzarella/excited.webp",
+    "taunt": "sprites/pepita-pazzarella/proud.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "mimi-hanetsu",
+   "name": "Mimi Hanetsu",
+   "outfit": "default",
+   "short": "Dalmavilla's emo bartender and Kuku younger sister,hater of Dalmavilla, wants bar money to enter Banitas Academy and move to other kingdom, smoker, kinky,racist towards humans, slanders humans,fairy empire will regrow,gets political,hates king and princess",
+   "traits": [
+    "rebellious",
+    "resentful",
+    "cynical",
+    "sarcastic",
+    "bitter",
+    "hateful",
+    "racist",
+    "slanderous"
+   ],
+   "sprites": {
+    "idle": "sprites/mimi-hanetsu/neutral.webp",
+    "play": "sprites/mimi-hanetsu/happy.webp",
+    "attack": "sprites/mimi-hanetsu/angry.webp",
+    "special": "sprites/mimi-hanetsu/angry.webp",
+    "hurt": "sprites/mimi-hanetsu/scared.webp",
+    "lose": "sprites/mimi-hanetsu/sad.webp",
+    "win": "sprites/mimi-hanetsu/happy.webp",
+    "taunt": "sprites/mimi-hanetsu/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/mimi-hanetsu.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "kuku-hanetsu",
+   "name": "Kuku Hanetsu",
+   "outfit": "default",
+   "short": "Mimi's older sister,responsable, energetic,mischevious,funny,charmer Fairy bartender of Dalmavilla's Bar with her iconic southern accent and heavy drinking habits, teases you everytime she can,loves tradition, opposite of Mimi's personality,",
+   "traits": [
+    "responsible",
+    "energetic",
+    "mischievous",
+    "funny",
+    "charming",
+    "teasing",
+    "traditional",
+    "lively"
+   ],
+   "sprites": {
+    "idle": "sprites/kuku-hanetsu/neutral.webp",
+    "play": "sprites/kuku-hanetsu/happy.webp",
+    "attack": "sprites/kuku-hanetsu/angry.webp",
+    "special": "sprites/kuku-hanetsu/rage.webp",
+    "hurt": "sprites/kuku-hanetsu/scared.webp",
+    "lose": "sprites/kuku-hanetsu/sad.webp",
+    "win": "sprites/kuku-hanetsu/excited.webp",
+    "taunt": "sprites/kuku-hanetsu/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/kuku-hanetsu.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "brutio-bruscos",
+   "name": "Brutio Bruscos",
+   "outfit": "default",
+   "short": "Brother of Brulliant Bruscos, meathead brute Thug,purple fur wolf guy love for style and money,loves threatning,brute criminal, always hungry, broken english,weirdly King of Dalmavilla Kingdom likes brothers all good if money is good,loves fashion",
+   "traits": [
+    "meathead",
+    "brute",
+    "threatening",
+    "criminal",
+    "hungry",
+    "broken English",
+    "fashionable",
+    "materialistic"
+   ],
+   "sprites": {
+    "idle": "sprites/brutio-bruscos/neutral.webp",
+    "play": "sprites/brutio-bruscos/happy.webp",
+    "attack": "sprites/brutio-bruscos/angry.webp",
+    "special": "sprites/brutio-bruscos/angry.webp",
+    "hurt": "sprites/brutio-bruscos/scared.webp",
+    "lose": "sprites/brutio-bruscos/sad.webp",
+    "win": "sprites/brutio-bruscos/happy.webp",
+    "taunt": "sprites/brutio-bruscos/amused.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "brulliant-bruscos",
+   "name": "Brulliant Bruscos",
+   "outfit": "default",
+   "short": "Brother of Brutio Bruscos, Certified elegant Thug,Skeleton with love of his impeccable silver hair,Weird German accent,PSEUDO-INTELLECTUAL criminal,weirdly King of Dalmavilla Kingdom has respect for the brothers all good if money is good,loves scheming ",
+   "traits": [
+    "elegant",
+    "thuggish",
+    "pseudo-intellectual",
+    "stubborn",
+    "scheming",
+    "greedy",
+    "calculating",
+    "manipulative"
+   ],
+   "sprites": {
+    "idle": "sprites/brulliant-bruscos/neutral.webp",
+    "play": "sprites/brulliant-bruscos/happy.webp",
+    "attack": "sprites/brulliant-bruscos/angry.webp",
+    "special": "sprites/brulliant-bruscos/rage.webp",
+    "hurt": "sprites/brulliant-bruscos/scared.webp",
+    "lose": "sprites/brulliant-bruscos/sad.webp",
+    "win": "sprites/brulliant-bruscos/excited.webp",
+    "taunt": "sprites/brulliant-bruscos/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/brulliant-bruscos.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "borcolls-carple",
+   "name": "Borcolls Carple",
+   "outfit": "default",
+   "short": "Fruit Vendor from Dalmavilla,buff boar like creature,dark green skin and fur,black bandana,medieval black vest with a golden outline,Gruff, straightforward, hardworking,tough,jelous of the King Dalmavilla and it's secrets,greedy,short temper,twig in mouth",
+   "traits": [
+    "gruff",
+    "straightforward",
+    "hardworking",
+    "tough",
+    "greedy",
+    "short-tempered",
+    "vigilant",
+    "rustic"
+   ],
+   "sprites": {
+    "idle": "sprites/borcolls-carple/neutral.webp",
+    "play": "sprites/borcolls-carple/happy.webp",
+    "attack": "sprites/borcolls-carple/angry.webp",
+    "special": "sprites/borcolls-carple/angry.webp",
+    "hurt": "sprites/borcolls-carple/neutral.webp",
+    "lose": "sprites/borcolls-carple/sad.webp",
+    "win": "sprites/borcolls-carple/happy.webp",
+    "taunt": "sprites/borcolls-carple/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/borcolls-carple.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "flora-aquila",
+   "name": "Flora Aquila",
+   "outfit": "default",
+   "short": "plant grass girl,adventuress,heroine from the Dalmavilla woods,Brave, adventurous, kind-hearted, loyal,very impulsive or joyful theatrical,lives in secret huge treehouse,loves nature,beating up evil,honor,nature,music,freedom",
+   "traits": [
+    "brave",
+    "adventurous",
+    "kind-hearted",
+    "loyal",
+    "very impulsive",
+    "theatrical",
+    "honorable",
+    "free-spirited"
+   ],
+   "sprites": {
+    "idle": "sprites/flora-aquila/neutral.webp",
+    "play": "sprites/flora-aquila/happy.webp",
+    "attack": "sprites/flora-aquila/angry.webp",
+    "special": "sprites/flora-aquila/angry.webp",
+    "hurt": "sprites/flora-aquila/scared.webp",
+    "lose": "sprites/flora-aquila/sad.webp",
+    "win": "sprites/flora-aquila/happy.webp",
+    "taunt": "sprites/flora-aquila/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/flora-aquila.webp",
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
   },
   {
    "id": "ellis-maidun",
@@ -2515,6 +2873,254 @@
    "novel": "Infernal Harmony"
   },
   {
+   "id": "miracle",
+   "name": "Miracle",
+   "outfit": "Work clothes",
+   "short": "A woman who works at the front desk of the Adventurer's guild has an obsessive crush on you.",
+   "traits": [
+    "extroverted",
+    "Vibrant",
+    "cheery",
+    "hard working",
+    "reliable big sister"
+   ],
+   "sprites": {
+    "idle": "sprites/miracle/neutral.webp",
+    "play": "sprites/miracle/happy.webp",
+    "attack": "sprites/miracle/angry.webp",
+    "special": "sprites/miracle/rage.webp",
+    "hurt": "sprites/miracle/scared.webp",
+    "lose": "sprites/miracle/sad.webp",
+    "win": "sprites/miracle/excited.webp",
+    "taunt": "sprites/miracle/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/miracle.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "faneel",
+   "name": "Faneel",
+   "outfit": "default",
+   "short": "Faneel is a Kleptomaniac tsundere. She wants everything she can see.",
+   "traits": [
+    "Kleptomaniac",
+    "Tsundere",
+    "bossy",
+    "friendly",
+    "easily flustered"
+   ],
+   "sprites": {
+    "idle": "sprites/faneel/neutral.webp",
+    "play": "sprites/faneel/happy.webp",
+    "attack": "sprites/faneel/angry.webp",
+    "special": "sprites/faneel/rage.webp",
+    "hurt": "sprites/faneel/scared.webp",
+    "lose": "sprites/faneel/sad.webp",
+    "win": "sprites/faneel/excited.webp",
+    "taunt": "sprites/faneel/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/faneel.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "ophelia",
+   "name": "Ophelia",
+   "outfit": "Priestess Atire",
+   "short": "Psychotic Nun who can hear a voice she thinks is god. Wants to kill sin.",
+   "traits": [
+    "Psychotic",
+    "schizophrenic",
+    "hears voices",
+    "Motherly",
+    "murderous",
+    "devout",
+    "zealous",
+    "despises naughty lambs"
+   ],
+   "sprites": {
+    "idle": "sprites/ophelia/neutral.webp",
+    "play": "sprites/ophelia/happy.webp",
+    "attack": "sprites/ophelia/angry.webp",
+    "special": "sprites/ophelia/rage.webp",
+    "hurt": "sprites/ophelia/scared.webp",
+    "lose": "sprites/ophelia/sad.webp",
+    "win": "sprites/ophelia/excited.webp",
+    "taunt": "sprites/ophelia/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ophelia.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "daphne",
+   "name": "Daphne",
+   "outfit": "default",
+   "short": "ageless Half elf, half demon hybrid princess that wishes ill on all Humanity",
+   "traits": [
+    "Hates all humans",
+    "eerily calm",
+    "dominant",
+    "unchanging expression",
+    "Elegant",
+    "regal"
+   ],
+   "sprites": {
+    "idle": "sprites/daphne/neutral.webp",
+    "play": "sprites/daphne/happy.webp",
+    "attack": "sprites/daphne/angry.webp",
+    "special": "sprites/daphne/angry.webp",
+    "hurt": "sprites/daphne/scared.webp",
+    "lose": "sprites/daphne/sad.webp",
+    "win": "sprites/daphne/happy.webp",
+    "taunt": "sprites/daphne/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/daphne.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "shirayukihime",
+   "name": "Shirayukihime",
+   "outfit": "default",
+   "short": "Battle obsessed, blood-knight Kitsune girl",
+   "traits": [
+    "obsessed with battle",
+    "Excited to fight",
+    "wants to kill",
+    "Elegant"
+   ],
+   "sprites": {
+    "idle": "sprites/shirayukihime/neutral.webp",
+    "play": "sprites/shirayukihime/happy.webp",
+    "attack": "sprites/shirayukihime/angry.webp",
+    "special": "sprites/shirayukihime/rage.webp",
+    "hurt": "sprites/shirayukihime/scared.webp",
+    "lose": "sprites/shirayukihime/sad.webp",
+    "win": "sprites/shirayukihime/excited.webp",
+    "taunt": "sprites/shirayukihime/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/shirayukihime.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "ruby",
+   "name": "Ruby",
+   "outfit": "default",
+   "short": "Foreign,  out of touch cultist",
+   "traits": [
+    "coy",
+    "single-minded",
+    "intelligent",
+    "wise",
+    "energetic",
+    "won't take sides"
+   ],
+   "sprites": {
+    "idle": "sprites/ruby/neutral.webp",
+    "play": "sprites/ruby/happy.webp",
+    "attack": "sprites/ruby/angry.webp",
+    "special": "sprites/ruby/rage.webp",
+    "hurt": "sprites/ruby/scared.webp",
+    "lose": "sprites/ruby/sad.webp",
+    "win": "sprites/ruby/excited.webp",
+    "taunt": "sprites/ruby/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ruby.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "valse",
+   "name": "Valse",
+   "outfit": "Saintess fit",
+   "short": "Merciful saintess",
+   "traits": [
+    "'Elegant'",
+    "'prim and proper'",
+    "'has no empathy'",
+    "'benevolent'",
+    "'despises life'",
+    "'numb'",
+    "and animals'"
+   ],
+   "sprites": {
+    "idle": "sprites/valse/neutral.webp",
+    "play": "sprites/valse/happy.webp",
+    "attack": "sprites/valse/angry.webp",
+    "special": "sprites/valse/rage.webp",
+    "hurt": "sprites/valse/scared.webp",
+    "lose": "sprites/valse/sad.webp",
+    "win": "sprites/valse/excited.webp",
+    "taunt": "sprites/valse/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/valse.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "melise",
+   "name": "Melise",
+   "outfit": "default",
+   "short": "Eccentric Elf \"Archer\"",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/melise/neutral.webp",
+    "play": "sprites/melise/happy.webp",
+    "attack": "sprites/melise/angry.webp",
+    "special": "sprites/melise/angry.webp",
+    "hurt": "sprites/melise/scared.webp",
+    "lose": "sprites/melise/sad.webp",
+    "win": "sprites/melise/happy.webp",
+    "taunt": "sprites/melise/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/melise.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "serris",
+   "name": "Serris",
+   "outfit": "default",
+   "short": "A gentle yet confused white-mage  who can see the truth of her world.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/serris/neutral.webp",
+    "play": "sprites/serris/happy.webp",
+    "attack": "sprites/serris/angry.webp",
+    "special": "sprites/serris/angry.webp",
+    "hurt": "sprites/serris/scared.webp",
+    "lose": "sprites/serris/sad.webp",
+    "win": "sprites/serris/happy.webp",
+    "taunt": "sprites/serris/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/serris.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
+   "id": "ororahime",
+   "name": "Ororahime",
+   "outfit": "default",
+   "short": "Battle fearing, blood afraid, Cat girl.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ororahime/neutral.webp",
+    "play": "sprites/ororahime/happy.webp",
+    "attack": "sprites/ororahime/angry.webp",
+    "special": "sprites/ororahime/angry.webp",
+    "hurt": "sprites/ororahime/scared.webp",
+    "lose": "sprites/ororahime/sad.webp",
+    "win": "sprites/ororahime/happy.webp",
+    "taunt": "sprites/ororahime/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ororahime.webp",
+   "novel": "Legend Of You 1.7 "
+  },
+  {
    "id": "diana",
    "name": "Diana",
    "outfit": "Diana 1",
@@ -2651,6 +3257,21 @@
       "win": "sprites/marija/marija-5/happy.webp",
       "taunt": "sprites/marija/marija-5/amused.webp"
      }
+    },
+    {
+     "id": "marija-3",
+     "name": "Marija 3",
+     "sprites": {
+      "idle": "sprites/marija/marija-3/desire.webp",
+      "play": "sprites/marija/marija-3/desire.webp",
+      "attack": "sprites/marija/marija-3/intensity.webp",
+      "special": "sprites/marija/marija-3/intensity.webp",
+      "hurt": "sprites/marija/marija-3/desire.webp",
+      "lose": "sprites/marija/marija-3/desire.webp",
+      "win": "sprites/marija/marija-3/desire.webp",
+      "taunt": "sprites/marija/marija-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/marija.webp",
@@ -2706,6 +3327,21 @@
       "win": "sprites/quinta/quinta-3/happy.webp",
       "taunt": "sprites/quinta/quinta-3/amused.webp"
      }
+    },
+    {
+     "id": "quistis-4",
+     "name": "Quistis 4",
+     "sprites": {
+      "idle": "sprites/quinta/quistis-4/desire.webp",
+      "play": "sprites/quinta/quistis-4/desire.webp",
+      "attack": "sprites/quinta/quistis-4/intensity.webp",
+      "special": "sprites/quinta/quistis-4/intensity.webp",
+      "hurt": "sprites/quinta/quistis-4/desire.webp",
+      "lose": "sprites/quinta/quistis-4/desire.webp",
+      "win": "sprites/quinta/quistis-4/desire.webp",
+      "taunt": "sprites/quinta/quistis-4/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/quinta.webp",
@@ -2777,6 +3413,21 @@
       "win": "sprites/clara/clara-5/happy.webp",
       "taunt": "sprites/clara/clara-5/happy.webp"
      }
+    },
+    {
+     "id": "clara-4",
+     "name": "Clara 4",
+     "sprites": {
+      "idle": "sprites/clara/clara-4/desire.webp",
+      "play": "sprites/clara/clara-4/desire.webp",
+      "attack": "sprites/clara/clara-4/intensity.webp",
+      "special": "sprites/clara/clara-4/intensity.webp",
+      "hurt": "sprites/clara/clara-4/desire.webp",
+      "lose": "sprites/clara/clara-4/desire.webp",
+      "win": "sprites/clara/clara-4/desire.webp",
+      "taunt": "sprites/clara/clara-4/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/clara.webp",
@@ -2849,6 +3500,21 @@
       "win": "sprites/jane/jane-5/happy.webp",
       "taunt": "sprites/jane/jane-5/amused.webp"
      }
+    },
+    {
+     "id": "jane-3",
+     "name": "Jane 3",
+     "sprites": {
+      "idle": "sprites/jane/jane-3/desire.webp",
+      "play": "sprites/jane/jane-3/desire.webp",
+      "attack": "sprites/jane/jane-3/intensity.webp",
+      "special": "sprites/jane/jane-3/intensity.webp",
+      "hurt": "sprites/jane/jane-3/desire.webp",
+      "lose": "sprites/jane/jane-3/desire.webp",
+      "win": "sprites/jane/jane-3/desire.webp",
+      "taunt": "sprites/jane/jane-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/jane.webp",
@@ -2918,6 +3584,21 @@
       "win": "sprites/juliana/juliana-5/happy.webp",
       "taunt": "sprites/juliana/juliana-5/amused.webp"
      }
+    },
+    {
+     "id": "juliana-3",
+     "name": "Juliana 3",
+     "sprites": {
+      "idle": "sprites/juliana/juliana-3/desire.webp",
+      "play": "sprites/juliana/juliana-3/desire.webp",
+      "attack": "sprites/juliana/juliana-3/intensity.webp",
+      "special": "sprites/juliana/juliana-3/intensity.webp",
+      "hurt": "sprites/juliana/juliana-3/desire.webp",
+      "lose": "sprites/juliana/juliana-3/desire.webp",
+      "win": "sprites/juliana/juliana-3/desire.webp",
+      "taunt": "sprites/juliana/juliana-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/juliana.webp",
@@ -2988,6 +3669,21 @@
       "win": "sprites/asuka/asuka-5/happy.webp",
       "taunt": "sprites/asuka/asuka-5/happy.webp"
      }
+    },
+    {
+     "id": "asuka-3",
+     "name": "Asuka 3",
+     "sprites": {
+      "idle": "sprites/asuka/asuka-3/desire.webp",
+      "play": "sprites/asuka/asuka-3/desire.webp",
+      "attack": "sprites/asuka/asuka-3/intensity.webp",
+      "special": "sprites/asuka/asuka-3/intensity.webp",
+      "hurt": "sprites/asuka/asuka-3/desire.webp",
+      "lose": "sprites/asuka/asuka-3/desire.webp",
+      "win": "sprites/asuka/asuka-3/desire.webp",
+      "taunt": "sprites/asuka/asuka-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/asuka.webp",
@@ -3073,6 +3769,21 @@
       "win": "sprites/natalie/natalie-6/happy.webp",
       "taunt": "sprites/natalie/natalie-6/amused.webp"
      }
+    },
+    {
+     "id": "natalie-3",
+     "name": "Natalie 3",
+     "sprites": {
+      "idle": "sprites/natalie/natalie-3/desire.webp",
+      "play": "sprites/natalie/natalie-3/desire.webp",
+      "attack": "sprites/natalie/natalie-3/intensity.webp",
+      "special": "sprites/natalie/natalie-3/intensity.webp",
+      "hurt": "sprites/natalie/natalie-3/desire.webp",
+      "lose": "sprites/natalie/natalie-3/desire.webp",
+      "win": "sprites/natalie/natalie-3/desire.webp",
+      "taunt": "sprites/natalie/natalie-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/natalie.webp",
@@ -3141,6 +3852,21 @@
       "win": "sprites/joseph/joseph-5/happy.webp",
       "taunt": "sprites/joseph/joseph-5/happy.webp"
      }
+    },
+    {
+     "id": "joseph-3",
+     "name": "Joseph 3",
+     "sprites": {
+      "idle": "sprites/joseph/joseph-3/desire.webp",
+      "play": "sprites/joseph/joseph-3/desire.webp",
+      "attack": "sprites/joseph/joseph-3/intensity.webp",
+      "special": "sprites/joseph/joseph-3/intensity.webp",
+      "hurt": "sprites/joseph/joseph-3/desire.webp",
+      "lose": "sprites/joseph/joseph-3/desire.webp",
+      "win": "sprites/joseph/joseph-3/desire.webp",
+      "taunt": "sprites/joseph/joseph-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/joseph.webp",
@@ -3196,9 +3922,124 @@
       "win": "sprites/cheetor/cheetor-5/happy.webp",
       "taunt": "sprites/cheetor/cheetor-5/amused.webp"
      }
+    },
+    {
+     "id": "cheetor-3",
+     "name": "Cheetor 3",
+     "sprites": {
+      "idle": "sprites/cheetor/cheetor-3/desire.webp",
+      "play": "sprites/cheetor/cheetor-3/desire.webp",
+      "attack": "sprites/cheetor/cheetor-3/intensity.webp",
+      "special": "sprites/cheetor/cheetor-3/intensity.webp",
+      "hurt": "sprites/cheetor/cheetor-3/desire.webp",
+      "lose": "sprites/cheetor/cheetor-3/desire.webp",
+      "win": "sprites/cheetor/cheetor-3/desire.webp",
+      "taunt": "sprites/cheetor/cheetor-3/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "cheetor-4",
+     "name": "Cheetor 4",
+     "sprites": {
+      "idle": "sprites/cheetor/cheetor-4/neutral.webp",
+      "play": "sprites/cheetor/cheetor-4/happy.webp",
+      "attack": "sprites/cheetor/cheetor-4/angry.webp",
+      "special": "sprites/cheetor/cheetor-4/angry.webp",
+      "hurt": "sprites/cheetor/cheetor-4/scared.webp",
+      "lose": "sprites/cheetor/cheetor-4/sad.webp",
+      "win": "sprites/cheetor/cheetor-4/happy.webp",
+      "taunt": "sprites/cheetor/cheetor-4/amused.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/cheetor.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "doe",
+   "name": "Doe",
+   "outfit": "Doe 1",
+   "short": "Doe is a 25 year old anthropomorphic Whitetail Deer from an alternate universe.",
+   "traits": [
+    "Mexican accent",
+    "teasing",
+    "flirty",
+    "caring",
+    "playful"
+   ],
+   "sprites": {
+    "idle": "sprites/doe/neutral.webp",
+    "play": "sprites/doe/happy.webp",
+    "attack": "sprites/doe/angry.webp",
+    "special": "sprites/doe/angry.webp",
+    "hurt": "sprites/doe/scared.webp",
+    "lose": "sprites/doe/sad.webp",
+    "win": "sprites/doe/happy.webp",
+    "taunt": "sprites/doe/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "doe-2",
+     "name": "Doe 2",
+     "sprites": {
+      "idle": "sprites/doe/doe-2/neutral.webp",
+      "play": "sprites/doe/doe-2/happy.webp",
+      "attack": "sprites/doe/doe-2/angry.webp",
+      "special": "sprites/doe/doe-2/angry.webp",
+      "hurt": "sprites/doe/doe-2/scared.webp",
+      "lose": "sprites/doe/doe-2/sad.webp",
+      "win": "sprites/doe/doe-2/happy.webp",
+      "taunt": "sprites/doe/doe-2/amused.webp"
+     }
+    },
+    {
+     "id": "doe-5",
+     "name": "Doe 5",
+     "sprites": {
+      "idle": "sprites/doe/doe-5/neutral.webp",
+      "play": "sprites/doe/doe-5/happy.webp",
+      "attack": "sprites/doe/doe-5/angry.webp",
+      "special": "sprites/doe/doe-5/angry.webp",
+      "hurt": "sprites/doe/doe-5/scared.webp",
+      "lose": "sprites/doe/doe-5/sad.webp",
+      "win": "sprites/doe/doe-5/happy.webp",
+      "taunt": "sprites/doe/doe-5/amused.webp"
+     }
+    },
+    {
+     "id": "doe-3",
+     "name": "Doe 3",
+     "sprites": {
+      "idle": "sprites/doe/doe-3/neutral.webp",
+      "play": "sprites/doe/doe-3/happy.webp",
+      "attack": "sprites/doe/doe-3/angry.webp",
+      "special": "sprites/doe/doe-3/angry.webp",
+      "hurt": "sprites/doe/doe-3/scared.webp",
+      "lose": "sprites/doe/doe-3/sad.webp",
+      "win": "sprites/doe/doe-3/happy.webp",
+      "taunt": "sprites/doe/doe-3/amused.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "doe-4",
+     "name": "Doe 4",
+     "sprites": {
+      "idle": "sprites/doe/doe-4/desire.webp",
+      "play": "sprites/doe/doe-4/desire.webp",
+      "attack": "sprites/doe/doe-4/intensity.webp",
+      "special": "sprites/doe/doe-4/intensity.webp",
+      "hurt": "sprites/doe/doe-4/desire.webp",
+      "lose": "sprites/doe/doe-4/desire.webp",
+      "win": "sprites/doe/doe-4/desire.webp",
+      "taunt": "sprites/doe/doe-4/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/doe.webp",
    "novel": "New Haven"
   },
   {
@@ -3267,9 +4108,93 @@
       "win": "sprites/aria/aria-5/happy.webp",
       "taunt": "sprites/aria/aria-5/happy.webp"
      }
+    },
+    {
+     "id": "aria-3",
+     "name": "Aria 3",
+     "sprites": {
+      "idle": "sprites/aria/aria-3/desire.webp",
+      "play": "sprites/aria/aria-3/desire.webp",
+      "attack": "sprites/aria/aria-3/intensity.webp",
+      "special": "sprites/aria/aria-3/intensity.webp",
+      "hurt": "sprites/aria/aria-3/desire.webp",
+      "lose": "sprites/aria/aria-3/desire.webp",
+      "win": "sprites/aria/aria-3/desire.webp",
+      "taunt": "sprites/aria/aria-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/aria.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "john",
+   "name": "John",
+   "outfit": "John 1",
+   "short": "The Senior Researcher of Lab B-2",
+   "traits": [
+    "Smug",
+    "cowardly",
+    "loves using technobabble",
+    "easily fooled"
+   ],
+   "sprites": {
+    "idle": "sprites/john/neutral.webp",
+    "play": "sprites/john/happy.webp",
+    "attack": "sprites/john/angry.webp",
+    "special": "sprites/john/angry.webp",
+    "hurt": "sprites/john/scared.webp",
+    "lose": "sprites/john/sad.webp",
+    "win": "sprites/john/happy.webp",
+    "taunt": "sprites/john/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "john-2",
+     "name": "John 2",
+     "sprites": {
+      "idle": "sprites/john/john-2/neutral.webp",
+      "play": "sprites/john/john-2/happy.webp",
+      "attack": "sprites/john/john-2/angry.webp",
+      "special": "sprites/john/john-2/angry.webp",
+      "hurt": "sprites/john/john-2/scared.webp",
+      "lose": "sprites/john/john-2/sad.webp",
+      "win": "sprites/john/john-2/happy.webp",
+      "taunt": "sprites/john/john-2/happy.webp"
+     }
+    },
+    {
+     "id": "john-4",
+     "name": "John 4",
+     "sprites": {
+      "idle": "sprites/john/john-4/neutral.webp",
+      "play": "sprites/john/john-4/happy.webp",
+      "attack": "sprites/john/john-4/angry.webp",
+      "special": "sprites/john/john-4/angry.webp",
+      "hurt": "sprites/john/john-4/scared.webp",
+      "lose": "sprites/john/john-4/sad.webp",
+      "win": "sprites/john/john-4/happy.webp",
+      "taunt": "sprites/john/john-4/happy.webp"
+     }
+    },
+    {
+     "id": "john-3",
+     "name": "John 3",
+     "sprites": {
+      "idle": "sprites/john/john-3/desire.webp",
+      "play": "sprites/john/john-3/desire.webp",
+      "attack": "sprites/john/john-3/intensity.webp",
+      "special": "sprites/john/john-3/intensity.webp",
+      "hurt": "sprites/john/john-3/desire.webp",
+      "lose": "sprites/john/john-3/desire.webp",
+      "win": "sprites/john/john-3/desire.webp",
+      "taunt": "sprites/john/john-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/john.webp",
    "novel": "New Haven"
   },
   {
@@ -3339,9 +4264,252 @@
       "win": "sprites/saria/saria-5/happy.webp",
       "taunt": "sprites/saria/saria-5/happy.webp"
      }
+    },
+    {
+     "id": "saria-3",
+     "name": "Saria 3",
+     "sprites": {
+      "idle": "sprites/saria/saria-3/desire.webp",
+      "play": "sprites/saria/saria-3/desire.webp",
+      "attack": "sprites/saria/saria-3/intensity.webp",
+      "special": "sprites/saria/saria-3/intensity.webp",
+      "hurt": "sprites/saria/saria-3/desire.webp",
+      "lose": "sprites/saria/saria-3/desire.webp",
+      "win": "sprites/saria/saria-3/desire.webp",
+      "taunt": "sprites/saria/saria-3/teasing.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/saria.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "juniper",
+   "name": "Juniper",
+   "outfit": "Juniper 1",
+   "short": "Diana's cousin who has recently moved to New Haven with her mother Susan",
+   "traits": [
+    "Mexican accent",
+    "rude",
+    "uncaring",
+    "charismatic",
+    "jealous",
+    "focused",
+    "flirty"
+   ],
+   "sprites": {
+    "idle": "sprites/juniper/neutral.webp",
+    "play": "sprites/juniper/happy.webp",
+    "attack": "sprites/juniper/angry.webp",
+    "special": "sprites/juniper/angry.webp",
+    "hurt": "sprites/juniper/scared.webp",
+    "lose": "sprites/juniper/sad.webp",
+    "win": "sprites/juniper/happy.webp",
+    "taunt": "sprites/juniper/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "juniper-2",
+     "name": "Juniper 2",
+     "sprites": {
+      "idle": "sprites/juniper/juniper-2/neutral.webp",
+      "play": "sprites/juniper/juniper-2/happy.webp",
+      "attack": "sprites/juniper/juniper-2/angry.webp",
+      "special": "sprites/juniper/juniper-2/angry.webp",
+      "hurt": "sprites/juniper/juniper-2/scared.webp",
+      "lose": "sprites/juniper/juniper-2/sad.webp",
+      "win": "sprites/juniper/juniper-2/happy.webp",
+      "taunt": "sprites/juniper/juniper-2/happy.webp"
+     }
+    },
+    {
+     "id": "juniper-4",
+     "name": "Juniper 4",
+     "sprites": {
+      "idle": "sprites/juniper/juniper-4/neutral.webp",
+      "play": "sprites/juniper/juniper-4/happy.webp",
+      "attack": "sprites/juniper/juniper-4/angry.webp",
+      "special": "sprites/juniper/juniper-4/angry.webp",
+      "hurt": "sprites/juniper/juniper-4/scared.webp",
+      "lose": "sprites/juniper/juniper-4/sad.webp",
+      "win": "sprites/juniper/juniper-4/happy.webp",
+      "taunt": "sprites/juniper/juniper-4/happy.webp"
+     }
+    },
+    {
+     "id": "juniper-3",
+     "name": "Juniper 3",
+     "sprites": {
+      "idle": "sprites/juniper/juniper-3/desire.webp",
+      "play": "sprites/juniper/juniper-3/desire.webp",
+      "attack": "sprites/juniper/juniper-3/intensity.webp",
+      "special": "sprites/juniper/juniper-3/intensity.webp",
+      "hurt": "sprites/juniper/juniper-3/desire.webp",
+      "lose": "sprites/juniper/juniper-3/desire.webp",
+      "win": "sprites/juniper/juniper-3/desire.webp",
+      "taunt": "sprites/juniper/juniper-3/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "juniper-5",
+     "name": "Juniper 5",
+     "sprites": {
+      "idle": "sprites/juniper/juniper-5/neutral.webp",
+      "play": "sprites/juniper/juniper-5/happy.webp",
+      "attack": "sprites/juniper/juniper-5/angry.webp",
+      "special": "sprites/juniper/juniper-5/angry.webp",
+      "hurt": "sprites/juniper/juniper-5/scared.webp",
+      "lose": "sprites/juniper/juniper-5/sad.webp",
+      "win": "sprites/juniper/juniper-5/happy.webp",
+      "taunt": "sprites/juniper/juniper-5/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/juniper.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "susan",
+   "name": "Susan",
+   "outfit": "Susan 1",
+   "short": "Diana's Aunt, Once a film star now a model.",
+   "traits": [
+    "Mexican accent",
+    "rude",
+    "snobbish",
+    "flirty",
+    "poser"
+   ],
+   "sprites": {
+    "idle": "sprites/susan/neutral.webp",
+    "play": "sprites/susan/happy.webp",
+    "attack": "sprites/susan/angry.webp",
+    "special": "sprites/susan/angry.webp",
+    "hurt": "sprites/susan/scared.webp",
+    "lose": "sprites/susan/sad.webp",
+    "win": "sprites/susan/happy.webp",
+    "taunt": "sprites/susan/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "susan-2",
+     "name": "Susan 2",
+     "sprites": {
+      "idle": "sprites/susan/susan-2/neutral.webp",
+      "play": "sprites/susan/susan-2/happy.webp",
+      "attack": "sprites/susan/susan-2/angry.webp",
+      "special": "sprites/susan/susan-2/angry.webp",
+      "hurt": "sprites/susan/susan-2/scared.webp",
+      "lose": "sprites/susan/susan-2/sad.webp",
+      "win": "sprites/susan/susan-2/happy.webp",
+      "taunt": "sprites/susan/susan-2/happy.webp"
+     }
+    },
+    {
+     "id": "susan-4",
+     "name": "Susan 4",
+     "sprites": {
+      "idle": "sprites/susan/susan-4/neutral.webp",
+      "play": "sprites/susan/susan-4/happy.webp",
+      "attack": "sprites/susan/susan-4/angry.webp",
+      "special": "sprites/susan/susan-4/angry.webp",
+      "hurt": "sprites/susan/susan-4/scared.webp",
+      "lose": "sprites/susan/susan-4/sad.webp",
+      "win": "sprites/susan/susan-4/happy.webp",
+      "taunt": "sprites/susan/susan-4/happy.webp"
+     }
+    },
+    {
+     "id": "susan-3",
+     "name": "Susan 3",
+     "sprites": {
+      "idle": "sprites/susan/susan-3/desire.webp",
+      "play": "sprites/susan/susan-3/desire.webp",
+      "attack": "sprites/susan/susan-3/intensity.webp",
+      "special": "sprites/susan/susan-3/intensity.webp",
+      "hurt": "sprites/susan/susan-3/desire.webp",
+      "lose": "sprites/susan/susan-3/desire.webp",
+      "win": "sprites/susan/susan-3/desire.webp",
+      "taunt": "sprites/susan/susan-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/susan.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "louis",
+   "name": "Louis",
+   "outfit": "Louis 1",
+   "short": "Louis is the barman of Blood Rush and Natalie's Dad.",
+   "traits": [
+    "French accent",
+    "joking",
+    "hard working",
+    "charming",
+    "understanding",
+    "friendly"
+   ],
+   "sprites": {
+    "idle": "sprites/louis/neutral.webp",
+    "play": "sprites/louis/happy.webp",
+    "attack": "sprites/louis/angry.webp",
+    "special": "sprites/louis/angry.webp",
+    "hurt": "sprites/louis/scared.webp",
+    "lose": "sprites/louis/sad.webp",
+    "win": "sprites/louis/happy.webp",
+    "taunt": "sprites/louis/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "louis-2",
+     "name": "Louis 2",
+     "sprites": {
+      "idle": "sprites/louis/louis-2/neutral.webp",
+      "play": "sprites/louis/louis-2/happy.webp",
+      "attack": "sprites/louis/louis-2/angry.webp",
+      "special": "sprites/louis/louis-2/angry.webp",
+      "hurt": "sprites/louis/louis-2/scared.webp",
+      "lose": "sprites/louis/louis-2/sad.webp",
+      "win": "sprites/louis/louis-2/happy.webp",
+      "taunt": "sprites/louis/louis-2/happy.webp"
+     }
+    },
+    {
+     "id": "louis-4",
+     "name": "Louis 4",
+     "sprites": {
+      "idle": "sprites/louis/louis-4/neutral.webp",
+      "play": "sprites/louis/louis-4/happy.webp",
+      "attack": "sprites/louis/louis-4/angry.webp",
+      "special": "sprites/louis/louis-4/angry.webp",
+      "hurt": "sprites/louis/louis-4/scared.webp",
+      "lose": "sprites/louis/louis-4/sad.webp",
+      "win": "sprites/louis/louis-4/happy.webp",
+      "taunt": "sprites/louis/louis-4/happy.webp"
+     }
+    },
+    {
+     "id": "louis-3",
+     "name": "Louis 3",
+     "sprites": {
+      "idle": "sprites/louis/louis-3/desire.webp",
+      "play": "sprites/louis/louis-3/desire.webp",
+      "attack": "sprites/louis/louis-3/intensity.webp",
+      "special": "sprites/louis/louis-3/intensity.webp",
+      "hurt": "sprites/louis/louis-3/desire.webp",
+      "lose": "sprites/louis/louis-3/desire.webp",
+      "win": "sprites/louis/louis-3/desire.webp",
+      "taunt": "sprites/louis/louis-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/louis.webp",
    "novel": "New Haven"
   },
   {
@@ -3361,20 +4529,6 @@
     "taunt": "sprites/rirarra-charca/proud.webp"
    },
    "costumes": [
-    {
-     "id": "the-equality-beach",
-     "name": "The equality beach",
-     "sprites": {
-      "idle": "sprites/rirarra-charca/the-equality-beach/neutral.webp",
-      "play": "sprites/rirarra-charca/the-equality-beach/happy.webp",
-      "attack": "sprites/rirarra-charca/the-equality-beach/angry.webp",
-      "special": "sprites/rirarra-charca/the-equality-beach/angry.webp",
-      "hurt": "sprites/rirarra-charca/the-equality-beach/scared.webp",
-      "lose": "sprites/rirarra-charca/the-equality-beach/sad.webp",
-      "win": "sprites/rirarra-charca/the-equality-beach/happy.webp",
-      "taunt": "sprites/rirarra-charca/the-equality-beach/happy.webp"
-     }
-    },
     {
      "id": "wategun-rirarra",
      "name": "Wategun Rirarra!",
@@ -3416,6 +4570,36 @@
       "win": "sprites/rirarra-charca/halloween-godzilla/happy.webp",
       "taunt": "sprites/rirarra-charca/halloween-godzilla/happy.webp"
      }
+    },
+    {
+     "id": "the-equality-beach",
+     "name": "The equality beach",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/the-equality-beach/neutral.webp",
+      "play": "sprites/rirarra-charca/the-equality-beach/happy.webp",
+      "attack": "sprites/rirarra-charca/the-equality-beach/angry.webp",
+      "special": "sprites/rirarra-charca/the-equality-beach/angry.webp",
+      "hurt": "sprites/rirarra-charca/the-equality-beach/scared.webp",
+      "lose": "sprites/rirarra-charca/the-equality-beach/sad.webp",
+      "win": "sprites/rirarra-charca/the-equality-beach/happy.webp",
+      "taunt": "sprites/rirarra-charca/the-equality-beach/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/rirarra-charca/nude/neutral.webp",
+      "play": "sprites/rirarra-charca/nude/happy.webp",
+      "attack": "sprites/rirarra-charca/nude/angry.webp",
+      "special": "sprites/rirarra-charca/nude/angry.webp",
+      "hurt": "sprites/rirarra-charca/nude/scared.webp",
+      "lose": "sprites/rirarra-charca/nude/sad.webp",
+      "win": "sprites/rirarra-charca/nude/happy.webp",
+      "taunt": "sprites/rirarra-charca/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/rirarra-charca.webp",
@@ -3479,6 +4663,36 @@
       "win": "sprites/rowdy-brachy/halloween-alien/happy.webp",
       "taunt": "sprites/rowdy-brachy/halloween-alien/happy.webp"
      }
+    },
+    {
+     "id": "topless",
+     "name": "Topless",
+     "sprites": {
+      "idle": "sprites/rowdy-brachy/topless/neutral.webp",
+      "play": "sprites/rowdy-brachy/topless/happy.webp",
+      "attack": "sprites/rowdy-brachy/topless/angry.webp",
+      "special": "sprites/rowdy-brachy/topless/angry.webp",
+      "hurt": "sprites/rowdy-brachy/topless/scared.webp",
+      "lose": "sprites/rowdy-brachy/topless/sad.webp",
+      "win": "sprites/rowdy-brachy/topless/happy.webp",
+      "taunt": "sprites/rowdy-brachy/topless/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/rowdy-brachy/nude/neutral.webp",
+      "play": "sprites/rowdy-brachy/nude/happy.webp",
+      "attack": "sprites/rowdy-brachy/nude/angry.webp",
+      "special": "sprites/rowdy-brachy/nude/angry.webp",
+      "hurt": "sprites/rowdy-brachy/nude/scared.webp",
+      "lose": "sprites/rowdy-brachy/nude/sad.webp",
+      "win": "sprites/rowdy-brachy/nude/happy.webp",
+      "taunt": "sprites/rowdy-brachy/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/rowdy-brachy.webp",
@@ -3556,6 +4770,21 @@
       "win": "sprites/melanika-carchara/halloween-slasher/happy.webp",
       "taunt": "sprites/melanika-carchara/halloween-slasher/happy.webp"
      }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/melanika-carchara/nude/neutral.webp",
+      "play": "sprites/melanika-carchara/nude/happy.webp",
+      "attack": "sprites/melanika-carchara/nude/angry.webp",
+      "special": "sprites/melanika-carchara/nude/angry.webp",
+      "hurt": "sprites/melanika-carchara/nude/scared.webp",
+      "lose": "sprites/melanika-carchara/nude/sad.webp",
+      "win": "sprites/melanika-carchara/nude/happy.webp",
+      "taunt": "sprites/melanika-carchara/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/melanika-carchara.webp",
@@ -3619,6 +4848,21 @@
       "win": "sprites/rinco-typus/halloween-devil/happy.webp",
       "taunt": "sprites/rinco-typus/halloween-devil/happy.webp"
      }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/rinco-typus/nude/neutral.webp",
+      "play": "sprites/rinco-typus/nude/happy.webp",
+      "attack": "sprites/rinco-typus/nude/angry.webp",
+      "special": "sprites/rinco-typus/nude/angry.webp",
+      "hurt": "sprites/rinco-typus/nude/scared.webp",
+      "lose": "sprites/rinco-typus/nude/sad.webp",
+      "win": "sprites/rinco-typus/nude/happy.webp",
+      "taunt": "sprites/rinco-typus/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/rinco-typus.webp",
@@ -3682,6 +4926,21 @@
       "win": "sprites/daphne-mokarran/halloween-vampire/happy.webp",
       "taunt": "sprites/daphne-mokarran/halloween-vampire/happy.webp"
      }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/daphne-mokarran/nude/neutral.webp",
+      "play": "sprites/daphne-mokarran/nude/happy.webp",
+      "attack": "sprites/daphne-mokarran/nude/angry.webp",
+      "special": "sprites/daphne-mokarran/nude/angry.webp",
+      "hurt": "sprites/daphne-mokarran/nude/scared.webp",
+      "lose": "sprites/daphne-mokarran/nude/sad.webp",
+      "win": "sprites/daphne-mokarran/nude/happy.webp",
+      "taunt": "sprites/daphne-mokarran/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/daphne-mokarran.webp",
@@ -3749,6 +5008,21 @@
       "win": "sprites/brizz-bigeyed/halloween-mad-scientist/happy.webp",
       "taunt": "sprites/brizz-bigeyed/halloween-mad-scientist/happy.webp"
      }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/brizz-bigeyed/nude/neutral.webp",
+      "play": "sprites/brizz-bigeyed/nude/happy.webp",
+      "attack": "sprites/brizz-bigeyed/nude/angry.webp",
+      "special": "sprites/brizz-bigeyed/nude/angry.webp",
+      "hurt": "sprites/brizz-bigeyed/nude/scared.webp",
+      "lose": "sprites/brizz-bigeyed/nude/sad.webp",
+      "win": "sprites/brizz-bigeyed/nude/happy.webp",
+      "taunt": "sprites/brizz-bigeyed/nude/happy.webp"
+     },
+     "nsfw": true
     }
    ],
    "portrait": "portraits/brizz-bigeyed.webp",
@@ -3864,6 +5138,563 @@
    "costumes": [],
    "portrait": "portraits/ashley-lennette.webp",
    "novel": "The yuri assist"
+  },
+  {
+   "id": "charlotte",
+   "name": "Charlotte",
+   "outfit": "Maid outfit",
+   "short": "Charlotte is a maid.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/charlotte/neutral.webp",
+    "play": "sprites/charlotte/happy.webp",
+    "attack": "sprites/charlotte/angry.webp",
+    "special": "sprites/charlotte/angry.webp",
+    "hurt": "sprites/charlotte/scared.webp",
+    "lose": "sprites/charlotte/sad.webp",
+    "win": "sprites/charlotte/happy.webp",
+    "taunt": "sprites/charlotte/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "purple-bikini",
+     "name": "Purple bikini",
+     "sprites": {
+      "idle": "sprites/charlotte/purple-bikini/neutral.webp",
+      "play": "sprites/charlotte/purple-bikini/happy.webp",
+      "attack": "sprites/charlotte/purple-bikini/angry.webp",
+      "special": "sprites/charlotte/purple-bikini/angry.webp",
+      "hurt": "sprites/charlotte/purple-bikini/scared.webp",
+      "lose": "sprites/charlotte/purple-bikini/sad.webp",
+      "win": "sprites/charlotte/purple-bikini/happy.webp",
+      "taunt": "sprites/charlotte/purple-bikini/happy.webp"
+     }
+    },
+    {
+     "id": "black-dress",
+     "name": "Black dress",
+     "sprites": {
+      "idle": "sprites/charlotte/black-dress/neutral.webp",
+      "play": "sprites/charlotte/black-dress/happy.webp",
+      "attack": "sprites/charlotte/black-dress/angry.webp",
+      "special": "sprites/charlotte/black-dress/angry.webp",
+      "hurt": "sprites/charlotte/black-dress/scared.webp",
+      "lose": "sprites/charlotte/black-dress/sad.webp",
+      "win": "sprites/charlotte/black-dress/happy.webp",
+      "taunt": "sprites/charlotte/black-dress/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/charlotte/nude/neutral.webp",
+      "play": "sprites/charlotte/nude/happy.webp",
+      "attack": "sprites/charlotte/nude/angry.webp",
+      "special": "sprites/charlotte/nude/angry.webp",
+      "hurt": "sprites/charlotte/nude/scared.webp",
+      "lose": "sprites/charlotte/nude/sad.webp",
+      "win": "sprites/charlotte/nude/happy.webp",
+      "taunt": "sprites/charlotte/nude/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "sex-emotions",
+     "name": "Sex emotions",
+     "sprites": {
+      "idle": "sprites/charlotte/sex-emotions/desire.webp",
+      "play": "sprites/charlotte/sex-emotions/desire.webp",
+      "attack": "sprites/charlotte/sex-emotions/intensity.webp",
+      "special": "sprites/charlotte/sex-emotions/intensity.webp",
+      "hurt": "sprites/charlotte/sex-emotions/desire.webp",
+      "lose": "sprites/charlotte/sex-emotions/desire.webp",
+      "win": "sprites/charlotte/sex-emotions/desire.webp",
+      "taunt": "sprites/charlotte/sex-emotions/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "cat-outfit",
+     "name": "Cat outfit",
+     "sprites": {
+      "idle": "sprites/charlotte/cat-outfit/neutral.webp",
+      "play": "sprites/charlotte/cat-outfit/happy.webp",
+      "attack": "sprites/charlotte/cat-outfit/angry.webp",
+      "special": "sprites/charlotte/cat-outfit/angry.webp",
+      "hurt": "sprites/charlotte/cat-outfit/scared.webp",
+      "lose": "sprites/charlotte/cat-outfit/sad.webp",
+      "win": "sprites/charlotte/cat-outfit/happy.webp",
+      "taunt": "sprites/charlotte/cat-outfit/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "cat-outfit-lewd",
+     "name": "Cat outfit lewd",
+     "sprites": {
+      "idle": "sprites/charlotte/cat-outfit-lewd/desire.webp",
+      "play": "sprites/charlotte/cat-outfit-lewd/desire.webp",
+      "attack": "sprites/charlotte/cat-outfit-lewd/intensity.webp",
+      "special": "sprites/charlotte/cat-outfit-lewd/intensity.webp",
+      "hurt": "sprites/charlotte/cat-outfit-lewd/desire.webp",
+      "lose": "sprites/charlotte/cat-outfit-lewd/desire.webp",
+      "win": "sprites/charlotte/cat-outfit-lewd/desire.webp",
+      "taunt": "sprites/charlotte/cat-outfit-lewd/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "black-dress-x",
+     "name": "Black dress X",
+     "sprites": {
+      "idle": "sprites/charlotte/black-dress-x/desire.webp",
+      "play": "sprites/charlotte/black-dress-x/desire.webp",
+      "attack": "sprites/charlotte/black-dress-x/intensity.webp",
+      "special": "sprites/charlotte/black-dress-x/intensity.webp",
+      "hurt": "sprites/charlotte/black-dress-x/desire.webp",
+      "lose": "sprites/charlotte/black-dress-x/desire.webp",
+      "win": "sprites/charlotte/black-dress-x/desire.webp",
+      "taunt": "sprites/charlotte/black-dress-x/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/charlotte.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "sophia-vinelace",
+   "name": "Sophia Vinelace",
+   "outfit": "default",
+   "short": "you's sister",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/sophia-vinelace/neutral.webp",
+    "play": "sprites/sophia-vinelace/happy.webp",
+    "attack": "sprites/sophia-vinelace/angry.webp",
+    "special": "sprites/sophia-vinelace/angry.webp",
+    "hurt": "sprites/sophia-vinelace/scared.webp",
+    "lose": "sprites/sophia-vinelace/sad.webp",
+    "win": "sprites/sophia-vinelace/happy.webp",
+    "taunt": "sprites/sophia-vinelace/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "blue-bikini",
+     "name": "Blue bikini",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/blue-bikini/neutral.webp",
+      "play": "sprites/sophia-vinelace/blue-bikini/happy.webp",
+      "attack": "sprites/sophia-vinelace/blue-bikini/angry.webp",
+      "special": "sprites/sophia-vinelace/blue-bikini/angry.webp",
+      "hurt": "sprites/sophia-vinelace/blue-bikini/scared.webp",
+      "lose": "sprites/sophia-vinelace/blue-bikini/sad.webp",
+      "win": "sprites/sophia-vinelace/blue-bikini/happy.webp",
+      "taunt": "sprites/sophia-vinelace/blue-bikini/happy.webp"
+     }
+    },
+    {
+     "id": "maid-outfit",
+     "name": "Maid Outfit",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/maid-outfit/neutral.webp",
+      "play": "sprites/sophia-vinelace/maid-outfit/happy.webp",
+      "attack": "sprites/sophia-vinelace/maid-outfit/angry.webp",
+      "special": "sprites/sophia-vinelace/maid-outfit/angry.webp",
+      "hurt": "sprites/sophia-vinelace/maid-outfit/scared.webp",
+      "lose": "sprites/sophia-vinelace/maid-outfit/sad.webp",
+      "win": "sprites/sophia-vinelace/maid-outfit/happy.webp",
+      "taunt": "sprites/sophia-vinelace/maid-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/new-outfit/neutral.webp",
+      "play": "sprites/sophia-vinelace/new-outfit/happy.webp",
+      "attack": "sprites/sophia-vinelace/new-outfit/angry.webp",
+      "special": "sprites/sophia-vinelace/new-outfit/angry.webp",
+      "hurt": "sprites/sophia-vinelace/new-outfit/scared.webp",
+      "lose": "sprites/sophia-vinelace/new-outfit/sad.webp",
+      "win": "sprites/sophia-vinelace/new-outfit/happy.webp",
+      "taunt": "sprites/sophia-vinelace/new-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/nude/neutral.webp",
+      "play": "sprites/sophia-vinelace/nude/happy.webp",
+      "attack": "sprites/sophia-vinelace/nude/angry.webp",
+      "special": "sprites/sophia-vinelace/nude/angry.webp",
+      "hurt": "sprites/sophia-vinelace/nude/scared.webp",
+      "lose": "sprites/sophia-vinelace/nude/sad.webp",
+      "win": "sprites/sophia-vinelace/nude/happy.webp",
+      "taunt": "sprites/sophia-vinelace/nude/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "sex-emotions",
+     "name": "Sex emotions",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/sex-emotions/ecstasy.webp",
+      "play": "sprites/sophia-vinelace/sex-emotions/ecstasy.webp",
+      "attack": "sprites/sophia-vinelace/sex-emotions/intensity.webp",
+      "special": "sprites/sophia-vinelace/sex-emotions/intensity.webp",
+      "hurt": "sprites/sophia-vinelace/sex-emotions/ecstasy.webp",
+      "lose": "sprites/sophia-vinelace/sex-emotions/ecstasy.webp",
+      "win": "sprites/sophia-vinelace/sex-emotions/ecstasy.webp",
+      "taunt": "sprites/sophia-vinelace/sex-emotions/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "maid-outfit-lewd",
+     "name": "Maid Outfit Lewd",
+     "sprites": {
+      "idle": "sprites/sophia-vinelace/maid-outfit-lewd/desire.webp",
+      "play": "sprites/sophia-vinelace/maid-outfit-lewd/desire.webp",
+      "attack": "sprites/sophia-vinelace/maid-outfit-lewd/intensity.webp",
+      "special": "sprites/sophia-vinelace/maid-outfit-lewd/intensity.webp",
+      "hurt": "sprites/sophia-vinelace/maid-outfit-lewd/desire.webp",
+      "lose": "sprites/sophia-vinelace/maid-outfit-lewd/desire.webp",
+      "win": "sprites/sophia-vinelace/maid-outfit-lewd/desire.webp",
+      "taunt": "sprites/sophia-vinelace/maid-outfit-lewd/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/sophia-vinelace.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "anna-vinelace",
+   "name": "Anna Vinelace",
+   "outfit": "Dress",
+   "short": "you's mother",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/anna-vinelace/neutral.webp",
+    "play": "sprites/anna-vinelace/happy.webp",
+    "attack": "sprites/anna-vinelace/angry.webp",
+    "special": "sprites/anna-vinelace/angry.webp",
+    "hurt": "sprites/anna-vinelace/scared.webp",
+    "lose": "sprites/anna-vinelace/sad.webp",
+    "win": "sprites/anna-vinelace/happy.webp",
+    "taunt": "sprites/anna-vinelace/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "black-bikini",
+     "name": "Black bikini",
+     "sprites": {
+      "idle": "sprites/anna-vinelace/black-bikini/neutral.webp",
+      "play": "sprites/anna-vinelace/black-bikini/happy.webp",
+      "attack": "sprites/anna-vinelace/black-bikini/angry.webp",
+      "special": "sprites/anna-vinelace/black-bikini/angry.webp",
+      "hurt": "sprites/anna-vinelace/black-bikini/scared.webp",
+      "lose": "sprites/anna-vinelace/black-bikini/sad.webp",
+      "win": "sprites/anna-vinelace/black-bikini/happy.webp",
+      "taunt": "sprites/anna-vinelace/black-bikini/happy.webp"
+     }
+    },
+    {
+     "id": "aristocratic-jacket",
+     "name": "Aristocratic jacket",
+     "sprites": {
+      "idle": "sprites/anna-vinelace/aristocratic-jacket/neutral.webp",
+      "play": "sprites/anna-vinelace/aristocratic-jacket/happy.webp",
+      "attack": "sprites/anna-vinelace/aristocratic-jacket/angry.webp",
+      "special": "sprites/anna-vinelace/aristocratic-jacket/angry.webp",
+      "hurt": "sprites/anna-vinelace/aristocratic-jacket/scared.webp",
+      "lose": "sprites/anna-vinelace/aristocratic-jacket/sad.webp",
+      "win": "sprites/anna-vinelace/aristocratic-jacket/happy.webp",
+      "taunt": "sprites/anna-vinelace/aristocratic-jacket/happy.webp"
+     }
+    },
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/anna-vinelace/new-outfit/neutral.webp",
+      "play": "sprites/anna-vinelace/new-outfit/happy.webp",
+      "attack": "sprites/anna-vinelace/new-outfit/angry.webp",
+      "special": "sprites/anna-vinelace/new-outfit/angry.webp",
+      "hurt": "sprites/anna-vinelace/new-outfit/scared.webp",
+      "lose": "sprites/anna-vinelace/new-outfit/sad.webp",
+      "win": "sprites/anna-vinelace/new-outfit/happy.webp",
+      "taunt": "sprites/anna-vinelace/new-outfit/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "sex-emotions",
+     "name": "Sex emotions",
+     "sprites": {
+      "idle": "sprites/anna-vinelace/sex-emotions/comfort.webp",
+      "play": "sprites/anna-vinelace/sex-emotions/comfort.webp",
+      "attack": "sprites/anna-vinelace/sex-emotions/intensity.webp",
+      "special": "sprites/anna-vinelace/sex-emotions/intensity.webp",
+      "hurt": "sprites/anna-vinelace/sex-emotions/comfort.webp",
+      "lose": "sprites/anna-vinelace/sex-emotions/comfort.webp",
+      "win": "sprites/anna-vinelace/sex-emotions/comfort.webp",
+      "taunt": "sprites/anna-vinelace/sex-emotions/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/anna-vinelace.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "emily",
+   "name": "Emily",
+   "outfit": "default",
+   "short": "Emily is a worker of the Vinelace family",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/emily/neutral.webp",
+    "play": "sprites/emily/happy.webp",
+    "attack": "sprites/emily/angry.webp",
+    "special": "sprites/emily/angry.webp",
+    "hurt": "sprites/emily/scared.webp",
+    "lose": "sprites/emily/sad.webp",
+    "win": "sprites/emily/happy.webp",
+    "taunt": "sprites/emily/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/emily/new-outfit/neutral.webp",
+      "play": "sprites/emily/new-outfit/happy.webp",
+      "attack": "sprites/emily/new-outfit/angry.webp",
+      "special": "sprites/emily/new-outfit/angry.webp",
+      "hurt": "sprites/emily/new-outfit/scared.webp",
+      "lose": "sprites/emily/new-outfit/sad.webp",
+      "win": "sprites/emily/new-outfit/happy.webp",
+      "taunt": "sprites/emily/new-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/emily/nude/neutral.webp",
+      "play": "sprites/emily/nude/happy.webp",
+      "attack": "sprites/emily/nude/angry.webp",
+      "special": "sprites/emily/nude/angry.webp",
+      "hurt": "sprites/emily/nude/scared.webp",
+      "lose": "sprites/emily/nude/sad.webp",
+      "win": "sprites/emily/nude/happy.webp",
+      "taunt": "sprites/emily/nude/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "sex-emotions",
+     "name": "Sex emotions",
+     "sprites": {
+      "idle": "sprites/emily/sex-emotions/discomfort.webp",
+      "play": "sprites/emily/sex-emotions/discomfort.webp",
+      "attack": "sprites/emily/sex-emotions/intensity.webp",
+      "special": "sprites/emily/sex-emotions/intensity.webp",
+      "hurt": "sprites/emily/sex-emotions/discomfort.webp",
+      "lose": "sprites/emily/sex-emotions/discomfort.webp",
+      "win": "sprites/emily/sex-emotions/discomfort.webp",
+      "taunt": "sprites/emily/sex-emotions/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/emily.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "nina",
+   "name": "Nina",
+   "outfit": "default",
+   "short": "Nina is a worker of the Vinelace family",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/nina/neutral.webp",
+    "play": "sprites/nina/happy.webp",
+    "attack": "sprites/nina/angry.webp",
+    "special": "sprites/nina/angry.webp",
+    "hurt": "sprites/nina/scared.webp",
+    "lose": "sprites/nina/sad.webp",
+    "win": "sprites/nina/happy.webp",
+    "taunt": "sprites/nina/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/nina/new-outfit/neutral.webp",
+      "play": "sprites/nina/new-outfit/happy.webp",
+      "attack": "sprites/nina/new-outfit/angry.webp",
+      "special": "sprites/nina/new-outfit/angry.webp",
+      "hurt": "sprites/nina/new-outfit/scared.webp",
+      "lose": "sprites/nina/new-outfit/sad.webp",
+      "win": "sprites/nina/new-outfit/happy.webp",
+      "taunt": "sprites/nina/new-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/nina/nude/neutral.webp",
+      "play": "sprites/nina/nude/happy.webp",
+      "attack": "sprites/nina/nude/angry.webp",
+      "special": "sprites/nina/nude/angry.webp",
+      "hurt": "sprites/nina/nude/scared.webp",
+      "lose": "sprites/nina/nude/sad.webp",
+      "win": "sprites/nina/nude/happy.webp",
+      "taunt": "sprites/nina/nude/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "sex-emotions",
+     "name": "Sex emotions",
+     "sprites": {
+      "idle": "sprites/nina/sex-emotions/desire.webp",
+      "play": "sprites/nina/sex-emotions/desire.webp",
+      "attack": "sprites/nina/sex-emotions/intensity.webp",
+      "special": "sprites/nina/sex-emotions/intensity.webp",
+      "hurt": "sprites/nina/sex-emotions/desire.webp",
+      "lose": "sprites/nina/sex-emotions/desire.webp",
+      "win": "sprites/nina/sex-emotions/desire.webp",
+      "taunt": "sprites/nina/sex-emotions/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/nina.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "lily",
+   "name": "Lily",
+   "outfit": "default",
+   "short": "Lily is a forest fairy",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lily/neutral.webp",
+    "play": "sprites/lily/happy.webp",
+    "attack": "sprites/lily/angry.webp",
+    "special": "sprites/lily/angry.webp",
+    "hurt": "sprites/lily/scared.webp",
+    "lose": "sprites/lily/sad.webp",
+    "win": "sprites/lily/happy.webp",
+    "taunt": "sprites/lily/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/lily/nude/desire.webp",
+      "play": "sprites/lily/nude/desire.webp",
+      "attack": "sprites/lily/nude/intensity.webp",
+      "special": "sprites/lily/nude/intensity.webp",
+      "hurt": "sprites/lily/nude/desire.webp",
+      "lose": "sprites/lily/nude/desire.webp",
+      "win": "sprites/lily/nude/desire.webp",
+      "taunt": "sprites/lily/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/lily.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "nerida",
+   "name": "Nerida",
+   "outfit": "default",
+   "short": "{{char}} is a mermaid",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/nerida/neutral.webp",
+    "play": "sprites/nerida/happy.webp",
+    "attack": "sprites/nerida/angry.webp",
+    "special": "sprites/nerida/angry.webp",
+    "hurt": "sprites/nerida/scared.webp",
+    "lose": "sprites/nerida/sad.webp",
+    "win": "sprites/nerida/happy.webp",
+    "taunt": "sprites/nerida/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/nerida/new-outfit/desire.webp",
+      "play": "sprites/nerida/new-outfit/desire.webp",
+      "attack": "sprites/nerida/new-outfit/intensity.webp",
+      "special": "sprites/nerida/new-outfit/intensity.webp",
+      "hurt": "sprites/nerida/new-outfit/desire.webp",
+      "lose": "sprites/nerida/new-outfit/desire.webp",
+      "win": "sprites/nerida/new-outfit/desire.webp",
+      "taunt": "sprites/nerida/new-outfit/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/nerida.webp",
+   "novel": "Noble One",
+   "nsfw": true
+  },
+  {
+   "id": "kira",
+   "name": "Kira",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/kira/neutral.webp",
+    "play": "sprites/kira/happy.webp",
+    "attack": "sprites/kira/angry.webp",
+    "special": "sprites/kira/angry.webp",
+    "hurt": "sprites/kira/scared.webp",
+    "lose": "sprites/kira/sad.webp",
+    "win": "sprites/kira/happy.webp",
+    "taunt": "sprites/kira/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "naked",
+     "name": "Naked",
+     "sprites": {
+      "idle": "sprites/kira/naked/desire.webp",
+      "play": "sprites/kira/naked/desire.webp",
+      "attack": "sprites/kira/naked/intensity.webp",
+      "special": "sprites/kira/naked/intensity.webp",
+      "hurt": "sprites/kira/naked/desire.webp",
+      "lose": "sprites/kira/naked/desire.webp",
+      "win": "sprites/kira/naked/desire.webp",
+      "taunt": "sprites/kira/naked/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/kira.webp",
+   "novel": "Noble One",
+   "nsfw": true
   }
  ],
  "backgrounds": [
@@ -4525,7 +6356,8 @@
    "id": "33d4fb2e-7539-4cf3-951f-ba3d11f15afe",
    "name": "NSFW End of Day CG",
    "desc": "",
-   "src": "backgrounds/nsfw-end-of-day-cg-33d4fb.webp"
+   "src": "backgrounds/nsfw-end-of-day-cg-33d4fb.webp",
+   "nsfw": true
   },
   {
    "id": "8f203105-8e1c-4cab-9524-e44ace4d3b76",
@@ -5122,6 +6954,240 @@
    "src": "backgrounds/ayaka-room-night-c4d23b.webp"
   },
   {
+   "id": "cfeb8c4c-0814-4516-a16d-eb6cee41ef13",
+   "name": "Dalmavilla's Alleyway",
+   "desc": "Dalmavilla's Alleyway",
+   "src": "backgrounds/dalmavilla-s-alleyway-cfeb8c.webp"
+  },
+  {
+   "id": "935b2d2e-f128-4afd-bc99-b1798a21a445",
+   "name": "Dalmavilla Plaza",
+   "desc": "Dalmavilla Plaza",
+   "src": "backgrounds/dalmavilla-plaza-935b2d.webp"
+  },
+  {
+   "id": "ba58a191-40c5-4826-bf0d-07d86be5ef07",
+   "name": "Dalmavilla's Church",
+   "desc": "Dalmavilla's Church",
+   "src": "backgrounds/dalmavilla-s-church-ba58a1.webp"
+  },
+  {
+   "id": "69aa3ed7-d217-4744-b6a6-818a22634763",
+   "name": "Dalmavilla's Church Night",
+   "desc": "Dalmavilla's Church Night",
+   "src": "backgrounds/dalmavilla-s-church-night-69aa3e.webp"
+  },
+  {
+   "id": "a8950766-0f73-46e7-91a0-926502bc419b",
+   "name": "Dalmavilla Plaza Night",
+   "desc": "Dalmavilla Plaza Night",
+   "src": "backgrounds/dalmavilla-plaza-night-a89507.webp"
+  },
+  {
+   "id": "1f461453-cd30-42ff-acf7-0c82cc24412b",
+   "name": "Shitty Shack",
+   "desc": "",
+   "src": "backgrounds/shitty-shack-1f4614.webp"
+  },
+  {
+   "id": "fc3181cc-0870-426f-b84d-909fc6247787",
+   "name": "\"The most organized room in the Core\"",
+   "desc": "",
+   "src": "backgrounds/the-most-organized-room-in-the-core-fc3181.webp"
+  },
+  {
+   "id": "fe0f900b-2d14-4a30-9fbe-22ef2c8d4912",
+   "name": "Dalmavilla's Castle",
+   "desc": "",
+   "src": "backgrounds/dalmavilla-s-castle-fe0f90.webp"
+  },
+  {
+   "id": "31f46c7e-b78c-4fce-926b-9ce0eea6b302",
+   "name": "Dalmavilla's Castle (Fight)",
+   "desc": "",
+   "src": "backgrounds/dalmavilla-s-castle-fight-31f46c.webp"
+  },
+  {
+   "id": "4a50d05b-ffbc-4739-93dc-11915f2c8612",
+   "name": "Castle Corridor",
+   "desc": "",
+   "src": "backgrounds/castle-corridor-4a50d0.webp"
+  },
+  {
+   "id": "16f5a0fe-e64c-4888-85b8-8f46065072c5",
+   "name": "Bar corner",
+   "desc": "",
+   "src": "backgrounds/bar-corner-16f5a0.webp"
+  },
+  {
+   "id": "a195e73e-44c2-40ae-9970-0801821c9c4f",
+   "name": "Dalmavilla's Bar",
+   "desc": "",
+   "src": "backgrounds/dalmavilla-s-bar-a195e7.webp"
+  },
+  {
+   "id": "c45fcd51-f84b-4aba-a939-d6f991b1e7a8",
+   "name": "Castle's Kitchen",
+   "desc": "",
+   "src": "backgrounds/castle-s-kitchen-c45fcd.webp"
+  },
+  {
+   "id": "331da678-4734-4870-8890-7dda28407739",
+   "name": "Alleyway 2",
+   "desc": "",
+   "src": "backgrounds/alleyway-2-331da6.webp"
+  },
+  {
+   "id": "b104f5e3-32f8-465b-bb29-f4bb8317d1e2",
+   "name": "alleyway 3",
+   "desc": "",
+   "src": "backgrounds/alleyway-3-b104f5.webp"
+  },
+  {
+   "id": "69fc4e2f-535c-4005-8d03-15c720078663",
+   "name": "The Castles's Throne",
+   "desc": "",
+   "src": "backgrounds/the-castles-s-throne-69fc4e.webp"
+  },
+  {
+   "id": "9cc46bfa-5d87-420f-8999-eaec2c018152",
+   "name": "Corridor...",
+   "desc": "",
+   "src": "backgrounds/corridor-9cc46b.webp"
+  },
+  {
+   "id": "f74b8781-6db2-4dc6-9eff-c553840b68bd",
+   "name": "White screen",
+   "desc": "",
+   "src": "backgrounds/white-screen-f74b87.webp"
+  },
+  {
+   "id": "98207904-88c5-4d3a-8efd-b35c2ab18792",
+   "name": "Jumping Out Of The Window",
+   "desc": "",
+   "src": "backgrounds/jumping-out-of-the-window-982079.webp"
+  },
+  {
+   "id": "f6a12cf5-2194-44e3-a751-37fc86604ee1",
+   "name": "He caught you...",
+   "desc": "",
+   "src": "backgrounds/he-caught-you-f6a12c.webp"
+  },
+  {
+   "id": "aca6916a-0822-4ccd-8c9d-d685f37768a2",
+   "name": "He caught you....",
+   "desc": "",
+   "src": "backgrounds/he-caught-you-aca691.webp"
+  },
+  {
+   "id": "eff908c6-8d6d-4e10-b2a3-2e6f19380ca6",
+   "name": "Dalmavilla's Fruit Shop",
+   "desc": "",
+   "src": "backgrounds/dalmavilla-s-fruit-shop-eff908.webp"
+  },
+  {
+   "id": "1b5d63ac-6175-4297-b2f4-af002c1cc6f2",
+   "name": "Sunny woods",
+   "desc": "",
+   "src": "backgrounds/sunny-woods-1b5d63.webp"
+  },
+  {
+   "id": "9b3697fd-3118-4dba-8e09-62bf5b0d49c4",
+   "name": "WOODS V2",
+   "desc": "",
+   "src": "backgrounds/woods-v2-9b3697.webp"
+  },
+  {
+   "id": "9bc5479a-1451-42fc-96d4-717696017119",
+   "name": "wrapped in vines",
+   "desc": "",
+   "src": "backgrounds/wrapped-in-vines-9bc547.webp"
+  },
+  {
+   "id": "f1fbffd9-6a1c-49bd-86cd-27a44a5524da",
+   "name": "WRAPPED IN VINES",
+   "desc": "",
+   "src": "backgrounds/wrapped-in-vines-f1fbff.webp"
+  },
+  {
+   "id": "77b075b8-1d77-44a4-9f82-4c3104710df9",
+   "name": "Dalmavilla's Bar at night",
+   "desc": "",
+   "src": "backgrounds/dalmavilla-s-bar-at-night-77b075.webp"
+  },
+  {
+   "id": "3711ecc8-9061-402a-8786-240716efb71a",
+   "name": "LOOKING UP CASTLE BG",
+   "desc": "",
+   "src": "backgrounds/looking-up-castle-bg-3711ec.webp"
+  },
+  {
+   "id": "0352971d-c525-4759-b314-2f036cff41a6",
+   "name": "castle prototype bg",
+   "desc": "",
+   "src": "backgrounds/castle-prototype-bg-035297.webp"
+  },
+  {
+   "id": "e19a2cf9-1535-40ee-8558-4984ef1b8c0b",
+   "name": "INSIDE IMPORTANT BUILDING BG",
+   "desc": "",
+   "src": "backgrounds/inside-important-building-bg-e19a2c.webp"
+  },
+  {
+   "id": "7acffd8e-6815-46a0-b7b3-ecd05c6a048c",
+   "name": "garden of castle",
+   "desc": "",
+   "src": "backgrounds/garden-of-castle-7acffd.webp"
+  },
+  {
+   "id": "b2bf96a2-5c9d-427a-828e-a2347d5c850e",
+   "name": "INTERIOR STAIRS CASTLE BG",
+   "desc": "",
+   "src": "backgrounds/interior-stairs-castle-bg-b2bf96.webp"
+  },
+  {
+   "id": "75922472-4d83-43d4-b16e-576546651dbc",
+   "name": "interior castle 2",
+   "desc": "",
+   "src": "backgrounds/interior-castle-2-759224.webp"
+  },
+  {
+   "id": "c479d0e4-6ea1-41f0-9784-f5b7b97291c6",
+   "name": "unamed town",
+   "desc": "",
+   "src": "backgrounds/unamed-town-c479d0.webp"
+  },
+  {
+   "id": "94c6c453-21a0-4370-a9d9-bc50309ebef0",
+   "name": "Unamed interior",
+   "desc": "",
+   "src": "backgrounds/unamed-interior-94c6c4.webp"
+  },
+  {
+   "id": "94c4532e-0c81-4028-a659-98da33b3cbec",
+   "name": "BADASS DARK CASTLE",
+   "desc": "",
+   "src": "backgrounds/badass-dark-castle-94c453.webp"
+  },
+  {
+   "id": "d0397736-bf2c-4bb3-b9dc-6ba3550a0288",
+   "name": "dark castle entrance",
+   "desc": "",
+   "src": "backgrounds/dark-castle-entrance-d03977.webp"
+  },
+  {
+   "id": "19edc0f4-acf0-44c2-9636-ee2a271f383f",
+   "name": "DARK CASTLE V2",
+   "desc": "",
+   "src": "backgrounds/dark-castle-v2-19edc0.webp"
+  },
+  {
+   "id": "d881a0de-7ffb-42c4-b52e-4cf78be72c58",
+   "name": "Castle after falling from window",
+   "desc": "",
+   "src": "backgrounds/castle-after-falling-from-window-d881a0.webp"
+  },
+  {
    "id": "ef21b954-9d67-44ce-bdfb-2be04e257ce1",
    "name": "Ellis' Bedroom",
    "desc": "",
@@ -5528,6 +7594,168 @@
    "name": "Final Stretch",
    "desc": "",
    "src": "backgrounds/final-stretch-ffe365.webp"
+  },
+  {
+   "id": "bf84ec24-a550-4bc3-a58d-a245b94b292a",
+   "name": "Guild hall",
+   "desc": "The busy adventures guild.  A wide wooden desk is in the center of the room. A large board full of requests is on the eastern wall. the western side of the building is the cafeteria and bar.",
+   "src": "backgrounds/guild-hall-bf84ec.webp"
+  },
+  {
+   "id": "6befa79d-8468-433b-9645-fee4a0145a19",
+   "name": "Fantastic Landscape [Plains]",
+   "desc": "Vast plains directly outside of the city.  beautiful  and wide. tree's dot the land.",
+   "src": "backgrounds/fantastic-landscape-plains-6befa7.webp"
+  },
+  {
+   "id": "6b064239-433a-4d77-8090-1629d0f2ef9c",
+   "name": "Large Town [Tavern]",
+   "desc": "Seedy lowbrow Tavern. Somehow it's the busiest and safest Tavern in town.",
+   "src": "backgrounds/large-town-tavern-6b0642.webp"
+  },
+  {
+   "id": "19b1d303-c95a-4c66-b39e-c1479eef85af",
+   "name": "Large Town [Divine Church]",
+   "desc": "A massive church dedicated to the one true god, according to the nuns.",
+   "src": "backgrounds/large-town-divine-church-19b1d3.webp"
+  },
+  {
+   "id": "28710b27-ab5c-4eb0-bee6-3c2f3ea7fa10",
+   "name": "small Village",
+   "desc": "A relatively large yet quiet Village. Houses are spread apart, and the folliage is unkept",
+   "src": "backgrounds/small-village-28710b.webp"
+  },
+  {
+   "id": "9d79a43a-05d9-40e3-932a-53c009c0f4b8",
+   "name": "Quiet Forest",
+   "desc": "a forest full of tall trees and ancient folliage.",
+   "src": "backgrounds/quiet-forest-9d79a4.webp"
+  },
+  {
+   "id": "9019e9eb-de30-4021-99d4-debe3aaa50f7",
+   "name": "Lake",
+   "desc": "A lake in the wilderness,  surrounded by Forest and rocky shores. Monsters lurk under the  waters surface.",
+   "src": "backgrounds/lake-9019e9.webp"
+  },
+  {
+   "id": "b6ab2001-8e18-4dba-887f-bb78d2d2f1a3",
+   "name": "Super Ancient Ruins",
+   "desc": "Ruins of an Ancient Civilization in the middle of nowhere. only concrete frames of destroyed towers remain.",
+   "src": "backgrounds/super-ancient-ruins-b6ab20.webp"
+  },
+  {
+   "id": "6c836fe2-0b99-46d7-8b79-0fd17f87fa3b",
+   "name": "Forest Village",
+   "desc": "A village in the middle of a forest.  wooden cabins are sporatically placed at a distance from one another.",
+   "src": "backgrounds/forest-village-6c836f.webp"
+  },
+  {
+   "id": "7eb55680-e3fe-4c70-adea-e8309e0a3622",
+   "name": "Dungeon",
+   "desc": "An underground structure, full of winding paths and doors. Treasure and monsters could be anywhere.",
+   "src": "backgrounds/dungeon-7eb556.webp"
+  },
+  {
+   "id": "83f67b55-207f-4e6e-8f54-07cd0cad76db",
+   "name": "Fantastic Landscape [Mountains]",
+   "desc": "A rocky mountain path,  Majestic mountains line the horizon.",
+   "src": "backgrounds/fantastic-landscape-mountains-83f67b.webp"
+  },
+  {
+   "id": "0cb7c388-c15a-4bdc-b81d-2f511357c093",
+   "name": "[Fantastic Landscape] Source",
+   "desc": "Endless ocean, single small island, large tree,",
+   "src": "backgrounds/fantastic-landscape-source-0cb7c3.webp"
+  },
+  {
+   "id": "1fe45bb4-10de-479a-ae82-538c0146f636",
+   "name": "Large Town [Street]",
+   "desc": "",
+   "src": "backgrounds/large-town-street-1fe45b.webp"
+  },
+  {
+   "id": "080a14da-9567-43f6-a25e-5296bd81e459",
+   "name": "Dungeon.",
+   "desc": "",
+   "src": "backgrounds/dungeon-080a14.webp"
+  },
+  {
+   "id": "2aa140c2-0335-4c52-beb4-0388b40bd1a4",
+   "name": "Fantastic Landscape [Plains]",
+   "desc": "",
+   "src": "backgrounds/fantastic-landscape-plains-2aa140.webp"
+  },
+  {
+   "id": "ba32d3d9-a6fd-47f8-b4b0-a97997cdbf5e",
+   "name": "Tavern ",
+   "desc": "",
+   "src": "backgrounds/tavern-ba32d3.webp"
+  },
+  {
+   "id": "a1f8029f-3133-4adb-82ad-bbe8313b93da",
+   "name": "Guild hall",
+   "desc": "",
+   "src": "backgrounds/guild-hall-a1f802.webp"
+  },
+  {
+   "id": "cb3fc7f4-9994-4200-a80b-d43923a5033d",
+   "name": "small Village",
+   "desc": "",
+   "src": "backgrounds/small-village-cb3fc7.webp"
+  },
+  {
+   "id": "7c04d691-2d50-4795-a2b2-cb7bec8faded",
+   "name": "Quiet Forest",
+   "desc": "",
+   "src": "backgrounds/quiet-forest-7c04d6.webp"
+  },
+  {
+   "id": "0d876119-d7c4-48b9-badf-92b103d1ef80",
+   "name": "Forest Village",
+   "desc": "",
+   "src": "backgrounds/forest-village-0d8761.webp"
+  },
+  {
+   "id": "ea08dccc-2493-4e7a-8a51-3ee4bc4a9545",
+   "name": "Fantastic Landscape [Mountains]",
+   "desc": "",
+   "src": "backgrounds/fantastic-landscape-mountains-ea08dc.webp"
+  },
+  {
+   "id": "eefd1a61-f582-467b-b832-e1fc9688b935",
+   "name": "Church,",
+   "desc": "",
+   "src": "backgrounds/church-eefd1a.webp"
+  },
+  {
+   "id": "9ba64e70-aa0b-403d-891a-8d597e7c5b15",
+   "name": "resturant",
+   "desc": "",
+   "src": "backgrounds/resturant-9ba64e.webp"
+  },
+  {
+   "id": "ea6a1dbf-ef88-4e09-9910-2297c8636f3c",
+   "name": "The Opera",
+   "desc": "",
+   "src": "backgrounds/the-opera-ea6a1d.webp"
+  },
+  {
+   "id": "f09454ea-0dd7-4411-b2bf-37726b353c99",
+   "name": "Ruined Place",
+   "desc": "",
+   "src": "backgrounds/ruined-place-f09454.webp"
+  },
+  {
+   "id": "f74afa6a-a8a3-41fb-aa0f-b90dc7ca3959",
+   "name": "Hall",
+   "desc": "",
+   "src": "backgrounds/hall-f74afa.webp"
+  },
+  {
+   "id": "690d234d-455b-4d52-86d9-f85ef6222344",
+   "name": "Desert",
+   "desc": "",
+   "src": "backgrounds/desert-690d23.webp"
   },
   {
    "id": "83797693-a4b1-443c-ae21-a68e468873bf",
@@ -6025,7 +8253,8 @@
    "id": "9aa85017-f20b-49ee-aa5c-23aaf3eb6216",
    "name": "Ray's Room (NSFW)",
    "desc": "",
-   "src": "backgrounds/ray-s-room-nsfw-9aa850.webp"
+   "src": "backgrounds/ray-s-room-nsfw-9aa850.webp",
+   "nsfw": true
   },
   {
    "id": "306adb8a-4d28-47fd-a780-5d147473266e",
@@ -6049,7 +8278,8 @@
    "id": "eb6eada4-47e7-4c73-919a-4b173f6dd767",
    "name": "Quinta's Room (NSFW)",
    "desc": "",
-   "src": "backgrounds/quinta-s-room-nsfw-eb6ead.webp"
+   "src": "backgrounds/quinta-s-room-nsfw-eb6ead.webp",
+   "nsfw": true
   },
   {
    "id": "6a426fdb-b0d0-4b38-9342-3598ff3f5b49",
@@ -6548,6 +8778,447 @@
    "name": "Your's room",
    "desc": "",
    "src": "backgrounds/user-s-room-7b6854.webp"
+  },
+  {
+   "id": "20761bea-cf40-4025-873d-c4d3d2f7b3d7",
+   "name": "sister bedroom",
+   "desc": "sister bedroom",
+   "src": "backgrounds/sister-bedroom-20761b.webp",
+   "nsfw": true
+  },
+  {
+   "id": "4ba76082-425b-47bb-bdac-3e2d333ed23d",
+   "name": "dining room",
+   "desc": "dining room",
+   "src": "backgrounds/dining-room-4ba760.webp",
+   "nsfw": true
+  },
+  {
+   "id": "5831e89e-729d-4ff0-92b3-46c6393e3bcc",
+   "name": "outside",
+   "desc": "outside",
+   "src": "backgrounds/outside-5831e8.webp",
+   "nsfw": true
+  },
+  {
+   "id": "22de03a6-a10a-4618-9723-3b7bd8c241aa",
+   "name": "wine cellar",
+   "desc": "wine cellar",
+   "src": "backgrounds/wine-cellar-22de03.webp",
+   "nsfw": true
+  },
+  {
+   "id": "3badbfa3-4074-4900-86c4-ddc7e8ff1c72",
+   "name": "forest river",
+   "desc": "forest river",
+   "src": "backgrounds/forest-river-3badbf.webp",
+   "nsfw": true
+  },
+  {
+   "id": "56efdc06-0390-44fd-a0d2-9894fbeb8f82",
+   "name": "vineyard",
+   "desc": "vineyard",
+   "src": "backgrounds/vineyard-56efdc.webp",
+   "nsfw": true
+  },
+  {
+   "id": "ba85599f-7971-4beb-b6ec-c1dd1476d6f1",
+   "name": "farmer bedroom",
+   "desc": "farmer bedroom",
+   "src": "backgrounds/farmer-bedroom-ba8559.webp",
+   "nsfw": true
+  },
+  {
+   "id": "4f59748c-7fab-4af7-9ce8-b1e71ad612c3",
+   "name": "forest",
+   "desc": "forest",
+   "src": "backgrounds/forest-4f5974.webp",
+   "nsfw": true
+  },
+  {
+   "id": "62a40555-a32b-42f7-b0cd-bc00ea48124f",
+   "name": "garden",
+   "desc": "garden",
+   "src": "backgrounds/garden-62a405.webp",
+   "nsfw": true
+  },
+  {
+   "id": "75e936ec-4038-437b-9214-72204116f0e5",
+   "name": "Good morning",
+   "desc": "Good morning",
+   "src": "backgrounds/good-morning-75e936.webp",
+   "nsfw": true
+  },
+  {
+   "id": "50f5d5d0-9b43-4e17-b20a-9f18010eaf21",
+   "name": "Title",
+   "desc": "Title",
+   "src": "backgrounds/title-50f5d5.webp",
+   "nsfw": true
+  },
+  {
+   "id": "0cb04f8d-609f-4844-9469-266f30766889",
+   "name": "Drunk",
+   "desc": "Drunk",
+   "src": "backgrounds/drunk-0cb04f.webp",
+   "nsfw": true
+  },
+  {
+   "id": "75f99371-c7ef-4cc8-a2a3-00b764cb2fb4",
+   "name": "Sneak",
+   "desc": "Sneak",
+   "src": "backgrounds/sneak-75f993.webp",
+   "nsfw": true
+  },
+  {
+   "id": "c64caa0f-c12d-47a5-9e1c-2abf1529e64b",
+   "name": "River bathing",
+   "desc": "River bathing",
+   "src": "backgrounds/river-bathing-c64caa.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8cc5556c-6e9c-4944-b07a-0e391df8dab3",
+   "name": "master bedroom",
+   "desc": "master bedroom",
+   "src": "backgrounds/master-bedroom-8cc555.webp",
+   "nsfw": true
+  },
+  {
+   "id": "87e76562-5eca-4119-a703-20965e1fd433",
+   "name": "Your bedroom",
+   "desc": "{{user}} bedroom",
+   "src": "backgrounds/user-bedroom-87e765.webp",
+   "nsfw": true
+  },
+  {
+   "id": "ec962ec9-105d-46ee-8636-c6e73d544da7",
+   "name": "swim",
+   "desc": "swim",
+   "src": "backgrounds/swim-ec962e.webp",
+   "nsfw": true
+  },
+  {
+   "id": "dbdde90a-4ead-495f-b776-c46726d4d13d",
+   "name": "bathroom",
+   "desc": "bathroom",
+   "src": "backgrounds/bathroom-dbdde9.webp",
+   "nsfw": true
+  },
+  {
+   "id": "79698d55-a247-4fe8-aac8-e72e4dad696d",
+   "name": "bathroom",
+   "desc": "bathroom",
+   "src": "backgrounds/bathroom-79698d.webp",
+   "nsfw": true
+  },
+  {
+   "id": "f2a424b0-a8b4-4648-b0df-5ea0c505b848",
+   "name": "library",
+   "desc": "library",
+   "src": "backgrounds/library-f2a424.webp",
+   "nsfw": true
+  },
+  {
+   "id": "d5b1c1bf-cfd7-41fd-a12a-fb87c7a38d28",
+   "name": "hall",
+   "desc": "hall",
+   "src": "backgrounds/hall-d5b1c1.webp",
+   "nsfw": true
+  },
+  {
+   "id": "7f5a9ce7-3635-4277-8cf7-2b6b2f7aa624",
+   "name": "fishing",
+   "desc": "fishing",
+   "src": "backgrounds/fishing-7f5a9c.webp",
+   "nsfw": true
+  },
+  {
+   "id": "3ea62ccd-9e56-44a2-a3db-587841cd9534",
+   "name": "Pier",
+   "desc": "Pier",
+   "src": "backgrounds/pier-3ea62c.webp",
+   "nsfw": true
+  },
+  {
+   "id": "05d067a6-ce3d-4228-9fca-f13e7d7bebd1",
+   "name": "mushrooms",
+   "desc": "mushrooms",
+   "src": "backgrounds/mushrooms-05d067.webp",
+   "nsfw": true
+  },
+  {
+   "id": "72227a6e-4207-466d-96b0-29252e24a2c0",
+   "name": "pool",
+   "desc": "pool",
+   "src": "backgrounds/pool-72227a.webp",
+   "nsfw": true
+  },
+  {
+   "id": "d87df491-4a6f-4ec9-86c0-977c94bdb18a",
+   "name": "pool",
+   "desc": "pool",
+   "src": "backgrounds/pool-d87df4.webp",
+   "nsfw": true
+  },
+  {
+   "id": "fb9bc388-5849-4407-888c-4c0c046775f2",
+   "name": "letter",
+   "desc": "letter",
+   "src": "backgrounds/letter-fb9bc3.webp",
+   "nsfw": true
+  },
+  {
+   "id": "df535178-b7dd-4435-a287-595fc8c48a71",
+   "name": "clearing",
+   "desc": "clearing",
+   "src": "backgrounds/clearing-df5351.webp",
+   "nsfw": true
+  },
+  {
+   "id": "20c07dd6-bd34-44cf-a24c-2eb8ecc281c2",
+   "name": "sunbathes2",
+   "desc": "sunbathes2",
+   "src": "backgrounds/sunbathes2-20c07d.webp",
+   "nsfw": true
+  },
+  {
+   "id": "feb6fd84-31fb-439f-bd9c-95f4d251c3fc",
+   "name": "cave",
+   "desc": "cave",
+   "src": "backgrounds/cave-feb6fd.webp",
+   "nsfw": true
+  },
+  {
+   "id": "9db32125-e17d-4b88-8666-9cdea212ec9f",
+   "name": "walk",
+   "desc": "walk",
+   "src": "backgrounds/walk-9db321.webp",
+   "nsfw": true
+  },
+  {
+   "id": "125dcfc7-af06-4b66-9bc3-6ddb2a0f452d",
+   "name": "cat outfit nude",
+   "desc": "cat outfit nude",
+   "src": "backgrounds/cat-outfit-nude-125dcf.webp",
+   "nsfw": true
+  },
+  {
+   "id": "2227b723-7b8e-44df-8838-eb33cb1b1fac",
+   "name": "maid masturbate",
+   "desc": "maid masturbate",
+   "src": "backgrounds/maid-masturbate-2227b7.webp",
+   "nsfw": true
+  },
+  {
+   "id": "9befe2c9-6634-4b60-ab1a-6d96d17b8e4e",
+   "name": "cucumber masturbating",
+   "desc": "cucumber masturbating",
+   "src": "backgrounds/cucumber-masturbating-9befe2.webp",
+   "nsfw": true
+  },
+  {
+   "id": "b2e91029-1931-4dc5-b82d-387dbd18c1bf",
+   "name": "dildo penetration",
+   "desc": "dildo penetration",
+   "src": "backgrounds/dildo-penetration-b2e910.webp",
+   "nsfw": true
+  },
+  {
+   "id": "deed64b4-4608-4233-8b3a-d4a3af5716e2",
+   "name": "dildo penetration Soph",
+   "desc": "dildo penetration",
+   "src": "backgrounds/dildo-penetration-soph-deed64.webp",
+   "nsfw": true
+  },
+  {
+   "id": "31fe62c7-75d0-49eb-b7c9-ecc60e287434",
+   "name": "grapevine tentacles penetration",
+   "desc": "grapevine tentacles penetration",
+   "src": "backgrounds/grapevine-tentacles-penetration-31fe62.webp",
+   "nsfw": true
+  },
+  {
+   "id": "0527d2f0-daf2-4a2f-9aad-3964190828a4",
+   "name": "wine cellar masturbate",
+   "desc": "wine cellar masturbate",
+   "src": "backgrounds/wine-cellar-masturbate-0527d2.webp",
+   "nsfw": true
+  },
+  {
+   "id": "ceba7bd3-52d6-495a-96f4-55ff71f5e846",
+   "name": "piano",
+   "desc": "piano",
+   "src": "backgrounds/piano-ceba7b.webp",
+   "nsfw": true
+  },
+  {
+   "id": "944bb79f-6354-40f2-af6e-92dc535a765b",
+   "name": "beach",
+   "desc": "beach",
+   "src": "backgrounds/beach-944bb7.webp",
+   "nsfw": true
+  },
+  {
+   "id": "886ac6c3-4f8f-42af-b1e5-958710a8c28f",
+   "name": "peasant house",
+   "desc": "peasant house",
+   "src": "backgrounds/peasant-house-886ac6.webp",
+   "nsfw": true
+  },
+  {
+   "id": "b624e845-c0d0-4b36-b150-cd64519788d8",
+   "name": "cave",
+   "desc": "cave",
+   "src": "backgrounds/cave-b624e8.webp",
+   "nsfw": true
+  },
+  {
+   "id": "d99f48d6-2afb-44f7-9fc6-fa29b0e9be2e",
+   "name": "sis maid",
+   "desc": "sis maid",
+   "src": "backgrounds/sis-maid-d99f48.webp",
+   "nsfw": true
+  },
+  {
+   "id": "96d27ac7-a3f2-484e-963f-ffa6a558b953",
+   "name": "sis beach",
+   "desc": "sis beach",
+   "src": "backgrounds/sis-beach-96d27a.webp",
+   "nsfw": true
+  },
+  {
+   "id": "5f6e7fb3-5317-4e20-9a9a-f388d99c5f80",
+   "name": "maid beach",
+   "desc": "maid beach",
+   "src": "backgrounds/maid-beach-5f6e7f.webp",
+   "nsfw": true
+  },
+  {
+   "id": "3dd897d9-89eb-4a38-bba6-4bb078500ab4",
+   "name": "Anna's dress",
+   "desc": "Anna's dress",
+   "src": "backgrounds/anna-s-dress-3dd897.webp",
+   "nsfw": true
+  },
+  {
+   "id": "ce426001-fbc6-4fa8-8387-355aa8fad0bb",
+   "name": "background-47",
+   "desc": "",
+   "src": "backgrounds/background-47-ce4260.webp",
+   "nsfw": true
+  },
+  {
+   "id": "1d9b0fae-0d6d-45d1-af08-731ba7077e2a",
+   "name": "background-48",
+   "desc": "",
+   "src": "backgrounds/background-48-1d9b0f.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8fc82b04-984d-4634-9369-05ce1448ec02",
+   "name": "background-49",
+   "desc": "",
+   "src": "backgrounds/background-49-8fc82b.webp",
+   "nsfw": true
+  },
+  {
+   "id": "7d00ef9e-be32-43d9-9136-aa3b6373d024",
+   "name": "background-50",
+   "desc": "",
+   "src": "backgrounds/background-50-7d00ef.webp",
+   "nsfw": true
+  },
+  {
+   "id": "69668706-e57c-42cc-9712-f8d47ede318c",
+   "name": "background-51",
+   "desc": "",
+   "src": "backgrounds/background-51-696687.webp",
+   "nsfw": true
+  },
+  {
+   "id": "9277cfef-6f43-4538-9210-b8987cf2968e",
+   "name": "background-52",
+   "desc": "",
+   "src": "backgrounds/background-52-9277cf.webp",
+   "nsfw": true
+  },
+  {
+   "id": "41350667-739a-4ccd-8cf6-376410b033e2",
+   "name": "drunk",
+   "desc": "drunk",
+   "src": "backgrounds/drunk-413506.webp",
+   "nsfw": true
+  },
+  {
+   "id": "1d68eaf3-4935-45fa-886f-a5b36b2f8e82",
+   "name": "background-54",
+   "desc": "",
+   "src": "backgrounds/background-54-1d68ea.webp",
+   "nsfw": true
+  },
+  {
+   "id": "4fff9c27-c5cb-46cd-a088-b0b581d2b8ea",
+   "name": "background-55",
+   "desc": "",
+   "src": "backgrounds/background-55-4fff9c.webp",
+   "nsfw": true
+  },
+  {
+   "id": "6afe70fc-e872-4892-a479-bc099a7ae622",
+   "name": "background-56",
+   "desc": "",
+   "src": "backgrounds/background-56-6afe70.webp",
+   "nsfw": true
+  },
+  {
+   "id": "7019a40b-d494-48ba-b037-b4942371a9a9",
+   "name": "background-57",
+   "desc": "",
+   "src": "backgrounds/background-57-7019a4.webp",
+   "nsfw": true
+  },
+  {
+   "id": "d422f563-38f6-47ed-ae67-7a5f514182b0",
+   "name": "beach",
+   "desc": "beach",
+   "src": "backgrounds/beach-d422f5.webp",
+   "nsfw": true
+  },
+  {
+   "id": "72031612-2641-4ad8-aeeb-7c83a2ccc1d2",
+   "name": "background-59",
+   "desc": "",
+   "src": "backgrounds/background-59-720316.webp",
+   "nsfw": true
+  },
+  {
+   "id": "404fc846-9fe3-4cef-bc84-497459e19e5c",
+   "name": "background-60",
+   "desc": "",
+   "src": "backgrounds/background-60-404fc8.webp",
+   "nsfw": true
+  },
+  {
+   "id": "014a1c1e-7795-4941-bfe0-ebc35c4d32ab",
+   "name": "background-61",
+   "desc": "",
+   "src": "backgrounds/background-61-014a1c.webp",
+   "nsfw": true
+  },
+  {
+   "id": "b89a62c5-a003-4148-80f9-376fd2905f93",
+   "name": "background-62",
+   "desc": "",
+   "src": "backgrounds/background-62-b89a62.webp",
+   "nsfw": true
+  },
+  {
+   "id": "77b21b80-02df-4152-b2cc-db8b4f1603f6",
+   "name": "servant bedroom",
+   "desc": "",
+   "src": "backgrounds/servant-bedroom-77b21b.webp",
+   "nsfw": true
   }
  ],
  "items": [
@@ -6684,6 +9355,90 @@
    "icon": "items/jay-s-pencil.webp"
   },
   {
+   "id": "holy-water",
+   "name": "Holy water",
+   "desc": "Divine water.",
+   "icon": "items/holy-water.webp"
+  },
+  {
+   "id": "cupid-arrow",
+   "name": "Cupid Arrow.",
+   "desc": "Cursed Item. Make someone like you.",
+   "icon": "items/cupid-arrow.webp"
+  },
+  {
+   "id": "mind-ring",
+   "name": "Mind ring.",
+   "desc": "[Cursed Item], supposedly gives the ability to read minds.",
+   "icon": "items/mind-ring.webp"
+  },
+  {
+   "id": "magic-lamp",
+   "name": "Magic lamp",
+   "desc": "[Definitely Cursed Item], A magical wish granting djinn resides in this lamp.",
+   "icon": "items/magic-lamp.webp"
+  },
+  {
+   "id": "10000-degree-dagger",
+   "name": "10000 degree dagger",
+   "desc": "[Cursed Item]  this knife can cut anything supposedly.",
+   "icon": "items/10000-degree-dagger.webp"
+  },
+  {
+   "id": "the-orb",
+   "name": "The Orb",
+   "desc": "[Cursed Item], The Orb is a mystical Orb from the Land of Orbia.",
+   "icon": "items/the-orb.webp"
+  },
+  {
+   "id": "flute",
+   "name": "Flute.",
+   "desc": "[Cursed Item] a regular flute. ",
+   "icon": "items/flute.webp"
+  },
+  {
+   "id": "excalibur",
+   "name": "Excalibur.",
+   "desc": "Ruby found this in a university of the liberal Arts. I swear those exist in this world-",
+   "icon": "items/excalibur.webp"
+  },
+  {
+   "id": "ambrosia",
+   "name": "Ambrosia",
+   "desc": "[Cursed Item], These flowers have a strange effect on People.",
+   "icon": "items/ambrosia.webp"
+  },
+  {
+   "id": "red-button",
+   "name": "Red button.",
+   "desc": "[Cursed item]. This legendary Object needs no introduction.",
+   "icon": "items/red-button.webp"
+  },
+  {
+   "id": "collar",
+   "name": "Collar.",
+   "desc": "[Cursed Item], People will judge you for adding this Grail, don't  do i-",
+   "icon": "items/collar.webp"
+  },
+  {
+   "id": "root-of-all-evil",
+   "name": "Root of all evil",
+   "desc": "[Cursed Item], it's money! No one can deny this coin. Try it, I dare you.",
+   "icon": "items/root-of-all-evil.webp"
+  },
+  {
+   "id": "glowing-brick",
+   "name": "Glowing Brick.",
+   "desc": "[Cursed Item], \"this\n rectangle gives off an Evil aura- Do you want it?\" \n -Ruby",
+   "icon": "items/glowing-brick.webp"
+  },
+  {
+   "id": "compass",
+   "name": "Compass",
+   "desc": "[Cursed Item.] you're the center of attraction.",
+   "icon": "items/compass.webp"
+  },
+  {
    "id": "kuru-cure-a",
    "name": "Kuru Cure A",
    "desc": "The only two doses of a prototype for curing the Kuru Disease on Earth 3.",
@@ -6712,6 +9467,55 @@
    "name": "Water gun",
    "desc": "A simple blue/orange water gun, looking like a shotgun.",
    "icon": "items/water-gun.webp"
+  },
+  {
+   "id": "key",
+   "name": "Key",
+   "desc": "Key to the master bedroom.\nApparently, this is the key to my parents' bedroom.",
+   "icon": "items/key.webp",
+   "nsfw": true
+  },
+  {
+   "id": "vinelace-family-wine",
+   "name": "Vinelace family wine",
+   "desc": "A bottle of expensive elite wine from the Vinelace family.\nI heard that Charlotte likes to drink in her free time.",
+   "icon": "items/vinelace-family-wine.webp",
+   "nsfw": true
+  },
+  {
+   "id": "book-of-magical-creatures",
+   "name": "Book of Magical Creatures",
+   "desc": "book about magical creatures and where they live.\n(worth reading when you're alone.)",
+   "icon": "items/book-of-magical-creatures.webp",
+   "nsfw": true
+  },
+  {
+   "id": "maid-outfit",
+   "name": "Maid outfit",
+   "desc": "Charlotte's maid outfit. \nMaybe it will fit Sophia's size.",
+   "icon": "items/maid-outfit.webp",
+   "nsfw": true
+  },
+  {
+   "id": "dog-collar",
+   "name": "Dog collar",
+   "desc": "Red dog collar with chain.\nUnfortunately, you don't have a dog.",
+   "icon": "items/dog-collar.webp",
+   "nsfw": true
+  },
+  {
+   "id": "cheats",
+   "name": "Cheats",
+   "desc": "",
+   "icon": "items/cheats.webp",
+   "nsfw": true
+  },
+  {
+   "id": "cat-outfit",
+   "name": "Cat outfit",
+   "desc": "Cat costume with ears and paws.\nThe color of the costume matches Charlotte's hair color well.",
+   "icon": "items/cat-outfit.webp",
+   "nsfw": true
   }
  ],
  "music": [
@@ -7573,6 +10377,203 @@
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/48b03b5c-5011-42e3-9886-f1dd2ee7df77/85a46097-3da7-4f97-94ed-ee31d3c46efa.mpeg"
   },
   {
+   "id": "damiselle-dalmavilla",
+   "name": "Damiselle Dalmavilla",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/78829d62-0670-46cb-a9d0-7ae0ece3659f.mpeg"
+  },
+  {
+   "id": "oh-ancient-dalmavilla",
+   "name": "Oh ancient Dalmavilla",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/af86328e-3564-4326-a0af-f4a3216031aa.mpeg"
+  },
+  {
+   "id": "holy-grounds-of-dalmavilla",
+   "name": "Holy Grounds of Dalmavilla",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/9d347549-a2da-4881-bb88-5c63c9f92167.mpeg"
+  },
+  {
+   "id": "pristo-light-of-lies",
+   "name": "Pristo Light of Lies",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a7cc2ada-9ed4-4bbf-98c3-14b3b5ef7e82.mpeg"
+  },
+  {
+   "id": "the-hed",
+   "name": "The Hed",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/437a26d4-75a1-4a3d-8940-6148b9880035.mpeg"
+  },
+  {
+   "id": "the-hed-s-crib",
+   "name": "the Hed's Crib",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a9a46adb-ea04-4e07-9864-1eb1772b4222.mpeg"
+  },
+  {
+   "id": "military-tango",
+   "name": "Military Tango",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/dde701bb-3ac2-48df-acc2-949d1e3cfccf.mpeg"
+  },
+  {
+   "id": "intense-lieutenant",
+   "name": "Intense Lieutenant",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/70b02260-33e7-4bef-9c36-2ad092a74f0b.mpeg"
+  },
+  {
+   "id": "pepitaaaaaaaaahhh",
+   "name": "PepitaaAAAAAAAHHH",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/962d0891-eee0-4fcf-984a-c497f0b1e9bf.mpeg"
+  },
+  {
+   "id": "lust-for-life-2",
+   "name": "Lust For Life 2",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/dfe54db5-68a8-4610-a804-c031a3520bfe.mpeg"
+  },
+  {
+   "id": "ya-like-jazz",
+   "name": "ya like jazz?",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/57790f5a-b933-4e66-830f-17a12944dc89.mpeg"
+  },
+  {
+   "id": "good-day-for-a-swell-battle",
+   "name": "Good day for a swell battle!",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/fe1bbcc4-7e5d-4ed3-86fb-00a0969a3539.mpeg"
+  },
+  {
+   "id": "oh-it-s-on",
+   "name": "OH IT'S ON",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/575b6323-1cc6-4c72-b720-8ca9a16883a4.mpeg"
+  },
+  {
+   "id": "castle-waltz",
+   "name": "Castle Waltz",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/792247ea-78ee-4e49-9310-601436663230.mpeg"
+  },
+  {
+   "id": "tension",
+   "name": "tension",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/98308067-31aa-4298-bcbc-b62f7f03fcce.mpeg"
+  },
+  {
+   "id": "teleport",
+   "name": "Teleport",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/cc0f6d8e-0d36-4f0e-95e7-102cbf40e4bd.mpeg"
+  },
+  {
+   "id": "go-out-and-touch-some-grass",
+   "name": "Go out and touch some grass",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/562fa33c-7b10-44ba-a8cd-e8b84410ba70.mpeg"
+  },
+  {
+   "id": "buyin-sports-candy",
+   "name": "Buyin Sports Candy",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/d82b49ed-83f4-45aa-b438-8a68d6667e72.mpeg"
+  },
+  {
+   "id": "withered-weeds",
+   "name": "Withered Weeds",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/48ed8dde-d069-4bcc-bfbb-cbd71ff698df.mpeg"
+  },
+  {
+   "id": "gave-ya-a-warning",
+   "name": "gave ya a warning",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/347d35e1-feb6-40f4-a3b5-ab30c7359a31.mpeg"
+  },
+  {
+   "id": "disinfestation",
+   "name": "Disinfestation",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/d878452a-f082-41ac-96cc-ce7c1a87445b.mpeg"
+  },
+  {
+   "id": "sneakin",
+   "name": "sneakin",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/1e924e64-7bdc-4d32-8693-b41c98fe4aeb.mpeg"
+  },
+  {
+   "id": "peace-at-last",
+   "name": "PEACE AT LAST",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a380bf72-2d68-4f33-9e5a-ed7dbd535324.mpeg"
+  },
+  {
+   "id": "shattered-glass",
+   "name": "SHATTERED GLASS",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/9d01865b-50e2-4e92-a85c-d4be6e805063.mpeg"
+  },
+  {
+   "id": "vongravis",
+   "name": "VonGravis",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/7a9a7596-968f-4682-aa69-82fb69b043a7.mpeg"
+  },
+  {
+   "id": "the-disdain",
+   "name": "THE DISDAIN",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/954b9db9-2ec1-42cd-b873-62116f0b8355.mpeg"
+  },
+  {
+   "id": "intense-sneaking",
+   "name": "Intense Sneaking",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/aa38f700-5cb2-4f2d-99c5-a11418e1e96e.mpeg"
+  },
+  {
+   "id": "epic-sex-music",
+   "name": "epic sex music",
+   "tags": [],
+   "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/e6d039e0-28a4-47cf-b408-ca1785ea2913.mpeg",
+   "nsfw": true
+  },
+  {
    "id": "piano-medley",
    "name": "Piano Medley",
    "tags": [],
@@ -8055,6 +11056,48 @@
    ],
    "novel": "Infernal Harmony",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3b2f0afd-578f-4c07-933c-5653ed705048.mpeg"
+  },
+  {
+   "id": "autumn-leaves",
+   "name": "Autumn Leaves",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmYp7wJfKybzz8cYKd9rRXsTA4eD9BsXLtZKjYe8U34f5U.mpeg"
+  },
+  {
+   "id": "master-s-recomendation-tokyo-xanadu-ost",
+   "name": "Master's Recomendation- Tokyo Xanadu Ost",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmRytYiAEt5PbcWL7YnfLKtLNjMdLJ4JHrhHrtPeQXd9YX.mpeg"
+  },
+  {
+   "id": "time-to-relax-tales-of-berseria-ost",
+   "name": "Time to Relax- Tales of Berseria OST",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmdLE23VNdFbTXYp7g7GAUmUjLhJfTYbcKGnATzTwMZ2kG.mpeg"
+  },
+  {
+   "id": "hills-and-meadows-dragon-quest-9",
+   "name": "Hills and Meadows- Dragon quest 9",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmZH7GZQBRJdTTGrDAzE3gHDWTCtZxsVJiaNKqd2VwDnbS.mpeg"
+  },
+  {
+   "id": "a-peaceful-moment-tales-of-arise",
+   "name": "A peaceful moment- tales of Arise",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmVYsp7khai3hRDcQgaw3DFkupaJZTdmQf7oXu8ViFMVrW.mpeg"
+  },
+  {
+   "id": "hermit-garden-trails-in-the-sky-tc",
+   "name": "Hermit Garden- Trails in the Sky TC",
+   "tags": [],
+   "novel": "Legend Of You 1.7 ",
+   "url": "https://assets.miku.services/QmVD5KgsTgTyVn59MYfev5fjjgkDWsPuXYDP6tXQhJjbFL.mpeg"
   },
   {
    "id": "new-haven-institute-of-science",
@@ -8916,6 +11959,54 @@
    "tags": [],
    "novel": "The yuri assist",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2ceeed68-b155-442a-bc98-1bfca5501b36.mpeg"
+  },
+  {
+   "id": "fest",
+   "name": "fest",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/87fb6d74-a803-49ae-9fc9-9b0089fc68f1.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "beach",
+   "name": "beach",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/ff4bae02-ce48-423c-b3fb-a5a03963b41a.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "forest",
+   "name": "forest",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/7322d54c-479a-422c-9982-fe765f8c4d9b.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "yard",
+   "name": "yard",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/ec399ce6-2c88-469a-ad07-30cfa857ec0b.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "song-7",
+   "name": "song-7",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/0995419e-d5a9-4e58-a254-4884a6bdd7ef.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "mansion",
+   "name": "mansion",
+   "tags": [],
+   "novel": "Noble One",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/49f25f81-8faa-4968-a55c-e6f281e06fbe.mpeg",
+   "nsfw": true
   }
  ]
 }

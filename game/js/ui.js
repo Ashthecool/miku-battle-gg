@@ -56,11 +56,19 @@
     const shards = obj(s.shards) ? s.shards : {};
     s.shards = {};
     Object.entries(shards).forEach(([id, n]) => {
-      if (MB.CARDS[id] && !s.unlocked.includes(id) && (n |= 0) > 0) s.shards[id] = Math.min(n, MB.Collection.need(id) - 1);
+      if (MB.HIDDEN_CARDS.has(id)) { if ((n |= 0) > 0) s.shards[id] = n; return; } // NSFW mode is off; kept for later
+      if (MB.CARDS[id] &&!s.unlocked.includes(id) && (n |= 0) > 0) s.shards[id] = Math.min(n, MB.Collection.need(id) - 1);
     });
     // decks: always DECK_SLOTS of them, and a deck holding a card you don't own goes back to the starter
     for (let i = 0; i < DECK_SLOTS; i++) {
       const d = obj(s.decks[i]) ? s.decks[i] : {};
+      // cards hidden while NSFW mode is off wait in `hidden` and rejoin the deck when it's back on
+      if (Array.isArray(d.cards)) {
+        const all = d.cards.concat(Array.isArray(d.hidden) ? d.hidden : []);
+        d.cards = all.filter((id) => !MB.HIDDEN_CARDS.has(id)).slice(0, DECK_SIZE);
+        d.hidden = all.filter((id) => MB.HIDDEN_CARDS.has(id));
+        if (!d.hidden.length) delete d.hidden;
+      }
       if (!Array.isArray(d.cards) || d.cards.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) d.cards = MB.STARTER_DECK.slice();
       d.name = String(d.name || '').slice(0, 20) || 'Deck ' + (i + 1);
       s.decks[i] = d;
@@ -380,6 +388,16 @@
     document.body.classList.toggle('dev', dev);
     $('#dev-mode').checked = dev;
     $('#dev-mode').onchange = (e) => { MB.audio.sfx('click'); setDev(e.target.checked); };
+    $('#nsfw-mode').checked = MB.NSFW;
+    $('#nsfw-mode').onchange = (e) => {
+      MB.audio.sfx('click');
+      const on = e.target.checked;
+      // the page reloads, which would throw away a battle in progress
+      if (MB.battle && !MB.battle.over && !$('#arena').classList.contains('gallery-mode')) { e.target.checked = !on; return saveStatus('Finish or forfeit the battle first.', true); }
+      if (on && !confirm('NSFW mode shows adult content (nudity and sexual themes).\nAre you 18 or older?')) { e.target.checked = false; return; }
+      persist();
+      MB.setNsfw(on);
+    };
     MB.MenuTips.bind();
     document.querySelectorAll('#screen-title .menu-btn').forEach((b) => {
       const sheen = el('b', 'sheen');
@@ -458,6 +476,7 @@
     const list = $('#story-list');
     list.innerHTML = '';
     MB.CHAPTERS.forEach((chap, c) => {
+      if (chap.hidden) return; // an NSFW novel with NSFW mode off
       const stages = chapterStages(c), done = Math.min(save.progress[c], stages.length);
       const box = el('div', 'chapter', `<h2>Chapter ${c + 1} — ${chap.title} <small>${done === stages.length ? '★ Complete' : `${done}/${stages.length}`}</small></h2>`);
       const row = el('div', 'chapter-row');

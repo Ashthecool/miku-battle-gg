@@ -6,7 +6,7 @@ Usage:  py tools/novel_brief.py [--all] [title ...] > brief.md
 By default only novels with characters that have no card in game/js/data.js yet are included.
 """
 import glob, json, os, re, sys
-from fetch_assets import characters, slug
+from fetch_assets import characters, load_novel, slug
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESC_CHARS = 700  # how much of each character's write-up to keep
@@ -24,7 +24,7 @@ def main():
     has_card = lambda cid: re.search(rf"^\s*'{re.escape(cid)}'\s*:", data_js, re.M)
     novels = {}
     for p in glob.glob(os.path.join(ROOT, "novels", "*.json")):
-        n = json.load(open(p, encoding="utf-8"))["novel"]
+        n = load_novel(p)
         novels[n["title"]] = n
 
     out = []
@@ -54,13 +54,13 @@ def main():
             if mentions:
                 out.append(f"- mentions: {', '.join(mentions)}")
             out.append(f"- about: {desc[:DESC_CHARS]}{'...' if len(desc) > DESC_CHARS else ''}\n")
-        items = [i for i in manifest["items"] if novel and any(slug(x["name"]) == i["id"] for x in novel["inventory"])]
+        items = [i for i in manifest["items"] if novel and any(slug(x["name"]) == i["id"] for x in (novel.get("inventory") or []))]
         if items:
             out.append("## Items\n")
             out += [f"- `{i['id']}` {i['name']}: {clean(i['desc'])[:200]}" for i in items]
             out.append("")
         if novel:
-            bg_ids = {b["id"] for b in novel["backgrounds"]}
+            bg_ids = {b["id"] for b in novel.get("backgrounds") or []}
             bgs = [b for b in manifest["backgrounds"] if b["id"] in bg_ids]
             out.append("## Backgrounds (story `bg` is the name)\n")
             out.append("; ".join(f"{b['name']}" for b in bgs) + "\n")

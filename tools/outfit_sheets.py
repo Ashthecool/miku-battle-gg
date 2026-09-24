@@ -1,13 +1,13 @@
 """Contact sheets of every outfit a novel would bring into the game (one neutral sprite each, labelled
 "character-id/outfit-id"), to check them by eye before uploading. Anything that shouldn't be in the game goes
-into SKIP_OUTFITS in fetch_assets.py.
+into NSFW_OUTFITS in fetch_assets.py (blank or placeholder art into SKIP_OUTFITS).
 
 Usage:  py tools/outfit_sheets.py OUT_DIR novel-title-part [...]
 """
 import glob, io, json, os, sys
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageDraw
-from fetch_assets import characters, get, slug
+from fetch_assets import characters, load_novel, get, slug
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TW, TH, COLS, ROWS = 180, 270, 8, 3
@@ -29,7 +29,7 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     jobs = []
     for p in sorted(glob.glob(os.path.join(ROOT, "novels", "*.json"))):
-        novel = json.load(open(p, encoding="utf-8"))["novel"]
+        novel = load_novel(p)
         if parts and not any(x in novel["title"].lower() for x in parts):
             continue
         for e in characters(novel):

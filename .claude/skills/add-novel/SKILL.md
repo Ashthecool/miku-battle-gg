@@ -28,9 +28,10 @@ separate characters; usually leave them out.
 
 ## 3. Check the outfits by eye
 
-Novels can hide explicit or underwear outfits behind plain names ("Diana 4"). The asset tool already drops
-characters named narrator/placeholders without a description, outfits named nude/topless/naked/CG, and outfits
-whose emotion set contains adult-only emotions (`ADULT_EMOTIONS`). For the rest:
+NSFW content is downloaded too, but tagged `nsfw: true` in the manifest; the game shows it only with
+⚙️ → NSFW mode on (`game/js/content.js` removes it otherwise, with every card, bond and chapter built on it).
+The asset tool tags an outfit NSFW when the export flags it (`outfit.nsfw = 1`), its name matches `NSFW_NAME`,
+or it has adult-only emotions (`ADULT_EMOTIONS`). The export's flag misses a lot, so check by eye:
 
 ```sh
 py tools/outfit_sheets.py <scratch>/sheets "<part of title>" ["<another>"]
@@ -38,10 +39,15 @@ py tools/outfit_sheets.py <scratch>/sheets "<part of title>" ["<another>"]
 
 It only shows the characters that pass `ONLY_CHARACTERS`, so pick the cast first.
 
-Read **every** sheet. Add to `SKIP_OUTFITS` in `tools/fetch_assets.py` (as `"character-id/outfit-id"`, the
-label on the sheet) anything that is nude, underwear/lingerie, only a towel, an open shirt with nothing under
-it, a silhouette/placeholder or blank. Swimwear and ordinary clothes are fine. Re-run the sheets for a character
-you changed if unsure. If a character's *main* outfit is unfit, the next one becomes main automatically.
+Read **every** sheet. Add to `NSFW_OUTFITS` in `tools/fetch_assets.py` (as `"character-id/outfit-id"`, the
+label on the sheet) anything that is nude, underwear/lingerie, only a towel or an open shirt with nothing under
+it; blank or placeholder art goes into `SKIP_OUTFITS`. Swimwear and ordinary clothes are fine. Safe outfits come
+first, so the first safe one is the character's usual look; a character with no safe outfit is NSFW as a whole.
+Look at the backgrounds too: names matching `NSFW_NAME` are tagged, but a novel whose scenes are mostly
+explicit goes into `NSFW_NOVELS` (all its characters, backgrounds, items and music are NSFW). Its cards, bonds
+and chapter are only playable in NSFW mode; keep their texts non-explicit anyway. Bond costumes must be safe
+outfits (the checker warns), and story backgrounds must not share a name with an explicit one (`bgByName`
+takes the first match).
 
 ## 4. Upload the images
 
@@ -103,6 +109,7 @@ Design rules:
 ```sh
 node tools/check_game.js          # validates every reference, then 300 AI-vs-AI battles
 node tools/check_game.js --texts  # also prints the generated card/power texts to proofread
+node tools/check_game.js --sfw     # the same with NSFW mode off
 ```
 
 Fix every ERROR. Read the texts: if one reads badly, simplify the spec or give the card a `text`.

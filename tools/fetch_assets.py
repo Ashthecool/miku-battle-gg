@@ -21,23 +21,36 @@ SMALL_H = 450  # height of the sm/ sprite copies (MB.spriteSrc in game/js/config
 # characters that never appear on screen, and outfits kept out of the game (CG outfits are scene art, not
 # standing sprites). Characters without any description are unfinished placeholders ("char1") and are skipped too.
 SKIP_CHARACTERS = {"narrator", "narrador"}
-SKIP_OUTFIT = re.compile(r"\b(nude|topless|naked|cg)\b", re.I)
-# explicit outfits can hide behind plain names ("Diana 4") but come with their own set of emotions
-ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
-# outfits checked by eye (tools/outfit_sheets.py) and kept out anyway: "character-id/outfit-id"
+SKIP_OUTFIT = re.compile(r"\bcg\b", re.I)
+# blank or placeholder art: "character-id/outfit-id"
 SKIP_OUTFITS = {
+    "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
+    "beatrice-avalistos/new-outfit", "curtis-vongravis/new-outfit", "flora-aquila/new-outfit",
+}
+
+# NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
+# (js/content.js). An outfit is NSFW when the export flags it (outfit.nsfw = 1), its name says so, it comes with
+# adult-only emotions, or it was marked by eye (tools/outfit_sheets.py) because the export's flag missed it.
+NSFW_NAME = re.compile(r"\b(nude|topless|naked|nsfw|sex|masturbat\w*|dildo|penetration|tentacles?)\b", re.I)
+ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
+NSFW_OUTFITS = {
     # underwear, towels and the like
     "quinta/quinta-5", "doe/doe-3", "cheetor/cheetor-4", "jill/jill-2", "maria/maria-2", "quistis/quistis-4",
     "rirarra-charca/the-equality-beach",
     "anya/anya-2", "cream/cream-2", "juniper/juniper-5", "adam/adam-4", "alexis/alexis-4", "misaki/morning",
-    # blank or placeholder art
-    "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
+    "anna-vinelace/new-outfit", "charlotte/cat-outfit", "lily/default", "nerida/default", "kira/default",
 }
+# novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
+NSFW_NOVELS = {"Noble One"}
 
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids
 ONLY_CHARACTERS = {
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
-                  "asuka", "saria"},
+                  "asuka", "saria", "doe", "juniper", "susan", "john", "louis"},
+    # without the nameless binary entity and Hil Kuntnovi
+    "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)": {
+        "beatrice-avalistos", "julia-aquacrucis", "priest-pristo", "hed", "curtis-vongravis", "pepita-pazzarella",
+        "mimi-hanetsu", "kuku-hanetsu", "brutio-bruscos", "brulliant-bruscos", "borcolls-carple", "flora-aquila"},
     # without the alternate-universe copies of Misaki and Arisa
     "Atarashī gakkō; Secret Garden!": {"yumi", "eri", "arisa", "misaki", "helga", "suzu", "shiina", "ai",
                                        "evil-villainess-chan", "mariko", "keiko"},
@@ -100,10 +113,22 @@ def convert_img(data, max_w=None, max_h=None, fmt="WEBP", quality=86):
     return buf.getvalue()
 
 
+def load_novel(path):
+    """A miku.gg export: history files wrap the novel in {"novel": ...}, .novel files are the novel itself."""
+    data = json.load(open(path, encoding="utf-8"))
+    return data.get("novel", data)
+
+
+def is_nsfw(c, o):
+    return bool(o.get("nsfw")) or bool(NSFW_NAME.search(o["name"])) or bool(ADULT_EMOTIONS & {e["id"] for e in o["emotions"]}) \
+        or f"{slug(c['name'])}/{slug(o['name'])}" in NSFW_OUTFITS
+
+
 def outfits_of(c):
-    return [o for o in c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"]
-            if o["emotions"] and not SKIP_OUTFIT.search(o["name"]) and not ADULT_EMOTIONS & {e["id"] for e in o["emotions"]}
-            and f"{slug(c['name'])}/{slug(o['name'])}" not in SKIP_OUTFITS]
+    """A character's usable outfits, safe ones first (the first is their usual look); each gets `_nsfw`."""
+    out = [dict(o, _nsfw=is_nsfw(c, o)) for o in c["card"]["data"]["extensions"]["mikugg_v2"]["outfits"]
+           if o["emotions"] and not SKIP_OUTFIT.search(o["name"]) and f"{slug(c['name'])}/{slug(o['name'])}" not in SKIP_OUTFITS]
+    return sorted(out, key=lambda o: o["_nsfw"])
 
 
 def characters(novel):
@@ -113,7 +138,7 @@ def characters(novel):
     for c in novel["characters"]:
         name = c["name"].strip()
         name = name[:1].upper() + name[1:]  # "sakura Tooyama"
-        if name.lower() in SKIP_CHARACTERS or not c["card"]["data"].get("description", "").strip() or not outfits_of(c):
+        if not name or name.lower() in SKIP_CHARACTERS or not c["card"]["data"].get("description", "").strip() or not outfits_of(c):
             continue
         key = slug(name)
         if key not in out:
@@ -125,7 +150,7 @@ def characters(novel):
         else:
             extra = outfits_of(c)
         names = {slug(o["name"]) for o in prev["outfits"]}
-        prev["outfits"] += [o for o in extra if slug(o["name"]) not in names]
+        prev["outfits"] = sorted(prev["outfits"] + [o for o in extra if slug(o["name"]) not in names], key=lambda o: o["_nsfw"])
     only = ONLY_CHARACTERS.get(novel["title"])
     return [e for k, e in out.items() if not only or k in only]
 
@@ -133,6 +158,7 @@ def characters(novel):
 def add_novel(novel, manifest):
     """Queue downloads for one novel and append its entries to the manifest."""
     jobs = []
+    novel_nsfw = novel["title"] in NSFW_NOVELS
 
     def outfit_sprites(outfit, folder):
         emo = {e["id"]: e["sources"]["png"] for e in outfit["emotions"]}
@@ -159,7 +185,8 @@ def add_novel(novel, manifest):
             if slug(o["name"]) not in seen:  # outfit names repeat now and then ("Joey 3" twice)
                 seen.add(slug(o["name"]))
                 costumes.append({"id": slug(o["name"]), "name": o["name"].strip(),
-                                 "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}")})
+                                 "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}"),
+                                 **({"nsfw": True} if o["_nsfw"] else {})})
         portrait = None
         if c.get("profile_pic") and c["profile_pic"] != "empty_char.png":
             portrait = f"portraits/{cid}.webp"
@@ -168,44 +195,51 @@ def add_novel(novel, manifest):
         m = re.search(r"Personality:\s*\[?([^\]\n{}]+)", desc)
         manifest["characters"].append({
             "id": cid, "name": entry["name"], "outfit": outfit["name"],
-            "short": c["short_description"].replace("{{user}}", "you"),
+            "short": (c.get("short_description") or "").replace("{{user}}", "you"),
             "traits": [t for t in (x.strip(' ".,') for x in m.group(1).split(",")) if t and len(t.split()) <= 3][:8] if m else [],
-            "sprites": sprites, "costumes": costumes, "portrait": portrait, "novel": novel["title"]})
+            "sprites": sprites, "costumes": costumes, "portrait": portrait, "novel": novel["title"],
+            # an NSFW novel, or no safe outfit at all: the whole character is NSFW
+            **({"nsfw": True} if novel_nsfw or outfit["_nsfw"] else {})})
 
-    for b in novel["backgrounds"]:
+    for b in novel.get("backgrounds") or []:
         src = b["source"].get("jpg")
         if not src:
             continue
         rel = f"backgrounds/{slug(b['name'])}-{b['id'][:6]}.webp"
         jobs.append((src, "1080p/", rel, dict(max_w=1600, fmt="WEBP", quality=80)))
         manifest["backgrounds"].append({"id": b["id"], "name": b["name"].replace("{{user}}", "Your"),
-                                        "desc": b["description"], "src": rel})
+                                        "desc": b["description"], "src": rel,
+                                        **({"nsfw": True} if novel_nsfw or NSFW_NAME.search(b["name"]) else {})})
 
-    for it in novel["inventory"]:
+    for it in novel.get("inventory") or []:
         if any(i["id"] == slug(it["name"]) for i in manifest["items"]):
             continue
         rel = f"items/{slug(it['name'])}.webp"
         jobs.append((it["icon"], "256p/", rel, dict(max_w=256, max_h=256)))
         manifest["items"].append({"id": slug(it["name"]), "name": it["name"].strip(),
-                                  "desc": it["description"], "icon": rel})
+                                  "desc": it["description"], "icon": rel, **({"nsfw": True} if novel_nsfw else {})})
 
     # music is streamed straight from the miku.gg CDN by the game, not downloaded
-    for s in novel["songs"]:
+    for s in novel.get("songs") or []:
         sid, n = slug(s["name"]), 2
         while any(m["id"] == sid for m in manifest["music"]):  # same song name in two novels
             sid, n = f"{slug(s['name'])}-{n}", n + 1
         manifest["music"].append({"id": sid, "name": s["name"], "tags": s["tags"], "novel": novel["title"],
-                                   "url": urls(s["source"], "")[0]})
+                                   "url": urls(s["source"], "")[0],
+                                   **({"nsfw": True} if novel_nsfw or NSFW_NAME.search(s["name"]) else {})})
     return jobs
 
 
 def main():
     local = "--local" in sys.argv
     paths = [a for a in sys.argv[1:] if a != "--local"] or sorted(glob.glob(os.path.join(ROOT, "novels", "*.json")))
-    jobs, manifest = [], {"title": "Miku Battle", "novels": [], "characters": [], "backgrounds": [], "items": [], "music": []}
+    jobs, manifest = [], {"title": "Miku Battle", "novels": [], "nsfwNovels": [], "characters": [], "backgrounds": [],
+                          "items": [], "music": []}
     for p in paths:
-        novel = json.load(open(p, encoding="utf-8"))["novel"]
+        novel = load_novel(p)
         manifest["novels"].append(novel["title"])
+        if novel["title"] in NSFW_NOVELS:
+            manifest["nsfwNovels"].append(novel["title"])
         jobs += add_novel(novel, manifest)
 
     if local:
@@ -251,6 +285,11 @@ def main():
     for c in manifest["characters"]:
         if c["portrait"] in failed:
             c["portrait"] = None
+        # a usual-outfit emotion that didn't download stands in with one that did
+        ok = [p for p in c["sprites"].values() if p not in failed]
+        if ok:
+            c["sprites"] = {role: (p if p not in failed else c["sprites"]["idle"] if c["sprites"]["idle"] not in failed else ok[0])
+                            for role, p in c["sprites"].items()}
         # drop costumes whose sprites didn't download
         c["costumes"] = [o for o in c["costumes"] if not failed & set(o["sprites"].values())]
     with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:

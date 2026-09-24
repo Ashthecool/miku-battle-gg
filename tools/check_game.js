@@ -1,10 +1,11 @@
 // Loads the game's data and rules in Node and checks that everything fits together, then plays AI-vs-AI
 // battles to shake out abilities that throw. Run after changing game/js/data.js or the manifest:
-//   node tools/check_game.js [battles=300] [--texts]   (--texts prints the card/power texts written from specs)
+//   node tools/check_game.js [battles=300] [--texts] [--sfw]   (--texts prints the card/power texts written from specs;
+//   --sfw checks the game as it is with NSFW mode off, default is everything on)
 // Exits non-zero on errors. Warnings (texts to write, stat outliers) don't fail it.
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const GAME = path.join(__dirname, '..', 'game');
-const args = process.argv.slice(2), BATTLES = +args.find((a) => /^\d+$/.test(a)) || 300, TEXTS = args.includes('--texts');
+const args = process.argv.slice(2), BATTLES = +args.find((a) => /^\d+$/.test(a)) || 300, TEXTS = args.includes('--texts'), SFW = args.includes('--sfw');
 
 // ---------------------------------------------------------------- load the game in a sandbox
 const noop = () => {};
@@ -17,7 +18,8 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/collection.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+  if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
 const MB = sandbox.MB, M = sandbox.MIKU_MANIFEST;
@@ -142,6 +144,7 @@ for (const b of MB.BONDS) {
     if (!c) return err(`${at}: unknown character ${id}`);
     const cos = b.costumes[i];
     if (cos && !c.costumes.some((o) => o.id === cos)) err(`${at}: ${id} has no costume "${cos}" (has: ${c.costumes.map((o) => o.id).join(', ') || 'none'})`);
+    else if (cos && c.costumes.find((o) => o.id === cos).nsfw && !c.nsfw) warn(`${at}: ${id}'s costume "${cos}" is NSFW; pick a safe one`);
   });
   if (!MB.BOND_TIERS[b.tier]) err(`${at}: unknown tier ${b.tier}`);
   checkAttack(at, b.attack, true);
@@ -171,6 +174,7 @@ Object.entries(MB.HIDDEN_COSTUMES).forEach(([id, list]) => list.forEach((o) => {
 const bgNames = new Set(M.backgrounds.map((b) => b.name.trim().toLowerCase())), music = new Set(M.music.map((m) => m.id));
 MB.STORY.forEach((s, i) => {
   const at = `story ${i} (${s.foe})`;
+  if (MB.CHAPTERS[s.chapter] && MB.CHAPTERS[s.chapter].hidden) return; // NSFW mode off
   if (!chars.has(s.foe)) err(`${at}: unknown foe`);
   if (!bgNames.has(s.bg.trim().toLowerCase())) err(`${at}: no background named "${s.bg}"`);
   if (!music.has(s.music)) err(`${at}: no music "${s.music}"`);
