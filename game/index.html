@@ -83,26 +83,23 @@
     </div>
     <div class="menu">
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
-      <button id="btn-quick" class="menu-btn"><i>⚡</i><span>Quick Battle</span></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
       <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
-      <button id="btn-gallery" class="menu-btn"><i>✦</i><span>Attack Gallery</span></button>
-      <button id="btn-stats" class="menu-btn"><i>📊</i><span>Stats</span></button>
       <button id="btn-howto" class="menu-btn"><i>?</i><span>How to Play</span></button>
+      <button id="btn-profile" class="menu-btn"><i>👤</i><span>Profile</span></button>
+      <!-- developer tools, shown in dev mode (⚙️ → Developer mode, ?dev, or running locally) -->
+      <div class="menu-dev dev-only">
+        <button id="btn-quick" class="menu-btn"><i>⚡</i><span>Quick Battle</span></button>
+        <button id="btn-gallery" class="menu-btn"><i>✦</i><span>Attack Gallery</span></button>
+      </div>
     </div>
-  </div>
-
-  <div id="screen-stats" class="screen">
-    <h1>Stats</h1>
-    <div id="stats-body" class="scroll-y"></div>
-    <button class="btn back" data-back>← Back</button>
   </div>
 
   <div id="screen-packs" class="screen">
     <h1>Card Packs</h1>
     <div id="pack-progress"></div>
     <div id="pack-list"></div>
-    <p class="pack-tip">Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
+    <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -116,8 +113,12 @@
         <div id="profile-tiles"></div>
       </div>
       <div id="avatar-side">
-        <h2>Profile pictures <span id="avatar-count"></span></h2>
+        <div id="profile-tabs">
+          <button data-tab="pics">🖼 Profile pictures <span id="avatar-count"></span></button>
+          <button data-tab="stats">📊 Stats</button>
+        </div>
         <div id="avatar-grid" class="scroll-y"></div>
+        <div id="stats-body" class="scroll-y hidden"></div>
       </div>
     </div>
     <button class="btn back" data-back>← Back</button>
@@ -147,16 +148,26 @@
   </div>
 
   <div id="screen-deck" class="screen">
-    <h1>Deck Builder <span id="deck-count"></span> <span id="coll-count"></span></h1>
-    <div id="collection" class="scroll-y"></div>
-    <div id="deck-side">
-      <div id="deck-tabs"></div>
-      <div id="deck-curve"></div>
-      <div id="deck-list" class="scroll-y"></div>
-      <div class="row">
-        <button id="deck-reset" class="btn">Starter</button>
-        <button id="deck-clear" class="btn">Clear</button>
-        <button class="btn primary" data-back>Done</button>
+    <div id="coll-head"><h1>Collection</h1><div id="coll-progress"></div></div>
+    <div id="coll-main">
+      <div id="coll-left">
+        <div id="coll-tools"></div>
+        <div id="collection" class="scroll-y"></div>
+      </div>
+      <div id="deck-side">
+        <div id="deck-tabs"></div>
+        <div id="deck-head">
+          <div class="dh-name"><small>DECK</small><b id="deck-name"></b><button id="deck-rename" title="Rename deck">✎</button></div>
+          <div id="deck-count"></div>
+        </div>
+        <div id="deck-meta"></div>
+        <div id="deck-curve"></div>
+        <div id="deck-list" class="scroll-y"></div>
+        <div class="row">
+          <button id="deck-reset" class="btn">Starter</button>
+          <button id="deck-clear" class="btn">Clear</button>
+          <button class="btn primary" data-back>Done</button>
+        </div>
       </div>
     </div>
   </div>
@@ -169,13 +180,13 @@
       <p><b>Drag from a glowing character</b> to an enemy to attack. Both deal their ATK to each other — unless the attacker is 🏹 Ranged. Hitting the leader is free.</p>
       <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
-      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> — open it in <b>Card Packs</b> for new <b style="color:#4aa3ff">Rare</b>, <b style="color:#b35cff">Epic</b> or <b style="color:#ffc93c">Legendary</b> cards and <b>profile pictures</b>. Beating a Story rival also adds their card. <b>Right-click</b> any card for a close-up.</p>
-      <p>🖼 <b>Profile:</b> click your name at the top right of the main menu to pick a profile picture from the ones you've unlocked.</p>
-      <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse. Preview them in the Attack Gallery.</p>
-      <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one). Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
+      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival adds their card at once. <b>Right-click</b> any card for a close-up.</p>
+      <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by clearing Story stages.</p>
+      <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse.</p>
+      <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one); the filters above the cards find what you need. Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
       <p>👗 <b>Costumes:</b> right-click a character you own and pick an outfit from its <b>Wardrobe</b>.</p>
       <div class="kw-list"></div>
-      <p>Every character has their own <b>attack style</b> — preview them all in the <b>Attack Gallery</b>.</p>
+      <p>Every character has their own <b>attack style</b>.</p>
     </div>
     <button class="btn back" data-back>← Back</button>
   </div>
@@ -200,6 +211,7 @@
     <label>Effects <input id="vol-sfx" type="range" min="0" max="1" step="0.05"></label>
     <label>Jukebox <select id="jukebox"></select></label>
     <div id="now-playing"></div>
+    <label title="Shows Quick Battle and the Attack Gallery on the main menu">Developer mode <input id="dev-mode" type="checkbox"></label>
     <div class="save-row">
       <span>Save data</span>
       <button id="save-export" class="btn small" title="Download your progress as a file">Export</button>
@@ -222,6 +234,7 @@
 <script src="assets/manifest.js"></script>
 <script src="js/avatars.js"></script>
 <script src="js/data.js"></script>
+<script src="js/collection.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>
@@ -230,6 +243,7 @@
 <script src="js/view.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/cards.js"></script>
+<script src="js/menutips.js"></script>
 <script src="js/main.js"></script>
 <script>
   document.querySelector('.kw-list').innerHTML = Object.values(MB.KEYWORDS).map((k) => `<div>${k.icon} <b>${k.name}</b> — ${k.text}</div>`).join('');

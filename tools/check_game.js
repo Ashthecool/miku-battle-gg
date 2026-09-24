@@ -17,7 +17,7 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/data.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/collection.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
 const MB = sandbox.MB, M = sandbox.MIKU_MANIFEST;
@@ -181,8 +181,39 @@ MB.CHAPTERS.forEach((c, i) => { if (!MB.STORY.some((s) => s.chapter === i)) err(
 MB.STARTER_DECK.forEach((id) => { if (!MB.CARDS[id]) err(`starter deck: unknown card ${id}`); });
 MB.STARTER_LEADERS.forEach((id) => { if (!MB.POWERS[id]) err(`starter leader ${id} has no power`); });
 
-// ---------------------------------------------------------------- AI vs AI
+// ---------------------------------------------------------------- packs, fragments, profile pictures
 const pick = (a) => a[Math.random() * a.length | 0];
+const C = MB.Collection;
+Object.entries(MB.PACKS).forEach(([t, p]) => p.slots.forEach((slot) => {
+  if (!MB.SHARD_DROP[slot]) err(`pack ${t}: slot "${slot}" has no MB.SHARD_DROP amount`);
+  if (slot !== 'card' && !MB.RARITY[slot]) err(`pack ${t}: unknown slot rarity "${slot}"`);
+}));
+['rare', 'epic', 'legendary'].forEach((r) => { if (!(MB.RARITY[r].shards >= 1)) err(`rarity ${r}: needs a shards count`); });
+MB.AVATARS.forEach((a) => { if (a.id !== MB.STARTER_AVATAR && C.avatarStage[a.id] == null) err(`profile picture ${a.id} isn't won anywhere in Story`); });
+// open packs from a fresh save until everything is unlocked, checking every result
+const packRuns = [];
+for (let run = 0; run < 100; run++) {
+  const s = { unlocked: MB.STARTER_CARDS.slice(), shards: {} };
+  let n = 0;
+  while (C.locked(s).length && n < 1000) {
+    const tier = pick(['common', 'common', 'common', 'rare', 'epic']);
+    const got = C.openPack(s, tier);
+    n++;
+    got.forEach((g) => {
+      if (!(g.to > g.from && g.to <= g.need)) err(`pack ${tier}: bad fragments ${JSON.stringify(g)}`);
+      if (g.done !== s.unlocked.includes(g.card)) err(`pack ${tier}: ${g.card} done=${g.done} but unlocked=${s.unlocked.includes(g.card)}`);
+    });
+    if (!got.length) err(`pack ${tier}: empty while cards are still locked`);
+    if (Object.entries(s.shards).some(([id, k]) => s.unlocked.includes(id) || k >= C.need(id))) err('fragments left on an unlocked or complete card');
+  }
+  if (C.locked(s).length) err(`packs: collection still incomplete after ${n} packs`);
+  packRuns.push(n);
+  if (errors.length > 20) break;
+}
+const packAvg = packRuns.reduce((a, b) => a + b, 0) / packRuns.length;
+if (packAvg > 250) warn(`packs: ${packAvg.toFixed(0)} packs on average to complete the collection`);
+
+// ---------------------------------------------------------------- AI vs AI
 const viewStub = new Proxy({}, {
   get: (_, name) => (...args) => {
     const fn = args.find((a) => typeof a === 'function');
@@ -228,6 +259,7 @@ function randomDeck() {
   warnings.forEach((w) => console.log('warn  ' + w));
   errors.forEach((e) => console.log('ERROR ' + e));
   console.log(`\n${M.characters.length} characters, ${Object.keys(MB.CARDS).length} cards, ${MB.BONDS.length} bonds, ${MB.STORY.length} story stages`);
+  console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);
   process.exit(errors.length ? 1 : 0);
 })();

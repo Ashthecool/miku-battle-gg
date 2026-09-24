@@ -1492,7 +1492,12 @@
     let own;
     if (def.fused) own = `<div class="cm-own">💞 ${MB.BOND_TIERS[def.bond.tier].name} fusion — formed when both partners share the board.</div>`;
     else if (def.rarity === 'token') own = '<div class="cm-own">Token — created by other cards, never in decks.</div>';
-    else if (locked) own = `<div class="cm-own lockedtxt">🔒 Not in your collection yet.<br>Find it in 🎁 card packs (won in battle): <b>${(MB.UI.dropChance(def.id) * 100).toFixed(1)}%</b> per pack card${MB.STORY.some((s) => s.foe === def.id) ? ' — or beat them in Story' : ''}.</div>`;
+    else if (locked) {
+      const have = MB.UI.shardsOf(def.id), need = MB.Collection.need(def.id);
+      own = `<div class="cm-own lockedtxt">🔒 Not in your collection yet: <b>🧩 ${have}/${need}</b> fragments.
+        <div class="cm-shardbar"><i style="width:${(have / need) * 100}%"></i></div>
+        Find the rest in 🎁 card packs (won in battle)${MB.STORY.some((s) => s.foe === def.id) ? ', or beat them in Story to get the whole card' : ''}.</div>`;
+    }
     else own = `<div class="cm-own">✔ In your collection · ${inDeck}/${MB.UI.maxCopies(def.id)} in deck</div>`;
     return `
       <div class="cm-rarity"><span class="stars">${starStr(r)}</span> ${r.name.toUpperCase()}</div>
@@ -1527,7 +1532,7 @@
   }
 
   // ---------------------------------------------------------------- new card / picture reveal
-  // items: card ids, or { card } / { avatar } from a pack
+  // items: card ids (a whole card), { avatar }, or { card, from, to, need, done }: fragments from a pack
   let revealing = false;
   function revealLayer() {
     const ov = el('div', 'rv', `<div class="rv-bg"></div><div class="rv-rays"></div><div class="rv-fx"></div>
@@ -1559,8 +1564,9 @@
   function revealOne(ov, item, i, n) {
     const it = typeof item === 'string' ? { card: item } : item;
     const X = 800, Y = 440, S = 1.9;
-    const def = it.card && defOf(it.card), r = def ? rarityOf(def) : null;
-    const col = r ? r.color : AVATAR_COLOR, lvl = r ? Math.max(1, r.stars) : 2;
+    const def = it.card && defOf(it.card), r = def ? rarityOf(def) : null, shard = it.need != null;
+    // a few fragments get a shorter build-up than a card coming together
+    const col = r ? r.color : AVATAR_COLOR, lvl = r ? Math.max(1, shard && !it.done ? Math.min(2, r.stars) : r.stars) : 2;
     const layer = ov.querySelector('.rv-fx'), rays = ov.querySelector('.rv-rays'), flash = ov.querySelector('.rv-flash');
     const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub'), hint = ov.querySelector('.rv-hint');
     ov.style.setProperty('--rc', col);
@@ -1568,6 +1574,7 @@
     const back = el('div', 'rv-back', '<div class="rv-back-emblem">✦</div>');
     const card = def ? bigCard(it.card).c : avatarCard(it.avatar, W * S, H * S);
     if (def) card.style.zoom = S;
+    if (shard) MB.UI.lockCard(card, it.from);
     const front = el('div', 'rv-front');
     Object.assign(front.style, { width: W * S + 'px', height: H * S + 'px' });
     front.appendChild(card);
@@ -1575,10 +1582,12 @@
     gsap.set([glow, back, front], { x: X, y: Y, xPercent: -50, yPercent: -50 });
     gsap.set(front, { rotationY: -90, opacity: 0, transformPerspective: 1200 });
     gsap.set(glow, { opacity: 0 });
-    title.textContent = def ? r.name.toUpperCase() + '!' : 'NEW PICTURE!';
+    const got = shard ? it.to - it.from : 0;
+    title.textContent = shard ? `+${got} FRAGMENT${got > 1 ? 'S' : ''}` : def ? r.name.toUpperCase() + '!' : 'NEW PICTURE!';
     title.style.color = col;
     const count = n > 1 ? ` <small>(${i + 1}/${n})</small>` : '';
-    sub.innerHTML = def ? `<b>${def.name}</b> joined your collection${count}`
+    const shardLine = (k) => `<b>${def.name}</b> · 🧩 ${k}/${it.need}${count}`;
+    sub.innerHTML = shard ? shardLine(it.from) : def ? `<b>${def.name}</b> joined your collection${count}`
       : `<b>${MB.UI.avatarById(it.avatar).name}</b> is now a profile picture${count}`;
     gsap.set([title, sub, hint], { opacity: 0 });
 
@@ -1615,8 +1624,9 @@
       .to(front, { rotationY: 0, opacity: 1, duration: 0.7, ease: 'back.out(2)' }, '<')
       .fromTo(rays, { opacity: 0, scale: 0.2 }, { opacity: 0.15 + lvl * 0.15, scale: 1, duration: 0.9, ease: 'power2.out' }, '<')
       .fromTo(title, { opacity: 0, scale: 3, letterSpacing: '40px' }, { opacity: 1, scale: 1, letterSpacing: '10px', duration: 0.6, ease: 'back.out(1.6)' }, '<0.1')
-      .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, '<0.3')
-      .call(() => {
+      .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, '<0.3');
+    if (shard) shardsIn(tl, it, { card, layer, X, Y, S, col, title, sub, flash, ov, shardLine, def, count });
+    tl.call(() => {
         idle.push(gsap.to(rays, { rotation: '+=360', duration: 30 - lvl * 4, repeat: -1, ease: 'none' }));
         idle.push(gsap.to(front, { y: Y - 12, rotationY: 8, duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
         stopMotes = motes(layer, { x0: X - 240, x1: X + 240, y0: Y + 100, y1: Y + 240 }, col, 0.6 / lvl);
@@ -1638,6 +1648,60 @@
       };
       ov.addEventListener('pointerdown', onClick);
     });
+  }
+
+  // the fragments fly into their pieces of the card one by one; a finished card sheds its cracks
+  function shardsIn(tl, it, { card, layer, X, Y, S, col, title, sub, flash, ov, shardLine, def, count }) {
+    const pieces = card.querySelectorAll('.sh'), veil = card.querySelector('.shard-veil');
+    const bar = card.querySelector('.shard-count i'), num = card.querySelector('.shard-count span');
+    const u = 160 / 166; // svg units -> card px
+    for (let k = it.from; k < it.to; k++) {
+      const p = pieces[k]; // measured when its turn comes, once the card is on the page
+      const f = fxEl(layer, 'rv-frag', '🧩', col);
+      const sx = X + (k % 2 ? 1 : -1) * 520, sy = Y + 260 - (k - it.from) * 60;
+      gsap.set(f, { x: sx, y: sy, xPercent: -50, yPercent: -50, opacity: 0, scale: 0.6 });
+      tl.addLabel('frag' + k, k === it.from ? '+=0.25' : '+=0.05')
+        .call(() => {
+          const bb = p.getBBox(), cx = X - (W * S) / 2 + (bb.x + bb.width / 2) * u * S, cy = Y - (H * S) / 2 + (bb.y + bb.height / 2) * u * S;
+          MB.audio.sfx('whoosh');
+          gsap.timeline()
+            .to(f, { opacity: 1, scale: 1.3, duration: 0.12 })
+            .to(f, { motionPath: { path: [{ x: sx, y: sy }, { x: (sx + cx) / 2, y: Math.min(sy, cy) - 160 }, { x: cx, y: cy }], curviness: 1.2 },
+              rotation: 540, scale: 0.8, duration: 0.45, ease: 'power2.in' }, 0)
+            .call(() => {
+              f.remove();
+              MB.audio.sfx('coin');
+              spray(layer, cx, cy, col, 18, { dist: [40, 200], size: [4, 10] });
+              ring(layer, cx, cy, '#ffffff', { size: 60, scale: 3, dur: 0.5, width: 4 });
+            });
+        }, null, 'frag' + k)
+        .to(p, { opacity: 0, duration: 0.25 }, `frag${k}+=0.57`)
+        .call(() => {
+          num.textContent = `🧩 ${k + 1}/${it.need}`;
+          bar.style.width = ((k + 1) / it.need) * 100 + '%';
+          sub.innerHTML = shardLine(k + 1);
+        }, null, `frag${k}+=0.57`)
+        .fromTo(card, { filter: 'brightness(1.8)' }, { filter: 'brightness(1)', duration: 0.35, clearProps: 'filter' }, `frag${k}+=0.57`);
+      if (k === it.from && veil) tl.to(veil, { opacity: 0, scale: 0.6, duration: 0.25 }, `frag${k}+=0.57`);
+    }
+    if (!it.done) return;
+    // complete: the cracks glow, burst off, and the card is yours
+    const shards = card.querySelector('.shards');
+    tl.to(shards, { filter: 'brightness(3) drop-shadow(0 0 8px #fff)', duration: 0.3 }, '+=0.35')
+      .call(() => {
+        MB.audio.sfx('win'); MB.audio.sfx('slam');
+        spray(layer, X, Y, col, 90, { dist: [180, 600], size: [6, 16], dur: [0.8, 1.6] });
+        spray(layer, X, Y, '#ffffff', 30, { dist: [120, 420], size: [3, 8] });
+        ring(layer, X, Y, col, { size: 180, scale: 8, dur: 0.9, width: 8 });
+        ring(layer, X, Y, '#ffffff', { size: 140, scale: 6, dur: 0.7, width: 4 });
+        gsap.fromTo(ov, { x: -14, y: 6 }, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.15)', clearProps: 'x,y' });
+        title.textContent = 'UNLOCKED!';
+        sub.innerHTML = `<b>${def.name}</b> joined your collection${count}`;
+      })
+      .to(shards, { scale: 1.25, opacity: 0, duration: 0.45, ease: 'power2.out' }, '<')
+      .fromTo(flash, { opacity: 0 }, { opacity: 0.8, duration: 0.06 }, '<')
+      .to(flash, { opacity: 0, duration: 0.6 })
+      .fromTo(title, { scale: 2.4 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' }, '<');
   }
 
   // ---------------------------------------------------------------- pack opening

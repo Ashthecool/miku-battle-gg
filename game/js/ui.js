@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 3;
+  const SAVE_VERSION = 4;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -33,6 +33,10 @@
       s.avatars = [MB.STARTER_AVATAR];
       s.avatar = MB.STARTER_AVATAR;
     },
+    (s) => {
+      // packs now hold card fragments; profile pictures moved to Story (loadSave hands out the cleared stages' ones)
+      s.shards = {};
+    },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
   const freshSave = () => ({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
@@ -48,6 +52,12 @@
     // commons added by later novels are owned right away
     s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
     MB.CHAPTERS.forEach((_, i) => { s.progress[i] = s.progress[i] || 0; });
+    // fragments: card id -> how many, kept only for cards still locked and short of complete
+    const shards = obj(s.shards) ? s.shards : {};
+    s.shards = {};
+    Object.entries(shards).forEach(([id, n]) => {
+      if (MB.CARDS[id] && !s.unlocked.includes(id) && (n |= 0) > 0) s.shards[id] = Math.min(n, MB.Collection.need(id) - 1);
+    });
     // decks: always DECK_SLOTS of them, and a deck holding a card you don't own goes back to the starter
     for (let i = 0; i < DECK_SLOTS; i++) {
       const d = obj(s.decks[i]) ? s.decks[i] : {};
@@ -63,6 +73,7 @@
     // packs: tier -> how many are waiting to be opened
     s.packs = Object.fromEntries(Object.keys(MB.PACKS).map((t) => [t, Math.max(0, (obj(s.packs) && s.packs[t]) | 0)]));
     s.avatars = [...new Set([MB.STARTER_AVATAR, ...s.avatars.filter((a) => typeof a === 'string')])];
+    MB.Collection.grantStoryAvatars(s); // stages cleared before pictures were Story rewards, or pictures added since
     if (!s.avatars.includes(s.avatar) || !avatarById.has(s.avatar)) s.avatar = MB.STARTER_AVATAR;
     s.name = String(s.name || '').slice(0, 20) || 'Player';
     // stats groups map an id to [wins, losses]
@@ -73,7 +84,7 @@
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
       && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars'].every((k) => s[k] === undefined || Array.isArray(s[k]))
-      && ['costumes', 'stats', 'packs'].every((k) => s[k] === undefined || obj(s[k]));
+      && ['costumes', 'stats', 'packs', 'shards'].every((k) => s[k] === undefined || obj(s[k]));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -132,51 +143,74 @@
     n.classList.toggle('bad', !!bad);
   }
 
-  const deckCards = () => Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token);
+  const deckCards = MB.Collection.deckCards;
   const maxCopies = (id) => MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2;
 
   // ---------------------------------------------------------------- collection
-
   const isUnlocked = (id) => save.unlocked.includes(id);
-  // locked cards grouped by rarity, only rarities worth at least minStars
-  function lockedByRarity(minStars = 0) {
-    const groups = {};
-    deckCards().filter((id) => !isUnlocked(id) && MB.RARITY[MB.CARDS[id].rarity].stars >= minStars)
-      .forEach((id) => (groups[MB.CARDS[id].rarity] = groups[MB.CARDS[id].rarity] || []).push(id));
-    const total = Object.keys(groups).reduce((s, r) => s + MB.RARITY[r].weight, 0);
-    return { groups, total };
+  const shardsOf = (id) => save.shards[id] || 0;
+  // Story rewards: the whole card at once
+  function unlock(id) {
+    if (!id || !MB.CARDS[id] || isUnlocked(id)) return false;
+    save.unlocked.push(id);
+    delete save.shards[id];
+    return true;
   }
-  function dropChance(id) {
-    if (isUnlocked(id)) return 0;
-    const { groups, total } = lockedByRarity(), r = MB.CARDS[id].rarity;
-    return MB.RARITY[r].weight / total / groups[r].length;
+
+  // A locked card is drawn in pieces, one shard per fragment it needs; the ones you have are see-through.
+  // A card is always cut the same way (seeded by its id) and its pieces always fill in in the same order.
+  const SHARD_GRID = { 1: [1, 1], 2: [1, 2], 3: [1, 3], 4: [2, 2], 5: [1, 5], 6: [2, 3], 8: [2, 4], 9: [3, 3] };
+  const shardCache = new Map();
+  function seeded(str) {
+    let h = 1779033703;
+    for (const ch of str) h = Math.imul(h ^ ch.charCodeAt(0), 3432918353) >>> 0;
+    return () => { h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0; h = Math.imul(h ^ (h >>> 13), 3266489909) >>> 0; return ((h ^= h >>> 16) >>> 0) / 4294967296; };
   }
-  function rollDrop(minStars) {
-    const { groups, total } = lockedByRarity(minStars);
-    if (!total) return null;
-    let x = Math.random() * total;
-    for (const r of Object.keys(groups)) { x -= MB.RARITY[r].weight; if (x <= 0) return MB.pick(groups[r]); }
-    return MB.pick(Object.values(groups).pop());
+  // the pieces as SVG point lists over the card's 166x226 border box, in fill-in order
+  function shardShapes(id) {
+    if (shardCache.has(id)) return shardCache.get(id);
+    const n = MB.Collection.need(id), [cols, rows] = SHARD_GRID[n] || [1, n], rnd = seeded(id);
+    const cw = 166 / cols, ch = 226 / rows, jit = (k) => (rnd() - 0.5) * k;
+    const v = [];
+    for (let x = 0; x <= cols; x++) {
+      v[x] = [];
+      for (let y = 0; y <= rows; y++) v[x][y] = [x * cw + (x % cols ? jit(cw * 0.5) : 0), y * ch + (y % rows ? jit(ch * 0.5) : 0)];
+    }
+    // jagged cuts: a kinked midpoint on every inner edge, shared by the pieces on either side
+    const mid = (a, b, dx, dy) => [(a[0] + b[0]) / 2 + dx, (a[1] + b[1]) / 2 + dy];
+    const hm = {}, vm = {};
+    for (let x = 0; x < cols; x++) for (let y = 0; y <= rows; y++) hm[x + ',' + y] = mid(v[x][y], v[x + 1][y], 0, y % rows ? jit(ch * 0.35) : 0);
+    for (let x = 0; x <= cols; x++) for (let y = 0; y < rows; y++) vm[x + ',' + y] = mid(v[x][y], v[x][y + 1], x % cols ? jit(cw * 0.35) : 0, 0);
+    const out = [];
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      out.push([v[x][y], hm[x + ',' + y], v[x + 1][y], vm[(x + 1) + ',' + y], v[x + 1][y + 1], hm[x + ',' + (y + 1)], v[x][y + 1], vm[x + ',' + y]]
+        .map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' '));
+    }
+    for (let i = out.length - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [out[i], out[k]] = [out[k], out[i]]; }
+    shardCache.set(id, out);
+    return out;
   }
-  function unlock(id) { if (id && MB.CARDS[id] && !isUnlocked(id)) { save.unlocked.push(id); return true; } return false; }
+  function shardOverlay(id, have = shardsOf(id)) {
+    const need = MB.Collection.need(id);
+    return el('div', 'shards' + (have ? '' : ' none'), `
+      <svg viewBox="0 0 166 226" preserveAspectRatio="none">${shardShapes(id).map((pts, i) => `<polygon class="sh${i < have ? ' got' : ''}" points="${pts}"/>`).join('')}</svg>
+      <div class="shard-veil"><b>🔒</b><span>${MB.RARITY[MB.CARDS[id].rarity].name}</span></div>
+      <div class="shard-count"><i style="width:${(have / need) * 100}%"></i><span>🧩 ${have}/${need}</span></div>`);
+  }
 
   // ---------------------------------------------------------------- packs & profile pictures
   const hasAvatar = (id) => save.avatars.includes(id);
-  const lockedAvatars = () => MB.AVATARS.filter((a) => !hasAvatar(a.id)).map((a) => a.id);
   const ownedAvatars = () => MB.AVATARS.filter((a) => hasAvatar(a.id)).length;
-  const allCollected = () => !lockedByRarity().total && !lockedAvatars().length;
+  const allCollected = () => !MB.Collection.locked(save).length;
   const packCount = () => Object.values(save.packs).reduce((a, b) => a + b, 0);
 
-  // spends one pack of this tier and unlocks what's inside: [{ card } | { avatar }], pictures first, rarest card last
+  // spends one pack of this tier and adds its fragments: [{ card, from, to, need, done }]
   function openPack(tier) {
     if (!(save.packs[tier] > 0)) return null;
     save.packs[tier]--;
-    const card = (min) => { const id = rollDrop(min) || rollDrop(0); return unlock(id) ? { card: id } : null; };
-    const avatar = () => { const ids = lockedAvatars(); if (!ids.length) return null; const id = MB.pick(ids); save.avatars.push(id); return { avatar: id }; };
-    const got = MB.PACKS[tier].slots.map((slot) => (slot === 'avatar' ? avatar() || card(0) : card(slot === 'card' ? 0 : MB.RARITY[slot].stars) || avatar())).filter(Boolean);
+    const got = MB.Collection.openPack(save, tier);
     persist();
-    const rank = (g) => (g.avatar ? -1 : rarityRank(g.card));
-    return got.sort((a, b) => rank(a) - rank(b));
+    return got;
   }
   function setAvatar(id) {
     if (!hasAvatar(id)) return;
@@ -310,6 +344,24 @@
     });
   }
 
+  // Quick Battle and the Attack Gallery are developer tools, shown in dev mode. It's on by default when the game
+  // runs locally (file:// or localhost); ⚙️ → Developer mode or ?dev / ?dev=0 switch it, remembered in this browser.
+  let dev = (() => {
+    const q = new URLSearchParams(location.search).get('dev');
+    const local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    try {
+      if (q != null) localStorage.setItem('mb-dev', q === '0' ? '0' : '1');
+      const stored = localStorage.getItem('mb-dev');
+      return stored == null ? local : stored === '1';
+    } catch (e) { return q != null ? q !== '0' : local; }
+  })();
+  function setDev(on) {
+    dev = on;
+    try { localStorage.setItem('mb-dev', on ? '1' : '0'); } catch (e) { /* not remembered */ }
+    document.body.classList.toggle('dev', dev);
+    $('#dev-mode').checked = dev;
+  }
+
   function title() {
     hideBattle();
     show('screen-title');
@@ -318,12 +370,17 @@
     titleScene();
     logoIntro();
     refreshProfileBits();
-    const btns = document.querySelectorAll('#screen-title .menu-btn');
+    MB.MenuTips.hide(true);
+    const btns = [...document.querySelectorAll('#screen-title .menu-btn')].filter((b) => b.offsetParent);
     gsap.fromTo(btns, { opacity: 0, x: -80, rotationY: -35, filter: 'blur(10px)' },
       { opacity: 1, x: 0, rotationY: 0, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, delay: 0.25, ease: 'power3.out', clearProps: 'filter' });
   }
 
   function bindMenuFx() {
+    document.body.classList.toggle('dev', dev);
+    $('#dev-mode').checked = dev;
+    $('#dev-mode').onchange = (e) => { MB.audio.sfx('click'); setDev(e.target.checked); };
+    MB.MenuTips.bind();
     document.querySelectorAll('#screen-title .menu-btn').forEach((b) => {
       const sheen = el('b', 'sheen');
       b.appendChild(sheen);
@@ -542,7 +599,7 @@
   function battleOver(win) {
     const cfg = current, r = $('#screen-result');
     let unlocked = null;
-    const rewards = [];
+    const rewards = [], pics = [];
     const chap = cfg.story != null ? MB.STORY[cfg.story].chapter : null;
     const finale = cfg.story != null && stagePos(cfg.story) === chapterStages(chap).length - 1;
     const firstClear = win && cfg.story != null && save.progress[chap] <= stagePos(cfg.story);
@@ -550,6 +607,7 @@
       save.progress[chap] = Math.max(save.progress[chap], stagePos(cfg.story) + 1);
       if (!save.leaders.includes(cfg.foe)) { save.leaders.push(cfg.foe); unlocked = cfg.foe; }
       if (unlock(cfg.foe)) rewards.push(cfg.foe);
+      pics.push(...MB.Collection.grantStoryAvatars(save));
     }
     recordResult(cfg, win);
     // packs: Common for a win, Rare on Hard or a first Story clear, Epic for a first chapter clear and every 5-win streak
@@ -573,12 +631,14 @@
       : `${foe.name} wins this round. Tweak your deck and try again!`;
     if (rewards.length) $('#result-text').innerHTML += `<br>🎴 New card${rewards.length > 1 ? 's' : ''}: ` +
       rewards.map((id) => `<b style="color:${MB.RARITY[MB.CARDS[id].rarity].color}">${MB.cardDef(id).name}</b>`).join(', ');
+    if (pics.length) $('#result-text').innerHTML += `<br>🖼 New profile picture${pics.length > 1 ? 's' : ''}: ` +
+      pics.map((id) => `<b style="color:#ff9cc9">${avatarById.get(id).name}</b>`).join(', ');
     if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
       `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
     else if (win) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
-    if (rewards.length) gsap.delayedCall(1.1, () => MB.Cards.reveal(rewards));
+    if (rewards.length || pics.length) gsap.delayedCall(1.1, () => MB.Cards.reveal([...rewards, ...pics.map((avatar) => ({ avatar }))]));
     gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
     gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
     gsap.fromTo('#result-foe', { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
@@ -586,21 +646,90 @@
     $('#result-again').textContent = cfg.story != null ? 'Story Map' : 'Rematch';
   }
 
-  // ---------------------------------------------------------------- deck builder
+  // ---------------------------------------------------------------- deck & collection
+  // the filters stay as they were when you come back; a chip set with nothing on doesn't filter
+  const filt = { text: '', type: new Set(), rarity: new Set(), cost: new Set(), show: 'all', novel: '' };
+  const COLL_RARITIES = ['common', 'rare', 'epic', 'legendary'];
   function deck() {
     hideBattle();
     show('screen-deck');
     MB.audio.music(MB.MUSIC.deck);
+    collTools();
     renderDeck();
-    gsap.fromTo('#collection .card', { opacity: 0, y: 50, rotationX: -50, scale: 0.85 },
+    gsap.fromTo([...document.querySelectorAll('#collection .card')].slice(0, 24), { opacity: 0, y: 50, rotationX: -50, scale: 0.85 },
       { opacity: 1, y: 0, rotationX: 0, scale: 1, duration: 0.55, stagger: 0.025, delay: 0.15, ease: 'back.out(1.4)' });
   }
-  function lockCard(c) {
+  function lockCard(c, have) {
     c.classList.add('locked');
-    c.appendChild(el('div', 'lock-veil', `<b>🔒</b><span>${MB.RARITY[MB.CARDS[c.dataset.id].rarity].name}</span>`));
+    c.appendChild(shardOverlay(c.dataset.id, have));
     return c;
   }
   const rarityRank = (id) => MB.RARITY[MB.CARDS[id].rarity].stars;
+  // 0 owned, 1 collecting its fragments, 2 not started
+  const ownState = (id) => (isUnlocked(id) ? 0 : shardsOf(id) ? 1 : 2);
+  const shake = (n) => gsap.fromTo(n, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' });
+
+  function passes(id) {
+    const d = MB.cardDef(id);
+    if (filt.text) {
+      const hay = [d.name, d.text, d.type === 'unit' && d.attack.name, ...(d.kw || []).map((k) => MB.KEYWORDS[k].name)].filter(Boolean).join(' ').toLowerCase();
+      if (!hay.includes(filt.text.toLowerCase())) return false;
+    }
+    if (filt.type.size && !filt.type.has(d.type)) return false;
+    if (filt.rarity.size && !filt.rarity.has(d.rarity)) return false;
+    if (filt.cost.size && !filt.cost.has(Math.min(7, d.cost))) return false;
+    if (filt.novel && !(MB.charById(id) && MB.charById(id).novel === filt.novel)) return false;
+    const st = ownState(id);
+    return filt.show === 'owned' ? st === 0 : filt.show === 'collecting' ? st === 1 : filt.show === 'locked' ? st > 0
+      : filt.show === 'deck' ? save.deck.includes(id) : true;
+  }
+
+  function collTools() {
+    const bar = $('#coll-tools');
+    bar.innerHTML = '';
+    const search = el('input');
+    Object.assign(search, { id: 'coll-search', type: 'search', placeholder: '🔍 Name, text, keyword…', value: filt.text, spellcheck: false });
+    search.oninput = () => { filt.text = search.value.trim(); renderCollection(); };
+    // chips toggle on and off; several can be on at once
+    const chips = (key, items) => {
+      const seg = el('div', 'chips');
+      items.forEach(([val, html, title, color]) => {
+        const b = el('button', filt[key].has(val) ? 'on' : '', html);
+        b.title = title;
+        if (color) b.style.setProperty('--cc', color);
+        b.onclick = () => {
+          MB.audio.sfx('click');
+          if (!filt[key].delete(val)) filt[key].add(val);
+          b.classList.toggle('on', filt[key].has(val));
+          renderCollection();
+        };
+        seg.appendChild(b);
+      });
+      return seg;
+    };
+    const sel = (key, options) => {
+      const s = el('select');
+      options.forEach(([v, t]) => s.appendChild(new Option(t, v, false, filt[key] === v)));
+      s.onchange = () => { MB.audio.sfx('click'); filt[key] = s.value; renderCollection(); };
+      return s;
+    };
+    const reset = el('button', 'chip-reset', '✕');
+    reset.title = 'Clear the filters';
+    reset.onclick = () => {
+      MB.audio.sfx('click');
+      Object.assign(filt, { text: '', show: 'all', novel: '' });
+      ['type', 'rarity', 'cost'].forEach((k) => filt[k].clear());
+      collTools(); renderCollection();
+    };
+    bar.append(search,
+      chips('type', [['unit', '👤', 'Characters'], ['spell', '🎒', 'Items']]),
+      chips('rarity', COLL_RARITIES.map((r) => [r, '<i class="gem"></i>', MB.RARITY[r].name, MB.RARITY[r].color])),
+      chips('cost', [0, 1, 2, 3, 4, 5, 6, 7].map((n) => [n, n === 7 ? '7+' : n, `Costs ${n === 7 ? '7 or more' : n} gold`])),
+      sel('show', [['all', 'All cards'], ['owned', '✔ Owned'], ['collecting', '🧩 Collecting'], ['locked', '🔒 Not owned'], ['deck', '🂠 In this deck']]),
+      sel('novel', [['', 'All novels'], ...MB.manifest.novels.map((n) => [n, n])]),
+      reset);
+  }
+
   function renderDeckTabs() {
     const tabs = $('#deck-tabs');
     tabs.innerHTML = '';
@@ -608,45 +737,71 @@
       const on = i === save.activeDeck, n = on ? save.deck.length : d.cards.length;
       const t = el('div', 'deck-tab' + (on ? ' on' : '') + (n !== DECK_SIZE ? ' bad' : ''), `<span class="dt-name"></span><small>${n}/${DECK_SIZE}</small>`);
       t.querySelector('.dt-name').textContent = d.name;
-      if (on) {
-        const pen = el('b', 'dt-rename', '✎');
-        pen.title = 'Rename deck';
-        pen.onclick = () => {
-          const name = prompt('Deck name:', d.name);
-          if (name == null || !name.trim()) return;
-          d.name = name.trim().slice(0, 20); persist(); renderDeckTabs();
-        };
-        t.appendChild(pen);
-      } else {
+      if (!on) {
         t.title = 'Switch to this deck';
         t.onclick = () => { MB.audio.sfx('click'); switchDeck(i); renderDeck(); };
       }
       tabs.appendChild(t);
     });
   }
+  function renameDeck() {
+    const d = save.decks[save.activeDeck], name = prompt('Deck name:', d.name);
+    if (name == null || !name.trim()) return;
+    d.name = name.trim().slice(0, 20); persist(); renderDeckSide();
+  }
+
   function renderDeck(added) {
-    const col = $('#collection'), list = $('#deck-list');
-    col.innerHTML = ''; list.innerHTML = '';
-    renderDeckTabs();
-    deckCards().sort((a, b) => (isUnlocked(b) - isUnlocked(a)) || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b)).forEach((id) => {
+    renderCollection();
+    renderDeckSide(added);
+  }
+
+  function renderCollHead() {
+    const cards = deckCards();
+    const meters = COLL_RARITIES.map((r) => {
+      const all = cards.filter((id) => MB.CARDS[id].rarity === r), own = all.filter(isUnlocked).length;
+      return `<div class="cmeter${own === all.length ? ' full' : ''}" style="--rc:${MB.RARITY[r].color}" title="${MB.RARITY[r].name}: ${own} of ${all.length} owned">
+        <i class="gem"></i><span>${own}/${all.length}</span><b><i style="width:${(own / all.length) * 100}%"></i></b></div>`;
+    }).join('');
+    const collecting = Object.keys(save.shards).length;
+    $('#coll-progress').innerHTML = `<div class="ctotal">🎴 <b>${cards.filter(isUnlocked).length}</b>/${cards.length}</div>${meters}
+      <div class="ccollect" title="Cards you have some fragments of">🧩 <b>${collecting}</b> collecting</div>`;
+  }
+
+  function renderCollection() {
+    const col = $('#collection');
+    col.innerHTML = '';
+    renderCollHead();
+    const ids = deckCards().filter(passes).sort((a, b) => ownState(a) - ownState(b)
+      || (ownState(a) === 1 && shardsOf(b) / MB.Collection.need(b) - shardsOf(a) / MB.Collection.need(a))
+      || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b));
+    if (!ids.length) col.appendChild(el('div', 'coll-empty', 'No cards match these filters.'));
+    ids.forEach((id) => {
       const c = cardEl(id);
       c.classList.add('collect');
       col.appendChild(c);
       if (!isUnlocked(id)) {
         lockCard(c);
-        c.addEventListener('click', () => { MB.audio.sfx('error'); gsap.fromTo(c, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); });
+        c.title = `Collect ${MB.Collection.need(id)} fragments from 🎁 card packs to unlock it`;
+        c.addEventListener('click', () => { MB.audio.sfx('error'); shake(c); });
         return;
       }
       const n = save.deck.filter((d) => d === id).length;
-      c.appendChild(el('div', 'copies', `${n}/${maxCopies(id)}`));
+      c.appendChild(el('div', 'copies' + (n ? ' in' : ''), `${n}/${maxCopies(id)}`));
       if (n >= maxCopies(id)) c.classList.add('maxed');
       c.addEventListener('click', () => {
-        if (save.deck.length >= DECK_SIZE || n >= maxCopies(id)) { MB.audio.sfx('error'); gsap.fromTo(c, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); return; }
+        if (save.deck.length >= DECK_SIZE || n >= maxCopies(id)) { MB.audio.sfx('error'); shake(c); return; }
         save.deck.push(id); persist(); MB.audio.sfx('play');
         MB.Cards.flyToDeck(c, $('#deck-list'));
         renderDeck(id);
       });
     });
+  }
+
+  function renderDeckSide(added) {
+    const list = $('#deck-list');
+    list.innerHTML = '';
+    renderDeckTabs();
+    $('#deck-name').textContent = save.decks[save.activeDeck].name;
     const counts = {};
     save.deck.forEach((id) => (counts[id] = (counts[id] || 0) + 1));
     Object.keys(counts).sort((a, b) => MB.CARDS[a].cost - MB.CARDS[b].cost).forEach((id) => {
@@ -655,6 +810,7 @@
       row.style.setProperty('--c', d.type === 'spell' ? d.color : d.attack.color);
       row.style.setProperty('--rc', MB.RARITY[d.rarity].color);
       row.style.backgroundImage = d.type === 'spell' ? '' : `linear-gradient(90deg, rgba(20,16,40,.95) 45%, rgba(20,16,40,.3)), url("${MB.spriteUrl(id, 'idle')}")`;
+      row.title = 'Click to take one out';
       row.addEventListener('click', () => {
         MB.audio.sfx('click');
         gsap.to(row, { x: -60, opacity: 0, duration: 0.18, ease: 'power2.in', onComplete: () => { save.deck.splice(save.deck.indexOf(id), 1); persist(); renderDeck(); } });
@@ -662,22 +818,26 @@
       list.appendChild(row);
       if (id === added) gsap.fromTo(row, { x: 50, filter: 'brightness(2.2)' }, { x: 0, filter: 'brightness(1)', duration: 0.6, delay: 0.35, ease: 'back.out(2)', clearProps: 'filter' });
     });
-    const owned = deckCards().filter(isUnlocked).length;
-    $('#coll-count').textContent = `· 🎴 ${owned}/${deckCards().length}`;
-    $('#deck-count').textContent = `${save.deck.length}/${DECK_SIZE}`;
-    $('#deck-count').classList.toggle('bad', save.deck.length !== DECK_SIZE);
+    if (!save.deck.length) list.appendChild(el('div', 'deck-empty', 'Empty deck.<br>Click owned cards on the left to add them.'));
+    const n = save.deck.length, count = $('#deck-count');
+    count.innerHTML = `<b>${n}</b>/${DECK_SIZE}`;
+    count.classList.toggle('bad', n !== DECK_SIZE);
+    count.style.setProperty('--p', (n / DECK_SIZE) * 100 + '%');
+    const units = save.deck.filter((id) => MB.cardDef(id).type === 'unit').length;
+    const avg = n ? (save.deck.reduce((t, id) => t + MB.CARDS[id].cost, 0) / n).toFixed(1) : '–';
+    const bonds = MB.BONDS.filter((bd) => bd.pair.every((id) => save.deck.includes(id))).length;
+    $('#deck-meta').innerHTML = `<span title="Characters">👤 <b>${units}</b></span><span title="Items">🎒 <b>${n - units}</b></span>
+      <span title="Average cost">🪙 <b>${avg}</b> avg</span><span title="Relationships that can form">💞 <b>${bonds}</b></span>`;
     const curve = new Array(8).fill(0);
     save.deck.forEach((id) => curve[Math.min(7, MB.CARDS[id].cost)]++);
     const mx = Math.max(1, ...curve);
-    $('#deck-curve').innerHTML = curve.map((n, i) => `<div class="bar"><i style="height:${(n / mx) * 100}%"></i><span>${i === 7 ? '7+' : i}</span></div>`).join('');
+    $('#deck-curve').innerHTML = curve.map((k, i) => `<div class="bar"><em>${k || ''}</em><i style="height:${(k / mx) * 100}%"></i><span>${i === 7 ? '7+' : i}</span></div>`).join('');
   }
 
   // ---------------------------------------------------------------- stats
   const pct = ([w, l]) => (w + l ? Math.round((w / (w + l)) * 100) : 0);
-  function stats() {
-    hideBattle();
-    show('screen-stats');
-    MB.audio.music(MB.MUSIC.title);
+  // the Stats tab of the profile
+  function renderStats() {
     const st = save.stats, body = $('#stats-body');
     const total = Object.values(st.difficulty).reduce((t, [w, l]) => [t[0] + w, t[1] + l], [0, 0]);
     if (!(total[0] + total[1])) { body.innerHTML = '<p class="stats-empty">No battles yet. Go win some!</p>'; return; }
@@ -844,11 +1004,11 @@
   }
   function slotsText(slots) {
     const n = (k) => slots.filter((s) => s === k).length;
+    const line = (k, label) => `${n(k)}× ${label} <span class="frag">${MB.SHARD_DROP[k]} 🧩</span>`;
     const lines = [];
-    if (n('epic')) lines.push(`${n('epic')} <b style="color:${MB.RARITY.epic.color}">Epic+</b> card`);
-    if (n('rare')) lines.push(`${n('rare')} <b style="color:${MB.RARITY.rare.color}">Rare+</b> card`);
-    if (n('card')) lines.push(`${n('card')} card`);
-    if (n('avatar')) lines.push(`${n('avatar')} profile picture${n('avatar') > 1 ? 's' : ''}`);
+    if (n('epic')) lines.push(line('epic', `<b style="color:${MB.RARITY.epic.color}">Epic+</b> card`));
+    if (n('rare')) lines.push(line('rare', `<b style="color:${MB.RARITY.rare.color}">Rare+</b> card`));
+    if (n('card')) lines.push(line('card', 'any card'));
     return lines.join('<br>');
   }
   let opening = false;
@@ -879,17 +1039,26 @@
       list.appendChild(t);
     });
     const cards = deckCards();
-    $('#pack-progress').innerHTML = `🎴 Cards <b>${cards.filter(isUnlocked).length}/${cards.length}</b> · 🖼 Profile pictures <b>${ownedAvatars()}/${MB.AVATARS.length}</b>`
+    $('#pack-progress').innerHTML = `🎴 Cards <b>${cards.filter(isUnlocked).length}/${cards.length}</b> · 🧩 Collecting <b>${Object.keys(save.shards).length}</b>`
       + (allCollected() ? ' · <b class="done">Collection complete!</b>' : '');
     refreshProfileBits();
   }
 
   // ---------------------------------------------------------------- profile
-  function profile() {
+  function profile(tab = 'pics') {
     hideBattle();
     show('screen-profile');
     MB.audio.music(MB.MUSIC.title);
     renderProfile();
+    profileTab(tab);
+  }
+  // the right-hand side: profile pictures or battle stats
+  function profileTab(tab) {
+    document.querySelectorAll('#profile-tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tab));
+    $('#avatar-grid').classList.toggle('hidden', tab !== 'pics');
+    $('#stats-body').classList.toggle('hidden', tab !== 'stats');
+    if (tab === 'stats') renderStats();
+    gsap.fromTo(tab === 'stats' ? '#stats-body' : '#avatar-grid', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' });
   }
   function renderProfile() {
     const a = avatarById.get(save.avatar), st = save.stats;
@@ -909,7 +1078,8 @@
     [...MB.AVATARS].sort((x, y) => hasAvatar(y.id) - hasAvatar(x.id)).forEach((av) => {
       const own = hasAvatar(av.id);
       const t = el('div', `pfp${own ? '' : ' locked'}${av.id === save.avatar ? ' on' : ''}`, `<img loading="lazy" src="${MB.avatarUrl(av.id)}" alt=""><span>${own ? av.name : '🔒'}</span>`);
-      t.title = own ? av.name : 'Find it in a card pack';
+      const at = MB.Collection.avatarStage[av.id];
+      t.title = own ? av.name : at == null ? 'Locked' : `Win it in Story: beat ${MB.charById(MB.STORY[at].foe).name} (Chapter ${MB.STORY[at].chapter + 1})`;
       t.onclick = () => {
         if (!own) { MB.audio.sfx('error'); gsap.fromTo(t, { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' }); return; }
         MB.audio.sfx('buff');
@@ -955,10 +1125,12 @@
   function bind() {
     $('#btn-story').onclick = () => { MB.audio.sfx('click'); story(); };
     $('#btn-quick').onclick = () => { MB.audio.sfx('click'); quick(); };
+    $('#btn-profile').onclick = () => { MB.audio.sfx('click'); profile(); };
+    document.querySelectorAll('#profile-tabs button').forEach((b) => (b.onclick = () => { MB.audio.sfx('click'); profileTab(b.dataset.tab); }));
+    $('#deck-rename').onclick = () => { MB.audio.sfx('click'); renameDeck(); };
     $('#btn-deck').onclick = () => { MB.audio.sfx('click'); deck(); };
     $('#btn-gallery').onclick = () => { MB.audio.sfx('click'); gallery(); };
     $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
-    $('#btn-stats').onclick = () => { MB.audio.sfx('click'); stats(); };
     $('#btn-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
     $('#profile-chip').onclick = () => { MB.audio.sfx('click'); profile(); };
     $('#profile-rename').onclick = () => { MB.audio.sfx('click'); renameProfile(); };
@@ -995,6 +1167,6 @@
     window.addEventListener('pointerdown', () => { MB.audio.unlock(); MB.audio.retry(); });
   }
 
-  MB.UI = { cardEl, lockCard, preview, title, battleOver, bind, save, show, isUnlocked, dropChance, maxCopies, costumesOf, setCostume,
+  MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
     avatarById: (id) => avatarById.get(id) };
 })();

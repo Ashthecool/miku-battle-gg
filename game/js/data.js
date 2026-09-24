@@ -789,27 +789,28 @@ MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'], '
 MB.STARTER_LEADERS = ['hayley-kate', 'james-lone', 'maiko-ghan', 'luther-jones'];
 
 // Rarity drives card frames, drop odds, reveal effects and how many copies a deck may hold (a card's own
-// `copies` overrides it). Only commons are owned at the start; everything else drops from battle wins
-// (weights are relative among still-locked rarities).
+// `copies` overrides it). Only commons are owned at the start; everything else is pieced together from the
+// fragments in card packs: `shards` of them unlock the card (weights are relative among still-locked rarities).
 MB.RARITY = {
-  common:    { name: 'Common',    color: '#c9d1dc', stars: 1, weight: 50, copies: 2 },
-  rare:      { name: 'Rare',      color: '#4aa3ff', stars: 2, weight: 30, copies: 2 },
-  epic:      { name: 'Epic',      color: '#b35cff', stars: 3, weight: 14, copies: 2 },
-  legendary: { name: 'Legendary', color: '#ffc93c', stars: 4, weight: 6, copies: 1 },
+  common:    { name: 'Common',    color: '#c9d1dc', stars: 1, weight: 50, copies: 2, shards: 2 },
+  rare:      { name: 'Rare',      color: '#4aa3ff', stars: 2, weight: 30, copies: 2, shards: 4 },
+  epic:      { name: 'Epic',      color: '#b35cff', stars: 3, weight: 14, copies: 2, shards: 6 },
+  legendary: { name: 'Legendary', color: '#ffc93c', stars: 4, weight: 6, copies: 1, shards: 9 },
   token:     { name: 'Token',     color: '#888888', stars: 0, weight: 0 },
   bond:      { name: 'Fusion',    color: '#ff5fa2', stars: 4, weight: 0 },
 };
 
 MB.STARTER_CARDS = Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].rarity === 'common' && !MB.CARDS[id].token);
 
-// Packs are earned by winning and opened from the Packs screen. Each slot is a card of at least that
-// rarity ('card' = any), or 'avatar' for a profile picture (MB.AVATARS, from js/avatars.js).
-// A slot with nothing left to unlock gives the other kind instead.
+// Packs are earned by winning and opened from the Packs screen. Each slot is a bundle of fragments of one
+// locked card of at least that rarity ('card' = any); MB.SHARD_DROP says how many fragments a bundle holds.
+// Profile pictures aren't in packs: they are won in Story (MB.stageAvatars, js/collection.js).
 MB.PACKS = {
-  common: { name: 'Common Pack', color: '#c9d1dc', slots: ['card', 'avatar'] },
-  rare:   { name: 'Rare Pack',   color: '#4aa3ff', slots: ['rare', 'card', 'avatar', 'avatar'] },
-  epic:   { name: 'Epic Pack',   color: '#b35cff', slots: ['epic', 'rare', 'avatar', 'avatar', 'avatar'] },
+  common: { name: 'Common Pack', color: '#c9d1dc', slots: ['card', 'card', 'card'] },
+  rare:   { name: 'Rare Pack',   color: '#4aa3ff', slots: ['rare', 'rare', 'card', 'card'] },
+  epic:   { name: 'Epic Pack',   color: '#b35cff', slots: ['epic', 'epic', 'rare', 'card', 'card'] },
 };
+MB.SHARD_DROP = { card: 1, rare: 2, epic: 3 };
 MB.STARTER_AVATAR = 'hayley';
 
 MB.STARTER_DECK = [
