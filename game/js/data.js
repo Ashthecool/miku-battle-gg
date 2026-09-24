@@ -1,5 +1,16 @@
 // Card, leader and story definitions. Character ids match assets/manifest.js.
+// Everything here is data: abilities are effect specs (js/effects.js), attacks name a style or are built from a
+// recipe (js/fx.js), entrances are recipes (js/cards.js). The full reference is .claude/skills/add-novel/.
 window.MB = window.MB || {};
+
+// Numbers the rules run on. deckSize also decides which saved decks are valid.
+MB.RULES = {
+  leaderHp: 30,     // both leaders in quick play; story foes set their own `hp`
+  maxGold: 10,      // gold grows by 1 each turn up to this
+  maxHand: 8,       // cards drawn past this burn
+  openingHand: 4,   // cards each side starts with (the one going second draws one more)
+  deckSize: 20,
+};
 
 MB.KEYWORDS = {
   taunt:     { name: 'Taunt',     icon: '🛡️', text: 'Enemies must attack this first.' },
@@ -17,7 +28,11 @@ MB.KEYWORDS = {
   rebel:     { name: 'Rebel',     icon: '🤘', text: 'Ignores Taunt.' },
 };
 
-// attack.style picks the animation in fx.js
+// attack.style picks the animation in fx.js. Without a style the attack is a recipe:
+//   attack: { name, color, move: 'blink', fx: 'slashes', hits: 3, prop: ['🐾'], scatter: ['❤️'], floor: 'splat', big: true }
+// Any attack can also have `cry` (said as it winds up), `finish` (over the target after the hit), `sfx`
+// (impact sound), and for some styles `words` / `mark` / `shout`. They replace the style's own lines.
+// Triggers: onPlay, onAttack, onKill, onDeath, onTurnStart, onTurnEnd, onAllyDeath, onHurt (effect specs).
 MB.CARDS = {
   'maria-hunley':    { cost: 6, atk: 5, hp: 8, rarity: 'legendary', kw: ['taunt'], onPlay: 'momHug',
     text: 'On play: give your other monsters +0/+2.', attack: { style: 'slam', name: 'Mama Bear Slam', color: '#5fd068' } },
@@ -114,7 +129,7 @@ MB.CARDS = {
   // texts are written from them.
   'yumi':                 { cost: 2, atk: 1, hp: 3, rarity: 'common', kw: [],
     onPlay: { label: 'Dolphin Daydream', color: '#7fd3ff', do: { op: 'draw' } },
-    attack: { style: 'orb', name: 'Hoshi no Iruka', color: '#7fd3ff', emoji: '🐬' },
+    attack: { style: 'dolphin', name: 'Hoshi no Iruka', color: '#7fd3ff' },
     intro: { move: 'fade', fx: 'swirl', emoji: ['🐬', '🌙', '💭'] }, quote: 'Dolphins... ♪' },
   'eri':                  { cost: 3, atk: 3, hp: 3, rarity: 'common', kw: ['haste'],
     attack: { style: 'spin', name: 'Twin-Tail Tornado', color: '#ff4f6d' },
@@ -125,7 +140,7 @@ MB.CARDS = {
     intro: { move: 'pop', fx: 'swirl', emoji: ['♈', '♋', '⭐'] }, quote: 'What is a... boy?' },
   'mariko':               { cost: 3, atk: 2, hp: 4, rarity: 'common', kw: [],
     onTurnStart: { label: 'Nurse Check-Up', color: '#ffd76a', do: { op: 'heal', to: 'mostHurtFriendly', n: 2 } },
-    attack: { style: 'frost', name: 'Flask Toss', color: '#ffd76a', emoji: '🧪' },
+    attack: { style: 'syringe', name: 'Doll Check-Up', color: '#ffd76a' },
     intro: { move: 'pop', fx: 'fling', emoji: ['🧪', '💊', '🎀'] }, quote: 'Hold still, my cute doll~' },
   'misaki':               { cost: 4, atk: 2, hp: 4, rarity: 'rare', kw: [],
     onTurnStart: { label: 'Payday!', color: '#c8a15a', do: { op: 'gold', n: 1 } },
@@ -137,11 +152,11 @@ MB.CARDS = {
     intro: { move: 'slide', fx: 'flash' }, quote: 'This is Unbelievable...' },
   'keiko':                { cost: 5, atk: 4, hp: 5, rarity: 'rare', kw: [],
     onPlay: { label: 'Forbidden Technique!', color: '#c22d4f', do: { op: 'damage', to: 'randomEnemy', n: 2, times: 2 } },
-    attack: { style: 'beam', name: 'Dark Flame Master', color: '#c22d4f' },
+    attack: { style: 'darkflame', name: 'Dark Flame Master', color: '#c22d4f' },
     intro: 'bolt', quote: 'Kneel before my sealed eye!' },
   'arisa':                { cost: 5, atk: 3, hp: 5, rarity: 'epic', kw: ['stealth'],
     onPlay: { label: 'Council Decree', color: '#4f8fff', do: [{ op: 'freeze', to: 'strongestEnemy' }, { op: 'buff', to: 'strongestEnemy', atk: -2 }] },
-    attack: { style: 'stamp', name: 'Student Council Veto', color: '#4f8fff' },
+    attack: { style: 'stamp', name: 'Student Council Veto', color: '#4f8fff', cry: 'Arisa-chan says no~', mark: 'VETOED' },
     intro: { move: 'pop', fx: 'confetti' }, quote: 'Arisa-chan is sooo innocent~' },
   'ai':                   { cost: 3, atk: 2, hp: 2, rarity: 'epic', kw: ['stealth', 'poison'],
     attack: { style: 'slash', name: 'For Ichinose-sensei!', color: '#e0245e' },
@@ -152,13 +167,13 @@ MB.CARDS = {
     intro: 'hellfire', quote: 'Evil prevails, desu~!' },
   'helga':                { cost: 7, atk: 5, hp: 7, rarity: 'legendary', kw: [],
     onPlay: { label: '...', color: '#9aa3b5', do: { op: 'freeze', to: 'enemies' } },
-    attack: { style: 'frost', name: 'Dead-Eyed Stare', color: '#9aa3b5', emoji: '🖤' },
+    attack: { style: 'stare', name: 'Dead-Eyed Stare', color: '#9aa3b5' },
     intro: { move: 'fade', fx: 'column' }, quote: '...Proceed.' },
 
   // Bloodline
   'rimu-hiraga':     { cost: 2, atk: 2, hp: 2, rarity: 'common', kw: [],
     onPlay: { label: 'Cheer Up!', color: '#c4368a', do: { op: 'buff', to: 'allies', atk: 1 } },
-    attack: { style: 'dash', name: 'Hiraga Charge', color: '#c4368a' },
+    attack: { move: 'dash', fx: 'hit', hits: 3, name: 'Hiraga Charge', color: '#c4368a', scatter: ['💜', '🎀'], finish: 'Together!' },
     intro: { move: 'hop', fx: 'fling', emoji: ['🎀', '💜'] }, quote: "I'm with you, always!" },
   'aoi-kananori':    { cost: 3, atk: 2, hp: 4, rarity: 'common', kw: [],
     onPlay: { label: 'Chapter One', color: '#b8a4e0', do: { op: 'draw', pick: 'unit' } },
@@ -189,12 +204,12 @@ MB.CARDS = {
     attack: { style: 'spin', name: 'Tooyama Whirlwind', color: '#e8b923' },
     intro: 'dash', quote: 'Hmph! Keep up, heir!' },
   'shino-okita':     { cost: 4, atk: 3, hp: 4, rarity: 'epic', kw: ['guardian', 'haste'],
-    attack: { style: 'slash', name: 'Okita Sandanzuki', color: '#3a6ea5' },
+    attack: { style: 'katana', name: 'Okita Sandanzuki', color: '#3a6ea5' },
     intro: { move: 'zoom', fx: 'flash' }, quote: '...I will protect you.' },
   'shogun-kagetora': { cost: 7, atk: 5, hp: 7, rarity: 'legendary', kw: ['taunt'],
     onPlay: { label: "Shogun's Decree", color: '#1f3a93', do: { op: 'buff', to: 'allies', atk: 1, hp: 1 } },
     onTurnStart: { label: 'Wisdom', color: '#1f3a93', do: { op: 'heal', to: 'myLeader', n: 2 } },
-    attack: { style: 'slam', name: 'Shogunate Judgment', color: '#1f3a93' },
+    attack: { style: 'warfan', name: 'Shogunate Judgment', color: '#1f3a93' },
     quote: 'Rise, heir of the bloodline.' },
 
   // Fake It to Make It!
@@ -203,10 +218,10 @@ MB.CARDS = {
     attack: { style: 'bounce', name: 'Hug Tackle', color: '#ff7fb0' },
     intro: { move: 'pop', fx: 'fling', emoji: ['💕', '🤗'] }, quote: 'Wait... say that again?' },
   'jack-lockster':   { cost: 5, atk: 4, hp: 6, rarity: 'common', kw: ['taunt'],
-    attack: { style: 'dash', name: 'Touchdown Tackle', color: '#3d6b2f' },
+    attack: { move: 'dash', fx: 'quake', big: true, name: 'Touchdown Tackle', color: '#3d6b2f', scatter: ['🏈', '💨'], finish: 'TOUCHDOWN!' },
     quote: 'Hm.' },
   'seren-lockster':  { cost: 2, atk: 2, hp: 2, rarity: 'common', kw: [],
-    onPlay: { label: 'No fighting!', color: '#58c07a', do: { op: 'freeze', to: 'randomEnemy' } },
+    onPlay: { label: 'No fighting!', color: '#58c07a', emoji: '📣', do: { op: 'freeze', to: 'randomEnemy' } },
     attack: { style: 'barrage', name: 'Squeak!', color: '#58c07a', emoji: '📣' },
     intro: { move: 'pop', fx: 'spray' }, quote: 'Eep! Hehe!' },
   'catrin-purl':     { cost: 2, atk: 1, hp: 4, rarity: 'common', kw: [],
@@ -219,7 +234,7 @@ MB.CARDS = {
     intro: { move: 'slide', fx: 'rain', emoji: ['🍬', '🍭', '🧁'] }, quote: 'Aww, so cute!' },
   'megan-dilourice': { cost: 4, atk: 3, hp: 5, rarity: 'rare', kw: ['taunt'],
     onPlay: { label: 'All in favor?', color: '#7fd6e0', do: { op: 'buff', to: 'allies', hp: 1 } },
-    attack: { style: 'stamp', name: 'Majority Vote', color: '#7fd6e0' },
+    attack: { style: 'stamp', name: 'Majority Vote', color: '#7fd6e0', cry: 'Motion to attack!', mark: 'PASSED' },
     quote: 'All in favor?' },
   'eira-randers':    { cost: 3, atk: 3, hp: 3, rarity: 'rare', kw: [],
     onPlay: { label: 'Like, duh!', color: '#ff9ad5', do: { op: 'buff', to: 'strongestEnemy', atk: -2, say: 'Bleh!' } },
@@ -239,11 +254,11 @@ MB.CARDS = {
     intro: { move: 'fade', fx: 'swirl', emoji: ['🎵', '📚', '🍂'] }, quote: 'Fun fact: harps are older than pianos!' },
   'ellis-maidun':    { cost: 4, atk: 3, hp: 4, rarity: 'legendary', kw: [],
     onPlay: { label: 'Surprise Cheer!', color: '#9ad14b', do: { op: 'buff', to: 'allies', atk: 1, hp: 1 } },
-    attack: { style: 'shout', name: 'Surprise Cheer', shout: 'GO TEAM!', color: '#9ad14b' },
+    attack: { style: 'pompom', name: 'Surprise Cheer', shout: 'GO TEAM!', color: '#9ad14b' },
     intro: { move: 'hop', fx: 'confetti' }, quote: "B-bro, I'm not a girl!" },
   'owain-owegrain':  { cost: 5, atk: 4, hp: 4, rarity: 'common', kw: [],
-    onPlay: { label: "YOU'RE OUT!", color: '#2e6b3a', do: { op: 'kill', to: 'weakestEnemy' } },
-    attack: { style: 'slam', name: "Manager's Wrath", color: '#2e6b3a' },
+    onPlay: { label: "YOU'RE OUT!", color: '#2e6b3a', emoji: '🟥', do: { op: 'kill', to: 'weakestEnemy' } },
+    attack: { style: 'redcard', name: "Manager's Wrath", color: '#2e6b3a' },
     quote: 'Rules are RULES!' },
 
   // New Haven (12 of its cast)
@@ -252,26 +267,26 @@ MB.CARDS = {
     attack: { style: 'confetti', name: 'Cheer Confetti', color: '#d4884a' },
     intro: { move: 'hop', fx: 'confetti' }, quote: '*happy bleat*' },
   'cheetor': { cost: 3, atk: 3, hp: 2, rarity: 'common', kw: ['haste'],
-    attack: { style: 'spin', name: 'Kickflip Spin', color: '#f2c14e' },
+    attack: { move: 'spin', fx: 'hit', hits: 2, name: 'Kickflip Spin', color: '#f2c14e', scatter: ['🛹', '💨'], finish: 'Gnarly, dude!' },
     intro: { move: 'slide', fx: 'spray' }, quote: 'Duuude, chill.' },
   'joseph':  { cost: 2, atk: 2, hp: 3, rarity: 'common', kw: [],
     onPlay: { label: 'Lunch time!', color: '#a67c52', do: { op: 'heal', to: 'myLeader', n: 2 } },
-    attack: { style: 'dash', name: 'Tray Dash', color: '#a67c52' },
+    attack: { move: 'dash', fx: 'throw', hits: 3, prop: ['🍱', '🥪', '🧃'], name: 'Tray Dash', color: '#a67c52', cry: 'Coming through!', finish: 'S-sorry, mate!' },
     intro: { move: 'hop', fx: 'spray' }, quote: 'Oh! H-hey there, mate.' },
   'natalie': { cost: 2, atk: 1, hp: 3, rarity: 'common', kw: [],
-    onDeath: { label: 'Joyeux Noël!', color: '#c0392b', do: { op: 'heal', to: 'friendly', n: 2 } },
+    onDeath: { label: 'Joyeux Noël!', color: '#c0392b', emoji: '🎁', do: { op: 'heal', to: 'friendly', n: 2 } },
     attack: { style: 'orb', name: 'Christmas Pun', color: '#c0392b', emoji: '🎄' },
     intro: { move: 'pop', fx: 'rain', emoji: ['🎄', '❄️', '🎁'] }, quote: 'Oh deer! Sorry!' },
   'quinta':  { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['haste', 'stealth'],
-    attack: { style: 'slash', name: 'Cat Scratch Combo', color: '#ff9a3c' },
+    attack: { move: 'blink', fx: 'slashes', hits: 3, name: 'Cat Scratch Combo', color: '#ff9a3c', cry: 'Chat, watch this!', scatter: ['🐾', '💬', '❤️'], finish: 'Nya~ GG!' },
     intro: { move: 'sneak', fx: 'spray' }, quote: "Chat, look who's here!" },
   'clara':   { cost: 5, atk: 3, hp: 7, rarity: 'rare', kw: ['taunt'],
     onPlay: { label: 'Fresh Milk!', color: '#3b4a8c', do: { op: 'heal', to: 'friendly', n: 2 } },
-    attack: { style: 'boomerang', name: 'Lollipop Lasso', color: '#3b4a8c', emoji: '🍭' },
+    attack: { style: 'lasso', name: 'Lollipop Lasso', color: '#3b4a8c' },
     intro: { move: 'drop', fx: 'fling', emoji: ['🍭', '🤠'] }, quote: 'Howdy, sugar!' },
   'juliana': { cost: 4, atk: 3, hp: 4, rarity: 'rare', kw: [],
     onPlay: { label: 'Lunch is served!', color: '#e39b6b', do: { op: 'buff', to: 'allies', hp: 2 } },
-    attack: { style: 'bounce', name: 'Roo Kick', color: '#e39b6b' },
+    attack: { move: 'hop', fx: 'hit', big: true, name: 'Roo Kick', color: '#e39b6b', scatter: ['🦘', '💥'], finish: 'Mind your manners, love!' },
     quote: "G'day, love!" },
   'asuka':   { cost: 3, atk: 2, hp: 4, rarity: 'rare', kw: [],
     onPlay: { label: 'Data acquired.', color: '#8e6bbf', do: { op: 'draw' } },
@@ -283,15 +298,15 @@ MB.CARDS = {
     intro: { move: 'slide', fx: 'flash' }, quote: 'Out of my way, loser.' },
   'aria':    { cost: 5, atk: 4, hp: 6, rarity: 'epic', kw: ['guardian'],
     onPlay: { label: 'Halt!', color: '#3c4a5c', do: { op: 'freeze', to: 'strongestEnemy' } },
-    attack: { style: 'slam', name: 'Security Takedown', color: '#3c4a5c' },
+    attack: { style: 'slam', name: 'Security Takedown', color: '#3c4a5c', cry: 'Stop right there!', finish: 'Access denied.' },
     quote: 'Badge, please.' },
   'marija':  { cost: 6, atk: 4, hp: 6, rarity: 'epic', kw: ['taunt'],
     onPlay: { label: "Director's Orders", color: '#6b3e26', do: [{ op: 'buff', to: 'allies', atk: 1 }, { op: 'ready', to: 'allies', say: 'To work!' }] },
-    attack: { style: 'stamp', name: "Director's Stamp", color: '#6b3e26' },
+    attack: { style: 'stamp', name: "Director's Stamp", color: '#6b3e26', cry: 'In my institute...', mark: 'REJECTED' },
     quote: 'In my institute, we work hard.' },
   'diana':   { cost: 6, atk: 4, hp: 7, rarity: 'legendary', kw: [],
     onPlay: { label: '¡Eureka!', color: '#e07a5f', do: [{ op: 'heal', to: 'friendly', n: 3 }, { op: 'draw' }] },
-    attack: { style: 'beam', name: 'Chemistry Breakthrough', color: '#e07a5f' },
+    attack: { style: 'flask', name: 'Chemistry Breakthrough', color: '#e07a5f' },
     intro: { move: 'pop', fx: 'fling', emoji: ['🧪', '⚗️', '🦌'] }, quote: '¡Ay! Hola, friend!' },
 
   // tokens (never in decks)
@@ -773,13 +788,14 @@ MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'], '
 
 MB.STARTER_LEADERS = ['hayley-kate', 'james-lone', 'maiko-ghan', 'luther-jones'];
 
-// Rarity drives card frames, drop odds and reveal effects. Only commons are owned at the start;
-// everything else drops from battle wins (weights are relative among still-locked rarities).
+// Rarity drives card frames, drop odds, reveal effects and how many copies a deck may hold (a card's own
+// `copies` overrides it). Only commons are owned at the start; everything else drops from battle wins
+// (weights are relative among still-locked rarities).
 MB.RARITY = {
-  common:    { name: 'Common',    color: '#c9d1dc', stars: 1, weight: 50 },
-  rare:      { name: 'Rare',      color: '#4aa3ff', stars: 2, weight: 30 },
-  epic:      { name: 'Epic',      color: '#b35cff', stars: 3, weight: 14 },
-  legendary: { name: 'Legendary', color: '#ffc93c', stars: 4, weight: 6 },
+  common:    { name: 'Common',    color: '#c9d1dc', stars: 1, weight: 50, copies: 2 },
+  rare:      { name: 'Rare',      color: '#4aa3ff', stars: 2, weight: 30, copies: 2 },
+  epic:      { name: 'Epic',      color: '#b35cff', stars: 3, weight: 14, copies: 2 },
+  legendary: { name: 'Legendary', color: '#ffc93c', stars: 4, weight: 6, copies: 1 },
   token:     { name: 'Token',     color: '#888888', stars: 0, weight: 0 },
   bond:      { name: 'Fusion',    color: '#ff5fa2', stars: 4, weight: 0 },
 };

@@ -2,7 +2,7 @@
 (function () {
   const $ = (s) => document.querySelector(s);
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
-  const DECK_SIZE = 20;
+  const DECK_SIZE = MB.RULES.deckSize;
 
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
@@ -133,7 +133,7 @@
   }
 
   const deckCards = () => Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token);
-  const maxCopies = (id) => (MB.CARDS[id].rarity === 'legendary' ? 1 : 2);
+  const maxCopies = (id) => MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2;
 
   // ---------------------------------------------------------------- collection
 
@@ -454,7 +454,7 @@
       const foe = MB.pick(foes);
       const bg = MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
       const upbeat = MB.manifest.music.filter((m) => /exciting|fast|fun|happy/i.test(m.tags.join(' ') + m.name));
-      startBattle({ leader: lid, foe, foeHp: 30, ai: 0.7, bgSrc: bg.src, music: MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
+      startBattle({ leader: lid, foe, foeHp: MB.RULES.leaderHp, ai: 0.7, bgSrc: bg.src, music: MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
     });
   }
 

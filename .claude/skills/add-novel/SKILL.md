@@ -93,7 +93,8 @@ Design rules:
   owned from the start, so the common cards should be simple and fun.
 - **Powers** cost 2 (small) or 3 (card draw, strong), never more; they must be usable most turns.
 - **Variety**: don't give two characters of one novel the same attack style or entrance; mix the generic
-  styles with `emoji`, and use `intro` recipes. Colors should match the character's look.
+  styles with `emoji`, give styles their own `cry`/`finish` lines, build attack recipes (`move` + `fx` + props),
+  and use `intro` recipes. Colors should match the character's look.
 - Bonds only between relationships the write-ups actually describe.
 - Keep text short: the card box fits about 110 characters.
 

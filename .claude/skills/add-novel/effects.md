@@ -13,11 +13,13 @@ onPlay:  { label: 'Smash!', color: '#e0463c', do: [
 effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'draw', if: 'targetDied' }] },
 ```
 
-Where specs go: card `onPlay` `onDeath` `onTurnStart` `onAllyDeath` (each other ally that dies) `onHurt`
-(whenever it survives damage), bond `onFuse`, item card `effect`, power `effect`.
+Where specs go: card `onPlay` `onAttack` (as it attacks, before the blow; if the target dies the attack stops)
+`onKill` (whenever it destroys an enemy monster in a fight) `onDeath` `onTurnStart` `onTurnEnd` `onAllyDeath`
+(each other ally that dies) `onHurt` (whenever it survives damage), bond `onFuse`, item card `effect`, power `effect`.
+A spec may also have `emoji`: it flies to the targets instead of the glowing orb.
 
-Order: all board steps happen during the animation, in order; card steps (`draw`, `addCard`, `summon`) run
-after it, in order.
+Order: all board steps happen during the animation, in order; card steps (`draw`, `addCard`, `summon`, `bounce`,
+`copy`) run after it, in order.
 
 ## Steps
 
@@ -38,12 +40,14 @@ after it, in order.
 | `draw` | `n`, `pick?` | draws n; `pick`: `cheapest` `priciest` `item` `unit` card of the deck |
 | `addCard` | `card`, `n`, `costMod?` | adds a card to the hand; `card` can be `randomItem` or `randomUnit` (+`maxCost`) |
 | `summon` | `card`, `n` / `from: 'deck'` / `card: 'randomUnit', maxCost` | puts characters/tokens on the board |
+| `bounce` | `to` | returns monsters to their owner's hand (a duo returns both cards) |
+| `copy` | `to` | adds a copy of the monsters' cards to your hand |
 
 Every step may also have:
 - `where`: narrows the targets: `hurt` `oddAtk` `evenAtk` `frozen` `unfrozen` `taunt` `shielded` `burning`
   `cheap` (cost ≤ 3) `big` (ATK ≥ 4) `monster` (not a leader).
 - `if`: only runs when: `targetDied` `targetAlive` `selfAlive` `handSmall` (≤3 cards) `hasAllies` `noAllies`
-  `behind` (your leader has less HP) `outnumbered` (fewer monsters than the enemy).
+  `behind` (your leader has less HP) `outnumbered` (fewer monsters than the enemy) `lowHealth` (your leader has ≤ 10 HP).
 - `times`: repeat a random pick (`randomEnemy` `randomEnemyAny` `randomAlly`) that many times.
 - `say`: the float text for `buff`/`keyword`/`swap`/`strip`/`ready` (keyword default: "Taunt!").
 

@@ -701,6 +701,16 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .stamp-mark, .cm-stamp { font: 900 54px 'Segoe UI', sans-serif; letter-spacing: 4px; color: #e8283c; border: 8px solid currentColor; border-radius: 12px;
   padding: 2px 18px; background: #fff3; text-shadow: 0 0 10px #fff8; }
 .cm-stamp { --c: #3fbf6a; color: var(--c); font-size: 64px; }
+/* signature styles of the later novels */
+.thrown.eye { font-size: 84px; filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 0 22px var(--c)); }
+.dark-pool { width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(8,10,24,.7), rgba(8,10,24,.35) 45%, transparent 70%); }
+.pompom { width: 60px; height: 60px; border-radius: 50%; background: repeating-conic-gradient(var(--c) 0 10deg, #fff 10deg 14deg);
+  mask: radial-gradient(circle, #000 55%, transparent 72%); filter: drop-shadow(0 0 8px var(--c)); }
+.lasso { width: 130px; height: 130px; border-radius: 50%; border: 7px solid #d9b77a; box-shadow: 0 0 10px var(--c), inset 0 0 6px #0006; }
+.rope { border-radius: 50%; background: #d9b77a; box-shadow: 0 0 4px #0008; }
+.smoke { border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--c) 60%, #fff) 0 25%, var(--c) 50%, transparent 72%); filter: blur(2px); }
+.red-card { width: 56px; height: 80px; border-radius: 6px; background: linear-gradient(135deg, #ff4a4a, #c8102e); border: 3px solid #fff;
+  box-shadow: 0 0 16px #ff2a3a, 0 4px 8px #0008; }
 
 /* ================= card packs ================= */
 .menu-btn .badge { margin-left: auto; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 17px; font: 900 18px/34px 'Segoe UI'; font-style: normal; text-align: center;

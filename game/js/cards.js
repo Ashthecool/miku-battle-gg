@@ -589,7 +589,28 @@
     if (o.move === 'drop' || o.move === 'hop') tl.add(squash(sp));
     return tl;
   }
-  const introOf = (def) => (def.intro && typeof def.intro === 'object' ? customIntro : INTRO[def.intro || def.attack.style]);
+  // the signature styles added later enter with a recipe of their own
+  const STYLE_INTROS = {
+    katana: { move: 'zoom', fx: 'flash', sfx: 'whoosh' }, darkflame: { move: 'fade', fx: 'column', sfx: 'beam' },
+    dolphin: { move: 'rise', fx: 'swirl', emoji: ['🐬', '⭐', '🌙'] }, syringe: { move: 'pop', fx: 'fling', emoji: ['💉', '💊', '💗'] },
+    stare: { move: 'fade', fx: 'column', sfx: 'freeze' }, pompom: { move: 'hop', fx: 'confetti' },
+    lasso: { move: 'slide', fx: 'fling', emoji: ['🤠', '🍭'] }, flask: { move: 'pop', fx: 'fling', emoji: ['🧪', '⚗️', '🫧'] },
+    redcard: { move: 'drop', fx: 'flash' }, warfan: { move: 'drop', fx: 'fling', emoji: ['🎌', '🪭'] },
+  };
+  // a recipe attack (fx.js) enters the way it moves, flinging its props
+  const RECIPE_ENTRANCE = { stay: 'pop', float: 'fade', dash: 'slide', leap: 'drop', blink: 'zoom', spin: 'spin', hop: 'hop', zigzag: 'slide' };
+  function introOf(def) {
+    if (def.intro && typeof def.intro === 'object') return customIntro;
+    const name = def.intro || def.attack.style;
+    if (INTRO[name]) return INTRO[name];
+    const a = def.attack;
+    const recipe = STYLE_INTROS[name] || (!def.intro && (a.move || a.fx)
+      && { move: RECIPE_ENTRANCE[a.move] || 'pop', fx: 'fling', emoji: [].concat(a.prop || a.scatter || '✨') });
+    if (!recipe) return null;
+    const fn = (sp, L, c, ov, d) => customIntro(sp, L, c, ov, { ...d, intro: recipe });
+    fn.saysQuote = true;
+    return fn;
+  }
 
   // ---------------------------------------------------------------- relationship close-ups
   // Each relationship plays a little scene that shows what the two are to each other (MB.BOND_SCENES):
@@ -981,7 +1002,7 @@
         const fn = introOf(def);
         intro = fn(sprite, layer, def.attack.color, ov, def);
         // entrances without a line of their own still let the card say its quote
-        if (def.quote && !String(fn).includes('line(def')) intro.call(() => { const p = spot(sprite); word(layer, p.x, p.top + 60, def.quote, def.attack.color, 46); });
+        if (def.quote && !fn.saysQuote && !String(fn).includes('line(def')) intro.call(() => { const p = spot(sprite); word(layer, p.x, p.top + 60, def.quote, def.attack.color, 46); });
       }
       // once in, the character keeps breathing / the relationship scene keeps playing quietly
       idle = idle || (() => [gsap.to(sprite, { y: -10, duration: 2.8, yoyo: true, repeat: -1, ease: 'sine.inOut' })]);
@@ -1306,5 +1327,5 @@
   }
 
   // intros, moves and scenes: for tools/check_game.js
-  MB.Cards = { bind, open, close, reveal, openPack, flyToDeck, burst, intros: INTRO, moves: MOVES, scenes: SCENES };
+  MB.Cards = { bind, open, close, reveal, openPack, flyToDeck, burst, intros: INTRO, styleIntros: STYLE_INTROS, moves: MOVES, scenes: SCENES };
 })();

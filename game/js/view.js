@@ -329,12 +329,12 @@
       if (tv) this.updatePlate(tv);
     }
 
-    async abilityFx(u, label, targets, fn, color) {
+    async abilityFx(u, label, targets, fn, color, emoji) {
       const p = this.pos(u);
       if (this.ents.has(u.uid)) { this.floatText(p, UNIT_H, label, 'ability'); this.emote(u, 'taunt', 1000); }
       MB.audio.sfx('sparkle');
       await wait(250);
-      await Promise.all(targets.map((t, i) => MB.FX.orbTo(this, p, this.pos(t), color, this.heightOf(t), i * 0.08)));
+      await Promise.all(targets.map((t, i) => MB.FX.orbTo(this, p, this.pos(t), color, this.heightOf(t), i * 0.08, undefined, emoji)));
       fn();
       this.refresh();
       await wait(300);
@@ -358,9 +358,9 @@
       MB.audio.sfx('sparkle');
       await wait(300);
       const color = MB.CARDS[this.b.me(side).leaderId].attack.color;
-      if (target) await MB.FX.orbTo(this, from, this.pos(target), color, this.heightOf(target), 0, 180);
+      if (target) await MB.FX.orbTo(this, from, this.pos(target), color, this.heightOf(target), 0, 180, pw.emoji);
       else if (pw.effect === 'facePunch') await MB.FX.orbTo(this, from, LEADER_POS[1 - side], color, LEADER_H, 0, 180);
-      else if (others && others.length) await Promise.all(others.map((t, i) => MB.FX.orbTo(this, from, this.pos(t), color, this.heightOf(t), i * 0.08, 180)));
+      else if (others && others.length) await Promise.all(others.map((t, i) => MB.FX.orbTo(this, from, this.pos(t), color, this.heightOf(t), i * 0.08, 180, pw.emoji)));
       fn();
       this.refresh();
       await wait(350);

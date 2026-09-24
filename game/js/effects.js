@@ -1,5 +1,6 @@
 // Data-driven abilities. Wherever a card, bond or leader power names an ability (onPlay, onDeath, onTurnStart,
-// onAllyDeath, onHurt, onFuse, or the `effect` of an item card or power) it can give a spec instead of a name:
+// onTurnEnd, onAttack, onKill, onAllyDeath, onHurt, onFuse, or the `effect` of an item card or power) it can give
+// a spec instead of a name:
 //   { label: 'Smash!', color: '#e0463c', do: [{ op: 'damage', to: 'randomEnemy', n: 3 }, { op: 'draw' }] }
 // `do` can also be a single step. Missing card/power texts are written from the spec (MB.Effects.describe).
 // The full reference (ops, targets, conditions) is in .claude/skills/add-novel/effects.md.
@@ -52,7 +53,7 @@
     thaw:   { valid: (t) => t.frozen, apply: (c, t) => { t.frozen = false; t.thaw = false; c.b.view.react({ type: 'thaw', ent: t }); } },
     ignite: { valid: (t) => monster(t) && !t.burning, apply: (c, t) => c.b.ignite(t) },
     shield: { valid: (t) => monster(t) && !t.shield, apply: (c, t) => { t.shield = true; c.b.view.react({ type: 'shield', ent: t }); } },
-    kill:   { valid: monster, apply: (c, t) => { t.hp = 0; c.b.view.react({ type: 'poison', ent: t }); } },
+    kill:   { valid: monster, apply: (c, t) => { t.hp = 0; t.killedBy = null; c.b.view.react({ type: 'poison', ent: t }); } },
     swap:   { valid: monster, apply: (c, t, s) => c.b.swapStats(t, s.say || 'Swapped!') },
     strip:  { valid: (t) => monster(t) && (t.kw.size || t.shield), apply: (c, t, s) => {
       t.kw.clear(); t.shield = false;
@@ -98,6 +99,19 @@
       }
     } },
   };
+  // a monster leaves the board for its owner's hand / you get a copy of it (both of a duo's cards)
+  OPS.bounce = { async: true, valid: monster, run: async (c, s) => {
+    for (const t of select(c, s).filter(monster)) {
+      const owner = c.b.me(t.side);
+      if (owner.board[t.slot] !== t) continue;
+      owner.board[t.slot] = null;
+      await c.b.view.unsummon(t);
+      for (const id of c.b.cardIds(t)) await c.b.addToHand(t.side, id);
+    }
+  } };
+  OPS.copy = { async: true, valid: monster, run: async (c, s) => {
+    for (const t of select(c, s).filter(monster)) for (const id of c.b.cardIds(t)) await c.b.addToHand(c.side, id);
+  } };
   const unitPool = (maxCost = 3) => Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && !MB.CARDS[id].type && MB.CARDS[id].cost <= maxCost);
 
   // step.if, checked when the step runs
@@ -110,6 +124,7 @@
     noAllies: (c) => !c.b.units(c.side).some((u) => u !== c.self),
     behind: (c) => c.b.me(c.side).leader.hp < c.b.foe(c.side).leader.hp,
     outnumbered: (c) => c.b.units(c.side).length < c.b.units(1 - c.side).length,
+    lowHealth: (c) => c.b.me(c.side).leader.hp <= 10,
   };
 
   const stepsOf = (spec) => { const d = spec.do || spec; return Array.isArray(d) ? d : [d]; };
@@ -151,7 +166,7 @@
   async function trigger(b, spec, u) {
     const r = prepare(b, spec, { side: u.side, self: u });
     if (r.empty) return;
-    await b.view.abilityFx(u, spec.label || u.card.attack.name, r.targets.filter(alive), () => r.sync(), spec.color || u.card.attack.color);
+    await b.view.abilityFx(u, spec.label || u.card.attack.name, r.targets.filter(alive), () => r.sync(), spec.color || u.card.attack.color, spec.emoji);
     await r.after();
   }
 
@@ -159,11 +174,11 @@
   const needsSlot = (spec) => stepsOf(spec).every((s) => s.op === 'summon');
 
   // ---------------------------------------------------------------- AI
-  const HOSTILE = new Set(['damage', 'kill', 'freeze', 'ignite', 'strip']);
+  const HOSTILE = new Set(['damage', 'kill', 'freeze', 'ignite', 'strip', 'bounce']);
   // is a targeted spell / power worth using now, and on whom? Returns { target } or {} or null.
   function plan(b, side, src) {
     const steps = stepsOf(src.effect), me = b.me(side);
-    if (steps.every((s) => s.op === 'draw' || s.op === 'addCard') && me.hand.length >= 7) return null;
+    if (steps.every((s) => s.op === 'draw' || s.op === 'addCard' || s.op === 'copy') && me.hand.length >= 7) return null;
     if (!src.target) {
       const r = prepare(b, src.effect, { side });
       if (r.empty) return null;
@@ -192,6 +207,8 @@
         else if (st.op === 'buff') s += t.isLeader ? 0 : st.atk < 0 ? t.atk : value(t) / 2 + (t.attacksLeft > 0 ? 3 : 0);
         else if (st.op === 'keyword') s += t.isLeader || t.kw.has(st.kw) ? -2 : value(t) / 2 + (t.attacksLeft > 0 ? 2 : 0);
         else if (st.op === 'shield') s += t.isLeader || t.shield ? -2 : value(t) / 2;
+        else if (st.op === 'bounce') s += t.isLeader ? -99 : value(t) + t.card.cost;
+        else if (st.op === 'copy') s += t.isLeader ? -99 : value(t) / 2 + 2;
         else if (st.op === 'ready') s += t.isLeader || t.attacksLeft > 0 || t.frozen ? -99 : t.atk * 2;
       }
       if (!on.length) s = 1;
@@ -204,7 +221,7 @@
   const TARGET_NAME = { enemyUnit: 'an enemy monster', allyUnit: 'an ally', anyUnit: 'a monster', enemyAny: 'an enemy character', friendlyAny: 'a friendly character' };
   const WHERE_NAME = { hurt: 'damaged', oddAtk: 'odd-ATK', evenAtk: 'even-ATK', frozen: 'frozen', unfrozen: 'unfrozen', taunt: 'Taunt', shielded: 'shielded', burning: 'burning', cheap: 'cheap', big: 'big' };
   const IF_NAME = { targetDied: 'if it dies, ', targetAlive: 'if it survives, ', selfAlive: 'if it survives, ', handSmall: 'if you hold 3 or fewer cards, ',
-    hasAllies: 'if you have another monster, ', noAllies: 'if it stands alone, ', behind: 'if your leader has less HP, ', outnumbered: 'if you have fewer monsters, ' };
+    hasAllies: 'if you have another monster, ', noAllies: 'if it stands alone, ', behind: 'if your leader has less HP, ', outnumbered: 'if you have fewer monsters, ', lowHealth: 'if your leader has 10 or less HP, ' };
   const NUM = ['no', 'a', 'two', 'three', 'four', 'five'];
 
   const FILTER_NAME = { lowAtk: ' with 2 or less ATK', sick: ' played this turn', guarded: ' with Taunt or Shield', hasKw: ' with a keyword',
@@ -253,12 +270,15 @@
       case 'draw': return s.pick ? `draw the ${{ cheapest: 'cheapest card', priciest: 'most expensive card', item: 'first item card', unit: 'first character' }[s.pick]} in your deck`
         : `draw ${n > 1 ? NUM[n] + ' cards' : 'a card'}`;
       case 'addCard': return `add ${cardName(s.card, n)} to your hand`;
+      case 'bounce': return `return ${t} to its owner's hand`;
+      case 'copy': return `add a copy of ${t} to your hand`;
       case 'summon': return s.from === 'deck' ? 'summon a random character from your deck' : `summon ${cardName(s.card, n)}`;
     }
     return s.op;
   }
   const PREFIX = { onPlay: 'On play: ', onDeath: 'On death: ', onTurnStart: 'Start of your turn: ', onAllyDeath: 'Whenever another ally dies: ',
-    onHurt: 'Whenever it survives damage: ', onFuse: 'On fusion: ' };
+    onHurt: 'Whenever it survives damage: ', onFuse: 'On fusion: ', onAttack: 'Whenever it attacks: ',
+    onKill: 'Whenever it destroys a monster: ', onTurnEnd: 'End of your turn: ' };
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   // kind: 'trigger' (with the trigger's name) or 'play' (item cards and powers, with their target type)
   function describe(spec, { trigger, target, filter } = {}) {
@@ -270,7 +290,7 @@
   }
 
   // fills in the text of every card, power and bond whose abilities are specs and that has no text of its own
-  const TRIGGERS = ['onPlay', 'onDeath', 'onTurnStart', 'onAllyDeath', 'onHurt', 'onFuse'];
+  const TRIGGERS = ['onPlay', 'onAttack', 'onKill', 'onDeath', 'onTurnStart', 'onTurnEnd', 'onAllyDeath', 'onHurt', 'onFuse'];
   function fillTexts() {
     const fill = (o, target) => {
       if (o.text) return;

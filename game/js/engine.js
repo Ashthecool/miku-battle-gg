@@ -1,6 +1,6 @@
 // Battle rules. Pure game state + async calls into the view for animation.
 (function () {
-  const SLOTS = 4, MAX_HAND = 8, MAX_GOLD = 10;
+  const SLOTS = 4, R = MB.RULES; // the rest of the numbers live in data.js
   let uidSeq = 0;
 
   const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -18,7 +18,7 @@
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
       this.players = [0, 1].map((side) => {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
-        const hp = side === 0 ? 30 : (opts.enemyHp || 30);
+        const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
         return {
           side, leaderId, power: MB.POWERS[leaderId], powerUsed: false,
           leader: { uid: 'L' + side, isLeader: true, side, hp, maxHp: hp, atk: 0, charId: leaderId },
@@ -43,7 +43,7 @@
     async start() {
       this.view.init(this);
       const first = Math.random() < 0.5 ? 0 : 1;
-      for (let i = 0; i < 4; i++) { await this.draw(first, true); await this.draw(1 - first, true); }
+      for (let i = 0; i < R.openingHand; i++) { await this.draw(first, true); await this.draw(1 - first, true); }
       await this.draw(1 - first, true); // going second: one extra card
       this.view.log(first === 0 ? 'You go first.' : `${MB.charById(this.me(1).leaderId).name} goes first.`);
       await this.startTurn(first);
@@ -53,7 +53,7 @@
       if (this.over) return;
       this.active = side; this.turn++;
       const p = this.me(side);
-      p.maxGold = Math.min(MAX_GOLD, p.maxGold + 1); p.gold = p.maxGold; p.powerUsed = false;
+      p.maxGold = Math.min(R.maxGold, p.maxGold + 1); p.gold = p.maxGold; p.powerUsed = false;
       for (const u of this.units(side)) {
         u.sick = false;
         if (u.frozen) { u.attacksLeft = 0; u.thaw = true; }
@@ -73,6 +73,9 @@
     async endTurn() {
       if (this.over) return;
       const side = this.active;
+      for (const u of this.units(side)) if (u.onTurnEnd && u.hp > 0) await this.trigger(u.onTurnEnd, u);
+      await this.resolveDeaths();
+      if (this.over) return;
       for (const u of this.units(side)) if (u.thaw) { u.frozen = false; u.thaw = false; this.view.react({ type: 'thaw', ent: u }); }
       this.view.refresh();
       await this.startTurn(1 - side);
@@ -89,7 +92,7 @@
         return;
       }
       const card = p.deck.pop();
-      if (p.hand.length >= MAX_HAND) { await this.view.burn(side, card); return; }
+      if (p.hand.length >= R.maxHand) { await this.view.burn(side, card); return; }
       p.hand.push(card);
       await this.view.drawCard(side, card, silent);
     }
@@ -210,6 +213,11 @@
       const tipsy = attacker.kw.has('tipsy');
       if (tipsy) target = pick(this.attackTargets(attacker));
       if (attacker.kw.has('stealth')) { attacker.kw.delete('stealth'); this.view.react({ type: 'reveal', ent: attacker }); }
+      if (attacker.onAttack) { // may take out the target (or the attacker) before the blow lands
+        await this.trigger(attacker.onAttack, attacker);
+        await this.resolveDeaths();
+        if (this.over || !this.find(attacker.uid) || !this.find(target.uid) || target.hp <= 0) { this.view.refresh(); return true; }
+      }
       this.view.log(`${attacker.name} → ${this.nameOf(target)} (${attacker.card.attack.name})${tipsy ? ' *hic*' : ''}`);
       await this.view.attackFx(attacker, target, () => {
         const dealt = this.deal(target, attacker.atk * this.rivalry(attacker, target), attacker);
@@ -235,7 +243,7 @@
         atk: card.atk, hp: card.hp, maxHp: card.hp, kw: new Set(card.kw),
         shield: card.kw.includes('shield'), frozen: false, thaw: false, burning: false,
         sick: true, attacksLeft: 0, onTurnStart: card.onTurnStart, onDeath: card.onDeath,
-        onHurt: card.onHurt, onAllyDeath: card.onAllyDeath,
+        onHurt: card.onHurt, onAllyDeath: card.onAllyDeath, onAttack: card.onAttack, onKill: card.onKill, onTurnEnd: card.onTurnEnd,
       };
       if (u.kw.has('haste')) { u.attacksLeft = u.kw.has('frenzy') ? 2 : 1; }
       p.board[slot] = u;
@@ -277,7 +285,7 @@
         atk, hp: a.hp + b.hp + bond.bonus[1], maxHp, kw,
         shield: kw.has('shield') || a.shield || b.shield, frozen: false, thaw: false, burning: false,
         sick: false, attacksLeft: this.active === side ? (kw.has('frenzy') ? 2 : 1) : 0,
-        onTurnStart: a.onTurnStart || b.onTurnStart, onDeath: null,
+        onTurnStart: a.onTurnStart || b.onTurnStart, onTurnEnd: a.onTurnEnd || b.onTurnEnd, onDeath: null,
       };
       p.board[a.slot] = null; p.board[b.slot] = null; p.board[u.slot] = u;
       this.view.log(`💞 ${a.name} & ${b.name} → ${bond.name}!`);
@@ -301,6 +309,7 @@
       }
       target.hp -= amount;
       this.view.react({ type: 'damage', ent: target, amount, counter });
+      if (!target.isLeader) target.killedBy = source && !source.isLeader ? source : null; // for onKill, if this blow is fatal
       if (source && !source.isLeader) {
         if (source.kw.has('lifesteal')) this.heal(this.me(source.side).leader, amount);
         if (!target.isLeader && source.kw.has('poison') && target.hp > 0) {
@@ -344,7 +353,7 @@
     // put a card straight into the hand (with a fresh cid); burns it when the hand is full
     async addToHand(side, id, mod) {
       const p = this.me(side), card = { ...cardDef(id), cid: ++uidSeq, ...mod };
-      if (p.hand.length >= MAX_HAND) { await this.view.burn(side, card); return false; }
+      if (p.hand.length >= R.maxHand) { await this.view.burn(side, card); return false; }
       p.hand.push(card);
       await this.view.drawCard(side, card);
       return true;
@@ -376,6 +385,7 @@
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);
+        for (const u of dead) { const k = u.killedBy; if (k && k.onKill && k.side !== u.side && k.hp > 0 && this.find(k.uid)) await this.trigger(k.onKill, k); }
       }
       for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
       if (this.over && !this.overShown) { this.overShown = true; this.view.refresh(); await this.view.gameOver(this.winner); }
