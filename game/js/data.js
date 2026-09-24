@@ -55,7 +55,7 @@ MB.CARDS = {
   'farley-kate':     { cost: 5, atk: 4, hp: 6, rarity: 'common', kw: ['taunt'],
     text: '', attack: { style: 'slam', name: 'Dad Drop', color: '#e8643c' } },
   'wert-lone':       { cost: 3, atk: 2, hp: 4, rarity: 'common', kw: [], onPlay: 'badJoke', onDeath: 'drawOne', abilitySfx: 'laugh',
-    text: 'On play: a random enemy monster gets -2 ATK. On death: draw a card.', attack: { style: 'confetti', name: 'Dad Joke Barrage', color: '#ffe066' } },
+    text: 'On play: a random enemy monster gets -2 ATK. On death: draw a card.', attack: { style: 'confetti', name: 'Dad Joke Barrage', color: '#ffe066', sfx: 'laugh' } },
   'ben-brier':       { cost: 4, atk: 5, hp: 3, rarity: 'rare', kw: ['haste'],
     text: '', attack: { style: 'dash', name: 'Thug Rush', color: '#ff3b3b' } },
   'catherine-jones': { cost: 7, atk: 6, hp: 6, rarity: 'rare', kw: [], onPlay: 'goldenRain',
