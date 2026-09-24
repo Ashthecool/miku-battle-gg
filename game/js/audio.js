@@ -1,16 +1,39 @@
-// Music (novel songs) + synthesized sound effects via WebAudio.
+// Music (novel songs) + sound effects via WebAudio: recorded samples where we have them, synthesized otherwise.
 (function () {
   let ctx = null, master = null;
   const settings = Object.assign({ music: 0.5, sfx: 0.7 }, JSON.parse(localStorage.getItem('mb-audio') || '{}'));
   let current = null, currentId = null, blocked = null;
 
+  // recorded effects in assets/sounds/ (from Pixabay). Once loaded one replaces the synth sound of the same name;
+  // vol scales it, max cuts a long tail short (seconds), vary detunes each play a little so repeats don't drone
+  const SAMPLES = {
+    pow: { file: 'animated-cartoon-explosion-impact.mp3', vol: 0.8, max: 1.3, vary: 0.08 },
+    blink: { file: 'cartoon-blinking.mp3', vol: 0.8 },
+  };
+  const buffers = {};
+
   function ac() {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       master = ctx.createGain(); master.gain.value = settings.sfx; master.connect(ctx.destination);
+      Object.entries(SAMPLES).forEach(([name, s]) => fetch('assets/sounds/' + s.file)
+        .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject()))
+        .then((b) => ctx.decodeAudioData(b))
+        .then((buf) => { buffers[name] = buf; })
+        .catch(() => { /* missing or undecodable: the synth version plays */ }));
     }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
+  }
+
+  function sample(name) {
+    const c = ac(), s = SAMPLES[name], t = c.currentTime;
+    const src = c.createBufferSource(), g = c.createGain();
+    src.buffer = buffers[name];
+    if (s.vary) src.playbackRate.value = 1 + (Math.random() * 2 - 1) * s.vary;
+    g.gain.value = s.vol ?? 1;
+    if (s.max) { g.gain.setValueAtTime(s.vol ?? 1, t + s.max * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + s.max); src.stop(t + s.max + 0.05); }
+    src.connect(g); g.connect(master); src.start(t);
   }
 
   // curve: pitch path in Hz (instead of f0 -> f1) · vib: { rate, depth in Hz, end: depth it fades to } wobbles the pitch
@@ -96,11 +119,14 @@
     whistle: () => tone({ type: 'sine', f0: 2900, f1: 2750, dur: 0.5, vol: 0.12, attack: 0.02, vib: { rate: 42, depth: 160 } }),
     bubble: () => [0, 0.08, 0.15, 0.24, 0.3].forEach((d, i) => tone({ type: 'sine', f0: 300 + i * 90, f1: 900 + i * 200, dur: 0.06, vol: 0.14, delay: d })),
     // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
-    toon: (big) => big ? SFX.pow() : SFX.bonk(0.8 + Math.random() * 0.5),
+    blink: () => [0, 0.18].forEach((d) => tone({ type: 'sine', curve: [900, 1900, 1300], dur: 0.12, vol: 0.12, delay: d })),
+    // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
+    toon: (big) => big ? play('pow') : SFX.bonk(0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),
   };
 
-  function sfx(name, ...args) { try { SFX[name] && SFX[name](...args); } catch (e) { /* audio blocked until first click */ } }
+  function play(name, ...args) { if (buffers[name]) sample(name); else if (SFX[name]) SFX[name](...args); }
+  function sfx(name, ...args) { try { play(name, ...args); } catch (e) { /* audio blocked until first click */ } }
 
   function music(id) {
     if (id === currentId) return;

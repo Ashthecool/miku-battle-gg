@@ -2044,7 +2044,7 @@
       gsap.set(e.body, { y: -hT * 1.7, scaleY: 0 });
       return e;
     });
-    MB.audio.sfx('freeze');
+    MB.audio.sfx('freeze'); MB.audio.sfx('blink');
     await gsap.to(eyes.map((e) => e.body), { scaleY: 1, duration: 0.25, ease: 'back.out(3)' });
     await wait(0.35);
     impact(); hit(V, t, c, true); V.shake(10); V.hitStop();
@@ -2231,7 +2231,7 @@
       .call(() => { MB.audio.sfx('slam'); MB.audio.sfx('boing'); V.shake(10); burst(V, r.C, '#c9b79c', 10, { h: 10, spread: 120 }); }) },
     blink: {
       go: async (V, r) => {
-        MB.audio.sfx('whoosh');
+        MB.audio.sfx('blink');
         await gsap.to(r.v.figure, { scaleX: 0.05, opacity: 0, duration: 0.12 });
         gsap.set(r.v.el, { x: r.T.x + r.perp.x * 120, y: r.T.y + r.perp.y * 120 });
         await gsap.to(r.v.figure, { scaleX: 1, opacity: 1, duration: 0.1 });
