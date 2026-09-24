@@ -244,7 +244,7 @@
           gsap.fromTo(v.figure, { x: (Math.random() - 0.5) * 30, y: -dir * 10 }, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.3)' });
           this.emote(evt.ent, 'hurt', 900);
           this.shake(Math.min(18, 3 + evt.amount * 2));
-          MB.audio.sfx('hit', evt.amount >= 5);
+          MB.audio.sfx('hit', evt.amount >= 5); MB.audio.sfx('toon', evt.amount >= 5);
           if (evt.amount >= 5) this.hitStop();
           break;
         }
@@ -406,7 +406,7 @@
     }
 
     async death(units) {
-      MB.audio.sfx('death');
+      MB.audio.sfx('death'); MB.audio.sfx('whistleDown');
       await Promise.all(units.map((u) => {
         const v = this.ents.get(u.uid);
         if (!v) return null;

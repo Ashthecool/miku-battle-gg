@@ -121,7 +121,7 @@
 
   S.slam = async (V, a, t, impact) => {
     const { v, A, T, d, C, c } = ctx(V, a, t);
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('whistleUp');
     await gsap.timeline()
       .to(v.img, { scaleY: 0.78, scaleX: 1.18, duration: 0.22, ease: 'power2.out' })
       .add('jump')
@@ -130,7 +130,7 @@
       .to(v.figure, { rotation: d.x * 14, duration: 0.36 }, 'jump')
       .to(v.img, { scaleY: 1.1, scaleX: 0.92, duration: 0.2 }, 'jump')
       .to(v.figure, { y: 0, duration: 0.26, ease: 'power4.in' }, 'jump+=0.36');
-    impact(); MB.audio.sfx('slam'); V.shake(26);
+    impact(); MB.audio.sfx('slam'); MB.audio.sfx('boing'); V.shake(26);
     hit(V, t, c, true);
     ring(V, T, '#ffffff', 3, 0.8);
     burst(V, T, '#c9b79c', 22, { h: 10, spread: 200 });
@@ -252,7 +252,7 @@
         .to(v.figure, { y: -120 - i * 30, duration: 0.13, ease: 'power2.out' }, '<')
         .to(v.figure, { y: 0, duration: 0.13, ease: 'power2.in' }, '>')
         .to(v.img, { scaleY: 0.8, scaleX: 1.15, duration: 0.06, yoyo: true, repeat: 1 })
-        .call(() => { MB.audio.sfx('click'); burst(V, P, c, 4, { h: 5, spread: 50 }); });
+        .call(() => { MB.audio.sfx('boing'); burst(V, P, c, 4, { h: 5, spread: 50 }); });
     }
     await tl;
     impact(); hit(V, t, c);
@@ -309,11 +309,11 @@
     const { v, A, T, perp, hA, hT, c } = ctx(V, a, t);
     const pan = V.billboard('thrown', a.card.attack.emoji || '🍳', A.x, A.y);
     await gsap.to(v.figure, { rotation: -8, duration: 0.2 });
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('zip');
     gsap.to(v.figure, { rotation: 6, duration: 0.15 });
     await path(pan, (k) => ({ ...arc(A, T, hA, hT, 90, 220, perp)(k), r: k * 900 }), 0.6, 'sine.in');
     impact(); hit(V, t, c); MB.audio.sfx('slam');
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('zip');
     await path(pan, (k) => ({ ...arc(T, A, hT, hA, 90, 220, perp)(k), r: 900 + k * 900 }), 0.6, 'sine.out');
     pan.remove();
     await gsap.timeline().to(v.figure, { rotation: 0, duration: 0.2 }).to(v.img, { scaleY: 0.9, duration: 0.08, yoyo: true, repeat: 1 });
@@ -523,7 +523,7 @@
       gsap.to(huh.body, { y: '-=60', scale: 1.4, opacity: 0, duration: 0.8, onComplete: () => huh.remove() });
     }
     await gsap.to(v.img, { scaleY: 0.75, scaleX: 1.2, duration: 0.25, ease: 'power2.out' });
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('whistleUp');
     await gsap.timeline()
       .to(v.el, { x: C.x, y: C.y, duration: 0.2, ease: 'power3.in', onUpdate: () => ghost(V, v, c) })
       .to(v.img, { scaleY: 0.85, scaleX: 1.1, duration: 0.2 }, 0);
@@ -598,7 +598,7 @@
       await path(blob, (k) => ({ ...arc(A, TT, hA, h, 150, side, perp)(k), r: k * 360, s: 0.7 + k * 0.5 }), 0.55, 'power1.in');
       blob.remove();
       if (first) { first = false; impact(); hit(V, t, col); } else flash(V, TT, h, col, 120);
-      MB.audio.sfx('splash');
+      MB.audio.sfx('splat');
       const sp = V.flat('splat', '', TT.x + rnd(-20, 20), TT.y + rnd(-10, 10));
       sp.style.setProperty('--c', col);
       gsap.fromTo(sp, { scale: 0.1, rotation: rnd(0, 360), opacity: 0.9 }, { scale: rnd(0.8, 1.2), duration: 0.25, ease: 'back.out(3)' });
@@ -614,7 +614,7 @@
       const b = V.billboard('float-text hic', '*hic*', x, y);
       gsap.set(b.body, { y: -hA - 60, scale: 0.7 });
       gsap.to(b.body, { y: '-=70', rotation: rnd(-20, 20), opacity: 0, duration: 0.9, onComplete: () => b.remove() });
-      MB.audio.sfx('click');
+      MB.audio.sfx('squeak');
     };
     hic(A.x, A.y);
     const at = (k) => { const w = Math.sin(k * Math.PI * 3) * 45; return { x: lerp(A.x, C.x, k) + perp.x * w, y: lerp(A.y, C.y, k) + perp.y * w }; };
@@ -623,7 +623,7 @@
     await gsap.to(o, { k: 1, duration: 0.9, ease: 'power1.in', onUpdate: () => gsap.set(v.el, at(o.k)) });
     sway.kill();
     await gsap.to(v.figure, { rotation: d.x >= 0 ? 24 : -24, duration: 0.12, ease: 'power2.in' });
-    impact(); hit(V, t, c); MB.audio.sfx('slam'); V.shake(10);
+    impact(); hit(V, t, c); MB.audio.sfx('slam'); gsap.delayedCall(0.3, () => MB.audio.sfx('tweet')); V.shake(10);
     rise(V, T, '#fff3c4', 12, hT);
     hic(C.x, C.y);
     await gsap.to(v.figure, { rotation: 0, duration: 0.4, ease: 'elastic.out(1,0.4)' });
@@ -692,7 +692,7 @@
       s.body.style.setProperty('--c', c);
       gsap.set(s.body, { y: -hT, rotation: rnd(-80, 80) });
       gsap.fromTo(s.body, { scale: 0.3, opacity: 1 }, { scale: 1.3, opacity: 0, duration: 0.25, onComplete: () => s.remove() });
-      if (i === 0) { impact(); hit(V, t, c); } else { burst(V, T, c, 5, { h: hT, spread: 60 }); MB.audio.sfx('hit'); }
+      if (i === 0) { impact(); hit(V, t, c); } else { burst(V, T, c, 5, { h: hT, spread: 60 }); MB.audio.sfx('pow'); }
       if (i % 2 === 0) pop(V, { x: T.x + rnd(-60, 60), y: T.y }, hT + 60, cries[i / 2]);
       V.shake(5);
     }
@@ -803,7 +803,7 @@
     gsap.set(gift.body, { y: -900, scale: 1.6 });
     MB.audio.sfx('whoosh');
     await gsap.to(gift.body, { y: -hT - 40, duration: 0.6, ease: 'bounce.out' });
-    for (let i = 0; i < 3; i++) { MB.audio.sfx('click'); await gsap.fromTo(gift.body, { rotation: -10 }, { rotation: 10, duration: 0.07, yoyo: true, repeat: 1 }); }
+    for (let i = 0; i < 3; i++) { MB.audio.sfx('pop'); await gsap.fromTo(gift.body, { rotation: -10 }, { rotation: 10, duration: 0.07, yoyo: true, repeat: 1 }); }
     await gsap.to(gift.body, { scale: 2.3, duration: 0.12 });
     gift.remove();
     impact(); hit(V, t, c, true); flash(V, T, hT, '#ffffff', 420); MB.audio.sfx('slam'); V.shake(22); V.hitStop();
@@ -926,7 +926,7 @@
       MB.audio.sfx('whoosh');
       path(pw, (k) => ({ ...arc({ x: A.x + dir * 40, y: A.y }, TT, hA, hT * rnd(0.6, 1.1), rnd(100, 200), dir * 120, perp)(k), r: k * spin }), 0.5, 'power1.in').then(() => {
         pw.remove();
-        if (first) { first = false; impact(); hit(V, t, c); } else { flash(V, TT, hT, '#ffffff', 140); MB.audio.sfx('hit'); }
+        if (first) { first = false; impact(); hit(V, t, c); } else { flash(V, TT, hT, '#ffffff', 140); MB.audio.sfx('bonk'); }
         for (let k = 0; k < 5; k++) {
           const f = V.billboard('petal', '🪶', TT.x, TT.y);
           gsap.set(f.body, { y: -hT, scale: rnd(0.5, 0.9) });
@@ -960,7 +960,7 @@
       const spot = V.flat('disco-spot', '', T.x + rnd(-150, 150), T.y + rnd(-70, 70));
       spot.style.setProperty('--c', lights[i % lights.length]);
       gsap.fromTo(spot, { scale: 0.3, opacity: 0.9 }, { scale: 1.4, opacity: 0, duration: 0.45, onComplete: () => spot.remove() });
-      MB.audio.sfx('click');
+      MB.audio.sfx('pop');
       await wait(0.12);
     }
     let first = true;
@@ -1122,7 +1122,7 @@
       gsap.set(cl.body, { y: -hT, rotation: -25 + i * 25 });
       gsap.fromTo(cl.body.children, { scaleY: 0 }, { scaleY: 1, duration: 0.12, stagger: 0.03, ease: 'power3.out' });
       gsap.to(cl.body, { opacity: 0, duration: 0.3, delay: 0.25, onComplete: () => cl.remove() });
-      if (i) { burst(V, T, c, 6, { h: hT, spread: 70 }); MB.audio.sfx('hit'); }
+      if (i) { burst(V, T, c, 6, { h: hT, spread: 70 }); MB.audio.sfx('bonk'); }
       await wait(0.12);
     }
     gsap.to(wolf.body, { opacity: 0, scale: 1.6, duration: 0.35, onComplete: () => wolf.remove() });
@@ -1188,7 +1188,7 @@
       gsap.set(pc.body, { rotation: 0 });
       gsap.fromTo(pc.body, { scaleY: 0.6 }, { scaleY: 1, duration: 0.2, ease: 'back.out(3)' });
       stack.push(pc);
-      if (i === 0) { impact(); hit(V, t, c); } else { burst(V, T, '#ffd89a', 4, { h: top, spread: 50 }); MB.audio.sfx('click'); }
+      if (i === 0) { impact(); hit(V, t, c); } else { burst(V, T, '#ffd89a', 4, { h: top, spread: 50 }); MB.audio.sfx('splat'); }
     }
     gsap.to(pan.body, { scale: 0, duration: 0.2, onComplete: () => pan.remove() });
     // the kid's contribution: ice cream on top
@@ -1266,7 +1266,7 @@
     pop(V, A, V.heightOf(a) + 20, own(a, 'cry', '*yaaawn*'), 'float-text hic', 1);
     await gsap.to(v.img, { scaleY: 0.9, scaleX: 1.06, duration: 0.4, yoyo: true, repeat: 1, ease: 'sine.inOut' });
     const z = V.billboard('thrown big', '💤', A.x, A.y);
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('wobble');
     await path(z, (k) => ({ ...arc(A, T, hA + 40, hT + 20, 90, 70, perp)(k), r: Math.sin(k * Math.PI * 3) * 14, s: 0.5 + k * 0.7 }), 0.9, 'sine.inOut', (p) => {
       if (Math.random() < 0.2) {
         const s = V.billboard('float-text hic', 'z', p.x, p.y);
@@ -1400,7 +1400,7 @@
     const cart = V.billboard('thrown big', '🛒', A.x + d.x * 60, A.y + d.y * 60);
     gsap.set(cart.body, { y: -40 });
     await gsap.to(v.img, { scaleY: 0.9, scaleX: 1.08, duration: 0.2 });
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('honk');
     const P = { x: C.x - d.x * 60, y: C.y - d.y * 60 };
     await Promise.all([
       gsap.to(v.el, { x: P.x, y: P.y, duration: 0.45, ease: 'power2.in', onUpdate: () => ghost(V, v, c) }),
@@ -1456,7 +1456,7 @@
       .fromTo(bot, { y: 90 }, { y: 20, duration: 0.25, ease: 'power2.out' }, 0)
       .to(top, { y: 30, duration: 0.09, ease: 'power4.in' })
       .to(bot, { y: -30, duration: 0.09, ease: 'power4.in' }, '<');
-    MB.audio.sfx('slam');
+    MB.audio.sfx('chomp');
     gsap.to(j.body, { opacity: 0, scale: s * 1.2, duration: 0.3, delay: 0.15, onComplete: () => j.remove() });
   }
   // a shark fin cutting through the board in a closing spiral around T
@@ -1570,7 +1570,7 @@
     pop(V, C, V.heightOf(a) + 20, own(a, 'cry', 'Smash first!'), 'float-text burn', 0.9);
     await gsap.to(hm.body, { rotation: -150, duration: 0.25, ease: 'power1.out' });
     await gsap.to(hm.body, { rotation: 10, y: -hT - 40, duration: 0.14, ease: 'power4.in' });
-    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(22); V.hitStop();
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('boing'); gsap.delayedCall(0.35, () => MB.audio.sfx('tweet')); V.shake(22); V.hitStop();
     ring(V, T, '#ffffff', 2.6, 0.7);
     scatter(V, T, hT, ['🔩', '⚙️', '🪛'], 14, 170);
     gsap.to(hm.body, { opacity: 0, y: '-=40', duration: 0.3, delay: 0.2, onComplete: () => hm.remove() });
@@ -1659,12 +1659,12 @@
       const p = { x: lerp(A.x, C.x, o.k) + perp.x * w, y: lerp(A.y, C.y, o.k) + perp.y * w };
       gsap.set(v.el, p); ghost(V, v, c);
       const n = Math.min(3, Math.floor(o.k * 4));
-      if (n !== said) { said = n; pop(V, p, V.heightOf(a) + 20, words[n], 'float-text buff', 0.6); MB.audio.sfx('click'); }
+      if (n !== said) { said = n; pop(V, p, V.heightOf(a) + 20, words[n], 'float-text buff', 0.6); MB.audio.sfx('pop'); }
     } });
     impact(); hit(V, t, c); MB.audio.sfx('hit'); V.shake(10);
     for (let i = 0; i < 2; i++) {
       await gsap.to(v.figure, { x: i ? -24 : 24, y: -30, duration: 0.08, yoyo: true, repeat: 1 });
-      burst(V, T, c, 6, { h: hT, spread: 70 }); MB.audio.sfx('hit');
+      burst(V, T, c, 6, { h: hT, spread: 70 }); MB.audio.sfx('bonk');
     }
     scatter(V, T, hT, ['🤓', '✨', '💚'], 8, 120);
     await goHome(v, A);
@@ -1681,7 +1681,7 @@
     ball.body.style.fontSize = '54px';
     MB.audio.sfx('whoosh');
     await path(ball, (k) => ({ ...arc(A, T, hA + 40, hT + 220, 260)(k), r: k * 720 }), 0.8, 'sine.inOut');
-    MB.audio.sfx('sparkle');
+    MB.audio.sfx('boing');
     pop(V, T, hT + 330, 'SWISH!', 'float-text buff', 0.9);
     await gsap.to(ball.body, { y: -hT, duration: 0.25, ease: 'power2.in' });
     impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(12);
@@ -2079,7 +2079,7 @@
     await Promise.all(letters.map((ch, i) => wait(i * 0.1).then(() => {
       const b = V.billboard('float-text ability', ch, A.x, A.y);
       b.body.style.color = i % 2 ? '#ffffff' : c;
-      MB.audio.sfx('click');
+      MB.audio.sfx('pop');
       gsap.to(v.figure, { y: -24, duration: 0.05, yoyo: true, repeat: 1 });
       const TT = { x: T.x + rnd(-30, 30), y: T.y + rnd(-10, 10) }, peak = rnd(120, 200), side = rnd(-120, 120), spin = rnd(-360, 360);
       return path(b, (k) => ({ ...arc(A, TT, hA + 50, hT, peak, side, perp)(k), r: k * spin, s: 0.8 + k * 0.6 }), 0.55, 'power1.in').then(() => {
@@ -2107,7 +2107,7 @@
     gsap.set(loop.body, { y: -top, rotationX: 72, scale: 0.4 });
     pop(V, A, top + 65, own(a, 'cry', 'Yee-haw!'), 'float-text buff', 1);
     gsap.to(loop.body, { scale: 1, duration: 0.2 });
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('twang');
     await gsap.to(loop.body, { rotation: 1080, duration: 0.8, ease: 'power1.in' });
     MB.audio.sfx('whoosh');
     await path(loop, (k) => arc(A, T, top, hT + 40, 100)(k), 0.45, 'power1.in');
@@ -2116,7 +2116,7 @@
     for (let i = 1; i < N; i++) { const k = i / N; rope.push(dot(V, { x: lerp(A.x, T.x, k), y: lerp(A.y, T.y, k) }, lerp(hA, hT, k) - Math.sin(Math.PI * k) * 30, '#d9b77a', 10, 'rope')); }
     impact(); hit(V, t, c); MB.audio.sfx('hit');
     await wait(0.1);
-    MB.audio.sfx('whoosh');
+    MB.audio.sfx('zip');
     gsap.to(v.figure, { x: -d.x * 30, rotation: -d.x * 10, duration: 0.12, yoyo: true, repeat: 1 });
     if (tv) {
       await gsap.timeline()
@@ -2140,7 +2140,7 @@
       const f = V.billboard('thrown', em, A.x, A.y);
       return path(f, (k) => ({ ...arc(A, T, hA, H, 160, i ? 110 : -110, perp)(k), r: k * (i ? 540 : -540) }), 0.6, 'power1.in').then(() => f.remove());
     }));
-    flash(V, T, H, '#ffffff', 260); MB.audio.sfx('zap');
+    flash(V, T, H, '#ffffff', 260); MB.audio.sfx('bubble');
     await wait(0.12);
     impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(14);
     for (let i = 0; i < 10; i++) {
@@ -2156,7 +2156,7 @@
   S.redcard = async (V, a, t, impact) => {
     const { v, A, T, C, hT } = ctx(V, a, t), top = V.heightOf(a) + 40;
     pop(V, A, top + 55, own(a, 'cry', '*FWEEET!*'), 'float-text hic', 0.9);
-    MB.audio.sfx('zap');
+    MB.audio.sfx('whistle');
     await gsap.fromTo(v.figure, { x: -5 }, { x: 5, duration: 0.05, repeat: 5, yoyo: true });
     gsap.set(v.figure, { x: 0 });
     MB.audio.sfx('whoosh');
@@ -2228,7 +2228,7 @@
       .to(r.v.img, { scaleY: 1, scaleX: 1, duration: 0.1 }, 'j')
       .to(r.v.figure, { y: -300, duration: 0.25, ease: 'power2.out' }, 'j')
       .to(r.v.figure, { y: 0, duration: 0.25, ease: 'power3.in' }, 'j+=0.25')
-      .call(() => { MB.audio.sfx('slam'); V.shake(10); burst(V, r.C, '#c9b79c', 10, { h: 10, spread: 120 }); }) },
+      .call(() => { MB.audio.sfx('slam'); MB.audio.sfx('boing'); V.shake(10); burst(V, r.C, '#c9b79c', 10, { h: 10, spread: 120 }); }) },
     blink: {
       go: async (V, r) => {
         MB.audio.sfx('whoosh');
@@ -2256,7 +2256,7 @@
         tl.to(r.v.el, { x: P.x, y: P.y, duration: 0.24, ease: 'none' })
           .to(r.v.figure, { y: -110 - i * 30, duration: 0.12, ease: 'power2.out' }, '<')
           .to(r.v.figure, { y: 0, duration: 0.12, ease: 'power2.in' }, '>')
-          .call(() => { MB.audio.sfx('click'); burst(V, P, r.c, 4, { h: 5, spread: 50 }); });
+          .call(() => { MB.audio.sfx('boing'); burst(V, P, r.c, 4, { h: 5, spread: 50 }); });
       }
       return tl;
     } },
@@ -2284,7 +2284,7 @@
       const ps = propsOf(o);
       return Promise.all(Array.from({ length: o.hits || 1 }, (_, i) => wait(i * 0.14).then(() => {
         const b = V.billboard('thrown', ps[i % ps.length], F.x, F.y), side = i ? (i % 2 ? 90 : -90) : 0;
-        MB.audio.sfx('whoosh');
+        MB.audio.sfx('zip');
         return path(b, (k) => ({ ...arc(F, r.T, r.hA, r.hT, 150, side, r.perp)(k), r: k * 720 }), 0.55, 'power1.in').then(() => { b.remove(); land(i); });
       })));
     },

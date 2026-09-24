@@ -560,11 +560,11 @@
       const tl = gsap.timeline().set(sp, { opacity: SPRITE_OP, x: 540 });
       for (let i = 0; i < 3; i++) tl.to(sp, { x: 540 - (i + 1) * 180, duration: 0.3, ease: 'none' })
         .to(sp, { y: -170 + i * 40, duration: 0.15, ease: 'power2.out' }, '<').to(sp, { y: 0, duration: 0.15, ease: 'power2.in' }, '>')
-        .call(() => MB.audio.sfx('click'));
+        .call(() => MB.audio.sfx('boing'));
       return tl;
     },
   };
-  const LANDING = { drop: 'slam', slide: 'hit', hop: 'click', zoom: 'hit' };
+  const LANDING = { drop: 'slam', slide: 'hit', hop: 'boing', zoom: 'hit', pop: 'pop' };
   function customIntro(sp, L, c, ov, def) {
     const o = def.intro, em = o.emoji || ['✨'], move = MOVES[o.move] || MOVES.pop, fx = o.fx || 'spray';
     const tl = gsap.timeline();

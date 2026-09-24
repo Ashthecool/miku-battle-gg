@@ -13,12 +13,25 @@
     return ctx;
   }
 
-  function tone({ type = 'sine', f0 = 440, f1 = f0, dur = 0.15, vol = 0.3, delay = 0 }) {
+  // curve: pitch path in Hz (instead of f0 -> f1) · vib: { rate, depth in Hz, end: depth it fades to } wobbles the pitch
+  // attack: fade-in time · lp: lowpass cutoff
+  function tone({ type = 'sine', f0 = 440, f1 = f0, dur = 0.15, vol = 0.3, delay = 0, curve, vib, attack = 0, lp }) {
     const c = ac(), t = c.currentTime + delay;
     const o = c.createOscillator(), g = c.createGain();
-    o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), t + dur);
-    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-    o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+    o.type = type;
+    if (curve) o.frequency.setValueCurveAtTime(Float32Array.from(curve), t, dur);
+    else { o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), t + dur); }
+    if (vib) {
+      const l = c.createOscillator(), lg = c.createGain();
+      l.frequency.value = vib.rate; lg.gain.setValueAtTime(vib.depth, t);
+      if (vib.end != null) lg.gain.exponentialRampToValueAtTime(Math.max(0.01, vib.end), t + dur);
+      l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + dur + 0.02);
+    }
+    if (attack) { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + attack); } else g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    let out = o;
+    if (lp) { const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = lp; o.connect(f); out = f; }
+    out.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
   }
 
   function noise({ dur = 0.2, vol = 0.3, f = 1200, q = 1, type = 'bandpass', delay = 0, sweep }) {
@@ -60,6 +73,30 @@
     },
     error: () => tone({ type: 'square', f0: 180, f1: 140, dur: 0.15, vol: 0.1 }),
     win: () => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.25, vol: 0.14, delay: i * 0.12 })),
+    // ---- cartoon set: rubber, wood and slide whistles for the attacks
+    boing: () => tone({ type: 'triangle', f0: 140, f1: 420, dur: 0.5, vol: 0.22, vib: { rate: 24, depth: 90, end: 4 } }),
+    bonk: (p = 1) => { tone({ type: 'sine', f0: 820 * p, f1: 520 * p, dur: 0.11, vol: 0.3 }); tone({ type: 'triangle', f0: 1650 * p, f1: 1100 * p, dur: 0.06, vol: 0.12 }); noise({ dur: 0.03, vol: 0.2, f: 2500, q: 3 }); },
+    pow: () => {
+      noise({ dur: 0.22, vol: 0.45, f: 1800, sweep: 200, type: 'lowpass' });
+      tone({ type: 'square', f0: 420, f1: 70, dur: 0.18, vol: 0.16, lp: 1800 });
+      tone({ type: 'sine', f0: 150, f1: 45, dur: 0.3, vol: 0.35 });
+    },
+    whistleUp: () => tone({ type: 'sine', f0: 420, f1: 1900, dur: 0.45, vol: 0.14, attack: 0.03, vib: { rate: 7, depth: 30 } }),
+    whistleDown: () => tone({ type: 'sine', f0: 1900, f1: 300, dur: 0.7, vol: 0.14, attack: 0.03, vib: { rate: 7, depth: 35 } }),
+    pop: () => { tone({ type: 'sine', f0: 380, f1: 1500, dur: 0.07, vol: 0.28 }); noise({ dur: 0.03, vol: 0.12, f: 3000, q: 2 }); },
+    squeak: () => tone({ type: 'sawtooth', curve: [1500, 2300, 2500, 1700], dur: 0.16, vol: 0.07, lp: 3200, vib: { rate: 38, depth: 70 } }),
+    zip: () => tone({ type: 'sawtooth', f0: 260, f1: 2800, dur: 0.14, vol: 0.08, lp: 4000 }),
+    honk: () => [0, 0.2].forEach((d) => [370, 376].forEach((f) => tone({ type: 'sawtooth', f0: f, f1: f * 0.97, dur: 0.16, vol: 0.09, delay: d, attack: 0.01, lp: 1400 }))),
+    wobble: () => tone({ type: 'triangle', f0: 330, f1: 220, dur: 0.7, vol: 0.16, attack: 0.02, vib: { rate: 9, depth: 60 } }),
+    tweet: () => [0, 0.13, 0.26].forEach((d, i) => tone({ type: 'sine', curve: [2600, 3600 + i * 150, 2900], dur: 0.09, vol: 0.07, delay: d })),
+    splat: () => { noise({ dur: 0.3, vol: 0.4, f: 1400, sweep: 150, type: 'lowpass' }); tone({ type: 'sine', f0: 240, f1: 60, dur: 0.22, vol: 0.25 }); },
+    twang: () => tone({ type: 'sawtooth', f0: 150, f1: 95, dur: 0.6, vol: 0.12, lp: 1300, vib: { rate: 16, depth: 18, end: 2 } }),
+    chomp: () => [0, 0.12].forEach((d) => { tone({ type: 'square', f0: 160, f1: 60, dur: 0.1, vol: 0.18, delay: d, lp: 900 }); noise({ dur: 0.07, vol: 0.3, f: 700, type: 'lowpass', delay: d }); }),
+    ding: () => { tone({ type: 'sine', f0: 1760, dur: 0.8, vol: 0.12 }); tone({ type: 'sine', f0: 2640, dur: 0.5, vol: 0.05 }); },
+    whistle: () => tone({ type: 'sine', f0: 2900, f1: 2750, dur: 0.5, vol: 0.12, attack: 0.02, vib: { rate: 42, depth: 160 } }),
+    bubble: () => [0, 0.08, 0.15, 0.24, 0.3].forEach((d, i) => tone({ type: 'sine', f0: 300 + i * 90, f1: 900 + i * 200, dur: 0.06, vol: 0.14, delay: d })),
+    // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
+    toon: (big) => big ? SFX.pow() : SFX.bonk(0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),
   };
 

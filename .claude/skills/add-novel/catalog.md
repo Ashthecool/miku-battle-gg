@@ -52,7 +52,7 @@ Character-flavored but reusable: `hellfire` fire pillars · `halo` holy light ·
 `redcard` whistle + red card slap · `warfan` banners rise round the target + fan gale.
 
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
-the style's own line where it has one; `sfx` adds an impact sound. `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
+the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
 `shout`/`pompom` a `shout`. Keep lines ≤ 30 chars.
 
 ## Attack recipes (no `style`)
@@ -92,6 +92,8 @@ entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
 - `fx`: `spray` (sparks, default) · `fling` (throws `emoji` around on landing) · `swirl` (`emoji` circle in
   first) · `rain` (`emoji` fall first) · `confetti` · `column` (light pillar) · `flash` (screen flash)
 - `emoji`: list for fling/swirl/rain · `sfx`: `sparkle` `slam` `zap` `splash` `heal` `coin` `whoosh` `hit` `buff` `beam`
+  · cartoon: `boing` `bonk` `pow` `pop` `squeak` `zip` `honk` `wobble` `tweet` `splat` `twang` `chomp` `ding` `whistle` (referee)
+  `whistleUp` `whistleDown` (slide whistles) `bubble`
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).
 
