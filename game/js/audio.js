@@ -71,6 +71,8 @@
     tick: { file: 'tick-187992.mp3', vol: 0.6 },
     stab: { file: 'stab-464839.mp3', vol: 0.5, max: 1.4 },
     cheer: { file: 'cheer-340965.mp3', vol: 0.5, max: 1.8 },
+    scythe: { file: 'scythe-529019.mp3', vol: 0.6, vary: 0.05 },
+    surf: { file: 'surf-441852.mp3', vol: 0.7, max: 1.6 },
   };
   const buffers = {};
 
@@ -218,6 +220,8 @@
     tick: () => [0, 0.25, 0.5].forEach((d) => tone({ type: 'square', f0: 2000, dur: 0.02, vol: 0.08, delay: d })),
     stab: () => SFX.hit(true),
     cheer: () => SFX.win(),
+    scythe: () => SFX.whoosh(),
+    surf: () => SFX.wave(),
     // the cartoon layer under every hit: a bonk or a punch, or a POW for heavy ones
     toon: (big) => play(big ? 'pow' : Math.random() < 0.5 ? 'punch' : 'bonk', 0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),

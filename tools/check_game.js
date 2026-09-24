@@ -36,7 +36,7 @@ const INTRO_FX = ['spray', 'fling', 'swirl', 'rain', 'confetti', 'column', 'flas
 const SFX = ['sparkle', 'slam', 'zap', 'splash', 'heal', 'coin', 'whoosh', 'hit', 'buff', 'beam', 'click', 'draw', 'freeze', 'shield', 'debuff',
   'boing', 'bonk', 'pow', 'whistleUp', 'whistleDown', 'pop', 'squeak', 'zip', 'honk', 'wobble', 'tweet', 'splat', 'twang', 'chomp', 'ding', 'whistle', 'bubble', 'blink', 'punch',
   'fire', 'burn', 'frost', 'shatter', 'wave', 'holy', 'fusion', 'thunder', 'dark', 'wind', 'boom',
-  'choir', 'laugh', 'incoming', 'tornado', 'vortex', 'missile', 'vines', 'rune', 'shuriken', 'melody', 'poof', 'gunshot', 'scope', 'lava', 'kiss', 'swish', 'clang', 'glitch', 'camera', 'tick', 'stab', 'cheer'];
+  'choir', 'laugh', 'incoming', 'tornado', 'vortex', 'missile', 'vines', 'rune', 'shuriken', 'melody', 'poof', 'gunshot', 'scope', 'lava', 'kiss', 'swish', 'clang', 'glitch', 'camera', 'tick', 'stab', 'cheer', 'scythe', 'surf'];
 const cardExists = (id) => id === 'randomItem' || id === 'randomUnit' || !!MB.CARDS[id];
 
 function checkSpec(where, spec, { trigger, target }) {
@@ -105,6 +105,7 @@ for (const [id, c] of Object.entries(MB.CARDS)) {
   checkAttack(at, c.attack);
   TRIGGERS.forEach((t) => c[t] && checkSpec(`${at} ${t}`, c[t], { trigger: t }));
   if (TRIGGERS.some((t) => typeof c[t] === 'string') && !c.text) warn(`${at}: a named ability but no text`);
+  if (c.abilitySfx && !SFX.includes(c.abilitySfx)) err(`${at}: unknown abilitySfx "${c.abilitySfx}"`);
   if (c.intro) {
     if (typeof c.intro === 'string') { if (!INTRO[c.intro] && !MB.Cards.styleIntros[c.intro]) err(`${at}: unknown intro "${c.intro}"`); }
     else {
@@ -124,6 +125,7 @@ for (const c of M.characters) if (!MB.CARDS[c.id]) err(`character ${c.id} (${c.n
 for (const [id, p] of Object.entries(MB.POWERS)) {
   const at = `power ${id}`;
   if (!chars.has(id)) err(`${at}: no such character`);
+  if (p.sfx && !SFX.includes(p.sfx)) err(`${at}: unknown sfx "${p.sfx}"`);
   if (p.target && !TARGETS.includes(p.target)) err(`${at}: unknown target type ${p.target}`);
   if (!FILTERS.includes(p.filter)) err(`${at}: unknown filter ${p.filter}`);
   checkSpec(at, p.effect, { target: p.target });

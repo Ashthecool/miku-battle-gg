@@ -63,4 +63,5 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | camera | camera-249750.mp3 | Camera shutter in Sony A55 | matthiastidlund | https://freesound.org/people/matthiastidlund/sounds/249750/ |
 | tick | tick-187992.mp3 | Tic Toc.wav | magundah14 | https://freesound.org/people/magundah14/sounds/187992/ |
 | stab | stab-464839.mp3 | Anime Sound Effect - Piercing impact / Stabbing | Breviceps | https://freesound.org/people/Breviceps/sounds/464839/ |
-| cheer | cheer-340965.mp3 | Crowd cheering at parade | SoundsAreGr8 | https://freesound.org/people/SoundsAreGr8/sounds/340965/ |
+| surf | surf-441852.mp3 | W_1 Wave.wav | Yarmonics | https://freesound.org/people/Yarmonics/sounds/441852/ |
+| scythe | scythe-529019.mp3 | Anime_drama_shing_sword_2.wav | Euphrosyyn | https://freesound.org/people/Euphrosyyn/sounds/529019/ |

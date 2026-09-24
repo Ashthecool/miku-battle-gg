@@ -74,7 +74,7 @@ Add a commented section per novel in each table, in the novel's order. See `cata
 - **`MB.CARDS[id]`** for every character: `cost, atk, hp, rarity, kw, attack {style, name, color, emoji?}`,
   optional abilities (`onPlay`, `onDeath`, `onTurnStart`, `onAllyDeath`, `onHurt` as effect specs), `intro`,
   `quote`. Leave `text` out: it's written from the specs (write it only for named legacy abilities).
-- **`MB.POWERS[id]`** for every character: `name, cost, target?, filter?, effect` (spec).
+- **`MB.POWERS[id]`** for every character: `name, cost, target?, filter?, effect` (spec), optional `sfx` (a sound name from catalog.md, default sparkle).
 - **Item cards**: each inventory item in the brief can become `MB.CARDS[itemId] = { type: 'spell', cost,
   rarity, target?, effect, color }` (skip ones that make no sense, like money duplicates).
 - **`MB.BONDS`** + **`MB.BOND_SCENES`**: 2-6 relationships per novel from the write-ups (family, lovers,

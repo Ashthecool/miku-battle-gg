@@ -4,7 +4,7 @@
 
 ```js
 'dan-birk': { cost: 3, atk: 3, hp: 2, rarity: 'common', kw: ['rebel'],
-  onPlay: { ...spec },                       // optional abilities (effects.md)
+  onPlay: { ...spec },                       // optional abilities (effects.md); abilitySfx: a sound name for their "ability" pop (default sparkle)
   attack: { style: 'parkour', name: 'Wild Vault', color: '#ff9d2e', emoji: '🛹' },  // emoji: generic styles only
   //   or a recipe instead of a style (see Attack recipes), plus optional cry / finish / sfx lines
   intro: 'hyper' | { move: 'drop', fx: 'fling', emoji: ['🔨', '⚙️'], sfx: 'slam' },  // optional close-up entrance
@@ -96,7 +96,7 @@ entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
   `whistleUp` `whistleDown` (slide whistles) `bubble` `blink` `punch`
   · elements: `fire` `burn` `frost` `shatter` `wave` `holy` `fusion` (bond merge) `thunder` `dark` `wind` `boom`
   · attacks: `choir` `laugh` `incoming` (falling bomb) `tornado` `vortex` `missile` `vines` `rune` `shuriken` `melody` `poof`
-  `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer`. Recorded files in game/assets/sounds/ replace a synth sound
+  `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer` `scythe` `surf`. Recorded files in game/assets/sounds/ replace a synth sound
   of the same name (the SAMPLES table in audio.js)
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).

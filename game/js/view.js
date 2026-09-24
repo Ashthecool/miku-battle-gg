@@ -341,7 +341,7 @@
     async abilityFx(u, label, targets, fn, color, emoji) {
       const p = this.pos(u);
       if (this.ents.has(u.uid)) { this.floatText(p, UNIT_H, label, 'ability'); this.emote(u, 'taunt', 1000); }
-      MB.audio.sfx('sparkle');
+      MB.audio.sfx((u.card && u.card.abilitySfx) || 'sparkle');
       await wait(250);
       await Promise.all(targets.map((t, i) => MB.FX.orbTo(this, p, this.pos(t), color, this.heightOf(t), i * 0.08, undefined, emoji)));
       fn();
@@ -364,7 +364,7 @@
       this.floatText(from, LEADER_H, pw.name, 'ability');
       const lv = this.ents.get(leader.uid);
       gsap.fromTo(lv.img, { filter: 'brightness(2) drop-shadow(0 0 20px #fff)' }, { filter: 'brightness(1) drop-shadow(0 0 0px #fff)', duration: 0.8, clearProps: 'filter' });
-      MB.audio.sfx('sparkle');
+      MB.audio.sfx(pw.sfx || 'sparkle');
       await wait(300);
       const color = MB.CARDS[this.b.me(side).leaderId].attack.color;
       if (target) await MB.FX.orbTo(this, from, this.pos(target), color, this.heightOf(target), 0, 180, pw.emoji);

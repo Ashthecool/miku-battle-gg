@@ -1757,7 +1757,7 @@
     const hT = V.heightOf(t) * 0.5;
     const w = V.billboard('wave', '<div class="foam"></div>', A.x, A.y);
     gsap.set(w.body, { yPercent: -100, y: 10, scale: 0.6 });
-    MB.audio.sfx('splash');
+    MB.audio.sfx('surf');
     await gsap.timeline().to(w.body, { scale: 1, duration: 0.3 }).to(v.figure, { y: -90, rotation: -d.x * 8, duration: 0.3 }, 0);
     const o = { k: 0 };
     await gsap.to(o, { k: 1, duration: 0.6, ease: 'power1.in', onUpdate: () => {
@@ -1827,7 +1827,7 @@
     for (let i = 0; i < 3; i++) {
       slashArc(V, T, -hT - 30 + i * 30, c, -60 + i * 20);
       if (!i) { impact(); hit(V, t, c); } else burst(V, T, c, 6, { h: hT, spread: 90 });
-      MB.audio.sfx('whoosh'); V.shake(6);
+      MB.audio.sfx(i ? 'swish' : 'scythe'); V.shake(6);
       await wait(0.1);
     }
     scatter(V, T, hT, ['🩹', '💊', '🩺'], 9, 130);
