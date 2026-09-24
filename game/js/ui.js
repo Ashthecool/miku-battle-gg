@@ -717,7 +717,7 @@
     list.appendChild(el('div', 'gal-head', '💞 RELATIONSHIPS'));
     MB.BONDS.forEach((bond) => {
       const row = el('div', 'gal-row bond', `${bond.pair.map((id, i) => `<img src="${MB.spriteUrl(id, 'idle', bond.costumes[i])}">`).join('')}
-        <div><b>${MB.BOND_TIERS[bond.tier].hearts} ${bond.name}</b><span>✦ ${bond.attack.name}</span></div>`);
+        <div><b>${MB.BOND_TIERS[bond.tier].hearts} ${bond.name}${gsapTag(bond.attack)}</b><span>✦ ${bond.attack.name}</span></div>`);
       row.style.setProperty('--c', bond.attack.color);
       row.addEventListener('click', () => galBond(bond, row));
       list.appendChild(row);
@@ -725,7 +725,7 @@
     list.appendChild(el('div', 'gal-head', '✦ CHARACTERS'));
     deckCards().filter((id) => MB.CARDS[id].type !== 'spell').forEach((id) => {
       const d = MB.cardDef(id);
-      const row = el('div', 'gal-row', `<img src="${MB.spriteUrl(id, 'idle')}"><div><b>${d.name}</b><span>✦ ${d.attack.name}</span></div>`);
+      const row = el('div', 'gal-row', `<img src="${MB.spriteUrl(id, 'idle')}"><div><b>${d.name}${gsapTag(d.attack)}</b><span>✦ ${d.attack.name}</span></div>`);
       row.style.setProperty('--c', d.attack.color);
       row.addEventListener('click', () => galPick(id, row));
       list.appendChild(row);
@@ -735,7 +735,7 @@
     const pair = MB.BONDS.find((bd) => bd.tier === 1) || MB.BONDS[0];
     Object.keys(MB.FX.styles).sort().forEach((style) => {
       const duo = MB.FX.duoStyles.includes(style);
-      const row = el('div', 'gal-row style', `<i>${duo ? '💞' : '✦'}</i><div><b>${style}</b><span>${duo ? 'duo style' : usersOf(style)}</span></div>`);
+      const row = el('div', 'gal-row style', `<i>${duo ? '💞' : '✦'}</i><div><b>${style}${gsapTag({ style })}</b><span>${duo ? 'duo style' : usersOf(style)}</span></div>`);
       row.addEventListener('click', () => galStyle(style, duo ? pair : null, row));
       list.appendChild(row);
     });
@@ -754,6 +754,8 @@
     const firstChar = list.querySelector('.gal-row:not(.bond)');
     galPick(deckCards()[0], firstChar);
   }
+  // a little tag on gallery rows whose animation was reworked with the GSAP plugins
+  const gsapTag = (at) => (MB.FX.upgraded(at) ? '<em class="gsap-tag" title="Upgraded with the GSAP plugins">GSAP+</em>' : '');
   // who has this style, for the gallery row
   function usersOf(style) {
     const who = Object.entries(MB.CARDS).filter(([, c]) => c.attack && c.attack.style === style).map(([id]) => MB.cardDef(id).name);

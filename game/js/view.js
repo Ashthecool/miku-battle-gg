@@ -300,9 +300,17 @@
         .to(t.body, { opacity: 0, duration: 0.35 }, 0.85);
     }
 
+    // shakes the whole arena, so it never fights the camera's focus pan. CustomWiggle eases give a decaying rattle
+    // with x and y out of step; without the plugin it falls back to an elastic settle.
     shake(amt) {
-      gsap.fromTo(this.camera, { x: (Math.random() - 0.5) * amt * 2, y: (Math.random() - 0.5) * amt * 2 },
-        { x: 0, y: 0, duration: 0.45, ease: 'elastic.out(1.2,0.25)', overwrite: 'auto' });
+      const E = MB.FX.eases, s = Math.random() < 0.5 ? -1 : 1;
+      if (E.shakeX) {
+        gsap.fromTo(this.arena, { x: 0 }, { x: amt * s, duration: 0.5, ease: E.shakeX, overwrite: 'auto' });
+        gsap.fromTo(this.arena, { y: 0, rotation: 0 }, { y: amt * 0.7, rotation: amt * 0.04 * -s, duration: 0.45, ease: E.shakeY, overwrite: 'auto' });
+      } else {
+        gsap.fromTo(this.arena, { x: (Math.random() - 0.5) * amt * 2, y: (Math.random() - 0.5) * amt * 2 },
+          { x: 0, y: 0, duration: 0.45, ease: 'elastic.out(1.2,0.25)', overwrite: 'auto' });
+      }
     }
     hitStop() {
       gsap.globalTimeline.timeScale(0.08);
