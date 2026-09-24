@@ -567,6 +567,20 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .cm-light { background: linear-gradient(to top, #fff 0%, color-mix(in srgb, var(--c) 70%, #fff) 30%, transparent 95%); }
 .cm-fire { background: radial-gradient(ellipse at 50% 100%, #ffe066 0%, #ff7a1c 25%, var(--c) 45%, transparent 70%); }
 .cm-water { height: 520px; background: linear-gradient(to top, #e8f8ff 0%, var(--c) 40%, transparent 90%); }
+/* relationship scenery (backdrop) and the newer scenes */
+.cm-scenery { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.cm-scenery > * { position: absolute; left: 0; top: 0; }
+.cm-tint { height: 900px; mask: radial-gradient(ellipse 50% 60% at 50% 55%, #000 45%, transparent 100%); }
+.cm-raindrop { width: 2px; height: 46px; background: linear-gradient(transparent, #cfe8ff); opacity: .7; rotate: 8deg; }
+.cm-spotlight { top: -80px; width: 760px; height: 1000px; opacity: 0; mix-blend-mode: screen; clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+  background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--c) 50%, #fff) 0%, transparent 60%), linear-gradient(to bottom, #fff8, #fff1 80%); }
+.cm-polaroid { top: max(calc(var(--top, 0px) - 210px), -170px); width: 230px; height: 200px; padding: 10px 10px 36px; box-sizing: border-box; background: #fff;
+  box-shadow: 0 8px 20px #0009; transform-origin: 50% 0; }
+.cm-polaroid div { width: 100%; height: 100%; display: flex; justify-content: center; align-items: flex-start; overflow: hidden;
+  background: linear-gradient(135deg, var(--c), #1a1030); }
+.cm-polaroid img { height: 260%; margin: 0 -18px; }
+.cm-polaroid b { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font: 700 20px 'Comic Sans MS', 'Segoe Print', 'Segoe UI'; color: #333; }
+.cm-speedline { width: 180px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #fff, transparent); opacity: .7; }
 
 /* ================= new-card reveal ================= */
 .rv { position: absolute; inset: 0; z-index: 110; cursor: pointer; perspective: 1400px; }
@@ -652,6 +666,9 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .cm-wardrobe button.on { background: var(--rc); color: #1a1030; border-color: #fff; font-weight: 900; }
 .gal-row.bond img { width: 30px; }
 .gal-row.bond img + img { margin-left: -14px; }
+.gal-row.style, .gal-row.sky { --c: #9fd3ff; }
+.gal-row.sky { --c: #c58cff; }
+.gal-row.style i, .gal-row.sky i { flex: none; width: 44px; font-style: normal; font-size: 22px; text-align: center; }
 .gal-head { font: 900 13px 'Segoe UI'; letter-spacing: 3px; color: #ff9fcf; padding: 8px 4px 2px; }
 .gloom-floor { width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(20,0,40,.85), rgba(80,20,140,.45) 50%, transparent 70%); }
 .blood-moon { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ff9a9a, #d0102a 55%, #5a0010);
@@ -711,6 +728,87 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .smoke { border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--c) 60%, #fff) 0 25%, var(--c) 50%, transparent 72%); filter: blur(2px); }
 .red-card { width: 56px; height: 80px; border-radius: 6px; background: linear-gradient(135deg, #ff4a4a, #c8102e); border: 3px solid #fff;
   box-shadow: 0 0 16px #ff2a3a, 0 4px 8px #0008; }
+
+/* attack skies (fx.js sky()): above the background picture, below the board */
+#sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; overflow: hidden; }
+#sky > div { position: absolute; top: 0; }
+.sky-star { aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: 0 0 6px #fff, 0 0 12px #9fc3ff; }
+.sky-rain { width: 2px; height: 70px; background: linear-gradient(transparent, #cfe3ffcc); rotate: 12deg; }
+.sky-mote { width: 6px; height: 6px; border-radius: 50%; }
+.sky-bubble { aspect-ratio: 1; border-radius: 50%; border: 2px solid #ffffffaa; background: radial-gradient(circle at 30% 30%, #fff8 0 12%, transparent 30%); }
+.sky-petal { font-size: 26px; }
+.sky-code { font: 700 18px/1.1 Consolas, monospace; color: #36ff7a; text-shadow: 0 0 8px #36ff7a; white-space: pre; opacity: .8; }
+.sky-rays { left: 50%; top: -60vmax !important; width: 120vmax; height: 120vmax; margin-left: -60vmax; opacity: .35;
+  background: repeating-conic-gradient(#fff 0 6deg, transparent 6deg 18deg); mask: radial-gradient(circle, #000 20%, transparent 70%); }
+.sky-flash { inset: 0; background: #e8f0ff; opacity: 0; }
+.sky-planet { right: 8%; top: 12% !important; width: 16vmin; height: 16vmin; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffd9a0, #c96a3a 55%, #3a1420);
+  box-shadow: 0 0 40px #ff9a5a88; }
+.sky-planet::after { content: ''; position: absolute; left: -35%; top: 38%; width: 170%; height: 24%; border-radius: 50%; border: 3px solid #ffe2b8aa; rotate: -14deg; }
+
+/* effect styles (meteor, tornado, black hole, vines, runes...) */
+.meteor { width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0 10%, #ffd27a 25%, var(--c) 55%, #5a1a00 75%);
+  box-shadow: 0 0 20px var(--c), 0 0 50px #ff7a1c; }
+.meteor::after { content: ''; position: absolute; left: 50%; top: 50%; z-index: -1; width: 170px; height: 26px; margin-top: -13px; transform-origin: 0 50%; rotate: -106deg;
+  border-radius: 13px; background: linear-gradient(90deg, #fff3c4, var(--c) 30%, transparent); filter: blur(2px); }
+.crater { width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, #1a0f08 0 28%, #3a2414 42%, color-mix(in srgb, var(--c) 55%, #000) 54%, transparent 68%); }
+.twister { width: 200px; height: 330px; display: flex; flex-direction: column-reverse; align-items: center; }
+.twister i { display: block; flex: none; height: 40px; margin-top: -8px; border-radius: 50%; border: 5px solid color-mix(in srgb, var(--c) 55%, #fff);
+  border-left-color: transparent; background: radial-gradient(ellipse, transparent 40%, #ffffff30 70%); box-shadow: 0 0 12px var(--c); opacity: .85; }
+.twister i:nth-child(1) { width: 40px; } .twister i:nth-child(2) { width: 70px; } .twister i:nth-child(3) { width: 100px; }
+.twister i:nth-child(4) { width: 130px; } .twister i:nth-child(5) { width: 165px; } .twister i:nth-child(6) { width: 200px; }
+.singularity { width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, #000 0 44%, #fff 48%, var(--c) 56%, transparent 72%);
+  box-shadow: 0 0 40px var(--c), 0 0 90px var(--c); }
+.accretion { width: 380px; height: 380px; border-radius: 50%; opacity: .85;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--c) 70%, #fff) 0 8deg, transparent 8deg 24deg); mask: radial-gradient(circle, transparent 14%, #000 24%, transparent 70%); }
+.thrown.rocket { font-size: 48px; }
+.vine svg { display: block; overflow: visible; }
+.vine .st { fill: none; stroke: color-mix(in srgb, var(--c) 45%, #1d6b2a); stroke-width: 11; stroke-linecap: round; filter: drop-shadow(0 0 4px #7dff8a); }
+.vine .th { fill: none; stroke: #d7ffc2; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 1 18; opacity: 0; }
+.vine i { position: absolute; top: 0; font-style: normal; font-size: 34px; filter: drop-shadow(0 0 6px var(--c)); }
+.runes { filter: drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 16px var(--c)); }
+.runes svg { display: block; }
+.float-text.rune { font-size: 34px; -webkit-text-stroke: 0; text-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+.float-text.note { font-size: 44px; }
+.float-text.code { font: 700 24px Consolas, monospace; -webkit-text-stroke: 0; text-shadow: 0 0 8px currentColor; }
+.shuriken { width: 46px; height: 46px; background: linear-gradient(135deg, #f4f6fb, #8a93a8);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.bubble-ball { width: 150px; height: 150px; border-radius: 50%; box-shadow: inset 0 0 22px #fff8, 0 0 18px var(--c);
+  background: radial-gradient(circle at 30% 28%, #fff 0 7%, transparent 13%), radial-gradient(circle, transparent 56%, color-mix(in srgb, var(--c) 40%, transparent) 72%, #fffa 79%, transparent 81%); }
+.bubble-ball.small { width: 34px; height: 34px; }
+.clock { width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, #fff 0 60%, #e8e4ff 61%); border: 7px solid var(--c);
+  box-shadow: 0 0 20px var(--c), inset 0 0 10px #0003; }
+.clock i { position: absolute; left: 50%; bottom: 50%; width: 6px; margin-left: -3px; border-radius: 3px; background: #1a1030; transform-origin: 50% 100%; }
+.clock i.h { height: 28px; } .clock i.m { height: 42px; width: 4px; margin-left: -2px; background: var(--c); }
+.ghost.clone img, .ghost.clone .emoji-sprite { opacity: .85; filter: brightness(1.15) saturate(.7) drop-shadow(0 0 8px var(--c)); }
+.ghost.flyer img { opacity: 1; filter: drop-shadow(0 0 10px var(--c)); }
+.reticle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--c); box-shadow: 0 0 10px var(--c); }
+.reticle::before, .reticle::after { content: ''; position: absolute; background: var(--c); }
+.reticle::before { left: 50%; top: -16px; bottom: -16px; width: 4px; margin-left: -2px; }
+.reticle::after { top: 50%; left: -16px; right: -16px; height: 4px; margin-top: -2px; }
+.reticle i { position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; margin: -6px; border-radius: 50%; background: #ff2a2a; box-shadow: 0 0 10px #ff2a2a; }
+.cracks { filter: drop-shadow(0 0 6px #ff7a1c) drop-shadow(0 0 14px var(--c)); }
+.cracks svg { display: block; }
+.lava-pool { width: 260px; height: 260px; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(circle, #fff3a0 0 8%, #ffb347 20%, #ff5a1f 40%, color-mix(in srgb, var(--c) 60%, #300) 58%, transparent 70%); }
+.pillar.lava { width: 130px; height: 420px; }
+.blade { width: 50px; height: 160px; filter: drop-shadow(0 0 8px var(--c)); }
+.blade i { position: absolute; left: 16px; top: 32px; width: 18px; height: 128px; background: linear-gradient(90deg, #9aa4b8, #fff 50%, #9aa4b8);
+  clip-path: polygon(50% 100%, 0 84%, 0 0, 100% 0, 100% 84%); }
+.blade b { position: absolute; left: 0; top: 24px; width: 50px; height: 10px; border-radius: 5px; background: var(--c); }
+.blade b::before { content: ''; position: absolute; left: 20px; top: -24px; width: 10px; height: 24px; border-radius: 4px; background: #5a3a22; }
+.terminal { min-width: 240px; padding: 10px 14px; border-radius: 8px; background: rgba(4, 12, 6, .92); border: 2px solid var(--c); box-shadow: 0 0 16px var(--c); transform-origin: 50% 100%; }
+.terminal pre { margin: 0; min-height: 60px; font: 700 16px/1.25 Consolas, monospace; color: var(--c); text-shadow: 0 0 6px var(--c); }
+.polaroid { width: 70px; height: 84px; padding: 6px 6px 18px; background: #fff; box-shadow: 0 4px 10px #0008; box-sizing: border-box; }
+.polaroid div { width: 100%; height: 100%; overflow: hidden; background: linear-gradient(135deg, var(--c), #1a1030); }
+.polaroid img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.gravity-field { width: 230px; height: 700px; mix-blend-mode: screen; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c) 50%, transparent));
+  mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent); }
+.gravity-field i { position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, transparent 0 34px, color-mix(in srgb, var(--c) 70%, #fff) 34px 40px); }
+.spike { width: 46px; height: 150px; opacity: .92; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, #fff), var(--c) 55%, color-mix(in srgb, var(--c) 55%, #000)); }
+.fireball { border-radius: 50%; background: radial-gradient(circle, #fff 0 12%, #ffe066 24%, #ff7a1c 45%, #a3200a 62%, transparent 72%); }
+.sky-beam.spot { width: 180px; opacity: .6; }
 
 /* ================= card packs ================= */
 .menu-btn .badge { margin-left: auto; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 17px; font: 900 18px/34px 'Segoe UI'; font-style: normal; text-align: center;

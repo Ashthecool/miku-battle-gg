@@ -730,8 +730,43 @@
       row.addEventListener('click', () => galPick(id, row));
       list.appendChild(row);
     });
+    // every animation, whoever uses it: a character (or, for duo styles, a pair) performs it on demand
+    list.appendChild(el('div', 'gal-head', '🎬 ALL ATTACK STYLES'));
+    const pair = MB.BONDS.find((bd) => bd.tier === 1) || MB.BONDS[0];
+    Object.keys(MB.FX.styles).sort().forEach((style) => {
+      const duo = MB.FX.duoStyles.includes(style);
+      const row = el('div', 'gal-row style', `<i>${duo ? '💞' : '✦'}</i><div><b>${style}</b><span>${duo ? 'duo style' : usersOf(style)}</span></div>`);
+      row.addEventListener('click', () => galStyle(style, duo ? pair : null, row));
+      list.appendChild(row);
+    });
+    // skies: the backdrop any attack can bring (attack.sky); picking one adds it to the previews
+    list.appendChild(el('div', 'gal-head', '🌌 SKIES'));
+    ['', ...MB.FX.skies].forEach((name) => {
+      const row = el('div', 'gal-row sky', `<i>${name ? '🌌' : '○'}</i><div><b>${name || 'no extra sky'}</b><span>${name ? `sky: '${name}'` : "the attack's own"}</span></div>`);
+      row.addEventListener('click', () => {
+        gal.sky = name || null;
+        list.querySelectorAll('.gal-row.sky').forEach((r) => r.classList.toggle('on', r === row));
+        if (gal.sky) gsap.delayedCall(1.2, MB.FX.sky(gal.sky)); // a quick peek
+      });
+      if (!name) row.classList.add('on');
+      list.appendChild(row);
+    });
     const firstChar = list.querySelector('.gal-row:not(.bond)');
     galPick(deckCards()[0], firstChar);
+  }
+  // who has this style, for the gallery row
+  function usersOf(style) {
+    const who = Object.entries(MB.CARDS).filter(([, c]) => c.attack && c.attack.style === style).map(([id]) => MB.cardDef(id).name);
+    return who.length ? who.slice(0, 2).join(', ') + (who.length > 2 ? ` +${who.length - 2}` : '') : 'not used yet';
+  }
+  // preview a style on the last character picked (or a fused pair), keeping its attack name and color
+  async function galStyle(style, bond, row) {
+    if (gal.busy) return;
+    if (bond) await galBond(bond, row); else await galPick(gal.lastChar || deckCards()[0], row);
+    if (!gal.unit) return;
+    const card = gal.unit.card;
+    gal.unit.card = { ...card, attack: { name: card.attack.name, color: card.attack.color, style } };
+    $('#gal-info').innerHTML = `<b>${gal.unit.name}</b> — style <b>${style}</b><br><small>attack: { style: '${style}' } · add emoji, cry, finish, sky, aura…</small>`;
   }
   // empty the player's side of the gallery board
   async function galClear() {
@@ -768,6 +803,7 @@
     gal.busy = true;
     await galClear();
     gal.unit = await b.summon(0, MB.cardDef(id), 1);
+    if (!row || !row.classList.contains('style')) gal.lastChar = id;
     $('#gal-info').innerHTML = `<b>${gal.unit.name}</b> — ✦ ${gal.unit.card.attack.name}<br><small>${MB.charById(id).short}</small>`;
     gal.busy = false;
   }
@@ -779,8 +815,9 @@
     gal.unit.attacksLeft = 1; gal.unit.frozen = false; gal.unit.hp = gal.unit.maxHp;
     const target = MB.pick([gal.dummy, gal.dummy2].filter(Boolean));
     target.hp = 99; target.frozen = false; target.shield = false; target.burning = false;
-    await b.attack(gal.unit, target);
-    gal.busy = false;
+    const unit = gal.unit, card = unit.card;
+    if (gal.sky) unit.card = { ...card, attack: { ...card.attack, sky: gal.sky } };
+    try { await b.attack(unit, target); } finally { unit.card = card; gal.busy = false; }
   }
 
   // ---------------------------------------------------------------- wardrobe

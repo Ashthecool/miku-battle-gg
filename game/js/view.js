@@ -320,7 +320,8 @@
       const av = this.ents.get(att.uid), tv = this.ents.get(tgt.uid);
       av.el.classList.add('acting');
       this.emote(att, 'attack', 0);
-      const restore = this.focus({ x: (this.pos(att).x + this.pos(tgt).x) / 2, y: (this.pos(att).y + this.pos(tgt).y) / 2 }, att.atk >= 5 ? 0.12 : 0.06);
+      const zoom = att.card.attack.zoom ?? (att.atk >= 5 ? 0.12 : 0.06); // attack.zoom: how far the camera pushes in
+      const restore = this.focus({ x: (this.pos(att).x + this.pos(tgt).x) / 2, y: (this.pos(att).y + this.pos(tgt).y) / 2 }, zoom);
       await MB.FX.attack(this, att, tgt, impact);
       restore();
       av.el.classList.remove('acting');

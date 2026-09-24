@@ -76,6 +76,12 @@ function checkAttack(where, a, duo) {
   ['cry', 'finish', 'shout', 'mark'].forEach((k) => { if (a[k] != null && (typeof a[k] !== 'string' || a[k].length > 30)) warn(`${where}: ${k} should be a short line (≤ 30 chars)`); });
   if (a.words && !Array.isArray(a.words)) err(`${where}: words must be a list`);
   if (a.sfx && !SFX.includes(a.sfx)) err(`${where}: unknown sfx "${a.sfx}"`);
+  if (a.sky != null && a.sky !== 'none' && a.sky !== false && !MB.FX.skies.includes(a.sky)) err(`${where}: unknown sky "${a.sky}" (${MB.FX.skies.join(', ')})`);
+  if (a.aura != null && a.aura !== true && !/^#[0-9a-f]{3,8}$/i.test(a.aura)) err(`${where}: aura should be true or a color`);
+  if (a.zoom != null && !(a.zoom >= 0 && a.zoom <= 0.3)) err(`${where}: zoom should be 0-0.3`);
+  if (a.slowmo != null && a.slowmo !== true && !(a.slowmo > 0 && a.slowmo < 1)) err(`${where}: slowmo should be true or 0-1`);
+  if (a.size != null && !(a.size > 0 && a.size <= 3)) err(`${where}: size should be 0-3`);
+  if (a.style && MB.FX.duoStyles.includes(a.style) && !duo) warn(`${where}: "${a.style}" is a duo style; on a single character both partners are the same sprite`);
   if (!a.name && !where.includes('dummy')) warn(`${where}: attack has no name`);
   if (!/^#[0-9a-f]{3,8}$/i.test(a.color || '')) err(`${where}: bad attack color`);
 }
@@ -135,14 +141,23 @@ for (const b of MB.BONDS) {
     if (cos && !c.costumes.some((o) => o.id === cos)) err(`${at}: ${id} has no costume "${cos}" (has: ${c.costumes.map((o) => o.id).join(', ') || 'none'})`);
   });
   if (!MB.BOND_TIERS[b.tier]) err(`${at}: unknown tier ${b.tier}`);
-  checkAttack(at, b.attack);
+  checkAttack(at, b.attack, true);
   if (b.onFuse) checkSpec(`${at} onFuse`, b.onFuse, { trigger: 'onFuse' });
   (b.kw || []).forEach((k) => { if (!MB.KEYWORDS[k]) err(`${at}: unknown keyword ${k}`); });
   const sc = MB.BOND_SCENES[b.id];
   if (!sc) err(`${at}: no close-up scene in MB.BOND_SCENES`);
   else {
     if (!SCENES[sc.kind]) err(`${at}: unknown scene kind "${sc.kind}"`);
-    if (!Array.isArray(sc.lines) || sc.lines.length !== 2) err(`${at}: scene needs two lines`);
+    else if (sc.scene && !MB.Cards.sceneVariants[sc.kind].includes(sc.scene)) err(`${at}: ${sc.kind} has no scene "${sc.scene}" (${MB.Cards.sceneVariants[sc.kind].join(', ') || 'none'})`);
+    if (!Array.isArray(sc.lines) || sc.lines.length < 2) err(`${at}: scene needs at least two lines`);
+    else sc.lines.forEach((l, i) => {
+      const text = l && typeof l === 'object' ? l.text : l;
+      if (typeof text !== 'string' || !text) err(`${at}: line ${i + 1} should be text or { by: 0|1, text }`);
+      else if (text.length > 40) warn(`${at}: line ${i + 1} is long for a speech bubble (${text.length} chars)`);
+    });
+    [].concat(sc.backdrop || []).forEach((n) => { if (!MB.Cards.backdrops.includes(n)) err(`${at}: unknown backdrop "${n}" (${MB.Cards.backdrops.join(', ')})`); });
+    if (sc.emoji && !Array.isArray(sc.emoji)) err(`${at}: scene emoji must be a list`);
+    if (sc.kind === 'family' && sc.scene === 'strict' && !(sc.score && Array.isArray(sc.drill) && sc.praise)) err(`${at}: a strict scene needs score, drill and praise`);
   }
 }
 Object.keys(MB.BOND_SCENES).forEach((id) => { if (!bondIds.has(id)) warn(`scene ${id}: no bond with this id`); });

@@ -2,10 +2,11 @@
 // you're online; images come from the Supabase bucket (MB.ASSET_BASE) and are cache-first.
 // Music streams from the miku.gg CDN and needs a connection.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v3';
+const SHELL = 'mb-shell-v4';
 const ASSETS = 'mb-assets-v3';
 const SHELL_FILES = [
-  './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
+  './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
+  'lib/MotionPathPlugin.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
   'js/data.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/cards.js', 'js/main.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
