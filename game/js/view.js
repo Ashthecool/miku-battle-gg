@@ -275,7 +275,7 @@
         case 'freeze': this.floatText(p, h, 'Frozen!', 'shield'); MB.FX.burst(this, p, '#bff4ff', 16, { h: h * 0.4, spread: 80, shape: 'shard' }); MB.audio.sfx('freeze'); break;
         case 'thaw': break;
         case 'poison': this.floatText(p, h, 'Destroyed!', 'debuff'); MB.FX.burst(this, p, '#a35cff', 18, { h: h * 0.5 }); break;
-        case 'burn': this.floatText(p, h, 'Ablaze!', 'burn'); MB.FX.burst(this, p, '#ff6a1c', 16, { h: h * 0.3, spread: 70 }); MB.audio.sfx('zap'); break;
+        case 'burn': this.floatText(p, h, 'Ablaze!', 'burn'); MB.FX.burst(this, p, '#ff6a1c', 16, { h: h * 0.3, spread: 70 }); MB.audio.sfx('burn'); break;
         case 'extinguish': MB.FX.rise(this, p, '#cfd8e0', 8, h * 0.6); break;
         case 'guard':
           this.floatText(p, h, 'Guarded!', 'shield');
@@ -368,7 +368,7 @@
 
     // burning monsters flare up before taking their damage
     async burnFx(units, fn) {
-      MB.audio.sfx('zap');
+      MB.audio.sfx('burn');
       units.forEach((u) => { const p = this.pos(u); MB.FX.flameBurst(this, p, UNIT_H); });
       await wait(350);
       fn();

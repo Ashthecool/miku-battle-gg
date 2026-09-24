@@ -269,7 +269,7 @@
     bolt: (sp, L, c, ov, def) => {
       const tl = gsap.timeline().set(sp, { opacity: 0 });
       for (let i = 0; i < 3; i++) {
-        tl.call(() => { MB.audio.sfx('zap'); screenFlash(L, i === 2 ? '#ffffff' : c, 0.45); const p = spot(sp); lightning(L, p.x + rnd(-160, 160), c); })
+        tl.call(() => { MB.audio.sfx(i === 2 ? 'thunder' : 'zap'); screenFlash(L, i === 2 ? '#ffffff' : c, 0.45); const p = spot(sp); lightning(L, p.x + rnd(-160, 160), c); })
           .to(sp, { opacity: i === 2 ? SPRITE_OP : 0.7, duration: 0.04 })
           .to(sp, { opacity: i === 2 ? SPRITE_OP : 0, duration: 0.14 });
       }
@@ -308,7 +308,7 @@
       .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, line(def, 'Darling~'), c, 48); }, null, 1),
     // Harris: thaws out of a frozen block
     frost: (sp, L, c, ov, def) => gsap.timeline()
-      .call(() => { const p = spot(sp); MB.audio.sfx('freeze'); spray(L, p.x, p.y, '#bff4ff', 30, { dist: [120, 420], stars: 0.3 }); fling(L, p.x, p.y, ['❄', '❄', '🍦'], 10); })
+      .call(() => { const p = spot(sp); MB.audio.sfx('frost'); spray(L, p.x, p.y, '#bff4ff', 30, { dist: [120, 420], stars: 0.3 }); fling(L, p.x, p.y, ['❄', '❄', '🍦'], 10); })
       .fromTo(sp, { opacity: SPRITE_OP, filter: 'brightness(2.4) saturate(0)' }, { filter: 'brightness(1) saturate(1)', duration: 1.1, ease: 'power2.out', clearProps: 'filter' }, 0)
       .fromTo(sp, { x: -7 }, { x: 7, duration: 0.05, repeat: 9, yoyo: true }, 0)
       .set(sp, { x: 0 }),
@@ -326,7 +326,7 @@
     },
     // Lilith: rises out of hellfire
     hellfire: (sp, L, c, ov, def) => gsap.timeline()
-      .call(() => { const p = spot(sp); column(L, 'cm-fire', p, c, 0.7); riseFrom(L, p.x, p.bottom, ['#ff4a1c', '#ffb347', '#ffe066'], 60, 1.1); MB.audio.sfx('zap'); })
+      .call(() => { const p = spot(sp); column(L, 'cm-fire', p, c, 0.7); riseFrom(L, p.x, p.bottom, ['#ff4a1c', '#ffb347', '#ffe066'], 60, 1.1); MB.audio.sfx('fire'); })
       .fromTo(sp, { opacity: 0, y: 140, filter: 'brightness(0.3) sepia(1) saturate(5)' }, { opacity: SPRITE_OP, y: 0, filter: 'brightness(1) sepia(0) saturate(1)', duration: 1, ease: 'power2.out', clearProps: 'filter' }, 0.15)
       .call(() => { const p = spot(sp); ring(L, p.x, p.y, c, { size: 220, scale: 4 }); shake(ov, 12); MB.audio.sfx('slam'); word(L, p.x, p.top + 60, line(def, 'Look at ME!'), c, 50); }, null, 0.95),
     // Celeste: descends in a beam of light and feathers
@@ -397,7 +397,7 @@
         MB.audio.sfx('whoosh');
         gsap.fromTo(d, { x: -200, y: p.top + 60, xPercent: -50, yPercent: -50 }, { x: 1800, y: p.top - 40, duration: 1.2, ease: 'power1.inOut', onComplete: () => d.remove() });
       })
-      .call(() => { const p = spot(sp); column(L, 'cm-fire', p, c, 0.5); riseFrom(L, p.x, p.bottom, ['#ff4a1c', '#ffb347', '#ffffff'], 40, 0.8); MB.audio.sfx('zap'); }, null, 0.5)
+      .call(() => { const p = spot(sp); column(L, 'cm-fire', p, c, 0.5); riseFrom(L, p.x, p.bottom, ['#ff4a1c', '#ffb347', '#ffffff'], 40, 0.8); MB.audio.sfx('fire'); }, null, 0.5)
       .fromTo(sp, { opacity: 0, scale: 1.1 }, { opacity: SPRITE_OP, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.6)
       .call(() => { const p = spot(sp); shake(ov, 10); word(L, p.x, p.top + 60, line(def, 'The king is I!'), c, 48); }, null, 1.1),
     // Olivia: fresh coffee steam, and a warm welcome
@@ -445,7 +445,7 @@
         gsap.fromTo(f, { x: p.x - 520, y: p.bottom - 10, xPercent: -50, yPercent: -100 }, { x: p.x, duration: 0.8, ease: 'power2.inOut',
           onComplete: () => gsap.to(f, { yPercent: 0, opacity: 0, duration: 0.2, onComplete: () => f.remove() }) });
       })
-      .call(() => { const p = spot(sp); column(L, 'cm-water', p, c, 0.4); riseFrom(L, p.x, p.bottom, ['#bfe9ff', '#ffffff', c], 50, 0.8); MB.audio.sfx('splash'); shake(ov, 14); }, null, 0.85)
+      .call(() => { const p = spot(sp); column(L, 'cm-water', p, c, 0.4); riseFrom(L, p.x, p.bottom, ['#bfe9ff', '#ffffff', c], 50, 0.8); MB.audio.sfx('wave'); shake(ov, 14); }, null, 0.85)
       .fromTo(sp, { opacity: SPRITE_OP, y: 700 }, { y: 0, duration: 0.55, ease: 'back.out(1.5)' }, 0.9)
       .call(() => { const p = spot(sp); word(L, p.x, p.top + 60, line(def, 'BIG SIS IS HERE!'), c, 50); fling(L, p.x, p.y, ['💧', '🦈', '💦'], 10); }, null, 1.3),
     // Rowdy: walks in reading, notices you, and fumbles the book shut
@@ -506,7 +506,7 @@
       .call(() => { const p = spot(sp); word(L, p.x, p.top + 120, "...'sup.", '#ffffff', 44); }, null, 1.5),
     // Linda: a spotlight, the paperwork, and an approval stamp
     stamp: (sp, L, c, ov, def) => gsap.timeline()
-      .call(() => { const p = spot(sp); column(L, 'cm-light', p, '#dfe6ff', 1); MB.audio.sfx('beam'); })
+      .call(() => { const p = spot(sp); column(L, 'cm-light', p, '#dfe6ff', 1); MB.audio.sfx('holy'); })
       .fromTo(sp, { opacity: 0, y: 30 }, { opacity: SPRITE_OP, y: 0, duration: 0.7, ease: 'power2.out' }, 0.2)
       .call(() => { const p = spot(sp); rain(L, p.x - 280, p.x + 280, p.bottom, ['📄', '📋', '📑'], 14, 0.6); }, null, 0.5)
       .call(() => {

@@ -27,6 +27,27 @@
     ding: { file: 'ding-360948.mp3', vol: 0.6 },
     whistle: { file: 'whistle-538422.mp3', vol: 0.5 },
     bubble: { file: 'bubble-540074.mp3', vol: 0.7, max: 1.3 },
+    // elements and magic
+    fire: { file: 'fire-267887.mp3', vol: 0.7, vary: 0.06 },
+    burn: { file: 'burn-539972.mp3', vol: 0.6, vary: 0.08 },
+    freeze: { file: 'freeze-160420.mp3', vol: 0.6 },
+    frost: { file: 'frost-709888.mp3', vol: 0.6, max: 1.6 },
+    shatter: { file: 'shatter-422633.mp3', vol: 0.5, vary: 0.06 },
+    splash: { file: 'splash-829676.mp3', vol: 0.6, vary: 0.08 },
+    wave: { file: 'wave-398039.mp3', vol: 0.7 },
+    holy: { file: 'holy-608892.mp3', vol: 0.5, max: 2.2 },
+    heal: { file: 'heal-562292.mp3', vol: 0.5 },
+    fusion: { file: 'fusion-395442.mp3', vol: 0.6 },
+    zap: { file: 'zap-530356.mp3', vol: 0.5, vary: 0.1 },
+    thunder: { file: 'thunder-535952.mp3', vol: 0.6, max: 1.8 },
+    shield: { file: 'shield-570853.mp3', vol: 0.5, max: 1.4 },
+    buff: { file: 'buff-478343.mp3', vol: 0.5 },
+    debuff: { file: 'debuff-577960.mp3', vol: 0.5 },
+    dark: { file: 'dark-659762.mp3', vol: 0.6 },
+    wind: { file: 'wind-742907.mp3', vol: 0.7, vary: 0.1 },
+    sparkle: { file: 'sparkle-457306.mp3', vol: 0.5, vary: 0.05 },
+    coin: { file: 'coin-393908.mp3', vol: 0.5, vary: 0.05 },
+    boom: { file: 'boom-792520.mp3', vol: 0.7 },
   };
   const buffers = {};
 
@@ -139,6 +160,18 @@
     // the cartoon layer under every hit: a bonk at a random pitch, or a POW for heavy ones
     blink: () => [0, 0.18].forEach((d) => tone({ type: 'sine', curve: [900, 1900, 1300], dur: 0.12, vol: 0.12, delay: d })),
     punch: (p) => SFX.bonk(p),
+    // synth stand-ins for the element samples
+    fire: () => { noise({ dur: 0.5, vol: 0.3, f: 500, sweep: 2200, q: 0.8 }); tone({ type: 'sawtooth', f0: 180, f1: 80, dur: 0.4, vol: 0.08, lp: 900 }); },
+    burn: () => SFX.fire(),
+    frost: () => SFX.freeze(),
+    shatter: () => { noise({ dur: 0.35, vol: 0.25, f: 7000, sweep: 3000, type: 'highpass' }); [2800, 3400, 2200].forEach((f, i) => tone({ type: 'sine', f0: f, dur: 0.12, vol: 0.05, delay: i * 0.04 })); },
+    wave: () => noise({ dur: 1, vol: 0.35, f: 600, sweep: 1800, q: 0.6 }),
+    holy: () => [523, 659, 784, 1047].forEach((f) => tone({ type: 'sine', f0: f, dur: 1.2, vol: 0.06, attack: 0.3 })),
+    fusion: () => SFX.bond(3),
+    thunder: () => { SFX.zap(); SFX.slam(); },
+    dark: () => { tone({ type: 'sawtooth', f0: 110, f1: 55, dur: 0.8, vol: 0.1, lp: 600, vib: { rate: 5, depth: 8 } }); noise({ dur: 0.8, vol: 0.12, f: 300, sweep: 120 }); },
+    wind: () => SFX.whoosh(),
+    boom: () => SFX.slam(),
     // the cartoon layer under every hit: a bonk or a punch, or a POW for heavy ones
     toon: (big) => play(big ? 'pow' : Math.random() < 0.5 ? 'punch' : 'bonk', 0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),

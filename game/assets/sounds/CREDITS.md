@@ -23,3 +23,23 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | ding | ding-360948.mp3 | Little bell | marcusgar | https://freesound.org/people/marcusgar/sounds/360948/ |
 | whistle | whistle-538422.mp3 | Referee whistle sound.wav | Rosa-Orenes256 | https://freesound.org/people/Rosa-Orenes256/sounds/538422/ |
 | bubble | bubble-540074.mp3 | Potion Bubbles | magnuswaker | https://freesound.org/people/magnuswaker/sounds/540074/ |
+| fire | fire-267887.mp3 | Short-Fireball-Woosh.flac | wjl | https://freesound.org/people/wjl/sounds/267887/ |
+| burn | burn-539972.mp3 | Fire Burst Flash | Za-Games | https://freesound.org/people/Za-Games/sounds/539972/ |
+| freeze | freeze-160420.mp3 | iceSpell.wav | Relenzo2 | https://freesound.org/people/Relenzo2/sounds/160420/ |
+| frost | frost-709888.mp3 | Ice Magic Arrow_type 01 | lotteria001 | https://freesound.org/people/lotteria001/sounds/709888/ |
+| shatter | shatter-422633.mp3 | Break something (ice/glass/...) | Aurelon | https://freesound.org/people/Aurelon/sounds/422633/ |
+| splash | splash-829676.mp3 | Water Splash | AardsReal | https://freesound.org/people/AardsReal/sounds/829676/ |
+| wave | wave-398039.mp3 | water splash 2 | swordofkings128 | https://freesound.org/people/swordofkings128/sounds/398039/ |
+| holy | holy-608892.mp3 | Angel Reveal.wav | MarknKris1996 | https://freesound.org/people/MarknKris1996/sounds/608892/ |
+| heal | heal-562292.mp3 | Heal - Rpg | colorsCrimsonTears | https://freesound.org/people/colorsCrimsonTears/sounds/562292/ |
+| fusion | fusion-395442.mp3 | Danny Phantom Transform | plasterbrain | https://freesound.org/people/plasterbrain/sounds/395442/ |
+| zap | zap-530356.mp3 | Electricity.wav | danielpodlovics | https://freesound.org/people/danielpodlovics/sounds/530356/ |
+| thunder | thunder-535952.mp3 | Electro_Hit_04.wav | doudar41 | https://freesound.org/people/doudar41/sounds/535952/ |
+| shield | shield-570853.mp3 | magicShield_block.wav | rafaelzimrp | https://freesound.org/people/rafaelzimrp/sounds/570853/ |
+| buff | buff-478343.mp3 | Bouncing Power Up 1_4 | Joao_Janz | https://freesound.org/people/Joao_Janz/sounds/478343/ |
+| debuff | debuff-577960.mp3 | Power down - Rpg | colorsCrimsonTears | https://freesound.org/people/colorsCrimsonTears/sounds/577960/ |
+| dark | dark-659762.mp3 | Magic Spell 05 Remastered.wav | LilMati | https://freesound.org/people/LilMati/sounds/659762/ |
+| wind | wind-742907.mp3 | Woosh - Plastic perforated steak spatula | Sadiquecat | https://freesound.org/people/Sadiquecat/sounds/742907/ |
+| sparkle | sparkle-457306.mp3 | anime.wav | 1urker | https://freesound.org/people/1urker/sounds/457306/ |
+| coin | coin-393908.mp3 | Money Collect 5 | Pogmog | https://freesound.org/people/Pogmog/sounds/393908/ |
+| boom | boom-792520.mp3 | Retro Small Bomb Explosion | modusmogulus | https://freesound.org/people/modusmogulus/sounds/792520/ |
