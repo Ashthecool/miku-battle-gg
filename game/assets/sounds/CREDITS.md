@@ -2,6 +2,8 @@
 
 Pixabay (Pixabay Content License): `animated-cartoon-explosion-impact.mp3`, `cartoon-blinking.mp3`.
 
+Added by hand (source not recorded): `choir.wav`, `laughter.wav`.
+
 Freesound, all CC0 (no attribution required, listed anyway). The game plays these under the names in `SAMPLES` (game/js/audio.js).
 
 | sound | file | original | author | source |
@@ -42,4 +44,23 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | wind | wind-742907.mp3 | Woosh - Plastic perforated steak spatula | Sadiquecat | https://freesound.org/people/Sadiquecat/sounds/742907/ |
 | sparkle | sparkle-457306.mp3 | anime.wav | 1urker | https://freesound.org/people/1urker/sounds/457306/ |
 | coin | coin-393908.mp3 | Money Collect 5 | Pogmog | https://freesound.org/people/Pogmog/sounds/393908/ |
-| boom | boom-792520.mp3 | Retro Small Bomb Explosion | modusmogulus | https://freesound.org/people/modusmogulus/sounds/792520/ |
+| boom | boom-792520.mp3 | Retro Small Bomb Explosion | modusmogulus | https://freesound.org/people/modusmogulus/sounds/792520/ || incoming | incoming-506313.mp3 | Falling Bomb.wav | Daleonfire | https://freesound.org/people/Daleonfire/sounds/506313/ |
+| tornado | tornado-349698.mp3 | light slow swoosh.mp3 | Mikes-MultiMedia | https://freesound.org/people/Mikes-MultiMedia/sounds/349698/ |
+| vortex | vortex-697634.mp3 | Portal | BigDino1995 | https://freesound.org/people/BigDino1995/sounds/697634/ |
+| missile | missile-521377.mp3 | Rocket Launch | Jarusca | https://freesound.org/people/Jarusca/sounds/521377/ |
+| vines | vines-677814.mp3 | one plant grows with lettuce.wav | squidge316 | https://freesound.org/people/squidge316/sounds/677814/ |
+| rune | rune-786290.mp3 | Magic Spell Effect (Delayed) | SecureSubset | https://freesound.org/people/SecureSubset/sounds/786290/ |
+| shuriken | shuriken-196563.mp3 | Knife throw 2.aif | kylepyke | https://freesound.org/people/kylepyke/sounds/196563/ |
+| melody | melody-70175.mp3 | MUSIC BOX A 1.wav | folkman | https://freesound.org/people/folkman/sounds/70175/ |
+| poof | poof-208111.mp3 | Poof of Smoke | Planman | https://freesound.org/people/Planman/sounds/208111/ |
+| gunshot | gunshot-632821.mp3 | Gunshot.wav | Cloud-10 | https://freesound.org/people/Cloud-10/sounds/632821/ |
+| scope | scope-210018.mp3 | Sniper Scope zoom in | Supakid13 | https://freesound.org/people/Supakid13/sounds/210018/ |
+| lava | lava-361211.mp3 | 8 Bit Sizzle | Jofae | https://freesound.org/people/Jofae/sounds/361211/ |
+| kiss | kiss-346661.mp3 | Kiss_01.wav | deleted_user_2104797 | https://freesound.org/people/deleted_user_2104797/sounds/346661/ |
+| swish | swish-475132.mp3 | FX - Swoosh - Light | bolkmar | https://freesound.org/people/bolkmar/sounds/475132/ |
+| clang | clang-326795.mp3 | Sword_Clash (46).wav | JohnBuhr | https://freesound.org/people/JohnBuhr/sounds/326795/ |
+| glitch | glitch-348585.mp3 | Glitch Corruption | dotY21 | https://freesound.org/people/dotY21/sounds/348585/ |
+| camera | camera-249750.mp3 | Camera shutter in Sony A55 | matthiastidlund | https://freesound.org/people/matthiastidlund/sounds/249750/ |
+| tick | tick-187992.mp3 | Tic Toc.wav | magundah14 | https://freesound.org/people/magundah14/sounds/187992/ |
+| stab | stab-464839.mp3 | Anime Sound Effect - Piercing impact / Stabbing | Breviceps | https://freesound.org/people/Breviceps/sounds/464839/ |
+| cheer | cheer-340965.mp3 | Crowd cheering at parade | SoundsAreGr8 | https://freesound.org/people/SoundsAreGr8/sounds/340965/ |

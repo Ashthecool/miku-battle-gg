@@ -724,7 +724,7 @@
         .call(() => { MB.audio.sfx('bond', S.tier); const p = midOf(S); spray(L, p.x, p.y, c, 20, { dist: [80, 280], stars: 0.5 }); }, null, 0.6);
       const idle = [() => gsap.to(a, { y: -8, duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }), () => gsap.to(b, { y: -8, duration: 2.2, delay: 1.1, yoyo: true, repeat: -1, ease: 'sine.inOut' })];
       const laugh = (t) => tl.to([a, b], { y: -14, duration: 0.09, yoyo: true, repeat: 7, stagger: 0.05, ease: 'sine.inOut' }, t)
-        .call(() => { const p = midOf(S); word(L, p.x - 90, p.y - 60, S.cfg.word || 'HAHA!', c, 46); word(L, p.x + 90, p.y - 20, 'HAHAHA!', c, 40); fling(L, p.x, p.y, laughs, 8, { gravity: -30 }); MB.audio.sfx('sparkle'); }, null, t);
+        .call(() => { const p = midOf(S); word(L, p.x - 90, p.y - 60, S.cfg.word || 'HAHA!', c, 46); word(L, p.x + 90, p.y - 20, 'HAHAHA!', c, 40); fling(L, p.x, p.y, laughs, 8, { gravity: -30 }); MB.audio.sfx('laugh'); }, null, t);
 
       if (scene === 'meal') {
         const table = prop(S, 'cm-table', S.food.map((f) => `<i>${f}</i>`).join(''), 2);

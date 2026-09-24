@@ -94,7 +94,9 @@ entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
 - `emoji`: list for fling/swirl/rain · `sfx`: `sparkle` `slam` `zap` `splash` `heal` `coin` `whoosh` `hit` `buff` `beam`
   · cartoon: `boing` `bonk` `pow` `pop` `squeak` `zip` `honk` `wobble` `tweet` `splat` `twang` `chomp` `ding` `whistle` (referee)
   `whistleUp` `whistleDown` (slide whistles) `bubble` `blink` `punch`
-  · elements: `fire` `burn` `frost` `shatter` `wave` `holy` `fusion` (bond merge) `thunder` `dark` `wind` `boom`. Recorded files in game/assets/sounds/ replace a synth sound
+  · elements: `fire` `burn` `frost` `shatter` `wave` `holy` `fusion` (bond merge) `thunder` `dark` `wind` `boom`
+  · attacks: `choir` `laugh` `incoming` (falling bomb) `tornado` `vortex` `missile` `vines` `rune` `shuriken` `melody` `poof`
+  `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer`. Recorded files in game/assets/sounds/ replace a synth sound
   of the same name (the SAMPLES table in audio.js)
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).
