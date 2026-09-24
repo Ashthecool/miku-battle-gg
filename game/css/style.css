@@ -566,6 +566,35 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .cm-polaroid img { height: 260%; margin: 0 -18px; }
 .cm-polaroid b { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font: 700 20px 'Comic Sans MS', 'Segoe Print', 'Segoe UI'; color: #333; }
 .cm-speedline { width: 180px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #fff, transparent); opacity: .7; }
+.cm-portal { border-radius: 50%; overflow: hidden; border: 6px solid #fff; box-shadow: 0 0 30px var(--c), 0 0 70px var(--c), inset 0 0 40px #000; }
+.cm-portal i { position: absolute; inset: -40%; background: repeating-conic-gradient(from 0deg, var(--c) 0 18deg, #fff 18deg 24deg, #2a0a4a 24deg 60deg); }
+.cm-mirror { top: calc(var(--top, 0px) + 10px); bottom: 0; width: 150px; overflow: hidden; border-radius: 75px 75px 12px 12px; border: 10px solid #e8c878;
+  background: linear-gradient(120deg, #cfe8ff66, #ffffff22 40%, #cfe8ff55 60%, #ffffff11); box-shadow: 0 0 30px #fff8, inset 0 0 30px #fff6; transform-origin: 50% 100%; }
+.cm-mirror i { position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, #fffc 50%, transparent 65%); }
+.cm-rope { height: 14px; border-radius: 7px; opacity: 0; transform-origin: 50% 50%; box-shadow: 0 4px 6px #0008;
+  background: repeating-linear-gradient(60deg, #d9b77a 0 10px, #a8834a 10px 16px); }
+.cm-rope b { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 40px; }
+.cm-spiral { opacity: 0; filter: drop-shadow(0 0 12px var(--c, #b07cff)); }
+.cm-spiral svg { display: block; }
+.cm-carpet { bottom: -20px; width: 130%; height: 110px; opacity: 0; clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  background: linear-gradient(#8a0e22, #e8283c 40%, #b3122e); border-top: 6px solid #ffd24a; }
+.cm-camflash { width: 130px; height: 130px; border-radius: 50%; mix-blend-mode: screen; background: radial-gradient(circle, #fff 0 18%, #fffb 34%, transparent 70%); }
+.cm-cover { width: 250px; height: 250px; }
+.cm-cover b { font: 900 22px 'Segoe UI', sans-serif; letter-spacing: 1px; color: #b3122e; }
+.cm-bar { bottom: -10px; width: 124%; height: 130px; border-radius: 14px 14px 0 0; border-top: 10px solid #c98a4a;
+  background: linear-gradient(#6a3a18, #4a2610 40%, #2e1608); box-shadow: 0 -8px 24px #0009, inset 0 8px 10px #fff2; }
+.cm-bar::after { content: ''; position: absolute; left: 4%; right: 4%; bottom: 26px; height: 8px; border-radius: 4px; background: linear-gradient(#ffe08a, #b8862a); }
+.cm-amp { bottom: 0; width: 150px; height: 190px; border-radius: 10px; padding-top: 8px; box-sizing: border-box; border: 5px solid #3a3a44;
+  background: linear-gradient(#2a2a30, #121216); box-shadow: 0 0 22px var(--c), 0 10px 14px #0009; }
+.cm-amp i { display: block; width: 100px; height: 72px; margin: 10px auto 0; border-radius: 50%; background: radial-gradient(circle, #666 0 16%, #1a1a1a 19% 58%, #3a3a3a 61%); }
+.cm-pan { bottom: 40px; font-size: 100px; line-height: 1; filter: drop-shadow(0 8px 6px #0009); }
+.cm-tub { bottom: -10px; width: 62%; height: 150px; overflow: hidden; border-radius: 10px 10px 34px 34px; border: 6px solid #4a2610;
+  background: repeating-linear-gradient(90deg, #8a5226 0 34px, #6a3a18 34px 38px); box-shadow: 0 -6px 20px #0009; }
+.cm-tub i { position: absolute; inset: 0; transform-origin: 50% 100%; opacity: .8; background: linear-gradient(#b04ae0, #5a1a8a); }
+.cm-screen { bottom: 0; height: 78%; display: flex; gap: 4px; opacity: 0; transform-origin: 50% 100%; }
+.cm-screen i { width: 110px; height: 100%; border: 6px solid #8a5226; border-top-color: #ff8ac8; border-radius: 12px 12px 0 0; box-shadow: 0 6px 14px #0008;
+  background: radial-gradient(circle at 50% 30%, #ffc8e0 0 10%, transparent 11%), linear-gradient(#fff6ea, #e8d8c0); }
+.cm-smoke { width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, #e8e4f0, #b8b0c8 45%, transparent 70%); filter: blur(4px); }
 
 /* ================= new-card reveal ================= */
 .rv { position: absolute; inset: 0; z-index: 110; cursor: pointer; perspective: 1400px; }
@@ -794,6 +823,44 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
   background: linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, #fff), var(--c) 55%, color-mix(in srgb, var(--c) 55%, #000)); }
 .fireball { border-radius: 50%; background: radial-gradient(circle, #fff 0 12%, #ffe066 24%, #ff7a1c 45%, #a3200a 62%, transparent 72%); }
 .sky-beam.spot { width: 180px; opacity: .6; }
+/* signature styles: DSF RPG, Legend of You, Noble One, New Haven (fx.js) */
+.thrown.fist { font-size: 56px; filter: drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 16px var(--c)); }
+.thrown.big.fist { font-size: 120px; }
+.thrown.dove { font-size: 46px; filter: drop-shadow(0 0 8px #fff) drop-shadow(0 4px 4px #0006); }
+.thrown.axe { filter: drop-shadow(0 0 10px #ff1a3c) drop-shadow(0 6px 6px #0008); }
+.hypno-spiral svg, .soundwave svg, .wires svg, .cheese svg { display: block; overflow: visible; }
+.hypno-spiral { filter: drop-shadow(0 0 10px var(--c)); opacity: .9; }
+.soundwave { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 0 20px var(--c)); }
+.wires { filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px var(--c)); }
+.cheese { filter: drop-shadow(0 2px 2px #0006); }
+.portal { border-radius: 50%; overflow: hidden; border: 5px solid #fff; box-shadow: 0 0 24px var(--c), 0 0 50px var(--c), inset 0 0 30px #000; }
+.portal i { position: absolute; inset: -40%; background: repeating-conic-gradient(from 0deg, var(--c) 0 18deg, #fff 18deg 24deg, #2a0a4a 24deg 60deg); }
+.portal::after, .cm-portal::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(ellipse, #fff 0 8%, #2a0a4acc 30%, transparent 75%); }
+.amp { width: 140px; height: 170px; border-radius: 10px; background: linear-gradient(#2a2a30, #121216); border: 5px solid #3a3a44;
+  box-shadow: 0 0 22px var(--c), 0 10px 14px #0009; padding-top: 6px; box-sizing: border-box; }
+.amp i { display: block; width: 92px; height: 66px; margin: 8px auto 0; border-radius: 50%; background: radial-gradient(circle, #666 0 16%, #1a1a1a 19% 58%, #3a3a3a 61%); }
+.pizza { width: 120px; height: 120px; border-radius: 50%; border: 9px solid #d8903e; box-sizing: border-box; box-shadow: 0 8px 12px #0008;
+  background: radial-gradient(circle at 30% 35%, #c8322a 0 9%, transparent 10%), radial-gradient(circle at 66% 30%, #c8322a 0 8%, transparent 9%),
+    radial-gradient(circle at 56% 68%, #c8322a 0 9%, transparent 10%), radial-gradient(circle at 28% 70%, #3f8a2e 0 5%, transparent 6%),
+    radial-gradient(circle at 74% 56%, #3f8a2e 0 5%, transparent 6%), radial-gradient(circle, #ffd65a, #f2b640); }
+.bar-counter { height: 64px; border-radius: 12px; background: linear-gradient(#d0924e, #8a5226 55%, #6a3a18); border: 4px solid #f0b070;
+  box-shadow: 0 0 18px var(--c), inset 0 6px 8px #fff4; }
+.red-carpet { height: 96px; background: linear-gradient(#b3122e, #e8283c 50%, #b3122e); border-top: 7px solid #ffd24a; border-bottom: 7px solid #ffd24a;
+  box-shadow: 0 0 22px #e8283c88; }
+.coin.big-coin { display: flex; align-items: center; justify-content: center; font: 900 24px 'Segoe UI'; color: #8a5a00; }
+.mimic { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 0 18px var(--c)); }
+.mimic img, .mimic .duo-sprite { height: 100%; }
+.mimic .emoji-sprite { font-size: 150px; }
+.quest-form { width: 130px; padding: 12px 8px; border-radius: 6px; text-align: center; color: #5a3a1a; box-shadow: 0 6px 12px #0008;
+  background: repeating-linear-gradient(#fdf6e3 0 22px, #e8dcc0 22px 23px); }
+.quest-form b { display: block; font: 900 22px 'Segoe UI'; letter-spacing: 3px; }
+.quest-form small { font: 700 13px 'Segoe UI'; }
+.keyboard svg { display: block; filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 6px 6px #0008); }
+.keyboard .w { fill: #fff; stroke: #1a1030; stroke-width: 1.5; }
+.keyboard .k { fill: #1a1030; }
+.ice-cross svg { display: block; overflow: visible; filter: drop-shadow(0 0 10px #9fe8ff) drop-shadow(0 0 24px #6fd6ff); }
+.ice-cross path { fill: rgba(200, 240, 255, .85); stroke: #fff; stroke-width: 4; stroke-linejoin: round; }
+.ice-cross .hl { fill: none; stroke: #ffffffaa; stroke-width: 3; }
 
 /* ================= card packs ================= */
 .menu-btn .badge { margin-left: auto; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 17px; font: 900 18px/34px 'Segoe UI'; font-style: normal; text-align: center;

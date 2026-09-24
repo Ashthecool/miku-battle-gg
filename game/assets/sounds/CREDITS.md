@@ -44,7 +44,8 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | wind | wind-742907.mp3 | Woosh - Plastic perforated steak spatula | Sadiquecat | https://freesound.org/people/Sadiquecat/sounds/742907/ |
 | sparkle | sparkle-457306.mp3 | anime.wav | 1urker | https://freesound.org/people/1urker/sounds/457306/ |
 | coin | coin-393908.mp3 | Money Collect 5 | Pogmog | https://freesound.org/people/Pogmog/sounds/393908/ |
-| boom | boom-792520.mp3 | Retro Small Bomb Explosion | modusmogulus | https://freesound.org/people/modusmogulus/sounds/792520/ || incoming | incoming-506313.mp3 | Falling Bomb.wav | Daleonfire | https://freesound.org/people/Daleonfire/sounds/506313/ |
+| boom | boom-792520.mp3 | Retro Small Bomb Explosion | modusmogulus | https://freesound.org/people/modusmogulus/sounds/792520/ |
+| incoming | incoming-506313.mp3 | Falling Bomb.wav | Daleonfire | https://freesound.org/people/Daleonfire/sounds/506313/ |
 | tornado | tornado-349698.mp3 | light slow swoosh.mp3 | Mikes-MultiMedia | https://freesound.org/people/Mikes-MultiMedia/sounds/349698/ |
 | vortex | vortex-697634.mp3 | Portal | BigDino1995 | https://freesound.org/people/BigDino1995/sounds/697634/ |
 | missile | missile-521377.mp3 | Rocket Launch | Jarusca | https://freesound.org/people/Jarusca/sounds/521377/ |
@@ -62,6 +63,25 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | glitch | glitch-348585.mp3 | Glitch Corruption | dotY21 | https://freesound.org/people/dotY21/sounds/348585/ |
 | camera | camera-249750.mp3 | Camera shutter in Sony A55 | matthiastidlund | https://freesound.org/people/matthiastidlund/sounds/249750/ |
 | tick | tick-187992.mp3 | Tic Toc.wav | magundah14 | https://freesound.org/people/magundah14/sounds/187992/ |
+| cheer | cheer-340965.mp3 | Crowd cheering at parade | SoundsAreGr8 | https://freesound.org/people/SoundsAreGr8/sounds/340965/ |
 | stab | stab-464839.mp3 | Anime Sound Effect - Piercing impact / Stabbing | Breviceps | https://freesound.org/people/Breviceps/sounds/464839/ |
 | surf | surf-441852.mp3 | W_1 Wave.wav | Yarmonics | https://freesound.org/people/Yarmonics/sounds/441852/ |
 | scythe | scythe-529019.mp3 | Anime_drama_shing_sword_2.wav | Euphrosyyn | https://freesound.org/people/Euphrosyyn/sounds/529019/ |
+| guitar | guitar-104622.mp3 | heavymetalriff0.wav | Vrezerino | https://freesound.org/people/Vrezerino/sounds/104622/ |
+| piano | piano-508804.mp3 | Piano chord.wav | owstu | https://freesound.org/people/owstu/sounds/508804/ |
+| axe | axe-452554.mp3 | axe chop into wood little debris.wav | kyles | https://freesound.org/people/kyles/sounds/452554/ |
+| flip | flip-248143.mp3 | Coin Flip Shimmer | dpren | https://freesound.org/people/dpren/sounds/248143/ |
+| slide | slide-489729.mp3 | glass_slide 01.wav | ShadowSilhouette | https://freesound.org/people/ShadowSilhouette/sounds/489729/ |
+| glass | glass-221528.mp3 | Glass Break | unfa | https://freesound.org/people/unfa/sounds/221528/ |
+| flutter | flutter-561009.mp3 | Light Wing Flap | TurboFool | https://freesound.org/people/TurboFool/sounds/561009/ |
+| stomp | stomp-721601.mp3 | Giant step | DasWaff | https://freesound.org/people/DasWaff/sounds/721601/ |
+| grow | grow-607409.mp3 | Upgrade | colorsCrimsonTears | https://freesound.org/people/colorsCrimsonTears/sounds/607409/ |
+| trash | trash-498434.mp3 | Trash can falling | Nestra | https://freesound.org/people/Nestra/sounds/498434/ |
+| drumroll | drumroll-197763.mp3 | drum roll | owowowwo | https://freesound.org/people/owowowwo/sounds/197763/ |
+| gong | gong-82523.mp3 | BULGARIAN GONG.wav | zgump | https://freesound.org/people/zgump/sounds/82523/ |
+| sizzle | sizzle-540080.mp3 | Sizzler | magnuswaker | https://freesound.org/people/magnuswaker/sounds/540080/ |
+| applause | applause-245639.mp3 | MORECLAPS.aif | nickrave | https://freesound.org/people/nickrave/sounds/245639/ |
+| hypno | hypno-592950.mp3 | hypnotize.mp3 | igroglaz | https://freesound.org/people/igroglaz/sounds/592950/ |
+| warp | warp-735062.mp3 | Fast Warp In | GammaGool | https://freesound.org/people/GammaGool/sounds/735062/ |
+| unsheathe | unsheathe-107589.mp3 | unsheath_sword.wav | Qat | https://freesound.org/people/Qat/sounds/107589/ |
+| stretch | stretch-676988.mp3 | Stretch - Short | NearTheAtmoshphere | https://freesound.org/people/NearTheAtmoshphere/sounds/676988/ |

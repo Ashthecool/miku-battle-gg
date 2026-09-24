@@ -49,7 +49,17 @@ Character-flavored but reusable: `hellfire` fire pillars · `halo` holy light ·
 `katana` iaido blink-through + three thrusts · `darkflame` magic circle + dark flame pillars marching over ·
 `dolphin` dolphins leap and splash · `syringe` giant syringe jab · `stare` shadow, two eyes, freeze ·
 `pompom` cheer letters (`shout`) + pom-poms · `lasso` rope it and yank · `flask` two flasks react in colored smoke ·
-`redcard` whistle + red card slap · `warfan` banners rise round the target + fan gale.
+`redcard` whistle + red card slap · `warfan` banners rise round the target + fan gale ·
+`enlargo` grows giant, two stomps and a crater · `hora` hypno spiral, then a flurry of fists · `riff` amp + power chord,
+sound waves and a lightning solo · `pizza` dough spun overhead, toppings, frisbee, cheese strings · `barslide` a bar counter,
+a mug slides down it and smashes · `coinflip` heads: flips itself onto the target, tails: the coin does · `formo` turns into
+the target's double and hits it · `yandere` stamped quest form, red glare, axe · `piano` light keyboard, a run of notes, the
+chord · `siren` notes lure the target closer, the sea closes over it · `icecross` an ice cross forms and drops ·
+`trashfire` kicked trash bin + flicked cigarette = fire · `mercy` doves circle, feathers, soft light · `teaspill` trips with
+the tea, then a cursed blade's eye opens · `redcarpet` carpet rolls out, flashbulbs, strut, hair flip · `wires` circles the
+target stringing razor wire, pulls it tight, loot falls out.
+Effect styles (any fx below as a style): `meteor` `tornado` `blackhole` `missiles` `vines` `runes` `bubble` `clones` `snipe`
+`volcano` `kiss` `blades` `hack` `camera` `gravity` `spikes` `melody` `ninja` `timestop` (`emoji` = their prop).
 
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
 the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
@@ -63,7 +73,8 @@ attack: { name: 'Cat Scratch Combo', color: '#ff9a3c', move: 'blink', fx: 'slash
   cry: 'Chat, watch this!', scatter: ['🐾', '💬', '❤️'], finish: 'Nya~ GG!' }
 ```
 - `move` (how the attacker gets there): `stay` (winds up at home) · `float` (rises glowing, magic) · `dash` · `leap`
-  (jumps over and lands) · `blink` (vanishes, appears beside the target) · `spin` · `hop` · `zigzag`
+  (jumps over and lands) · `blink` (vanishes, appears beside the target) · `spin` · `hop` · `zigzag` · `fly` · `dive`
+  (sinks into the floor, pops up) · `charge` · `slide` · `portal` (steps through a portal, out of another by the target)
 - `fx` (what hits, from where the move left it): `hit` (melee jabs) · `throw` (props arc over) · `volley` (many glowing
   props) · `rain` (props fall on the target) · `orbit` (props circle in) · `slashes` · `pillar` (light columns) · `beam` ·
   `bolt` (lightning) · `stamp` (`mark`) · `words` (`words` fly over) · `quake` (shockwaves along the floor)
@@ -88,15 +99,18 @@ Default: the entrance named like the attack style. Every single-character style 
 entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
 - `move`: `drop` (falls, shakes the screen) · `slide` (dashes in with afterimages) · `rise` (from below) ·
   `pop` (springs up) · `fade` (glows in) · `spin` (spins in) · `zoom` (from the camera) · `sneak` (peeks, then
-  hops in) · `hop` (three hops)
+  hops in) · `hop` (three hops) · `grow` (tiny, then too big, stomps) · `portal` (steps out of a portal) · `strut`
+  (walks in slowly, hips swaying)
 - `fx`: `spray` (sparks, default) · `fling` (throws `emoji` around on landing) · `swirl` (`emoji` circle in
-  first) · `rain` (`emoji` fall first) · `confetti` · `column` (light pillar) · `flash` (screen flash)
+  first) · `rain` (`emoji` fall first) · `confetti` · `column` (light pillar) · `flash` (screen flash) · `smoke`
 - `emoji`: list for fling/swirl/rain · `sfx`: `sparkle` `slam` `zap` `splash` `heal` `coin` `whoosh` `hit` `buff` `beam`
   · cartoon: `boing` `bonk` `pow` `pop` `squeak` `zip` `honk` `wobble` `tweet` `splat` `twang` `chomp` `ding` `whistle` (referee)
-  `whistleUp` `whistleDown` (slide whistles) `bubble` `blink` `punch`
+  `whistleUp` `whistleDown` (slide whistles) `bubble` `blink` `punch` `flip` (coin flip) `slide` (glass on a bar) `stretch` (rope)
   · elements: `fire` `burn` `frost` `shatter` `wave` `holy` `fusion` (bond merge) `thunder` `dark` `wind` `boom`
   · attacks: `choir` `laugh` `incoming` (falling bomb) `tornado` `vortex` `missile` `vines` `rune` `shuriken` `melody` `poof`
-  `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer` `scythe` `surf`. Recorded files in game/assets/sounds/ replace a synth sound
+  `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer` `scythe` `surf` `guitar` `piano`
+  `axe` `glass` `flutter` (wings) `stomp` (giant step) `grow` `trash` `drumroll` `gong` `sizzle` `applause` `hypno` `warp`
+  `unsheathe` `siren` (singing). Recorded files in game/assets/sounds/ replace a synth sound
   of the same name (the SAMPLES table in audio.js)
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).
@@ -121,6 +135,20 @@ keywords, an onFuse. Tier 3 (the novel's central couple/family): [2, 2], strong 
 - `friends`: high-five.
 - `school` + `scene`: `class` (`board`: chalkboard text) · `club` (`props` [2 emoji], `bits` [[..], [..]]
   that swirl together into `result` emoji, `cheer`).
+
+Shared scene variants (`scene`; the kinds that may use each are in `SCENE_VARIANTS`, cards.js):
+- `mirror` (rivals, partners): a mirror between them, they copy each other's moves until one doesn't; it shatters.
+- `duel` (rivals, partners, mentor): face-off, a leaf falls, they dash past each other; `winner` 0/1 (else both drop), `emoji` = the wind.
+- `tug` (rivals): tug of war until the rope snaps; `emoji[0]` tied in the middle.
+- `hypnosis` (rivals): `hypnotist` 0/1 swings a spiral, the other resists; works with `guard` (+ `guardEmoji`, `guardWord`).
+- `photoshoot` (lovers, family, friends): red carpet, flashbulbs, poses, a magazine cover with `caption`.
+- `bearhug` (family, friends): `hugger` 0/1 charges in, lifts, squeezes, spins.
+- `bar` (lovers, family, friends): a drink (`food` [2]) slides down the counter, a toast, hiccups.
+- `concert` (family, friends, school, mentor): stage lights, amps, headbanging on the beat, ENCORE; `emoji` = notes.
+- `cook` (lovers, family, friends): ingredients (`food`) arc into a pan, it sizzles, `result` is served.
+- `etiquette` (family, school, mentor): `teacher` 0/1 makes the other walk with a book on their head; `order` on the fail.
+- `harvest` (family, friends): `food` rains into a tub, they stomp it, a `result` bottle pops out.
+- `dressup` (friends): a folding screen in front of `model` 0/1 (default 1), clothes (`emoji`) fly out, the reveal.
 
 ## Story
 
