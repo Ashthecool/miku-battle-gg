@@ -12,7 +12,10 @@
   "New Haven",
   "The Lifeguard has Teeth",
   "The yuri assist",
-  "Noble One"
+  "Noble One",
+  "Doki Doki Literature Club",
+  "Flaming, Lust, and Pain.",
+  "Paradiso Suburbia"
  ],
  "nsfwNovels": [
   "Noble One"
@@ -4513,6 +4516,202 @@
    "novel": "New Haven"
   },
   {
+   "id": "bucky",
+   "name": "Bucky",
+   "outfit": "Bucky 1",
+   "short": "Bucky is the front desk receptionist at New Haven Institute of Science",
+   "traits": [
+    "New England accent",
+    "friendly",
+    "flirty",
+    "cheerful",
+    "dedicated",
+    "physical"
+   ],
+   "sprites": {
+    "idle": "sprites/bucky/neutral.webp",
+    "play": "sprites/bucky/happy.webp",
+    "attack": "sprites/bucky/angry.webp",
+    "special": "sprites/bucky/angry.webp",
+    "hurt": "sprites/bucky/scared.webp",
+    "lose": "sprites/bucky/sad.webp",
+    "win": "sprites/bucky/happy.webp",
+    "taunt": "sprites/bucky/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "bucky-2",
+     "name": "Bucky 2",
+     "sprites": {
+      "idle": "sprites/bucky/bucky-2/neutral.webp",
+      "play": "sprites/bucky/bucky-2/happy.webp",
+      "attack": "sprites/bucky/bucky-2/angry.webp",
+      "special": "sprites/bucky/bucky-2/angry.webp",
+      "hurt": "sprites/bucky/bucky-2/scared.webp",
+      "lose": "sprites/bucky/bucky-2/sad.webp",
+      "win": "sprites/bucky/bucky-2/happy.webp",
+      "taunt": "sprites/bucky/bucky-2/amused.webp"
+     }
+    },
+    {
+     "id": "bucky-4",
+     "name": "Bucky 4",
+     "sprites": {
+      "idle": "sprites/bucky/bucky-4/neutral.webp",
+      "play": "sprites/bucky/bucky-4/happy.webp",
+      "attack": "sprites/bucky/bucky-4/angry.webp",
+      "special": "sprites/bucky/bucky-4/angry.webp",
+      "hurt": "sprites/bucky/bucky-4/scared.webp",
+      "lose": "sprites/bucky/bucky-4/sad.webp",
+      "win": "sprites/bucky/bucky-4/happy.webp",
+      "taunt": "sprites/bucky/bucky-4/amused.webp"
+     }
+    },
+    {
+     "id": "bucky-3",
+     "name": "Bucky 3",
+     "sprites": {
+      "idle": "sprites/bucky/bucky-3/desire.webp",
+      "play": "sprites/bucky/bucky-3/desire.webp",
+      "attack": "sprites/bucky/bucky-3/intensity.webp",
+      "special": "sprites/bucky/bucky-3/intensity.webp",
+      "hurt": "sprites/bucky/bucky-3/desire.webp",
+      "lose": "sprites/bucky/bucky-3/desire.webp",
+      "win": "sprites/bucky/bucky-3/desire.webp",
+      "taunt": "sprites/bucky/bucky-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/bucky.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "delphine",
+   "name": "Delphine",
+   "outfit": "Delphine 1",
+   "short": "Delphine is the adopted daughter of Marija Bullen and Scientist in Lab B-2",
+   "traits": [
+    "Mexican accent",
+    "mild",
+    "soft spoken",
+    "helpful"
+   ],
+   "sprites": {
+    "idle": "sprites/delphine/neutral.webp",
+    "play": "sprites/delphine/happy.webp",
+    "attack": "sprites/delphine/angry.webp",
+    "special": "sprites/delphine/angry.webp",
+    "hurt": "sprites/delphine/scared.webp",
+    "lose": "sprites/delphine/sad.webp",
+    "win": "sprites/delphine/happy.webp",
+    "taunt": "sprites/delphine/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "delphine-2",
+     "name": "Delphine 2",
+     "sprites": {
+      "idle": "sprites/delphine/delphine-2/neutral.webp",
+      "play": "sprites/delphine/delphine-2/happy.webp",
+      "attack": "sprites/delphine/delphine-2/angry.webp",
+      "special": "sprites/delphine/delphine-2/angry.webp",
+      "hurt": "sprites/delphine/delphine-2/scared.webp",
+      "lose": "sprites/delphine/delphine-2/sad.webp",
+      "win": "sprites/delphine/delphine-2/happy.webp",
+      "taunt": "sprites/delphine/delphine-2/amused.webp"
+     }
+    },
+    {
+     "id": "delphine-4",
+     "name": "Delphine 4",
+     "sprites": {
+      "idle": "sprites/delphine/delphine-4/neutral.webp",
+      "play": "sprites/delphine/delphine-4/happy.webp",
+      "attack": "sprites/delphine/delphine-4/angry.webp",
+      "special": "sprites/delphine/delphine-4/angry.webp",
+      "hurt": "sprites/delphine/delphine-4/scared.webp",
+      "lose": "sprites/delphine/delphine-4/sad.webp",
+      "win": "sprites/delphine/delphine-4/happy.webp",
+      "taunt": "sprites/delphine/delphine-4/amused.webp"
+     }
+    },
+    {
+     "id": "delphine-3",
+     "name": "Delphine 3",
+     "sprites": {
+      "idle": "sprites/delphine/delphine-3/desire.webp",
+      "play": "sprites/delphine/delphine-3/desire.webp",
+      "attack": "sprites/delphine/delphine-3/intensity.webp",
+      "special": "sprites/delphine/delphine-3/intensity.webp",
+      "hurt": "sprites/delphine/delphine-3/desire.webp",
+      "lose": "sprites/delphine/delphine-3/desire.webp",
+      "win": "sprites/delphine/delphine-3/desire.webp",
+      "taunt": "sprites/delphine/delphine-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/delphine.webp",
+   "novel": "New Haven"
+  },
+  {
+   "id": "andrew",
+   "name": "Andrew",
+   "outfit": "Andrew 1",
+   "short": "Marija's Husband, a Tree Surgeon-turned biologist from Earth 7",
+   "traits": [
+    "Mexican accent",
+    "proud",
+    "strong-willed",
+    "impulsive",
+    "determined"
+   ],
+   "sprites": {
+    "idle": "sprites/andrew/neutral.webp",
+    "play": "sprites/andrew/happy.webp",
+    "attack": "sprites/andrew/angry.webp",
+    "special": "sprites/andrew/angry.webp",
+    "hurt": "sprites/andrew/scared.webp",
+    "lose": "sprites/andrew/sad.webp",
+    "win": "sprites/andrew/happy.webp",
+    "taunt": "sprites/andrew/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "andrew-2",
+     "name": "Andrew 2",
+     "sprites": {
+      "idle": "sprites/andrew/andrew-2/neutral.webp",
+      "play": "sprites/andrew/andrew-2/happy.webp",
+      "attack": "sprites/andrew/andrew-2/angry.webp",
+      "special": "sprites/andrew/andrew-2/angry.webp",
+      "hurt": "sprites/andrew/andrew-2/scared.webp",
+      "lose": "sprites/andrew/andrew-2/sad.webp",
+      "win": "sprites/andrew/andrew-2/happy.webp",
+      "taunt": "sprites/andrew/andrew-2/amused.webp"
+     }
+    },
+    {
+     "id": "andrew-3",
+     "name": "Andrew 3",
+     "sprites": {
+      "idle": "sprites/andrew/andrew-3/desire.webp",
+      "play": "sprites/andrew/andrew-3/desire.webp",
+      "attack": "sprites/andrew/andrew-3/intensity.webp",
+      "special": "sprites/andrew/andrew-3/intensity.webp",
+      "hurt": "sprites/andrew/andrew-3/desire.webp",
+      "lose": "sprites/andrew/andrew-3/desire.webp",
+      "win": "sprites/andrew/andrew-3/desire.webp",
+      "taunt": "sprites/andrew/andrew-3/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/andrew.webp",
+   "novel": "New Haven"
+  },
+  {
    "id": "rirarra-charca",
    "name": "Rirarra Charca",
    "outfit": "Life guard",
@@ -5695,6 +5894,699 @@
    "portrait": "portraits/kira.webp",
    "novel": "Noble One",
    "nsfw": true
+  },
+  {
+   "id": "monika",
+   "name": "Monika",
+   "outfit": "School Uniform",
+   "short": "President of the Literature Club",
+   "traits": [
+    "Perfectionist",
+    "Reliable"
+   ],
+   "sprites": {
+    "idle": "sprites/monika/neutral.webp",
+    "play": "sprites/monika/happy.webp",
+    "attack": "sprites/monika/angry.webp",
+    "special": "sprites/monika/rage.webp",
+    "hurt": "sprites/monika/scared.webp",
+    "lose": "sprites/monika/sad.webp",
+    "win": "sprites/monika/excited.webp",
+    "taunt": "sprites/monika/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "storm-blaze-casual-outfit",
+     "name": "Storm Blaze (Casual Outfit)",
+     "sprites": {
+      "idle": "sprites/monika/storm-blaze-casual-outfit/neutral.webp",
+      "play": "sprites/monika/storm-blaze-casual-outfit/happy.webp",
+      "attack": "sprites/monika/storm-blaze-casual-outfit/angry.webp",
+      "special": "sprites/monika/storm-blaze-casual-outfit/rage.webp",
+      "hurt": "sprites/monika/storm-blaze-casual-outfit/scared.webp",
+      "lose": "sprites/monika/storm-blaze-casual-outfit/sad.webp",
+      "win": "sprites/monika/storm-blaze-casual-outfit/excited.webp",
+      "taunt": "sprites/monika/storm-blaze-casual-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "fancy-dress-date-outfit",
+     "name": "Fancy Dress (Date Outfit)",
+     "sprites": {
+      "idle": "sprites/monika/fancy-dress-date-outfit/neutral.webp",
+      "play": "sprites/monika/fancy-dress-date-outfit/happy.webp",
+      "attack": "sprites/monika/fancy-dress-date-outfit/angry.webp",
+      "special": "sprites/monika/fancy-dress-date-outfit/rage.webp",
+      "hurt": "sprites/monika/fancy-dress-date-outfit/scared.webp",
+      "lose": "sprites/monika/fancy-dress-date-outfit/sad.webp",
+      "win": "sprites/monika/fancy-dress-date-outfit/excited.webp",
+      "taunt": "sprites/monika/fancy-dress-date-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "christmas-outfit-santa-clause",
+     "name": "Christmas Outfit - Santa Clause",
+     "sprites": {
+      "idle": "sprites/monika/christmas-outfit-santa-clause/neutral.webp",
+      "play": "sprites/monika/christmas-outfit-santa-clause/happy.webp",
+      "attack": "sprites/monika/christmas-outfit-santa-clause/angry.webp",
+      "special": "sprites/monika/christmas-outfit-santa-clause/rage.webp",
+      "hurt": "sprites/monika/christmas-outfit-santa-clause/scared.webp",
+      "lose": "sprites/monika/christmas-outfit-santa-clause/sad.webp",
+      "win": "sprites/monika/christmas-outfit-santa-clause/excited.webp",
+      "taunt": "sprites/monika/christmas-outfit-santa-clause/proud.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/monika/nude/desire.webp",
+      "play": "sprites/monika/nude/desire.webp",
+      "attack": "sprites/monika/nude/intensity.webp",
+      "special": "sprites/monika/nude/intensity.webp",
+      "hurt": "sprites/monika/nude/desire.webp",
+      "lose": "sprites/monika/nude/desire.webp",
+      "win": "sprites/monika/nude/desire.webp",
+      "taunt": "sprites/monika/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/monika.webp",
+   "novel": "Doki Doki Literature Club"
+  },
+  {
+   "id": "sayori",
+   "name": "Sayori",
+   "outfit": "School Uniform",
+   "short": "Vice President of the Literature Club",
+   "traits": [
+    "Optimistic",
+    "People-Person",
+    "Goofy"
+   ],
+   "sprites": {
+    "idle": "sprites/sayori/neutral.webp",
+    "play": "sprites/sayori/happy.webp",
+    "attack": "sprites/sayori/angry.webp",
+    "special": "sprites/sayori/rage.webp",
+    "hurt": "sprites/sayori/scared.webp",
+    "lose": "sprites/sayori/sad.webp",
+    "win": "sprites/sayori/excited.webp",
+    "taunt": "sprites/sayori/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "school-uniform-jacket-around-waist",
+     "name": "School Uniform (Jacket Around Waist)",
+     "sprites": {
+      "idle": "sprites/sayori/school-uniform-jacket-around-waist/neutral.webp",
+      "play": "sprites/sayori/school-uniform-jacket-around-waist/happy.webp",
+      "attack": "sprites/sayori/school-uniform-jacket-around-waist/angry.webp",
+      "special": "sprites/sayori/school-uniform-jacket-around-waist/rage.webp",
+      "hurt": "sprites/sayori/school-uniform-jacket-around-waist/scared.webp",
+      "lose": "sprites/sayori/school-uniform-jacket-around-waist/sad.webp",
+      "win": "sprites/sayori/school-uniform-jacket-around-waist/excited.webp",
+      "taunt": "sprites/sayori/school-uniform-jacket-around-waist/proud.webp"
+     }
+    },
+    {
+     "id": "lazy-dayz-casual-outfit",
+     "name": "Lazy Dayz (Casual Outfit)",
+     "sprites": {
+      "idle": "sprites/sayori/lazy-dayz-casual-outfit/neutral.webp",
+      "play": "sprites/sayori/lazy-dayz-casual-outfit/happy.webp",
+      "attack": "sprites/sayori/lazy-dayz-casual-outfit/angry.webp",
+      "special": "sprites/sayori/lazy-dayz-casual-outfit/rage.webp",
+      "hurt": "sprites/sayori/lazy-dayz-casual-outfit/scared.webp",
+      "lose": "sprites/sayori/lazy-dayz-casual-outfit/sad.webp",
+      "win": "sprites/sayori/lazy-dayz-casual-outfit/excited.webp",
+      "taunt": "sprites/sayori/lazy-dayz-casual-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "picnicking-date-outfit",
+     "name": "Picnicking (Date Outfit)",
+     "sprites": {
+      "idle": "sprites/sayori/picnicking-date-outfit/neutral.webp",
+      "play": "sprites/sayori/picnicking-date-outfit/happy.webp",
+      "attack": "sprites/sayori/picnicking-date-outfit/angry.webp",
+      "special": "sprites/sayori/picnicking-date-outfit/rage.webp",
+      "hurt": "sprites/sayori/picnicking-date-outfit/scared.webp",
+      "lose": "sprites/sayori/picnicking-date-outfit/sad.webp",
+      "win": "sprites/sayori/picnicking-date-outfit/excited.webp",
+      "taunt": "sprites/sayori/picnicking-date-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "christmas-outfit-reindeer-pajamas",
+     "name": "Christmas Outfit - Reindeer Pajamas",
+     "sprites": {
+      "idle": "sprites/sayori/christmas-outfit-reindeer-pajamas/neutral.webp",
+      "play": "sprites/sayori/christmas-outfit-reindeer-pajamas/happy.webp",
+      "attack": "sprites/sayori/christmas-outfit-reindeer-pajamas/angry.webp",
+      "special": "sprites/sayori/christmas-outfit-reindeer-pajamas/rage.webp",
+      "hurt": "sprites/sayori/christmas-outfit-reindeer-pajamas/scared.webp",
+      "lose": "sprites/sayori/christmas-outfit-reindeer-pajamas/sad.webp",
+      "win": "sprites/sayori/christmas-outfit-reindeer-pajamas/excited.webp",
+      "taunt": "sprites/sayori/christmas-outfit-reindeer-pajamas/proud.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/sayori/nude/desire.webp",
+      "play": "sprites/sayori/nude/desire.webp",
+      "attack": "sprites/sayori/nude/intensity.webp",
+      "special": "sprites/sayori/nude/intensity.webp",
+      "hurt": "sprites/sayori/nude/desire.webp",
+      "lose": "sprites/sayori/nude/desire.webp",
+      "win": "sprites/sayori/nude/desire.webp",
+      "taunt": "sprites/sayori/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/sayori.webp",
+   "novel": "Doki Doki Literature Club"
+  },
+  {
+   "id": "natsuki",
+   "name": "Natsuki",
+   "outfit": "School Uniform",
+   "short": "Member of the Literature Club",
+   "traits": [
+    "Mature and Witty"
+   ],
+   "sprites": {
+    "idle": "sprites/natsuki/neutral.webp",
+    "play": "sprites/natsuki/happy.webp",
+    "attack": "sprites/natsuki/angry.webp",
+    "special": "sprites/natsuki/rage.webp",
+    "hurt": "sprites/natsuki/scared.webp",
+    "lose": "sprites/natsuki/sad.webp",
+    "win": "sprites/natsuki/excited.webp",
+    "taunt": "sprites/natsuki/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "making-cupcakes-casual-outfit",
+     "name": "Making Cupcakes (Casual Outfit)",
+     "sprites": {
+      "idle": "sprites/natsuki/making-cupcakes-casual-outfit/neutral.webp",
+      "play": "sprites/natsuki/making-cupcakes-casual-outfit/happy.webp",
+      "attack": "sprites/natsuki/making-cupcakes-casual-outfit/angry.webp",
+      "special": "sprites/natsuki/making-cupcakes-casual-outfit/rage.webp",
+      "hurt": "sprites/natsuki/making-cupcakes-casual-outfit/scared.webp",
+      "lose": "sprites/natsuki/making-cupcakes-casual-outfit/sad.webp",
+      "win": "sprites/natsuki/making-cupcakes-casual-outfit/excited.webp",
+      "taunt": "sprites/natsuki/making-cupcakes-casual-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "shopping-downtown-date-clothes",
+     "name": "Shopping Downtown (Date Clothes)",
+     "sprites": {
+      "idle": "sprites/natsuki/shopping-downtown-date-clothes/neutral.webp",
+      "play": "sprites/natsuki/shopping-downtown-date-clothes/happy.webp",
+      "attack": "sprites/natsuki/shopping-downtown-date-clothes/angry.webp",
+      "special": "sprites/natsuki/shopping-downtown-date-clothes/rage.webp",
+      "hurt": "sprites/natsuki/shopping-downtown-date-clothes/scared.webp",
+      "lose": "sprites/natsuki/shopping-downtown-date-clothes/sad.webp",
+      "win": "sprites/natsuki/shopping-downtown-date-clothes/excited.webp",
+      "taunt": "sprites/natsuki/shopping-downtown-date-clothes/proud.webp"
+     }
+    },
+    {
+     "id": "christmas-outfit-santa-s-elf",
+     "name": "Christmas Outfit - Santa's Elf",
+     "sprites": {
+      "idle": "sprites/natsuki/christmas-outfit-santa-s-elf/neutral.webp",
+      "play": "sprites/natsuki/christmas-outfit-santa-s-elf/happy.webp",
+      "attack": "sprites/natsuki/christmas-outfit-santa-s-elf/angry.webp",
+      "special": "sprites/natsuki/christmas-outfit-santa-s-elf/rage.webp",
+      "hurt": "sprites/natsuki/christmas-outfit-santa-s-elf/scared.webp",
+      "lose": "sprites/natsuki/christmas-outfit-santa-s-elf/sad.webp",
+      "win": "sprites/natsuki/christmas-outfit-santa-s-elf/excited.webp",
+      "taunt": "sprites/natsuki/christmas-outfit-santa-s-elf/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/natsuki.webp",
+   "novel": "Doki Doki Literature Club"
+  },
+  {
+   "id": "yuri",
+   "name": "Yuri",
+   "outfit": "School Uniform",
+   "short": "A Member of the Literature Club",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/yuri/neutral.webp",
+    "play": "sprites/yuri/happy.webp",
+    "attack": "sprites/yuri/angry.webp",
+    "special": "sprites/yuri/rage.webp",
+    "hurt": "sprites/yuri/scared.webp",
+    "lose": "sprites/yuri/sad.webp",
+    "win": "sprites/yuri/excited.webp",
+    "taunt": "sprites/yuri/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "comfy-sweater-casual-outfit",
+     "name": "Comfy Sweater (Casual Outfit)",
+     "sprites": {
+      "idle": "sprites/yuri/comfy-sweater-casual-outfit/neutral.webp",
+      "play": "sprites/yuri/comfy-sweater-casual-outfit/happy.webp",
+      "attack": "sprites/yuri/comfy-sweater-casual-outfit/angry.webp",
+      "special": "sprites/yuri/comfy-sweater-casual-outfit/rage.webp",
+      "hurt": "sprites/yuri/comfy-sweater-casual-outfit/scared.webp",
+      "lose": "sprites/yuri/comfy-sweater-casual-outfit/sad.webp",
+      "win": "sprites/yuri/comfy-sweater-casual-outfit/excited.webp",
+      "taunt": "sprites/yuri/comfy-sweater-casual-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "gurogurl-date-outfit",
+     "name": "Gurogurl (Date Outfit)",
+     "sprites": {
+      "idle": "sprites/yuri/gurogurl-date-outfit/neutral.webp",
+      "play": "sprites/yuri/gurogurl-date-outfit/happy.webp",
+      "attack": "sprites/yuri/gurogurl-date-outfit/angry.webp",
+      "special": "sprites/yuri/gurogurl-date-outfit/rage.webp",
+      "hurt": "sprites/yuri/gurogurl-date-outfit/scared.webp",
+      "lose": "sprites/yuri/gurogurl-date-outfit/sad.webp",
+      "win": "sprites/yuri/gurogurl-date-outfit/excited.webp",
+      "taunt": "sprites/yuri/gurogurl-date-outfit/proud.webp"
+     }
+    },
+    {
+     "id": "christmas-outfit-frosty-the-snowman",
+     "name": "Christmas Outfit - Frosty the Snowman",
+     "sprites": {
+      "idle": "sprites/yuri/christmas-outfit-frosty-the-snowman/neutral.webp",
+      "play": "sprites/yuri/christmas-outfit-frosty-the-snowman/happy.webp",
+      "attack": "sprites/yuri/christmas-outfit-frosty-the-snowman/angry.webp",
+      "special": "sprites/yuri/christmas-outfit-frosty-the-snowman/rage.webp",
+      "hurt": "sprites/yuri/christmas-outfit-frosty-the-snowman/scared.webp",
+      "lose": "sprites/yuri/christmas-outfit-frosty-the-snowman/sad.webp",
+      "win": "sprites/yuri/christmas-outfit-frosty-the-snowman/excited.webp",
+      "taunt": "sprites/yuri/christmas-outfit-frosty-the-snowman/proud.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/yuri/nude/desire.webp",
+      "play": "sprites/yuri/nude/desire.webp",
+      "attack": "sprites/yuri/nude/intensity.webp",
+      "special": "sprites/yuri/nude/intensity.webp",
+      "hurt": "sprites/yuri/nude/desire.webp",
+      "lose": "sprites/yuri/nude/desire.webp",
+      "win": "sprites/yuri/nude/desire.webp",
+      "taunt": "sprites/yuri/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/yuri.webp",
+   "novel": "Doki Doki Literature Club"
+  },
+  {
+   "id": "protagonist",
+   "name": "Protagonist",
+   "outfit": "School Uniform",
+   "short": "Minor Character who is best friends with Sayori",
+   "traits": [
+    "Dense",
+    "Nice",
+    "Sexuality: Heterosexual"
+   ],
+   "sprites": {
+    "idle": "sprites/protagonist/neutral.webp",
+    "play": "sprites/protagonist/happy.webp",
+    "attack": "sprites/protagonist/angry.webp",
+    "special": "sprites/protagonist/angry.webp",
+    "hurt": "sprites/protagonist/scared.webp",
+    "lose": "sprites/protagonist/sad.webp",
+    "win": "sprites/protagonist/happy.webp",
+    "taunt": "sprites/protagonist/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/protagonist.webp",
+   "novel": "Doki Doki Literature Club"
+  },
+  {
+   "id": "ignis",
+   "name": "Ignis",
+   "outfit": "default",
+   "short": "Fiery nun.",
+   "traits": [
+    "Blunt",
+    "Loyal",
+    "Easily embarrassed",
+    "evil",
+    "serious"
+   ],
+   "sprites": {
+    "idle": "sprites/ignis/neutral.webp",
+    "play": "sprites/ignis/happy.webp",
+    "attack": "sprites/ignis/angry.webp",
+    "special": "sprites/ignis/angry.webp",
+    "hurt": "sprites/ignis/scared.webp",
+    "lose": "sprites/ignis/sad.webp",
+    "win": "sprites/ignis/happy.webp",
+    "taunt": "sprites/ignis/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ignis.webp",
+   "novel": "Flaming, Lust, and Pain."
+  },
+  {
+   "id": "doloria",
+   "name": "Doloria",
+   "outfit": "default",
+   "short": "Just a Simple nun.",
+   "traits": [
+    "placid",
+    "Simple",
+    "kind",
+    "Obedient",
+    "dreamy"
+   ],
+   "sprites": {
+    "idle": "sprites/doloria/neutral.webp",
+    "play": "sprites/doloria/happy.webp",
+    "attack": "sprites/doloria/angry.webp",
+    "special": "sprites/doloria/angry.webp",
+    "hurt": "sprites/doloria/scared.webp",
+    "lose": "sprites/doloria/sad.webp",
+    "win": "sprites/doloria/happy.webp",
+    "taunt": "sprites/doloria/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/doloria.webp",
+   "novel": "Flaming, Lust, and Pain."
+  },
+  {
+   "id": "luxuria",
+   "name": "Luxuria",
+   "outfit": "default",
+   "short": "Sexy nun",
+   "traits": [
+    "Loyal to Doloria",
+    "Seductive",
+    "playful",
+    "sexy",
+    "evil",
+    "Extremely smart"
+   ],
+   "sprites": {
+    "idle": "sprites/luxuria/neutral.webp",
+    "play": "sprites/luxuria/happy.webp",
+    "attack": "sprites/luxuria/angry.webp",
+    "special": "sprites/luxuria/angry.webp",
+    "hurt": "sprites/luxuria/scared.webp",
+    "lose": "sprites/luxuria/sad.webp",
+    "win": "sprites/luxuria/happy.webp",
+    "taunt": "sprites/luxuria/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/luxuria.webp",
+   "novel": "Flaming, Lust, and Pain."
+  },
+  {
+   "id": "hunter-smith",
+   "name": "Hunter Smith",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/hunter-smith/neutral.webp",
+    "play": "sprites/hunter-smith/happy.webp",
+    "attack": "sprites/hunter-smith/angry.webp",
+    "special": "sprites/hunter-smith/angry.webp",
+    "hurt": "sprites/hunter-smith/scared.webp",
+    "lose": "sprites/hunter-smith/sad.webp",
+    "win": "sprites/hunter-smith/happy.webp",
+    "taunt": "sprites/hunter-smith/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/hunter-smith.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "marie-smith",
+   "name": "Marie Smith",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/marie-smith/neutral.webp",
+    "play": "sprites/marie-smith/happy.webp",
+    "attack": "sprites/marie-smith/angry.webp",
+    "special": "sprites/marie-smith/angry.webp",
+    "hurt": "sprites/marie-smith/scared.webp",
+    "lose": "sprites/marie-smith/sad.webp",
+    "win": "sprites/marie-smith/happy.webp",
+    "taunt": "sprites/marie-smith/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/marie-smith.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "chris",
+   "name": "Chris",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/chris/neutral.webp",
+    "play": "sprites/chris/happy.webp",
+    "attack": "sprites/chris/angry.webp",
+    "special": "sprites/chris/angry.webp",
+    "hurt": "sprites/chris/scared.webp",
+    "lose": "sprites/chris/sad.webp",
+    "win": "sprites/chris/happy.webp",
+    "taunt": "sprites/chris/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/chris.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "olivia-paradiso",
+   "name": "Olivia",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/olivia-paradiso/neutral.webp",
+    "play": "sprites/olivia-paradiso/happy.webp",
+    "attack": "sprites/olivia-paradiso/angry.webp",
+    "special": "sprites/olivia-paradiso/angry.webp",
+    "hurt": "sprites/olivia-paradiso/scared.webp",
+    "lose": "sprites/olivia-paradiso/sad.webp",
+    "win": "sprites/olivia-paradiso/happy.webp",
+    "taunt": "sprites/olivia-paradiso/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "mma",
+     "name": "MMA",
+     "sprites": {
+      "idle": "sprites/olivia-paradiso/mma/neutral.webp",
+      "play": "sprites/olivia-paradiso/mma/happy.webp",
+      "attack": "sprites/olivia-paradiso/mma/angry.webp",
+      "special": "sprites/olivia-paradiso/mma/angry.webp",
+      "hurt": "sprites/olivia-paradiso/mma/scared.webp",
+      "lose": "sprites/olivia-paradiso/mma/sad.webp",
+      "win": "sprites/olivia-paradiso/mma/happy.webp",
+      "taunt": "sprites/olivia-paradiso/mma/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/olivia-paradiso.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "evelyn",
+   "name": "Evelyn",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/evelyn/neutral.webp",
+    "play": "sprites/evelyn/happy.webp",
+    "attack": "sprites/evelyn/angry.webp",
+    "special": "sprites/evelyn/angry.webp",
+    "hurt": "sprites/evelyn/scared.webp",
+    "lose": "sprites/evelyn/sad.webp",
+    "win": "sprites/evelyn/happy.webp",
+    "taunt": "sprites/evelyn/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/evelyn.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "ethan",
+   "name": "Ethan",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ethan/neutral.webp",
+    "play": "sprites/ethan/happy.webp",
+    "attack": "sprites/ethan/angry.webp",
+    "special": "sprites/ethan/angry.webp",
+    "hurt": "sprites/ethan/scared.webp",
+    "lose": "sprites/ethan/sad.webp",
+    "win": "sprites/ethan/happy.webp",
+    "taunt": "sprites/ethan/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ethan.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "hime",
+   "name": "Hime",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/hime/neutral.webp",
+    "play": "sprites/hime/happy.webp",
+    "attack": "sprites/hime/angry.webp",
+    "special": "sprites/hime/angry.webp",
+    "hurt": "sprites/hime/scared.webp",
+    "lose": "sprites/hime/sad.webp",
+    "win": "sprites/hime/happy.webp",
+    "taunt": "sprites/hime/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "maid",
+     "name": "Maid",
+     "sprites": {
+      "idle": "sprites/hime/maid/neutral.webp",
+      "play": "sprites/hime/maid/happy.webp",
+      "attack": "sprites/hime/maid/angry.webp",
+      "special": "sprites/hime/maid/angry.webp",
+      "hurt": "sprites/hime/maid/scared.webp",
+      "lose": "sprites/hime/maid/sad.webp",
+      "win": "sprites/hime/maid/happy.webp",
+      "taunt": "sprites/hime/maid/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/hime.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "sophia",
+   "name": "Sophia",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/sophia/neutral.webp",
+    "play": "sprites/sophia/happy.webp",
+    "attack": "sprites/sophia/angry.webp",
+    "special": "sprites/sophia/angry.webp",
+    "hurt": "sprites/sophia/scared.webp",
+    "lose": "sprites/sophia/sad.webp",
+    "win": "sprites/sophia/happy.webp",
+    "taunt": "sprites/sophia/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/sophia.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "reina",
+   "name": "Reina",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/reina/neutral.webp",
+    "play": "sprites/reina/happy.webp",
+    "attack": "sprites/reina/angry.webp",
+    "special": "sprites/reina/angry.webp",
+    "hurt": "sprites/reina/scared.webp",
+    "lose": "sprites/reina/sad.webp",
+    "win": "sprites/reina/happy.webp",
+    "taunt": "sprites/reina/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/reina.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "lucia-atkins",
+   "name": "Lucia Atkins",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lucia-atkins/neutral.webp",
+    "play": "sprites/lucia-atkins/happy.webp",
+    "attack": "sprites/lucia-atkins/angry.webp",
+    "special": "sprites/lucia-atkins/angry.webp",
+    "hurt": "sprites/lucia-atkins/scared.webp",
+    "lose": "sprites/lucia-atkins/sad.webp",
+    "win": "sprites/lucia-atkins/happy.webp",
+    "taunt": "sprites/lucia-atkins/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/lucia-atkins.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "peter-reeves",
+   "name": "Peter Reeves",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/peter-reeves/neutral.webp",
+    "play": "sprites/peter-reeves/happy.webp",
+    "attack": "sprites/peter-reeves/angry.webp",
+    "special": "sprites/peter-reeves/angry.webp",
+    "hurt": "sprites/peter-reeves/scared.webp",
+    "lose": "sprites/peter-reeves/sad.webp",
+    "win": "sprites/peter-reeves/happy.webp",
+    "taunt": "sprites/peter-reeves/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/peter-reeves.webp",
+   "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "skylar",
+   "name": "Skylar",
+   "outfit": "default",
+   "short": "",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/skylar/neutral.webp",
+    "play": "sprites/skylar/happy.webp",
+    "attack": "sprites/skylar/angry.webp",
+    "special": "sprites/skylar/angry.webp",
+    "hurt": "sprites/skylar/scared.webp",
+    "lose": "sprites/skylar/sad.webp",
+    "win": "sprites/skylar/happy.webp",
+    "taunt": "sprites/skylar/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/skylar.webp",
+   "novel": "Paradiso Suburbia"
   }
  ],
  "backgrounds": [
@@ -9219,6 +10111,649 @@
    "desc": "",
    "src": "backgrounds/servant-bedroom-77b21b.webp",
    "nsfw": true
+  },
+  {
+   "id": "b882d030-9ff9-43d8-ae22-9c8c62101880",
+   "name": "Club",
+   "desc": "Classroom that hosts the Literature Club.",
+   "src": "backgrounds/club-b882d0.webp"
+  },
+  {
+   "id": "55dd9940-f6e2-4586-a501-36be04f064f1",
+   "name": "House",
+   "desc": "Outside the Main Character's house",
+   "src": "backgrounds/house-55dd99.webp"
+  },
+  {
+   "id": "5fdf4bb1-5b23-4d05-b194-66e4decdbb38",
+   "name": "Typical Classroom",
+   "desc": "Classroom not related to the Literature Club",
+   "src": "backgrounds/typical-classroom-5fdf4b.webp"
+  },
+  {
+   "id": "1251285c-2b26-4e59-8b75-aa5bbfae4eb2",
+   "name": "Residential Town",
+   "desc": "Typical Street",
+   "src": "backgrounds/residential-town-125128.webp"
+  },
+  {
+   "id": "87d8cedd-352f-4d36-bc53-70a13e9e7cc9",
+   "name": "Hallway",
+   "desc": "School Hallways",
+   "src": "backgrounds/hallway-87d8ce.webp"
+  },
+  {
+   "id": "1fe13168-fcd8-4c78-8a02-82cb37bb816f",
+   "name": "Library",
+   "desc": "School Library (Made by Nuxill)",
+   "src": "backgrounds/library-1fe131.webp"
+  },
+  {
+   "id": "b016775f-9682-4a0e-aed8-4cafd4fa13e7",
+   "name": "Lockers",
+   "desc": "School Lockers near the entrance (Made by Nuxill)",
+   "src": "backgrounds/lockers-b01677.webp"
+  },
+  {
+   "id": "e2cdaafe-1fca-4d84-b1e4-0c03ecd0b085",
+   "name": "Stairs",
+   "desc": "School Stairs at a random location (Made by Nuxill)",
+   "src": "backgrounds/stairs-e2cdaa.webp"
+  },
+  {
+   "id": "6097680c-23e1-435b-b52e-a0fac7ea2497",
+   "name": "Bedroom",
+   "desc": "Bedroom belonging to {{user}}",
+   "src": "backgrounds/bedroom-609768.webp"
+  },
+  {
+   "id": "d53d486d-19ca-4a9a-afbc-367da97b7460",
+   "name": "Closet",
+   "desc": "The closet of the Literature Club, usually stores Manga and Supplies",
+   "src": "backgrounds/closet-d53d48.webp"
+  },
+  {
+   "id": "2f8ef9e2-566b-4f1c-9e91-ace35a6aa20c",
+   "name": "Natsuki's Kitchen",
+   "desc": "Kitchen",
+   "src": "backgrounds/natsuki-s-kitchen-2f8ef9.webp"
+  },
+  {
+   "id": "48552923-3d02-4d47-a78a-2fad7c2e0b63",
+   "name": "Sayori's Room",
+   "desc": "Sayori's Messy than Usual Room",
+   "src": "backgrounds/sayori-s-room-485529.webp"
+  },
+  {
+   "id": "2da5dbb4-5070-4b18-99e8-322cfb723684",
+   "name": "Living Room",
+   "desc": "Origonally Monika's but I don't care (Made by Nuxill)",
+   "src": "backgrounds/living-room-2da5db.webp"
+  },
+  {
+   "id": "b1730fd0-122a-42b3-ae36-27b37b3202fe",
+   "name": "Downtown",
+   "desc": "Not a DDLC Background",
+   "src": "backgrounds/downtown-b1730f.webp"
+  },
+  {
+   "id": "fe7cc40d-0805-48e9-996d-560d1ef1a333",
+   "name": "House - Afternoon",
+   "desc": "Outside the Main Character's house (Edited by nsmythddyas)",
+   "src": "backgrounds/house-afternoon-fe7cc4.webp"
+  },
+  {
+   "id": "842653aa-0dfb-45f7-b3f3-aff9e7eb95a6",
+   "name": "Residential Town - Night",
+   "desc": "Typical Street (TsunkrAZy)",
+   "src": "backgrounds/residential-town-night-842653.webp"
+  },
+  {
+   "id": "d28f3cdb-11eb-46a0-b5fc-f6616181b3bc",
+   "name": "School Entrance",
+   "desc": "Not a DDLC Background (Made by Gacha Background (I Think?))",
+   "src": "backgrounds/school-entrance-d28f3c.webp"
+  },
+  {
+   "id": "eba89cf6-acd9-4283-8271-f2b5dc03d2f8",
+   "name": "Park",
+   "desc": "Central Park Near the School (Made by Uncle Mugen)",
+   "src": "backgrounds/park-eba89c.webp"
+  },
+  {
+   "id": "e4352635-ae61-4391-bb81-c2c2f55cd3d2",
+   "name": "Short Stories",
+   "desc": "",
+   "src": "backgrounds/short-stories-e43526.webp"
+  },
+  {
+   "id": "f513cd11-fc15-432e-b5d0-1f81f64347cb",
+   "name": "Trying New Things - Video Games",
+   "desc": "",
+   "src": "backgrounds/trying-new-things-video-games-f513cd.webp"
+  },
+  {
+   "id": "aa3d857d-695c-4dfb-ba43-19d83b3922c8",
+   "name": "Learning to Write Poems with Sayori",
+   "desc": "",
+   "src": "backgrounds/learning-to-write-poems-with-sayori-aa3d85.webp"
+  },
+  {
+   "id": "f536d16b-8fc6-4898-9538-81c1b7cddbef",
+   "name": "Making Art with Sayori",
+   "desc": "",
+   "src": "backgrounds/making-art-with-sayori-f536d1.webp"
+  },
+  {
+   "id": "93dd9e33-4245-41c1-8666-4c24ad56a30a",
+   "name": "Reading with Yuri",
+   "desc": "",
+   "src": "backgrounds/reading-with-yuri-93dd9e.webp"
+  },
+  {
+   "id": "e123debb-c6ce-4e97-9ea3-a368e2d833d6",
+   "name": "Board Games with Yuri",
+   "desc": "",
+   "src": "backgrounds/board-games-with-yuri-e123de.webp"
+  },
+  {
+   "id": "e65f65be-d3bb-4e58-b7dd-81d14650df98",
+   "name": "Reading Manga with Natsuki",
+   "desc": "",
+   "src": "backgrounds/reading-manga-with-natsuki-e65f65.webp"
+  },
+  {
+   "id": "fe8f2aa3-3369-45a3-80db-35da7e3fc099",
+   "name": "Browsing the Web",
+   "desc": "",
+   "src": "backgrounds/browsing-the-web-fe8f2a.webp"
+  },
+  {
+   "id": "d353a19a-80c0-4ae3-bcc3-c6f841b663ae",
+   "name": "Poem Minigame (Kinda)",
+   "desc": "",
+   "src": "backgrounds/poem-minigame-kinda-d353a1.webp"
+  },
+  {
+   "id": "ff8d1910-099d-488e-a627-b967a542f341",
+   "name": "Planning the Event (Poems)",
+   "desc": "",
+   "src": "backgrounds/planning-the-event-poems-ff8d19.webp"
+  },
+  {
+   "id": "cac381c3-a7f5-4be0-81f8-0d91188dc174",
+   "name": "Piano Troubles",
+   "desc": "",
+   "src": "backgrounds/piano-troubles-cac381.webp"
+  },
+  {
+   "id": "ac8dc186-7928-4c4a-8619-9b72ee559373",
+   "name": "Fancy Italian Dinner Date",
+   "desc": "",
+   "src": "backgrounds/fancy-italian-dinner-date-ac8dc1.webp"
+  },
+  {
+   "id": "e87e91f3-b602-4d81-b261-8564cc6e85dd",
+   "name": "Trip to the Arcade",
+   "desc": "",
+   "src": "backgrounds/trip-to-the-arcade-e87e91.webp"
+  },
+  {
+   "id": "3065faf0-f85c-4e44-bc26-5f82ce43c694",
+   "name": "Creating Decorations (Club Decor)",
+   "desc": "",
+   "src": "backgrounds/creating-decorations-club-decor-3065fa.webp"
+  },
+  {
+   "id": "857e0cbc-6bcb-4db4-a382-57c535fe6b00",
+   "name": "Jewelry Creation",
+   "desc": "",
+   "src": "backgrounds/jewelry-creation-857e0c.webp"
+  },
+  {
+   "id": "6423d3b6-ca66-4368-ad1a-da58f376f6a0",
+   "name": "Tasty Ice Cream Date",
+   "desc": "",
+   "src": "backgrounds/tasty-ice-cream-date-6423d3.webp"
+  },
+  {
+   "id": "dd225594-1755-4233-a2d6-4df4b976629d",
+   "name": "Visit the Art Gallery / Museum",
+   "desc": "",
+   "src": "backgrounds/visit-the-art-gallery-museum-dd2255.webp"
+  },
+  {
+   "id": "f339a7ff-fe22-46bf-ab82-10c7809c8c87",
+   "name": "Creating Decorations (Poster Ads)",
+   "desc": "",
+   "src": "backgrounds/creating-decorations-poster-ads-f339a7.webp"
+  },
+  {
+   "id": "812108d4-26fb-4d64-b68c-4e1580738502",
+   "name": "\"Literary Evening\" Candle Comfort",
+   "desc": "",
+   "src": "backgrounds/literary-evening-candle-comfort-812108.webp"
+  },
+  {
+   "id": "3d18bc5e-973b-4425-9e08-e2bcfd352220",
+   "name": "Classic American Diner",
+   "desc": "",
+   "src": "backgrounds/classic-american-diner-3d18bc.webp"
+  },
+  {
+   "id": "4d6b8da0-a1a9-4727-9db0-7a0ec09a8fbc",
+   "name": "Walk around Central Park",
+   "desc": "",
+   "src": "backgrounds/walk-around-central-park-4d6b8d.webp"
+  },
+  {
+   "id": "5b818173-0abd-411c-a7f8-ae5a7e3b75da",
+   "name": "Baking Cupcakes",
+   "desc": "",
+   "src": "backgrounds/baking-cupcakes-5b8181.webp"
+  },
+  {
+   "id": "0d624466-b15a-4d5f-a5c0-db7acad5e64e",
+   "name": "Anime Date at Home",
+   "desc": "",
+   "src": "backgrounds/anime-date-at-home-0d6244.webp"
+  },
+  {
+   "id": "1873f31a-8db4-4d7c-a878-810684f18540",
+   "name": "Cats at the Animal Shelter",
+   "desc": "",
+   "src": "backgrounds/cats-at-the-animal-shelter-1873f3.webp"
+  },
+  {
+   "id": "f4f2e9e2-14f0-4258-870b-c5726ddbdaf7",
+   "name": "Pizza Diner Date",
+   "desc": "",
+   "src": "backgrounds/pizza-diner-date-f4f2e9.webp"
+  },
+  {
+   "id": "3d176740-0edc-49aa-b4bc-7a1d7ddddab4",
+   "name": "Photo Shoot of the Garden",
+   "desc": "",
+   "src": "backgrounds/photo-shoot-of-the-garden-3d1767.webp"
+  },
+  {
+   "id": "be4c6178-e509-4a7d-9855-00830b015897",
+   "name": "Culture Plaza",
+   "desc": "",
+   "src": "backgrounds/culture-plaza-be4c61.webp"
+  },
+  {
+   "id": "66335f12-e466-4af5-a3c3-ce259f5bc4a6",
+   "name": "Library Novel Showcase",
+   "desc": "",
+   "src": "backgrounds/library-novel-showcase-66335f.webp"
+  },
+  {
+   "id": "ba3f5845-22c2-438d-a4bd-710b90b2a8f7",
+   "name": "Game Booths",
+   "desc": "",
+   "src": "backgrounds/game-booths-ba3f58.webp"
+  },
+  {
+   "id": "8d463f63-32b7-4039-91f2-75b38068dfd3",
+   "name": "Photo Booth",
+   "desc": "",
+   "src": "backgrounds/photo-booth-8d463f.webp"
+  },
+  {
+   "id": "3f14e3c2-6ee3-4325-8bb0-0482ba673d72",
+   "name": "The Cat Girl Cafe",
+   "desc": "",
+   "src": "backgrounds/the-cat-girl-cafe-3f14e3.webp"
+  },
+  {
+   "id": "1cc094d4-15ed-46cd-b17f-90106d293f53",
+   "name": "Botanical Garden",
+   "desc": "",
+   "src": "backgrounds/botanical-garden-1cc094.webp"
+  },
+  {
+   "id": "160eb2ff-840b-431e-95b0-f86bc830384e",
+   "name": "The Lantern Pond",
+   "desc": "",
+   "src": "backgrounds/the-lantern-pond-160eb2.webp"
+  },
+  {
+   "id": "1047c7ae-7fb1-4dac-bf9b-d278d2cb01e7",
+   "name": "Rooftop Hangout - Monika",
+   "desc": "",
+   "src": "backgrounds/rooftop-hangout-monika-1047c7.webp"
+  },
+  {
+   "id": "7f7a0168-56d4-4669-963d-333d81cbdc66",
+   "name": "Rooftop Hangout - Sayori",
+   "desc": "",
+   "src": "backgrounds/rooftop-hangout-sayori-7f7a01.webp"
+  },
+  {
+   "id": "22eac318-33d9-462e-94a6-f9360419e6dc",
+   "name": "Rooftop Hangout - Yuri",
+   "desc": "",
+   "src": "backgrounds/rooftop-hangout-yuri-22eac3.webp"
+  },
+  {
+   "id": "b60e6caf-1776-4efc-b2be-bf2cee5c1e37",
+   "name": "Rooftop Hangout - Natsuki",
+   "desc": "",
+   "src": "backgrounds/rooftop-hangout-natsuki-b60e6c.webp"
+  },
+  {
+   "id": "c55024e7-b0bf-48d2-b9b9-30f17d4cad6c",
+   "name": "Fireworks Show - Monika",
+   "desc": "",
+   "src": "backgrounds/fireworks-show-monika-c55024.webp"
+  },
+  {
+   "id": "6641ff0e-7868-414a-8bf6-699e6628723a",
+   "name": "Fireworks Show - Sayori",
+   "desc": "",
+   "src": "backgrounds/fireworks-show-sayori-6641ff.webp"
+  },
+  {
+   "id": "0af222de-cc43-455d-a4c4-fe143065f1ff",
+   "name": "Fireworks Show - Yuri",
+   "desc": "",
+   "src": "backgrounds/fireworks-show-yuri-0af222.webp"
+  },
+  {
+   "id": "cf06840f-b729-419f-8829-d290131c378e",
+   "name": "Fireworks Show - Natsuki",
+   "desc": "",
+   "src": "backgrounds/fireworks-show-natsuki-cf0684.webp"
+  },
+  {
+   "id": "2001bff5-0892-49df-b2f9-6eb12037666e",
+   "name": "Reading Parfait Girls with Natsuki",
+   "desc": "",
+   "src": "backgrounds/reading-parfait-girls-with-natsuki-2001bf.webp"
+  },
+  {
+   "id": "44ea1f3c-2cee-43e7-9c72-5f9452986878",
+   "name": "Reading with Yuri",
+   "desc": "",
+   "src": "backgrounds/reading-with-yuri-44ea1f.webp"
+  },
+  {
+   "id": "46489374-1bb1-4483-a41e-5cc272215107",
+   "name": "Straightening Sayori's Appearance",
+   "desc": "",
+   "src": "backgrounds/straightening-sayori-s-appearance-464893.webp"
+  },
+  {
+   "id": "5ff040d7-4770-4aa4-bf8d-ab1204d9d973",
+   "name": "Working on Monika’s Story with her",
+   "desc": "",
+   "src": "backgrounds/working-on-monikas-story-with-her-5ff040.webp"
+  },
+  {
+   "id": "b6a8ac4b-f50c-4db1-bd32-42e8831d0f59",
+   "name": "An Accident with Sayori",
+   "desc": "",
+   "src": "backgrounds/an-accident-with-sayori-b6a8ac.webp"
+  },
+  {
+   "id": "92066767-f833-40f6-ba2a-edf9078651cc",
+   "name": "Reading with Yuri - Part 2",
+   "desc": "",
+   "src": "backgrounds/reading-with-yuri-part-2-920667.webp"
+  },
+  {
+   "id": "521da049-97bc-44af-a4bf-5844aa7bd9fc",
+   "name": "Sorting Manga with Natsuki",
+   "desc": "",
+   "src": "backgrounds/sorting-manga-with-natsuki-521da0.webp"
+  },
+  {
+   "id": "2d3b74ce-7bdd-4490-85c7-a11be9204a2a",
+   "name": "Playing Piano with Monika",
+   "desc": "",
+   "src": "backgrounds/playing-piano-with-monika-2d3b74.webp"
+  },
+  {
+   "id": "2d3ec5c3-b8dc-44b0-b535-9faf40b87ee1",
+   "name": "Close Incident - Yuri",
+   "desc": "",
+   "src": "backgrounds/close-incident-yuri-2d3ec5.webp"
+  },
+  {
+   "id": "e2882043-fe42-42b2-8e0a-75b518a285aa",
+   "name": "Close Incident - Natsuki",
+   "desc": "",
+   "src": "backgrounds/close-incident-natsuki-e28820.webp"
+  },
+  {
+   "id": "409b6075-3d56-46bb-93fa-8d17f6198e7a",
+   "name": "Hug with Sayori",
+   "desc": "",
+   "src": "backgrounds/hug-with-sayori-409b60.webp"
+  },
+  {
+   "id": "d7ccee47-0ad3-4cf9-a9b7-4af8c9b5ab55",
+   "name": "Final Scene with Monika",
+   "desc": "",
+   "src": "backgrounds/final-scene-with-monika-d7ccee.webp"
+  },
+  {
+   "id": "9ff67557-9d7b-4f60-9cbe-e14a7b4dc4fd",
+   "name": "Final Scene with Sayori",
+   "desc": "",
+   "src": "backgrounds/final-scene-with-sayori-9ff675.webp"
+  },
+  {
+   "id": "82cae203-cb81-46b5-ae2b-9d36a7f82115",
+   "name": "Final Scene with Yuri",
+   "desc": "",
+   "src": "backgrounds/final-scene-with-yuri-82cae2.webp"
+  },
+  {
+   "id": "5429abd5-ec10-4f36-9e50-5d1fe4676b1c",
+   "name": "Final Scene with Natsuki",
+   "desc": "",
+   "src": "backgrounds/final-scene-with-natsuki-5429ab.webp"
+  },
+  {
+   "id": "c76512c4-babb-4197-8210-f5696ed88d66",
+   "name": "Literature Club (Christmas Version)",
+   "desc": "Christmas DLC",
+   "src": "backgrounds/literature-club-christmas-version-c76512.webp"
+  },
+  {
+   "id": "3390a65e-6b41-4028-8314-af9548c70264",
+   "name": "Living Room (Christmas Version)",
+   "desc": "Christmas DLC",
+   "src": "backgrounds/living-room-christmas-version-3390a6.webp"
+  },
+  {
+   "id": "52277da7-64dc-4971-aab6-74d1e2d4041b",
+   "name": "Kitchen (Christmas Version)",
+   "desc": "Christmas DLC",
+   "src": "backgrounds/kitchen-christmas-version-52277d.webp"
+  },
+  {
+   "id": "0824a5f2-7727-4aab-bdfe-f0e9de4fb718",
+   "name": "Writing a Special Message for Everyone!",
+   "desc": "",
+   "src": "backgrounds/writing-a-special-message-for-everyone-0824a5.webp"
+  },
+  {
+   "id": "0f15a061-cd5e-435d-be41-f837eda7d443",
+   "name": "Writing in the Christmas Cards",
+   "desc": "",
+   "src": "backgrounds/writing-in-the-christmas-cards-0f15a0.webp"
+  },
+  {
+   "id": "c97fe8d4-06ef-4b2e-b341-087d763bc162",
+   "name": "Choosing the Chocolate Flavors",
+   "desc": "",
+   "src": "backgrounds/choosing-the-chocolate-flavors-c97fe8.webp"
+  },
+  {
+   "id": "946a4885-2167-4532-b206-76ae03ef2c6f",
+   "name": "Choosing the Right Cookie Flavors",
+   "desc": "",
+   "src": "backgrounds/choosing-the-right-cookie-flavors-946a48.webp"
+  },
+  {
+   "id": "49d21d6b-27c0-4af9-9424-ffd43f7cab15",
+   "name": "Final Christmas Photo",
+   "desc": "Congratulation",
+   "src": "backgrounds/final-christmas-photo-49d21d.webp"
+  },
+  {
+   "id": "59370c07-06f0-48ec-83c5-3f9c65a0c0e0",
+   "name": "background-1",
+   "desc": "",
+   "src": "backgrounds/background-1-59370c.webp"
+  },
+  {
+   "id": "724ed9b7-2353-4834-9e30-10f21bb2d37c",
+   "name": "background-2",
+   "desc": "",
+   "src": "backgrounds/background-2-724ed9.webp"
+  },
+  {
+   "id": "768adf05-1cc4-4e40-8154-3d1cbc1ecfe6",
+   "name": "background-3",
+   "desc": "",
+   "src": "backgrounds/background-3-768adf.webp"
+  },
+  {
+   "id": "4dac6e49-b14d-449c-bfb3-bb4e838bfed6",
+   "name": "background-4",
+   "desc": "",
+   "src": "backgrounds/background-4-4dac6e.webp"
+  },
+  {
+   "id": "a4eafe9d-1bd5-4b19-b5cb-8cb75d573508",
+   "name": "Angry nun",
+   "desc": "",
+   "src": "backgrounds/angry-nun-a4eafe.webp"
+  },
+  {
+   "id": "2cebebde-cb7e-444e-b121-15ea5063d711",
+   "name": "plains",
+   "desc": "",
+   "src": "backgrounds/plains-2cebeb.webp"
+  },
+  {
+   "id": "301efb47-98bc-453c-bc2f-809f3d1e52b5",
+   "name": "Smith's Bedroom",
+   "desc": "",
+   "src": "backgrounds/smith-s-bedroom-301efb.webp"
+  },
+  {
+   "id": "9a5cad27-0ac4-4feb-944a-2441203b35a6",
+   "name": "Bedroom",
+   "desc": "",
+   "src": "backgrounds/bedroom-9a5cad.webp"
+  },
+  {
+   "id": "380df140-4c08-4cce-8946-673447c10e19",
+   "name": "Chris' Bedroom",
+   "desc": "",
+   "src": "backgrounds/chris-bedroom-380df1.webp"
+  },
+  {
+   "id": "c6197788-8b4e-45f5-96c5-1560e788f376",
+   "name": "Living Room",
+   "desc": "",
+   "src": "backgrounds/living-room-c61977.webp"
+  },
+  {
+   "id": "9f5d8a59-cbfc-47d7-ac73-7de6ca2cd7cf",
+   "name": "Kitchen",
+   "desc": "",
+   "src": "backgrounds/kitchen-9f5d8a.webp"
+  },
+  {
+   "id": "eb859def-2c3a-4e4c-9dd9-179068b3127f",
+   "name": "Kitchen (sitting down)",
+   "desc": "",
+   "src": "backgrounds/kitchen-sitting-down-eb859d.webp"
+  },
+  {
+   "id": "44f6425a-31ae-4e92-b726-4eb9dbbcf6b9",
+   "name": "Paramount Academy Entrance",
+   "desc": "",
+   "src": "backgrounds/paramount-academy-entrance-44f642.webp"
+  },
+  {
+   "id": "128bdeef-c7b7-4787-88fa-fcb94b78da7d",
+   "name": "School Hallway",
+   "desc": "",
+   "src": "backgrounds/school-hallway-128bde.webp"
+  },
+  {
+   "id": "cd997102-5c37-4d23-aa34-c1f936bf14a5",
+   "name": "Homeroom",
+   "desc": "",
+   "src": "backgrounds/homeroom-cd9971.webp"
+  },
+  {
+   "id": "08c61451-d5b5-470d-b920-f80e3681a84b",
+   "name": "Cafeteria",
+   "desc": "",
+   "src": "backgrounds/cafeteria-08c614.webp"
+  },
+  {
+   "id": "522d4728-0a34-46c6-a528-39c52068a256",
+   "name": "Bedroom (Night)",
+   "desc": "",
+   "src": "backgrounds/bedroom-night-522d47.webp"
+  },
+  {
+   "id": "aee645fc-0e74-463d-835f-20b7dba3b330",
+   "name": "History",
+   "desc": "",
+   "src": "backgrounds/history-aee645.webp"
+  },
+  {
+   "id": "5e6ed407-7296-4705-8bf4-ba719b23ee81",
+   "name": "Mall",
+   "desc": "",
+   "src": "backgrounds/mall-5e6ed4.webp"
+  },
+  {
+   "id": "26dfffa0-ece7-4639-a6df-d8a8a25bb80e",
+   "name": "Gym",
+   "desc": "",
+   "src": "backgrounds/gym-26dfff.webp"
+  },
+  {
+   "id": "899ce3e9-cb6e-4fdd-8f4c-b90cb150b202",
+   "name": "MMA Ring",
+   "desc": "",
+   "src": "backgrounds/mma-ring-899ce3.webp"
+  },
+  {
+   "id": "36dfd761-68d5-4c36-b11a-7896256d1d97",
+   "name": "CGH1",
+   "desc": "",
+   "src": "backgrounds/cgh1-36dfd7.webp",
+   "nsfw": true
+  },
+  {
+   "id": "f6906838-c46b-4701-b980-1a3b6bcd7d09",
+   "name": "CGM1",
+   "desc": "",
+   "src": "backgrounds/cgm1-f69068.webp"
+  },
+  {
+   "id": "17eb50a2-643a-43b5-a0d1-6062ab86ec90",
+   "name": "Town",
+   "desc": "",
+   "src": "backgrounds/town-17eb50.webp"
+  },
+  {
+   "id": "14896f91-b4f2-49e2-987c-1a807da14d86",
+   "name": "Photo",
+   "desc": "",
+   "src": "backgrounds/photo-14896f.webp"
   }
  ],
  "items": [
@@ -9516,6 +11051,42 @@
    "desc": "Cat costume with ears and paws.\nThe color of the costume matches Charlotte's hair color well.",
    "icon": "items/cat-outfit.webp",
    "nsfw": true
+  },
+  {
+   "id": "natsuki-s-cupcake",
+   "name": "Natsuki's Cupcake",
+   "desc": "A single cat cupcake Natsuki made the previous night.",
+   "icon": "items/natsuki-s-cupcake.webp"
+  },
+  {
+   "id": "yuri-s-green-tea",
+   "name": "Yuri's Green Tea",
+   "desc": "A hot cup of green tea Yuri made for you.",
+   "icon": "items/yuri-s-green-tea.webp"
+  },
+  {
+   "id": "photograph-of-a-plant",
+   "name": "Photograph of a Plant",
+   "desc": "A photograph of the Flower. Surprisingly has a white background thanks to technology!",
+   "icon": "items/photograph-of-a-plant.webp"
+  },
+  {
+   "id": "japanese-artifact",
+   "name": "Japanese Artifact",
+   "desc": "Novelty Item",
+   "icon": "items/japanese-artifact.webp"
+  },
+  {
+   "id": "purple-tulip",
+   "name": "Purple Tulip",
+   "desc": "A Tulip plucked from the garden by Yuri.",
+   "icon": "items/purple-tulip.webp"
+  },
+  {
+   "id": "m",
+   "name": "M",
+   "desc": "-",
+   "icon": "items/m.webp"
   }
  ],
  "music": [
@@ -12007,6 +13578,154 @@
    "novel": "Noble One",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/9a4d779f-fa33-4e58-826a-f274f534d096/49f25f81-8faa-4968-a55c-e6f281e06fbe.mpeg",
    "nsfw": true
+  },
+  {
+   "id": "ohayou-sayori",
+   "name": "Ohayou Sayori!",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/142e5dc0-1d4a-4beb-8c1d-91eca0aef4e3.mpeg"
+  },
+  {
+   "id": "okay-everyone",
+   "name": "Okay, Everyone!",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/90bfaf36-fb61-4948-b769-6e200e54ed79.mpeg"
+  },
+  {
+   "id": "monika-s-theme-my-song-your-note",
+   "name": "Monika's Theme (My Song, Your Note)",
+   "tags": [
+    "Monika"
+   ],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/fc21f9f3-ed23-43c4-a38b-091caca603ee.mpeg"
+  },
+  {
+   "id": "sayori-s-theme-peachy-pie",
+   "name": "Sayori's Theme (Peachy Pie)",
+   "tags": [
+    "Sayori"
+   ],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/e7c55552-e915-449e-ac5d-c8fb94616160.mpeg"
+  },
+  {
+   "id": "natsuki-s-theme-strawberry-peppermint",
+   "name": "Natsuki's Theme (Strawberry Peppermint)",
+   "tags": [
+    "Natsuki"
+   ],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/fee42f2b-29fa-45e9-b9ca-fdc0e3a17a4c.mpeg"
+  },
+  {
+   "id": "yuri-s-theme-lavender-mist",
+   "name": "Yuri's Theme (Lavender Mist)",
+   "tags": [
+    "Yuri"
+   ],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/b35634ad-5d74-402d-92bf-60e3de7c592b.mpeg"
+  },
+  {
+   "id": "hug-energy",
+   "name": "Hug Energy",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/953a5997-4b18-4dfb-ade4-241750ef46fe.mpeg"
+  },
+  {
+   "id": "groups-play-with-me",
+   "name": "Groups (Play With Me)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/ffe3b2ff-6a9a-4fa1-924b-883a6cd9ae1d.mpeg"
+  },
+  {
+   "id": "monika-cg-dear-sunshine",
+   "name": "Monika CG (Dear Sunshine)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/8e74bb21-8aee-483c-9851-7269ace3a893.mpeg"
+  },
+  {
+   "id": "sayori-cg-candy-hearts",
+   "name": "Sayori CG (Candy Hearts)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/81412de2-63cd-4afd-b05f-44d8cbe46128.mpeg"
+  },
+  {
+   "id": "natsuki-cg-just-a-little-bit",
+   "name": "Natsuki CG (Just A Little Bit)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/6d6a608d-c373-486b-b6b5-a2eb45988a7a.mpeg"
+  },
+  {
+   "id": "yuri-cg-let-s-teamwork",
+   "name": "Yuri CG (Let's Teamwork!)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/d8c5acd0-5958-4c4c-bc8f-b37848267588.mpeg"
+  },
+  {
+   "id": "dreams-of-love-and-literature",
+   "name": "Dreams Of Love and Literature",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/7bf78ce8-a37d-4a10-ac54-083278607838.mpeg"
+  },
+  {
+   "id": "final-scenes-piece-by-piece",
+   "name": "Final Scenes (Piece by Piece)",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/c1619270-1756-404e-ac6c-677174aefd40.mpeg"
+  },
+  {
+   "id": "classic-mode-literature-club-theme",
+   "name": "Classic Mode - Literature Club Theme",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/8f1f5567-e6fb-4fd6-81fa-34b8aefdbe40.mpeg"
+  },
+  {
+   "id": "classic-mode-poem-panic",
+   "name": "Classic Mode - Poem Panic!",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/9fceeebd-6bb9-4d12-8d6f-858be90991e7.mpeg"
+  },
+  {
+   "id": "classic-mode-daijoubu",
+   "name": "Classic Mode - Daijoubu",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/90f0e99b-7d36-47f9-8f80-ff525811fd58.mpeg"
+  },
+  {
+   "id": "classic-mode-my-confession",
+   "name": "Classic Mode - My Confession",
+   "tags": [],
+   "novel": "Doki Doki Literature Club",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a4883771-5a38-46f1-aad2-52124cfbea78/20e74de1-32ba-472b-8091-00d058f39cca.mpeg"
+  },
+  {
+   "id": "song-1",
+   "name": "song-1",
+   "tags": [],
+   "novel": "Flaming, Lust, and Pain.",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/83238da4-0c54-42f0-bc6a-d47476996172.mpeg"
+  },
+  {
+   "id": "song-1-2",
+   "name": "song-1",
+   "tags": [],
+   "novel": "Paradiso Suburbia",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/ab30ad39-6d74-49cd-a2dc-8f7e155017b2/7beae57b-ac19-4adf-8f59-dee5221826b2.mpeg"
   }
  ]
 }

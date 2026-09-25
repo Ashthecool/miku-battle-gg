@@ -649,6 +649,32 @@
     icecross: { move: 'fade', fx: 'column', sfx: 'freeze' }, trashfire: { move: 'sneak', fx: 'smoke', sfx: 'fire' },
     mercy: { move: 'fade', fx: 'swirl', emoji: ['🕊️', '🪶', '🤍'], sfx: 'flutter' }, teaspill: { move: 'sneak', fx: 'fling', emoji: ['🍵', '🌸'] },
     redcarpet: { move: 'strut', fx: 'flash', sfx: 'camera' }, wires: { move: 'sneak', fx: 'fling', emoji: ['💰', '💎', '👛'] },
+    mamabear: { move: 'drop', fx: 'fling', emoji: ['🐻', '💚', '🧸'], sfx: 'stomp' }, rainbow: { move: 'hop', fx: 'swirl', emoji: ['🌈', '☀️', '💖'], sfx: 'sparkle' },
+    leftonread: { move: 'sneak', fx: 'fling', emoji: ['📱', '💬', '🙄'], sfx: 'tick' }, glomp: { move: 'pop', fx: 'fling', emoji: ['💕', '🤗', '💖'], sfx: 'heartbeat' },
+    touchdown: { move: 'slide', fx: 'fling', emoji: ['🏈', '💨', '🏟️'], sfx: 'whistle' }, squeak: { move: 'pop', fx: 'fling', emoji: ['📣', '💚', '✨'], sfx: 'squeak' },
+    kindness: { move: 'rise', fx: 'fling', emoji: ['🌼', '😊', '💛'], sfx: 'ding' }, sugarrush: { move: 'slide', fx: 'rain', emoji: ['🍬', '🍭', '🧁'], sfx: 'zip' },
+    gavel: { move: 'strut', fx: 'fling', emoji: ['🔨', '📄', '🗳️'], sfx: 'bonk' }, nuhuh: { move: 'spin', fx: 'swirl', emoji: ['❄️', '💅', '✨'], sfx: 'frost' },
+    stainedglass: { move: 'fade', fx: 'column', sfx: 'choir' }, tantrum: { move: 'drop', fx: 'smoke', sfx: 'stomp' },
+    harp: { move: 'fade', fx: 'swirl', emoji: ['🎵', '📚', '🍂'], sfx: 'melody' },
+    pronk: { move: 'hop', fx: 'confetti', sfx: 'squeak' }, kickflip: { move: 'slide', fx: 'spray', sfx: 'zip' },
+    lunchrush: { move: 'hop', fx: 'fling', emoji: ['🍱', '🥪', '🧃'] }, present: { move: 'pop', fx: 'rain', emoji: ['🎄', '❄️', '🎁'] },
+    livestream: { move: 'zoom', fx: 'flash', sfx: 'ding' }, boxingroo: { move: 'hop', fx: 'fling', emoji: ['🥊', '🦘', '💥'], sfx: 'ding' },
+    haiku: { move: 'fade', fx: 'swirl', emoji: ['📄', '📜', '🐐'] }, bigl: { move: 'strut', fx: 'flash', sfx: 'laugh' },
+    lockdown: { move: 'drop', fx: 'flash', sfx: 'whistle' }, evaluation: { move: 'strut', fx: 'fling', emoji: ['📋', '📄', '🦌'], sfx: 'crinkle' },
+    rift: { move: 'portal', fx: 'fling', emoji: ['🌀', '⚛️', '📐'] }, flambe: { move: 'slide', fx: 'fling', emoji: ['🍸', '🍹', '🔥'] },
+    finishline: { move: 'zoom', fx: 'flash', sfx: 'camera' }, multiverse: { move: 'portal', fx: 'swirl', emoji: ['🌀', '🧪', '💖'] },
+    nat20: { move: 'pop', fx: 'rain', emoji: ['🎲', '⚔️', '🐉'], sfx: 'ding' }, tear: { move: 'fade', fx: 'column', sfx: 'glitch' },
+    timber: { move: 'drop', fx: 'fling', emoji: ['🌲', '🍃', '🪓'], sfx: 'axe' },
+    justmonika: { move: 'fade', fx: 'rain', emoji: ['💚', '📝', '🎹'], sfx: 'piano' }, toastdash: { move: 'slide', fx: 'fling', emoji: ['🍞', '⏰', '💕'], sfx: 'zip' },
+    mangapanel: { move: 'drop', fx: 'fling', emoji: ['📘', '🧁', '💢'], sfx: 'bonk' }, inkbound: { move: 'fade', fx: 'swirl', emoji: ['📕', '🍵', '🪻'], sfx: 'crinkle' },
+    choice: { move: 'pop', fx: 'fling', emoji: ['📗', '✏️', '❓'] }, pentagram: { move: 'rise', fx: 'column', sfx: 'fire' },
+    devtail: { move: 'strut', fx: 'fling', emoji: ['💋', '😈', '💚'], sfx: 'kiss' }, queenshadow: { move: 'fade', fx: 'column', sfx: 'choir' },
+    ibeam: { move: 'drop', fx: 'fling', emoji: ['⛑️', '🔧', '🚧'], sfx: 'clang' }, yarn: { move: 'sneak', fx: 'swirl', emoji: ['🧶', '💜', '🧣'] },
+    strays: { move: 'slide', fx: 'fling', emoji: ['🐈', '🐕', '🐾'], sfx: 'whistle' }, musclefive: { move: 'hop', fx: 'fling', emoji: ['💪', '🥊', '⚾'], sfx: 'punch' },
+    ghoststory: { move: 'sneak', fx: 'smoke', sfx: 'wobble' }, checkmate: { move: 'strut', fx: 'fling', emoji: ['♛', '♞', '📚'], sfx: 'tick' },
+    micdrop: { move: 'slide', fx: 'fling', emoji: ['🎤', '📻', '😎'], sfx: 'thud' }, fakecry: { move: 'strut', fx: 'flash', sfx: 'camera' },
+    oilrig: { move: 'drop', fx: 'rain', emoji: ['💸', '💳', '💎'], sfx: 'coin' }, likestorm: { move: 'zoom', fx: 'swirl', emoji: ['❤️', '👍', '✌️'], sfx: 'camera' },
+    quill: { move: 'fade', fx: 'swirl', emoji: ['📚', '🪶', '🍷'], sfx: 'crinkle' }, warmap: { move: 'drop', fx: 'fling', emoji: ['💂', '🗺️', '⚔️'], sfx: 'drumroll' },
   };
   // a recipe attack (fx.js) enters the way it moves, flinging its props
   const RECIPE_ENTRANCE = { stay: 'pop', float: 'fade', dash: 'slide', leap: 'drop', blink: 'zoom', spin: 'spin', hop: 'hop', zigzag: 'slide',
@@ -672,16 +698,21 @@
   // and clash or race, friends high-five / take a selfie / game, school pairs have a lesson or a club project,
   // a crush hands over a love letter, partners pose back to back, a mentor powers up the student. Plus the variants
   // any fitting kind can pick: a mirror, a duel, a tug of war, a hypnosis attempt, a photoshoot, a bear hug, a night at
-  // the bar, a concert, cooking together, etiquette lessons, a grape harvest, a dress-up.
+  // the bar, a concert, cooking together, etiquette lessons, a grape harvest, a dress-up, and the cross-novel ones: a job
+  // interview, stand-up night, bartender flair, a night patrol, a confession, a photo shrine, a chalkboard proof, a boxing
+  // match, a scheme, a bake-off, a rescue, a nap, poker night, an auction, a spooky reading.
   // Every scene takes: lines (2+, alternating, or { by: 0|1, text }), backdrop, emoji, word.
   // Positions are measured when each step runs.
   const KINDS = { lovers: '💞', family: '🏠', rivals: '⚔️', friends: '🤝', school: '📚', crush: '💓', partners: '😎', mentor: '🎓' };
   // the scene variants of each kind (the first is the default)
-  const SCENE_VARIANTS = { lovers: ['cuddle', 'date', 'dance', 'photoshoot', 'bar', 'cook'],
-    family: ['laugh', 'meal', 'movie', 'strict', 'game', 'photoshoot', 'bearhug', 'bar', 'etiquette', 'harvest', 'cook', 'concert'],
-    rivals: ['clash', 'race', 'mirror', 'duel', 'tug', 'hypnosis'],
-    friends: ['highfive', 'selfie', 'game', 'cook', 'dressup', 'bar', 'concert', 'bearhug', 'photoshoot', 'harvest'],
-    school: ['club', 'class', 'concert', 'etiquette'], crush: [], partners: ['duel', 'mirror'], mentor: ['concert', 'duel', 'etiquette'] };
+  const SCENE_VARIANTS = { lovers: ['cuddle', 'date', 'dance', 'photoshoot', 'bar', 'cook', 'dreamhome', 'flair', 'rescue', 'nap'],
+    family: ['laugh', 'meal', 'movie', 'strict', 'game', 'photoshoot', 'bearhug', 'bar', 'etiquette', 'harvest', 'cook', 'concert',
+      'ritual', 'prayer', 'dreamhome', 'grill', 'streak', 'pushups', 'late', 'bakeoff', 'nap', 'reading'],
+    rivals: ['clash', 'race', 'mirror', 'duel', 'tug', 'hypnosis', 'debate', 'roast', 'standup', 'confession', 'shrine', 'boxing', 'bakeoff', 'poker', 'auction'],
+    friends: ['highfive', 'selfie', 'game', 'cook', 'dressup', 'bar', 'concert', 'bearhug', 'photoshoot', 'harvest', 'poem', 'late', 'grill', 'pushups', 'prayer',
+      'standup', 'flair', 'rescue', 'nap', 'poker', 'bakeoff', 'reading'],
+    school: ['club', 'class', 'concert', 'etiquette', 'poem', 'debate', 'solve', 'reading'], crush: ['solve'], partners: ['duel', 'mirror', 'ritual', 'patrol', 'scheme', 'boxing'],
+    mentor: ['concert', 'duel', 'etiquette', 'ritual', 'interview'] };
   // line i of the scene: who says it and what
   const lineOf = (S, i) => { const l = S.lines[i]; return l && typeof l === 'object' ? { by: l.by ? 1 : 0, text: l.text } : { by: i % 2, text: l }; };
   const nLines = (S) => (S.lines ? S.lines.length : 0);
@@ -732,6 +763,8 @@
   }
   // a looping spawner; returns a tween so the modal can kill it
   const every = (sec, fn) => gsap.timeline({ repeat: -1, repeatDelay: sec }).call(fn);
+  // the same n times, one every sec
+  const times = (n, sec, fn) => gsap.timeline({ repeat: n - 1 }).call(fn).to({}, { duration: sec });
 
   const SCENES = {
     // cuddle up, squeeze, hearts everywhere
@@ -1768,7 +1801,1149 @@
         every(1, () => { const h = headOf(S, model); floatUp(S, ['✨', '💖', '🎀'], { x: h.x, y: h.y + 120 }, 1, [18, 28]); }),
       ] };
     },
+
+    // a poem written together: a notebook page floats between them and they write it a line each (cfg.title,
+    // cfg.verse: the lines), then it blooms
+    poem: (S) => {
+      const { a, b, L, c, cfg } = S, verse = cfg.verse || ['Roses are red,', 'violets are blue,', 'we wrote this', 'and so did you.'];
+      const nb = prop(S, 'cm-notebook', `<b>${cfg.title || 'Our Poem'}</b>${verse.map((v) => `<p>${v}</p>`).join('')}`, 3), rows = [...nb.querySelectorAll('p')];
+      nb.style.setProperty('--c', c);
+      gsap.set(rows, { clipPath: 'inset(0 100% 0 0)' });
+      const tl = gsap.timeline()
+        .fromTo(a, { x: -380, opacity: 0 }, { x: -10, opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(b, { x: 380, opacity: 0 }, { x: 10, opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(nb, { xPercent: -50, y: -80, opacity: 0, rotation: -8 }, { y: 0, opacity: 1, rotation: -2, duration: 0.5, ease: 'back.out(1.6)' }, 0.5)
+        .call(() => MB.audio.sfx('crinkle'), null, 0.5);
+      rows.forEach((r, i) => {
+        const im = i % 2 ? b : a, at = 1.1 + i * 0.8;
+        tl.to(im, { y: -14, rotation: i % 2 ? -3 : 3, duration: 0.15, yoyo: true, repeat: 1 }, at)
+          .call(() => { MB.audio.sfx('tick'); const q = r.getBoundingClientRect(), p = toUi(q.left, q.top + q.height / 2); fling(L, p.x, p.y, ['✏️'], 1, { dist: [10, 40], gravity: 20 }); }, null, at)
+          .to(r, { clipPath: 'inset(0 0% 0 0)', duration: 0.65, ease: 'none' }, at);
+      });
+      const done = 1.2 + rows.length * 0.8;
+      tl.call(() => {
+        const q = nb.getBoundingClientRect(), p = toUi(q.left + q.width / 2, q.top + q.height / 2);
+        MB.audio.sfx('sparkle'); MB.audio.sfx('bond', S.tier);
+        fling(L, p.x, p.y, cfg.emoji || ['🌸', '💚', '💗', '✨'], 18, { gravity: -40 });
+        word(L, p.x, p.y - 150, cfg.word || 'Beautiful~', c, 48);
+        mood(S, a, 'win'); mood(S, b, 'play');
+      }, null, done)
+        .to(nb, { scale: 1.08, duration: 0.2, yoyo: true, repeat: 1 }, done);
+      talk(S, tl, done + 0.7);
+      return { tl, idle: () => [
+        gsap.to(nb, { rotation: 1, y: -8, duration: 1.8, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to([a, b], { y: -6, duration: 1.3, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.5 }),
+        every(0.9, () => floatUp(S, ['🌸', '📝', '💚'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // late for school: toast in their mouths, running in place while the street streams past, one trips, the other
+    // hauls them up, and they make it as the bell rings
+    late: (S) => {
+      const { a, b, L, c, cfg } = S, clock = prop(S, 'cm-frame', '⏰', 3);
+      const toasts = [a, b].map(() => { const t = fxEl(L, 'cm-emoji', '🍞'); t.style.fontSize = '54px'; gsap.set(t, { opacity: 0, xPercent: -50, yPercent: -50 }); return t; });
+      const stick = () => [a, b].forEach((im, i) => { const h = liveHead(im); gsap.set(toasts[i], { x: h.x + (i ? -34 : 34), y: h.y + h.h * 0.17 }); });
+      const streak = () => {
+        const s = fxEl(L, 'cm-speedline'), y = rnd(120, 860), x0 = S.box.offsetLeft + S.box.offsetWidth + 120;
+        gsap.fromTo(s, { x: x0, y, opacity: 0.8 }, { x: S.box.offsetLeft - 360, duration: rnd(0.25, 0.45), ease: 'none', onComplete: () => s.remove() });
+      };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 700 : -700), opacity: SPRITE_OP }, { x: 0, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(clock, { xPercent: -50, scale: 0, opacity: 1 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' }, 0.4)
+        .to(clock, { rotation: 16, duration: 0.05, yoyo: true, repeat: 11 }, 0.7)
+        .call(() => { MB.audio.sfx('ding'); MB.audio.sfx('chomp'); gsap.set(toasts, { opacity: 1 }); stick(); }, null, 0.7)
+        .to(clock, { scale: 0, duration: 0.25 }, 1.4)
+        .add(gsap.timeline({ repeat: 60 }).call(streak).to({}, { duration: 0.05 }), 1.1)
+        .to([a, b], { y: -22, duration: 0.09, yoyo: true, repeat: 31, stagger: 0.045, ease: 'power1.out' }, 1.1)
+        .to({}, { duration: 3.2, onUpdate: stick }, 1.1)
+        .call(() => MB.audio.sfx('zip'), null, 1.1);
+      talk(S, tl, 1.3);
+      // a trips, b hauls them up
+      tl.to(a, { rotation: -28, y: 70, duration: 0.15, ease: 'power2.in' }, 2.3)
+        .call(() => { const h = liveHead(a); MB.audio.sfx('bonk'); word(L, h.x, h.y + 40, '*trip*', c, 34); }, null, 2.35)
+        .to(b, { x: -60, duration: 0.2 }, 2.45)
+        .call(() => { const h = headOf(S, b); word(L, h.x, h.y + 20, 'Gotcha!', c, 40); MB.audio.sfx('whoosh'); }, null, 2.55)
+        .to(a, { rotation: 0, y: 0, duration: 0.25, ease: 'back.out(2)' }, 2.6)
+        .to(b, { x: 0, duration: 0.3 }, 2.8);
+      const end = Math.max(4.4, afterTalk(S, 1.3));
+      tl.call(() => {
+        const p = midOf(S);
+        MB.audio.sfx('ding'); MB.audio.sfx('bond', S.tier); MB.audio.sfx('cheer');
+        word(L, p.x, p.y - 150, cfg.word || 'MADE IT!', c, 58); spray(L, p.x, p.y - 60, c, 30, { dist: [80, 320], stars: 0.7 });
+        [a, b].forEach((im) => { const h = headOf(S, im); fling(L, h.x, h.y + 40, ['💦', '💦', '✨'], 6, { gravity: 120 }); });
+        mood(S, a, 'win'); mood(S, b, 'play');
+        toasts.forEach((t) => gsap.to(t, { y: '+=200', rotation: 200, opacity: 0, duration: 0.6, ease: 'power2.in', onComplete: () => t.remove() }));
+      }, null, end)
+        .to([a, b], { scaleY: 0.94, rotation: (i) => (i ? -5 : 5), duration: 0.3 }, end); // panting
+      return { tl, idle: () => [
+        gsap.to([a, b], { scaleY: 0.97, duration: 0.35, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.17 }),
+        every(0.9, () => floatUp(S, ['💦', '🍞', '✨'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // a debate: podiums, a banner with the question (cfg.topic), and every argument flies across (cfg.props: [[a's], [b's]])
+    // and collides with the other's in the middle. The moderator gives up
+    debate: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], props = cfg.props || [['📚'], ['📖']];
+      const banner = prop(S, 'cm-banner', cfg.topic || 'THE GREAT DEBATE', 3), pods = [0, 1].map((i) => { const p = prop(S, 'cm-podium', '<i></i>', 2); p.style.setProperty('--c', i ? cb : ca); return p; });
+      banner.style.setProperty('--c', c);
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)' }, 0)
+        .call(() => pods.forEach((p, i) => { p.style.left = boxX(S, i ? b : a) + 'px'; }), null, 0.05)
+        .fromTo(pods, { xPercent: -50, y: 220, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)' }, 0.2)
+        .fromTo(banner, { xPercent: -50, scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 0.6)
+        .call(() => MB.audio.sfx('gong'), null, 0.6);
+      const n = Math.max(2, nLines(S)) + 1;
+      for (let i = 0; i < n; i++) tl.call(() => {
+        const h0 = headOf(S, a), h1 = headOf(S, b), y = Math.min(h0.y, h1.y) + 190, mid = (h0.x + h1.x) / 2, from = i % 2 ? b : a;
+        [0, 1].forEach((j) => {
+          const k = fxEl(L, 'cm-emoji', MB.pick(props[j])), x0 = j ? h1.x : h0.x;
+          k.style.fontSize = '56px';
+          gsap.fromTo(k, { x: x0, y: y + 40, xPercent: -50, yPercent: -50 }, { keyframes: [{ x: (x0 + mid) / 2, y: y - 110, duration: 0.25, ease: 'sine.out' }, { x: mid, y, duration: 0.25, ease: 'sine.in' }],
+            rotation: j ? -360 : 360, onComplete: () => k.remove() });
+        });
+        gsap.delayedCall(0.5, () => {
+          MB.audio.sfx('clang');
+          spray(L, mid, y, ca, 12, { dist: [40, 180] }); spray(L, mid, y, cb, 12, { dist: [40, 180] });
+          ring(L, mid, y, '#ffffff', { size: 80, scale: 3, width: 6 });
+          word(L, mid, y - 90, MB.pick(['OBJECTION!', 'WRONG!', 'CITATION?', 'POW!', 'SOURCE?!']), '#ffffff', 36);
+        });
+        gsap.fromTo(from, { rotation: from === a ? 5 : -5, x: from === a ? 24 : -24 }, { rotation: 0, x: 0, duration: 0.45 });
+        mood(S, from, 'attack');
+      }, null, 1.3 + i * 1.3);
+      talk(S, tl, 1.25);
+      const end = 1.3 + n * 1.3 + 0.2;
+      tl.call(() => {
+        const p = midOf(S);
+        MB.audio.sfx('bonk'); MB.audio.sfx('bond', S.tier);
+        word(L, p.x, p.y - 190, cfg.word || 'ORDER! ORDER!', c, 52);
+        fling(L, p.x, p.y - 120, ['🔨'], 1, { dist: [10, 30], gravity: 60 });
+        [a, b].forEach((im, i) => { const h = headOf(S, im); word(L, h.x + (i ? -70 : 70), h.y + 30, '💢', '#ff3b3b', 44); mood(S, im, 'taunt'); });
+      }, null, end)
+        .to(a, { rotation: 5, duration: 0.25 }, end + 0.1).to(b, { rotation: -5, duration: 0.25 }, end + 0.1);
+      return { tl, idle: () => [
+        gsap.to(banner, { rotation: 1.5, duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.timeline({ repeat: -1, repeatDelay: 1.4 }).to(a, { x: 14, duration: 0.15, yoyo: true, repeat: 1 }).to(b, { x: -14, duration: 0.15, yoyo: true, repeat: 1 }, 0.7),
+        every(1.1, () => { const p = midOf(S); spray(L, p.x, p.y + 60, MB.pick([ca, cb]), 5, { dist: [20, 80], stars: 0.5 }); }),
+      ] };
+    },
+
+    // a ritual: a pentagram burns into the floor, candles light round it, the first partner raises the fire while the
+    // second kneels, and a crown appears over the second's head... then fades, because she's confused again
+    ritual: (S) => {
+      const { a, b, L, c, cfg } = S, pts = [0, 1, 2, 3, 4].map((i) => { const g = -Math.PI / 2 + (i * 4 * Math.PI) / 5; return `${(200 + Math.cos(g) * 170).toFixed(0)},${(200 + Math.sin(g) * 170).toFixed(0)}`; }).join(' ');
+      const pent = prop(S, 'cm-pentagram', `<svg viewBox="0 0 400 400" width="560" height="560" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round">
+        <circle class="d" cx="200" cy="200" r="190"/><circle class="d" cx="200" cy="200" r="170"/><polygon class="d" points="${pts}"/></svg>`, 0);
+      pent.style.color = c; pent.style.setProperty('--c', c);
+      const candles = [0, 1, 2, 3, 4].map((i) => { const k = prop(S, 'cm-candle', '🕯️<i></i>', 2); k.style.left = 16 + i * 17 + '%'; return k; });
+      const crown = fxEl(L, 'cm-emoji', '👑');
+      crown.style.fontSize = '90px';
+      gsap.set(crown, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const tl = gsap.timeline()
+        .fromTo(a, { x: -300, opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.8, ease: 'sine.out' }, 0)
+        .fromTo(b, { opacity: 0, y: 40 }, { opacity: SPRITE_OP, y: 0, duration: 0.8, ease: 'sine.out' }, 0.2)
+        .fromTo(pent, { xPercent: -50, scaleY: 0.3, scaleX: 0.3, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.6, ease: 'power2.out' }, 0.5)
+        .add(drawIn(pent.querySelectorAll('.d'), { duration: 0.9, stagger: 0.2, ease: 'power1.inOut' }), 0.5)
+        .call(() => MB.audio.sfx('rune'), null, 0.5);
+      candles.forEach((k, i) => tl.fromTo(k, { xPercent: -50, scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' }, 1 + i * 0.12)
+        .call(() => { k.classList.add('lit'); MB.audio.sfx('fire'); }, null, 1.5 + i * 0.15));
+      talk(S, tl, 1.3);
+      const up = Math.max(2.8, afterTalk(S, 1.3) - 0.4);
+      tl.to(b, { scaleY: 0.9, y: 30, duration: 0.3 }, 1.4) // kneels
+        .to(a, { y: -30, duration: 0.3 }, up)
+        .call(() => {
+          const h = headOf(S, a);
+          MB.audio.sfx('burn'); MB.audio.sfx('choir');
+          column(L, 'cm-fire', { x: h.x, bottom: S.box.offsetTop + S.box.offsetHeight }, c, 1);
+          riseFrom(L, midOf(S).x, S.box.offsetTop + S.box.offsetHeight, [c, '#ffb347', '#3a0010'], 40, 1.2);
+          pent.classList.add('lit');
+          mood(S, a, 'attack');
+        }, null, up)
+        .call(() => {
+          const h = liveHead(b);
+          gsap.fromTo(crown, { x: h.x, y: h.y - 30, opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, y: h.y - 60, duration: 0.5, ease: 'back.out(2)' });
+          screenFlash(L, '#8a3cc8', 0.5); MB.audio.sfx('dark'); MB.audio.sfx('bond', S.tier);
+          word(L, h.x, h.y - 150, cfg.word || 'MY QUEEN...', '#b07cff', 52);
+          mood(S, b, 'taunt');
+        }, null, up + 0.8)
+        .call(() => {
+          const h = liveHead(b);
+          gsap.to(crown, { opacity: 0, y: '-=40', duration: 0.5 });
+          word(L, h.x, h.y + 20, '?', '#ffffff', 60); mood(S, b, 'play'); MB.audio.sfx('pop');
+        }, null, up + 2.2)
+        .call(() => { const h = headOf(S, a); word(L, h.x, h.y + 30, '🤦', c, 60); mood(S, a, 'lose'); }, null, up + 2.7)
+        .to(a, { y: 0, duration: 0.3 }, up + 2.7).to(b, { scaleY: 1, y: 0, duration: 0.4 }, up + 2.6);
+      return { tl, idle: () => [
+        gsap.to(pent.querySelector('svg'), { rotation: 360, duration: 24, repeat: -1, ease: 'none' }),
+        every(0.25, () => { const r = candles[Math.floor(rnd(0, 5))].getBoundingClientRect(), p = toUi(r.left + r.width / 2, r.top); spray(L, p.x, p.y, '#ffb347', 1, { dist: [5, 30], size: [3, 6], stars: 0, gravity: -80 }); }),
+        every(1.2, () => floatUp(S, ['🔥', '🕯️', '💜'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // one prays, one doesn't: the second partner kneels in prayer with a halo while the first makes devil horns, winks
+    // at you and swishes her tail, and instantly looks pious whenever the other turns round
+    prayer: (S) => {
+      const { a, b, L, c, cfg } = S, halo = prop(S, 'cm-halo', '', 3), fake = prop(S, 'cm-halo', '', 3), horns = fxEl(L, 'cm-emoji', '😈');
+      horns.style.fontSize = '64px';
+      gsap.set([halo, fake], { opacity: 0, xPercent: -50 });
+      gsap.set(horns, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const hornsOn = (on) => { const h = liveHead(a); gsap.to(horns, { x: h.x + 60, y: h.y + 10, opacity: on ? 1 : 0, scale: on ? 1 : 0.3, duration: 0.2 }); };
+      const tl = gsap.timeline()
+        .fromTo(b, { opacity: 0, y: 40 }, { opacity: SPRITE_OP, y: 20, scaleY: 0.93, duration: 0.8, ease: 'sine.out' }, 0)
+        .fromTo(a, { x: -300, opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.7, ease: 'sine.out' }, 0.2)
+        .call(() => {
+          halo.style.left = boxX(S, b) + 'px'; fake.style.left = boxX(S, a) + 'px';
+          const h = headOf(S, b); column(L, 'cm-light', { x: h.x, bottom: S.box.offsetTop + S.box.offsetHeight }, '#ffe38a', 1.2);
+          MB.audio.sfx('choir'); mood(S, b, 'play');
+        }, null, 0.6)
+        .fromTo(halo, { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0.6);
+      talk(S, tl, 1.1);
+      // behind her back, twice
+      [1.8, 3.6].forEach((at, i) => {
+        tl.call(() => { hornsOn(true); mood(S, a, 'taunt'); const h = headOf(S, a); word(L, h.x, h.y + 80, i ? '💋' : '😉', c, 56); MB.audio.sfx(i ? 'kiss' : 'blink'); }, null, at)
+          .to(a, { rotation: -6, x: -14, duration: 0.25, yoyo: true, repeat: 3 }, at)
+          .to(b, { rotationY: 160, duration: 0.25 }, at + 1)   // she turns round...
+          .call(() => { hornsOn(false); gsap.to(fake, { opacity: 1, duration: 0.15 }); mood(S, a, 'play'); const h = headOf(S, a); word(L, h.x, h.y + 60, '😇', '#ffe38a', 56); MB.audio.sfx('ding'); }, null, at + 1)
+          .to(b, { rotationY: 0, duration: 0.25 }, at + 1.5)
+          .to(fake, { opacity: 0, duration: 0.3 }, at + 1.7);
+      });
+      const end = Math.max(5.6, afterTalk(S, 1.1));
+      tl.call(() => {
+        const p = midOf(S);
+        MB.audio.sfx('choir'); MB.audio.sfx('bond', S.tier);
+        word(L, p.x, p.y - 170, cfg.word || 'AMEN~', c, 56);
+        fling(L, p.x, p.y - 60, ['🕊️', '💚', '✨', '🪶'], 14, { gravity: -40 });
+        mood(S, b, 'win'); mood(S, a, 'win');
+      }, null, end)
+        .to(b, { scaleY: 1, y: 0, duration: 0.4 }, end);
+      return { tl, idle: () => [
+        gsap.to(halo, { y: -8, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to(a, { rotation: 3, duration: 1.1, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(1, () => floatUp(S, ['✨', '🕊️', '💚'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // the dream: a little ranch house draws itself behind them line by line, the sun goes down behind it, a cow wanders
+    // past, and they lean into each other
+    dreamhome: (S) => {
+      const { a, b, L, c, cfg } = S, sun = prop(S, 'cm-sun', '', 0);
+      const house = prop(S, 'cm-house', `<svg viewBox="0 0 400 300" width="560" height="420" fill="none" stroke="#fff6e0" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+        <path class="d" d="M60,290 L60,150 L200,50 L340,150 L340,290 Z"/><path class="d" d="M30,165 L200,30 L370,165"/>
+        <path class="d" d="M170,290 L170,200 L230,200 L230,290"/><rect class="d" x="90" y="180" width="50" height="45"/><rect class="d" x="260" y="180" width="50" height="45"/>
+        <path class="d" d="M280,95 L280,50 L310,50 L310,118"/><path class="d" d="M0,290 L400,290 M10,250 L10,290 M40,250 L40,290 M370,250 L370,290 M395,250 L395,290 M0,262 L50,262 M360,262 L400,262"/></svg>`, 0);
+      sun.style.setProperty('--c', c);
+      const tl = gsap.timeline()
+        .fromTo(sun, { xPercent: -50, y: -60, opacity: 0 }, { y: 120, opacity: 1, duration: 4.5, ease: 'sine.in' }, 0)
+        .fromTo(house, { xPercent: -50, opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.3)
+        .add(drawIn(house.querySelectorAll('.d'), { duration: 0.5, stagger: 0.18, ease: 'power1.inOut' }), 0.3)
+        .call(() => MB.audio.sfx('sparkle'), null, 0.3)
+        .fromTo([a, b], { x: (i) => (i ? 300 : -300), opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.9, ease: 'sine.out' }, 0.4)
+        .to(house.querySelector('svg'), { fill: 'rgba(255,220,160,.18)', duration: 0.8 }, 1.8);
+      talk(S, tl, 1.6);
+      tl.call(() => {
+        const cow = fxEl(L, 'cm-emoji', '🐄'), y = S.box.offsetTop + S.box.offsetHeight - 40, x0 = S.box.offsetLeft - 80;
+        cow.style.fontSize = '64px';
+        gsap.fromTo(cow, { x: x0, y, xPercent: -50, yPercent: -100, scaleX: -1 }, { x: x0 + S.box.offsetWidth + 160, duration: 5, ease: 'none', onComplete: () => cow.remove() });
+        gsap.to(cow, { y: y - 10, duration: 0.25, yoyo: true, repeat: 19 });
+      }, null, 2.2);
+      const lean = Math.max(3.6, afterTalk(S, 1.6));
+      tl.to(a, { x: 34, rotation: 5, duration: 0.6, ease: 'sine.inOut' }, lean).to(b, { x: -34, rotation: -5, duration: 0.6, ease: 'sine.inOut' }, lean)
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('bond', S.tier); MB.audio.sfx('heartbeat');
+          word(L, p.x, p.y - 160, cfg.word || 'Home. ♥', c, 56);
+          fling(L, p.x, p.y - 40, ['💛', '💕', '🌻'], 14, { gravity: -40 });
+          mood(S, a, 'play'); mood(S, b, 'play');
+        }, null, lean + 0.5);
+      return { tl, idle: () => [
+        gsap.to([a, b], { rotation: (i) => (i ? -3 : 3), duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.7, () => floatUp(S, ['💛', '🌻', '💕'], midOf(S), 1, [18, 30])),
+      ] };
+    },
+
+    // a barbecue: the grill smokes, the first partner flips the patty sky high (twice), the second deadpans that it's
+    // on fire, it is, and a burger comes out of it anyway
+    grill: (S) => {
+      const { a, b, L, c, cfg } = S, grill = prop(S, 'cm-grill', '<i></i>', 3), dish = prop(S, 'cm-frame', cfg.result || '🍔', 3);
+      const patty = fxEl(L, 'cm-emoji', '🥩');
+      patty.style.fontSize = '60px';
+      gsap.set(patty, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const top = () => { const r = grill.getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top); };
+      const flip = (at, hgt) => tl.call(() => { const p = top(); MB.audio.sfx('whoosh'); gsap.fromTo(patty, { x: p.x, y: p.y - 20, opacity: 1 }, { keyframes: [{ y: p.y - hgt, duration: 0.45, ease: 'power2.out' }, { y: p.y - 20, duration: 0.4, ease: 'power2.in' }], rotation: '+=720', onComplete: () => MB.audio.sfx('sizzle') }); }, null, at)
+        .to(a, { rotation: 8, y: -20, duration: 0.15, yoyo: true, repeat: 1 }, at);
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 380 : -380), opacity: 0 }, { x: (i) => (i ? 20 : -20), opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(grill, { xPercent: -50, y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.4)
+        .call(() => { const p = top(); gsap.set(patty, { x: p.x, y: p.y - 20, opacity: 1 }); MB.audio.sfx('sizzle'); }, null, 0.9);
+      talk(S, tl, 1);
+      flip(1.3, 360);
+      flip(2.6, 520);
+      tl.call(() => {
+        const p = top();
+        MB.audio.sfx('fire'); MB.audio.sfx('burn');
+        column(L, 'cm-fire', { x: p.x, bottom: p.y + 20 }, '#ff5a1f', 0.8);
+        patty.textContent = '🔥';
+        mood(S, b, 'taunt'); mood(S, a, 'lose');
+      }, null, 3.5)
+        .to(a, { x: -60, duration: 0.2, yoyo: true, repeat: 1 }, 3.6) // jumps back
+        .call(() => { const p = top(); MB.audio.sfx('poof'); spray(L, p.x, p.y - 40, '#8a8a8a', 20, { dist: [40, 200], stars: 0, gravity: -120 }); gsap.to(patty, { opacity: 0, duration: 0.2 }); }, null, 4.4)
+        .fromTo(dish, { xPercent: -50, scale: 0, opacity: 0, rotation: -180, y: 200 }, { scale: 1, opacity: 1, rotation: 0, y: 0, duration: 0.6, ease: 'back.out(1.6)' }, 4.6)
+        .call(() => { const p = midOf(S); MB.audio.sfx('ding'); MB.audio.sfx('bond', S.tier); word(L, p.x, p.y - 250, cfg.word || 'Burger time!', c, 50); spray(L, p.x, p.y - 160, c, 24, { dist: [80, 280], stars: 0.7 }); mood(S, a, 'win'); mood(S, b, 'play'); }, null, 5.1);
+      return { tl, idle: () => [
+        every(0.4, () => { const p = top(), st = fxEl(L, 'cm-steam'); gsap.fromTo(st, { x: p.x + rnd(-60, 60), y: p.y, xPercent: -50, opacity: 0.8, scale: 0.6 }, { y: p.y - 160, opacity: 0, scale: 1.8, duration: 1.8, ease: 'sine.out', onComplete: () => st.remove() }); }),
+        gsap.to(dish, { y: -10, rotation: 4, duration: 1.5, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to([a, b], { y: -8, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.4 }),
+      ] };
+    },
+
+    // the red streak: the first partner paints a streak into the second's hair with a brush, it shines, and the second
+    // shows it off in a hand mirror
+    streak: (S) => {
+      const { a, b, L, c, cfg } = S, brush = fxEl(L, 'cm-emoji', '🖌️'), streakEl = fxEl(L, 'cm-streak', '', c), mirror = fxEl(L, 'cm-emoji', '🪞');
+      brush.style.fontSize = '70px'; mirror.style.fontSize = '80px';
+      gsap.set([brush, mirror], { opacity: 0, xPercent: -50, yPercent: -50 });
+      gsap.set(streakEl, { opacity: 0, xPercent: -50, transformOrigin: '50% 0%' });
+      const hair = () => { const h = liveHead(b); return { x: h.x + h.h * 0.03, y: h.y + h.h * 0.02 }; };
+      const tl = gsap.timeline()
+        .fromTo(b, { x: 300, opacity: 0 }, { x: -10, opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(a, { x: -300, opacity: 0 }, { x: 20, opacity: SPRITE_OP, duration: 0.8, ease: 'sine.out' }, 0.2)
+        .to(b, { scaleY: 0.95, y: 20, duration: 0.3 }, 0.8) // sits still
+        .call(() => { const h = headOf(S, a); gsap.fromTo(brush, { x: h.x + 60, y: h.y + 200, opacity: 1, scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' }); }, null, 0.9);
+      talk(S, tl, 1.1);
+      const paint = 1.8;
+      tl.call(() => { const p = hair(); gsap.to(brush, { x: p.x + 30, y: p.y - 10, rotation: -30, duration: 0.4, ease: 'sine.inOut' }); MB.audio.sfx('whoosh'); }, null, paint)
+        .call(() => {
+          const p = hair();
+          gsap.set(streakEl, { x: p.x, y: p.y - 6, height: 0, opacity: 1 });
+          gsap.to(streakEl, { height: 190, duration: 0.8, ease: 'power1.inOut' });
+          gsap.to(brush, { y: p.y + 180, rotation: -10, duration: 0.8, ease: 'power1.inOut' });
+          MB.audio.sfx('swish'); gsap.delayedCall(0.4, () => MB.audio.sfx('swish'));
+        }, null, paint + 0.45)
+        .call(() => {
+          const p = hair();
+          gsap.to(brush, { opacity: 0, y: '+=60', duration: 0.3 });
+          spray(L, p.x, p.y + 90, c, 26, { dist: [30, 200], stars: 0.8 });
+          MB.audio.sfx('sparkle'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 60, cfg.word || 'Perfect. ♥', c, 52);
+          mood(S, a, 'play');
+        }, null, paint + 1.35)
+        .to(b, { scaleY: 1, y: 0, duration: 0.3 }, paint + 1.6)
+        .call(() => { const h = headOf(S, b); gsap.fromTo(mirror, { x: h.x - 110, y: h.y + 150, opacity: 1, scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' }); mood(S, b, 'win'); MB.audio.sfx('ding'); }, null, paint + 1.8)
+        .to(b, { rotation: -5, duration: 0.2, yoyo: true, repeat: 3 }, paint + 2.1) // checks it out
+        .call(() => { gsap.to(mirror, { opacity: 0, duration: 0.3 }); }, null, paint + 3)
+        .to(b, { x: -40, rotation: -6, duration: 0.4 }, paint + 3.1).to(a, { x: 40, rotation: 6, duration: 0.4 }, paint + 3.1) // a hug
+        .call(() => { const p = midOf(S); fling(L, p.x, p.y, ['❤️', '💕', '✨'], 12, { gravity: -40 }); MB.audio.sfx('heartbeat'); }, null, paint + 3.4);
+      return { tl, idle: () => [
+        gsap.to(streakEl, { opacity: 0.6, duration: 0.9, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to([a, b], { y: -6, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.5 }),
+        every(1, () => floatUp(S, ['❤️', '✨'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // a workout: the first partner lifts the second overhead like a dumbbell and squats, counting, while the second
+    // keeps reading; set down, flex, new record
+    pushups: (S) => {
+      const { a, b, L, c, cfg } = S, book = fxEl(L, 'cm-emoji', cfg.emoji ? cfg.emoji[0] : '📕');
+      book.style.fontSize = '54px';
+      gsap.set(book, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const stick = () => { const h = liveHead(b); gsap.set(book, { x: h.x - 50, y: h.y + h.h * 0.32 }); };
+      const tl = gsap.timeline()
+        .fromTo(a, { x: -300, opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .fromTo(b, { x: 300, opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.8, ease: 'sine.out' }, 0.1)
+        .call(() => { gsap.set(book, { opacity: 1 }); stick(); MB.audio.sfx('crinkle'); }, null, 0.9)
+        .to(b, { x: -140, y: -200, rotation: -8, duration: 0.5, ease: 'back.out(1.4)' }, 1.2) // up she goes
+        .call(() => { const h = headOf(S, a); word(L, h.x, h.y + 20, 'HUP!', c, 44); MB.audio.sfx('whoosh'); }, null, 1.2)
+        .to({}, { duration: 4.2, onUpdate: stick }, 0.9);
+      [17, 18, 19, 20].forEach((n, i) => {
+        const at = 1.9 + i * 0.6;
+        tl.to(a, { scaleY: 0.84, duration: 0.2, ease: 'power2.in' }, at).to(b, { y: -150, duration: 0.2, ease: 'power2.in' }, at)
+          .to(a, { scaleY: 1, duration: 0.2, ease: 'power2.out' }, at + 0.25).to(b, { y: -200, duration: 0.2, ease: 'power2.out' }, at + 0.25)
+          .call(() => { const h = headOf(S, a); word(L, h.x + 90, h.y + 120, n + '!', c, n === 20 ? 60 : 42); MB.audio.sfx(n === 20 ? 'ding' : 'thud'); }, null, at + 0.25);
+      });
+      talk(S, tl, 2.5);
+      const end = Math.max(4.8, afterTalk(S, 2.5));
+      tl.to(b, { x: 0, y: 0, rotation: 0, duration: 0.5, ease: 'bounce.out' }, end)
+        .call(() => {
+          const p = midOf(S), h = headOf(S, a);
+          MB.audio.sfx('applause'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'NEW RECORD!', c, 56);
+          fling(L, h.x, h.y + 120, ['💪', '💪', '✨', '💦'], 12, { gravity: -30 });
+          mood(S, a, 'win'); mood(S, b, 'play');
+        }, null, end + 0.4)
+        .to(a, { scale: 1.06, duration: 0.2, yoyo: true, repeat: 3 }, end + 0.4); // flex
+      return { tl, idle: () => [
+        gsap.to(a, { scaleY: 0.97, duration: 0.5, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to(book, { rotation: 4, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.9, () => floatUp(S, ['💪', '📕', '✨'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // a roast: the second partner gets a mic under a spotlight and the jokes land on the first like punches, to a laugh
+    // track. The comeback fizzles. Crickets
+    roast: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || ['#ffffff', c], spot = prop(S, 'cm-spotlight', '', 0), mic = fxEl(L, 'cm-emoji', '🎤');
+      mic.style.fontSize = '60px';
+      gsap.set(mic, { opacity: 0, xPercent: -50, yPercent: -50 });
+      spot.style.setProperty('--c', cb);
+      const jokes = cfg.jokes || ['Gated-community gangster!', 'Your dad does TEETH.', 'Nice crew cut, Vanilla.'];
+      const tl = gsap.timeline()
+        .fromTo(spot, { xPercent: -50, opacity: 0 }, { opacity: 0.8, duration: 0.5 }, 0)
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .call(() => { spot.style.left = boxX(S, b) + 'px'; const h = headOf(S, b); gsap.fromTo(mic, { x: h.x - 60, y: h.y + 140, opacity: 1, scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' }); MB.audio.sfx('click'); }, null, 0.5);
+      talk(S, tl, 1);
+      jokes.forEach((j, i) => tl.call(() => {
+        const h0 = headOf(S, b), h1 = headOf(S, a), w = fxEl(L, 'cm-word', j, cb);
+        w.style.fontSize = '30px';
+        gsap.fromTo(w, { x: h0.x - 60, y: h0.y + 120, xPercent: -50, yPercent: -50, scale: 0.4 }, { x: h1.x, y: h1.y + 140, scale: 1, duration: 0.45, ease: 'power2.in', onComplete: () => {
+          w.remove(); MB.audio.sfx('punch'); shake(S.ov, 8); spray(L, h1.x, h1.y + 140, cb, 12, { dist: [40, 160] }); word(L, h1.x, h1.y + 60, MB.pick(['OOF!', 'OUCH!', 'DAMN!']), ca, 40);
+          gsap.delayedCall(0.15, () => MB.audio.sfx('laugh'));
+        } });
+        gsap.fromTo(a, { x: -30, rotation: -8 }, { x: 0, rotation: 0, duration: 0.5, delay: 0.45, ease: 'elastic.out(1,0.4)' });
+        mood(S, a, 'lose'); mood(S, b, 'taunt');
+      }, null, 1.6 + i * 1));
+      const back = 1.6 + jokes.length + 0.6;
+      tl.call(() => {
+        const h = headOf(S, a), w = fxEl(L, 'cm-word', "Yo... your MOM!", ca);
+        w.style.fontSize = '28px';
+        mood(S, a, 'attack');
+        gsap.fromTo(w, { x: h.x + 60, y: h.y + 120, xPercent: -50, yPercent: -50 }, { x: h.x + 180, y: h.y + 60, duration: 0.5, ease: 'power1.out', onComplete: () => gsap.to(w, { y: '+=260', rotation: 90, opacity: 0, duration: 0.6, ease: 'power2.in', onComplete: () => w.remove() }) });
+      }, null, back)
+        .call(() => { const p = midOf(S); fling(L, p.x, p.y + 180, ['🦗'], 3, { dist: [40, 120], gravity: 40 }); MB.audio.sfx('tick'); gsap.delayedCall(0.3, () => MB.audio.sfx('tick')); }, null, back + 1)
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('applause'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'ROASTED 🔥', cb, 56);
+          fling(L, p.x, p.y - 40, ['🔥', '🎤', '💅'], 12, { gravity: -40 });
+          mood(S, b, 'win');
+        }, null, back + 1.8)
+        .to(a, { rotation: 6, scaleY: 0.95, duration: 0.3 }, back + 1.8); // sulks
+      return { tl, idle: () => [
+        gsap.to(spot, { opacity: 0.55, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to(b, { rotation: -3, duration: 0.9, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(1.1, () => floatUp(S, ['😂', '🔥', '💅'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // ---- cross-novel scenes
+
+    // a job interview: a desk, the applicant slides a résumé over and a trail of past jobs (cfg.jobs) spills out of it,
+    // the boss (cfg.mentor 0/1, default 1) reads the whole thing while the clock ticks... HIRED stamp, handshake
+    interview: (S) => {
+      const { a, b, L, c, cfg } = S, boss = cfg.mentor === 0 ? a : b, app = boss === a ? b : a, dir = boss === b ? 1 : -1;
+      const desk = prop(S, 'cm-table', (cfg.food || ['🖊️', '☕', '📋']).map((f) => `<i>${f}</i>`).join(''), 2);
+      const cv = fxEl(L, 'cm-paper', `<small>${cfg.paper || 'RÉSUMÉ'}</small><b>${cfg.stamp || 'HIRED!'}</b>`), stamp = cv.querySelector('b');
+      const jobs = cfg.jobs || ['🧹', '🍳', '📦', '🚕', '🧾', '🛒'];
+      gsap.set(cv, { opacity: 0, xPercent: -50, yPercent: -50 });
+      gsap.set(stamp, { opacity: 0, rotation: -8 });
+      const onDesk = () => { const p = midOf(S); return { x: p.x, y: p.y + 190 }; };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .fromTo(desk, { xPercent: -50, y: 220, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.3)
+        .call(() => {
+          const h = headOf(S, app), p = onDesk();
+          MB.audio.sfx('crinkle'); mood(S, app, 'play');
+          gsap.fromTo(cv, { x: h.x, y: h.y + 260, opacity: 1, rotation: -20 * dir, scale: 0.4 }, { x: p.x, y: p.y, rotation: 4 * dir, scale: 1, duration: 0.5, ease: 'power2.out' });
+        }, null, 0.8)
+        .to(app, { x: dir * 30, duration: 0.2, yoyo: true, repeat: 1 }, 0.8);
+      jobs.forEach((j, i) => tl.call(() => {
+        const p = onDesk(), e = fxEl(L, 'cm-emoji', j), x = p.x + rnd(-170, 170);
+        e.style.fontSize = '46px';
+        MB.audio.sfx('pop');
+        gsap.fromTo(e, { x: p.x, y: p.y - 40, xPercent: -50, yPercent: -50, scale: 0.3 },
+          { keyframes: [{ x: (p.x + x) / 2, y: p.y - rnd(220, 320), scale: 1, duration: 0.4, ease: 'power2.out' }, { x, y: p.y + 180, duration: 0.5, ease: 'power2.in' }], rotation: rnd(-360, 360), onComplete: () => e.remove() });
+      }, null, 1.4 + i * 0.22));
+      talk(S, tl, 1.2);
+      const read = 1.6 + jobs.length * 0.22;
+      tl.to(boss, { rotation: -6 * dir, y: 14, duration: 0.3 }, read) // leans in to read
+        .call(() => { const h = headOf(S, boss); word(L, h.x, h.y + 40, '...', c, 44); MB.audio.sfx('tick'); }, null, read + 0.2)
+        .call(() => MB.audio.sfx('tick'), null, read + 0.6)
+        .call(() => MB.audio.sfx('tick'), null, read + 1);
+      const end = Math.max(read + 1.4, afterTalk(S, 1.2));
+      tl.to(boss, { rotation: 0, y: 0, duration: 0.2 }, end - 0.2)
+        .call(() => {
+          const p = onDesk();
+          MB.audio.sfx('thud'); MB.audio.sfx('bond', S.tier); shake(S.ov, 10);
+          gsap.fromTo(stamp, { opacity: 1, scale: 3 }, { scale: 1, duration: 0.25, ease: 'power3.in' });
+          spray(L, p.x, p.y, '#e0102a', 18, { dist: [40, 200], stars: 0.4 });
+          word(L, p.x, p.y - 280, cfg.word || "YOU'RE HIRED!", c, 54);
+          mood(S, boss, 'win'); mood(S, app, 'win');
+        }, null, end)
+        .to(app, { y: -60, duration: 0.25, yoyo: true, repeat: 1, ease: 'power2.out' }, end + 0.3)
+        .to(a, { x: 30, duration: 0.3 }, end + 1).to(b, { x: -30, duration: 0.3 }, end + 1)
+        .call(() => { const p = midOf(S); fling(L, p.x, p.y + 80, ['🤝'], 1, { dist: [0, 10], gravity: -80, size: [70, 80] }); MB.audio.sfx('applause'); }, null, end + 1.2);
+      return { tl, idle: () => [
+        gsap.to(app, { y: -10, duration: 0.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }), // eager
+        gsap.timeline({ repeat: -1, repeatDelay: 1.8 }).to(boss, { y: 6, duration: 0.2, yoyo: true, repeat: 1 }), // approving nods
+        every(1, () => { const h = headOf(S, app); floatUp(S, cfg.emoji || jobs, { x: h.x, y: h.y + 120 }, 1, [20, 30]); }),
+      ] };
+    },
+
+    // stand-up night: a spotlight each, the mic passes back and forth, every line gets a rimshot and a tomato from the
+    // crowd. At the end they crack each other up
+    standup: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'];
+      const spots = [0, 1].map((i) => { const sp = prop(S, 'cm-spotlight', '', 0); sp.style.setProperty('--c', i ? cb : ca); sp.style.width = '520px'; return sp; });
+      const mic = fxEl(L, 'cm-emoji', '🎤'), n = Math.max(2, nLines(S)), gap = 1.7;
+      mic.style.fontSize = '58px';
+      gsap.set(mic, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .call(() => spots.forEach((sp, i) => { sp.style.left = boxX(S, i ? b : a) + 'px'; }), null, 0.05)
+        .fromTo(spots, { xPercent: -50, opacity: 0 }, { opacity: 0.3, duration: 0.4 }, 0.2);
+      for (let i = 0; i < n; i++) {
+        const at = 1 + i * gap, by = nLines(S) > i ? lineOf(S, i).by : i % 2, im = by ? b : a, other = by ? a : b;
+        tl.call(() => {
+          const h = headOf(S, im);
+          gsap.to(mic, { x: h.x + (by ? -70 : 70), y: h.y + 150, opacity: 1, duration: 0.3, ease: 'power2.out' });
+          gsap.to(spots[by], { opacity: 0.85, duration: 0.2 }); gsap.to(spots[1 - by], { opacity: 0.2, duration: 0.2 });
+          mood(S, im, 'taunt'); mood(S, other, 'lose');
+        }, null, at)
+          .to(im, { rotation: by ? -5 : 5, duration: 0.2, yoyo: true, repeat: 1 }, at)
+          .call(() => { // ba-dum tss
+            const h = headOf(S, im);
+            MB.audio.sfx('thud'); gsap.delayedCall(0.14, () => MB.audio.sfx('thud')); gsap.delayedCall(0.3, () => MB.audio.sfx('tink'));
+            word(L, h.x, h.y - 30, cfg.rim || 'BA-DUM TSS!', by ? cb : ca, 34);
+          }, null, at + 0.9)
+          .call(() => { // a tomato from the crowd
+            const h = headOf(S, im), t = fxEl(L, 'cm-emoji', '🍅'), x0 = h.x + rnd(-200, 200), y1 = h.y + 120;
+            t.style.fontSize = '52px';
+            gsap.fromTo(t, { x: x0, y: 960, xPercent: -50, yPercent: -50 }, { keyframes: [{ x: (x0 + h.x) / 2, y: y1 - 200, duration: 0.3, ease: 'power1.out' }, { x: h.x, y: y1, duration: 0.25, ease: 'power1.in' }],
+              rotation: 540, onComplete: () => { t.remove(); MB.audio.sfx('splat'); spray(L, h.x, y1, '#e0302a', 16, { dist: [30, 140], stars: 0 }); } });
+            const o = headOf(S, other);
+            word(L, o.x, o.y + 60, MB.pick(['*groan*', '🙄', 'boo!']), '#ffffff', 30);
+          }, null, at + 1.15);
+      }
+      talk(S, tl, 1.1, gap);
+      const end = 1 + n * gap + 0.2;
+      tl.call(() => {
+        const p = midOf(S);
+        MB.audio.sfx('laugh'); MB.audio.sfx('bond', S.tier);
+        gsap.to(spots, { opacity: 0.7, duration: 0.3 }); gsap.to(mic, { opacity: 0, duration: 0.3 });
+        word(L, p.x, p.y - 190, cfg.word || 'ENCORE?!', c, 54);
+        fling(L, p.x, p.y - 40, ['😂', '🤣', '🎤', '🍅'], 14, { gravity: -40 });
+        mood(S, a, 'win'); mood(S, b, 'win');
+      }, null, end)
+        .to(a, { x: 24, rotation: 6, duration: 0.3 }, end).to(b, { x: -24, rotation: -6, duration: 0.3 }, end);
+      return { tl, idle: () => [
+        gsap.to([a, b], { scaleY: 0.96, duration: 0.25, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.12 }), // still giggling
+        gsap.to(spots, { opacity: 0.45, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.6 }),
+        every(0.9, () => floatUp(S, ['😂', '🤣', '🎤'], midOf(S), 1, [18, 30])),
+      ] };
+    },
+
+    // bartender flair: bottles (cfg.food) fly back and forth between them, spinning, then all pour into one glass
+    // (cfg.result) held up between them. Cheers
+    flair: (S) => {
+      const { a, b, L, c, cfg } = S, items = cfg.food || ['🍸', '🥃', '🍾'], glass = prop(S, 'cm-frame', cfg.result || '🍹', 3);
+      gsap.set(glass, { xPercent: -50, opacity: 0 });
+      const hand = (im) => { const h = headOf(S, im); return { x: h.x + (im === a ? 70 : -70), y: h.y + im.offsetHeight * 0.42 }; };
+      const glassAt = () => { const r = glass.getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top + r.height / 2); };
+      const els = items.map((f) => { const e = fxEl(L, 'cm-emoji', f); e.style.fontSize = '56px'; gsap.set(e, { opacity: 0, xPercent: -50, yPercent: -50 }); return e; });
+      const holder = items.map((f, j) => j % 2);
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 380 : -380), opacity: 0 }, { x: (i) => (i ? 30 : -30), opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0)
+        .call(() => els.forEach((e, j) => { const p = hand(holder[j] ? b : a); gsap.fromTo(e, { x: p.x, y: p.y, opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(3)' }); }), null, 0.7);
+      const throws = items.length * 3;
+      for (let k = 0; k < throws; k++) tl.call(() => {
+        const j = k % items.length, from = holder[j] ? b : a, to = holder[j] ? a : b, p0 = hand(from), p1 = hand(to);
+        holder[j] = 1 - holder[j];
+        MB.audio.sfx('whoosh');
+        gsap.to(els[j], { keyframes: [{ x: (p0.x + p1.x) / 2, y: Math.min(p0.y, p1.y) - rnd(220, 330), duration: 0.3, ease: 'power1.out' }, { x: p1.x, y: p1.y, duration: 0.3, ease: 'power1.in' }],
+          rotation: '+=540', onComplete: () => MB.audio.sfx('tink', { rate: 0.8 + j * 0.15 }) });
+        gsap.fromTo(to, { y: 0 }, { y: 10, duration: 0.12, delay: 0.55, yoyo: true, repeat: 1 });
+      }, null, 1.1 + k * 0.28);
+      talk(S, tl, 1.2);
+      const pour = Math.max(1.1 + throws * 0.28 + 0.5, afterTalk(S, 1.2) - 0.6);
+      tl.to(glass, { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)', startAt: { scale: 0 } }, pour)
+        .call(() => els.forEach((e, j) => {
+          const g = glassAt();
+          gsap.to(e, { x: g.x + (j - (items.length - 1) / 2) * 50, y: g.y - 90, rotation: j % 2 ? -140 : 140, duration: 0.35, delay: j * 0.12, ease: 'power2.out',
+            onComplete: () => { spray(L, g.x, g.y - 30, c, 8, { dist: [20, 80], stars: 0.2, gravity: 120 }); MB.audio.sfx('bubble'); gsap.to(e, { opacity: 0, duration: 0.4, delay: 0.3 }); } });
+        }), null, pour + 0.2)
+        .to([a, b], { x: 0, duration: 0.3 }, pour + 0.9)
+        .call(() => {
+          const g = glassAt();
+          MB.audio.sfx('tink'); gsap.delayedCall(0.1, () => MB.audio.sfx('tink', { rate: 1.3 })); MB.audio.sfx('bond', S.tier);
+          word(L, g.x, g.y - 130, cfg.word || 'CHEERS!', c, 54);
+          spray(L, g.x, g.y, c, 26, { dist: [60, 260], stars: 0.7 });
+          mood(S, a, 'win'); mood(S, b, 'win');
+        }, null, pour + 1.2);
+      return { tl, idle: () => [
+        gsap.to(glass, { y: -10, rotation: 5, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to([a, b], { y: -6, duration: 1.1, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.4 }),
+        every(0.5, () => { const g = glassAt(); floatUp(S, ['🫧', '✨'], { x: g.x, y: g.y - 40 }, 1, [14, 24]); }),
+      ] };
+    },
+
+    // the night patrol: two flashlight beams sweep the dark, something sneaks along the floor (cfg.emoji[0]), both beams
+    // lock on to it at once. FREEZE! It's only a raccoon. It runs
+    patrol: (S) => {
+      const { a, b, L, c, cfg } = S, crit = fxEl(L, 'cm-emoji', (cfg.emoji || ['🦝'])[0]);
+      const beams = [a, b].map(() => { const m = fxEl(L, 'cm-beam', '', '#fff6c8'); gsap.set(m, { opacity: 0, yPercent: -50, transformOrigin: '0% 50%' }); return m; });
+      crit.style.fontSize = '64px';
+      gsap.set(crit, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const hand = (im) => { const h = headOf(S, im); return { x: h.x + (im === a ? 50 : -50), y: h.y + im.offsetHeight * 0.4 }; };
+      const aim = (i, p, dur = 0.5) => { const h = hand(i ? b : a); gsap.to(beams[i], { x: h.x, y: h.y, rotation: (Math.atan2(p.y - h.y, p.x - h.x) * 180) / Math.PI, duration: dur, ease: 'sine.inOut' }); };
+      const floorAt = (f) => ({ x: S.box.offsetLeft + S.box.offsetWidth * f, y: S.box.offsetTop + S.box.offsetHeight - 50 });
+      const tl = gsap.timeline()
+        .fromTo([a, b], { opacity: 0, y: 30 }, { opacity: SPRITE_OP, y: 0, duration: 0.8, stagger: 0.2, ease: 'sine.out' }, 0)
+        .to([a, b], { x: (i) => (i ? 40 : -40), duration: 0.5 }, 0.5) // back to back
+        .call(() => { MB.audio.sfx('click'); [0, 1].forEach((i) => { const h = hand(i ? b : a); gsap.set(beams[i], { x: h.x, y: h.y, rotation: i ? 200 : -20, opacity: 0.85 }); }); }, null, 0.8);
+      // the beams sweep, each on its own side
+      [[1.1, 0.1, 0.9], [2, 0.35, 0.6], [2.9, 0.05, 0.95]].forEach(([at, fa, fb]) => tl.call(() => { aim(0, floorAt(fb)); aim(1, floorAt(fa)); }, null, at));
+      tl.call(() => { const p = floorAt(0.5); gsap.fromTo(crit, { x: p.x + 500, y: p.y, opacity: 1 }, { x: p.x, duration: 1.4, ease: 'steps(10)' }); MB.audio.sfx('squeak'); }, null, 2.2);
+      talk(S, tl, 1.4);
+      const caught = Math.max(3.7, afterTalk(S, 1.4) - 0.4);
+      tl.call(() => {
+        const p = floorAt(0.5);
+        aim(0, p, 0.15); aim(1, p, 0.15);
+        MB.audio.sfx('whistle'); shake(S.ov, 8);
+        gsap.to(crit, { y: p.y - 60, scale: 1.3, duration: 0.15, yoyo: true, repeat: 1 });
+        word(L, p.x, p.y - 160, cfg.freeze || 'FREEZE!', '#ffffff', 58);
+        ring(L, p.x, p.y, '#fff6c8', { size: 120, scale: 3, width: 8 });
+        mood(S, a, 'attack'); mood(S, b, 'attack');
+      }, null, caught)
+        .to([a, b], { x: 0, duration: 0.3 }, caught)
+        .call(() => { const p = floorAt(0.5); gsap.to(crit, { x: p.x - 700, duration: 0.7, ease: 'power2.in' }); MB.audio.sfx('zip'); fling(L, p.x, p.y - 20, ['💨'], 3, { dist: [20, 80], gravity: -20 }); }, null, caught + 1)
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'ALL CLEAR.', c, 52);
+          [0, 1].forEach((i) => aim(i, { x: p.x + (i ? -400 : 400), y: p.y - 300 }, 0.6));
+          mood(S, a, 'taunt'); mood(S, b, 'taunt');
+        }, null, caught + 1.6);
+      return { tl, idle: () => [
+        gsap.to(beams, { opacity: 0.6, duration: 0.12, yoyo: true, repeat: -1, repeatDelay: 2.2, stagger: 0.7 }), // flicker
+        every(2.4, () => { const p = midOf(S); [0, 1].forEach((i) => aim(i, { x: p.x + rnd(-500, 500), y: p.y + rnd(-300, 300) }, 1.2)); }),
+        gsap.to([a, b], { y: -4, duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+      ] };
+    },
+
+    // a confession: a lattice screen between them, the sinner (cfg.sinner 0/1, default 1) confesses and each sin
+    // (cfg.emoji) floats over into a meter above; it maxes out, alarms, the other lunges, the sinner blows a kiss
+    confession: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], sinner = cfg.sinner === 0 ? a : b, judge = sinner === a ? b : a, dir = sinner === b ? -1 : 1;
+      const screen = prop(S, 'cm-lattice', '', 2), meter = prop(S, 'cm-meter', `<small>${cfg.meter || 'SIN'}</small><i></i>`, 3), fill = meter.querySelector('i');
+      const sins = cfg.emoji || ['💋', '🍷', '😈', '🍫', '💸'];
+      meter.style.setProperty('--c', '#ff3b5c');
+      const meterAt = () => { const r = meter.getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top + r.height / 2); };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 300 : -300), opacity: 0 }, { x: (i) => (i ? 40 : -40), opacity: SPRITE_OP, duration: 0.7, ease: 'power2.out' }, 0)
+        .fromTo(screen, { xPercent: -50, scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, 0.4)
+        .fromTo(meter, { xPercent: -50, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 0.7)
+        .call(() => { MB.audio.sfx('gong'); mood(S, sinner, 'play'); mood(S, judge, 'taunt'); }, null, 0.5);
+      talk(S, tl, 1.1);
+      sins.forEach((s, i) => tl.call(() => {
+        const h = headOf(S, sinner), e = fxEl(L, 'cm-emoji', s), m = meterAt(), f = (i + 1) / sins.length;
+        e.style.fontSize = '46px';
+        gsap.fromTo(e, { x: h.x - dir * 40, y: h.y + 120, xPercent: -50, yPercent: -50, scale: 0.4 }, { keyframes: [{ x: (h.x + m.x) / 2, y: m.y - 120, scale: 1, duration: 0.35 }, { x: m.x, y: m.y, scale: 0.4, duration: 0.3 }],
+          onComplete: () => { e.remove(); gsap.to(fill, { width: f * 100 + '%', duration: 0.25 }); MB.audio.sfx('tick'); spray(L, m.x, m.y, '#ff3b5c', 6, { dist: [20, 80] }); } });
+        gsap.to(judge, { rotation: dir * -3 * (i + 1), duration: 0.2 }); // leans closer each time
+      }, null, 1.5 + i * 0.55));
+      const boom = Math.max(1.5 + sins.length * 0.55 + 0.4, afterTalk(S, 1.1) - 0.3);
+      tl.call(() => {
+        const m = meterAt(), h = headOf(S, judge);
+        MB.audio.sfx('zap'); MB.audio.sfx('fire'); shake(S.ov, 12);
+        meter.classList.add('full');
+        word(L, m.x, m.y - 70, cfg.alarm || 'SIN DETECTED', '#ff3b5c', 44);
+        ring(L, h.x, h.y + 200, ca, { size: 200, scale: 2.2, width: 10 });
+        mood(S, judge, 'attack');
+      }, null, boom)
+        .to(judge, { x: dir * -90, rotation: 0, scale: 1.08, duration: 0.2, ease: 'power3.in' }, boom + 0.2) // lunges through the screen
+        .to(screen, { rotation: dir * 4, duration: 0.06, yoyo: true, repeat: 5 }, boom + 0.35)
+        .to(sinner, { x: dir * -150, y: -40, rotation: dir * 10, duration: 0.3, ease: 'power2.out' }, boom + 0.3) // hops out of reach
+        .call(() => { const h = headOf(S, sinner); MB.audio.sfx('kiss'); MB.audio.sfx('bond', S.tier); fling(L, h.x, h.y + 100, ['💋', '💕', '😈'], 10, { gravity: -40 }); word(L, h.x, h.y - 10, cfg.word || '~♥', cb, 54); mood(S, sinner, 'win'); }, null, boom + 0.6)
+        .to(sinner, { y: 0, duration: 0.4, ease: 'bounce.out' }, boom + 0.7);
+      return { tl, idle: () => [
+        gsap.to(meter, { scale: 1.06, duration: 0.3, yoyo: true, repeat: -1 }),
+        gsap.timeline({ repeat: -1, repeatDelay: 1.6 }).to(judge, { x: '+=' + dir * -12, duration: 0.06, yoyo: true, repeat: 5 }), // trembling with holy rage
+        gsap.to(sinner, { rotation: '+=4', duration: 1, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.8, () => { const h = headOf(S, sinner); floatUp(S, sins, { x: h.x, y: h.y + 80 }, 1, [18, 28]); }),
+      ] };
+    },
+
+    // the shrine: a corkboard behind them fills up with photos of YOU as they take turns pinning them, faster and
+    // faster; one last photo, they both grab it and it rips in two. Half each
+    shrine: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], board = prop(S, 'cm-cork', '', 0), face = cfg.face || '🫵', cap = cfg.caption || 'you ♥';
+      const snap = (x, y, rot, big) => {
+        const e = fxEl(L, 'cm-snap' + (big ? ' big' : ''), `<i>${face}</i><b>${cap}</b>`);
+        gsap.fromTo(e, { x, y, xPercent: -50, yPercent: -50, rotation: rot, scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: 'power3.in' });
+        return e;
+      };
+      const boardAt = () => { const r = board.getBoundingClientRect(), p = toUi(r.left, r.top), q = toUi(r.right, r.bottom); return { x0: p.x, y0: p.y, x1: q.x, y1: q.y }; };
+      const tl = gsap.timeline()
+        .fromTo(board, { xPercent: -50, scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0)
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0.2);
+      const pins = 12;
+      for (let i = 0; i < pins; i++) tl.call(() => {
+        const r = boardAt(), im = i % 2 ? b : a;
+        snap(rnd(r.x0 + 60, r.x1 - 60), rnd(r.y0 + 60, r.y1 - 60), rnd(-18, 18));
+        MB.audio.sfx(i % 3 ? 'tink' : 'camera');
+        gsap.fromTo(im, { y: -14 }, { y: 0, duration: 0.2 });
+        mood(S, im, 'play');
+      }, null, 1 + Math.pow(i, 0.8) * 0.36);
+      talk(S, tl, 1.2);
+      const last = Math.max(1 + Math.pow(pins, 0.8) * 0.36 + 0.3, afterTalk(S, 1.2) - 0.8);
+      let big = null;
+      tl.call(() => { const p = midOf(S); big = snap(p.x, p.y + 120, 0, true); MB.audio.sfx('heartbeat'); word(L, p.x, p.y - 30, '!!', '#ffffff', 50); }, null, last)
+        .to(a, { x: 60, duration: 0.25, ease: 'power2.in' }, last + 0.4).to(b, { x: -60, duration: 0.25, ease: 'power2.in' }, last + 0.4)
+        .call(() => { mood(S, a, 'attack'); mood(S, b, 'attack'); MB.audio.sfx('stretch'); gsap.to(big, { rotation: 6, duration: 0.06, yoyo: true, repeat: 9 }); }, null, last + 0.65)
+        .to(a, { x: 40, duration: 0.07, yoyo: true, repeat: 7 }, last + 0.65).to(b, { x: -40, duration: 0.07, yoyo: true, repeat: 7 }, last + 0.65)
+        .call(() => {
+          const p = { x: gsap.getProperty(big, 'x'), y: gsap.getProperty(big, 'y') };
+          big.remove();
+          MB.audio.sfx('rip'); shake(S.ov, 8);
+          [-1, 1].forEach((s) => {
+            const half = fxEl(L, 'cm-snap big half' + (s > 0 ? ' r' : ''), `<i>${face}</i><b>${cap}</b>`);
+            gsap.fromTo(half, { x: p.x, y: p.y, xPercent: -50, yPercent: -50 }, { x: p.x + s * 170, y: p.y + 30, rotation: s * 24, duration: 0.4, ease: 'power2.out' });
+          });
+          word(L, p.x, p.y - 150, cfg.word || 'HALF EACH... FOR NOW ♥', c, 42);
+          fling(L, p.x, p.y, ['💔', '💗', '🔪'], 10, { gravity: -30 });
+          MB.audio.sfx('bond', S.tier);
+          mood(S, a, 'win'); mood(S, b, 'win');
+        }, null, last + 1.25)
+        .to(a, { x: -20, rotation: -4, duration: 0.3 }, last + 1.25).to(b, { x: 20, rotation: 4, duration: 0.3 }, last + 1.25);
+      return { tl, idle: () => [
+        gsap.to([a, b], { rotation: (i) => (i ? 3 : -3), duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }), // cuddling their halves
+        every(0.7, () => { const r = boardAt(); floatUp(S, ['💗', '💕', '📸'], { x: rnd(r.x0, r.x1), y: r.y1 - 40 }, 1, [18, 28]); }),
+        every(1.3, () => { const p = midOf(S); spray(L, p.x, p.y, MB.pick([ca, cb]), 5, { dist: [20, 90], stars: 0.6 }); }),
+      ] };
+    },
+
+    // a proof at the chalkboard: they take turns writing, the first partner flexes and snaps the chalk, the second
+    // gets flustered, and the answer turns out to be a heart
+    solve: (S) => {
+      const { a, b, L, c, cfg } = S, board = prop(S, 'cm-chalkboard', `<span></span><b>${cfg.answer || '= ♥'}</b>`, 0), txt = board.querySelector('span'), ans = board.querySelector('b');
+      const steps = cfg.steps || ['x² + y² = ?', 'x² + y² = 4?', '...(x + y)² ?!'];
+      const chalk = (im) => { const r = board.getBoundingClientRect(), p = toUi(r.left + r.width * (im === a ? 0.3 : 0.7), r.top + r.height * 0.45); spray(L, p.x, p.y, '#f4f4ea', 10, { dist: [10, 80], size: [3, 7], stars: 0, gravity: 120 }); MB.audio.sfx('swish'); };
+      const tl = gsap.timeline()
+        .fromTo(board, { xPercent: -50, y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0)
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0.1);
+      steps.forEach((s, i) => {
+        const im = i % 2 ? b : a;
+        tl.to(im, { rotation: i % 2 ? -6 : 6, y: -16, duration: 0.2, yoyo: true, repeat: 1 }, 0.9 + i * 0.8)
+          .call(() => { txt.textContent = s; chalk(im); mood(S, im, 'attack'); }, null, 1 + i * 0.8);
+      });
+      talk(S, tl, 1.1);
+      const flex = Math.max(1 + steps.length * 0.8 + 0.2, afterTalk(S, 1.1) - 1);
+      tl.to(a, { scale: 1.08, duration: 0.2, yoyo: true, repeat: 3 }, flex) // flexes
+        .call(() => {
+          const h = headOf(S, a);
+          MB.audio.sfx('buff'); MB.audio.sfx('twang');
+          word(L, h.x, h.y + 60, cfg.flex || '*FLEX*', c, 44);
+          fling(L, h.x + 60, h.y + 180, ['💪', '🖍️', '✨'], 8, { gravity: 80 });
+          mood(S, a, 'taunt');
+        }, null, flex + 0.1)
+        .call(() => {
+          const h = headOf(S, b);
+          MB.audio.sfx('heartbeat');
+          word(L, h.x, h.y + 20, cfg.fluster || 'H-hwaa?!', '#ff8fc6', 40);
+          fling(L, h.x, h.y + 60, ['💦', '💗', '💓'], 10, { gravity: -30 });
+          mood(S, b, 'lose');
+        }, null, flex + 0.6)
+        .to(b, { x: 20, duration: 0.05, yoyo: true, repeat: 7 }, flex + 0.6)
+        .call(() => {
+          const r = board.getBoundingClientRect(), p = toUi(r.left + r.width / 2, r.top + r.height / 2);
+          MB.audio.sfx('ding'); MB.audio.sfx('bond', S.tier);
+          gsap.fromTo(ans, { opacity: 1, scale: 3 }, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
+          word(L, p.x, p.y - 150, cfg.word || 'Q.E.D. ♥', c, 52);
+          spray(L, p.x, p.y, '#ff8fc6', 20, { dist: [60, 240], stars: 0.6 });
+          mood(S, b, 'play'); mood(S, a, 'win');
+        }, null, flex + 1.3);
+      return { tl, idle: () => [
+        gsap.timeline({ repeat: -1, repeatDelay: 2 }).to(a, { scale: 1.04, duration: 0.2, yoyo: true, repeat: 1 }), // can't stop flexing
+        gsap.to(b, { rotation: -3, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.8, () => { const h = headOf(S, b); floatUp(S, ['💗', '💦', '📐'], { x: h.x, y: h.y + 80 }, 1, [16, 26]); }),
+      ] };
+    },
+
+    // three rounds in the ring: the bell, punches both ways, a double knockout on a cross-counter, the count... both
+    // stand up at 9 and bump fists
+    boxing: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], ropes = prop(S, 'cm-ropes', '<i></i><i></i><i></i>', 2);
+      const hits = cfg.emoji ? [[cfg.emoji[0]], [cfg.emoji[1] || cfg.emoji[0]]] : [['👊', '🦶'], ['👊', '🥊']];
+      const bell = (n) => { const p = midOf(S); MB.audio.sfx('ding'); gsap.delayedCall(0.2, () => MB.audio.sfx('ding')); word(L, p.x, p.y - 200, `ROUND ${n}`, '#ffffff', 48); };
+      const blow = (from, to, j) => {
+        const h0 = headOf(S, from), h1 = headOf(S, to), e = fxEl(L, 'cm-emoji', MB.pick(hits[j]));
+        e.style.fontSize = '64px';
+        gsap.fromTo(e, { x: h0.x, y: h0.y + 200, xPercent: -50, yPercent: -50, scaleX: j ? -1 : 1 }, { x: h1.x, y: h1.y + 170, duration: 0.18, ease: 'power2.in',
+          onComplete: () => { e.remove(); MB.audio.sfx('punch'); spray(L, h1.x, h1.y + 170, j ? cb : ca, 12, { dist: [30, 150] }); word(L, h1.x, h1.y + 90, MB.pick(['POW!', 'BAM!', 'WHAM!']), j ? cb : ca, 36); } });
+        gsap.fromTo(from, { x: j ? -60 : 60 }, { x: 0, duration: 0.35, ease: 'power2.out' });
+        gsap.fromTo(to, { rotation: j ? -8 : 8 }, { rotation: 0, duration: 0.4, delay: 0.18, ease: 'elastic.out(1,0.4)' });
+        mood(S, from, 'attack'); mood(S, to, 'lose');
+      };
+      const tl = gsap.timeline()
+        .fromTo(ropes, { xPercent: -50, scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' }, 0)
+        .fromTo([a, b], { x: (i) => (i ? 380 : -380), opacity: 0 }, { x: 0, opacity: SPRITE_OP, duration: 0.6, ease: 'power2.out' }, 0.2)
+        .call(() => bell(1), null, 0.9)
+        .call(() => blow(a, b, 0), null, 1.4).call(() => blow(b, a, 1), null, 1.9)
+        .call(() => bell(2), null, 2.6)
+        .call(() => blow(b, a, 1), null, 3.1).call(() => blow(a, b, 0), null, 3.5).call(() => blow(b, a, 1), null, 3.9)
+        .call(() => bell(3), null, 4.6)
+        .to(a, { x: 70, duration: 0.2, ease: 'power3.in' }, 5.1).to(b, { x: -70, duration: 0.2, ease: 'power3.in' }, 5.1)
+        .call(() => { const p = midOf(S); MB.audio.sfx('punch'); MB.audio.sfx('boom'); shake(S.ov, 16); ring(L, p.x, p.y + 100, '#ffffff', { size: 120, scale: 4, width: 10 }); word(L, p.x, p.y - 60, 'K.O.?!', '#ffffff', 64); mood(S, a, 'lose'); mood(S, b, 'lose'); }, null, 5.3)
+        .to(a, { x: -20, y: 90, rotation: -24, duration: 0.4, ease: 'bounce.out' }, 5.4).to(b, { x: 20, y: 90, rotation: 24, duration: 0.4, ease: 'bounce.out' }, 5.4);
+      ['1', '2', '3', '...', '9'].forEach((n, i) => tl.call(() => { const p = midOf(S); word(L, p.x, p.y + 60, n, '#ffffff', 44); MB.audio.sfx('tick'); }, null, 6 + i * 0.4));
+      talk(S, tl, 1.2, 1.5);
+      const up = Math.max(8.1, afterTalk(S, 1.2, 1.5));
+      tl.to([a, b], { x: 0, y: 0, rotation: 0, duration: 0.4, ease: 'back.out(2)' }, up)
+        .to(a, { x: 30, duration: 0.2 }, up + 0.5).to(b, { x: -30, duration: 0.2 }, up + 0.5)
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('clang'); MB.audio.sfx('bond', S.tier); MB.audio.sfx('cheer');
+          fling(L, p.x, p.y + 60, ['🤜', '🤛'], 2, { dist: [10, 40], gravity: -60, size: [60, 70] });
+          word(L, p.x, p.y - 190, cfg.word || 'DRAW! REMATCH!', c, 54);
+          spray(L, p.x, p.y, c, 26, { dist: [60, 260], stars: 0.6 });
+          mood(S, a, 'win'); mood(S, b, 'win');
+        }, null, up + 0.7);
+      return { tl, idle: () => [
+        gsap.to([a, b], { y: -10, duration: 0.3, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.15 }), // bouncing on their toes
+        gsap.to(ropes, { scaleY: 1.1, duration: 0.3, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(1.1, () => floatUp(S, ['💪', '🥊', '💦'], midOf(S), 1, [18, 28])),
+      ] };
+    },
+
+    // a scheme: a chessboard between them, they take turns moving pieces with an evil laugh each (cfg.laughs), a crown
+    // rises... and each is hiding a dagger behind her back. Knowing smiles. Partners, for now
+    scheme: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], laughs = cfg.laughs || ['Ohohoho~!', 'Fufufu~'];
+      const board = prop(S, 'cm-chess', '<i></i>', 2), crown = prop(S, 'cm-frame', cfg.result || '👑', 3);
+      gsap.set(crown, { xPercent: -50, opacity: 0 });
+      const boardAt = () => { const r = board.getBoundingClientRect(); return { ...toUi(r.left + r.width / 2, r.top), w: r.width / toUi(0, 0).s }; };
+      const pieces = cfg.emoji || ['♟️', '♞', '♜', '♝'];
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 300 : -300), opacity: 0 }, { x: (i) => (i ? 20 : -20), opacity: SPRITE_OP, duration: 0.7, ease: 'power2.out' }, 0)
+        .fromTo(board, { xPercent: -50, y: 200, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.4);
+      for (let i = 0; i < 4; i++) tl.call(() => {
+        const bp = boardAt(), im = i % 2 ? b : a, x0 = bp.x + (i % 2 ? 1 : -1) * bp.w * 0.35, x1 = bp.x + (i % 2 ? -1 : 1) * rnd(0.05, 0.3) * bp.w;
+        const k = fxEl(L, 'cm-emoji cm-piece', pieces[i % pieces.length]);
+        k.style.color = i % 2 ? cb : ca;
+        gsap.fromTo(k, { x: x0, y: bp.y - 20, xPercent: -50, yPercent: -100, scale: 0 }, { keyframes: [{ scale: 1, duration: 0.15 }, { x: (x0 + x1) / 2, y: bp.y - 100, duration: 0.25, ease: 'power1.out' }, { x: x1, y: bp.y - 20, duration: 0.25, ease: 'power1.in' }],
+          onComplete: () => MB.audio.sfx('tink') });
+        const h = headOf(S, im);
+        gsap.delayedCall(0.4, () => { word(L, h.x, h.y + 20, laughs[i % 2], i % 2 ? cb : ca, 34); MB.audio.sfx('laugh'); });
+        gsap.fromTo(im, { rotation: i % 2 ? -8 : 8 }, { rotation: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' });
+        mood(S, im, 'taunt');
+      }, null, 1.1 + i * 0.9);
+      talk(S, tl, 1.3);
+      const rise = Math.max(4.9, afterTalk(S, 1.3) - 0.8);
+      tl.to(crown, { opacity: 1, y: -30, duration: 0.6, ease: 'back.out(2)', startAt: { y: 120 } }, rise)
+        .call(() => { const p = midOf(S); MB.audio.sfx('fanfare'); spray(L, p.x, p.y - 200, '#ffd24a', 24, { dist: [60, 240], stars: 0.8 }); }, null, rise)
+        .call(() => { // the daggers behind their backs
+          [a, b].forEach((im, i) => {
+            const h = headOf(S, im), d = fxEl(L, 'cm-emoji', '🗡️');
+            d.style.fontSize = '56px';
+            gsap.fromTo(d, { x: h.x + (i ? 130 : -130), y: h.y + 300, xPercent: -50, yPercent: -50, rotation: i ? 150 : -150, opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, repeatDelay: 1.2, onComplete: () => d.remove() });
+            gsap.delayedCall(0.3, () => word(L, h.x + (i ? -40 : 40), h.y - 10, '👀', '#ffffff', 40));
+          });
+          MB.audio.sfx('unsheathe');
+        }, null, rise + 0.9)
+        .to(a, { rotation: 4, duration: 0.2 }, rise + 1.1).to(b, { rotation: -4, duration: 0.2 }, rise + 1.1) // side-eye
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('laugh'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 290, cfg.word || 'Partners~ ♥', c, 50);
+          fling(L, p.x, p.y - 120, ['👑', '💜', '🗝️', '✨'], 12, { gravity: -30 });
+          mood(S, a, 'win'); mood(S, b, 'win');
+        }, null, rise + 2.4)
+        .to([a, b], { rotation: 0, duration: 0.3 }, rise + 2.4);
+      return { tl, idle: () => [
+        gsap.to(crown, { y: -44, rotation: 4, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.timeline({ repeat: -1, repeatDelay: 2.6 }).to(a, { x: -8, duration: 0.2, yoyo: true, repeat: 1 }).to(b, { x: 8, duration: 0.2, yoyo: true, repeat: 1 }, 0.3),
+        every(1.2, () => { const bp = boardAt(); spray(L, bp.x + rnd(-80, 80), bp.y - 20, MB.pick([ca, cb]), 5, { dist: [20, 80], stars: 0.8, gravity: -40 }); }),
+      ] };
+    },
+
+    // a bake-off: an oven each, a timer; the first partner's treat (cfg.food[0]) rises perfectly, the second's oven
+    // rattles, smokes and blows up... into a giant cake (cfg.food[1]). The judges' scores (cfg.scores) come up
+    bakeoff: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], food = cfg.food || ['🧁', '🎂'], scores = cfg.scores || ['9', '10'];
+      const ovens = [0, 1].map((i) => { const o = prop(S, 'cm-oven', '<i></i>', 2); o.style.setProperty('--c', i ? cb : ca); return o; });
+      const timer = prop(S, 'cm-frame', '⏲️', 3);
+      gsap.set(timer, { xPercent: -50 });
+      const ovenAt = (i) => { const r = ovens[i].getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top); };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .call(() => ovens.forEach((o, i) => { o.style.left = boxX(S, i ? b : a) + 'px'; }), null, 0.05)
+        .fromTo(ovens, { xPercent: -50, y: 240, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)' }, 0.3)
+        .fromTo(timer, { scale: 0, opacity: 0 }, { scale: 0.7, opacity: 1, duration: 0.3, ease: 'back.out(3)' }, 0.7)
+        .to(timer, { rotation: 10, duration: 0.1, yoyo: true, repeat: 23 }, 1)
+        .add(gsap.timeline({ repeat: 8 }).call(() => MB.audio.sfx('tick')).to({}, { duration: 0.3 }), 1)
+        .to(ovens[1], { x: 6, duration: 0.05, yoyo: true, repeat: 39 }, 1.4) // rattling
+        .add(times(9, 0.25, () => { const p = ovenAt(1), st = fxEl(L, 'cm-steam'); gsap.fromTo(st, { x: p.x + rnd(-40, 40), y: p.y, xPercent: -50, opacity: 0.9, scale: 0.8, background: '#555' }, { y: p.y - 200, opacity: 0, scale: 2.4, duration: 1.4, onComplete: () => st.remove() }); }), 1.6);
+      talk(S, tl, 1.2);
+      const done = Math.max(3.9, afterTalk(S, 1.2) - 0.6);
+      tl.call(() => { // the perfect one
+        const p = ovenAt(0), e = fxEl(L, 'cm-emoji', food[0]);
+        e.style.fontSize = '90px';
+        MB.audio.sfx('ding'); mood(S, a, 'win');
+        gsap.fromTo(e, { x: p.x, y: p.y, xPercent: -50, yPercent: -100, scale: 0 }, { y: p.y - 60, scale: 1, duration: 0.5, ease: 'back.out(2)' });
+        spray(L, p.x, p.y - 60, ca, 16, { dist: [40, 160], stars: 0.8 });
+      }, null, done)
+        .call(() => { // the other one
+          const p = ovenAt(1), e = fxEl(L, 'cm-emoji', food[1]);
+          e.style.fontSize = '150px';
+          MB.audio.sfx('boom'); shake(S.ov, 18); mood(S, b, 'lose');
+          spray(L, p.x, p.y, '#444', 30, { dist: [60, 300], stars: 0, gravity: -80 });
+          column(L, 'cm-fire', { x: p.x, bottom: p.y + 40 }, '#ff7a1c', 0.5);
+          gsap.fromTo(e, { x: p.x, y: p.y, xPercent: -50, yPercent: -100, scale: 0, rotation: -40 }, { y: p.y - 80, scale: 1, rotation: 0, duration: 0.7, delay: 0.4, ease: 'elastic.out(1,0.5)' });
+        }, null, done + 0.9)
+        .to(timer, { opacity: 0, scale: 0, duration: 0.3 }, done + 0.9)
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('applause'); MB.audio.sfx('bond', S.tier);
+          [0, 1].forEach((i) => {
+            const o = ovenAt(i), card = fxEl(L, 'cm-scorecard', scores[i], i ? cb : ca);
+            gsap.fromTo(card, { x: o.x, y: o.y - 300, xPercent: -50, yPercent: -50, rotationY: 180, scale: 0 }, { rotationY: 0, scale: 1, duration: 0.5, delay: i * 0.4, ease: 'back.out(2)' });
+          });
+          word(L, p.x, p.y - 330, cfg.word || 'BAKE-OFF!', c, 52);
+          mood(S, b, 'play');
+        }, null, done + 2);
+      return { tl, idle: () => [
+        gsap.to(ovens, { y: -4, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.4 }),
+        gsap.to([a, b], { y: -8, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.5 }),
+        every(0.7, () => { const p = ovenAt(Math.random() < 0.5 ? 0 : 1); floatUp(S, [...food, '✨'], { x: p.x, y: p.y - 100 }, 1, [18, 28]); }),
+      ] };
+    },
+
+    // a rescue: the water rises, the swimmer (cfg.swimmer 0/1, default 1) flails, the lifeguard blows the whistle and
+    // throws a lifebuoy, reels them in... then smiles with far too many teeth. The swimmer faints
+    rescue: (S) => {
+      const { a, b, L, c, cfg } = S, swim = cfg.swimmer === 0 ? a : b, guard = swim === a ? b : a, dir = swim === b ? 1 : -1;
+      const water = prop(S, 'cm-waves', '', 3), buoy = fxEl(L, 'cm-emoji', '🛟');
+      buoy.style.fontSize = '72px';
+      gsap.set(buoy, { opacity: 0, xPercent: -50, yPercent: -50 });
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .fromTo(water, { xPercent: -50, height: 0 }, { height: 320, duration: 1, ease: 'sine.inOut' }, 0.5)
+        .call(() => { MB.audio.sfx('splash'); mood(S, swim, 'lose'); }, null, 0.6)
+        .to(swim, { y: 220, x: dir * 40, duration: 0.8, ease: 'power2.in' }, 0.7)
+        .to(swim, { y: 170, rotation: 8, duration: 0.25, yoyo: true, repeat: 7, ease: 'sine.inOut' }, 1.5) // flailing
+        .add(times(4, 0.5, () => { const h = liveHead(swim); word(L, h.x + rnd(-60, 60), h.y + 20, MB.pick(['HELP!', '*blub*', '¡AYUDA!']), '#9fe6ff', 30); fling(L, h.x, h.y + 60, ['💦', '🫧'], 3, { dist: [30, 100], gravity: -40 }); MB.audio.sfx('bubble'); }), 1.4);
+      talk(S, tl, 1.3);
+      const toss = Math.max(3, afterTalk(S, 1.3) - 1.2);
+      tl.call(() => { const h = headOf(S, guard); MB.audio.sfx('whistle'); word(L, h.x, h.y - 10, '🚨 TWEET!', c, 40); mood(S, guard, 'attack'); }, null, toss)
+        .call(() => {
+          const h0 = headOf(S, guard), h1 = liveHead(swim), p0 = { x: h0.x, y: h0.y + 150 }, p1 = { x: h1.x, y: h1.y + 90 };
+          MB.audio.sfx('whoosh');
+          gsap.fromTo(buoy, { x: p0.x, y: p0.y, opacity: 1 }, { keyframes: [{ x: (p0.x + p1.x) / 2, y: Math.min(p0.y, p1.y) - 220, duration: 0.35, ease: 'power1.out' }, { x: p1.x, y: p1.y, duration: 0.35, ease: 'power1.in' }],
+            rotation: 540, onComplete: () => { MB.audio.sfx('splash'); spray(L, p1.x, p1.y, '#9fe6ff', 20, { dist: [40, 160], stars: 0.2 }); } });
+        }, null, toss + 0.6)
+        .to(swim, { y: 0, x: dir * -30, rotation: 0, duration: 0.9, ease: 'power2.out' }, toss + 1.5) // reeled in
+        .to({}, { duration: 0.9, onUpdate: () => { const h = liveHead(swim); gsap.set(buoy, { x: h.x, y: h.y + h.h * 0.4 }); } }, toss + 1.5)
+        .to(water, { height: 0, duration: 0.9, ease: 'sine.in' }, toss + 1.6)
+        .call(() => {
+          const h = headOf(S, guard);
+          gsap.to(buoy, { opacity: 0, duration: 0.3 });
+          MB.audio.sfx('chomp'); mood(S, guard, 'win');
+          word(L, h.x, h.y + 40, cfg.grin || '😁🦈', '#ffffff', 60);
+        }, null, toss + 2.6)
+        .call(() => { const h = headOf(S, swim); MB.audio.sfx('whistleDown'); word(L, h.x, h.y + 20, 'x_x', '#ffffff', 44); mood(S, swim, 'lose'); }, null, toss + 3.1)
+        .to(swim, { rotation: dir * 14, y: 40, duration: 0.5, ease: 'power2.in' }, toss + 3.1) // faints
+        .call(() => {
+          const p = midOf(S);
+          MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'SAVED!', c, 56);
+          spray(L, p.x, p.y, c, 24, { dist: [60, 260], stars: 0.6 });
+        }, null, toss + 3.5);
+      return { tl, idle: () => [
+        gsap.to(swim, { rotation: `+=${dir * 3}`, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to(guard, { y: -8, duration: 1.1, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.8, () => { const h = headOf(S, swim); floatUp(S, ['💫', '💦', '🫧'], { x: h.x, y: h.y + 60 }, 1, [16, 26]); }),
+      ] };
+    },
+
+    // nap time: a hammock between them, they sink in and doze, an alarm clock rings and rings, a thrown shoe (cfg.throw) sends it flying,
+    // back to sleep
+    nap: (S) => {
+      const { a, b, L, c, cfg } = S, hammock = prop(S, 'cm-hammock', '', 2), clock = fxEl(L, 'cm-emoji', '⏰'), pillow = fxEl(L, 'cm-emoji', cfg.throw || '👟');
+      clock.style.fontSize = '70px'; pillow.style.fontSize = '60px';
+      gsap.set([clock, pillow], { opacity: 0, xPercent: -50, yPercent: -50 });
+      const zzz = (im) => { const h = liveHead(im); word(L, h.x + (im === a ? 60 : -60), h.y + 20, MB.pick(['z', 'Z', 'zZ', '💤']), c, rnd(28, 44)); };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.8, stagger: 0.2, ease: 'sine.out' }, 0)
+        .fromTo(hammock, { xPercent: -50, scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' }, 0.4)
+        .to(a, { y: 70, x: 30, rotation: 14, duration: 0.6, ease: 'power2.in' }, 0.9).to(b, { y: 70, x: -30, rotation: -14, duration: 0.6, ease: 'power2.in' }, 1)
+        .call(() => { MB.audio.sfx('wobble'); mood(S, a, 'lose'); mood(S, b, 'lose'); }, null, 1.2)
+        .add(times(4, 0.5, () => { zzz(a); zzz(b); }), 1.6);
+      const alarm = 3.2;
+      tl.call(() => { const p = midOf(S); gsap.fromTo(clock, { x: p.x, y: p.y - 180, opacity: 1, scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' }); }, null, alarm)
+        .to(clock, { rotation: 18, duration: 0.05, yoyo: true, repeat: 21 }, alarm + 0.2)
+        .add(gsap.timeline({ repeat: 5 }).call(() => MB.audio.sfx('ding')).to({}, { duration: 0.18 }), alarm + 0.2);
+      talk(S, tl, alarm + 0.3, 1.1);
+      const whack = Math.max(alarm + 1.6, afterTalk(S, alarm + 0.3, 1.1) - 0.8);
+      tl.call(() => {
+        const h = headOf(S, a), p = { x: gsap.getProperty(clock, 'x'), y: gsap.getProperty(clock, 'y') };
+        MB.audio.sfx('whoosh');
+        gsap.fromTo(pillow, { x: h.x + 60, y: h.y + 200, opacity: 1, rotation: 0 }, { x: p.x, y: p.y, rotation: 360, duration: 0.3, ease: 'power2.in',
+          onComplete: () => {
+            MB.audio.sfx('bonk'); spray(L, p.x, p.y, '#ffffff', 16, { dist: [30, 140], stars: 0.2 });
+            gsap.to(clock, { x: p.x + 600, y: p.y - 300, rotation: 720, duration: 0.8, ease: 'power2.out' });
+            gsap.to(pillow, { y: p.y + 400, rotation: 540, opacity: 0, duration: 0.8, ease: 'power2.in' });
+            fling(L, p.x, p.y, ['💥', '⭐'], 6, { dist: [40, 160], gravity: 60 });
+          } });
+      }, null, whack)
+        .call(() => { const p = midOf(S); MB.audio.sfx('bond', S.tier); word(L, p.x, p.y - 160, cfg.word || '...5 more minutes.', c, 46); }, null, whack + 0.7)
+        .to([a, b], { y: 80, duration: 0.4 }, whack + 0.7);
+      return { tl, idle: () => [
+        gsap.to([a, b, hammock], { x: '+=16', duration: 1.8, yoyo: true, repeat: -1, ease: 'sine.inOut' }), // swaying
+        every(0.7, () => zzz(Math.random() < 0.5 ? a : b)),
+        gsap.to([a, b], { scaleY: 0.97, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.7 }), // breathing
+      ] };
+    },
+
+    // poker night: a felt table, cards dealt, chips; the gambler (cfg.gambler 0/1, default 1) goes all in and wins big,
+    // and while they celebrate the other swipes the whole pot
+    poker: (S) => {
+      const { a, b, L, c, cfg } = S, gam = cfg.gambler === 0 ? a : b, thief = gam === a ? b : a, [ca, cb] = cfg.colors || [c, '#ffffff'], cg = gam === a ? ca : cb, ct = gam === a ? cb : ca;
+      const table = prop(S, 'cm-table cm-felt', '', 2), hand = cfg.hand || ['A♠', 'A♥', 'A♦', 'A♣', 'K♠'];
+      const tableAt = () => { const r = table.getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top + 30); };
+      const chips = [];
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0)
+        .fromTo(table, { xPercent: -50, y: 220, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.3);
+      for (let i = 0; i < 6; i++) tl.call(() => { // dealing
+        const t = tableAt(), im = i % 2 ? b : a, h = headOf(S, im), card = fxEl(L, 'cm-cardlet', '');
+        gsap.fromTo(card, { x: t.x, y: t.y, xPercent: -50, yPercent: -50, rotation: 0 }, { x: h.x + rnd(-30, 30), y: t.y - 10, rotation: rnd(-20, 20) + 720, duration: 0.3, ease: 'power2.out', onComplete: () => gsap.to(card, { opacity: 0, duration: 0.3, delay: 0.3, onComplete: () => card.remove() }) });
+        MB.audio.sfx('deal');
+      }, null, 0.9 + i * 0.15);
+      talk(S, tl, 1.3);
+      const allin = 2.2;
+      tl.call(() => { const h = headOf(S, gam); word(L, h.x, h.y + 20, cfg.allin || 'ALL IN!!', cg, 46); mood(S, gam, 'attack'); }, null, allin);
+      for (let i = 0; i < 10; i++) tl.call(() => {
+        const h = headOf(S, gam), t = tableAt(), ch = fxEl(L, 'cm-emoji', '🪙');
+        ch.style.fontSize = '40px';
+        gsap.fromTo(ch, { x: h.x, y: t.y - 20, xPercent: -50, yPercent: -50 }, { x: t.x + rnd(-50, 50), y: t.y - 10 - i * 7, duration: 0.25, ease: 'power2.out' });
+        chips.push(ch);
+        MB.audio.sfx('coin');
+      }, null, allin + 0.2 + i * 0.08);
+      const reveal = Math.max(allin + 1.5, afterTalk(S, 1.3) - 1.2);
+      tl.call(() => {
+        const t = tableAt();
+        MB.audio.sfx('cardflip'); MB.audio.sfx('fanfare');
+        hand.forEach((f, i) => { const k = fxEl(L, 'cm-cardlet up', f); gsap.fromTo(k, { x: t.x + (i - 2) * 64, y: t.y - 260, xPercent: -50, yPercent: -50, rotationY: 180, opacity: 0 }, { rotationY: 0, opacity: 1, duration: 0.3, delay: i * 0.08, onComplete: () => gsap.to(k, { opacity: 0, delay: 1.4, duration: 0.3, onComplete: () => k.remove() }) }); });
+        const h = headOf(S, gam);
+        word(L, h.x, h.y - 10, cfg.brag || 'READ EM AND WEEP!', cg, 38);
+        mood(S, gam, 'win');
+      }, null, reveal)
+        .to(gam, { y: -60, rotation: 0, duration: 0.25, yoyo: true, repeat: 3, ease: 'power2.out' }, reveal + 0.2) // celebrating, eyes shut
+        .to(thief, { opacity: 0.35, duration: 0.3 }, reveal + 0.3)
+        .call(() => { const h = headOf(S, thief); chips.forEach((ch, i) => gsap.to(ch, { x: h.x, y: h.y + 260, scale: 0.5, opacity: 0, duration: 0.3, delay: i * 0.05, onStart: () => MB.audio.sfx('coin'), onComplete: () => ch.remove() })); mood(S, thief, 'taunt'); }, null, reveal + 0.5)
+        .to(thief, { opacity: SPRITE_OP, duration: 0.3 }, reveal + 1.4)
+        .call(() => { const h = headOf(S, gam); MB.audio.sfx('whistleDown'); word(L, h.x, h.y + 40, cfg.huh || '...where is it?', '#ffffff', 36); mood(S, gam, 'lose'); }, null, reveal + 1.7)
+        .call(() => {
+          const h = headOf(S, thief), p = midOf(S);
+          MB.audio.sfx('loot'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'MINE~!', ct, 56);
+          fling(L, h.x, h.y + 120, ['🪙', '💰', '💎', '🃏'], 14, { gravity: -30 });
+          mood(S, thief, 'win');
+        }, null, reveal + 2.3);
+      return { tl, idle: () => [
+        gsap.to(thief, { rotation: 4, duration: 0.9, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.timeline({ repeat: -1, repeatDelay: 1.5 }).to(gam, { x: -12, duration: 0.3, yoyo: true, repeat: 3 }), // looking around
+        every(0.8, () => { const h = headOf(S, thief); floatUp(S, ['🪙', '💰', '🃏'], { x: h.x, y: h.y + 120 }, 1, [18, 28]); }),
+      ] };
+    },
+
+    // an auction: a painting (cfg.result) on show, the paddles go up in turn with bigger and bigger bids (cfg.bids),
+    // the gavel falls, the winner (cfg.winner 0/1, default 0) gets it and the loser fumes
+    auction: (S) => {
+      const { a, b, L, c, cfg } = S, [ca, cb] = cfg.colors || [c, '#ffffff'], art = prop(S, 'cm-frame cm-art', cfg.result || '🖼️', 3), bids = cfg.bids || ['$1M', '$5M', '$20M', '$100M', '$1B!!'];
+      const win = cfg.winner === 1 ? b : a, lose = win === a ? b : a;
+      gsap.set(art, { xPercent: -50 });
+      const artAt = () => { const r = art.getBoundingClientRect(); return toUi(r.left + r.width / 2, r.top + r.height / 2); };
+      const tl = gsap.timeline()
+        .fromTo([a, b], { x: (i) => (i ? 300 : -300), opacity: 0 }, { x: (i) => (i ? 50 : -50), opacity: SPRITE_OP, duration: 0.7, ease: 'power2.out' }, 0)
+        .fromTo(art, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' }, 0.5)
+        .call(() => { const p = artAt(); MB.audio.sfx('sparkle'); spray(L, p.x, p.y, '#ffd24a', 16, { dist: [60, 200], stars: 1 }); }, null, 0.6);
+      bids.forEach((bid, i) => tl.call(() => {
+        const im = i % 2 ? b : a, h = headOf(S, im), paddle = fxEl(L, 'cm-paddle', bid, i % 2 ? cb : ca);
+        gsap.fromTo(paddle, { x: h.x + (i % 2 ? -90 : 90), y: h.y + 160, xPercent: -50, yPercent: -50, scale: 0, rotation: i % 2 ? 20 : -20 },
+          { y: h.y - 40, scale: 1 + i * 0.12, rotation: 0, duration: 0.3, ease: 'back.out(2)', onComplete: () => gsap.to(paddle, { opacity: 0, y: '-=40', delay: 0.7, duration: 0.3, onComplete: () => paddle.remove() }) });
+        MB.audio.sfx('coin', { rate: 1 + i * 0.1 });
+        gsap.fromTo(im, { y: -16 }, { y: 0, duration: 0.3 });
+        mood(S, im, 'attack'); mood(S, i % 2 ? a : b, 'lose');
+      }, null, 1.1 + i * 0.7));
+      talk(S, tl, 1.2);
+      const sold = Math.max(1.1 + bids.length * 0.7 + 0.2, afterTalk(S, 1.2) - 0.8);
+      tl.call(() => {
+        const p = artAt(), g = fxEl(L, 'cm-emoji', '🔨');
+        g.style.fontSize = '80px';
+        gsap.fromTo(g, { x: p.x + 120, y: p.y - 60, xPercent: -50, yPercent: -50, rotation: -60 }, { rotation: 20, duration: 0.2, ease: 'power3.in', yoyo: true, repeat: 1, onComplete: () => g.remove() });
+        gsap.delayedCall(0.2, () => { MB.audio.sfx('thud'); MB.audio.sfx('gong'); shake(S.ov, 10); word(L, p.x, p.y - 120, cfg.gavel || 'SOLD!', '#ffffff', 60); });
+      }, null, sold)
+        .call(() => {
+          const h = headOf(S, win);
+          MB.audio.sfx('applause'); MB.audio.sfx('bond', S.tier);
+          gsap.to(art, { x: boxX(S, win) - S.box.offsetWidth / 2, y: 60, scale: 0.7, rotation: win === a ? -8 : 8, duration: 0.6, ease: 'power2.inOut' });
+          word(L, h.x, h.y - 20, cfg.word || 'Mine, darling~', win === a ? ca : cb, 44);
+          mood(S, win, 'win'); mood(S, lose, 'taunt');
+        }, null, sold + 0.9)
+        .call(() => { const h = headOf(S, lose); word(L, h.x, h.y + 30, '💢', '#ff3b3b', 60); MB.audio.sfx('stomp'); }, null, sold + 1.5)
+        .to(lose, { rotation: lose === a ? 6 : -6, scaleY: 0.95, duration: 0.3 }, sold + 1.5);
+      return { tl, idle: () => [
+        gsap.to(art, { y: 50, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to(win, { rotation: win === a ? -3 : 3, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        every(0.9, () => { const h = headOf(S, win); floatUp(S, ['💸', '💎', '✨'], { x: h.x, y: h.y + 100 }, 1, [18, 28]); }),
+        every(1.4, () => { const h = headOf(S, lose); word(L, h.x, h.y + 40, '💢', '#ff3b3b', 36); }),
+      ] };
+    },
+
+    // a spooky reading: a candle, a book each (cfg.food), pages turning; a ghost (cfg.emoji[0]) creeps up behind
+    // them... BOO! They scream, the candle goes out, and then they both burst out laughing
+    reading: (S) => {
+      const { a, b, L, c, cfg } = S, candle = prop(S, 'cm-candle lit', '🕯️<i></i>', 3), ghost = fxEl(L, 'cm-emoji', (cfg.emoji || ['👻'])[0]);
+      const books = (cfg.food || ['📕', '📖']).map((f) => { const k = fxEl(L, 'cm-emoji', f); k.style.fontSize = '56px'; gsap.set(k, { opacity: 0, xPercent: -50, yPercent: -50 }); return k; });
+      ghost.style.fontSize = '90px';
+      gsap.set(ghost, { opacity: 0, xPercent: -50, yPercent: -50 });
+      gsap.set(candle, { xPercent: -50 });
+      const stick = () => [a, b].forEach((im, i) => { const h = liveHead(im); gsap.set(books[i], { x: h.x + (i ? -40 : 40), y: h.y + h.h * 0.36 }); });
+      const tl = gsap.timeline()
+        .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.7, stagger: 0.15, ease: 'sine.out' }, 0)
+        .to([a, b], { x: (i) => (i ? -20 : 20), y: 20, duration: 0.4 }, 0.6) // huddle up
+        .fromTo(candle, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(3)' }, 0.6)
+        .call(() => { MB.audio.sfx('fire'); gsap.set(books, { opacity: 1 }); stick(); MB.audio.sfx('crinkle'); }, null, 0.9)
+        .add(times(4, 0.7, () => { MB.audio.sfx('crinkle'); books.forEach((k) => gsap.fromTo(k, { scaleX: 1 }, { scaleX: -1, duration: 0.2, yoyo: true, repeat: 1 })); }), 1.2);
+      talk(S, tl, 1.2);
+      const boo = Math.max(3.8, afterTalk(S, 1.2));
+      tl.to({}, { duration: boo - 0.9, onUpdate: stick }, 0.9);
+      tl.call(() => { const p = midOf(S); gsap.fromTo(ghost, { x: p.x, y: p.y + 60, opacity: 0, scale: 0.6 }, { y: p.y - 120, opacity: 0.6, duration: 1.2, ease: 'sine.inOut' }); MB.audio.sfx('whistleUp'); }, null, boo - 1.3)
+        .call(() => {
+          const p = midOf(S);
+          gsap.to(ghost, { opacity: 1, scale: 2.4, y: p.y - 60, duration: 0.2, ease: 'back.out(2)' });
+          MB.audio.sfx('squeak'); MB.audio.sfx('boom'); shake(S.ov, 16);
+          word(L, p.x, p.y - 220, cfg.boo || 'BOO!', '#ffffff', 72);
+          candle.classList.remove('lit');
+          books.forEach((k, i) => gsap.to(k, { y: '-=260', x: `+=${i ? 120 : -120}`, rotation: i ? 400 : -400, duration: 0.6, ease: 'power2.out' }));
+          mood(S, a, 'lose'); mood(S, b, 'lose');
+        }, null, boo)
+        .to([a, b], { y: -80, duration: 0.2, ease: 'power2.out' }, boo).to([a, b], { y: 20, duration: 0.3, ease: 'bounce.out' }, boo + 0.2)
+        .to(ghost, { opacity: 0, x: '+=400', y: '-=200', duration: 0.6, ease: 'power2.in' }, boo + 0.8)
+        .call(() => {
+          const p = midOf(S);
+          candle.classList.add('lit');
+          MB.audio.sfx('laugh'); MB.audio.sfx('bond', S.tier);
+          word(L, p.x, p.y - 180, cfg.word || 'AGAIN! AGAIN!', c, 52);
+          fling(L, p.x, p.y, ['😂', '👻', '📖', '🕯️'], 12, { gravity: -30 });
+          mood(S, a, 'win'); mood(S, b, 'win');
+          books.forEach((k) => k.remove());
+        }, null, boo + 1.3)
+        .to([a, b], { scaleY: 0.95, duration: 0.15, yoyo: true, repeat: 5 }, boo + 1.3);
+      return { tl, idle: () => [
+        gsap.to(candle, { scale: 1.06, duration: 0.5, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+        gsap.to([a, b], { y: 14, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.4 }),
+        every(1.1, () => floatUp(S, ['👻', '📖', '✨'], midOf(S), 1, [18, 28])),
+      ] };
+    },
   };
+  // draw SVG strokes in (DrawSVG when it's loaded, a dash offset without it)
+  function drawIn(els, vars) {
+    els = [...els];
+    if (window.DrawSVGPlugin) return gsap.fromTo(els, { drawSVG: '0%' }, { drawSVG: '100%', ...vars });
+    els.forEach((e) => { const l = e.getTotalLength(); e.style.strokeDasharray = l; e.style.strokeDashoffset = l; });
+    return gsap.to(els, { strokeDashoffset: 0, ...vars });
+  }
 
   // ---------------------------------------------------------------- relationship scenery
   // cfg.backdrop (a name or a list) sets the mood behind the pair: a tinted sky and/or something in the air

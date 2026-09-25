@@ -150,6 +150,21 @@ Shared scene variants (`scene`; the kinds that may use each are in `SCENE_VARIAN
 - `etiquette` (family, school, mentor): `teacher` 0/1 makes the other walk with a book on their head; `order` on the fail.
 - `harvest` (family, friends): `food` rains into a tub, they stomp it, a `result` bottle pops out.
 - `dressup` (friends): a folding screen in front of `model` 0/1 (default 1), clothes (`emoji`) fly out, the reveal.
+- `interview` (mentor): desk, résumé, past jobs (`jobs` emoji) spill out, the boss (`mentor` 0/1) reads, `stamp`, handshake.
+- `standup` (rivals, friends): a spotlight each, the mic passes per line, rimshot (`rim`) + tomato after each; they crack up.
+- `flair` (lovers, friends): bottles (`food`) juggled between them, poured into `result`, cheers.
+- `patrol` (partners): flashlight beams sweep the dark (use `backdrop: 'night'`), something (`emoji[0]`) sneaks in, `freeze`.
+- `confession` (rivals): lattice screen, the `sinner` 0/1 confesses, sins (`emoji`) fill a `meter`, `alarm`, the other lunges.
+- `shrine` (rivals): corkboard fills with photos of YOU (`face`, `caption`), both grab the last one, it rips in half.
+- `solve` (school, crush): chalkboard `steps`, the first flexes (`flex`), the second is flustered (`fluster`), `answer`.
+- `boxing` (rivals, partners): three rounds (`emoji` [a's, b's] blows), double K.O., the count, fist bump.
+- `scheme` (partners): chessboard, pieces (`emoji`) moved with `laughs` [a, b], a crown (`result`), hidden daggers.
+- `bakeoff` (rivals, friends, family): an oven each, `food` [a's perfect one, b's explodes into it], judges' `scores`.
+- `rescue` (lovers, friends): water rises, the `swimmer` 0/1 flails, lifebuoy, reeled in, the lifeguard's `grin`, faint.
+- `nap` (lovers, family, friends): hammock, zzz, alarm clock, a thrown `throw` emoji sends it flying.
+- `poker` (rivals, friends): felt table, deal, the `gambler` 0/1 goes `allin` and wins (`hand`, `brag`), the other takes the pot.
+- `auction` (rivals): `result` on show, paddles with rising `bids`, gavel (`gavel`), the `winner` 0/1 takes it, the loser fumes.
+- `reading` (family, friends, school): candle, books (`food`), a ghost (`emoji[0]`) creeps up, `boo`, they laugh.
 
 ## Story
 

@@ -3,6 +3,7 @@ them to the Supabase "game-assets" bucket, then write game/assets/manifest.{json
 manifest the game reads (image paths are relative to the bucket; music is streamed by URL).
 
 Usage:  SUPABASE_SECRET_KEY=sb_secret_... py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
+Novels already in the manifest that aren't given keep their entries, so new novels can be added on their own.
 Images already in the bucket are skipped. Set MIKU_TOKEN to send the miku.gg auth token with each request.
 With --local the images are written to game/assets/ instead (no key needed; point MB.ASSET_BASE at 'assets/'
 to try them before uploading).
@@ -26,6 +27,17 @@ SKIP_OUTFIT = re.compile(r"\bcg\b", re.I)
 SKIP_OUTFITS = {
     "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
     "beatrice-avalistos/new-outfit", "curtis-vongravis/new-outfit", "flora-aquila/new-outfit",
+    # Doki Doki Literature Club: the [Transparent] outfits are empty images; Flaming, Lust, and Pain: the spoiler character too
+    "monika/christmas-outfit-transparent", "monika/fancy-dress-date-outfit-transparent",
+    "monika/school-uniform-transparent", "monika/storm-blaze-casual-outfit-transparent",
+    "natsuki/christmas-outfit-transparent", "natsuki/making-cupcakes-casual-outfit-transparent",
+    "natsuki/school-uniform-transparent", "sayori/christmas-outfit-transparent",
+    "sayori/lazy-dayz-casual-outfit-transparent", "sayori/picnicking-date-outfit-transparent",
+    "sayori/school-uniform-transparent", "yuri/christmas-outfit-transparent",
+    "yuri/comfy-sweater-casual-outfit-transparent", "yuri/gurogurl-date-outfit-transparent",
+    "yuri/school-uniform-transparent", "spoiler-character/default",
+    # nude art that looks underage: never in the game, not even in NSFW mode
+    "natsuki/nude",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -42,11 +54,13 @@ NSFW_OUTFITS = {
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
 NSFW_NOVELS = {"Noble One"}
+# single backgrounds marked by eye: "novel title/background name"
+NSFW_BACKGROUNDS = {"Paradiso Suburbia/CGH1"}
 
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids
 ONLY_CHARACTERS = {
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
-                  "asuka", "saria", "doe", "juniper", "susan", "john", "louis"},
+                  "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew"},
     # without the nameless binary entity and Hil Kuntnovi
     "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)": {
         "beatrice-avalistos", "julia-aquacrucis", "priest-pristo", "hed", "curtis-vongravis", "pepita-pazzarella",
@@ -54,6 +68,9 @@ ONLY_CHARACTERS = {
     # without the alternate-universe copies of Misaki and Arisa
     "Atarashī gakkō; Secret Garden!": {"yumi", "eri", "arisa", "misaki", "helga", "suzu", "shiina", "ai",
                                        "evil-villainess-chan", "mariko", "keiko"},
+    # the families, the Reid sisters' circle, the Johnsons and two teachers (without Asher, Kayden, Julia and Jake)
+    "Paradiso Suburbia": {"hunter-smith", "marie-smith", "chris", "olivia", "evelyn", "sophia", "ethan", "skylar",
+                          "hime", "reina", "lucia-atkins", "peter-reeves"},
 }
 
 # Emotions the battle system uses; first match per role wins.
@@ -209,7 +226,8 @@ def add_novel(novel, manifest):
         jobs.append((src, "1080p/", rel, dict(max_w=1600, fmt="WEBP", quality=80)))
         manifest["backgrounds"].append({"id": b["id"], "name": b["name"].replace("{{user}}", "Your"),
                                         "desc": b["description"], "src": rel,
-                                        **({"nsfw": True} if novel_nsfw or NSFW_NAME.search(b["name"]) else {})})
+                                        **({"nsfw": True} if novel_nsfw or NSFW_NAME.search(b["name"])
+                                           or f"{novel['title']}/{b['name']}" in NSFW_BACKGROUNDS else {})})
 
     for it in novel.get("inventory") or []:
         if any(i["id"] == slug(it["name"]) for i in manifest["items"]):
@@ -235,8 +253,23 @@ def main():
     paths = [a for a in sys.argv[1:] if a != "--local"] or sorted(glob.glob(os.path.join(ROOT, "novels", "*.json")))
     jobs, manifest = [], {"title": "Miku Battle", "novels": [], "nsfwNovels": [], "characters": [], "backgrounds": [],
                           "items": [], "music": []}
-    for p in paths:
-        novel = load_novel(p)
+    # novels already in the manifest whose export isn't given keep their entries as they are (their exports may
+    # live elsewhere); backgrounds and items don't say their novel, so the old ones stay and new ones replace by id
+    novels = [load_novel(p) for p in paths]
+    given = {n["title"] for n in novels}
+    try:
+        old = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8"))
+    except FileNotFoundError:
+        old = None
+    if old:
+        manifest["novels"] = [t for t in old["novels"] if t not in given]
+        manifest["nsfwNovels"] = [t for t in old["nsfwNovels"] if t not in given]
+        for k in ("characters", "music"):
+            manifest[k] = [e for e in old[k] if e["novel"] not in given]
+        manifest["backgrounds"], manifest["items"] = old["backgrounds"], old["items"]
+    for novel in novels:
+        manifest["backgrounds"] = [b for b in manifest["backgrounds"]
+                                   if b["id"] not in {x["id"] for x in novel.get("backgrounds") or []}]
         manifest["novels"].append(novel["title"])
         if novel["title"] in NSFW_NOVELS:
             manifest["nsfwNovels"].append(novel["title"])
