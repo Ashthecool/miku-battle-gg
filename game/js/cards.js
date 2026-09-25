@@ -2046,23 +2046,60 @@
   }
 
   // ---------------------------------------------------------------- new card / picture reveal
-  // items: card ids (a whole card), { avatar }, or { card, from, to, need, done }: fragments from a pack
-  let revealing = false;
+  // items: card ids (a whole card), { avatar }, or { card, from, to, need, done }: fragments from a pack.
+  // Each one is dealt face down and flipped with a click; once shown it leans toward the pointer and can be grabbed
+  // and thrown away.
+  let revealing = false, revealKey = null; // revealKey: what Space / Enter does at this point of a reveal
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const STINGER = ['sparkle', 'sparkle', 'loot', 'gem', 'fanfare']; // the flip's sound, by reveal level
+  // leans a node toward the pointer: returns (dx, dy) => void, both -1..1
+  function tilter(node, deg, persp) {
+    if (persp) gsap.set(node, { transformPerspective: persp });
+    const qx = gsap.quickTo(node, 'rotationY', { duration: 0.5, ease: 'power3.out' }), qy = gsap.quickTo(node, 'rotationX', { duration: 0.5, ease: 'power3.out' });
+    return (dx, dy) => { qx(dx * deg); qy(-dy * deg * 0.8); };
+  }
   function revealLayer() {
     const ov = el('div', 'rv', `<div class="rv-bg"></div><div class="rv-rays"></div><div class="rv-fx"></div>
       <div class="rv-title"></div><div class="rv-sub"></div><div class="rv-hint">Click to continue</div><div class="rv-flash"></div>`);
     root().appendChild(ov);
     gsap.fromTo(ov.querySelector('.rv-bg'), { opacity: 0 }, { opacity: 1, duration: 0.4 });
+    // a trail of sparks behind the pointer, in the colour of whatever is on show
+    const layer = ov.querySelector('.rv-fx');
+    let last = 0;
+    ov.addEventListener('pointermove', (e) => {
+      const now = performance.now();
+      if (now - last < 40) return;
+      last = now;
+      const q = toUi(e.clientX, e.clientY), p = fxEl(layer, 'fx-pt', null, ov.style.getPropertyValue('--rc') || '#fff');
+      p.style.width = p.style.height = rnd(4, 9) + 'px';
+      gsap.fromTo(p, { x: q.x, y: q.y, xPercent: -50, yPercent: -50, opacity: 0.9 },
+        { x: q.x + rnd(-24, 24), y: q.y + rnd(10, 50), scale: 0, opacity: 0, duration: rnd(0.5, 0.9), ease: 'power1.out', onComplete: () => p.remove() });
+    });
     return ov;
   }
-  async function reveal(items, ov) {
-    if (!items.length && !ov) return;
+  // haulOf: { tier, more } when the items came out of a pack: they're laid out together at the end.
+  // Resolves true when the player asks to open another pack.
+  async function reveal(items, ov, haulOf) {
+    if (!items.length && !ov) return false;
     revealing = true;
     ov = ov || revealLayer();
-    for (let i = 0; i < items.length; i++) await revealOne(ov, items[i], i, items.length);
+    const skip = items.length > 1 ? skipButton(ov) : null;
+    for (let i = 0; i < items.length && !ov.skipAll; i++) await revealOne(ov, items[i], i, items.length);
+    if (skip) skip.remove();
+    const again = haulOf && items.length ? await haul(ov, items, haulOf) : false;
+    revealKey = null;
     await gsap.to(ov, { opacity: 0, duration: 0.35 });
     ov.remove();
     revealing = false;
+    return again;
+  }
+  // jumps past the remaining items (to the haul, if there is one)
+  function skipButton(ov) {
+    const b = el('button', 'btn rv-skip', 'Skip ⏭');
+    b.addEventListener('pointerdown', (e) => e.stopPropagation());
+    b.onclick = () => { MB.audio.sfx('click'); ov.skipAll = true; b.remove(); if (ov.skipCur) ov.skipCur(); };
+    ov.appendChild(b);
+    return b;
   }
 
   // a profile picture framed like a card, at reveal size
@@ -2089,6 +2126,8 @@
     const card = def ? bigCard(it.card).c : avatarCard(it.avatar, W * S, H * S);
     if (def) card.style.zoom = S;
     if (shard) MB.UI.lockCard(card, it.from);
+    // rainbow foil that follows the pointer, on rare+ cards that are whole (not still in pieces)
+    const holo = lvl >= 2 && (!shard || it.done) ? card.appendChild(el('div', 'rv-holo')) : null;
     const front = el('div', 'rv-front');
     Object.assign(front.style, { width: W * S + 'px', height: H * S + 'px' });
     front.appendChild(card);
@@ -2103,68 +2142,176 @@
     const shardLine = (k) => `<b>${def.name}</b> · 🧩 ${k}/${it.need}${count}`;
     sub.innerHTML = shard ? shardLine(it.from) : def ? `<b>${def.name}</b> joined your collection${count}`
       : `<b>${MB.UI.avatarById(it.avatar).name}</b> is now a profile picture${count}`;
+    hint.textContent = 'Click the card to flip it';
     gsap.set([title, sub, hint], { opacity: 0 });
 
-    let stopMotes = null;
-    const idle = [];
-    const tl = gsap.timeline();
-    // 1. the pack drops in
-    tl.call(() => MB.audio.sfx('whoosh'))
-      .fromTo(back, { y: -300, rotation: -35, scale: 0.4 }, { y: Y, rotation: 0, scale: 1, duration: 0.7, ease: 'back.out(1.5)' })
-      .call(() => { MB.audio.sfx('hit'); spray(layer, X, Y + 200, '#ffffff', 16, { dist: [40, 200], size: [3, 8], gravity: -20, stars: 0 }); });
-    // 2. charge-up: longer and wilder for rarer cards
-    const charge = 0.35 + lvl * 0.3;
-    tl.addLabel('charge', '+=0.15')
-      .fromTo(glow, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1 + lvl * 0.2, duration: charge, ease: 'power1.in' }, 'charge')
-      .fromTo(back, { x: X - 3 * lvl }, { x: X + 3 * lvl, duration: 0.05, repeat: Math.round(charge / 0.05), yoyo: true, ease: 'none' }, 'charge')
-      .call(() => converge(layer, X, Y, col, 18 * lvl, charge), null, 'charge');
-    for (let k = 0; k < lvl; k++) tl.call(() => MB.audio.sfx('sparkle'), null, `charge+=${(charge / lvl) * k}`);
-    // 3. flip + explosion
-    tl.set(back, { x: X }, 'charge+=' + charge)
-      .to(back, { rotationY: 90, scale: 1.1, duration: 0.14, ease: 'power2.in' })
-      .set(back, { opacity: 0 })
-      .to(glow, { opacity: 0.55, scale: 1.3, duration: 0.5 }, '<')
-      .call(() => {
-        MB.audio.sfx(lvl >= 4 ? 'win' : lvl >= 2 ? 'buff' : 'play');
-        if (lvl >= 3) MB.audio.sfx('slam');
-        spray(layer, X, Y, col, 30 + lvl * 20, { dist: [150, 520], size: [6, 16], dur: [0.8, 1.6] });
-        spray(layer, X, Y, '#ffffff', 10 + lvl * 6, { dist: [100, 380], size: [3, 7] });
-        ring(layer, X, Y, col, { size: 160, scale: 5 + lvl, dur: 0.9, width: 8 });
-        if (lvl >= 3) ring(layer, X, Y, '#ffffff', { size: 120, scale: 4 + lvl, dur: 0.7, width: 4 });
-        if (lvl >= 3) gsap.fromTo(ov, { x: -14, y: 6 }, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.15)', clearProps: 'x,y' });
-      })
-      .fromTo(flash, { opacity: 0 }, { opacity: 0.4 + lvl * 0.15, duration: 0.06 }, '<')
-      .to(flash, { opacity: 0, duration: 0.6, ease: 'power2.out' })
-      .to(front, { rotationY: 0, opacity: 1, duration: 0.7, ease: 'back.out(2)' }, '<')
-      .fromTo(rays, { opacity: 0, scale: 0.2 }, { opacity: 0.15 + lvl * 0.15, scale: 1, duration: 0.9, ease: 'power2.out' }, '<')
-      .fromTo(title, { opacity: 0, scale: 3, letterSpacing: '40px' }, { opacity: 1, scale: 1, letterSpacing: '10px', duration: 0.6, ease: 'back.out(1.6)' }, '<0.1')
-      .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, '<0.3');
-    if (shard) shardsIn(tl, it, { card, layer, X, Y, S, col, title, sub, flash, ov, shardLine, def, count });
-    tl.call(() => {
-        idle.push(gsap.to(rays, { rotation: '+=360', duration: 30 - lvl * 4, repeat: -1, ease: 'none' }));
-        idle.push(gsap.to(front, { y: Y - 12, rotationY: 8, duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
-        stopMotes = motes(layer, { x0: X - 240, x1: X + 240, y0: Y + 100, y1: Y + 240 }, col, 0.6 / lvl);
-      })
-      .to(hint, { opacity: 0.75, duration: 0.4 }, '+=0.2');
-
     return new Promise((res) => {
-      const onClick = (e) => {
-        if (e.button !== 0) return;
-        if (tl.progress() < 1) { tl.progress(1); return; } // first click skips ahead
-        ov.removeEventListener('pointerdown', onClick);
+      // deal → wait (for the click) → flip → shown → gone
+      let phase = 'deal', flipTl = null, stopRiser = null, stopMotes = null, beat = null, grab = null, float = null, lastGlint = 0;
+      const idle = [], waiting = [];
+      const tiltBack = tilter(back, 16), tiltCard = tilter(card, 20);
+
+      // 1. dealt in face down; the glow around it hints at what's coming
+      const tl = gsap.timeline({ onComplete: wait });
+      tl.call(() => MB.audio.sfx('deal'))
+        .fromTo(back, { y: -300, rotation: -35, scale: 0.4 }, { y: Y, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.5)' })
+        .call(() => { MB.audio.sfx('thud'); spray(layer, X, Y + 200, '#ffffff', 16, { dist: [40, 200], size: [3, 8], gravity: -20, stars: 0 }); })
+        .fromTo(glow, { opacity: 0, scale: 0.8 }, { opacity: 0.2 + lvl * 0.1, scale: 0.9 + lvl * 0.05, duration: 0.4 })
+        .to(hint, { opacity: 0.75, duration: 0.3 }, '<');
+
+      // 2. waits for its click; rarer cards throb with a heartbeat
+      function wait() {
+        if (phase !== 'deal') return;
+        phase = 'wait';
+        waiting.push(gsap.to(glow, { scale: '+=0.12', opacity: '+=0.15', duration: 0.9, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+        if (lvl < 3) return;
+        waiting.push(gsap.fromTo(back, { x: X - 1.5 }, { x: X + 1.5, duration: 0.06, yoyo: true, repeat: -1, ease: 'none' }));
+        const thump = () => {
+          MB.audio.sfx('heartbeat');
+          gsap.fromTo(back, { scale: 1.07 }, { scale: 1, duration: 0.4, ease: 'power2.out' });
+          beat = gsap.delayedCall(lvl >= 4 ? 0.85 : 1.25, thump);
+        };
+        beat = gsap.delayedCall(0.3, thump);
+      }
+      const stopWaiting = () => { waiting.forEach((t) => t.kill()); if (beat) beat.kill(); beat = null; };
+
+      // 3. charge-up (longer and wilder for rarer cards, with a riser that lands on the flip), flip + explosion
+      function flip() {
+        tl.progress(1);
+        phase = 'flip';
+        stopWaiting();
+        gsap.killTweensOf(back, 'rotationX,rotationY,scale');
+        const charge = 0.35 + lvl * 0.3;
+        if (lvl >= 3) stopRiser = MB.audio.sfx('riser', { end: charge + 0.05 });
+        flipTl = gsap.timeline();
+        flipTl.set(back, { rotationX: 0, rotationY: 0, scale: 1 })
+          .to(hint, { opacity: 0, duration: 0.15 }, 0)
+          .addLabel('charge', 0)
+          .to(glow, { opacity: 1, scale: 1 + lvl * 0.2, duration: charge, ease: 'power1.in' }, 'charge')
+          .fromTo(back, { x: X - 3 * lvl }, { x: X + 3 * lvl, duration: 0.05, repeat: Math.round(charge / 0.05), yoyo: true, ease: 'none' }, 'charge')
+          .call(() => converge(layer, X, Y, col, 18 * lvl, charge), null, 'charge');
+        if (lvl < 3) for (let k = 0; k < lvl; k++) flipTl.call(() => MB.audio.sfx('sparkle'), null, `charge+=${(charge / lvl) * k}`);
+        flipTl.set(back, { x: X }, 'charge+=' + charge)
+          .to(back, { rotationY: 90, scale: 1.1, duration: 0.14, ease: 'power2.in' })
+          .set(back, { opacity: 0 })
+          .to(glow, { opacity: 0.55, scale: 1.3, duration: 0.5 }, '<')
+          .call(() => {
+            MB.audio.sfx('cardflip');
+            MB.audio.sfx(STINGER[shard ? Math.min(3, lvl) : lvl]); // a card that completes gets its fanfare when it does
+            if (lvl >= 3) MB.audio.sfx('slam');
+            spray(layer, X, Y, col, 30 + lvl * 20, { dist: [150, 520], size: [6, 16], dur: [0.8, 1.6] });
+            spray(layer, X, Y, '#ffffff', 10 + lvl * 6, { dist: [100, 380], size: [3, 7] });
+            ring(layer, X, Y, col, { size: 160, scale: 5 + lvl, dur: 0.9, width: 8 });
+            if (lvl >= 3) ring(layer, X, Y, '#ffffff', { size: 120, scale: 4 + lvl, dur: 0.7, width: 4 });
+            if (lvl >= 3) gsap.fromTo(ov, { x: -14, y: 6 }, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.15)', clearProps: 'x,y' });
+          })
+          .fromTo(flash, { opacity: 0 }, { opacity: 0.4 + lvl * 0.15, duration: 0.06 }, '<')
+          .to(flash, { opacity: 0, duration: 0.6, ease: 'power2.out' })
+          .to(front, { rotationY: 0, opacity: 1, duration: 0.7, ease: 'back.out(2)' }, '<')
+          .fromTo(rays, { opacity: 0, scale: 0.2 }, { opacity: 0.15 + lvl * 0.15, scale: 1, duration: 0.9, ease: 'power2.out' }, '<')
+          .fromTo(title, { opacity: 0, scale: 3, letterSpacing: '40px' }, { opacity: 1, scale: 1, letterSpacing: '10px', duration: 0.6, ease: 'back.out(1.6)' }, '<0.1')
+          .fromTo(sub, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 }, '<0.3');
+        if (shard) shardsIn(flipTl, it, { card, layer, X, Y, S, col, title, sub, flash, ov, shardLine, def, count });
+        flipTl.call(shown);
+      }
+
+      // 4. on show: it floats, leans toward the pointer, and glints when the pointer sweeps across it
+      function shown() {
+        if (phase !== 'flip') return;
+        phase = 'shown';
+        idle.push(gsap.to(rays, { rotation: '+=360', duration: 30 - lvl * 4, repeat: -1, ease: 'none' }));
+        idle.push(float = gsap.to(front, { y: Y - 12, rotationY: 8, duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+        stopMotes = motes(layer, { x0: X - 240, x1: X + 240, y0: Y + 100, y1: Y + 240 }, col, 0.6 / lvl);
+        front.classList.add('live');
+        hint.textContent = 'Click to continue · or grab the card and throw it';
+        gsap.to(hint, { opacity: 0.75, duration: 0.4, delay: 0.2 });
+      }
+
+      // 5. off it goes: toward the collection, or wherever it was thrown (v: the throw, in ui px)
+      function dismiss(v) {
+        phase = 'gone';
+        revealKey = null; ov.skipCur = null;
         if (stopMotes) stopMotes();
         idle.forEach((t) => t.kill());
-        MB.audio.sfx('coin');
-        gsap.timeline({ onComplete: () => { glow.remove(); back.remove(); front.remove(); res(); } })
+        MB.audio.sfx('swipe');
+        const out = gsap.timeline({ onComplete: finish })
           .to([title, sub, hint], { opacity: 0, duration: 0.2 }, 0)
-          .to([rays, glow], { opacity: 0, duration: 0.3 }, 0)
-          .to(front, { x: 1480, y: 60, scale: 0.25, rotation: 25, opacity: 0, duration: 0.55, ease: 'power3.in' }, 0);
+          .to([rays, glow], { opacity: 0, duration: 0.3 }, 0);
+        if (v) {
+          const d = Math.hypot(v.x, v.y) || 1, fx = gsap.getProperty(front, 'x'), fy = gsap.getProperty(front, 'y');
+          out.to(front, { x: fx + (v.x / d) * 1400, y: fy + (v.y / d) * 1400, rotation: v.x > 0 ? 50 : -50, duration: 0.5, ease: 'power2.in' }, 0);
+        } else out.to(front, { x: 1480, y: 60, scale: 0.25, rotation: 25, opacity: 0, duration: 0.55, ease: 'power3.in' }, 0);
+      }
+      function finish() {
+        ov.removeEventListener('pointerdown', onDown);
+        ov.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        ov.skipCur = null; revealKey = null;
+        glow.remove(); back.remove(); front.remove();
+        res();
+      }
+      // the Skip button: drop everything and move on
+      ov.skipCur = () => {
+        tl.kill(); if (flipTl) flipTl.kill();
+        stopWaiting(); if (stopRiser) stopRiser(); if (stopMotes) stopMotes();
+        idle.forEach((t) => t.kill());
+        layer.querySelectorAll('.rv-frag').forEach((f) => f.remove());
+        gsap.to([title, sub, hint, rays, glow], { opacity: 0, duration: 0.2 });
+        finish();
       };
-      ov.addEventListener('pointerdown', onClick);
+
+      // a click (or Space) moves one step on; once shown, a press grabs the card
+      function advance(e) {
+        if (phase === 'deal' || phase === 'wait') flip();
+        else if (phase === 'flip') { flipTl.progress(1); if (stopRiser) stopRiser(); } // skips the flip animation
+        else if (phase === 'shown') {
+          if (!e) { dismiss(); return; }
+          const q = toUi(e.clientX, e.clientY);
+          grab = { x0: q.x, y0: q.y, fx: gsap.getProperty(front, 'x'), fy: gsap.getProperty(front, 'y'), last: q, t: performance.now(), vx: 0, vy: 0 };
+          float.kill();
+          tiltCard(0, 0);
+          gsap.to([sub, hint], { opacity: 0.2, duration: 0.2 }); // out of the way of the card
+          window.addEventListener('pointerup', onUp);
+        }
+      }
+      function onDown(e) { if (e.button === 0 && !grab) advance(e); }
+      function onUp() {
+        window.removeEventListener('pointerup', onUp);
+        const g = grab;
+        grab = null;
+        if (!g || phase !== 'shown') return;
+        // a short drag is a click; a longer one throws the card that way (a quick flick throws it further)
+        const dx = g.last.x - g.x0, dy = g.last.y - g.y0;
+        dismiss(Math.hypot(dx, dy) > 50 ? { x: dx + g.vx * 200, y: dy + g.vy * 200 } : null);
+      }
+      function onMove(e) {
+        const q = toUi(e.clientX, e.clientY);
+        const dx = clamp((q.x - X) / 380, -1, 1), dy = clamp((q.y - Y) / 380, -1, 1);
+        if (phase === 'deal' || phase === 'wait') { tiltBack(dx, dy); return; }
+        if (phase !== 'shown') return;
+        if (grab) {
+          const now = performance.now(), dt = Math.max(1, now - grab.t);
+          grab.vx = (q.x - grab.last.x) / dt; grab.vy = (q.y - grab.last.y) / dt; grab.last = q; grab.t = now;
+          gsap.to(front, { x: grab.fx + q.x - grab.x0, y: grab.fy + q.y - grab.y0, rotation: clamp(grab.vx * 12, -25, 25), duration: 0.15, overwrite: 'auto' });
+          return;
+        }
+        tiltCard(dx, dy);
+        card.style.setProperty('--gx', 50 + dx * 50 + '%');
+        card.style.setProperty('--gy', 50 + dy * 50 + '%');
+        const now = performance.now(), over = Math.abs(q.x - X) < (W * S) / 2 && Math.abs(q.y - Y) < (H * S) / 2;
+        if (holo && over && now - lastGlint > 350 && Math.hypot(e.movementX, e.movementY) > 14) {
+          lastGlint = now;
+          MB.audio.sfx('glint', { rate: rnd(0.9, 1.4) });
+        }
+      }
+      ov.addEventListener('pointerdown', onDown);
+      ov.addEventListener('pointermove', onMove);
+      revealKey = () => advance(null);
     });
   }
 
-  // the fragments fly into their pieces of the card one by one; a finished card sheds its cracks
+  // the fragments fly into their pieces of the card one by one, each chime a little higher; a finished card sheds
+  // its cracks
   function shardsIn(tl, it, { card, layer, X, Y, S, col, title, sub, flash, ov, shardLine, def, count }) {
     const pieces = card.querySelectorAll('.sh'), veil = card.querySelector('.shard-veil');
     const bar = card.querySelector('.shard-count i'), num = card.querySelector('.shard-count span');
@@ -2184,7 +2331,7 @@
               rotation: 540, scale: 0.8, duration: 0.45, ease: 'power2.in' }, 0)
             .call(() => {
               f.remove();
-              MB.audio.sfx('coin');
+              MB.audio.sfx('tink', { rate: 0.8 + ((k + 1) / it.need) * 0.7 });
               spray(layer, cx, cy, col, 18, { dist: [40, 200], size: [4, 10] });
               ring(layer, cx, cy, '#ffffff', { size: 60, scale: 3, dur: 0.5, width: 4 });
             });
@@ -2203,7 +2350,8 @@
     const shards = card.querySelector('.shards');
     tl.to(shards, { filter: 'brightness(3) drop-shadow(0 0 8px #fff)', duration: 0.3 }, '+=0.35')
       .call(() => {
-        MB.audio.sfx('win'); MB.audio.sfx('slam');
+        MB.audio.sfx('unlock'); MB.audio.sfx('slam');
+        if (rarityOf(def).stars >= 4) MB.audio.sfx('fanfare');
         spray(layer, X, Y, col, 90, { dist: [180, 600], size: [6, 16], dur: [0.8, 1.6] });
         spray(layer, X, Y, '#ffffff', 30, { dist: [120, 420], size: [3, 8] });
         ring(layer, X, Y, col, { size: 180, scale: 8, dur: 0.9, width: 8 });
@@ -2218,66 +2366,272 @@
       .fromTo(title, { scale: 2.4 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' }, '<');
   }
 
+  // ---------------------------------------------------------------- the haul
+  // everything from the pack side by side, to look over (they tilt and lift under the pointer). Resolves true for
+  // "open another".
+  function haul(ov, items, { tier, more }) {
+    items = items.map((it) => (typeof it === 'string' ? { card: it } : it));
+    const p = MB.PACKS[tier], N = items.length, S = N > 4 ? 1.2 : 1.35, gap = 36, Y = 380;
+    const layer = ov.querySelector('.rv-fx'), rays = ov.querySelector('.rv-rays');
+    const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub'), hint = ov.querySelector('.rv-hint');
+    ov.style.setProperty('--rc', p.color);
+    title.textContent = 'YOUR HAUL';
+    title.style.color = p.color;
+    const frags = items.reduce((a, it) => a + (it.need != null ? it.to - it.from : 0), 0);
+    const fresh = items.filter((it) => it.need == null || it.done).length;
+    sub.innerHTML = [frags && `🧩 <b>${frags}</b> fragment${frags > 1 ? 's' : ''}`, fresh && `🎴 <b>${fresh}</b> new card${fresh > 1 ? 's' : ''}!`]
+      .filter(Boolean).join(' · ');
+    sub.style.top = '620px';
+    gsap.set([title, sub, hint], { opacity: 0 });
+    gsap.set(rays, { rotation: 0 });
+
+    const boxes = items.map((it, k) => {
+      const def = it.card && defOf(it.card), whole = it.need == null || it.done, color = def ? rarityOf(def).color : AVATAR_COLOR;
+      const c = def ? MB.UI.cardEl(it.card, true) : avatarCard(it.avatar, W * S, H * S);
+      if (def) c.style.zoom = S;
+      if (!whole) MB.UI.lockCard(c, it.to);
+      if (def) c.appendChild(el('div', 'glare'));
+      const box = el('div', 'rv-haul' + (whole ? ' new' : ''));
+      box.style.setProperty('--rc', color);
+      Object.assign(box.style, { width: W * S + 'px', height: H * S + 'px' });
+      box.appendChild(c);
+      box.appendChild(el('div', 'rv-haul-tag', whole ? 'NEW!' : `+${it.to - it.from} 🧩 ${it.to}/${it.need}`));
+      ov.insertBefore(box, layer);
+      const x = 800 + (k - (N - 1) / 2) * (W * S + gap);
+      gsap.set(box, { x: 800, y: Y, xPercent: -50, yPercent: -50, transformPerspective: 900, opacity: 0 });
+      return { box, c, x, color, whole };
+    });
+    const btns = el('div', 'rv-haul-btns');
+    const done = btns.appendChild(el('button', 'btn', 'Done'));
+    const again = more > 0 ? btns.appendChild(el('button', 'btn primary', `🎁 Open another <small>(×${more})</small>`)) : null;
+    ov.appendChild(btns);
+
+    let ready = false, over = false;
+    const tl = gsap.timeline({ onComplete: () => { ready = true; } })
+      .call(() => MB.audio.sfx('fragment'))
+      .fromTo(title, { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(2)' })
+      .fromTo(rays, { opacity: 0, scale: 0.4 }, { opacity: 0.2, scale: 1, duration: 0.6 }, '<');
+    boxes.forEach((b, k) => {
+      const at = 0.15 + k * 0.12;
+      tl.fromTo(b.box, { x: 800, y: Y + 60, scale: 0.2, rotationY: 90, opacity: 0 },
+        { x: b.x, y: Y, scale: 1, rotationY: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, at)
+        .call(() => {
+          MB.audio.sfx('pop', { rate: 0.85 + k * 0.1 });
+          if (b.whole) spray(layer, b.x, Y, b.color, 24, { dist: [60, 220], size: [4, 10] });
+        }, null, at + 0.15);
+    });
+    tl.fromTo(sub, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3 })
+      .fromTo(btns, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, '<');
+    const idleRays = gsap.to(rays, { rotation: '+=360', duration: 40, repeat: -1, ease: 'none' });
+
+    // each card lifts and leans toward the pointer
+    boxes.forEach((b, k) => {
+      b.box.addEventListener('pointerenter', () => {
+        if (!ready || over) return;
+        MB.audio.sfx('glint', { rate: 0.8 + k * 0.12 });
+        gsap.to(b.box, { y: Y - 18, scale: 1.06, duration: 0.25, ease: 'back.out(2)' });
+      });
+      b.box.addEventListener('pointermove', (e) => {
+        if (!ready || over) return;
+        const rr = b.box.getBoundingClientRect(), dx = ((e.clientX - rr.left) / rr.width) * 2 - 1, dy = ((e.clientY - rr.top) / rr.height) * 2 - 1;
+        gsap.to(b.box, { rotationY: dx * 16, rotationX: -dy * 12, duration: 0.3 });
+        b.c.style.setProperty('--gx', 50 + dx * 50 + '%');
+        b.c.style.setProperty('--gy', 50 + dy * 50 + '%');
+      });
+      b.box.addEventListener('pointerleave', () => { if (ready && !over) gsap.to(b.box, { y: Y, scale: 1, rotationX: 0, rotationY: 0, duration: 0.35 }); });
+    });
+
+    return new Promise((res) => {
+      // they all fly off to the collection
+      const end = (more) => {
+        if (over) return;
+        over = true;
+        revealKey = null;
+        ov.removeEventListener('pointerdown', onBg);
+        tl.progress(1);
+        idleRays.kill();
+        MB.audio.sfx(more ? 'crinkle' : 'swipe');
+        gsap.timeline({ onComplete: () => { boxes.forEach((b) => b.box.remove()); btns.remove(); sub.style.top = ''; res(more); } })
+          .to([title, sub, btns, rays], { opacity: 0, duration: 0.2 }, 0)
+          .to(boxes.map((b) => b.box), { x: 1480, y: 60, scale: 0.2, rotation: 25, opacity: 0, duration: 0.45, stagger: 0.05, ease: 'power3.in' }, 0);
+      };
+      const onBg = (e) => {
+        if (e.button !== 0 || e.target.closest('button')) return;
+        if (tl.progress() < 1) { tl.progress(1); return; } // first click skips the lay-out
+        if (!e.target.closest('.rv-haul')) end(false);
+      };
+      done.onclick = () => end(false);
+      if (again) again.onclick = () => end(true);
+      ov.addEventListener('pointerdown', onBg);
+      revealKey = () => end(!!again); // Space / Enter: the main button
+    });
+  }
+
   // ---------------------------------------------------------------- pack opening
-  // the pack drops in; clicking it tears the top off, then each item is revealed
-  function openPack(tier, items, fromEl) {
+  // The pack drops in and leans toward the pointer. Swipe along the dotted line to tear the top off (a click tears it
+  // for you); the light leaking out of the tear is the colour of the best card inside. Then each item is revealed and
+  // the haul laid out. more: packs of this tier left after this one. Resolves true to open another.
+  function openPack(tier, items, fromEl, more = 0) {
     revealing = true;
     const p = MB.PACKS[tier], col = p.color, lvl = { common: 1, rare: 2, epic: 3 }[tier] || 1;
     const X = 800, Y = 450, PW = 346, PH = 560, TEAR = 0.15; // TEAR: the strip that rips off, as a share of the height
+    const best = items.map((it) => (typeof it === 'string' ? defOf(it) : it.card && defOf(it.card))).filter(Boolean).map(rarityOf).sort((a, b) => b.stars - a.stars)[0];
+    const inner = best ? best.color : col, jackpot = !!best && best.stars >= 4;
     const ov = revealLayer();
     ov.style.setProperty('--rc', col);
     const layer = ov.querySelector('.rv-fx'), flash = ov.querySelector('.rv-flash'), rays = ov.querySelector('.rv-rays');
-    const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub');
+    const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub'), hint = ov.querySelector('.rv-hint');
     const glow = el('div', 'rv-glow');
-    const pack = el('div', 'rv-pack', '<div class="rv-pack-body"></div><div class="rv-pack-top"></div>');
+    const pack = el('div', 'rv-pack', `<div class="rv-pack-tilt"><div class="rv-pack-body"></div><div class="rv-pack-top"></div>
+      <div class="rv-slit"></div><div class="rv-pack-shine"></div><div class="rv-tearline"><i></i></div></div>`);
     Object.assign(pack.style, { width: PW + 'px', height: PH + 'px' });
     pack.style.setProperty('--art', `url("${MB.packArt(tier)}")`);
     pack.style.setProperty('--tear', TEAR * 100 + '%');
+    pack.style.setProperty('--in', inner);
     ov.insertBefore(glow, layer); ov.insertBefore(pack, layer);
-    const top = pack.querySelector('.rv-pack-top'), body = pack.querySelector('.rv-pack-body');
+    const tiltEl = pack.querySelector('.rv-pack-tilt'), top = pack.querySelector('.rv-pack-top'), body = pack.querySelector('.rv-pack-body');
+    const slit = pack.querySelector('.rv-slit'), shine = pack.querySelector('.rv-pack-shine'), line = pack.querySelector('.rv-tearline');
+    const tilt = tilter(tiltEl, 14, 900);
     title.textContent = p.name.toUpperCase();
     title.style.color = col;
-    sub.textContent = 'Click the pack to tear it open';
+    sub.textContent = 'Swipe along the dotted line to tear it open';
+    hint.textContent = 'or just click the pack';
     const from = fromEl && fromEl.isConnected ? rectOf(fromEl) : { x: X, y: -300, w: PW };
     gsap.set([pack, glow], { x: X, y: Y, xPercent: -50, yPercent: -50 });
     gsap.set(glow, { opacity: 0 });
-    gsap.set([title, sub, ov.querySelector('.rv-hint')], { opacity: 0 });
+    gsap.set([title, sub, hint, line], { opacity: 0 });
 
+    // intro → ready → tearing → auto (a click finishing the tear) → open
+    let state = 'intro';
     const idle = [];
     const intro = gsap.timeline()
       .call(() => MB.audio.sfx('whoosh'))
       .fromTo(pack, { x: from.x, y: from.y, scale: from.w / PW, rotation: -12 }, { x: X, y: Y, scale: 1, rotation: 0, duration: 0.75, ease: 'back.out(1.4)' })
+      .call(() => { MB.audio.sfx('thud'); MB.audio.sfx('foil'); }, null, 0.4)
       .to(glow, { opacity: 0.6, scale: 1.1, duration: 0.5 }, '<0.3')
       .fromTo(title, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: 'back.out(2)' }, '<')
-      .to(sub, { opacity: 0.85, duration: 0.4 })
+      .to([sub, hint], { opacity: 0.85, duration: 0.4 })
+      .to(line, { opacity: 1, duration: 0.3 }, '<')
       .call(() => {
+        state = 'ready';
         idle.push(gsap.to(pack, { y: Y - 14, rotation: 2, duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
         idle.push(gsap.to(glow, { scale: 1.25, opacity: 0.8, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+        // a glowing dot runs along the tear line to show the move
+        const dot = line.querySelector('i');
+        idle.push(gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
+          .fromTo(dot, { left: '0%' }, { left: '100%', duration: 1.1, ease: 'power1.inOut' })
+          .fromTo(dot, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0)
+          .to(dot, { opacity: 0, duration: 0.2 }, 0.9));
       });
 
     return new Promise((res) => {
-      const onClick = (e) => {
+      const lip = Y - PH / 2 + PH * TEAR;
+      const lipNow = () => gsap.getProperty(pack, 'y') - PH / 2 + PH * TEAR; // while it bobs
+      // tear: the stretch of the line torn so far, in pack px (0..PW); dir 1 = torn left to right
+      let tear = null, down = null;
+      function setTear(a, b) {
+        tear.min = Math.min(tear.min, a, b); tear.max = Math.max(tear.max, a, b);
+        tear.dir = tear.max - tear.start >= tear.start - tear.min ? 1 : -1;
+        const k = (tear.max - tear.min) / PW;
+        gsap.set(slit, { left: tear.min, width: tear.max - tear.min, opacity: 1 });
+        // the torn end of the strip lifts, hinging on the part still attached
+        top.style.transformOrigin = `${tear.dir > 0 ? 100 : 0}% ${TEAR * 100}%`;
+        gsap.to(top, { rotation: tear.dir * k * 14, y: -k * 10, duration: 0.15 });
+        gsap.to(glow, { opacity: 0.7 + k * 0.3, scale: 1.1 + k * 0.3, duration: 0.2 });
+        return k;
+      }
+      function startTear(at) {
+        tear = { start: at, min: at, max: at, dir: 1, sound: 0 };
+        state = 'tearing';
+        idle[2].kill();
+        gsap.to([sub, hint, line], { opacity: 0, duration: 0.2 });
+      }
+      function onMove(e) {
+        if (state !== 'ready' && state !== 'tearing') return;
+        const q = toUi(e.clientX, e.clientY);
+        const dx = clamp((q.x - X) / 400, -1, 1), dy = clamp((q.y - Y) / 400, -1, 1);
+        tilt(down ? 0 : dx, down ? 0 : dy); // held still while tearing
+        shine.style.setProperty('--sx', 50 + dx * 60 + '%');
+        shine.style.setProperty('--sy', 50 + dy * 60 + '%');
+        if (!down) return;
+        down.moved = Math.max(down.moved, Math.hypot(q.x - down.x, q.y - down.y));
+        // only a drag along the tear line tears
+        const on = Math.abs(q.y - lipNow()) < 90 && Math.abs(q.x - X) < PW / 2 + 40, lx = clamp(q.x - (X - PW / 2), 0, PW);
+        if (!on) { down.px = null; return; }
+        if (down.px == null) { down.px = lx; return; }
+        if (!tear) startTear(down.px);
+        const before = tear.max - tear.min, k = setTear(down.px, lx), grew = tear.max - tear.min - before;
+        down.px = lx;
+        if (grew > 0) {
+          tear.sound += grew;
+          if (tear.sound > 26) { tear.sound = 0; MB.audio.sfx('tear', { rate: 0.85 + k * 0.5, at: 0.04 + Math.random() * 0.06, len: 0.15 }); }
+          spray(layer, q.x, lipNow(), inner, 2, { dist: [20, 90], size: [3, 8], gravity: -30, dur: [0.4, 0.8], stars: 0.5 });
+          gsap.fromTo(tiltEl, { x: rnd(-3, 3) }, { x: 0, duration: 0.12 });
+        }
+        if (k >= 0.8) open();
+      }
+      function onDown(e) {
         if (e.button !== 0) return;
-        if (intro.progress() < 1) { intro.progress(1); return; } // first click skips the drop-in
-        ov.removeEventListener('pointerdown', onClick);
+        if (state === 'intro') { intro.progress(1); return; } // first click skips the drop-in
+        if (state !== 'ready' && state !== 'tearing') return;
+        const q = toUi(e.clientX, e.clientY);
+        down = { x: q.x, y: q.y, moved: 0, px: null };
+        MB.audio.sfx('crinkle');
+        gsap.to(pack, { scale: 1.03, duration: 0.15 });
+        onMove(e);
+      }
+      function onUp() {
+        if (!down) return;
+        const d = down;
+        down = null;
+        if (state !== 'ready' && state !== 'tearing') return;
+        gsap.to(pack, { scale: 1, duration: 0.2 });
+        if (d.moved < 12) autoTear(); // a click
+        else if (state === 'tearing') { sub.textContent = 'Keep going!'; gsap.to(sub, { opacity: 0.85, duration: 0.2 }); }
+        else gsap.fromTo(line, { opacity: 0.3 }, { opacity: 1, duration: 0.15, repeat: 3, yoyo: true }); // dragged off the line
+      }
+      // a click: the tear runs the rest of the way by itself
+      function autoTear() {
+        if (!tear) startTear(0);
+        state = 'auto';
+        MB.audio.sfx('rip');
+        const run = { v: tear.dir > 0 ? tear.max : tear.min };
+        gsap.to(run, { v: tear.dir > 0 ? PW : 0, duration: 0.4, ease: 'power1.in', onComplete: open,
+          onUpdate: () => { setTear(run.v, run.v); spray(layer, X - PW / 2 + run.v, lip, inner, 1, { dist: [20, 90], size: [3, 8], gravity: -30, stars: 0.5 }); } });
+      }
+      // the strip is off: light bursts out, then the pack falls away
+      function open() {
+        if (state === 'open') return;
+        state = 'open';
+        revealKey = null;
+        ov.removeEventListener('pointerdown', onDown);
+        ov.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
         idle.forEach((t) => t.kill());
-        const charge = 0.3 + lvl * 0.25, lip = Y - PH / 2 + PH * TEAR;
-        const tl = gsap.timeline({ onComplete: () => { pack.remove(); glow.remove(); reveal(items, ov).then(res); } });
-        tl.to([title, sub], { opacity: 0, duration: 0.2 }, 0)
+        tilt(0, 0);
+        const charge = 0.3 + lvl * 0.2, dir = tear ? tear.dir : 1;
+        if (jackpot) [0, 0.45].forEach((d) => gsap.delayedCall(d, () => MB.audio.sfx('heartbeat')));
+        if (lvl >= 3 || jackpot) MB.audio.sfx('riser', { end: 0.15 + charge });
+        const tl = gsap.timeline({ onComplete: () => { pack.remove(); glow.remove(); reveal(items, ov, { tier, more }).then(res); } });
+        tl.to([title, sub, hint, line, shine], { opacity: 0, duration: 0.2 }, 0)
+          .to(slit, { left: 0, width: PW, opacity: 1, duration: 0.15 }, 0)
+          .to(slit, { height: 16, marginTop: -8, duration: charge, ease: 'power1.in' }, 0.15)
           .to(pack, { y: Y, rotation: 0, scale: 1.04, duration: 0.15 }, 0)
           .fromTo(pack, { x: X - 4 * lvl }, { x: X + 4 * lvl, duration: 0.05, repeat: Math.round(charge / 0.05), yoyo: true, ease: 'none' }, 0.15)
           .to(glow, { opacity: 1, scale: 1.2 + lvl * 0.15, duration: charge, ease: 'power1.in' }, 0.15)
-          .call(() => converge(layer, X, Y, col, 14 * lvl, charge), null, 0.15)
+          .call(() => converge(layer, X, lip, inner, 14 * lvl, charge), null, 0.15)
           .set(pack, { x: X }, 0.15 + charge)
-          // rip: the top strip flies off and light pours out of the opening
+          // pop: the top strip flies off the way it was torn and light pours out of the opening
           .call(() => {
-            MB.audio.sfx('slam');
+            MB.audio.sfx('foil'); MB.audio.sfx('slam');
             MB.audio.sfx(lvl >= 3 ? 'win' : 'sparkle');
-            spray(layer, X, lip, col, 30 + lvl * 15, { dist: [120, 460], size: [5, 14], gravity: -40 });
+            spray(layer, X, lip, inner, 30 + lvl * 15, { dist: [120, 460], size: [5, 14], gravity: -40 });
             spray(layer, X, lip, '#ffffff', 16, { dist: [80, 300], size: [3, 7], gravity: -40 });
-            ring(layer, X, lip, col, { size: 180, scale: 4 + lvl, dur: 0.8 });
+            ring(layer, X, lip, inner, { size: 180, scale: 4 + lvl, dur: 0.8 });
+            if (jackpot) gsap.fromTo(ov, { x: -14, y: 6 }, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.15)', clearProps: 'x,y' });
           })
-          .to(top, { x: 260, y: -260, rotation: 50, opacity: 0, duration: 0.7, ease: 'power2.out' })
+          .to(top, { x: dir * 260, y: -260, rotation: dir * 50, opacity: 0, duration: 0.7, ease: 'power2.out' })
+          .to(slit, { opacity: 0, duration: 0.4 }, '<')
           .fromTo(flash, { opacity: 0 }, { opacity: 0.35 + lvl * 0.15, duration: 0.06 }, '<')
           .to(flash, { opacity: 0, duration: 0.5 })
           .fromTo(rays, { opacity: 0, scale: 0.2 }, { opacity: 0.2 + lvl * 0.1, scale: 1, duration: 0.6 }, '<')
@@ -2287,8 +2641,11 @@
           tl.call(() => { sub.textContent = 'Nothing new inside — your collection is complete!'; gsap.to(sub, { opacity: 1, duration: 0.3 }); });
           tl.to({}, { duration: 1.6 });
         }
-      };
-      ov.addEventListener('pointerdown', onClick);
+      }
+      ov.addEventListener('pointerdown', onDown);
+      ov.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      revealKey = () => { if (state === 'intro') intro.progress(1); else if (state === 'ready' || state === 'tearing') autoTear(); };
     });
   }
 
@@ -2329,6 +2686,12 @@
     });
     // while the modal is up it owns the keyboard (no accidental End Turn)
     window.addEventListener('keydown', (e) => {
+      // during a reveal Space / Enter do what a click would (tear the pack, flip, next)
+      if (revealing && (e.key === ' ' || e.key === 'Enter')) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        if (revealKey && !e.repeat) revealKey();
+        return;
+      }
       if (!modal) return;
       e.stopImmediatePropagation();
       if (e.key === 'Escape') close();

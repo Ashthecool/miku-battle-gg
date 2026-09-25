@@ -1045,12 +1045,15 @@
       const b = el('button', 'btn primary', n ? 'Open' : 'None yet');
       b.disabled = !n;
       b.onclick = async () => {
-        if (opening) return;
-        const got = openPack(tier);
-        if (!got) return;
+        if (opening || !save.packs[tier]) return;
         opening = true;
         MB.audio.sfx('click');
-        await MB.Cards.openPack(tier, got, t.querySelector('.pack-art'));
+        // the haul screen offers the next pack of this tier straight away
+        for (let again = true; again && save.packs[tier] > 0;) {
+          const got = openPack(tier);
+          t.querySelector('.pack-count').textContent = '×' + save.packs[tier];
+          again = await MB.Cards.openPack(tier, got, t.querySelector('.pack-art'), save.packs[tier]);
+        }
         opening = false;
         renderPacks();
       };

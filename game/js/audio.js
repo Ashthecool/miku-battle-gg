@@ -91,6 +91,24 @@
     warp: { file: 'warp-735062.mp3', vol: 0.55 },
     unsheathe: { file: 'unsheathe-107589.mp3', vol: 0.5 },
     stretch: { file: 'stretch-676988.mp3', vol: 0.7, vary: 0.08 },
+    // card packs (at: skips the silence at the start of the file)
+    crinkle: { file: 'crinkle-590356.mp3', vol: 0.5, vary: 0.12 },
+    foil: { file: 'foil-590362.mp3', vol: 0.55, vary: 0.08 },
+    rip: { file: 'rip-710162.mp3', vol: 2.2, at: 0.1 },
+    tear: { file: 'tear-710163.mp3', vol: 0.7, vary: 0.1 },
+    cardflip: { file: 'cardflip-84322.mp3', vol: 1.2, at: 0.25, vary: 0.06 },
+    deal: { file: 'deal-571577.mp3', vol: 0.7, at: 0.2, vary: 0.08 },
+    riser: { file: 'riser-774635.mp3', vol: 0.3 },
+    loot: { file: 'loot-659677.mp3', vol: 1.4 },
+    gem: { file: 'gem-826644.mp3', vol: 0.55 },
+    fanfare: { file: 'fanfare-609028.mp3', vol: 0.8 },
+    fragment: { file: 'fragment-562196.mp3', vol: 0.9 },
+    tink: { file: 'tink-509353.mp3', vol: 0.6, at: 0.1 },
+    unlock: { file: 'unlock-331362.mp3', vol: 1.1 },
+    thud: { file: 'thud-653910.mp3', vol: 0.5, vary: 0.06 },
+    swipe: { file: 'swipe-60007.mp3', vol: 0.45, vary: 0.1 },
+    heartbeat: { file: 'heartbeat-784654.mp3', vol: 0.9 },
+    glint: { file: 'glint-734238.mp3', vol: 0.25, vary: 0.1 },
   };
   const buffers = {};
 
@@ -108,14 +126,21 @@
     return ctx;
   }
 
-  function sample(name) {
-    const c = ac(), s = SAMPLES[name], t = c.currentTime;
+  // o (all optional): rate scales the pitch/speed, vol the loudness, at starts this far into the file, len plays only
+  // this long, end starts late enough that the file finishes `end` seconds from now (a riser landing on a hit).
+  // Returns a function that fades it out early.
+  function sample(name, o = {}) {
+    const c = ac(), s = SAMPLES[name], buf = buffers[name], t = c.currentTime;
     const src = c.createBufferSource(), g = c.createGain();
-    src.buffer = buffers[name];
-    if (s.vary) src.playbackRate.value = 1 + (Math.random() * 2 - 1) * s.vary;
-    g.gain.value = s.vol ?? 1;
-    if (s.max) { g.gain.setValueAtTime(s.vol ?? 1, t + s.max * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + s.max); src.stop(t + s.max + 0.05); }
-    src.connect(g); g.connect(master); src.start(t);
+    src.buffer = buf;
+    const rate = (o.rate || 1) * (s.vary ? 1 + (Math.random() * 2 - 1) * s.vary : 1), vol = (s.vol ?? 1) * (o.vol ?? 1);
+    src.playbackRate.value = rate;
+    const at = o.end != null ? Math.max(0, buf.duration - o.end * rate) : o.at ?? s.at ?? 0;
+    const max = o.len ?? s.max;
+    g.gain.value = vol;
+    if (max) { g.gain.setValueAtTime(vol, t + max * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + max); src.stop(t + max + 0.05); }
+    src.connect(g); g.connect(master); src.start(t, at);
+    return () => { try { g.gain.setTargetAtTime(0, c.currentTime, 0.04); src.stop(c.currentTime + 0.25); } catch (e) { /* already over */ } };
   }
 
   // curve: pitch path in Hz (instead of f0 -> f1) · vib: { rate, depth in Hz, end: depth it fades to } wobbles the pitch
@@ -263,10 +288,32 @@
     // the cartoon layer under every hit: a bonk or a punch, or a POW for heavy ones
     toon: (big) => play(big ? 'pow' : Math.random() < 0.5 ? 'punch' : 'bonk', 0.8 + Math.random() * 0.5),
     lose: () => [440, 415, 392, 330].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.14, delay: i * 0.22 })),
+    // synth stand-ins for the card pack samples (o: the sample options; only rate is used here)
+    crinkle: () => { for (let i = 0; i < 6; i++) noise({ dur: 0.04, vol: 0.12, f: 4000 + Math.random() * 3000, q: 2, delay: Math.random() * 0.25 }); },
+    foil: () => noise({ dur: 0.3, vol: 0.3, f: 3000, sweep: 900, q: 0.8 }),
+    rip: () => noise({ dur: 0.45, vol: 0.35, f: 900, sweep: 4000, q: 1.5 }),
+    tear: (o = {}) => noise({ dur: 0.08, vol: 0.25, f: 2500 * (o.rate || 1), q: 1.5 }),
+    cardflip: () => [0, 0.07].forEach((d, i) => noise({ dur: 0.07, vol: 0.22, f: 2500 - i * 900, q: 1, delay: d })),
+    deal: () => noise({ dur: 0.15, vol: 0.2, f: 4000, sweep: 1500, q: 1 }),
+    riser: () => { tone({ type: 'sawtooth', f0: 100, f1: 900, dur: 1.2, vol: 0.06, attack: 1.1, lp: 3000 }); },
+    loot: () => [784, 988, 1319, 1568].forEach((f, i) => tone({ type: 'sine', f0: f, dur: 0.3, vol: 0.1, delay: i * 0.06 })),
+    gem: () => { SFX.buff(); SFX.sparkle(); },
+    fanfare: () => SFX.win(),
+    fragment: () => SFX.sparkle(),
+    tink: (o = {}) => tone({ type: 'sine', f0: 2400 * (o.rate || 1), dur: 0.2, vol: 0.08 }),
+    unlock: () => SFX.win(),
+    thud: () => { noise({ dur: 0.2, vol: 0.35, f: 400, sweep: 80, type: 'lowpass' }); tone({ type: 'sine', f0: 120, f1: 40, dur: 0.2, vol: 0.3 }); },
+    swipe: () => SFX.whoosh(),
+    heartbeat: () => [0, 0.16].forEach((d, i) => tone({ type: 'sine', f0: 70, f1: 40, dur: 0.15, vol: 0.4 - i * 0.15, delay: d })),
+    glint: (o = {}) => tone({ type: 'sine', f0: 3200 * (o.rate || 1), dur: 0.08, vol: 0.05 }),
   };
 
-  function play(name, ...args) { if (buffers[name]) sample(name); else if (SFX[name]) SFX[name](...args); }
-  function sfx(name, ...args) { try { play(name, ...args); } catch (e) { /* audio blocked until first click */ } }
+  // a recorded sample when it's loaded (optional options object, see sample()), else the synth version
+  function play(name, ...args) {
+    if (buffers[name]) return sample(name, args[0] && typeof args[0] === 'object' ? args[0] : undefined);
+    if (SFX[name]) SFX[name](...args);
+  }
+  function sfx(name, ...args) { try { return play(name, ...args); } catch (e) { /* audio blocked until first click */ } }
 
   function music(id) {
     if (id === currentId) return;

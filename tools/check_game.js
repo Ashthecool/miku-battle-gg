@@ -39,7 +39,8 @@ const SFX = ['sparkle', 'slam', 'zap', 'splash', 'heal', 'coin', 'whoosh', 'hit'
   'boing', 'bonk', 'pow', 'whistleUp', 'whistleDown', 'pop', 'squeak', 'zip', 'honk', 'wobble', 'tweet', 'splat', 'twang', 'chomp', 'ding', 'whistle', 'bubble', 'blink', 'punch',
   'fire', 'burn', 'frost', 'shatter', 'wave', 'holy', 'fusion', 'thunder', 'dark', 'wind', 'boom',
   'choir', 'laugh', 'incoming', 'tornado', 'vortex', 'missile', 'vines', 'rune', 'shuriken', 'melody', 'poof', 'gunshot', 'scope', 'lava', 'kiss', 'swish', 'clang', 'glitch', 'camera', 'tick', 'stab', 'cheer', 'scythe', 'surf',
-  'guitar', 'piano', 'axe', 'flip', 'slide', 'glass', 'flutter', 'stomp', 'grow', 'trash', 'drumroll', 'gong', 'sizzle', 'applause', 'hypno', 'warp', 'unsheathe', 'stretch', 'siren'];
+  'guitar', 'piano', 'axe', 'flip', 'slide', 'glass', 'flutter', 'stomp', 'grow', 'trash', 'drumroll', 'gong', 'sizzle', 'applause', 'hypno', 'warp', 'unsheathe', 'stretch', 'siren',
+  'crinkle', 'foil', 'rip', 'tear', 'cardflip', 'deal', 'riser', 'loot', 'gem', 'fanfare', 'fragment', 'tink', 'unlock', 'thud', 'swipe', 'heartbeat', 'glint'];
 const cardExists = (id) => id === 'randomItem' || id === 'randomUnit' || !!MB.CARDS[id];
 
 function checkSpec(where, spec, { trigger, target }) {

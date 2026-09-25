@@ -110,7 +110,8 @@ entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
   · attacks: `choir` `laugh` `incoming` (falling bomb) `tornado` `vortex` `missile` `vines` `rune` `shuriken` `melody` `poof`
   `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer` `scythe` `surf` `guitar` `piano`
   `axe` `glass` `flutter` (wings) `stomp` (giant step) `grow` `trash` `drumroll` `gong` `sizzle` `applause` `hypno` `warp`
-  `unsheathe` `siren` (singing). Recorded files in game/assets/sounds/ replace a synth sound
+  `unsheathe` `siren` (singing) · card packs: `crinkle` `foil` `rip` `tear` `cardflip` `deal` `riser` `loot` `gem`
+  `fanfare` `fragment` `tink` `unlock` `thud` `swipe` `heartbeat` `glint`. Recorded files in game/assets/sounds/ replace a synth sound
   of the same name (the SAMPLES table in audio.js)
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).

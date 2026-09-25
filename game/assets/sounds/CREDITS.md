@@ -85,3 +85,20 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | warp | warp-735062.mp3 | Fast Warp In | GammaGool | https://freesound.org/people/GammaGool/sounds/735062/ |
 | unsheathe | unsheathe-107589.mp3 | unsheath_sword.wav | Qat | https://freesound.org/people/Qat/sounds/107589/ |
 | stretch | stretch-676988.mp3 | Stretch - Short | NearTheAtmoshphere | https://freesound.org/people/NearTheAtmoshphere/sounds/676988/ |
+| crinkle | crinkle-590356.mp3 | SFX_STICKERRIPPER_foil_38.wav | MrFossy | https://freesound.org/people/MrFossy/sounds/590356/ |
+| foil | foil-590362.mp3 | SFX_STICKERRIPPER_foilBooms_03.wav | MrFossy | https://freesound.org/people/MrFossy/sounds/590362/ |
+| rip | rip-710162.mp3 | Paper Rip 3 | omgitsjo | https://freesound.org/people/omgitsjo/sounds/710162/ |
+| tear | tear-710163.mp3 | Paper Rip 4 | omgitsjo | https://freesound.org/people/omgitsjo/sounds/710163/ |
+| cardflip | cardflip-84322.mp3 | flipCard.wav | Splashdust | https://freesound.org/people/Splashdust/sounds/84322/ |
+| deal | deal-571577.mp3 | Playing Card Deal Variation 1 | el_boss | https://freesound.org/people/el_boss/sounds/571577/ |
+| riser | riser-774635.mp3 | Reverse Cymbal Shiny | loganzsound | https://freesound.org/people/loganzsound/sounds/774635/ |
+| loot | loot-659677.mp3 | Shiny Object of Value - Rare Loot Find | LilMati | https://freesound.org/people/LilMati/sounds/659677/ |
+| gem | gem-826644.mp3 | Gem Drop Treasure - Rare item drop in games | el_boss | https://freesound.org/people/el_boss/sounds/826644/ |
+| fanfare | fanfare-609028.mp3 | Fanfare 4 - Rpg | colorsCrimsonTears | https://freesound.org/people/colorsCrimsonTears/sounds/609028/ |
+| fragment | fragment-562196.mp3 | snd_fragment_retrieve.wav | gristi | https://freesound.org/people/gristi/sounds/562196/ |
+| tink | tink-509353.mp3 | Glass_tink_1.mp3 | NikitaGusev | https://freesound.org/people/NikitaGusev/sounds/509353/ |
+| unlock | unlock-331362.mp3 | 3 - Unlock achievement for games | TheZero | https://freesound.org/people/TheZero/sounds/331362/ |
+| thud | thud-653910.mp3 | soft-hit.wav | Krokulator | https://freesound.org/people/Krokulator/sounds/653910/ |
+| swipe | swipe-60007.mp3 | Swipe Whoosh | qubodup | https://freesound.org/people/qubodup/sounds/60007/ |
+| heartbeat | heartbeat-784654.mp3 | heartbeat sub kick - loud | music_is_wiggly_air | https://freesound.org/people/music_is_wiggly_air/sounds/784654/ |
+| glint | glint-734238.mp3 | Crystal1 | NoisyRedFox | https://freesound.org/people/NoisyRedFox/sounds/734238/ |
