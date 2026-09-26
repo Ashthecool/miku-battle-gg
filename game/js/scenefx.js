@@ -1,12 +1,15 @@
 // Cutscene effects for Story scenes (storymap.js): a tear in the sky, lighting (power cuts, candles, night, rift
 // glow), flashes, shakes and flickering lights. Everything draws into #screen-scene, in its 1600x900 space, except the
-// lighting, which also tints #bg (it spills past the 16:9 screen on wide windows). reset() puts it all back.
+// lighting, which also tints #bg. The overlays stretch past the 16:9 box to the window's edges (--bx/--by), so points
+// on them are placed with at(). reset() puts it all back.
 window.MB = window.MB || {};
 (function () {
   const $ = (s) => document.querySelector(s);
   const el = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
   const rnd = (a, b) => a + Math.random() * (b - a);
   const VW = 1600, VH = 900, SVG = 'http://www.w3.org/2000/svg';
+  // a gradient position for a point given in % of the 1600x900 box, on a layer that bleeds past it
+  const at = (x, y) => `calc(${(x / 100) * VW}px + var(--bx)) calc(${(y / 100) * VH}px + var(--by))`;
   const pts = (list) => 'M' + list.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L');
 
   // ---------------------------------------------------------------- lighting
@@ -44,8 +47,8 @@ window.MB = window.MB || {};
   }
   function spillAt(x, y, r = 1, strong) {
     $('#sc-light .spill').style.background = strong
-      ? `radial-gradient(ellipse ${900 * r}px ${650 * r}px at ${x}% ${y}%, #e9d4ffaa, #a86bff66 30%, #5a2ab026 60%, #0000 80%)`
-      : `radial-gradient(ellipse ${900 * r}px ${650 * r}px at ${x}% ${y}%, #e2c6ff66, #9a5cff40 30%, #5a2ab018 60%, #0000 80%)`;
+      ? `radial-gradient(ellipse ${900 * r}px ${650 * r}px at ${at(x, y)}, #e9d4ffaa, #a86bff66 30%, #5a2ab026 60%, #0000 80%)`
+      : `radial-gradient(ellipse ${900 * r}px ${650 * r}px at ${at(x, y)}, #e2c6ff66, #9a5cff40 30%, #5a2ab018 60%, #0000 80%)`;
   }
 
   // ---------------------------------------------------------------- the lights stutter
@@ -76,7 +79,7 @@ window.MB = window.MB || {};
   function flash(at, strength = 0.95) {
     const [x, y] = at || (rift ? [rift.x, rift.y] : lastAt || [50, 42]);
     const f = $('#sc-flash'), rays = $('#sc-rays');
-    f.style.background = `radial-gradient(circle at ${x}% ${y}%, #fff 0, #fff 25%, #f3e6ff 60%, #e2ccff 100%)`;
+    f.style.background = `radial-gradient(circle at ${at(x, y)}, #fff 0, #fff 25%, #f3e6ff 60%, #e2ccff 100%)`;
     gsap.fromTo(f, { opacity: strength }, { opacity: 0, duration: 0.9, ease: 'power2.out' });
     gsap.set(rays, { left: (x / 100) * VW, top: (y / 100) * VH });
     gsap.fromTo(rays, { opacity: 0.8 * strength, scale: 0.5, rotation: rnd(0, 30) }, { opacity: 0, scale: 1.5, rotation: '+=20', duration: 1.2, ease: 'power2.out' });

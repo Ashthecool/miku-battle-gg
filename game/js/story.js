@@ -787,7 +787,7 @@ window.MB = window.MB || {};
 
   // a line's mood -> the sprite role showing it (the manifest names them by battle role)
   const MOODS = { neutral: 'idle', happy: 'play', angry: 'attack', rage: 'special', scared: 'hurt', sad: 'lose', excited: 'win', proud: 'taunt' };
-  const LEVEL = { hp: [20, 44], ai: [0.25, 1] };
+  const LEVEL = { hp: [20, 44], ai: [0.15, 1] };
   const BOSS_HP = 2;           // a boss rival's extra HP
   const SECRET_GLITTER = 20;   // a secret found for the first time
 
@@ -881,6 +881,7 @@ window.MB = window.MB || {};
   QUESTS.forEach((q) => {
     if (q.stage == null || q.stage < 0) return;
     const t = progressOf(q), st = MB.STORY[q.stage];
+    st.level = t;   // also limits the Epics and Legendaries in the rival's deck (MB.AI.deck)
     st.hp = Math.round(LEVEL.hp[0] + (LEVEL.hp[1] - LEVEL.hp[0]) * t) + (MB.BOSSES[st.foe] ? BOSS_HP : 0) + (q.side ? 1 : 0);
     st.ai = Math.min(1, Math.round((LEVEL.ai[0] + (LEVEL.ai[1] - LEVEL.ai[0]) * t + (q.side ? 0.05 : 0)) * 100) / 100);
   });

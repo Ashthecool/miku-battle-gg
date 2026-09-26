@@ -677,19 +677,21 @@
       w.querySelectorAll('i').forEach((p) => gsap.killTweensOf(p));
       w.innerHTML = '';
       if (!kind || kind === 'none') return;
+      // the layer spans the whole window, past the 16:9 box
+      const B = MB.bleed || { x: 0, y: 0 }, W = VW + 2 * B.x, H = VH + 2 * B.y;
       const n = { petals: 26, snow: 40, rain: 70, embers: 30, sparkles: 26, stars: 50 }[kind] || 0;
       for (let k = 0; k < n; k++) {
         const p = el('i', kind);
         w.appendChild(p);
-        const x = Math.random() * VW, d = 4 + Math.random() * 6;
+        const x = Math.random() * W, d = 4 + Math.random() * 6;
         if (kind === 'stars' || kind === 'sparkles') {
-          gsap.set(p, { x, y: Math.random() * (kind === 'stars' ? 500 : VH), scale: 0.4 + Math.random() });
+          gsap.set(p, { x, y: Math.random() * (kind === 'stars' ? 500 + B.y : H), scale: 0.4 + Math.random() });
           gsap.to(p, { opacity: 0.1, duration: 0.6 + Math.random() * 1.6, yoyo: true, repeat: -1, delay: Math.random() * 2 });
         } else if (kind === 'embers') {
-          gsap.fromTo(p, { x, y: VH + 20 }, { x: x + (Math.random() - 0.5) * 200, y: -40, duration: d, repeat: -1, delay: -Math.random() * d, ease: 'none' });
+          gsap.fromTo(p, { x, y: H + 20 }, { x: x + (Math.random() - 0.5) * 200, y: -40, duration: d, repeat: -1, delay: -Math.random() * d, ease: 'none' });
         } else {
           const fall = kind === 'rain' ? 0.7 + Math.random() * 0.4 : d;
-          gsap.fromTo(p, { x, y: -40, rotation: Math.random() * 360 }, { x: x + (kind === 'rain' ? -80 : (Math.random() - 0.3) * 300), y: VH + 40, rotation: '+=' + (kind === 'petals' ? 540 : 0), duration: fall, repeat: -1, delay: -Math.random() * fall, ease: 'none' });
+          gsap.fromTo(p, { x, y: -40, rotation: Math.random() * 360 }, { x: x + (kind === 'rain' ? -80 : (Math.random() - 0.3) * 300), y: H + 40, rotation: '+=' + (kind === 'petals' ? 540 : 0), duration: fall, repeat: -1, delay: -Math.random() * fall, ease: 'none' });
         }
       }
     }

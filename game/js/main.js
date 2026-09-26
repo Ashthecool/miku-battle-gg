@@ -14,6 +14,11 @@
     root.style.transform = `scale(${s})`;
     root.style.left = (window.innerWidth - 1600 * s) / 2 + 'px';
     root.style.top = (window.innerHeight - 900 * s) / 2 + 'px';
+    // how far the window runs past the 1600x900 box on each side, in UI pixels: full-screen layers (cutscene
+    // lighting, fades, bars, weather) stretch by this much so they cover the letterbox margins too
+    MB.bleed = { x: (window.innerWidth / s - 1600) / 2, y: (window.innerHeight / s - 900) / 2 };
+    root.style.setProperty('--bx', MB.bleed.x + 'px');
+    root.style.setProperty('--by', MB.bleed.y + 'px');
   }
   window.addEventListener('resize', fit);
   fit();

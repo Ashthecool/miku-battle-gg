@@ -548,7 +548,7 @@
     gsap.to(o, { n: text.length, duration: text.length * 0.03, delay: 0.6, ease: 'none', onUpdate: () => { $('#intro-text').textContent = text.slice(0, o.n | 0); } });
     $('#intro-go').onclick = () => {
       MB.audio.sfx('click');
-      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music, story: i, boss });
+      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, level: st.level, bg: st.bg, music, story: i, boss });
     };
   }
 
@@ -606,7 +606,7 @@
     if (starting) return;
     const diff = cfg.arena ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
-    const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = MB.AI.deck(cfg.foe);
+    const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = MB.AI.deck(cfg.foe, cfg.level);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
     starting = true;
     await loadImages(imgs.need);

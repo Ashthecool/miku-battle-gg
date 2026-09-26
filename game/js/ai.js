@@ -188,14 +188,20 @@
 
   // A rival's deck: mostly cards from their own novel (plus one of its relationships, which may bring a partner
   // from another novel), enough cheap cards for an early game, and the rest from the whole pool.
+  // `level` (0..1, a Story rival's place in the story) caps its Epics and Legendaries; without one, no cap.
   const HOME_CARDS = 14, CHEAP = 7;
-  function deck(foeId) {
+  // [from level, most Epics, most Legendaries]: the last row whose level is reached applies
+  const RARE_CAPS = [[0, 0, 0], [0.15, 2, 0], [0.35, 4, 0], [0.5, 6, 1], [0.75, 99, 2], [0.9, 99, 99]];
+  function deck(foeId, level) {
     const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && id !== foeId);
     const novel = MB.novelOf(foeId);
     const copies = (id) => MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2;
     const out = [];
     const count = (f) => out.filter(f).length;
-    const add = (id, n = copies(id)) => { for (let i = 0; i < n && count((d) => d === id) < copies(id) && out.length < MB.RULES.deckSize; i++) out.push(id); };
+    const [, maxEpic, maxLegend] = level == null ? [0, 99, 99] : RARE_CAPS.filter(([at]) => level >= at).pop();
+    const cap = { epic: maxEpic, legendary: maxLegend };
+    const allowed = (id) => { const r = MB.CARDS[id].rarity; return !(r in cap) || count((d) => MB.CARDS[d].rarity === r) < cap[r]; };
+    const add = (id, n = copies(id)) => { for (let i = 0; i < n && allowed(id) && count((d) => d === id) < copies(id) && out.length < MB.RULES.deckSize; i++) out.push(id); };
     const cheap = (id) => MB.CARDS[id].cost <= 2;
     const couples = MB.BONDS.filter((bd) => bd.pair.every((id) => pool.includes(id)));
     const home = couples.filter((bd) => bd.pair.some((id) => MB.novelOf(id) === novel));
@@ -205,7 +211,7 @@
     // often the item that goes with a combo character it holds
     MB.COMBOS.filter((c) => out.includes(c.char) && Math.random() < 0.6).forEach((c) => { const it = c.items.find((id) => pool.includes(id)); if (it) add(it, 1); });
     for (const id of MB.shuffle(pool.filter(cheap))) { if (count(cheap) >= CHEAP) break; add(id, 1); }
-    for (let guard = 0; out.length < MB.RULES.deckSize && guard < 500; guard++) add(MB.pick(pool), 1);
+    for (let guard = 0; out.length < MB.RULES.deckSize && guard < 500; guard++) add(MB.pick(pool.filter(allowed)), 1);
     return out;
   }
 

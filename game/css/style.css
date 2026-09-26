@@ -23,7 +23,7 @@ button { font-family: inherit; }
 #bg-shade { position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(ellipse at 50% 40%, rgba(10,6,25,.05) 30%, rgba(10,6,25,.75) 100%), linear-gradient(to bottom, rgba(10,6,25,.2), rgba(10,6,25,.55)); }
 
-#ui-root { position: absolute; width: 1600px; height: 900px; transform-origin: 0 0; z-index: 1; }
+#ui-root { position: absolute; width: 1600px; height: 900px; transform-origin: 0 0; z-index: 1; --bx: 0px; --by: 0px; }
 
 /* ================= 3D arena ================= */
 #arena { position: absolute; inset: 0; perspective: 1500px; perspective-origin: 50% 30%; }
@@ -456,9 +456,14 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .act-done p { font-size: 18px; line-height: 1.45; margin: 0 0 18px; }
 
 /* ================= Story scenes ================= */
-#screen-scene { padding: 0; cursor: pointer; overflow: hidden; }
+#screen-scene { padding: 0; cursor: pointer; }
+/* the scene's full-screen layers run past the 16:9 box into the letterbox margins (--bx/--by, set by main.js),
+   so any window shape gets the lighting, fades, bars and weather edge to edge; the ::before takes clicks there */
+#screen-scene::before { content: ''; position: absolute; }
+#screen-scene::before, #screen-scene #sc-weather, #screen-scene #sc-light, #screen-scene #sc-close, #screen-scene #sc-bars,
+#screen-scene #sc-flash, #screen-scene #sc-fade { inset: calc(-1 * var(--by)) calc(-1 * var(--bx)); }
 #sc-stage { position: absolute; inset: 0; }
-.sc-sprite { position: absolute; bottom: 0; height: 780px; filter: drop-shadow(0 10px 20px #000a); transition: filter .3s; }
+.sc-sprite { position: absolute; bottom: calc(-1 * var(--by)); height: 780px; filter: drop-shadow(0 10px 20px #000a); transition: filter .3s; }
 .sc-sprite.left { left: 70px; }
 .sc-sprite.right { right: 70px; }
 .sc-sprite.center { left: 50%; margin-left: -260px; height: 820px; }
@@ -475,9 +480,9 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #sc-close { position: absolute; inset: 0; pointer-events: none; overflow: hidden;
   background: radial-gradient(circle at 70% 40%, color-mix(in srgb, var(--c) 45%, transparent), #0000 60%),
     repeating-conic-gradient(from 0deg at 70% 38%, #ffffff10 0 2deg, #0000 2deg 9deg); }
-#sc-close img { position: absolute; right: 60px; top: -80px; height: 1500px; filter: drop-shadow(0 20px 40px #000c); }
+#sc-close img { position: absolute; right: calc(60px + var(--bx)); top: calc(var(--by) - 80px); height: 1500px; filter: drop-shadow(0 20px 40px #000c); }
 #sc-bars { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
-#sc-bars i { position: absolute; left: 0; right: 0; height: 64px; background: #000; transform-origin: 50% 0; pointer-events: none; z-index: 2; }
+#sc-bars i { position: absolute; left: 0; right: 0; height: calc(64px + var(--by)); background: #000; transform-origin: 50% 0; pointer-events: none; z-index: 2; }
 #sc-bars i:first-child { top: 0; }
 #sc-bars i:last-child { bottom: 0; transform-origin: 50% 100%; }
 #sc-caption { position: absolute; left: 40px; top: 90px; padding: 10px 22px 10px 18px; border-left: 4px solid #ff6fae; background: linear-gradient(90deg, #0b0816dd, #0b081600);
@@ -505,13 +510,13 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #sc-light i { position: absolute; inset: 0; display: block; opacity: 0; }
 #sc-light .vig { opacity: .35; background: radial-gradient(ellipse 75% 70% at 50% 45%, #0000 45%, #05030fcc 100%); }
 #sc-light .candle { transform-origin: 50% 100%;
-  background: radial-gradient(ellipse 1000px 720px at 50% 92%, #ffc97066, #ff8a2a33 38%, #b040000c 66%, #0000 82%); }
+  background: radial-gradient(ellipse 1000px 720px at 50% calc(100% - var(--by) - 72px), #ffc97066, #ff8a2a33 38%, #b040000c 66%, #0000 82%); }
 /* plain overlays: #bg lives outside this stacking context, so blend modes would have nothing to blend with */
 #sc-light .tint { background: #000; }
 #sc-light .dim { background: #000; }
 
 /* the rift: a tear in the sky that sits behind the characters */
-#sc-sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#sc-sky { position: absolute; inset: 0; pointer-events: none; }
 .sc-rift { position: absolute; width: 0; height: 0; }
 .sc-rift > * { position: absolute; left: 0; top: 0; }
 .sc-tear { width: 1080px; height: 552px; margin: -276px 0 0 -540px; overflow: visible; }
