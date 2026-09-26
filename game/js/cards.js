@@ -3068,19 +3068,45 @@
     c.style.zoom = CARD_S;
     Object.assign(pivot.style, { width: FULL_W + 'px', height: H * CARD_S + 'px' });
     tilt.appendChild(c);
-    info.innerHTML = infoHtml(def, r, locked, stats);
-    info.querySelectorAll('[data-costume]').forEach((btn) => btn.addEventListener('click', () => {
-      MB.audio.sfx('buff');
-      MB.UI.setCostume(def.id, btn.dataset.costume);
-      info.querySelectorAll('[data-costume]').forEach((x) => x.classList.toggle('on', x === btn));
-      const art = c.querySelector('.card-art img');
-      if (art) art.src = MB.bigSpriteUrl(def.id, 'idle', def.combo && def.combo.costume);
-      if (sprite) {
-        sprite.src = MB.bigSpriteUrl(def.id, 'taunt', def.combo && def.combo.costume);
-        gsap.fromTo(sprite, { filter: 'brightness(3) drop-shadow(0 0 30px #fff)' }, { filter: '', duration: 0.6, clearProps: 'filter' });
-      }
-      spray(layer, cardX, CARD_Y, col, 24, { dist: [120, 320] });
-    }));
+    const fill = () => {
+      info.innerHTML = infoHtml(def, r, !MB.UI.isUnlocked(def.id) && locked, stats);
+      info.querySelectorAll('[data-costume]').forEach((btn) => btn.addEventListener('click', () => {
+        MB.audio.sfx('buff');
+        MB.UI.setCostume(def.id, btn.dataset.costume);
+        info.querySelectorAll('[data-costume]').forEach((x) => x.classList.toggle('on', x === btn));
+        const art = c.querySelector('.card-art img');
+        if (art) art.src = MB.bigSpriteUrl(def.id, 'idle', def.combo && def.combo.costume);
+        if (sprite) {
+          sprite.src = MB.bigSpriteUrl(def.id, 'taunt', def.combo && def.combo.costume);
+          gsap.fromTo(sprite, { filter: 'brightness(3) drop-shadow(0 0 30px #fff)' }, { filter: '', duration: 0.6, clearProps: 'filter' });
+        }
+        spray(layer, cardX, CARD_Y, col, 24, { dist: [120, 320] });
+      }));
+      // Glitter: craft fragments of a locked card (the last one completes it and reveals it), or make an owned one Shiny
+      info.querySelectorAll('[data-craft]').forEach((btn) => btn.addEventListener('click', () => {
+        const got = MB.UI.craft(def.id, +btn.dataset.craft);
+        if (!got) return MB.audio.sfx('error');
+        MB.audio.sfx('fragment'); MB.audio.sfx('coin');
+        spray(layer, cardX, CARD_Y, '#ffe27a', 30, { dist: [100, 300], stars: 0.8 });
+        MB.UI.renderCollection();
+        if (got.done) { close().then(() => reveal([def.id])); return; }
+        c.querySelector('.shards').remove();
+        MB.UI.lockCard(c);
+        fill();
+      }));
+      info.querySelectorAll('[data-shiny]').forEach((btn) => btn.addEventListener('click', () => {
+        if (!MB.UI.makeShiny(def.id)) return MB.audio.sfx('error');
+        MB.audio.sfx('foil'); MB.audio.sfx('fanfare');
+        c.classList.add('shiny');
+        c.appendChild(el('div', 'shine', '<i>✦</i><i>✦</i><i>✦</i>'));
+        gsap.fromTo(c, { filter: 'brightness(3)' }, { filter: 'brightness(1)', duration: 0.8, clearProps: 'filter' });
+        spray(layer, cardX, CARD_Y, '#ffe27a', 40, { dist: [140, 380], stars: 1 });
+        ring(layer, cardX, CARD_Y, '#fff', { size: 200, scale: 4 });
+        MB.UI.renderCollection();
+        fill();
+      }));
+    };
+    fill();
 
     // only real card elements get hidden while their close-up is open (board sprites stay visible)
     const hideEl = fromEl && fromEl.classList.contains('card') ? fromEl : null;
@@ -3201,7 +3227,23 @@
       ${combosHtml(def)}
       ${!locked && !def.fused && !def.combo ? wardrobeHtml(def) : ''}
       ${def.type === 'unit' && def.attack.name ? `<div class="cm-attack" style="--c:${def.attack.color}">✦ ${def.attack.name}</div>` : ''}
-      ${own}`;
+      ${own}
+      ${!stats && !def.fused && !def.combo ? glitterHtml(def, locked) : ''}`;
+  }
+
+  // what Glitter can do for this card (missions.js): craft its fragments while it's locked, then a Shiny finish
+  function glitterHtml(def, locked) {
+    const s = MB.UI.save, M = MB.Missions, bank = `<span class="glit">✨ ${s.glitter}</span>`;
+    if (locked) {
+      const per = M.craftCost(s, def.id);
+      if (!per) return '';
+      const left = MB.Collection.need(def.id) - MB.UI.shardsOf(def.id);
+      const btn = (n, label) => `<button data-craft="${n}"${s.glitter < per * n ? ' disabled' : ''}>${label} <b>✨ ${per * n}</b></button>`;
+      return `<div class="cm-glitter">${bank}${btn(1, '🧩 Craft a fragment')}${left > 1 ? btn(left, `Craft all ${left}`) : ''}</div>`;
+    }
+    if (s.shiny.includes(def.id)) return '<div class="cm-glitter on">✨ Shiny!</div>';
+    const cost = M.shinyCost(s, def.id);
+    return cost ? `<div class="cm-glitter">${bank}<button data-shiny${s.glitter < cost ? ' disabled' : ''}>Make it Shiny <b>✨ ${cost}</b></button></div>` : '';
   }
 
   // relationships this character can fuse through
@@ -3554,7 +3596,7 @@
   // ---------------------------------------------------------------- the haul
   // everything from the pack side by side, to look over (they tilt and lift under the pointer). Resolves true for
   // "open another".
-  function haul(ov, items, { tier, more }) {
+  function haul(ov, items, { tier, more, glitter }) {
     items = items.map((it) => (typeof it === 'string' ? { card: it } : it));
     const p = MB.PACKS[tier], N = items.length, S = N > 4 ? 1.2 : 1.35, gap = 36, Y = 380;
     const layer = ov.querySelector('.rv-fx'), rays = ov.querySelector('.rv-rays');
@@ -3564,7 +3606,8 @@
     title.style.color = p.color;
     const frags = items.reduce((a, it) => a + (it.need != null ? it.to - it.from : 0), 0);
     const fresh = items.filter((it) => it.need == null || it.done).length;
-    sub.innerHTML = [frags && `🧩 <b>${frags}</b> fragment${frags > 1 ? 's' : ''}`, fresh && `🎴 <b>${fresh}</b> new card${fresh > 1 ? 's' : ''}!`]
+    sub.innerHTML = [frags && `🧩 <b>${frags}</b> fragment${frags > 1 ? 's' : ''}`, fresh && `🎴 <b>${fresh}</b> new card${fresh > 1 ? 's' : ''}!`,
+      glitter && `✨ <b>+${glitter}</b> Glitter <small>(spare fragments)</small>`]
       .filter(Boolean).join(' · ');
     sub.style.top = '620px';
     gsap.set([title, sub, hint], { opacity: 0 });
@@ -3797,7 +3840,7 @@
         const charge = 0.3 + lvl * 0.2, dir = tear ? tear.dir : 1;
         if (jackpot) [0, 0.45].forEach((d) => gsap.delayedCall(d, () => MB.audio.sfx('heartbeat')));
         if (lvl >= 3 || jackpot) MB.audio.sfx('riser', { end: 0.15 + charge });
-        const tl = gsap.timeline({ onComplete: () => { pack.remove(); glow.remove(); reveal(items, ov, { tier, more }).then(res); } });
+        const tl = gsap.timeline({ onComplete: () => { pack.remove(); glow.remove(); reveal(items, ov, { tier, more, glitter: items.glitter }).then(res); } });
         tl.to([title, sub, hint, line, shine], { opacity: 0, duration: 0.2 }, 0)
           .to(slit, { left: 0, width: PW, opacity: 1, duration: 0.15 }, 0)
           .to(slit, { height: 16, marginTop: -8, duration: charge, ease: 'power1.in' }, 0.15)

@@ -85,6 +85,7 @@
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
       <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
+      <button id="btn-missions" class="menu-btn"><i>📅</i><span>Daily Missions</span><em id="missions-badge" class="badge hidden"></em></button>
       <button id="btn-howto" class="menu-btn"><i>?</i><span>How to Play</span></button>
       <button id="btn-profile" class="menu-btn"><i>👤</i><span>Profile</span></button>
       <!-- developer tools, shown in dev mode (⚙️ → Developer mode, ?dev, or running locally) -->
@@ -100,6 +101,14 @@
     <div id="pack-progress"></div>
     <div id="pack-list"></div>
     <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-missions" class="screen">
+    <h1>Daily Missions</h1>
+    <div id="glitter-bank"></div>
+    <div id="mission-list"></div>
+    <p id="mission-foot" class="pack-tip"></p>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -181,6 +190,7 @@
       <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
       <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival adds their card at once. <b>Right-click</b> any card for a close-up.</p>
+      <p>📅 <b>Daily Missions:</b> three new missions every day (↻ swaps one). Finishing them earns <b style="color:#ffe27a">✨ Glitter</b>, as does every win and any pack fragment a card didn't need. Spend it in the card close-up (right-click a card): <b>craft fragments</b> of a card you're missing, or make a card you own <b>Shiny</b>.</p>
       <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by clearing Story stages.</p>
       <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse.</p>
       <p>🔗 <b>Item combos:</b> some items belong to a character (cards with a <b style="color:#ffc93c">🔗</b>). Play the item while that character is on your side of the board (aim it at them, if it targets your monsters) and they change into a combo: a new outfit, extra stats and often a bonus effect. A hand card marked <b style="color:#ffc93c">COMBO</b> has its partner on the board right now.</p>
@@ -201,6 +211,7 @@
       <div class="row">
         <button id="result-again" class="btn primary">Again</button>
         <button id="result-packs" class="btn hidden"></button>
+        <button id="result-missions" class="btn hidden">📅 Claim Missions</button>
         <button id="result-menu" class="btn">Main Menu</button>
       </div>
     </div>
@@ -238,6 +249,7 @@
 <script src="js/data.js"></script>
 <script src="js/content.js"></script>
 <script src="js/collection.js"></script>
+<script src="js/missions.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>

@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 4;
+  const SAVE_VERSION = 5;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -36,6 +36,11 @@
     (s) => {
       // packs now hold card fragments; profile pictures moved to Story (loadSave hands out the cleared stages' ones)
       s.shards = {};
+    },
+    (s) => {
+      // Glitter, daily missions (rolled by loadSave) and Shiny cards arrived
+      s.glitter = 0;
+      s.shiny = [];
     },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
@@ -87,12 +92,21 @@
     // stats groups map an id to [wins, losses]
     s.stats = Object.assign({ leaders: {}, foes: {}, difficulty: {}, streak: 0, bestStreak: 0 }, s.stats);
     ['leaders', 'foes', 'difficulty'].forEach((k) => { if (!obj(s.stats[k])) s.stats[k] = {}; });
+    s.glitter = Math.max(0, Math.floor(+s.glitter || 0));
+    // Shiny cards you own (NSFW ones kept while the mode is off)
+    s.shiny = [...new Set(Array.isArray(s.shiny) ? s.shiny : [])].filter((id) => MB.HIDDEN_CARDS.has(id) || (MB.CARDS[id] && s.unlocked.includes(id)));
+    // today's missions: { day, list: [{ id, n, have, glitter, novel?, claimed? }], reroll }
+    const ms = obj(s.missions) && Array.isArray(s.missions.list) ? s.missions : null;
+    s.missions = ms && { day: String(ms.day), reroll: ms.reroll | 0, list: ms.list.filter((m) => obj(m) && MB.MISSIONS[m.id] && m.n > 0).slice(0, MB.Missions.PER_DAY)
+      .map((m) => ({ ...m, have: Math.min(m.n, Math.max(0, m.have | 0)), glitter: m.glitter | 0 })) };
+    MB.Missions.daily(s);
     return s;
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars'].every((k) => s[k] === undefined || Array.isArray(s[k]))
-      && ['costumes', 'stats', 'packs', 'shards'].every((k) => s[k] === undefined || obj(s[k]));
+      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['costumes', 'stats', 'packs', 'shards'].every((k) => s[k] === undefined || obj(s[k]))
+      && (s.missions == null || obj(s.missions));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -217,6 +231,8 @@
     if (!(save.packs[tier] > 0)) return null;
     save.packs[tier]--;
     const got = MB.Collection.openPack(save, tier);
+    got.glitter = got.extra * MB.GLITTER.extra; // fragments past a card's complete aren't wasted
+    save.glitter += got.glitter;
     persist();
     return got;
   }
@@ -284,6 +300,11 @@
       </div>
       ${def.type === 'unit' ? `<div class="stat atk">${def.atk}</div><div class="stat hp">${def.hp}</div>` : '<div class="spell-tag">ITEM</div>'}
       ${def.rarity !== 'token' ? `<div class="r-gem" title="${rar.name}"></div>` : ''}`;
+    // a Shiny card (bought with Glitter): holographic sheen and sparkles, wherever the card shows up
+    if (!def.fused && save.shiny.includes(def.id)) {
+      c.classList.add('shiny');
+      c.appendChild(el('div', 'shine', '<i>✦</i><i>✦</i><i>✦</i>'));
+    }
     return c;
   }
 
@@ -620,12 +641,17 @@
     }
     recordResult(cfg, win);
     // packs: Common for a win, Rare on Hard or a first Story clear, Epic for a first chapter clear and every 5-win streak
-    const packs = [];
-    if (win && !allCollected()) {
+    const packs = [], complete = allCollected();
+    if (win && !complete) {
       packs.push(firstClear && finale ? 'epic' : firstClear || cfg.difficulty === 'hard' ? 'rare' : 'common');
       if (save.stats.streak % 5 === 0) packs.push('epic');
       packs.forEach((t) => save.packs[t]++);
     }
+    // Glitter for the win, and the daily missions this battle moved along (the day may have turned mid-battle)
+    const glitter = win ? (complete ? MB.GLITTER.complete : MB.GLITTER.win) : 0;
+    save.glitter += glitter;
+    MB.Missions.daily(save);
+    const finished = MB.Missions.progress(save, MB.battle ? MB.battle.tally : {}, cfg, win);
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
     show('screen-result');
@@ -645,8 +671,11 @@
     if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
       `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
     else if (win) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    if (glitter) $('#result-text').innerHTML += `<br><span class="glit">✨ +${glitter} Glitter</span>`;
+    finished.forEach((m) => { $('#result-text').innerHTML += `<br>📅 Mission done: <b>${MB.Missions.text(m)}</b> <span class="glit">(+${m.glitter} ✨ to claim)</span>`; });
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
+    $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
     if (rewards.length || pics.length) gsap.delayedCall(1.1, () => MB.Cards.reveal([...rewards, ...pics.map((avatar) => ({ avatar }))]));
     gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
     gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
@@ -773,7 +802,8 @@
     }).join('');
     const collecting = Object.keys(save.shards).length;
     $('#coll-progress').innerHTML = `<div class="ctotal">🎴 <b>${cards.filter(isUnlocked).length}</b>/${cards.length}</div>${meters}
-      <div class="ccollect" title="Cards you have some fragments of">🧩 <b>${collecting}</b> collecting</div>`;
+      <div class="ccollect" title="Cards you have some fragments of">🧩 <b>${collecting}</b> collecting</div>
+      <div class="ccollect glit" title="Glitter: right-click a card to craft its fragments or make it Shiny">✨ <b>${save.glitter}</b></div>`;
   }
 
   function renderCollection() {
@@ -1056,6 +1086,81 @@
     refreshProfileBits();
   }
 
+  // ---------------------------------------------------------------- daily missions & Glitter
+  const glitterHtml = () => `<span class="glit">✨ <b>${save.glitter}</b> Glitter</span>`;
+  function missions() {
+    hideBattle();
+    if (MB.Missions.daily(save)) persist();
+    show('screen-missions');
+    renderMissions();
+  }
+  function renderMissions() {
+    const M = MB.Missions, ms = save.missions, list = $('#mission-list');
+    $('#glitter-bank').innerHTML = glitterHtml();
+    list.innerHTML = '';
+    ms.list.forEach((m, i) => {
+      const done = M.done(m), row = el('div', 'mission' + (m.claimed ? ' claimed' : done ? ' done' : ''), `
+        <div class="m-text">${M.text(m)}</div>
+        <div class="m-bar"><i style="width:${(m.have / m.n) * 100}%"></i><span>${m.have}/${m.n}</span></div>
+        <div class="m-reward">✨ ${m.glitter}</div>`);
+      const act = el('div', 'm-act');
+      if (m.claimed) act.innerHTML = '<span class="m-ok">✔ Claimed</span>';
+      else if (done) {
+        const b = act.appendChild(el('button', 'btn primary', 'Claim'));
+        b.onclick = () => {
+          const g = M.claim(save, i);
+          if (!g) return;
+          persist();
+          MB.audio.sfx('coin'); MB.audio.sfx('sparkle');
+          glitterBurst(b, g);
+          renderMissions();
+          refreshProfileBits();
+        };
+      } else if (ms.reroll > 0) {
+        const b = act.appendChild(el('button', 'btn', '↻'));
+        b.title = 'Swap for another mission (once a day)';
+        b.onclick = () => { if (M.reroll(save, i)) { persist(); MB.audio.sfx('flip'); renderMissions(); } };
+      }
+      row.appendChild(act);
+      list.appendChild(row);
+    });
+    if (!ms.list.length) list.innerHTML = '<p class="stats-empty">No missions today.</p>';
+    const next = new Date(); next.setHours(24, 0, 0, 0);
+    const h = Math.floor((next - Date.now()) / 3600000), min = Math.floor(((next - Date.now()) % 3600000) / 60000);
+    $('#mission-foot').innerHTML = `New missions in <b>${h}h ${min}m</b>${ms.reroll > 0 ? ' · ↻ swaps one mission (once a day)' : ''}<br>
+      ✨ <b>Glitter</b> also comes from every win and from pack fragments a card didn't need. Spend it in <b>Deck &amp; Collection</b>:
+      right-click a card to craft its fragments, or to make a card you own <b>Shiny</b>.`;
+  }
+  // sparkles fly from a button up to the Glitter counter
+  function glitterBurst(from, amount) {
+    const bank = $('#glitter-bank'), root = $('#ui-root').getBoundingClientRect(), s = root.width / 1600;
+    const a = from.getBoundingClientRect(), b = bank.getBoundingClientRect();
+    const A = { x: (a.left + a.width / 2 - root.left) / s, y: (a.top - root.top) / s }, B = { x: (b.left + b.width / 2 - root.left) / s, y: (b.top + b.height / 2 - root.top) / s };
+    for (let i = 0; i < 14; i++) {
+      const p = el('div', 'glit-fly', '✨');
+      $('#ui-root').appendChild(p);
+      gsap.fromTo(p, { x: A.x, y: A.y, scale: 0.6, opacity: 1 }, { x: B.x + (Math.random() - 0.5) * 40, y: B.y, scale: 1.2, duration: 0.6 + Math.random() * 0.3,
+        delay: i * 0.03, ease: 'power2.in', onComplete: () => p.remove() });
+    }
+    const pop = el('div', 'glit-pop', `+${amount} ✨`);
+    $('#ui-root').appendChild(pop);
+    gsap.fromTo(pop, { x: A.x, y: A.y, xPercent: -50, opacity: 0, scale: 0.5 }, { y: A.y - 60, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' });
+    gsap.to(pop, { opacity: 0, y: A.y - 100, delay: 1, duration: 0.4, onComplete: () => pop.remove() });
+    gsap.fromTo(bank, { scale: 1.25 }, { scale: 1, duration: 0.5, delay: 0.6, ease: 'elastic.out(1,0.4)' });
+  }
+
+  // crafting and Shiny, from a card's close-up (cards.js); they return what happened, or null when it can't
+  function craft(id, n) {
+    const r = MB.Missions.craft(save, id, n);
+    if (r) { persist(); refreshProfileBits(); }
+    return r;
+  }
+  function makeShiny(id) {
+    const ok = MB.Missions.makeShiny(save, id);
+    if (ok) persist();
+    return ok;
+  }
+
   // ---------------------------------------------------------------- profile
   function profile(tab = 'pics') {
     hideBattle();
@@ -1117,10 +1222,14 @@
   function refreshProfileBits() {
     $('#chip-avatar').src = MB.avatarUrl(save.avatar);
     $('#chip-name').textContent = save.name;
-    $('#chip-sub').textContent = `🖼 ${ownedAvatars()}/${MB.AVATARS.length}`;
+    $('#chip-sub').textContent = `🖼 ${ownedAvatars()}/${MB.AVATARS.length} · ✨ ${save.glitter}`;
     const n = packCount(), badge = $('#packs-badge');
     badge.textContent = n;
     badge.classList.toggle('hidden', !n);
+    if (MB.Missions.daily(save)) persist();
+    const m = MB.Missions.claimable(save), mb = $('#missions-badge');
+    mb.textContent = m;
+    mb.classList.toggle('hidden', !m);
   }
 
   // ---------------------------------------------------------------- settings / jukebox
@@ -1144,6 +1253,8 @@
     $('#btn-gallery').onclick = () => { MB.audio.sfx('click'); gallery(); };
     $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
     $('#btn-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
+    $('#btn-missions').onclick = () => { MB.audio.sfx('click'); missions(); };
+    $('#result-missions').onclick = () => { MB.audio.sfx('click'); missions(); };
     $('#profile-chip').onclick = () => { MB.audio.sfx('click'); profile(); };
     $('#profile-rename').onclick = () => { MB.audio.sfx('click'); renameProfile(); };
     $('#result-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
@@ -1180,5 +1291,6 @@
   }
 
   MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
+    craft, makeShiny, renderCollection: () => renderDeck(), refreshProfileBits,
     avatarById: (id) => avatarById.get(id) };
 })();

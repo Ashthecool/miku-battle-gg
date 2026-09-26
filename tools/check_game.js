@@ -18,7 +18,7 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/missions.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
   if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
@@ -274,6 +274,38 @@ for (let run = 0; run < 100; run++) {
 const packAvg = packRuns.reduce((a, b) => a + b, 0) / packRuns.length;
 if (packAvg > 250) warn(`packs: ${packAvg.toFixed(0)} packs on average to complete the collection`);
 
+// ---------------------------------------------------------------- daily missions, Glitter
+const Ms = MB.Missions;
+Object.entries(MB.MISSIONS).forEach(([id, t]) => {
+  if (!t.text || !(t.n > 0) || !(t.glitter > 0) || typeof t.count !== 'function') err(`mission ${id}: needs text, n, glitter and count`);
+  if (t.text.includes('{novel}') !== !!t.novel) err(`mission ${id}: "{novel}" in the text goes with a novel kind`);
+});
+// a fresh save and a finished one both get a full day of different missions, with their texts filled in
+const saveOf = (unlocked) => ({ unlocked: unlocked.slice(), leaders: MB.STARTER_LEADERS.slice(), shards: {}, glitter: 0, shiny: [], missions: null });
+for (const unlocked of [MB.STARTER_CARDS, C.deckCards()]) for (let k = 0; k < 40; k++) {
+  const s = saveOf(unlocked);
+  Ms.daily(s, 'day' + k);
+  const ids = s.missions.list.map((m) => m.id);
+  if (ids.length !== Ms.PER_DAY) err(`missions: ${ids.length} rolled instead of ${Ms.PER_DAY}`);
+  if (new Set(ids).size !== ids.length) err(`missions: the same mission twice (${ids})`);
+  s.missions.list.forEach((m) => { if (/[{}]/.test(Ms.text(m))) err(`mission text not filled in: ${Ms.text(m)}`); });
+  if (Ms.daily(s, 'day' + k)) err('missions: rolled twice on one day');
+  if (!Ms.reroll(s, 0) || Ms.reroll(s, 1)) err('missions: one reroll a day');
+}
+{ // crafting a whole legendary, then its Shiny finish; Glitter never goes negative
+  const s = saveOf(MB.STARTER_CARDS), id = C.locked(s).find((x) => MB.CARDS[x].rarity === 'legendary'), per = MB.GLITTER.craft.legendary;
+  s.glitter = per * 3 + 5;
+  const a = Ms.craft(s, id);
+  if (!a || a.to !== 3 || s.glitter !== 5 || a.done) err(`crafting: partial craft went wrong ${JSON.stringify(a)} glitter ${s.glitter}`);
+  s.glitter = 10000;
+  const b = Ms.craft(s, id);
+  if (!b || !b.done || !s.unlocked.includes(id) || s.glitter !== 10000 - per * (C.need(id) - 3)) err('crafting: finishing a card went wrong');
+  if (Ms.craftCost(s, id) !== null || Ms.craft(s, id)) err('crafting: an owned card can still be crafted');
+  if (!Ms.makeShiny(s, id) || Ms.makeShiny(s, id) || !s.shiny.includes(id)) err('shiny: should work once');
+  if (Ms.craftCost(s, MB.STARTER_CARDS[0]) !== null) err('crafting: commons are owned from the start');
+}
+const tallies = []; // { tally, won, leader } of the AI battles below, to see how long each mission takes
+
 // ---------------------------------------------------------------- AI vs AI
 const combosSeen = new Map(); // combo id -> how often it happened in the AI battles
 const viewStub = new Proxy({}, {
@@ -301,18 +333,46 @@ function randomDeck() {
   let turns = 0, done = 0;
   for (let i = 0; i < BATTLES; i++) {
     const foe = pick(leaders);
-    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: randomDeck(), enemyDeck: MB.AI.deck(foe) });
+    const deck = randomDeck();
+    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe) });
     b.aiSkill = Math.random();
     try {
       await b.start();
       for (let g = 0; g < 120 && !b.over; g++) await MB.AI.takeTurn(b, 0);
       turns += b.turn; done++;
+      tallies.push({ tally: b.tally, won: b.winner === 0, leader: b.me(0).leaderId, deck });
     } catch (e) {
       const key = (e.stack || String(e)).split('\n').slice(0, 3).join(' | ');
       failures.set(key, (failures.get(key) || 0) + 1);
     }
   }
   failures.forEach((n, key) => err(`battle crashed ${n}x: ${key}`));
+
+  // how many battles each mission takes, replaying the battles above in random order (AI decks lean on one novel,
+  // like a player's). A novel mission is played the way a player would: with a leader / a deck from that novel.
+  // A mission that takes too long isn't fun as a daily.
+  // missions a player builds for: a deck holding a combo's pair / a relationship's pair
+  const PLAYS = {
+    combos: (x) => MB.COMBOS.some((c) => x.deck.includes(c.char) && c.items.some((i) => x.deck.includes(i))),
+    bonds: (x) => MB.BONDS.some((bd) => bd.pair.every((id) => x.deck.includes(id))),
+  };
+  const topNovel = (x) => Object.entries(x.tally.novel).sort((a, b) => b[1] - a[1]).map(([nv]) => nv)[0];
+  const missionPace = Object.entries(MB.MISSIONS).map(([id, t]) => {
+    let total = 0;
+    for (let k = 0; k < 200 && tallies.length; k++) {
+      const novel = t.novel === 'leader' ? MB.novelOf(pick(tallies).leader) : t.novel ? topNovel(pick(tallies)) : undefined;
+      const fits = t.novel === 'leader' ? tallies.filter((x) => MB.novelOf(x.leader) === novel) : t.novel ? tallies.filter((x) => topNovel(x) === novel)
+        : PLAYS[id] ? tallies.filter(PLAYS[id]) : tallies;
+      const m = { id, n: t.n, have: 0, glitter: t.glitter, novel };
+      const s = { missions: { list: [m] } };
+      let n = 0;
+      while (!Ms.done(m) && n < 60) { const x = pick(fits); Ms.progress(s, x.tally, { leader: x.leader, difficulty: 'normal' }, x.won); n++; }
+      total += n;
+    }
+    const avg = total / 200;
+    if (id !== 'winHard' && avg > 8) warn(`mission ${id} takes ${avg.toFixed(1)} battles on average; make it smaller`);
+    return `${id} ${id === 'winHard' ? 'n/a' : avg.toFixed(1)}`; // the AI battles here are all on Normal
+  });
 
   if (TEXTS) {
     const isSpec = (x) => x && typeof x === 'object';
@@ -324,6 +384,7 @@ function randomDeck() {
   errors.forEach((e) => console.log('ERROR ' + e));
   console.log(`\n${M.characters.length} characters, ${Object.keys(MB.CARDS).length} cards, ${MB.BONDS.length} bonds, ${MB.STORY.length} story stages`);
   console.log(`combos: ${[...combosSeen.values()].reduce((a, b) => a + b, 0)} in the battles, ${combosSeen.size}/${MB.COMBOS.length} different`);
+  console.log(`missions, battles to finish on average: ${missionPace.join(", ")}`);
   console.log(`rival decks: avg ${(homeShare.reduce((a, b) => a + b, 0) / homeShare.length).toFixed(1)}/${MB.RULES.deckSize} cards from their own novel, ${Math.min(...homeShare)}-${Math.max(...homeShare)}`);
   console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);

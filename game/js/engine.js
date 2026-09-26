@@ -16,6 +16,7 @@
     constructor(opts) {
       this.view = opts.view;
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
+      this.tally = { novel: {} }; // what the player did, for daily missions (count)
       this.players = [0, 1].map((side) => {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
         const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
@@ -27,6 +28,12 @@
           hand: [], board: new Array(SLOTS).fill(null),
         };
       });
+    }
+
+    // counts something the player (side 0) did: cards, items, big (cost 5+), powers, attacks, bonds, combos,
+    // kills (enemy monsters), face (damage to the enemy leader), healed; tally.novel counts cards played per novel
+    count(side, key, n = 1) {
+      if (side === 0 && n > 0) this.tally[key] = (this.tally[key] || 0) + n;
     }
 
     me(side) { return this.players[side]; }
@@ -162,6 +169,11 @@
       }
       p.hand.splice(idx, 1);
       p.gold -= card.cost;
+      this.count(side, 'cards');
+      if (card.type === 'spell') this.count(side, 'items');
+      if (card.cost >= 5) this.count(side, 'big');
+      const novel = MB.novelOf(card.id);
+      if (side === 0 && novel) this.tally.novel[novel] = (this.tally.novel[novel] || 0) + 1;
       await this.view.cardPlayed(side, card);
       if (card.type === 'unit') {
         this.view.log(`${side ? 'Enemy' : 'You'} played ${card.name}.`);
@@ -194,6 +206,7 @@
         if (!target) return false;
       }
       p.gold -= pw.cost; p.powerUsed = true;
+      this.count(side, 'powers');
       this.view.log(`${side ? 'Enemy' : 'You'} used ${pw.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
       if (typeof pw.effect === 'object') { // a spec (effects.js)
         const r = MB.Effects.prepare(this, pw.effect, { side, target });
@@ -212,6 +225,7 @@
       if (!this.canAttack(attacker)) return false;
       if (!this.attackTargets(attacker).some((t) => t.uid === target.uid)) return false;
       attacker.attacksLeft--;
+      this.count(attacker.side, 'attacks');
       const tipsy = attacker.kw.has('tipsy');
       if (tipsy) target = pick(this.attackTargets(attacker));
       if (attacker.kw.has('stealth')) { attacker.kw.delete('stealth'); this.view.react({ type: 'reveal', ent: attacker }); }
@@ -291,6 +305,7 @@
       };
       p.board[a.slot] = null; p.board[b.slot] = null; p.board[u.slot] = u;
       this.view.log(`💞 ${a.name} & ${b.name} → ${bond.name}!`);
+      this.count(side, 'bonds');
       await this.view.fuse(stay, go, u, bond);
       if (bond.onFuse) await this.trigger(bond.onFuse, u);
       else { await this.resolveDeaths(); this.view.refresh(); }
@@ -314,6 +329,7 @@
     // the partner changes into the combo (after the item's own effect)
     async comboUp(u, c, item) {
       this.view.log(`🔗 ${u.name} + ${item.name} → ${c.name}!`);
+      this.count(u.side, 'combos');
       u.card = { ...u.card, combo: c, name: c.name };
       u.name = c.name;
       if (c.costume) u.costume = c.costume;
@@ -339,6 +355,7 @@
         return 0;
       }
       target.hp -= amount;
+      if (target.isLeader && !self) this.count(1 - target.side, 'face', amount);
       this.view.react({ type: 'damage', ent: target, amount, counter });
       if (!target.isLeader) target.killedBy = source && !source.isLeader ? source : null; // for onKill, if this blow is fatal
       if (source && !source.isLeader) {
@@ -360,6 +377,7 @@
     heal(t, n) {
       const before = t.hp;
       t.hp = Math.min(t.maxHp, t.hp + n);
+      this.count(t.side, 'healed', t.hp - before);
       if (t.hp > before) this.view.react({ type: 'heal', ent: t, amount: t.hp - before });
       if (t.burning) { t.burning = false; this.view.react({ type: 'extinguish', ent: t }); }
     }
@@ -412,7 +430,7 @@
         for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
         if (!dead.length) break;
-        for (const u of dead) this.me(u.side).board[u.slot] = null;
+        for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); }
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);

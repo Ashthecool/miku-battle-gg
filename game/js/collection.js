@@ -28,27 +28,31 @@ window.MB = window.MB || {};
     return pickFrom(started.length && rng() < FOCUS ? started : groups[r], rng);
   }
 
-  // adds n fragments of a card; unlocks it once complete (extra fragments are lost)
+  // adds n fragments of a card; unlocks it once complete. extra: the fragments past complete (they become Glitter)
   function addShards(s, id, n) {
     const from = s.shards[id] || 0, to = Math.min(need(id), from + n);
     if (to >= need(id)) { delete s.shards[id]; s.unlocked.push(id); } else s.shards[id] = to;
-    return { from, to };
+    return { from, to, extra: from + n - to };
   }
 
   // opens one pack of this tier into the save: [{ card, from, to, need, done }], one entry per card,
-  // least rare first and completed cards last
+  // least rare first and completed cards last; .extra on the list counts the fragments past complete
   function openPack(s, tier, rng = Math.random) {
     const got = new Map();
+    let extra = 0;
     MB.PACKS[tier].slots.forEach((slot) => {
       const id = rollCard(s, slot === 'card' ? 0 : MB.RARITY[slot].stars, rng);
       if (!id) return;
-      const { from, to } = addShards(s, id, MB.SHARD_DROP[slot] || 1);
+      const { from, to, extra: x } = addShards(s, id, MB.SHARD_DROP[slot] || 1);
+      extra += x;
       const g = got.get(id);
       if (g) g.to = to; else got.set(id, { card: id, from, to, need: need(id) });
     });
     const out = [...got.values()];
     out.forEach((g) => { g.done = g.to >= g.need; });
-    return out.sort((a, b) => a.done - b.done || rarityOf(a.card).stars - rarityOf(b.card).stars);
+    out.sort((a, b) => a.done - b.done || rarityOf(a.card).stars - rarityOf(b.card).stars);
+    out.extra = extra;
+    return out;
   }
 
   // ---------------------------------------------------------------- profile pictures

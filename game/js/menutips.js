@@ -217,6 +217,27 @@
       .to(name, { opacity: 0, duration: 0.3 }, '+=0.6');
   }
 
+  // today's missions fill up one by one and their Glitter flies into the counter
+  function missionsScene(S) {
+    const list = MB.UI.save.missions.list.slice(0, 3);
+    const bank = place(el('div', 'mt-gold', '✨ 0'), 262, 138);
+    const rows = list.map((m, i) => place(el('div', 'mt-mission', `<span>${MB.Missions.text(m)}</span><b><i></i></b><em>✨${m.glitter}</em>`), 12, 12 + i * 42));
+    S.append(...rows, bank);
+    const sum = { n: 0 };
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
+    tl.set(rows.map((r) => r.querySelector('i')), { width: '0%' }).set(sum, { n: 0 }).call(() => { bank.textContent = '✨ 0'; })
+      .from(rows, { x: -40, opacity: 0, stagger: 0.12, duration: 0.3 });
+    rows.forEach((r, i) => {
+      const fly = place(el('div', 'mt-frag', '✨'), 300, 20 + i * 42);
+      S.appendChild(fly);
+      tl.to(r.querySelector('i'), { width: '100%', duration: 0.55, ease: 'power1.inOut' })
+        .fromTo(fly, { x: 290, y: 16 + i * 42, opacity: 1, scale: 0.6 }, { x: 280, y: 132, scale: 1.2, duration: 0.4, ease: 'power2.in' })
+        .set(fly, { opacity: 0 })
+        .to(sum, { n: `+=${list[i].glitter}`, duration: 0.3, onUpdate: () => { bank.textContent = `✨ ${Math.round(sum.n)}`; } }, '<');
+    });
+    return tl;
+  }
+
   // ---------------------------------------------------------------- the panel
   const TIPS = {
     'btn-story': { scene: story, title: 'Story', text: () => {
@@ -233,6 +254,11 @@
       return `Every win earns a pack full of <b>card fragments</b>. Collect enough and the card is yours: rarer cards need more
         (<b style="color:${R.rare.color}">${R.rare.shards}</b> · <b style="color:${R.epic.color}">${R.epic.shards}</b> · <b style="color:${R.legendary.color}">${R.legendary.shards}</b>).
         <small>${n ? `🎁 ${n} pack${n > 1 ? 's' : ''} waiting to be opened!` : '🎁 No packs right now: go win some!'}</small>`;
+    } },
+    'btn-missions': { scene: missionsScene, title: 'Daily Missions', text: () => {
+      const s = MB.UI.save, n = MB.Missions.claimable(s);
+      return `Three new missions every day. Finish them in battle for <b>✨ Glitter</b>: craft the exact card you're missing, or make your favorites <b>Shiny</b>.
+        <small>✨ ${s.glitter} Glitter${n ? ` · 📅 ${n} mission${n > 1 ? 's' : ''} ready to claim!` : ''}</small>`;
     } },
     'btn-howto': { scene: howtoScene, title: 'How to Play', text: () => 'Gold, summoning, attacking, keywords and relationships, all on one page. Start here if you\'re new!' },
     'btn-profile': { scene: profileScene, title: 'Profile', text: () => `Your name, your profile picture and all your battle <b>stats</b>. New pictures are won in Story.` },
