@@ -29,7 +29,8 @@ npx serve game
 | `tools/novel_brief.py` | Condenses the novels into a design brief (characters, items, backgrounds, music). |
 | `tools/check_game.js` | Validates the cards, bonds and story against the manifest and plays AI-vs-AI battles (`node tools/check_game.js`). |
 | `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
-| `game/js/missions.js` | Daily missions, Glitter, crafting and Shiny cards (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`). |
+| `game/js/missions.js` | Daily missions, Glitter, crafting, Shiny cards and Story stars (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`, star challenges in `MB.Stars`). |
+| `game/js/arena.js` | The Arena draft mode: leaders, card offers, opponents and rewards (`MB.ARENA`). |
 | `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
 

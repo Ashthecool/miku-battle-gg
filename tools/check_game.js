@@ -18,7 +18,7 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/missions.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
   if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
@@ -334,6 +334,31 @@ for (const unlocked of [MB.STARTER_CARDS, C.deckCards()]) for (let k = 0; k < 40
   S.awardStars(s, ch0[0], perfect);
   if (s.packs.epic !== 1 || s.glitter !== ch0.length * 3 * MB.GLITTER.star) err('stars: paid twice for the same stars');
 }
+// ---------------------------------------------------------------- arena
+const Ar = MB.Arena;
+const arenaDraft = () => { // a whole draft, picking at random; returns { leader, deck }
+  const s = { arena: null, glitter: 0, packs: { common: 0, rare: 0, epic: 0 }, arenaBest: 0, arenaRuns: 0 };
+  const a = Ar.start(s);
+  if (a.leaders.length !== 3 || new Set(a.leaders).size !== 3) err(`arena: leaders ${a.leaders}`);
+  Ar.chooseLeader(s, pick(a.leaders));
+  for (let k = 0; k < 60 && a.stage === 'draft'; k++) {
+    if (a.offer.length !== 3 || new Set(a.offer).size !== 3) err(`arena: offer ${a.offer}`);
+    if (a.offer.some((id) => !MB.CARDS[id] || MB.CARDS[id].token || id === a.leader)) err(`arena: bad offer ${a.offer}`);
+    Ar.pick(s, pick(a.offer));
+  }
+  if (a.stage !== 'run' || a.deck.length !== MB.RULES.deckSize) err(`arena: draft ended at ${a.stage} with ${a.deck.length} cards`);
+  a.deck.forEach((id) => { const max = MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2; if (a.deck.filter((x) => x === id).length > max) err(`arena: too many ${id}`); });
+  if (!Ar.valid(a)) err('arena: a fresh run fails valid()');
+  return { s, leader: a.leader, deck: a.deck.slice() };
+};
+for (let k = 0; k < 200 && errors.length < 20; k++) arenaDraft();
+{ // a run to the end pays out once and clears the run
+  const { s } = arenaDraft();
+  for (let k = 0; k < 20 && s.arena.stage === 'run'; k++) Ar.result(s, k % 3 !== 2);
+  if (s.arena.stage !== 'done') err('arena: run never ends');
+  const r = Ar.finish(s);
+  if (!r || s.arena || s.glitter !== MB.ARENA.rewards(r.wins).glitter || s.arenaBest !== r.wins || Ar.finish(s)) err(`arena: finishing went wrong ${JSON.stringify(r)}`);
+}
 const tallies = []; // { tally, won, leader, deck, hp } of the AI battles below, to see how long each mission takes
 
 // ---------------------------------------------------------------- AI vs AI
@@ -363,8 +388,9 @@ function randomDeck() {
   let turns = 0, done = 0;
   for (let i = 0; i < BATTLES; i++) {
     const bossy = bossFoes.length && i % 3 === 0, foe = bossy ? pick(bossFoes) : pick(leaders); // every 3rd battle is against a boss
-    const deck = randomDeck();
-    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe), boss: bossy ? MB.BOSSES[foe] : null });
+    const drafted = i % 5 === 1 ? arenaDraft() : null; // every 5th battle is played with an Arena draft
+    const deck = drafted ? drafted.deck : randomDeck();
+    const b = new MB.Battle({ view: viewStub, playerLeader: drafted ? drafted.leader : pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe), boss: bossy ? MB.BOSSES[foe] : null });
     b.aiSkill = Math.random();
     try {
       await b.start();

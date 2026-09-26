@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 6;
+  const SAVE_VERSION = 7;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -46,6 +46,12 @@
       // Story stars: stage index -> the stars earned there (bits); chapters whose three-star Epic pack was paid out
       s.stars = {};
       s.starChapters = [];
+    },
+    (s) => {
+      // the Arena: the run in progress (js/arena.js), the best one and how many were played
+      s.arena = null;
+      s.arenaBest = 0;
+      s.arenaRuns = 0;
     },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
@@ -107,13 +113,15 @@
     MB.Missions.daily(s);
     s.stars = Object.fromEntries(Object.entries(obj(s.stars) ? s.stars : {}).filter(([k, v]) => MB.STORY[k] && (v & 7)).map(([k, v]) => [k, v & 7]));
     s.starChapters = Array.isArray(s.starChapters) ? s.starChapters.filter((c) => MB.CHAPTERS[c]) : [];
+    if (!MB.Arena.valid(s.arena)) s.arena = null; // a run built on cards that are gone (NSFW mode switched off) ends
+    s.arenaBest = s.arenaBest | 0; s.arenaRuns = s.arenaRuns | 0;
     return s;
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
       && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
       && ['costumes', 'stats', 'packs', 'shards', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
-      && (s.missions == null || obj(s.missions));
+      && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -576,13 +584,17 @@
   }
 
   // ---------------------------------------------------------------- quick battle
+  // a battle away from Story: any background that isn't a close-up scene, and the foe's theme or something upbeat
+  const randomBg = () => MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
+  function battleMusic(foe) {
+    const upbeat = MB.manifest.music.filter((m) => /exciting|fast|fun|happy/i.test(m.tags.join(' ') + m.name));
+    return MB.themeOf(foe) || MB.pick(upbeat.length ? upbeat : MB.manifest.music).id;
+  }
   function quick() {
     leaderSelect((lid) => {
       const foes = MB.manifest.characters.map((c) => c.id).filter((id) => id !== lid);
       const foe = MB.pick(foes);
-      const bg = MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
-      const upbeat = MB.manifest.music.filter((m) => /exciting|fast|fun|happy/i.test(m.tags.join(' ') + m.name));
-      startBattle({ leader: lid, foe, foeHp: MB.RULES.leaderHp, ai: 0.7, bgSrc: bg.src, music: MB.themeOf(foe) || MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
+      startBattle({ leader: lid, foe, foeHp: MB.RULES.leaderHp, ai: 0.7, bgSrc: randomBg().src, music: battleMusic(foe) });
     });
   }
 
@@ -620,17 +632,18 @@
 
   let current = null, starting = false;
   async function startBattle(cfg) {
-    if (save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
+    // cfg.deck: the Arena's drafted deck instead of yours; the Arena sets its own foe HP and skill, so no difficulty
+    if (!cfg.deck && save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
     if (starting) return;
-    const diff = DIFFICULTY[save.difficulty];
+    const diff = cfg.arena ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
-    const playerDeck = save.deck.slice(), enemyDeck = MB.AI.deck(cfg.foe);
+    const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = MB.AI.deck(cfg.foe);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
     starting = true;
     await loadImages(imgs.need);
     starting = false;
     MB.preloadImages(imgs.later);
-    current = { ...cfg, difficulty: save.difficulty };
+    current = { ...cfg, difficulty: cfg.arena ? 'arena' : save.difficulty };
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
     setBg(MB.asset(bgSrc));
     MB.audio.music(cfg.music);
@@ -669,8 +682,10 @@
     }
     recordResult(cfg, win);
     // packs: Common for a win, Rare on Hard or a first Story clear, Epic for a first chapter clear and every 5-win streak
+    // (an Arena run pays at its end instead)
     const packs = [], complete = allCollected();
-    if (win && !complete) {
+    if (cfg.arena) MB.Arena.result(save, win);
+    else if (win && !complete) {
       packs.push(firstClear && finale ? 'epic' : firstClear || cfg.difficulty === 'hard' ? 'rare' : 'common');
       if (save.stats.streak % 5 === 0) packs.push('epic');
       packs.forEach((t) => save.packs[t]++);
@@ -700,7 +715,7 @@
       pics.map((id) => `<b style="color:#ff9cc9">${avatarById.get(id).name}</b>`).join(', ');
     if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
       `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
-    else if (win) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    else if (win && complete && !cfg.arena) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
     if (stars && win) {
       const n = MB.Stars.bits(stars.fresh);
       $('#result-text').innerHTML += `<div class="result-stars">${starRow(save.stars[cfg.story] | 0, stars.fresh)}</div>`
@@ -720,8 +735,13 @@
     gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
     gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
     gsap.fromTo('#result-foe', { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
-    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.story != null ? story() : startBattle({ ...cfg, foe: cfg.foe }); };
-    $('#result-again').textContent = cfg.story != null ? 'Story Map' : 'Rematch';
+    if (cfg.arena && save.arena) {
+      const a = save.arena;
+      $('#result-text').innerHTML += `<br>🏟 Arena run: <b class="arena-wl">${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</b>`
+        + (a.stage === 'done' ? ' — the run is over! Claim your rewards in the Arena.' : '');
+    }
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.arena ? arena() : cfg.story != null ? story() : startBattle({ ...cfg, foe: cfg.foe }); };
+    $('#result-again').textContent = cfg.arena ? '🏟 Arena' : cfg.story != null ? 'Story Map' : 'Rematch';
   }
 
   // ---------------------------------------------------------------- deck & collection
@@ -1126,6 +1146,120 @@
     refreshProfileBits();
   }
 
+  // ---------------------------------------------------------------- arena
+  function arena() {
+    hideBattle();
+    show('screen-arena');
+    MB.audio.music(MB.MUSIC.deck);
+    renderArena();
+  }
+  // the drafted deck as a cost curve and a list (cost · name · ×copies)
+  function arenaDeckHtml(deck) {
+    const counts = {};
+    deck.forEach((id) => { counts[id] = (counts[id] || 0) + 1; });
+    const ids = Object.keys(counts).sort((a, b) => MB.CARDS[a].cost - MB.CARDS[b].cost || MB.cardDef(a).name.localeCompare(MB.cardDef(b).name));
+    const curve = [0, 1, 2, 3, 4, 5, 6, 7].map((c) => deck.filter((id) => Math.min(7, MB.CARDS[id].cost) === c).length);
+    const top = Math.max(1, ...curve);
+    return `<div class="ad-curve">${curve.map((n, c) => `<div><i style="height:${(n / top) * 100}%"></i><span>${c === 7 ? '7+' : c}</span></div>`).join('')}</div>
+      <div class="ad-list scroll-y">${ids.map((id) => { const d = MB.cardDef(id);
+        return `<div class="ad-row" style="--rc:${MB.RARITY[d.rarity].color}"><b>${d.cost}</b><span>${d.name}</span>${counts[id] > 1 ? `<i>×${counts[id]}</i>` : ''}</div>`; }).join('')}</div>`;
+  }
+  const leaderHtml = (id) => {
+    const pw = MB.POWERS[id];
+    return `<img src="${MB.spriteUrl(id, 'idle')}"><div class="lt-name">${MB.charById(id).name}</div><div class="lt-power"><b>${pw.name}</b> (${pw.cost})<br>${pw.text}</div>`;
+  };
+  function renderArena() {
+    const A = MB.ARENA, a = save.arena, body = $('#arena-body');
+    body.innerHTML = '';
+    body.className = a ? 'stage-' + a.stage : 'stage-none';
+    if (!a) {
+      const tiers = [0, 3, 5, 7].map((w) => { const r = A.rewards(w);
+        return `<div class="ar-tier"><b>${w} win${w === 1 ? '' : 's'}</b><span class="glit">✨ ${r.glitter}</span>${r.packs.map((t) => `<span style="color:${MB.PACKS[t].color}">🎁 ${MB.PACKS[t].name}</span>`).join('')}</div>`; }).join('');
+      body.innerHTML = `<div class="ar-intro">
+        <p>Pick a leader, then <b>draft a deck</b> one card at a time from <b>every card in the game</b>, owned or not. Then battle until
+          <b>${A.maxWins} wins</b> or <b>${A.maxLosses} losses</b>. Every win makes the next rival tougher, and the rewards bigger.</p>
+        <div class="ar-tiers">${tiers}</div>
+        <p class="ar-best">${save.arenaRuns ? `🏆 Best run: <b>${save.arenaBest} wins</b> · ${save.arenaRuns} run${save.arenaRuns > 1 ? 's' : ''} played` : 'No runs yet.'}</p>
+      </div>`;
+      const go = body.appendChild(el('button', 'btn primary ar-go', '🏟 Start a run'));
+      go.onclick = () => { MB.audio.sfx('click'); MB.Arena.start(save); persist(); renderArena(); refreshProfileBits(); };
+      return;
+    }
+    if (a.stage === 'leader') {
+      body.appendChild(el('h2', 'ar-step', 'Choose your leader'));
+      const row = body.appendChild(el('div', 'ar-leaders'));
+      a.leaders.forEach((id) => {
+        const t = row.appendChild(el('div', 'leader-tile', leaderHtml(id)));
+        t.addEventListener('pointerenter', () => { MB.audio.sfx('hover'); t.querySelector('img').src = MB.spriteUrl(id, 'taunt'); });
+        t.addEventListener('pointerleave', () => { t.querySelector('img').src = MB.spriteUrl(id, 'idle'); });
+        t.onclick = () => { MB.audio.sfx('click'); MB.Arena.chooseLeader(save, id); persist(); renderArena(); };
+      });
+      gsap.from(row.children, { y: 60, opacity: 0, rotationY: -40, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)' });
+      return;
+    }
+    const side = el('div', 'ar-side', `<div class="ar-leader">${leaderHtml(a.leader)}</div>
+      <div class="ad-head">🂠 Deck <b>${a.deck.length}/${A.picks}</b></div>${arenaDeckHtml(a.deck)}`);
+    if (a.stage === 'draft') {
+      const main = el('div', 'ar-main');
+      main.appendChild(el('h2', 'ar-step', `Pick a card <small>${a.deck.length + 1} / ${A.picks}</small>`));
+      const row = main.appendChild(el('div', 'ar-offer'));
+      a.offer.forEach((id) => {
+        const box = row.appendChild(el('div', 'ar-card'));
+        const c = box.appendChild(cardEl(id, true));
+        const home = MB.novelOf(id) === MB.novelOf(a.leader);
+        if (home) box.appendChild(el('div', 'ar-tag', 'Same novel as your leader'));
+        c.onclick = () => {
+          if (row.classList.contains('picked')) return;
+          row.classList.add('picked');
+          MB.audio.sfx('cardflip');
+          MB.Arena.pick(save, id);
+          persist();
+          gsap.to([...row.children].filter((b) => b !== box), { opacity: 0, y: 40, duration: 0.25 });
+          gsap.to(box, { y: -30, scale: 1.08, duration: 0.25, ease: 'power2.out', onComplete: renderArena });
+        };
+      });
+      main.appendChild(el('p', 'pack-tip', 'Right-click a card for a close-up. Relationships and item combos work here too: draft both halves!'));
+      body.append(main, side);
+      gsap.from(row.children, { y: 80, opacity: 0, rotationX: -40, duration: 0.45, stagger: 0.08, ease: 'back.out(1.5)' });
+      return;
+    }
+    // the run: wins and losses so far, then the next rival (or the rewards, once it's over)
+    const main = el('div', 'ar-main');
+    const pips = (n, max, cls, sym) => Array.from({ length: max }, (_, k) => `<i class="${k < n ? cls : ''}">${sym}</i>`).join('');
+    main.appendChild(el('div', 'ar-record', `<div class="ar-wins">${pips(a.wins, A.maxWins, 'on', '★')}</div><div class="ar-losses">${pips(a.losses, A.maxLosses, 'on', '✖')}</div>`));
+    if (a.stage === 'run') {
+      const n = a.next, ch = MB.charById(n.foe);
+      main.appendChild(el('div', 'ar-next', `<small>Next rival · battle ${a.wins + a.losses + 1}</small>
+        <img src="${MB.bigSpriteUrl(n.foe, 'taunt')}"><b>${ch.name}</b><span>❤ ${n.hp} HP · ${ch.novel.replace(/\s*\(.*\)/, '').trim()}</span>`));
+      const btns = main.appendChild(el('div', 'row'));
+      const fight = btns.appendChild(el('button', 'btn primary', '⚔ Fight'));
+      fight.onclick = () => { MB.audio.sfx('click'); startBattle({ leader: a.leader, foe: n.foe, foeHp: n.hp, ai: n.ai, bgSrc: randomBg().src, music: battleMusic(n.foe), arena: true, deck: a.deck }); };
+      const retire = btns.appendChild(el('button', 'btn', 'Retire'));
+      const r = A.rewards(a.wins);
+      retire.onclick = () => { if (confirm(`End this run now and take the rewards for ${a.wins} win${a.wins === 1 ? '' : 's'} (✨ ${r.glitter}${r.packs.length ? ' and ' + r.packs.length + ' pack' + (r.packs.length > 1 ? 's' : '') : ''})?`)) arenaClaim(); };
+    } else {
+      const r = A.rewards(a.wins);
+      main.appendChild(el('div', 'ar-done', `<b>${a.wins >= A.maxWins ? '🏆 A perfect run!' : 'The run is over!'}</b>
+        <span>${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</span>
+        <div class="ar-tier"><span class="glit">✨ ${r.glitter}</span>${r.packs.map((t) => `<span style="color:${MB.PACKS[t].color}">🎁 ${MB.PACKS[t].name}</span>`).join('')}</div>`));
+      const claim = main.appendChild(el('button', 'btn primary', '🎁 Claim rewards'));
+      claim.onclick = arenaClaim;
+    }
+    body.append(main, side);
+  }
+  function arenaClaim() {
+    const r = MB.Arena.finish(save);
+    if (!r) return;
+    persist();
+    MB.audio.sfx('fanfare'); MB.audio.sfx('coin');
+    refreshProfileBits();
+    renderArena();
+    const note = el('div', 'glit-pop', `+${r.glitter} ✨${r.packs.length ? ` · 🎁 ×${r.packs.length}` : ''}`);
+    $('#ui-root').appendChild(note);
+    gsap.fromTo(note, { x: 800, y: 420, xPercent: -50, scale: 0.4, opacity: 0 }, { y: 360, scale: 1.4, opacity: 1, duration: 0.5, ease: 'back.out(2)' });
+    gsap.to(note, { opacity: 0, y: 300, delay: 1.6, duration: 0.5, onComplete: () => note.remove() });
+  }
+
   // ---------------------------------------------------------------- daily missions & Glitter
   const glitterHtml = () => `<span class="glit">✨ <b>${save.glitter}</b> Glitter</span>`;
   function missions() {
@@ -1270,6 +1404,10 @@
     const m = MB.Missions.claimable(save), mb = $('#missions-badge');
     mb.textContent = m;
     mb.classList.toggle('hidden', !m);
+    // an Arena run in progress: its record, or 🎁 when its rewards are waiting
+    const a = save.arena, ab = $('#arena-badge');
+    ab.textContent = !a ? '' : a.stage === 'done' ? '🎁' : a.stage === 'run' ? `${a.wins}-${a.losses}` : '…';
+    ab.classList.toggle('hidden', !a);
   }
 
   // ---------------------------------------------------------------- settings / jukebox
@@ -1294,6 +1432,7 @@
     $('#btn-howto').onclick = () => { MB.audio.sfx('click'); show('screen-howto'); };
     $('#btn-packs').onclick = () => { MB.audio.sfx('click'); packs(); };
     $('#btn-missions').onclick = () => { MB.audio.sfx('click'); missions(); };
+    $('#btn-arena').onclick = () => { MB.audio.sfx('click'); arena(); };
     $('#result-missions').onclick = () => { MB.audio.sfx('click'); missions(); };
     $('#profile-chip').onclick = () => { MB.audio.sfx('click'); profile(); };
     $('#profile-rename').onclick = () => { MB.audio.sfx('click'); renameProfile(); };

@@ -83,6 +83,7 @@
     </div>
     <div class="menu">
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
+      <button id="btn-arena" class="menu-btn"><i>🏟</i><span>Arena</span><em id="arena-badge" class="badge hidden"></em></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
       <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
       <button id="btn-missions" class="menu-btn"><i>📅</i><span>Daily Missions</span><em id="missions-badge" class="badge hidden"></em></button>
@@ -101,6 +102,12 @@
     <div id="pack-progress"></div>
     <div id="pack-list"></div>
     <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-arena" class="screen">
+    <h1>Arena</h1>
+    <div id="arena-body"></div>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -192,6 +199,7 @@
       <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival adds their card at once. <b>Right-click</b> any card for a close-up.</p>
       <p>👑 <b>Bosses:</b> the last rival of each Story chapter has a <b>boss rule</b> that goes off every few turns, and a <b>💢 rage</b> the first time they drop to half HP. Both are shown before the fight and in the enemy's panel.</p>
       <p>⭐ <b>Stars:</b> every Story stage has three stars: win, win with your leader at 20+ HP, and a challenge of its own (shown before the fight). Stars count on Normal and Hard. Each new star gives ✨ Glitter, and three stars on every stage of a chapter give an <b style="color:#b35cff">Epic Pack</b>.</p>
+      <p>🏟 <b>Arena:</b> pick one of three leaders and <b>draft</b> a deck one card at a time from every card in the game (owned or not). Then battle until 7 wins or 3 losses; each win makes the next rival tougher. The more wins, the bigger the ✨ Glitter and pack rewards. You can retire any time and take what you've earned.</p>
       <p>📅 <b>Daily Missions:</b> three new missions every day (↻ swaps one). Finishing them earns <b style="color:#ffe27a">✨ Glitter</b>, as does every win and any pack fragment a card didn't need. Spend it in the card close-up (right-click a card): <b>craft fragments</b> of a card you're missing, or make a card you own <b>Shiny</b>.</p>
       <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by clearing Story stages.</p>
       <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse.</p>
@@ -252,6 +260,7 @@
 <script src="js/content.js"></script>
 <script src="js/collection.js"></script>
 <script src="js/missions.js"></script>
+<script src="js/arena.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>

@@ -217,6 +217,28 @@
       .to(name, { opacity: 0, duration: 0.3 }, '+=0.6');
   }
 
+  // three cards are offered, one is picked and flies into the deck, again and again; the win stars light up
+  function arenaScene(S) {
+    const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && !MB.cardDef(id).emoji);
+    const stack = place(el('div', 'mt-stack', '<i></i><i></i><i></i><b>0/20</b>'), 264, 60);
+    const stars = place(el('div', 'mt-gold', '☆☆☆'), 250, 6);
+    S.append(stack, stars);
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
+    let n = 0;
+    for (let round = 0; round < 3; round++) {
+      const cards = [0, 1, 2].map((k) => { const c = place(mini(pick(pool), 0.4), 12 + k * 76, 36); S.appendChild(c); return c; });
+      const chosen = cards[round % 3];
+      tl.fromTo(cards, { y: 120, opacity: 0 }, { y: 36, opacity: 1, duration: 0.35, stagger: 0.08, ease: 'back.out(1.6)' })
+        .to(chosen, { y: 24, scale: 1.08, duration: 0.2 }, '+=0.35')
+        .to(cards.filter((c) => c !== chosen), { opacity: 0, duration: 0.2 }, '<')
+        .to(chosen, { x: 268, y: 60, scale: 0.5, opacity: 0, duration: 0.4, ease: 'power2.in' })
+        .call(() => { n++; stack.querySelector('b').textContent = `${n}/20`; })
+        .set(cards, { opacity: 0, x: (k) => 12 + k * 76, scale: 1 });
+    }
+    tl.call(() => { stars.textContent = '★★☆'; n = 0; }).to(stars, { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1 }).call(() => { stars.textContent = '☆☆☆'; }, null, '+=0.8');
+    return tl;
+  }
+
   // today's missions fill up one by one and their Glitter flies into the counter
   function missionsScene(S) {
     const list = MB.UI.save.missions.list.slice(0, 3);
@@ -254,6 +276,12 @@
       return `Every win earns a pack full of <b>card fragments</b>. Collect enough and the card is yours: rarer cards need more
         (<b style="color:${R.rare.color}">${R.rare.shards}</b> · <b style="color:${R.epic.color}">${R.epic.shards}</b> · <b style="color:${R.legendary.color}">${R.legendary.shards}</b>).
         <small>${n ? `🎁 ${n} pack${n > 1 ? 's' : ''} waiting to be opened!` : '🎁 No packs right now: go win some!'}</small>`;
+    } },
+    'btn-arena': { scene: arenaScene, title: 'Arena', text: () => {
+      const s = MB.UI.save, a = s.arena, A = MB.ARENA;
+      return `Draft a deck one card at a time from <b>every card in the game</b>, owned or not, then battle until ${A.maxWins} wins or ${A.maxLosses} losses. More wins, bigger rewards.
+        <small>${a ? (a.stage === 'done' ? '🎁 Your run is over: claim the rewards!' : a.stage === 'run' ? `⚔ Run in progress: ${a.wins} wins · ${a.losses} losses` : '🂠 Draft in progress')
+          : s.arenaRuns ? `🏆 Best run: ${s.arenaBest} wins` : '🏟 No runs yet'}</small>`;
     } },
     'btn-missions': { scene: missionsScene, title: 'Daily Missions', text: () => {
       const s = MB.UI.save, n = MB.Missions.claimable(s);
