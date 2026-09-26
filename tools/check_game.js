@@ -320,7 +320,21 @@ for (const unlocked of [MB.STARTER_CARDS, C.deckCards()]) for (let k = 0; k < 40
   if (!Ms.makeShiny(s, id) || Ms.makeShiny(s, id) || !s.shiny.includes(id)) err('shiny: should work once');
   if (Ms.craftCost(s, MB.STARTER_CARDS[0]) !== null) err('crafting: commons are owned from the start');
 }
-const tallies = []; // { tally, won, leader } of the AI battles below, to see how long each mission takes
+{ // Story stars: three per stage, paid once each; a fully starred chapter pays one Epic pack
+  const S = MB.Stars, s = { stars: {}, starChapters: [], glitter: 0, packs: { epic: 0 } };
+  MB.STORY.forEach((st, i) => {
+    const list = S.starsOf(i);
+    if (list.length !== 3 || list.some((x) => !x || !x.text || typeof x.ok !== 'function')) err(`stage ${i}: needs three stars with text and ok()`);
+  });
+  const perfect = { won: true, hp: 30, difficulty: 'normal', tally: { items: 0, powers: 0, turns: 5, kills: 9, lost: 0, bonds: 1 } };
+  if (S.starsWon(0, { ...perfect, difficulty: 'easy' }) !== 0 || S.starsWon(0, { ...perfect, won: false }) !== 0) err('stars: Easy or a loss gives stars');
+  const ch0 = MB.STORY.map((st, i) => i).filter((i) => MB.STORY[i].chapter === 0);
+  ch0.forEach((i) => S.awardStars(s, i, perfect));
+  if (s.glitter !== ch0.length * 3 * MB.GLITTER.star || s.packs.epic !== 1 || !s.starChapters.includes(0)) err(`stars: a perfect chapter paid ${s.glitter} Glitter and ${s.packs.epic} packs`);
+  S.awardStars(s, ch0[0], perfect);
+  if (s.packs.epic !== 1 || s.glitter !== ch0.length * 3 * MB.GLITTER.star) err('stars: paid twice for the same stars');
+}
+const tallies = []; // { tally, won, leader, deck, hp } of the AI battles below, to see how long each mission takes
 
 // ---------------------------------------------------------------- AI vs AI
 const combosSeen = new Map(); // combo id -> how often it happened in the AI battles
@@ -357,13 +371,21 @@ function randomDeck() {
       for (let g = 0; g < 120 && !b.over; g++) await MB.AI.takeTurn(b, 0);
       turns += b.turn; done++;
       if (bossy) { bossStats.battles++; bossStats.fired += b.bossTurns >= b.boss.every ? 1 : 0; bossStats.raged += b.raged ? 1 : 0; bossStats.won += b.winner === 1 ? 1 : 0; }
-      tallies.push({ tally: b.tally, won: b.winner === 0, leader: b.me(0).leaderId, deck });
+      tallies.push({ tally: b.tally, won: b.winner === 0, leader: b.me(0).leaderId, deck, hp: b.me(0).leader.hp });
     } catch (e) {
       const key = (e.stack || String(e)).split('\n').slice(0, 3).join(' | ');
       failures.set(key, (failures.get(key) || 0) + 1);
     }
   }
   failures.forEach((n, key) => err(`battle crashed ${n}x: ${key}`));
+
+  // how often the AI's wins would earn each star: a challenge nobody meets isn't fun
+  const wins = tallies.filter((x) => x.won);
+  const starPace = [['hp', { text: 'hp', ok: (r) => r.hp >= MB.Stars.HP_STAR }], ...Object.entries(MB.Stars.CHALLENGES)].map(([id, c]) => {
+    const pct = wins.length ? Math.round((wins.filter((x) => c.ok({ ...x, tally: { novel: {}, ...x.tally } })).length / wins.length) * 100) : 0;
+    if (wins.length > 30 && (pct < 10 || pct > 90)) warn(`star ${id}: met in ${pct}% of wins; aim for 10-90%`);
+    return `${id} ${pct}%`;
+  });
 
   // how many battles each mission takes, replaying the battles above in random order (AI decks lean on one novel,
   // like a player's). A novel mission is played the way a player would: with a leader / a deck from that novel.
@@ -403,6 +425,7 @@ function randomDeck() {
   console.log(`combos: ${[...combosSeen.values()].reduce((a, b) => a + b, 0)} in the battles, ${combosSeen.size}/${MB.COMBOS.length} different`);
   console.log(`missions, battles to finish on average: ${missionPace.join(", ")}`);
   console.log(`boss battles: ${bossStats.battles}, rule went off in ${bossStats.fired}, rage in ${bossStats.raged}, boss won ${bossStats.won}`);
+  console.log(`stars, share of wins that earn them: ${starPace.join(", ")}`);
   console.log(`rival decks: avg ${(homeShare.reduce((a, b) => a + b, 0) / homeShare.length).toFixed(1)}/${MB.RULES.deckSize} cards from their own novel, ${Math.min(...homeShare)}-${Math.max(...homeShare)}`);
   console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);

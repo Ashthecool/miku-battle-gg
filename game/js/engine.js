@@ -31,7 +31,7 @@
       });
     }
 
-    // counts something the player (side 0) did: cards, items, big (cost 5+), powers, attacks, bonds, combos,
+    // counts something the player (side 0) did: turns, cards, items, big (cost 5+), powers, attacks, bonds, combos, lost (own monsters died),
     // kills (enemy monsters), face (damage to the enemy leader), healed; tally.novel counts cards played per novel
     count(side, key, n = 1) {
       if (side === 0 && n > 0) this.tally[key] = (this.tally[key] || 0) + n;
@@ -61,6 +61,7 @@
       if (this.over) return;
       this.active = side; this.turn++;
       const p = this.me(side);
+      this.count(side, 'turns');
       p.maxGold = Math.min(R.maxGold, p.maxGold + 1); p.gold = p.maxGold; p.powerUsed = false;
       for (const u of this.units(side)) {
         u.sick = false;
@@ -445,7 +446,7 @@
         for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
         if (!dead.length) break;
-        for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); }
+        for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); this.count(u.side, 'lost'); }
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);

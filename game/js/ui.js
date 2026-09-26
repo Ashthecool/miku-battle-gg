@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 5;
+  const SAVE_VERSION = 6;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -41,6 +41,11 @@
       // Glitter, daily missions (rolled by loadSave) and Shiny cards arrived
       s.glitter = 0;
       s.shiny = [];
+    },
+    (s) => {
+      // Story stars: stage index -> the stars earned there (bits); chapters whose three-star Epic pack was paid out
+      s.stars = {};
+      s.starChapters = [];
     },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
@@ -100,12 +105,14 @@
     s.missions = ms && { day: String(ms.day), reroll: ms.reroll | 0, list: ms.list.filter((m) => obj(m) && MB.MISSIONS[m.id] && m.n > 0).slice(0, MB.Missions.PER_DAY)
       .map((m) => ({ ...m, have: Math.min(m.n, Math.max(0, m.have | 0)), glitter: m.glitter | 0 })) };
     MB.Missions.daily(s);
+    s.stars = Object.fromEntries(Object.entries(obj(s.stars) ? s.stars : {}).filter(([k, v]) => MB.STORY[k] && (v & 7)).map(([k, v]) => [k, v & 7]));
+    s.starChapters = Array.isArray(s.starChapters) ? s.starChapters.filter((c) => MB.CHAPTERS[c]) : [];
     return s;
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
       && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
-      && ['costumes', 'stats', 'packs', 'shards'].every((k) => s[k] === undefined || obj(s[k]))
+      && ['costumes', 'stats', 'packs', 'shards', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
       && (s.missions == null || obj(s.missions));
   }
   function readStored() {
@@ -501,7 +508,9 @@
     MB.CHAPTERS.forEach((chap, c) => {
       if (chap.hidden) return; // an NSFW novel with NSFW mode off
       const stages = chapterStages(c), done = Math.min(save.progress[c], stages.length);
-      const box = el('div', 'chapter', `<h2>Chapter ${c + 1} — ${chap.title} <small>${done === stages.length ? '★ Complete' : `${done}/${stages.length}`}</small></h2>`);
+      const stars = MB.Stars.starCount(save, stages.map((s) => s.i)), all = stages.length * 3;
+      const box = el('div', 'chapter', `<h2>Chapter ${c + 1} — ${chap.title} <small>${done === stages.length ? '✔ Complete' : `${done}/${stages.length}`}</small>
+        <small class="ch-stars" title="Three stars on every stage of the chapter earn an Epic Pack">⭐ ${stars}/${all}${save.starChapters.includes(c) ? ' · 🎁 Epic Pack earned' : ''}</small></h2>`);
       const row = el('div', 'chapter-row');
       box.appendChild(row);
       list.appendChild(box);
@@ -510,6 +519,9 @@
     const next = list.querySelector('.stage.next');
     if (next) list.scrollTop = next.closest('.chapter').offsetTop - list.offsetTop - 10;
   }
+
+  // ★★☆ for a stage's star bits; `fresh` bits get the .new class (the result screen animates them)
+  const starRow = (have, fresh = 0) => [0, 1, 2].map((k) => `<i class="${have & (1 << k) ? 'on' : ''}${fresh & (1 << k) ? ' new' : ''}">${have & (1 << k) ? '★' : '☆'}</i>`).join('');
 
   function stageEl(st, i, pos, progress) {
     const ch = MB.charById(st.foe), bg = bgByName(st.bg);
@@ -520,8 +532,9 @@
       <div class="stage-num">${pos + 1}</div>
       <div class="stage-name">${ch.name}</div>
       <div class="stage-loc">📍 ${bg.name}</div>
-      <div class="stage-state">${state === 'cleared' ? '★ Cleared' : state === 'next' ? '▶ Fight' : '🔒'}</div>
-      ${MB.bossOf(i) ? '<div class="stage-boss">👑 BOSS</div>' : ''}`);
+      <div class="stage-state">${state === 'cleared' ? '✔ Cleared' : state === 'next' ? '▶ Fight' : '🔒'}</div>
+      ${MB.bossOf(i) ? '<div class="stage-boss">👑 BOSS</div>' : ''}
+      ${state !== 'locked' ? `<div class="stage-stars">${starRow(save.stars[i] | 0)}</div>` : ''}`);
     if (state !== 'locked') n.addEventListener('click', () => { MB.audio.sfx('click'); leaderSelect((lid) => intro(i, lid), st.foe); });
     return n;
   }
@@ -541,7 +554,13 @@
     gsap.fromTo('#intro-me', { x: -400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
     const text = st.intro, boss = MB.bossOf(i);
     // a finale's boss rule, spelled out before the fight
-    document.querySelectorAll('#screen-intro .intro-boss').forEach((n) => n.remove());
+    document.querySelectorAll('#screen-intro .intro-boss, #screen-intro .intro-stars').forEach((n) => n.remove());
+    // the stage's three stars, the ones you have lit
+    const have = save.stars[i] | 0;
+    const stars = el('div', 'intro-stars', MB.Stars.starsOf(i).map((s, k) => `<span class="${have & (1 << k) ? 'on' : ''}">${have & (1 << k) ? '★' : '☆'} ${s.text}</span>`).join('')
+      + (save.difficulty === 'easy' ? '<em>Stars need Normal or Hard</em>' : ''));
+    $('#intro-text').after(stars);
+    gsap.fromTo(stars, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.4 + text.length * 0.03 });
     if (boss) {
       const b = el('div', 'intro-boss', `👑 <b>Boss rule — ${boss.name}:</b> ${boss.text}${boss.rage ? `<br>💢 <b>${boss.rage.name}:</b> ${boss.rage.text}` : ''}`);
       b.style.setProperty('--c', boss.color);
@@ -661,6 +680,8 @@
     save.glitter += glitter;
     MB.Missions.daily(save);
     const finished = MB.Missions.progress(save, MB.battle ? MB.battle.tally : {}, cfg, win);
+    // Story stars (and the chapter's Epic pack once every stage has all three)
+    const stars = cfg.story != null && MB.battle ? MB.Stars.awardStars(save, cfg.story, { won: win, hp: MB.battle.me(0).leader.hp, tally: MB.battle.tally, difficulty: cfg.difficulty }) : null;
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
     show('screen-result');
@@ -680,8 +701,18 @@
     if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
       `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
     else if (win) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
+    if (stars && win) {
+      const n = MB.Stars.bits(stars.fresh);
+      $('#result-text').innerHTML += `<div class="result-stars">${starRow(save.stars[cfg.story] | 0, stars.fresh)}</div>`
+        + (cfg.difficulty === 'easy' ? '<small>Stars need Normal or Hard.</small>' : n ? `<span class="glit">⭐ ${n} new star${n > 1 ? 's' : ''}: +${stars.glitter} ✨</span>` : '')
+        + (stars.chapter != null ? '<br>🎁 Three stars on every stage of the chapter: <b style="color:#b35cff">Epic Pack</b>!' : '');
+    }
     if (glitter) $('#result-text').innerHTML += `<br><span class="glit">✨ +${glitter} Glitter</span>`;
     finished.forEach((m) => { $('#result-text').innerHTML += `<br>📅 Mission done: <b>${MB.Missions.text(m)}</b> <span class="glit">(+${m.glitter} ✨ to claim)</span>`; });
+    // new stars stamp in one by one (after the last change to the text, which would replace them)
+    const newStars = document.querySelectorAll('#result-text .result-stars i.new');
+    if (newStars.length) gsap.fromTo(newStars, { scale: 3, opacity: 0, rotation: -180 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 0.6, stagger: 0.25, delay: 0.7, ease: 'back.out(2.2)', onStart: () => MB.audio.sfx('ding') });
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));

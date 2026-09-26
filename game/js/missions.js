@@ -119,5 +119,49 @@ window.MB = window.MB || {};
     return true;
   }
 
+  // ---------------------------------------------------------------- Story stars
+  // Every Story stage has three stars: a win, a win with your leader at 20+ HP, and a challenge of its own (the stage's
+  // index picks it, so neighbouring stages differ). Stars count on Normal and Hard. Each new star pays G.star Glitter;
+  // three stars on every stage of a chapter earn an Epic pack, once. A save keeps { stars: { stage: bits }, starChapters }.
+  G.star = 15;
+  const CHALLENGES = {
+    noItems:  { text: 'Win without playing an item card', ok: (r) => !r.tally.items },
+    noPower:  { text: 'Win without using your leader power', ok: (r) => !r.tally.powers },
+    fast:     { text: 'Win within 9 of your turns', ok: (r) => (r.tally.turns || 0) <= 9 },
+    kills:    { text: 'Win and destroy 9 enemy monsters', ok: (r) => (r.tally.kills || 0) >= 9 },
+    flawless: { text: 'Win losing 3 monsters or fewer', ok: (r) => (r.tally.lost || 0) <= 3 },
+    bond:     { text: 'Win and fuse a relationship', ok: (r) => (r.tally.bonds || 0) > 0 },
+  };
+  const CH_KEYS = Object.keys(CHALLENGES);
+  const HP_STAR = 20;
+  // the three stars of stage i: [{ text, ok(result) }]; result = { won, hp (your leader's, at the end), tally, difficulty }
+  const starsOf = (i) => [
+    { text: 'Win', ok: () => true },
+    { text: `Win with your leader at ${HP_STAR}+ HP`, ok: (r) => r.hp >= HP_STAR },
+    CHALLENGES[CH_KEYS[(i * 5 + 1) % CH_KEYS.length]],
+  ];
+  const bits = (n) => (n & 1) + ((n >> 1) & 1) + ((n >> 2) & 1);
+  function starsWon(i, r) {
+    if (!r.won || r.difficulty === 'easy') return 0;
+    return starsOf(i).reduce((m, st, k) => m | (st.ok(r) ? 1 << k : 0), 0);
+  }
+  // records a Story battle's stars; returns { fresh (bits), glitter, chapter (index, when it just got fully starred) }
+  function awardStars(s, i, r) {
+    const had = s.stars[i] | 0, got = starsWon(i, r), fresh = got & ~had;
+    s.stars[i] = had | got;
+    const glitter = bits(fresh) * G.star;
+    s.glitter += glitter;
+    const ch = MB.STORY[i].chapter, stages = MB.STORY.map((st, k) => k).filter((k) => MB.STORY[k].chapter === ch);
+    let chapter = null;
+    if (fresh && !s.starChapters.includes(ch) && stages.every((k) => (s.stars[k] | 0) === 7)) {
+      s.starChapters.push(ch);
+      s.packs.epic = (s.packs.epic | 0) + 1;
+      chapter = ch;
+    }
+    return { fresh, glitter, chapter };
+  }
+  const starCount = (s, stages) => stages.reduce((t, k) => t + bits(s.stars[k] | 0), 0);
+  MB.Stars = { starsOf, starsWon, awardStars, starCount, bits, CHALLENGES, HP_STAR };
+
   MB.Missions = { daily, roll, text, done, progress, claim, reroll, claimable, craftCost, shinyCost, craft, makeShiny, novelName, today, PER_DAY };
 })();
