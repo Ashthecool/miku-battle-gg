@@ -1,5 +1,5 @@
 // Collecting: card fragments from packs, and the profile pictures won in Story.
-// Works on a save's { unlocked, shards, avatars, progress } and nothing else, so tools/check_game.js can
+// Works on a save's { unlocked, shards, avatars, quests } and nothing else, so tools/check_game.js can
 // simulate opening packs.
 window.MB = window.MB || {};
 (function () {
@@ -74,10 +74,7 @@ window.MB = window.MB || {};
   })();
 
   // the stages cleared in a save, as indexes into MB.STORY
-  function clearedStages(s) {
-    const seen = {};
-    return MB.STORY.map((st, i) => ((seen[st.chapter] = (seen[st.chapter] || 0) + 1) <= (s.progress[st.chapter] || 0) ? i : -1)).filter((i) => i >= 0);
-  }
+  const clearedStages = (s) => MB.Story.clearedStages(s);
   // gives the pictures of every cleared stage; returns the new ones
   function grantStoryAvatars(s) {
     const fresh = [];

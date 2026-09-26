@@ -18,7 +18,7 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
   if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
@@ -203,6 +203,78 @@ MB.STORY.forEach((s, i) => {
   if (!s.intro) err(`${at}: no intro`);
 });
 MB.CHAPTERS.forEach((c, i) => { if (!MB.STORY.some((s) => s.chapter === i)) err(`chapter ${i} (${c.title}) has no stages`); });
+
+// ---------------------------------------------------------------- the story (js/story.js)
+const St = MB.Story, questIds = new Set(), FX = ['flash', 'shake', 'rift'];
+MB.ACTS.forEach((A, a) => {
+  if (!A.title || !A.map || !(A.w > 0 && A.h > 0) || !(A.size >= 1600) || A.size * A.h / A.w < 900) err(`act ${a}: needs title, map, w/h and a size that fills the screen`);
+  if (!music.has(A.music) || !bgNames.has(A.bg.trim().toLowerCase())) err(`act ${a}: unknown music "${A.music}" or background "${A.bg}"`);
+});
+const inMap = (p) => Array.isArray(p) && p.length === 2 && p.every((v) => v >= 0 && v <= 100);
+St.quests.forEach((q) => {
+  const at = `quest ${q.id}`;
+  if (questIds.has(q.id)) err(`${at}: duplicate id`);
+  questIds.add(q.id);
+  if (!q.title || !q.text) err(`${at}: needs title and text`);
+  if (!inMap(q.at) || (q.via || []).some((v) => !inMap(v))) err(`${at}: at/via must be [x, y] in % of the map`);
+  if (q.foe && q.stage < 0) err(`${at}: ${q.foe} has no stage in MB.STORY`);
+  if (!q.foe && !q.scene) err(`${at}: a quest without a fight needs a scene`);
+  if (q.foe && q.scene) err(`${at}: a fight has before/after scenes, not scene`);
+  if (q.side ? !St.byId(q.from) : q.from) err(`${at}: ${q.side ? `side quest from unknown quest "${q.from}"` : 'main quests follow the story, no "from"'}`);
+  if (q.side && St.byId(q.from) && St.byId(q.from).act !== q.act) err(`${at}: opens from a quest in another act`);
+  if (q.main && St.hidden(q)) err(`${at}: the main story can't go through an NSFW chapter`);
+  if (St.hidden(q)) return;
+  ['before', 'after', 'scene'].forEach((part) => {
+    const sc = St.sceneOf(q, part);
+    if (!sc) return;
+    const where = `${at} ${part}`;
+    if (!bgNames.has(sc.bg.trim().toLowerCase())) err(`${where}: no background "${sc.bg}"`);
+    if (!music.has(sc.music)) err(`${where}: no music "${sc.music}"`);
+    if (!sc.lines.length) err(`${where}: no lines`);
+    sc.lines.map(St.lineOf).forEach((l, k) => {
+      const w = `${where} line ${k + 1}`;
+      if (!l.text) {
+        const keys = Object.keys(l);
+        if (!keys.length || keys.some((x) => !['bg', 'music', 'fx', 'sfx', 'hide'].includes(x))) err(`${w}: unknown stage direction ${JSON.stringify(l)}`);
+        if (l.bg && !bgNames.has(l.bg.trim().toLowerCase())) err(`${w}: no background "${l.bg}"`);
+        if (l.music && !music.has(l.music)) err(`${w}: no music "${l.music}"`);
+        if (l.sfx && !SFX.includes(l.sfx)) err(`${w}: no sound "${l.sfx}"`);
+        if (l.fx && !FX.includes(l.fx)) err(`${w}: unknown fx "${l.fx}"`);
+        if (l.hide && !chars.has(l.hide)) err(`${w}: hides unknown ${l.hide}`);
+        return;
+      }
+      if (l.who !== '*' && l.who !== 'you' && !chars.has(l.who)) err(`${w}: unknown speaker ${l.who}`);
+      if (l.mood && !St.MOODS[l.mood]) err(`${w}: unknown mood "${l.mood}"`);
+      if (typeof l.text !== 'string') err(`${w}: text must be a string`);
+      if (l.text.length > 190) warn(`${w}: ${l.text.length} characters, may not fit the text box`);
+    });
+  });
+});
+MB.STORY.forEach((st, i) => {
+  const n = St.quests.filter((q) => q.stage === i).length;
+  if (n !== 1) err(`story ${i} (${st.foe}): in ${n} quests, needs exactly one`);
+  if (!(st.hp >= 15 && st.hp <= 50) || !(st.ai > 0 && st.ai <= 1)) err(`story ${i} (${st.foe}): level hp ${st.hp} ai ${st.ai}`);
+});
+{ // playing the whole story: the main quests in order, every side quest as it opens; one Epic pack per act
+  const s = { quests: [], storyActs: [], packs: { epic: 0 } };
+  for (let k = 0; k < 1000; k++) {
+    const q = St.next(s) || St.quests.find((x) => !St.hidden(x) && St.isOpen(s, x) && !St.isDone(s, x));
+    if (!q) break;
+    if (!St.isOpen(s, q)) { err(`story: ${q.id} is next but not open`); break; }
+    const r = St.complete(s, q.id);
+    if (!r.first) { err(`story: completing ${q.id} did nothing`); break; }
+    St.quests.filter((x) => x.side && St.isOpen(s, x) && !St.isDone(s, x)).forEach((x) => St.complete(s, x.id));
+  }
+  const left = St.quests.filter((q) => !St.hidden(q) && !St.isDone(s, q));
+  if (left.length) err(`story: never opened ${left.map((q) => q.id).join(', ')}`);
+  if (s.packs.epic !== MB.ACTS.length || s.storyActs.length !== MB.ACTS.length) err(`story: ${s.packs.epic} act packs for ${MB.ACTS.length} acts`);
+  if (St.complete(s, St.main[0].id).first || s.packs.epic !== MB.ACTS.length) err('story: a quest completed twice');
+  // an old save (cleared stages counted per chapter) keeps its cleared rivals as done quests
+  const old = { progress: MB.CHAPTERS.map((c, i) => (i === 0 ? 3 : i === 8 ? 10 : 0)) };
+  St.migrate(old);
+  const want = [...MB.STORY.slice(0, 3).map((st) => st.foe), ...MB.STORY.filter((st) => st.chapter === 8).map((st) => st.foe)];
+  if (old.progress || !want.every((id) => old.quests.includes(id)) || old.quests.length !== want.length) err(`story: migrating an old save gave ${JSON.stringify(old.quests)}`);
+}
 MB.STARTER_DECK.forEach((id) => { if (!MB.CARDS[id]) err(`starter deck: unknown card ${id}`); });
 MB.STARTER_LEADERS.forEach((id) => { if (!MB.POWERS[id]) err(`starter leader ${id} has no power`); });
 
@@ -278,14 +350,12 @@ if (packAvg > 250) warn(`packs: ${packAvg.toFixed(0)} packs on average to comple
 Object.entries(MB.BOSSES).forEach(([foe, b]) => {
   const at = `boss ${foe}`, i = MB.STORY.findIndex((s) => s.foe === foe);
   if (i < 0) { if (!SFW) err(`${at}: not a Story foe`); return; }
-  if (MB.bossOf(MB.STORY.map((s, k) => (s.foe === foe ? k : -1)).filter((k) => k >= 0).pop()) !== b) err(`${at}: isn't the last stage of its chapter, so the rule never shows`);
   if (!b.name || !b.text || !(b.every >= 1) || !b.color) err(`${at}: needs name, text, every and color`);
   checkSpec(`${at} rule`, b.effect, {});
   if (b.rage) { if (!b.rage.name || !b.rage.text) err(`${at} rage: needs name and text`); checkSpec(`${at} rage`, b.rage.effect, {}); }
 });
 MB.CHAPTERS.forEach((c, i) => {
-  const last = MB.STORY.filter((s) => s.chapter === i).pop();
-  if (last && !c.hidden && !MB.BOSSES[last.foe]) warn(`chapter ${i} (${c.title}): its finale ${last.foe} has no boss rule`);
+  if (!c.hidden && !MB.STORY.some((s) => s.chapter === i && MB.BOSSES[s.foe])) warn(`chapter ${i} (${c.title}) has no boss`);
 });
 const bossFoes = Object.keys(MB.BOSSES).filter((id) => chars.has(id) && MB.POWERS[id]);
 const bossStats = { battles: 0, fired: 0, raged: 0, won: 0 };

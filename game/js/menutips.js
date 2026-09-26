@@ -22,9 +22,10 @@
 
   // ---------------------------------------------------------------- scenes: each fills the stage and returns a looping timeline
   function story(S) {
-    const save = MB.UI.save;
-    const c = Math.max(0, MB.CHAPTERS.findIndex((ch, i) => !ch.hidden && save.progress[i] < MB.STORY.filter((s) => s.chapter === i).length));
-    const foes = MB.STORY.filter((s) => s.chapter === c).slice(0, 4).map((s) => s.foe);
+    // the next four fights of the story (the act's last four once it's done)
+    const save = MB.UI.save, St = MB.Story, nxt = St.next(save) || St.main[St.main.length - 1];
+    const fights = St.main.filter((q) => q.act === nxt.act && q.foe), from = fights.findIndex((q) => !St.isDone(save, q));
+    const foes = fights.slice(Math.max(0, Math.min(from < 0 ? fights.length : from, fights.length - 4))).slice(0, 4).map((q) => q.foe);
     const xs = [40, 125, 210, 295], ys = [128, 104, 128, 104];
     const svg = el('div', 'mt-svg', `<svg width="${W}" height="${H}"><path d="M${xs.map((x, i) => `${x},${ys[i]}`).join(' L')}" /></svg>`);
     S.appendChild(svg);
@@ -36,7 +37,7 @@
     });
     const me = place(el('div', 'mt-me', `<img src="${MB.avatarUrl(save.avatar)}">`), xs[0] - 14, ys[0] - 14);
     S.appendChild(me);
-    S.appendChild(place(el('div', 'mt-chap', `Chapter ${c + 1} · ${MB.CHAPTERS[c].title}`), 10, 6));
+    S.appendChild(place(el('div', 'mt-chap', `Act ${nxt.act + 1} · ${MB.ACTS[nxt.act].title}`), 10, 6));
     const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6 });
     tl.set(nodes.map((n) => n.querySelector('b')), { scale: 0, opacity: 0 })
       .set(nodes.map((n) => n.querySelector('img')), { filter: 'brightness(0) drop-shadow(0 0 3px #fff8)' })
@@ -263,8 +264,9 @@
   // ---------------------------------------------------------------- the panel
   const TIPS = {
     'btn-story': { scene: story, title: 'Story', text: () => {
-      const done = MB.CHAPTERS.reduce((t, _, i) => t + MB.UI.save.progress[i], 0);
-      return `Battle each novel's cast, chapter by chapter. Beat a rival to recruit them as a leader, take their card and win new <b>profile pictures</b>.<small>⚔ ${done}/${MB.STORY.length} stages cleared</small>`;
+      const s = MB.UI.save, St = MB.Story, side = St.quests.filter((q) => q.side && !St.hidden(q));
+      return `One story through every novel's world, told on a map. Beat a rival to recruit them as a leader, take their card and win new <b>profile pictures</b>. Side quests pop up along the way.`
+        + `<small>📖 ${St.main.filter((q) => St.isDone(s, q)).length}/${St.main.length} story quests · 📜 ${side.filter((q) => St.isDone(s, q)).length}/${side.length} side quests</small>`;
     } },
     'btn-deck': { scene: deckScene, title: 'Deck & Collection', text: () => {
       const cards = MB.Collection.deckCards();

@@ -169,7 +169,10 @@ Shared scene variants (`scene`; the kinds that may use each are in `SCENE_VARIAN
 ## Story
 
 ```js
-MB.CHAPTERS.push({ title: 'Novel Title', outro: 'One upbeat line when the chapter is cleared. 🎉' });
-{ chapter: 5, foe: 'char-id', hp: 24, ai: 0.45, bg: 'Background name', music: 'music-id', intro: 'In-character line.' },
+MB.CHAPTERS.push({ title: 'Novel Title' });
+{ chapter: 15, foe: 'char-id', bg: 'Background name', music: 'music-id', intro: 'In-character line.' },  // at the end of MB.STORY
+// game/js/story.js, in the quests of the act that fits the novel:
+{ foe: 'char-id', side: true, from: 'jane', at: [62, 48], title: 'Short Quest Title', text: 'One or two sentences for the map panel.' },
 ```
-`chapter` is the index into MB.CHAPTERS. `bg` is a background *name* from the brief, `music` a music id.
+`chapter` is the index into MB.CHAPTERS. `bg` is a background *name* from the brief, `music` a music id. HP and AI
+skill are set from the quest's place in the story (js/story.js).

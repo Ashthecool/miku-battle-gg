@@ -101,7 +101,7 @@
     <h1>Card Packs</h1>
     <div id="pack-progress"></div>
     <div id="pack-list"></div>
-    <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for finishing a chapter and every 5-win streak</p>
+    <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for your first win over a boss, finishing a Story act and every 5-win streak</p>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -148,9 +148,30 @@
   </div>
 
   <div id="screen-story" class="screen">
-    <h1>Story</h1>
-    <div id="story-list" class="scroll-y"></div>
+    <div id="map-view">
+      <div id="map-world">
+        <img id="map-img" alt="" draggable="false">
+        <svg id="map-path"></svg>
+        <div id="map-nodes"></div>
+        <div id="map-token"></div>
+      </div>
+    </div>
+    <div id="map-head"><div id="map-acts"></div><div id="map-count"></div></div>
+    <div id="map-panel" class="closed"></div>
+    <button id="map-next" class="btn primary hidden"></button>
     <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-scene" class="screen">
+    <img id="sc-left" class="sc-sprite left gone" alt="">
+    <img id="sc-right" class="sc-sprite right gone" alt="">
+    <div id="sc-fx"><div id="sc-rift"></div><div id="sc-flash"></div></div>
+    <div class="vn-box sc-box">
+      <div id="sc-name" class="vn-name"></div>
+      <div id="sc-text" class="vn-text"></div>
+      <i id="sc-more">▼</i>
+    </div>
+    <button id="sc-skip" class="btn small" title="Skip the scene (Esc)">Skip ⏭</button>
   </div>
 
   <div id="screen-intro" class="screen">
@@ -197,11 +218,12 @@
       <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
       <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival adds their card at once. <b>Right-click</b> any card for a close-up.</p>
-      <p>👑 <b>Bosses:</b> the last rival of each Story chapter has a <b>boss rule</b> that goes off every few turns, and a <b>💢 rage</b> the first time they drop to half HP. Both are shown before the fight and in the enemy's panel.</p>
-      <p>⭐ <b>Stars:</b> every Story stage has three stars: win, win with your leader at 20+ HP, and a challenge of its own (shown before the fight). Stars count on Normal and Hard. Each new star gives ✨ Glitter, and three stars on every stage of a chapter give an <b style="color:#b35cff">Epic Pack</b>.</p>
+      <p>🗺 <b>Story:</b> one story across every novel's world, in four acts, each on its own map. Play the <b>main quests</b> in order to move the story along; <b>side quests</b> (<b style="color:#ffd84a">!</b>) show up on the map as the story reaches them. Drag or scroll the map to look around. Beating a rival recruits them as a leader and gives you their card.</p>
+      <p>👑 <b>Bosses:</b> every novel's boss has a <b>boss rule</b> that goes off every few turns, and a <b>💢 rage</b> the first time they drop to half HP. Both are shown before the fight and in the enemy's panel.</p>
+      <p>⭐ <b>Stars:</b> every Story fight has three stars: win, win with your leader at 20+ HP, and a challenge of its own (shown before the fight). Stars count on Normal and Hard. Each new star gives ✨ Glitter, and three stars on every fight of one novel give an <b style="color:#b35cff">Epic Pack</b>.</p>
       <p>🏟 <b>Arena:</b> pick one of three leaders and <b>draft</b> a deck one card at a time from every card in the game (owned or not). Then battle until 7 wins or 3 losses; each win makes the next rival tougher. The more wins, the bigger the ✨ Glitter and pack rewards. You can retire any time and take what you've earned.</p>
       <p>📅 <b>Daily Missions:</b> three new missions every day (↻ swaps one). Finishing them earns <b style="color:#ffe27a">✨ Glitter</b>, as does every win and any pack fragment a card didn't need. Spend it in the card close-up (right-click a card): <b>craft fragments</b> of a card you're missing, or make a card you own <b>Shiny</b>.</p>
-      <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by clearing Story stages.</p>
+      <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by beating Story rivals.</p>
       <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse.</p>
       <p>🔗 <b>Item combos:</b> some items belong to a character (cards with a <b style="color:#ffc93c">🔗</b>). Play the item while that character is on your side of the board (aim it at them, if it targets your monsters) and they change into a combo: a new outfit, extra stats and often a bonus effect. A hand card marked <b style="color:#ffc93c">COMBO</b> has its partner on the board right now.</p>
       <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one); the filters above the cards find what you need. Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
@@ -258,6 +280,7 @@
 <script src="js/avatars.js"></script>
 <script src="js/data.js"></script>
 <script src="js/content.js"></script>
+<script src="js/story.js"></script>
 <script src="js/collection.js"></script>
 <script src="js/missions.js"></script>
 <script src="js/arena.js"></script>
@@ -268,6 +291,7 @@
 <script src="js/fx.js"></script>
 <script src="js/view.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/storymap.js"></script>
 <script src="js/cards.js"></script>
 <script src="js/menutips.js"></script>
 <script src="js/main.js"></script>

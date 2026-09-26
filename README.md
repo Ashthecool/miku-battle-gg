@@ -31,8 +31,11 @@ npx serve game
 | `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
 | `game/js/missions.js` | Daily missions, Glitter, crafting, Shiny cards and Story stars (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`, star challenges in `MB.Stars`). |
 | `game/js/arena.js` | The Arena draft mode: leaders, card offers, opponents and rewards (`MB.ARENA`). |
+| `game/js/story.js` | Story mode: the four acts, their maps, the main quests and side quests, and every scene's dialogue (`MB.ACTS`). |
+| `game/js/storymap.js` | The Story screen: the map, the quest panel and the visual-novel scenes. |
 | `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
+| `tools/sync_maps.py` | Copies the Story maps from the `map-images` bucket into `game-assets/maps/` as WebP. |
 
 ## Images (Supabase)
 
@@ -41,6 +44,7 @@ The images are not in the repo. They live in the public Supabase Storage bucket 
 - `sprites/`, `backgrounds/`, `items/`, `portraits/`: from `tools/fetch_assets.py`
 - `sm/sprites/`: half-size sprite copies used for cards and the board, so they stay sharp when drawn small
 - `avatars/`, `packs/`: profile picture thumbnails and the Common/Rare/Epic pack art, made by `tools/sync_avatars.py` from the `card-images` bucket
+- `maps/`: the Story act maps, copied by `tools/sync_maps.py` from the `map-images` bucket
 
 The game only reads public URLs and needs no key. The tools write to the buckets, so they need the secret key in the environment (never commit it):
 

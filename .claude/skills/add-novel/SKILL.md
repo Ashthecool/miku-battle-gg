@@ -1,6 +1,6 @@
 ---
 name: add-novel
-description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to Supabase. Covers checking outfits, uploading assets, and writing cards, powers, bonds and chapters as data (no engine code).
+description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to Supabase. Covers checking outfits, uploading assets, and writing cards, powers, bonds, chapters and story quests as data (no engine code).
 ---
 
 # Add a novel to Miku Battle
@@ -91,9 +91,18 @@ Add a commented section per novel in each table, in the novel's order. See `cata
   names them, it's their tool or gift): `{ char, item, name, short, costume?, bonus: [atk, hp], kw?, onCombo?, line }`.
   Use a costume that shows the item when there is one (a "holding water gun" outfit). Budget: about +2 stats
   plus one keyword or a small `onCombo` effect. `short` fits the board plate (≤ 12 characters).
-- **`MB.CHAPTERS`** + **`MB.STORY`**: one chapter per novel, 4-8 foes, rising `hp` (20 → ~40) and `ai`
-  (0.3 → 1.0), each in a fitting background (by name) with fitting music (id) and an in-character intro line.
-  The last foe is the novel's main character or boss.
+- **`MB.CHAPTERS`** + **`MB.STORY`**: one chapter per novel, 4-8 rivals appended at the end of `MB.STORY` (saves
+  keep stars by index), each in a fitting background (by name) with fitting music (id) and an in-character intro
+  line. The novel's main character or boss gets a boss rule in `MB.BOSSES`.
+- **Story quests** (`game/js/story.js`): Story is one story told on the maps of four acts, so every new rival also
+  needs a quest there. Put the novel's rivals as **side quests** on the act whose map and setting fit it best (a
+  town/school novel in Act 1, a city/campus/beach one in Act 2, a Japanese one in Act 3, a fantasy or mountain one
+  in Act 4): `{ foe, side: true, from: 'quest id', at: [x, y], title, text }`, `from` being the main quest (or a
+  side quest of the same novel, to chain them) after which they open, `at` a free spot on the map in %, away from
+  the main path. HP and AI skill come from where the quest sits in the story; don't set them. Only weave a novel
+  into the main story (with `before`/`after` scenes) when the user asks; NSFW novels stay side quests. A brand-new
+  map goes in the `map-images` bucket, then `py tools/sync_maps.py` copies it into the game (see the top of
+  story.js for acts, quests and scene lines). `node tools/check_game.js` checks every quest and plays the story through.
 - `MB.HIDDEN_COSTUMES` for costumes that aren't real clothes (a pose, a hurt variant).
 
 Design rules:
