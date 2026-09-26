@@ -278,7 +278,7 @@
   }
   const PREFIX = { onPlay: 'On play: ', onDeath: 'On death: ', onTurnStart: 'Start of your turn: ', onAllyDeath: 'Whenever another ally dies: ',
     onHurt: 'Whenever it survives damage: ', onFuse: 'On fusion: ', onAttack: 'Whenever it attacks: ',
-    onKill: 'Whenever it destroys a monster: ', onTurnEnd: 'End of your turn: ' };
+    onKill: 'Whenever it destroys a monster: ', onTurnEnd: 'End of your turn: ', onCombo: 'On combo: ' };
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   // kind: 'trigger' (with the trigger's name) or 'play' (item cards and powers, with their target type)
   function describe(spec, { trigger, target, filter } = {}) {
@@ -300,8 +300,17 @@
     Object.values(MB.CARDS).forEach((c) => fill(c));
     Object.values(MB.POWERS).forEach((p) => fill(p));
     MB.BONDS.forEach((b) => fill(b));
+    MB.COMBOS.forEach((c) => { if (!c.text) c.text = comboText(c); });
   }
 
-  MB.Effects = { SEL, OPS, IF, WHERE, prepare, trigger, plan, describe, needsSlot, stepsOf, fillTexts };
+  // what a combo adds: "+2/+3 and Taunt. On combo: draw a card."
+  function comboText(c) {
+    const [atk, hp] = c.bonus || [0, 0];
+    const gains = [...(atk || hp ? [`+${atk}/+${hp}`] : []), ...(c.kw || []).map((k) => MB.KEYWORDS[k].name)];
+    const text = gains.length ? `${gains.slice(0, -1).join(', ')}${gains.length > 1 ? ' and ' : ''}${gains[gains.length - 1]}.` : '';
+    return [text, c.onCombo ? describe(c.onCombo, { trigger: 'onCombo' }) : ''].filter(Boolean).join(' ');
+  }
+
+  MB.Effects = { SEL, OPS, IF, WHERE, prepare, trigger, plan, describe, comboText, needsSlot, stepsOf, fillTexts };
   fillTexts();
 })();

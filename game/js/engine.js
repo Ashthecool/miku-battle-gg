@@ -169,6 +169,7 @@
         if (u && card.onPlay) await this.trigger(card.onPlay, u);
       } else {
         this.view.log(`${side ? 'Enemy' : 'You'} used ${card.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
+        const combo = this.comboFor(side, card, target);
         if (typeof card.effect === 'object') { // a spec (effects.js)
           const r = MB.Effects.prepare(this, card.effect, { side, target });
           await this.view.spellFx(side, card, target, () => r.sync());
@@ -177,6 +178,7 @@
           await this.view.spellFx(side, card, target, () => this.spellEffect(side, card, target));
           await this.spellAfter(side, card, target);
         }
+        if (combo && !this.over && combo.u.hp > 0 && this.find(combo.u.uid) === combo.u) await this.comboUp(combo.u, combo.combo, card);
       }
       await this.resolveDeaths();
       await this.checkBonds(side);
@@ -291,6 +293,35 @@
       this.view.log(`💞 ${a.name} & ${b.name} → ${bond.name}!`);
       await this.view.fuse(stay, go, u, bond);
       if (bond.onFuse) await this.trigger(bond.onFuse, u);
+      else { await this.resolveDeaths(); this.view.refresh(); }
+    }
+
+    // ---------- item combos ----------
+    // characters on this side that would combo with this item card: [{ combo, u }]
+    comboPartners(side, card) {
+      if (card.type !== 'spell') return [];
+      return MB.COMBOS.filter((c) => c.items.includes(card.id)).flatMap((c) => this.units(side)
+        .filter((u) => u.card.id === c.char && !u.card.combo && u.hp > 0).map((u) => ({ combo: c, u })));
+    }
+
+    // the partner this play combos with: an item aimed at one of your monsters only combos with the one it hits
+    comboFor(side, card, target) {
+      const ps = this.comboPartners(side, card);
+      if (target && !target.isLeader && target.side === side) return ps.find((p) => p.u === target) || null;
+      return ps[0] || null;
+    }
+
+    // the partner changes into the combo (after the item's own effect)
+    async comboUp(u, c, item) {
+      this.view.log(`🔗 ${u.name} + ${item.name} → ${c.name}!`);
+      u.card = { ...u.card, combo: c, name: c.name };
+      u.name = c.name;
+      if (c.costume) u.costume = c.costume;
+      const [atk, hp] = c.bonus || [0, 0];
+      u.atk += atk; u.maxHp += hp; u.hp += hp;
+      (c.kw || []).forEach((k) => { if (k === 'shield') u.shield = true; else u.kw.add(k); });
+      await this.view.combo(u, c, item);
+      if (c.onCombo) await this.trigger(c.onCombo, u);
       else { await this.resolveDeaths(); this.view.refresh(); }
     }
 

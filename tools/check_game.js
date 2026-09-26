@@ -169,6 +169,25 @@ for (const b of MB.BONDS) {
   }
 }
 Object.keys(MB.BOND_SCENES).forEach((id) => { if (!bondIds.has(id)) warn(`scene ${id}: no bond with this id`); });
+// item combos
+const comboKeys = new Set();
+MB.COMBOS.forEach((c) => {
+  const at = `combo ${c.id}`, ch = chars.get(c.char);
+  if (!ch || !MB.CARDS[c.char] || MB.CARDS[c.char].type) return err(`${at}: ${c.char} isn't a character card`);
+  c.items.forEach((id) => {
+    if (!MB.CARDS[id] || MB.CARDS[id].type !== 'spell') err(`${at}: ${id} isn't an item card`);
+    if (comboKeys.has(c.char + '+' + id)) err(`${at}: ${c.char} + ${id} is listed twice`);
+    comboKeys.add(c.char + '+' + id);
+  });
+  if (!c.name || !c.short) err(`${at}: needs a name and a short name`);
+  else if (c.short.length > 12) warn(`${at}: short name "${c.short}" is long for the board plate`);
+  if (c.costume && !ch.costumes.some((o) => o.id === c.costume)) err(`${at}: ${c.char} has no costume "${c.costume}" (has: ${ch.costumes.map((o) => o.id).join(', ') || 'none'})`);
+  else if (c.costume && ch.costumes.find((o) => o.id === c.costume).nsfw) warn(`${at}: costume "${c.costume}" is NSFW; pick a safe one`);
+  if (!Array.isArray(c.bonus) || c.bonus.length !== 2) err(`${at}: bonus should be [atk, hp]`);
+  (c.kw || []).forEach((k) => { if (!MB.KEYWORDS[k]) err(`${at}: unknown keyword ${k}`); });
+  if (c.onCombo) checkSpec(`${at} onCombo`, c.onCombo, { trigger: 'onCombo' });
+  if (!c.text) err(`${at}: no text`);
+});
 Object.entries(MB.HIDDEN_COSTUMES).forEach(([id, list]) => list.forEach((o) => {
   if (!chars.get(id) || !chars.get(id).costumes.some((x) => x.id === o)) warn(`hidden costume ${id}/${o} doesn't exist`);
 }));
@@ -186,6 +205,42 @@ MB.STORY.forEach((s, i) => {
 MB.CHAPTERS.forEach((c, i) => { if (!MB.STORY.some((s) => s.chapter === i)) err(`chapter ${i} (${c.title}) has no stages`); });
 MB.STARTER_DECK.forEach((id) => { if (!MB.CARDS[id]) err(`starter deck: unknown card ${id}`); });
 MB.STARTER_LEADERS.forEach((id) => { if (!MB.POWERS[id]) err(`starter leader ${id} has no power`); });
+
+// ---------------------------------------------------------------- our own songs
+const songIds = new Set();
+MB.SONGS.forEach((s) => {
+  const at = `song ${s.id}`;
+  if (songIds.has(s.id)) err(`${at}: duplicate id`);
+  songIds.add(s.id);
+  if (M.music.filter((m) => m.id === s.id).length > 1) err(`${at}: a miku.gg track already has this id`);
+  if (!s.name) err(`${at}: needs a name`);
+  if (!s.file || !fs.existsSync(path.join(GAME, 'assets', 'music', s.file))) err(`${at}: no file game/assets/music/${s.file}`);
+  // (with --sfw the NSFW characters are gone, so only the full run checks the names)
+  (s.foes || []).forEach((id) => { if (!chars.has(id) && !SFW) err(`${at}: unknown foe ${id}`); });
+});
+(MB.SONGS.flatMap((s) => s.foes || [])).forEach((id, i, all) => { if (all.indexOf(id) !== i) warn(`${id} has more than one theme song; the first one plays`); });
+
+// ---------------------------------------------------------------- item novels, rival decks
+Object.entries(MB.ITEM_NOVELS).forEach(([n, ids]) => {
+  if (!M.novels.includes(n) && !(M.nsfwNovels || []).includes(n)) err(`MB.ITEM_NOVELS: no novel named "${n}"`);
+  if (M.novels.includes(n)) ids.forEach((id) => { if (!M.items.some((i) => i.id === id)) err(`MB.ITEM_NOVELS["${n}"]: no item ${id} in the manifest`); });
+});
+MB.itemCards().forEach((id) => { if (!MB.novelOf(id)) warn(`item card ${id} has no novel in MB.ITEM_NOVELS`); });
+const homeShare = [];
+MB.STORY.forEach((st) => {
+  if (!chars.has(st.foe)) return;
+  for (let k = 0; k < 5; k++) {
+    const d = MB.AI.deck(st.foe), at = `rival deck of ${st.foe}`;
+    if (d.length !== MB.RULES.deckSize) err(`${at}: ${d.length} cards`);
+    if (d.includes(st.foe)) err(`${at}: holds the rival's own card`);
+    d.forEach((id) => {
+      if (!MB.CARDS[id] || MB.CARDS[id].token) err(`${at}: can't hold ${id}`);
+      const max = MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2;
+      if (d.filter((x) => x === id).length > max) err(`${at}: too many ${id}`);
+    });
+    homeShare.push(d.filter((id) => MB.novelOf(id) === MB.novelOf(st.foe)).length);
+  }
+});
 
 // ---------------------------------------------------------------- packs, fragments, profile pictures
 const pick = (a) => a[Math.random() * a.length | 0];
@@ -220,10 +275,12 @@ const packAvg = packRuns.reduce((a, b) => a + b, 0) / packRuns.length;
 if (packAvg > 250) warn(`packs: ${packAvg.toFixed(0)} packs on average to complete the collection`);
 
 // ---------------------------------------------------------------- AI vs AI
+const combosSeen = new Map(); // combo id -> how often it happened in the AI battles
 const viewStub = new Proxy({}, {
   get: (_, name) => (...args) => {
     const fn = args.find((a) => typeof a === 'function');
     if (name === 'fuse') { const u = args[2]; return Promise.resolve(u); }
+    if (name === 'combo') combosSeen.set(args[1].id, (combosSeen.get(args[1].id) || 0) + 1);
     if (fn) fn();
     return Promise.resolve();
   },
@@ -243,7 +300,8 @@ function randomDeck() {
   const failures = new Map();
   let turns = 0, done = 0;
   for (let i = 0; i < BATTLES; i++) {
-    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: pick(leaders), playerDeck: randomDeck(), enemyDeck: randomDeck() });
+    const foe = pick(leaders);
+    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: randomDeck(), enemyDeck: MB.AI.deck(foe) });
     b.aiSkill = Math.random();
     try {
       await b.start();
@@ -265,6 +323,8 @@ function randomDeck() {
   warnings.forEach((w) => console.log('warn  ' + w));
   errors.forEach((e) => console.log('ERROR ' + e));
   console.log(`\n${M.characters.length} characters, ${Object.keys(MB.CARDS).length} cards, ${MB.BONDS.length} bonds, ${MB.STORY.length} story stages`);
+  console.log(`combos: ${[...combosSeen.values()].reduce((a, b) => a + b, 0)} in the battles, ${combosSeen.size}/${MB.COMBOS.length} different`);
+  console.log(`rival decks: avg ${(homeShare.reduce((a, b) => a + b, 0) / homeShare.length).toFixed(1)}/${MB.RULES.deckSize} cards from their own novel, ${Math.min(...homeShare)}-${Math.max(...homeShare)}`);
   console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);
   process.exit(errors.length ? 1 : 0);

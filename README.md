@@ -20,6 +20,7 @@ npx serve game
 | --- | --- |
 | `game/` | The whole game: plain HTML/CSS/JS, no build step. This folder is what gets published. |
 | `game/assets/manifest.js` | Characters, sprites, backgrounds, items and music of the novels. Generated. |
+| `game/assets/music/` | Songs made for the game. Register each in `MB.SONGS` (`game/js/data.js`); `foes` makes it that character's battle theme. |
 | `game/js/avatars.js` | The unlockable profile pictures. Generated. |
 | `game/js/config.js` | Where the images live (the Supabase bucket). |
 | `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |

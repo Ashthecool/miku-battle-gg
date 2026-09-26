@@ -3052,7 +3052,7 @@
     const ov = el('div', 'cm', `
       <div class="cm-backdrop"></div>
       <div class="cm-rays"></div>
-      ${def.type === 'unit' && !def.emoji && !def.fused ? `<img class="cm-sprite" src="${MB.bigSpriteUrl(def.id, locked ? 'idle' : 'taunt')}">` : ''}
+      ${def.type === 'unit' && !def.emoji && !def.fused ? `<img class="cm-sprite" src="${MB.bigSpriteUrl(def.id, locked ? 'idle' : 'taunt', def.combo && def.combo.costume)}">` : ''}
       ${def.fused ? `<div class="cm-duo">${def.members.map((m) => `<img src="${MB.bigSpriteUrl(m.id, 'taunt', m.costume)}">`).join('')}</div>` : ''}
       <div class="cm-pivot"><div class="cm-tilt"></div></div>
       <div class="cm-info"></div>
@@ -3074,9 +3074,9 @@
       MB.UI.setCostume(def.id, btn.dataset.costume);
       info.querySelectorAll('[data-costume]').forEach((x) => x.classList.toggle('on', x === btn));
       const art = c.querySelector('.card-art img');
-      if (art) art.src = MB.bigSpriteUrl(def.id, 'idle');
+      if (art) art.src = MB.bigSpriteUrl(def.id, 'idle', def.combo && def.combo.costume);
       if (sprite) {
-        sprite.src = MB.bigSpriteUrl(def.id, 'taunt');
+        sprite.src = MB.bigSpriteUrl(def.id, 'taunt', def.combo && def.combo.costume);
         gsap.fromTo(sprite, { filter: 'brightness(3) drop-shadow(0 0 30px #fff)' }, { filter: '', duration: 0.6, clearProps: 'filter' });
       }
       spray(layer, cardX, CARD_Y, col, 24, { dist: [120, 320] });
@@ -3198,7 +3198,8 @@
       ${def.text ? `<div class="cm-text">${def.text}</div>` : ''}
       ${def.rival ? `<div class="cm-text">⚔ Rival of <b>${defOf(def.rival).name}</b>: they deal each other double damage.</div>` : ''}
       ${bondsHtml(def)}
-      ${!locked && !def.fused ? wardrobeHtml(def) : ''}
+      ${combosHtml(def)}
+      ${!locked && !def.fused && !def.combo ? wardrobeHtml(def) : ''}
       ${def.type === 'unit' && def.attack.name ? `<div class="cm-attack" style="--c:${def.attack.color}">✦ ${def.attack.name}</div>` : ''}
       ${own}`;
   }
@@ -3209,6 +3210,15 @@
     const rows = MB.bondsOf(def.id).map((b) => {
       const other = b.pair.find((id) => id !== def.id);
       return `<div class="cm-bond"><i>${MB.BOND_TIERS[b.tier].hearts}</i><b>${b.name}</b> with ${MB.charById(other).name} · ${b.relation}</div>`;
+    });
+    return rows.length ? `<div class="cm-bonds">${rows.join('')}</div>` : '';
+  }
+  // item combos this character or item is part of
+  function combosHtml(def) {
+    if (def.fused) return '';
+    const rows = (def.combo ? [def.combo] : MB.combosOf(def.id)).map((c) => {
+      const with_ = def.type === 'spell' ? MB.charById(c.char).name : c.items.map((id) => defOf(id).name).join(' or ');
+      return `<div class="cm-combo">🔗 <b>${c.name}</b>${def.combo ? '' : ` with ${with_}`}: ${c.text}</div>`;
     });
     return rows.length ? `<div class="cm-bonds">${rows.join('')}</div>` : '';
   }

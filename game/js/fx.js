@@ -6820,6 +6820,60 @@
     await wait(0.3);
   }
 
+  // ---------------------------------------------------------------- item combos
+  // a short cut-in: the partner in the combo's outfit on one side, the item spinning in on the other
+  function comboCutin(c, item, color) {
+    const ov = document.createElement('div');
+    ov.className = 'bond-cutin combo-cutin';
+    ov.style.setProperty('--c', color);
+    ov.innerHTML = `<div class="bc-flash"></div><div class="bc-band"><div class="bc-rays"></div></div>
+      <img class="bc-a" src="${MB.bigSpriteUrl(c.char, 'play', c.costume)}"><img class="bc-item" src="${MB.itemIcon(item.id)}">
+      <div class="bc-title"><small>🔗 ITEM COMBO</small><b>${c.name}</b><span>${c.line || ''}</span></div>`;
+    document.getElementById('ui-root').appendChild(ov);
+    const band = ov.querySelector('.bc-band'), A = ov.querySelector('.bc-a'), I = ov.querySelector('.bc-item'), title = ov.querySelector('.bc-title');
+    MB.audio.sfx('fusion'); MB.audio.sfx('glint');
+    return gsap.timeline({ onComplete: () => ov.remove() })
+      .fromTo(ov.querySelector('.bc-flash'), { opacity: 0.4 }, { opacity: 0, duration: 0.4 }, 0)
+      .fromTo(band, { scaleY: 0 }, { scaleY: 1, duration: 0.22, ease: 'power3.out' }, 0)
+      .fromTo(ov.querySelector('.bc-rays'), { rotation: 0 }, { rotation: 50, duration: 1.7, ease: 'none' }, 0)
+      .fromTo(A, { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power3.out' }, 0.08)
+      .fromTo(I, { x: 700, rotation: 400, opacity: 0 }, { x: 0, rotation: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0.1)
+      .fromTo(title, { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 0.25)
+      .to(A, { x: 30, duration: 0.9, ease: 'none' }, 0.5)
+      .to(I, { x: -30, rotation: -8, duration: 0.9, ease: 'none' }, 0.6)
+      .to([A, I, title], { opacity: 0, duration: 0.2 }, 1.4)
+      .to(band, { scaleY: 0, duration: 0.2, ease: 'power3.in' }, 1.45);
+  }
+
+  // the partner glows, the cut-in plays, then it spins up, changes (swap) at the top of the spin and lands
+  async function combo(V, v, P, c, item, swap) {
+    const color = item.color || '#ffd23f', H = MB.LAYOUT.UNIT_H;
+    v.el.classList.add('acting');
+    gsap.to(v.img, { filter: `drop-shadow(0 0 16px ${color}) brightness(1.3)`, duration: 0.3 });
+    await comboCutin(c, item, color);
+    MB.audio.sfx('whoosh');
+    await gsap.to(v.figure, { y: -140, rotationY: 360, duration: 0.4, ease: 'power2.in' });
+    swap();
+    flash(V, P, H * 0.5, '#ffffff', 320);
+    ring(V, P, color, 2.4, 0.8);
+    ring(V, P, '#ffffff', 1.6, 0.6);
+    burst(V, P, color, 26, { h: H * 0.5, spread: 160 });
+    scatter(V, P, H * 0.5, ['🔗', '✨', '⭐'], 8, 150);
+    MB.audio.sfx('buff');
+    const name = V.billboard('float-text bond-name combo-name', `🔗 ${c.name}!`, P.x, P.y);
+    gsap.set(name.body, { y: -H - 50 });
+    gsap.timeline({ onComplete: () => name.remove() })
+      .fromTo(name.body, { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' })
+      .to(name.body, { y: -H - 110, opacity: 0, duration: 0.5, delay: 1.1 });
+    await gsap.to(v.figure, { y: 0, rotationY: 720, duration: 0.5, ease: 'bounce.out' });
+    gsap.set(v.figure, { rotationY: 0 });
+    MB.audio.sfx('slam'); V.shake(10);
+    gsap.to(v.img, { filter: 'drop-shadow(0 0 0px #fff) brightness(1)', duration: 0.4, clearProps: 'filter' });
+    v.el.classList.remove('acting');
+    rise(V, P, color, 12, H);
+    await wait(0.3);
+  }
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -6948,6 +7002,6 @@
     fx: ['slashes', 'bolt', 'clones'] };
   const upgraded = (at) => !!at && (S[at.style] ? UPGRADED.styles.includes(at.style) : at.move || at.fx ? UPGRADED.fx.includes(at.fx) : true); // no style = dash
 
-  MB.FX = { attack, orbTo, spell, dust, burst, rise, ring, flash, flameBurst, fusion, debris, puff, cracks, toss, sky, spiralSvg, eases: EASE, styles: S, duoStyles: DUO_STYLES, upgraded,
+  MB.FX = { attack, orbTo, spell, dust, burst, rise, ring, flash, flameBurst, fusion, combo, debris, puff, cracks, toss, sky, spiralSvg, eases: EASE, styles: S, duoStyles: DUO_STYLES, upgraded,
     skies: Object.keys(SKIES), recipe: { moves: RMOVE, fx: RFX, floors: FLOORS }, casts: ['lob', 'nuke', 'call', 'coins'] };
 })();

@@ -1,8 +1,8 @@
 // Offline support. Code (html/js/css) is fetched network-first (skipping the browser's HTTP cache) so updates arrive whenever
 // you're online; images come from the Supabase bucket (MB.ASSET_BASE) and are cache-first.
-// Music streams from the miku.gg CDN and needs a connection.
+// Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v7';
+const SHELL = 'mb-shell-v8';
 const ASSETS = 'mb-assets-v3';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
@@ -77,7 +77,7 @@ async function networkFirst(req) {
   const cache = await caches.open(SHELL);
   try {
     const res = await fetch(req, { cache: 'no-cache' }); // revalidate: Pages lets browsers keep files for 10 minutes
-    if (res.ok) cache.put(req, res.clone());
+    if (res.status === 200) cache.put(req, res.clone()); // not the partial (206) replies audio streams get: the cache refuses them
     return res;
   } catch (err) {
     const hit = await cache.match(req, { ignoreSearch: true });

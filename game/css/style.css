@@ -683,6 +683,20 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .bc-title span { font: italic 700 24px 'Segoe UI'; text-shadow: 0 2px 4px #000; }
 .bc-heart { position: absolute; left: 0; top: 0; font-size: 34px; color: var(--c); text-shadow: 0 0 12px var(--c); }
 
+/* item combos */
+.combo-cutin .bc-item { left: auto; right: 170px; bottom: 300px; height: 300px; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 30px var(--c)); }
+.combo-cutin .bc-title small { letter-spacing: 6px; }
+.float-text.combo-name { text-shadow: 0 3px 0 #000, 0 0 18px #ffd23f, 0 0 30px #ffb020; }
+.plate .pname.combo { color: #fff1c2; border-color: #ffc93c; box-shadow: 0 0 10px #ffc93c88; }
+#hand .card.combo-ready::after { content: '🔗 COMBO'; position: absolute; left: 50%; top: -14px; transform: translateX(-50%); z-index: 5;
+  font: 900 12px 'Segoe UI'; letter-spacing: 2px; color: #3a2400; background: linear-gradient(#ffe27a, #ffb020); padding: 2px 9px;
+  border-radius: 10px; box-shadow: 0 0 12px #ffc93c; white-space: nowrap; }
+.unit.combo-partner .sprite { filter: drop-shadow(0 0 3px #fff3b0) drop-shadow(0 0 14px #ffc93c); }
+.card-combo { position: absolute; top: 3px; right: 5px; font-size: 12px; filter: drop-shadow(0 0 4px #ffc93c) drop-shadow(0 1px 1px #000); }
+.card-combo.second { right: 20px; }
+.cm-combo { font-size: 14px; background: #ffc93c1c; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #ffc93c; }
+.cm-combo b { color: #ffe08a; }
+
 .cm-bonds { display: flex; flex-direction: column; gap: 5px; }
 .cm-bond { font-size: 14px; background: #ff5fa21c; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #ff5fa2; }
 .cm-bond b { color: #ff9fcf; }

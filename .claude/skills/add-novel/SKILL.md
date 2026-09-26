@@ -85,6 +85,12 @@ Add a commented section per novel in each table, in the novel's order. See `cata
   rarity, target?, effect, color }` (skip ones that make no sense, like money duplicates).
 - **`MB.BONDS`** + **`MB.BOND_SCENES`**: 2-6 relationships per novel from the write-ups (family, lovers,
   friends, rivals, classmates). Costumes must be costume ids of that character (or `null`).
+- **`MB.ITEM_NOVELS`**: list the novel's item cards under its name (the manifest doesn't say which novel an item
+  is from; rival decks and the collection's novel filter need it).
+- **`MB.COMBOS`**: 1-3 item combos per novel, where an item plainly belongs to a character (its description
+  names them, it's their tool or gift): `{ char, item, name, short, costume?, bonus: [atk, hp], kw?, onCombo?, line }`.
+  Use a costume that shows the item when there is one (a "holding water gun" outfit). Budget: about +2 stats
+  plus one keyword or a small `onCombo` effect. `short` fits the board plate (≤ 12 characters).
 - **`MB.CHAPTERS`** + **`MB.STORY`**: one chapter per novel, 4-8 foes, rising `hp` (20 → ~40) and `ai`
   (0.3 → 1.0), each in a fitting background (by name) with fitting music (id) and an in-character intro line.
   The last foe is the novel's main character or boss.

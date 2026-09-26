@@ -149,7 +149,7 @@
       let img;
       if (card && card.emoji) { img = el('div', 'emoji-sprite', card.emoji); }
       else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); img.style.setProperty('--c', card.attack.color); MB.fitDuo(img, h, 330, 18); }
-      else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle'); img.draggable = false; }
+      else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle', ent.costume); img.draggable = false; }
       figure.appendChild(img);
       const status = el('div', 'status');
       figure.appendChild(status);
@@ -198,7 +198,8 @@
         const base = e.card;
         const kw = [...e.kw].map((k) => MB.KEYWORDS[k] ? `<i title="${MB.KEYWORDS[k].name}">${MB.KEYWORDS[k].icon}</i>` : '').join('');
         v.plate.innerHTML = `<span class="atk ${e.atk > base.atk ? 'up' : e.atk < base.atk ? 'down' : ''}">${e.atk}</span>` +
-          (base.fused ? `<span class="pname bond">${MB.BOND_TIERS[base.bond.tier].hearts} ${base.bond.short}</span>` : `<span class="pname">${e.name.split(' ')[0]}</span>`) +
+          (base.fused ? `<span class="pname bond">${MB.BOND_TIERS[base.bond.tier].hearts} ${base.bond.short}</span>`
+            : base.combo ? `<span class="pname combo">🔗 ${base.combo.short}</span>` : `<span class="pname">${e.name.split(' ')[0]}</span>`) +
           `<span class="hp ${e.hp < e.maxHp ? 'hurt' : e.maxHp > base.hp ? 'up' : ''}">${Math.max(0, e.hp)}</span>` +
           (kw ? `<div class="kw">${kw}</div>` : '');
       }
@@ -218,7 +219,7 @@
         return;
       }
       if (v.img.tagName !== 'IMG') return;
-      const src = MB.spriteUrl(v.ent.isLeader ? v.ent.charId : v.ent.card.id, role);
+      const src = MB.spriteUrl(v.ent.isLeader ? v.ent.charId : v.ent.card.id, role, v.ent.costume); // costume: a combo's outfit
       if (!v.img.src.endsWith(src)) v.img.src = src;
     }
 
@@ -401,6 +402,17 @@
       this.refresh();
     }
 
+    // an item reaches its partner: a cut-in, and the partner spins into the combo's outfit
+    async combo(u, c, item) {
+      const v = this.ents.get(u.uid);
+      if (!v) return;
+      const restore = this.focus(this.pos(u), 0.07);
+      await MB.FX.combo(this, v, this.pos(u), c, item, () => this.setSprite(v, 'taunt'));
+      restore();
+      this.emote(u, 'taunt', 1400);
+      this.refresh();
+    }
+
     // a unit leaves the board without dying (returned to hand)
     async unsummon(u) {
       const v = this.ents.get(u.uid);
@@ -527,6 +539,7 @@
       this.handEl.querySelectorAll('.card').forEach((c) => {
         const card = me.hand.find((h) => h.cid === +c.dataset.cid);
         c.classList.toggle('playable', !!card && b.active === 0 && b.canPlay(0, card));
+        c.classList.toggle('combo-ready', !!card && b.comboPartners(0, card).length > 0);
       });
     }
 
@@ -667,6 +680,9 @@
       cEl.style.zIndex = 200;
       if (card.type === 'unit') this.highlightSlots(true);
       else if (card.target) this.highlightTargets(this.b.targetsFor(0, card.target, card.filter));
+      // an item's combo partners glow while it's dragged
+      const partners = this.b.comboPartners(0, card).map((p) => p.u);
+      this.ents.forEach((v) => v.el.classList.toggle('combo-partner', partners.includes(v.ent)));
     }
 
     onMove(e) {
@@ -755,6 +771,7 @@
       if (!this.drag) return;
       this.drag.el.classList.remove('dragging');
       this.drag = null;
+      this.ents.forEach((v) => v.el.classList.remove('combo-partner'));
       this.highlightSlots(false);
       this.highlightTargets([]);
       this.arrow.classList.add('hidden');

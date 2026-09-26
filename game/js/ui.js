@@ -263,9 +263,10 @@
     if (def.type === 'spell') art = `<img class="item-art" src="${MB.itemIcon(def.id)}">`;
     else if (def.emoji) art = `<div class="emoji-art">${def.emoji}</div>`;
     else if (def.fused) art = MB.duoHtml(def, 'idle', big);
-    else art = `<img src="${MB.spriteUrl(def.id, 'idle', undefined, big)}">`;
+    else art = `<img src="${MB.spriteUrl(def.id, 'idle', def.combo && def.combo.costume, big)}">`;
     const bonds = def.fused ? [def.bond] : def.type === 'unit' ? MB.bondsOf(def.id) : [];
-    const badge = bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '';
+    const badge = (bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '') +
+      (!def.fused && (def.combo || MB.combosOf(def.id).length) ? `<div class="card-combo${bonds.length ? ' second' : ''}" title="Item combo">🔗</div>` : '');
     // three or more keywords only fit as icons (the close-up spells them out); long texts get a smaller font
     const kwList = def.kw || [], iconsOnly = kwList.length >= 3;
     const kws = kwList.map((k) => iconsOnly ? `<b title="${MB.KEYWORDS[k].name}">${MB.KEYWORDS[k].icon}</b>` : `<b>${MB.KEYWORDS[k].icon} ${MB.KEYWORDS[k].name}</b>`).join(' ');
@@ -308,6 +309,7 @@
       if (ent.shield) notes.push('🔰 Shielded.');
       if (ent.sick && ent.attacksLeft === 0) notes.push('💤 Just arrived — can attack next turn.');
       if (ent.card.fused) notes.push(`💞 <b>${ent.card.members.map((m) => MB.charById(m.id).name).join(' & ')}</b> — ${ent.card.bond.relation}`);
+      if (ent.card.combo) notes.push(`🔗 <b>Item combo</b>: ${ent.card.combo.text}`);
       [...ent.kw].forEach((k) => notes.push(`${MB.KEYWORDS[k].icon} <b>${MB.KEYWORDS[k].name}</b>: ${MB.KEYWORDS[k].text}`));
       if (notes.length) p.appendChild(el('div', 'notes', notes.join('<br>')));
     }
@@ -506,7 +508,8 @@
   function intro(i, leaderId) {
     const st = MB.STORY[i], ch = MB.charById(st.foe);
     setBg(MB.asset(bgByName(st.bg).src));
-    MB.audio.music(st.music);
+    const music = MB.themeOf(st.foe) || st.music;
+    MB.audio.music(music);
     show('screen-intro');
     $('#intro-foe').src = MB.bigSpriteUrl(st.foe, 'taunt');
     $('#intro-me').src = MB.bigSpriteUrl(leaderId, 'idle');
@@ -519,7 +522,7 @@
     gsap.to(o, { n: text.length, duration: text.length * 0.03, delay: 0.6, ease: 'none', onUpdate: () => { $('#intro-text').textContent = text.slice(0, o.n | 0); } });
     $('#intro-go').onclick = () => {
       MB.audio.sfx('click');
-      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music: st.music, story: i });
+      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music, story: i });
     };
   }
 
@@ -530,23 +533,8 @@
       const foe = MB.pick(foes);
       const bg = MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
       const upbeat = MB.manifest.music.filter((m) => /exciting|fast|fun|happy/i.test(m.tags.join(' ') + m.name));
-      startBattle({ leader: lid, foe, foeHp: MB.RULES.leaderHp, ai: 0.7, bgSrc: bg.src, music: MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
+      startBattle({ leader: lid, foe, foeHp: MB.RULES.leaderHp, ai: 0.7, bgSrc: bg.src, music: MB.themeOf(foe) || MB.pick(upbeat.length ? upbeat : MB.manifest.music).id });
     });
-  }
-
-  function aiDeck(foeId) {
-    const pool = deckCards().filter((id) => id !== foeId);
-    const deck = [];
-    const couples = MB.BONDS.filter((bd) => !bd.pair.includes(foeId));
-    if (couples.length && Math.random() < 0.6) MB.pick(couples).pair.forEach((id) => { for (let i = 0; i < maxCopies(id); i++) deck.push(id); });
-    const cheap = MB.shuffle(pool.filter((id) => MB.CARDS[id].cost <= 2));
-    while (deck.length < 7) deck.push(cheap[deck.length % cheap.length]);
-    let guard = 0;
-    while (deck.length < DECK_SIZE && guard++ < 500) {
-      const id = MB.pick(pool);
-      if (deck.filter((d) => d === id).length < maxCopies(id)) deck.push(id);
-    }
-    return deck;
   }
 
   // the board sprites were loaded at boot (main.js; listed again in case that timed out); a battle also needs its background, the full-size
@@ -559,6 +547,8 @@
       need.push(MB.bigSpriteUrl(id, 'play', bd.costumes[i]));
       later.push(MB.bigSpriteUrl(id, 'idle', bd.costumes[i]));
     }));
+    // the combos that can happen: the partner's cut-in in the combo's outfit
+    MB.COMBOS.filter((c) => ids.has(c.char) && c.items.some((id) => ids.has(id))).forEach((c) => need.push(MB.bigSpriteUrl(c.char, 'play', c.costume)));
     // item cards aren't characters, so their urls come back empty and are skipped
     ids.forEach((id) => later.push(MB.bigSpriteUrl(id, 'idle'), MB.bigSpriteUrl(id, 'taunt')));
     [cfg.leader, cfg.foe].forEach((id) => later.push(MB.bigSpriteUrl(id, 'win'), MB.bigSpriteUrl(id, 'lose')));
@@ -585,7 +575,7 @@
     if (starting) return;
     const diff = DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
-    const playerDeck = save.deck.slice(), enemyDeck = aiDeck(cfg.foe);
+    const playerDeck = save.deck.slice(), enemyDeck = MB.AI.deck(cfg.foe);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
     starting = true;
     await loadImages(imgs.need);
@@ -697,7 +687,7 @@
     if (filt.type.size && !filt.type.has(d.type)) return false;
     if (filt.rarity.size && !filt.rarity.has(d.rarity)) return false;
     if (filt.cost.size && !filt.cost.has(Math.min(7, d.cost))) return false;
-    if (filt.novel && !(MB.charById(id) && MB.charById(id).novel === filt.novel)) return false;
+    if (filt.novel && MB.novelOf(id) !== filt.novel) return false;
     const st = ownState(id);
     return filt.show === 'owned' ? st === 0 : filt.show === 'collecting' ? st === 1 : filt.show === 'locked' ? st > 0
       : filt.show === 'deck' ? save.deck.includes(id) : true;

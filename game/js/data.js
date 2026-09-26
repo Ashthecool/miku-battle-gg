@@ -662,6 +662,26 @@ MB.CARDS = {
 };
 MB.itemCards = () => Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].type === 'spell');
 
+// The manifest says which novel a character is from, but not an item: this does (names as in MIKU_MANIFEST.novels).
+// Rival decks and the collection's novel filter use it through MB.novelOf.
+MB.ITEM_NOVELS = {
+  'Adoptive Life RPG': ['school-bag', 'towel', 'money', 'walking-stick', 'your-phone', 'mansion-key'],
+  'Infernal Harmony': ['beer', 'gift-card', 'jay-s-pencil', 'key-to-the-liquor-closet'],
+  'Between the Peaks': ['coupon', 'delivery-box', 'podium', 'necklace'],
+  'The Lifeguard has Teeth': ['watermelon', 'diving-mask', 'water-gun'],
+  'Fake It to Make It!': ['friendship-bracelet', 'magical-stick', 'bad-reviews-for-owain', 'noted-rules', 'invitation'],
+  'New Haven': ['kuru-cure-a', 'kuru-cure-b'],
+  'Legend Of You 1.7 ': ['holy-water', 'glowing-brick', 'root-of-all-evil', 'cupid-arrow', '10000-degree-dagger', 'excalibur', 'red-button'],
+  'Noble One': ['vinelace-family-wine', 'book-of-magical-creatures', 'maid-outfit'],
+  'Doki Doki Literature Club': ['natsuki-s-cupcake', 'yuri-s-green-tea', 'purple-tulip', 'photograph-of-a-plant', 'japanese-artifact'],
+};
+(function () {
+  const novel = {};
+  Object.entries(MB.ITEM_NOVELS).forEach(([n, ids]) => ids.forEach((id) => { novel[id] = n; }));
+  window.MIKU_MANIFEST.characters.forEach((c) => { novel[c.id] = c.novel; });
+  MB.novelOf = (id) => novel[id] || null;
+})();
+
 // One leader power per character. target uses the same types as spells.
 MB.POWERS = {
   'maria-hunley':    { name: "Mom's Hug",       cost: 2, target: 'allyUnit',    effect: 'hug',      text: 'Give an ally +0/+2.' },
@@ -1397,6 +1417,71 @@ MB.BOND_SCENES = {
 MB.BONDS.sort((a, b) => b.tier - a.tier);
 MB.bondsOf = (id) => MB.BONDS.filter((b) => b.pair.includes(id));
 
+// Item combos. Play an item while its partner character stands on your side of the board and the character turns
+// into the combo, after the item's own effect: new name (`short` goes on the board plate), `costume` (manifest id,
+// optional), `bonus` [atk, hp], extra `kw` and an `onCombo` ability (effect spec). If the item targets one of your
+// monsters, it has to be the partner. A monster takes one combo; one that later fuses into a relationship keeps the
+// stats. `item` can list several items. `line` is what the character says in the cut-in. The text is written from
+// the rest (MB.Effects.comboText).
+MB.COMBOS = [
+  // Adoptive Life RPG
+  { char: 'luther-jones', item: 'mansion-key', name: 'Lord of the Manor', short: 'Lord', bonus: [2, 3], kw: ['taunt'],
+    line: 'Welcome to MY house.' },
+  { char: 'james-lone', item: 'your-phone', name: 'Doomscrolling James', short: 'Scrolling', costume: 'phone-james', bonus: [1, 1],
+    onCombo: { label: 'New message!', emoji: '📱', do: { op: 'draw' } }, line: "...Hold on. I'm replying." },
+  { char: 'maria-hunley', item: 'money', name: 'Payday Mom', short: 'Payday', costume: 'work-outfit', bonus: [0, 3],
+    onCombo: { label: 'Groceries!', emoji: '🛒', do: { op: 'heal', to: 'myLeader', n: 5 } }, line: 'Dinner is on me tonight!' },
+  { char: 'hayley-kate', item: 'towel', name: 'Beach Day Hayley', short: 'Beach Day', costume: 'bikini', bonus: [1, 1], kw: ['lifesteal'],
+    line: 'Sunscreen? Check! Smile? Check!' },
+  // Infernal Harmony
+  { char: 'mr-dino', item: 'key-to-the-liquor-closet', name: 'After Hours Dino', short: 'After Hours', costume: 'coach-outfit', bonus: [2, 0], kw: ['tipsy'],
+    onCombo: { label: 'Class dismissed!', emoji: '🍸', do: { op: 'buff', to: 'allies', atk: 1 } }, line: "Huh. It's past 20:00. Who's thirsty?" },
+  { char: 'jay-lester', item: 'jay-s-pencil', name: 'Masterpiece Jay', short: 'Artist', costume: 'new-outfit', bonus: [1, 2],
+    onCombo: { label: 'Repaint!', emoji: '🎨', do: { op: 'swap', to: 'strongestEnemy', say: 'Repainted!' } }, line: "Hold still, I'm drawing you." },
+  { char: 'charlie-and-jenny', item: 'beer', name: 'Party Animals', short: 'Party!', bonus: [0, 2], kw: ['frenzy'],
+    line: 'Heeey~ one more round! *hic*' },
+  // Between the Peaks
+  { char: 'olivia', item: 'coupon', name: 'Barista Special', short: 'Barista', bonus: [1, 1],
+    onCombo: { label: 'On the house!', emoji: '☕', do: { op: 'heal', to: 'friendly', n: 2 } }, line: 'One latte, extra foam, just for you~' },
+  { char: 'mason-moose', item: 'delivery-box', name: 'Express Delivery', short: 'Express', bonus: [2, 2], kw: ['rebel'],
+    line: 'Signature required!' },
+  { char: 'deiste-junko', item: 'podium', name: "The Mayor's Heir", short: 'Heir', bonus: [1, 1], kw: ['shield'],
+    onCombo: { label: 'Campaign speech!', emoji: '📣', do: { op: 'damage', to: 'enemies', n: 1 } }, line: 'Vote for the Dragon King!' },
+  // The Lifeguard has Teeth
+  { char: 'rirarra-charca', item: 'water-gun', name: 'Super Soaker Rirarra', short: 'Soaker', costume: 'wategun-rirarra', bonus: [0, 2], kw: ['ranged'],
+    line: 'Big Sis has the BIG gun!' },
+  // Fake It to Make It!
+  { char: 'ellis-maidun', item: 'magical-stick', name: 'Magical Cheerleader', short: 'Magical', costume: 'cheerleader-uniform', bonus: [1, 1], kw: ['shield'],
+    onCombo: { label: 'Go team!', emoji: '✨', do: { op: 'buff', to: 'allies', atk: 1 } }, line: 'Magical cheer... TRANSFORM!' },
+  { char: 'carys-crowner', item: 'friendship-bracelet', name: 'BFF Carys', short: 'BFF', costume: 'cheerleader-uniform', bonus: [0, 2], kw: ['guardian'],
+    onCombo: { label: 'Friends forever!', emoji: '💗', do: { op: 'heal', to: 'friendly', n: 2 } }, line: "You're one of us now!" },
+  { char: 'megan-dilourice', item: 'noted-rules', name: 'Captain Megan', short: 'Captain', costume: 'cheerleader-uniform', bonus: [1, 2],
+    onCombo: { label: 'Rule #1: Smile!', emoji: '📋', do: { op: 'buff', to: 'allies', hp: 1 } }, line: 'Rule number one: no slacking!' },
+  { char: 'owain-owegrain', item: 'bad-reviews-for-owain', name: 'Manager Meltdown', short: 'Meltdown', bonus: [3, 0], kw: ['rebel'],
+    line: 'One star?! ONE?!' },
+  // New Haven
+  { char: 'marija', item: ['kuru-cure-a', 'kuru-cure-b'], name: 'Breakthrough Marija', short: 'Eureka', bonus: [2, 2],
+    onCombo: { label: 'Eureka!', emoji: '🧪', do: { op: 'draw' } }, line: 'The cure works. Write that down!' },
+  // Legend Of You
+  { char: 'ruby', item: 'root-of-all-evil', name: 'Cursed Merchant', short: 'Merchant', bonus: [2, 2],
+    onCombo: { label: 'Buy one, get one cursed!', emoji: '🪙', do: { op: 'addCard', card: 'randomItem' } }, line: 'Good deal, yes? VERY good deal!' },
+  // crossover: an angel and a bottle of divine water from another world
+  { char: 'celeste', item: 'holy-water', name: 'Blessed Celeste', short: 'Blessed', costume: 'prom-outfit', bonus: [0, 3],
+    onCombo: { label: 'Holy blessing', emoji: '💧', do: { op: 'heal', to: 'friendly', n: 2 } }, line: 'Purified... just for you, darling.' },
+  // Noble One
+  { char: 'sophia-vinelace', item: 'maid-outfit', name: 'Maid Sophia', short: 'Maid', costume: 'maid-outfit', bonus: [1, 1],
+    onCombo: { label: 'At your service...', emoji: '🧹', do: { op: 'heal', to: 'friendly', n: 2 } }, line: "I-it's not like I WANTED to wear this!" },
+  { char: 'charlotte', item: 'vinelace-family-wine', name: 'Wine Tasting Charlotte', short: 'Tasting', costume: 'black-dress', bonus: [2, 1], kw: ['lifesteal'],
+    line: 'Only the finest vintage~' },
+  // Doki Doki Literature Club
+  { char: 'natsuki', item: 'natsuki-s-cupcake', name: 'Baker Natsuki', short: 'Baker', costume: 'making-cupcakes-casual-outfit', bonus: [1, 1],
+    onCombo: { label: 'Fresh batch!', emoji: '🧁', do: { op: 'addCard', card: 'natsuki-s-cupcake' } }, line: "They're NOT cute! ...Eat one." },
+  { char: 'yuri', item: 'yuri-s-green-tea', name: 'Tea Time Yuri', short: 'Tea Time', costume: 'comfy-sweater-casual-outfit', bonus: [1, 2],
+    onCombo: { label: 'So calming...', emoji: '🍵', do: { op: 'freeze', to: 'strongestEnemy' } }, line: 'Would you... like a cup too?' },
+];
+MB.COMBOS.forEach((c) => { c.items = [].concat(c.item); c.id = c.char + '+' + c.items[0]; });
+MB.combosOf = (id) => MB.COMBOS.filter((c) => c.char === id || c.items.includes(id));
+
 // alternate outfits that aren't real clothes, kept out of the wardrobe
 MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'] };
 
@@ -1686,3 +1771,13 @@ MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
 MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebration', lose: 'missing-my-hayley',
   deck: 'the-jazzer', gallery: 'speech-up-call' };
+
+// Songs made for this game: put the file in game/assets/music/ (mp3 or ogg) and add a line here. Each joins the
+// music list under its id, so a Story stage (`music: 'id'`) or MB.MUSIC can name it. `foes`: the characters it is
+// the battle theme of. It then plays whenever you fight them, in Story (instead of the stage's music) and in Quick
+// Battle. Checked by tools/check_game.js.
+MB.SONGS = [
+  // { id: 'julie-theme', name: "Julie's Theme", file: 'julie-theme.mp3', foes: ['julie-hunley'] },
+];
+MB.SONGS.forEach((s) => window.MIKU_MANIFEST.music.push({ id: s.id, name: s.name, tags: ['Miku Battle'], url: 'assets/music/' + s.file }));
+MB.themeOf = (foeId) => (MB.SONGS.find((s) => (s.foes || []).includes(foeId)) || {}).id;

@@ -49,6 +49,7 @@
       if (worn) sprites(worn.sprites);
     });
     MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => { const o = costume(MB.charById(id), bd.costumes[i]); if (o) sprites(o.sprites); }));
+    MB.COMBOS.forEach((c) => { const o = costume(MB.charById(c.char), c.costume); if (o) sprites(o.sprites); });
     MB.manifest.items.forEach((i) => urls.push(MB.asset(i.icon)));
     Object.keys(MB.PACKS).forEach((t) => urls.push(MB.packArt(t)));
     urls.push(MB.avatarUrl(MB.UI.save.avatar));

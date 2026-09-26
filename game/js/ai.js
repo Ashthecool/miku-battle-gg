@@ -67,6 +67,17 @@
     }
   }
 
+  // an item whose combo partner is on the board: aim a friendly item at the partner, and play an untargeted one
+  // even when its own effect wouldn't be worth it
+  function comboPlan(b, side, card, plan) {
+    const ps = b.comboPartners(side, card);
+    if (!ps.length) return plan;
+    if (!card.target) return plan || {};
+    const friendly = ['allyUnit', 'friendlyAny'].includes(card.target) || (plan && plan.target && plan.target.side === side);
+    const valid = b.targetsFor(side, card.target, card.filter), p = friendly && ps.find((x) => valid.includes(x.u));
+    return p ? { target: p.u } : plan;
+  }
+
   function powerPlan(b, side) {
     const pw = b.me(side).power;
     if (!b.canPower(side)) return null;
@@ -137,7 +148,7 @@
       let played = false;
       for (const card of playable) {
         if (Math.random() > 0.35 + skill && guard > 0) continue; // weaker AIs sometimes hold cards
-        let plan = card.type === 'unit' ? { slot: pickSlot(b, side) } : spellPlan(b, side, card);
+        let plan = card.type === 'unit' ? { slot: pickSlot(b, side) } : comboPlan(b, side, card, spellPlan(b, side, card));
         if (!plan) continue;
         if (await b.playCard(side, card.cid, plan)) { played = true; await wait(450); break; }
       }
@@ -175,5 +186,28 @@
     return (facing.length ? facing : free)[Math.random() * (facing.length || free.length) | 0];
   }
 
-  MB.AI = { takeTurn };
+  // A rival's deck: mostly cards from their own novel (plus one of its relationships, which may bring a partner
+  // from another novel), enough cheap cards for an early game, and the rest from the whole pool.
+  const HOME_CARDS = 14, CHEAP = 7;
+  function deck(foeId) {
+    const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && id !== foeId);
+    const novel = MB.novelOf(foeId);
+    const copies = (id) => MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2;
+    const out = [];
+    const count = (f) => out.filter(f).length;
+    const add = (id, n = copies(id)) => { for (let i = 0; i < n && count((d) => d === id) < copies(id) && out.length < MB.RULES.deckSize; i++) out.push(id); };
+    const cheap = (id) => MB.CARDS[id].cost <= 2;
+    const couples = MB.BONDS.filter((bd) => bd.pair.every((id) => pool.includes(id)));
+    const home = couples.filter((bd) => bd.pair.some((id) => MB.novelOf(id) === novel));
+    if (couples.length && Math.random() < 0.7) MB.pick(home.length ? home : couples).pair.forEach((id) => add(id));
+    MB.shuffle(pool.filter((id) => MB.novelOf(id) === novel)).sort((a, b) => cheap(b) - cheap(a))
+      .forEach((id) => { if (out.length < HOME_CARDS) add(id); });
+    // often the item that goes with a combo character it holds
+    MB.COMBOS.filter((c) => out.includes(c.char) && Math.random() < 0.6).forEach((c) => { const it = c.items.find((id) => pool.includes(id)); if (it) add(it, 1); });
+    for (const id of MB.shuffle(pool.filter(cheap))) { if (count(cheap) >= CHEAP) break; add(id, 1); }
+    for (let guard = 0; out.length < MB.RULES.deckSize && guard < 500; guard++) add(MB.pick(pool), 1);
+    return out;
+  }
+
+  MB.AI = { takeTurn, deck };
 })();
