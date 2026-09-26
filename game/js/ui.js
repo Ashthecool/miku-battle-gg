@@ -66,12 +66,15 @@
     for (let v = s.version || 0; v < SAVE_VERSION; v++) MIGRATIONS[v](s);
     s.version = SAVE_VERSION;
     // a hand-edited or partial save may claim a version but lack fields
-    ['unlocked', 'quests', 'storyActs', 'decks', 'avatars'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
+    ['unlocked', 'quests', 'storyActs', 'secrets', 'actIntros', 'decks', 'avatars'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
     // commons added by later novels are owned right away
     s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
     // Story: the quests done (ids; hidden ones kept for NSFW mode) and the acts whose Epic pack was paid
     s.quests = [...new Set(s.quests)].filter((id) => MB.Story.byId(id));
     s.storyActs = [...new Set(s.storyActs)].filter((a) => MB.ACTS[a]);
+    // Story secrets found, and the acts whose opening fly-over was shown
+    s.secrets = [...new Set(s.secrets)].filter((id) => MB.Story.secrets.some((x) => x.id === id));
+    s.actIntros = [...new Set(s.actIntros)].filter((a) => MB.ACTS[a]);
     // fragments: card id -> how many, kept only for cards still locked and short of complete
     const shards = obj(s.shards) ? s.shards : {};
     s.shards = {};
@@ -123,7 +126,7 @@
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
       && ['costumes', 'stats', 'packs', 'shards', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
       && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena));
   }

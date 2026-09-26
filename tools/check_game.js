@@ -205,58 +205,94 @@ MB.STORY.forEach((s, i) => {
 MB.CHAPTERS.forEach((c, i) => { if (!MB.STORY.some((s) => s.chapter === i)) err(`chapter ${i} (${c.title}) has no stages`); });
 
 // ---------------------------------------------------------------- the story (js/story.js)
-const St = MB.Story, questIds = new Set(), FX = ['flash', 'shake', 'rift'];
-MB.ACTS.forEach((A, a) => {
-  if (!A.title || !A.map || !(A.w > 0 && A.h > 0) || !(A.size >= 1600) || A.size * A.h / A.w < 900) err(`act ${a}: needs title, map, w/h and a size that fills the screen`);
-  if (!music.has(A.music) || !bgNames.has(A.bg.trim().toLowerCase())) err(`act ${a}: unknown music "${A.music}" or background "${A.bg}"`);
-});
+const St = MB.Story, questIds = new Set(), FX = ['flash', 'shake', 'rift', 'flicker'], LIGHT = ['night', 'dark', 'candle', 'rift', 'none'], WEATHER = ['petals', 'snow', 'rain', 'embers', 'sparkles', 'stars', 'none'];
+const DIRECTIONS = ['bg', 'music', 'fx', 'sfx', 'hide', 'fade', 'where', 'when', 'cam', 'weather', 'light', 'sky', 'enter', 'at', 'mood', 'choose'];
 const inMap = (p) => Array.isArray(p) && p.length === 2 && p.every((v) => v >= 0 && v <= 100);
+const fills = (V) => V.w > 0 && V.h > 0 && V.size >= 1600 && V.size * V.h / V.w >= 900; // the drawn map covers the 1600x900 screen
+MB.ACTS.forEach((A, a) => {
+  if (!A.title || !A.map || !fills(A) || !A.intro) err(`act ${a}: needs title, map, intro, w/h and a size that fills the screen`);
+  if (!music.has(A.music) || !bgNames.has(A.bg.trim().toLowerCase())) err(`act ${a}: unknown music "${A.music}" or background "${A.bg}"`);
+  (A.places || []).forEach((p) => {
+    if (!p.id || !p.title || !p.map || !fills(p) || !inMap(p.at)) err(`act ${a} place ${p.id}: needs id, title, map, w/h, size and at`);
+    if (!St.quests.some((q) => q.place === p.id)) warn(`act ${a} place ${p.id}: no quests in it`);
+  });
+  (A.variants || []).forEach((v) => { if (!v.map || !v.needs.length || v.needs.some((id) => !St.byId(id))) err(`act ${a}: bad map variant ${JSON.stringify(v)}`); });
+});
+St.secrets.forEach((x) => {
+  if (!x.id || !x.title || !inMap(x.at) || !x.lines || !x.lines.length) err(`secret ${x.id}: needs id, title, at and lines`);
+  if (St.secrets.filter((y) => y.id === x.id).length > 1) err(`secret ${x.id}: duplicate id`);
+});
+// a scene's lines, and the lines of every choice in them
+function checkLines(where, lines) {
+  lines.map(St.lineOf).forEach((l, k) => {
+    const w = `${where} line ${k + 1}`;
+    if (!l.text) {
+      const keys = Object.keys(l);
+      if (!keys.length || keys.some((x) => !DIRECTIONS.includes(x))) err(`${w}: unknown direction ${JSON.stringify(l).slice(0, 80)}`);
+      if (l.bg && !bgNames.has(l.bg.trim().toLowerCase())) err(`${w}: no background "${l.bg}"`);
+      if (l.music && l.music !== 'none' && !music.has(l.music)) err(`${w}: no music "${l.music}"`);
+      if (l.sfx && !SFX.includes(l.sfx)) err(`${w}: no sound "${l.sfx}"`);
+      if (l.fx && !FX.includes(l.fx)) err(`${w}: unknown fx "${l.fx}"`);
+      if (l.fade && !['black', 'white'].includes(l.fade)) err(`${w}: fade is black or white`);
+      if (l.cam && !['push', 'pull', 'pan'].includes(l.cam)) err(`${w}: unknown cam "${l.cam}"`);
+      if (l.weather && !WEATHER.includes(l.weather)) err(`${w}: unknown weather "${l.weather}"`);
+      if (l.light && !LIGHT.includes(l.light)) err(`${w}: unknown light "${l.light}"`);
+      if (l.sky && (l.fx !== 'rift' || !inMap(l.sky.slice(0, 2)))) err(`${w}: sky is [x, y, size?, tilt?] on a rift`);
+      if (l.when && !l.where) err(`${w}: "when" goes with "where"`);
+      [l.hide, l.enter].forEach((id) => { if (id && !chars.has(id) && !SFW) err(`${w}: unknown character ${id}`); });
+      if (l.at && !['left', 'center', 'right'].includes(l.at)) err(`${w}: at is left, center or right`);
+      if (l.mood && !St.MOODS[l.mood]) err(`${w}: unknown mood "${l.mood}"`);
+      if (l.choose) {
+        if (!Array.isArray(l.choose) || l.choose.length < 2) err(`${w}: a choice needs two options or more`);
+        else l.choose.forEach(([label, branch], c) => { if (!label || !Array.isArray(branch)) err(`${w}: option ${c + 1} is [label, [lines]]`); else checkLines(`${w} option ${c + 1}`, branch); });
+      }
+      return;
+    }
+    if (l.who !== '*' && l.who !== 'you' && !chars.has(l.who)) err(`${w}: unknown speaker ${l.who}`);
+    if (l.mood && !St.MOODS[l.mood]) err(`${w}: unknown mood "${l.mood}"`);
+    if (typeof l.text !== 'string') err(`${w}: text must be a string`);
+    if (l.text.length > 190) warn(`${w}: ${l.text.length} characters, may not fit the text box`);
+    if (l.close && (l.who === '*' || l.who === 'you')) err(`${w}: only characters get close-ups`);
+  });
+}
 St.quests.forEach((q) => {
   const at = `quest ${q.id}`;
   if (questIds.has(q.id)) err(`${at}: duplicate id`);
   questIds.add(q.id);
   if (!q.title || !q.text) err(`${at}: needs title and text`);
   if (!inMap(q.at) || (q.via || []).some((v) => !inMap(v))) err(`${at}: at/via must be [x, y] in % of the map`);
+  if (q.place && (!St.place(q.place) || St.place(q.place).act !== q.act)) err(`${at}: no place "${q.place}" in its act`);
   if (q.foe && q.stage < 0) err(`${at}: ${q.foe} has no stage in MB.STORY`);
   if (!q.foe && !q.scene) err(`${at}: a quest without a fight needs a scene`);
   if (q.foe && q.scene) err(`${at}: a fight has before/after scenes, not scene`);
   if (q.side ? !St.byId(q.from) : q.from) err(`${at}: ${q.side ? `side quest from unknown quest "${q.from}"` : 'main quests follow the story, no "from"'}`);
   if (q.side && St.byId(q.from) && St.byId(q.from).act !== q.act) err(`${at}: opens from a quest in another act`);
+  q.needs.forEach((id) => { if (!St.byId(id)) err(`${at}: needs unknown quest "${id}"`); });
   if (q.main && St.hidden(q)) err(`${at}: the main story can't go through an NSFW chapter`);
   if (St.hidden(q)) return;
   ['before', 'after', 'scene'].forEach((part) => {
     const sc = St.sceneOf(q, part);
     if (!sc) return;
-    const where = `${at} ${part}`;
-    if (!bgNames.has(sc.bg.trim().toLowerCase())) err(`${where}: no background "${sc.bg}"`);
-    if (!music.has(sc.music)) err(`${where}: no music "${sc.music}"`);
-    if (!sc.lines.length) err(`${where}: no lines`);
-    sc.lines.map(St.lineOf).forEach((l, k) => {
-      const w = `${where} line ${k + 1}`;
-      if (!l.text) {
-        const keys = Object.keys(l);
-        if (!keys.length || keys.some((x) => !['bg', 'music', 'fx', 'sfx', 'hide'].includes(x))) err(`${w}: unknown stage direction ${JSON.stringify(l)}`);
-        if (l.bg && !bgNames.has(l.bg.trim().toLowerCase())) err(`${w}: no background "${l.bg}"`);
-        if (l.music && !music.has(l.music)) err(`${w}: no music "${l.music}"`);
-        if (l.sfx && !SFX.includes(l.sfx)) err(`${w}: no sound "${l.sfx}"`);
-        if (l.fx && !FX.includes(l.fx)) err(`${w}: unknown fx "${l.fx}"`);
-        if (l.hide && !chars.has(l.hide)) err(`${w}: hides unknown ${l.hide}`);
-        return;
-      }
-      if (l.who !== '*' && l.who !== 'you' && !chars.has(l.who)) err(`${w}: unknown speaker ${l.who}`);
-      if (l.mood && !St.MOODS[l.mood]) err(`${w}: unknown mood "${l.mood}"`);
-      if (typeof l.text !== 'string') err(`${w}: text must be a string`);
-      if (l.text.length > 190) warn(`${w}: ${l.text.length} characters, may not fit the text box`);
-    });
+    if (!bgNames.has(sc.bg.trim().toLowerCase())) err(`${at} ${part}: no background "${sc.bg}"`);
+    if (!music.has(sc.music)) err(`${at} ${part}: no music "${sc.music}"`);
+    if (!sc.lines.length) err(`${at} ${part}: no lines`);
+    checkLines(`${at} ${part}`, sc.lines);
   });
+});
+St.secrets.forEach((x) => checkLines(`secret ${x.id}`, x.lines));
+// every act's finale needs (through its needs) every other main quest of the act
+MB.ACTS.forEach((A, a) => {
+  const fin = St.lastOf(a), reach = new Set(), walk = (q) => q.needs.forEach((id) => { if (!reach.has(id)) { reach.add(id); walk(St.byId(id)); } });
+  walk(fin);
+  St.main.filter((q) => q.act === a && q !== fin && !reach.has(q.id)).forEach((q) => err(`act ${a}: its finale ${fin.id} doesn't need ${q.id}`));
 });
 MB.STORY.forEach((st, i) => {
   const n = St.quests.filter((q) => q.stage === i).length;
   if (n !== 1) err(`story ${i} (${st.foe}): in ${n} quests, needs exactly one`);
   if (!(st.hp >= 15 && st.hp <= 50) || !(st.ai > 0 && st.ai <= 1)) err(`story ${i} (${st.foe}): level hp ${st.hp} ai ${st.ai}`);
 });
-{ // playing the whole story: the main quests in order, every side quest as it opens; one Epic pack per act
-  const s = { quests: [], storyActs: [], packs: { epic: 0 } };
+{ // playing the whole story: the next main quest each time, every side quest as it opens; one Epic pack per act
+  const s = { quests: [], storyActs: [], secrets: [], glitter: 0, packs: { epic: 0 } };
   for (let k = 0; k < 1000; k++) {
     const q = St.next(s) || St.quests.find((x) => !St.hidden(x) && St.isOpen(s, x) && !St.isDone(s, x));
     if (!q) break;
@@ -269,6 +305,16 @@ MB.STORY.forEach((st, i) => {
   if (left.length) err(`story: never opened ${left.map((q) => q.id).join(', ')}`);
   if (s.packs.epic !== MB.ACTS.length || s.storyActs.length !== MB.ACTS.length) err(`story: ${s.packs.epic} act packs for ${MB.ACTS.length} acts`);
   if (St.complete(s, St.main[0].id).first || s.packs.epic !== MB.ACTS.length) err('story: a quest completed twice');
+  // each storyline of an act can be played through before the others are started
+  MB.ACTS.forEach((A, a) => St.arcsOf(a).forEach((arc) => {
+    const before = new Set(), walk = (q) => q.needs.forEach((id) => { if (!before.has(id)) { before.add(id); walk(St.byId(id)); } });
+    walk(arc.quests[0]);
+    const t = { quests: [...before], storyActs: [], packs: { epic: 0 } };
+    arc.quests.forEach((q) => { if (!St.isOpen(t, q)) err(`story: ${q.id} (${arc.name}) waits on another storyline`); St.complete(t, q.id); });
+  }));
+  // secrets pay once
+  const x = St.secrets[0];
+  if (x && (St.findSecret(s, x.id) !== St.SECRET_GLITTER || St.findSecret(s, x.id) !== 0)) err('secrets: should pay exactly once');
   // an old save (cleared stages counted per chapter) keeps its cleared rivals as done quests
   const old = { progress: MB.CHAPTERS.map((c, i) => (i === 0 ? 3 : i === 8 ? 10 : 0)) };
   St.migrate(old);

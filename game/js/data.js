@@ -1544,7 +1544,7 @@ MB.CHAPTERS = [
 // Saves keep Story stars by index into this list, and profile pictures are shared out by it: add new rivals at the end.
 MB.STORY = [
   { foe: 'julie-hunley',    bg: 'Living Room',               music: 'sun-and-games',
-    intro: "Julie wants to play! She promises it's \"just a little card game\"..." },
+    intro: 'The lights are out. Aunt Julie grips your arm. "C-cards by candlelight! That\'s cosy, not scary. NOT scary."' },
   { foe: 'james-lone',      bg: 'Classroom',                 music: 'welcome-to-school',
     intro: 'James is bored in class. "Fine. One round. Try not to be boring."' },
   { foe: 'maiko-ghan',      bg: 'Gym Class',                 music: 'maiko-and-james',
@@ -1601,7 +1601,7 @@ MB.STORY = [
   { chapter: 3, foe: 'rinco-typus',       bg: 'Bench POV',                        music: 'bird-feeding',
     intro: 'Rinco pats the bench, all nine feet of her smiling. "Sit, little one. The birds are fed. Shall we play... gently?"' },
   { chapter: 3, foe: 'rirarra-charca',    bg: 'Beach night',                      music: 'shark-attack',
-    intro: 'Rirarra scoops you up under one arm. "MY human! Beat big sis and you can go home. ...Probably. Maybe. Nah!"' },
+    intro: 'Rirarra scoops you up under one arm. "MY human! Beat big sis and you can go home. ...Prrrobably. Maybe. Nah!"' },
 
   { chapter: 4, foe: 'andrea-lyle',     bg: "Andrea's room",      music: 'andrea-s-theme',
     intro: 'Andrea flops onto her bed. "Help me find a girlfriend and I owe you forever. But first, cards. Prove you\'re wingman material."' },
@@ -1632,7 +1632,7 @@ MB.STORY = [
   { chapter: 6, foe: 'rimu-hiraga',     bg: 'village',              music: 'happy-melody',
     intro: 'Rimu grabs your hand. "You? The next shogun?! Then you\'ll need practice. Come on, play me!"' },
   { chapter: 6, foe: 'mai-yamanobe',    bg: 'market',               music: 'slice-of-life',
-    intro: 'Mai wipes her hands on her happi. "A game before you buy? Win and the dango are on the house!"' },
+    intro: 'Mai sets the fish over the fire. "A game while it cooks? Win and you get the bigger one!"' },
   { chapter: 6, foe: 'aoi-kananori',    bg: 'library',              music: 'calm',
     intro: 'Aoi peeks over a book. "In the stories, the heir always has to prove himself... so, um, please prove yourself!"' },
   { chapter: 6, foe: 'ayaka-yamanami',  bg: "ayaka's room",         music: 'ayaka',
@@ -1766,7 +1766,7 @@ MB.STORY = [
   { chapter: 14, foe: 'sophia',          bg: 'Homeroom',                   music: 'song-1-2',
     intro: 'Sophia sets out a chessboard. "A friendly game? Student council rules: winner plans the next bake sale!"' },
   { chapter: 14, foe: 'chris',           bg: "Chris' Bedroom",             music: 'song-1-2',
-    intro: 'Chris looks up from his phone. "Heard Skylar\'s after you. ...Beat me first. Then I know you\'ll be fine."' },
+    intro: 'Your brother looks up from his phone. "Skylar\'s after you. ...Beat me first. Then I know you\'ll be fine."' },
   { chapter: 14, foe: 'skylar',          bg: 'Paramount Academy Entrance', music: 'song-1-2',
     intro: 'Skylar blocks the doors, all smiles. "Oh, the NEW kid! Love that you just... wear whatever. Let\'s play, sweetie~"' },
 ];

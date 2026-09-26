@@ -159,19 +159,36 @@
     <div id="map-head"><div id="map-acts"></div><div id="map-count"></div></div>
     <div id="map-panel" class="closed"></div>
     <button id="map-next" class="btn primary hidden"></button>
+    <button id="map-leave" class="btn hidden"></button>
     <button class="btn back" data-back>← Back</button>
   </div>
 
   <div id="screen-scene" class="screen">
-    <img id="sc-left" class="sc-sprite left gone" alt="">
-    <img id="sc-right" class="sc-sprite right gone" alt="">
-    <div id="sc-fx"><div id="sc-rift"></div><div id="sc-flash"></div></div>
+    <div id="sc-sky"></div>
+    <div id="sc-stage">
+      <img id="sc-left" class="sc-sprite left gone" alt="">
+      <img id="sc-center" class="sc-sprite center gone" alt="">
+      <img id="sc-right" class="sc-sprite right gone" alt="">
+    </div>
+    <div id="sc-weather"></div>
+    <div id="sc-light"><i class="tint"></i><i class="vig"></i><i class="candle"></i><i class="spill"></i><i class="dim"></i></div>
+    <div id="sc-fx"><div id="sc-rays"></div><div id="sc-flash"></div><div id="sc-fade"></div></div>
+    <div id="sc-close" class="hidden"><img alt=""></div>
+    <div id="sc-bars"><i></i><i></i></div>
+    <div id="sc-caption" class="hidden"></div>
+    <div id="sc-title" class="hidden"></div>
     <div class="vn-box sc-box">
       <div id="sc-name" class="vn-name"></div>
       <div id="sc-text" class="vn-text"></div>
       <i id="sc-more">▼</i>
     </div>
-    <button id="sc-skip" class="btn small" title="Skip the scene (Esc)">Skip ⏭</button>
+    <div id="sc-choices" class="hidden"></div>
+    <div id="sc-log" class="hidden scroll-y"></div>
+    <div id="sc-ui">
+      <button id="sc-logbtn" class="btn small" title="Backlog">📜 Log</button>
+      <button id="sc-auto" class="btn small" title="Auto-play">▶ Auto</button>
+      <button id="sc-skip" class="btn small" title="Skip the scene (Esc)">Skip ⏭</button>
+    </div>
   </div>
 
   <div id="screen-intro" class="screen">
@@ -291,6 +308,7 @@
 <script src="js/fx.js"></script>
 <script src="js/view.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/scenefx.js"></script>
 <script src="js/storymap.js"></script>
 <script src="js/cards.js"></script>
 <script src="js/menutips.js"></script>

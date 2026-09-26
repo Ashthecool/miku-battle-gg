@@ -7,7 +7,7 @@ const ASSETS = 'mb-assets-v3';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
   'lib/MotionPathPlugin.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
-  'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/storymap.js', 'js/cards.js', 'js/menutips.js', 'js/main.js',
+  'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/scenefx.js', 'js/storymap.js', 'js/cards.js', 'js/menutips.js', 'js/main.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 
