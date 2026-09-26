@@ -17,6 +17,7 @@
       this.view = opts.view;
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
       this.tally = { novel: {} }; // what the player did, for daily missions (count)
+      this.boss = opts.boss || null; this.bossTurns = 0; this.raged = false; // a Story finale's boss rule (MB.BOSSES)
       this.players = [0, 1].map((side) => {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
         const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
@@ -71,6 +72,8 @@
       if (burning.length) { await this.view.burnFx(burning, () => burning.forEach((u) => this.deal(u, 1, null))); await this.resolveDeaths(); }
       if (this.over) return;
       await this.draw(side);
+      if (side === 1 && this.boss && !this.over && ++this.bossTurns % this.boss.every === 0) await this.bossRule(this.boss);
+      if (this.over) return;
       for (const u of this.units(side)) if (u.onTurnStart && u.hp > 0) await this.trigger(u.onTurnStart, u);
       await this.resolveDeaths();
       this.view.refresh();
@@ -311,6 +314,18 @@
       else { await this.resolveDeaths(); this.view.refresh(); }
     }
 
+    // a boss rule (or its rage) goes off from the enemy leader; false when it had nothing to hit
+    async bossRule(rule, rage) {
+      const r = MB.Effects.prepare(this, rule.effect, { side: 1 });
+      if (r.empty) return false;
+      this.view.log(`👑 ${rule.name}!`);
+      await this.view.bossFx(this.boss, rule, r.targets, () => r.sync(), rage);
+      await r.after();
+      await this.resolveDeaths();
+      this.view.refresh();
+      return true;
+    }
+
     // ---------- item combos ----------
     // characters on this side that would combo with this item card: [{ combo, u }]
     comboPartners(side, card) {
@@ -437,6 +452,12 @@
         for (const u of dead) { const k = u.killedBy; if (k && k.onKill && k.side !== u.side && k.hp > 0 && this.find(k.uid)) await this.trigger(k.onKill, k); }
       }
       for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+      // a boss flies into a rage at half HP (as soon as the rage has something to hit)
+      const bl = this.me(1).leader;
+      if (this.boss && this.boss.rage && !this.raged && !this.over && bl.hp <= bl.maxHp / 2) {
+        this.raged = true;
+        if (!(await this.bossRule(this.boss.rage, true))) this.raged = false;
+      }
       if (this.over && !this.overShown) { this.overShown = true; this.view.refresh(); await this.view.gameOver(this.winner); }
     }
 

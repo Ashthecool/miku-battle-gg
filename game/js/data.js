@@ -1769,6 +1769,62 @@ MB.STORY = [
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
+// Boss rules for the chapter finales (by foe id; only their Story stage gets one). `every`: the rule's effect runs at
+// the start of every Nth boss turn; `rage`: once, when the boss leader first drops to half HP. Effects are specs from
+// the boss's side ('enemies' are YOUR monsters, 'allies' the boss's), so `text` is written by hand, for the player.
+MB.BOSSES = {
+  'maria-hunley': { name: 'Family Dinner', every: 3, color: '#5fd068', emoji: '🍲', text: "Every 3rd turn: Mom's monsters get +1/+2.",
+    effect: { do: { op: 'buff', to: 'allAllies', atk: 1, hp: 2 } },
+    rage: { name: 'GROUNDED!', text: 'At half HP: freezes all your monsters.', effect: { do: { op: 'freeze', to: 'enemies' } } } },
+  lilith: { name: 'Hellfire Prom', every: 3, color: '#ff4a1c', emoji: '🔥', text: 'Every 3rd turn: sets all your monsters ablaze.',
+    effect: { do: { op: 'ignite', to: 'enemies' } },
+    rage: { name: 'Queen of Hell', text: 'At half HP: her monsters get +2 ATK.', effect: { do: { op: 'buff', to: 'allAllies', atk: 2 } } } },
+  'deiste-junko': { name: "Dragon King's Breath", every: 2, color: '#ff6b3d', emoji: '🐉', text: 'Every 2nd turn: 2 damage to a random one of your characters.',
+    effect: { do: { op: 'damage', to: 'randomEnemyAny', n: 2 } },
+    rage: { name: 'KNEEL!', text: 'At half HP: 2 damage to all your monsters.', effect: { do: { op: 'damage', to: 'enemies', n: 2 } } } },
+  'rirarra-charca': { name: 'Feeding Time', every: 3, color: '#8a6cff', emoji: '🦈', text: 'Every 3rd turn: CHOMP! Destroys your monster with the lowest HP.',
+    effect: { do: { op: 'kill', to: 'weakestEnemy' } },
+    rage: { name: 'Big Sis Rage', text: 'At half HP: her monsters get +2 ATK.', effect: { do: { op: 'buff', to: 'allAllies', atk: 2 } } } },
+  'linda-penn': { name: 'Required Reading', every: 2, color: '#3f6fe0', emoji: '📚', text: 'Every 2nd turn: Linda draws an extra card.',
+    effect: { do: { op: 'draw' } },
+    rage: { name: 'Final Chapter', text: 'At half HP: Linda restores 8 HP.', effect: { do: { op: 'heal', to: 'myLeader', n: 8 } } } },
+  helga: { name: 'Detention', every: 2, color: '#6b6b8a', emoji: '📏', text: 'Every 2nd turn: freezes your strongest monster.',
+    effect: { do: { op: 'freeze', to: 'strongestEnemy' } },
+    rage: { name: 'Expelled', text: 'At half HP: sends your strongest monster back to your hand.', effect: { do: { op: 'bounce', to: 'strongestEnemy' } } } },
+  'shogun-kagetora': { name: 'Iron Discipline', every: 3, color: '#b8322a', emoji: '⚔️', text: 'Every 3rd turn: all his monsters get Shield.',
+    effect: { do: { op: 'shield', to: 'allAllies' } },
+    rage: { name: 'The Bloodline Awakens', text: 'At half HP: his monsters get +2/+2.', effect: { do: { op: 'buff', to: 'allAllies', atk: 2, hp: 2 } } } },
+  'owain-owegrain': { name: 'RULES ARE RULES', every: 2, color: '#e0463c', emoji: '📋', text: 'Every 2nd turn: removes all keywords and Shield from one of your monsters.',
+    effect: { do: { op: 'strip', to: 'randomEnemy', say: 'Against the rules!' } },
+    rage: { name: 'Tantrum', text: 'At half HP: 2 damage to every monster, his too.', effect: { do: { op: 'damage', to: 'everyone', n: 2 } } } },
+  doe: { name: 'Rift Surge', every: 3, color: '#7a5cff', emoji: '🌀', text: 'Every 3rd turn: a random cheap character steps out of a rift on her side.',
+    effect: { do: { op: 'summon', card: 'randomUnit', maxCost: 3 } },
+    rage: { name: 'Multiverse Collapse', text: 'At half HP: 2 damage to all your monsters, and Doe restores 4 HP.', effect: { do: [{ op: 'damage', to: 'enemies', n: 2 }, { op: 'heal', to: 'myLeader', n: 4 }] } } },
+  'beatrice-avalistos': { name: 'CEDERE', every: 3, color: '#c58cff', emoji: '👑', text: 'Every 3rd turn: your strongest monster gets -2 ATK.',
+    effect: { do: { op: 'buff', to: 'strongestEnemy', atk: -2 } },
+    rage: { name: 'Royal Decree', text: 'At half HP: freezes all your monsters.', effect: { do: { op: 'freeze', to: 'enemies' } } } },
+  valse: { name: 'Gentle Mercy', every: 3, color: '#ff9cc9', emoji: '🕊️', text: 'Every 3rd turn: destroys one of your monsters that cost 3 or less.',
+    effect: { do: { op: 'kill', to: 'randomEnemy', where: 'cheap' } },
+    rage: { name: 'Out of Love', text: 'At half HP: Valse restores 10 HP.', effect: { do: { op: 'heal', to: 'myLeader', n: 10 } } } },
+  'anna-vinelace': { name: 'Vinelace Pride', every: 2, color: '#7a1f3d', emoji: '🍷', text: 'Every 2nd turn: one of her monsters gets Shield.',
+    effect: { do: { op: 'shield', to: 'randomAlly' } },
+    rage: { name: 'The Family Name', text: 'At half HP: her monsters get +1/+1.', effect: { do: { op: 'buff', to: 'allAllies', atk: 1, hp: 1 } } } },
+  monika: { name: 'Just Monika', every: 3, color: '#3fb56b', emoji: '💚', text: 'Every 3rd turn: one of your monsters is sent back to your hand.',
+    effect: { do: { op: 'bounce', to: 'randomEnemy' } },
+    rage: { name: 'delete', text: 'At half HP: destroys your strongest monster.', effect: { do: { op: 'kill', to: 'strongestEnemy' } } } },
+  doloria: { name: 'Twenty Years in a Veil', every: 2, color: '#8a3fbf', emoji: '🙏', text: 'Every 2nd turn: restores 2 HP to all her characters.',
+    effect: { do: { op: 'heal', to: 'friendly', n: 2 } },
+    rage: { name: 'Kneel, Mortal', text: 'At half HP: 3 damage to every one of your characters.', effect: { do: { op: 'damage', to: 'enemyAll', n: 3 } } } },
+  skylar: { name: 'Queen Bee', every: 3, color: '#ff7ab8', emoji: '🐝', text: 'Every 3rd turn: all your monsters get -1 ATK.',
+    effect: { do: { op: 'buff', to: 'enemies', atk: -1, say: 'Did you hear?' } },
+    rage: { name: 'Social Suicide', text: 'At half HP: removes all keywords and Shield from your monsters.', effect: { do: { op: 'strip', to: 'enemies', say: 'Canceled!' } } } },
+};
+// the boss rule of a Story stage (chapter finales only)
+MB.bossOf = (i) => {
+  const st = MB.STORY[i], last = MB.STORY.filter((s) => s.chapter === st.chapter).pop();
+  return st === last ? MB.BOSSES[st.foe] || null : null;
+};
+
 MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebration', lose: 'missing-my-hayley',
   deck: 'the-jazzer', gallery: 'speech-up-call' };
 

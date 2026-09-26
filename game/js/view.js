@@ -124,7 +124,9 @@
       const pw = battle.me(0).power;
       document.getElementById('power-btn').innerHTML = `<div class="pw-cost">${pw.cost}</div><div class="pw-name">${pw.name}</div><div class="pw-text">${pw.text}</div>`;
       const epw = battle.me(1).power;
-      document.getElementById('enemy-power').innerHTML = `<b>${epw.name}</b> (${epw.cost}): ${epw.text}`;
+      const boss = battle.boss;
+      document.getElementById('enemy-power').innerHTML = `<b>${epw.name}</b> (${epw.cost}): ${epw.text}` + (boss
+        ? `<div class="boss-rule" style="--c:${boss.color}">👑 <b>${boss.name}</b>: ${boss.text}${boss.rage ? `<br>💢 <b>${boss.rage.name}</b>: ${boss.rage.text}` : ''}</div>` : '');
       this.refresh();
       gsap.fromTo(this.camera, { z: -600, rotationX: 20, opacity: 0 }, { z: 0, rotationX: 0, opacity: 1, duration: 1.4, ease: 'power3.out' });
     }
@@ -374,6 +376,27 @@
       fn();
       this.refresh();
       await wait(350);
+    }
+
+    // a boss rule: a banner drops in, the enemy leader flares up and the rule flies at its targets
+    async bossFx(boss, rule, targets, fn, rage) {
+      const leader = this.b.me(1).leader, from = LEADER_POS[1], color = boss.color;
+      const banner = el('div', 'boss-banner' + (rage ? ' rage' : ''), `<small>${rage ? '💢 BOSS RAGE' : '👑 BOSS RULE'}</small><b>${rule.name}</b><span>${rule.text}</span>`);
+      banner.style.setProperty('--c', color);
+      this.root.appendChild(banner);
+      this.emote(leader, rage ? 'special' : 'attack', 1600);
+      const lv = this.ents.get(leader.uid);
+      if (lv) gsap.fromTo(lv.img, { filter: `brightness(2) drop-shadow(0 0 30px ${color})` }, { filter: 'brightness(1) drop-shadow(0 0 0px #fff)', duration: 1.2, clearProps: 'filter' });
+      MB.audio.sfx(rage ? 'thunder' : 'gong');
+      if (rage) { this.shake(14); this.hitStop(); }
+      gsap.timeline({ onComplete: () => banner.remove() })
+        .fromTo(banner, { y: -160, opacity: 0, scale: 1.4 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.8)' })
+        .to(banner, { opacity: 0, y: -40, duration: 0.35, delay: 1.5 });
+      await wait(900);
+      await Promise.all(targets.map((t, i) => MB.FX.orbTo(this, from, this.pos(t), color, this.heightOf(t), i * 0.08, 180, boss.emoji)));
+      fn();
+      this.refresh();
+      await wait(450);
     }
 
     // burning monsters flare up before taking their damage

@@ -274,6 +274,22 @@ for (let run = 0; run < 100; run++) {
 const packAvg = packRuns.reduce((a, b) => a + b, 0) / packRuns.length;
 if (packAvg > 250) warn(`packs: ${packAvg.toFixed(0)} packs on average to complete the collection`);
 
+// ---------------------------------------------------------------- boss rules
+Object.entries(MB.BOSSES).forEach(([foe, b]) => {
+  const at = `boss ${foe}`, i = MB.STORY.findIndex((s) => s.foe === foe);
+  if (i < 0) { if (!SFW) err(`${at}: not a Story foe`); return; }
+  if (MB.bossOf(MB.STORY.map((s, k) => (s.foe === foe ? k : -1)).filter((k) => k >= 0).pop()) !== b) err(`${at}: isn't the last stage of its chapter, so the rule never shows`);
+  if (!b.name || !b.text || !(b.every >= 1) || !b.color) err(`${at}: needs name, text, every and color`);
+  checkSpec(`${at} rule`, b.effect, {});
+  if (b.rage) { if (!b.rage.name || !b.rage.text) err(`${at} rage: needs name and text`); checkSpec(`${at} rage`, b.rage.effect, {}); }
+});
+MB.CHAPTERS.forEach((c, i) => {
+  const last = MB.STORY.filter((s) => s.chapter === i).pop();
+  if (last && !c.hidden && !MB.BOSSES[last.foe]) warn(`chapter ${i} (${c.title}): its finale ${last.foe} has no boss rule`);
+});
+const bossFoes = Object.keys(MB.BOSSES).filter((id) => chars.has(id) && MB.POWERS[id]);
+const bossStats = { battles: 0, fired: 0, raged: 0, won: 0 };
+
 // ---------------------------------------------------------------- daily missions, Glitter
 const Ms = MB.Missions;
 Object.entries(MB.MISSIONS).forEach(([id, t]) => {
@@ -332,14 +348,15 @@ function randomDeck() {
   const failures = new Map();
   let turns = 0, done = 0;
   for (let i = 0; i < BATTLES; i++) {
-    const foe = pick(leaders);
+    const bossy = bossFoes.length && i % 3 === 0, foe = bossy ? pick(bossFoes) : pick(leaders); // every 3rd battle is against a boss
     const deck = randomDeck();
-    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe) });
+    const b = new MB.Battle({ view: viewStub, playerLeader: pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe), boss: bossy ? MB.BOSSES[foe] : null });
     b.aiSkill = Math.random();
     try {
       await b.start();
       for (let g = 0; g < 120 && !b.over; g++) await MB.AI.takeTurn(b, 0);
       turns += b.turn; done++;
+      if (bossy) { bossStats.battles++; bossStats.fired += b.bossTurns >= b.boss.every ? 1 : 0; bossStats.raged += b.raged ? 1 : 0; bossStats.won += b.winner === 1 ? 1 : 0; }
       tallies.push({ tally: b.tally, won: b.winner === 0, leader: b.me(0).leaderId, deck });
     } catch (e) {
       const key = (e.stack || String(e)).split('\n').slice(0, 3).join(' | ');
@@ -385,6 +402,7 @@ function randomDeck() {
   console.log(`\n${M.characters.length} characters, ${Object.keys(MB.CARDS).length} cards, ${MB.BONDS.length} bonds, ${MB.STORY.length} story stages`);
   console.log(`combos: ${[...combosSeen.values()].reduce((a, b) => a + b, 0)} in the battles, ${combosSeen.size}/${MB.COMBOS.length} different`);
   console.log(`missions, battles to finish on average: ${missionPace.join(", ")}`);
+  console.log(`boss battles: ${bossStats.battles}, rule went off in ${bossStats.fired}, rage in ${bossStats.raged}, boss won ${bossStats.won}`);
   console.log(`rival decks: avg ${(homeShare.reduce((a, b) => a + b, 0) / homeShare.length).toFixed(1)}/${MB.RULES.deckSize} cards from their own novel, ${Math.min(...homeShare)}-${Math.max(...homeShare)}`);
   console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);

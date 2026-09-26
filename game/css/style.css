@@ -1433,3 +1433,18 @@ body.dev .dev-only { display: flex !important; }
 .mt-mission b { position: absolute; left: 10px; bottom: 5px; width: 250px; height: 7px; border-radius: 4px; background: #ffffff22; overflow: hidden; }
 .mt-mission b i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, #ff6fae, #ffc93c); }
 .mt-mission em { position: absolute; right: 8px; top: 9px; font: 900 12px 'Segoe UI'; font-style: normal; color: #ffe27a; }
+
+/* ================= boss rules ================= */
+.boss-banner { position: absolute; left: 50%; top: 150px; width: 760px; margin-left: -380px; z-index: 80; pointer-events: none; text-align: center;
+  padding: 14px 24px 16px; border-radius: 18px; color: #fff; background: linear-gradient(#1a0f2eee, #0b0716ee);
+  border: 3px solid var(--c); box-shadow: 0 0 40px var(--c), inset 0 0 30px color-mix(in srgb, var(--c) 30%, transparent); }
+.boss-banner small { display: block; font: 900 15px 'Segoe UI'; letter-spacing: 6px; color: var(--c); filter: brightness(1.4); }
+.boss-banner b { display: block; font: 900 46px/1.1 'Segoe UI Black', 'Segoe UI'; text-shadow: 0 0 20px var(--c), 0 4px 0 #000; }
+.boss-banner span { font: 700 18px 'Segoe UI'; opacity: .9; }
+.boss-banner.rage { border-width: 4px; background: linear-gradient(#3a0a14ee, #12040aee); }
+.boss-banner.rage b { color: #ffd0d0; }
+.boss-rule { margin-top: 6px; padding: 5px 8px; border-radius: 8px; border-left: 3px solid var(--c); background: color-mix(in srgb, var(--c) 18%, transparent); }
+.stage .stage-boss { position: absolute; top: 6px; right: 8px; font: 900 12px 'Segoe UI'; letter-spacing: 1px; padding: 2px 8px; border-radius: 10px;
+  color: #3a2400; background: linear-gradient(#ffe27a, #ffb020); box-shadow: 0 0 10px #ffc93c; }
+.intro-boss { margin-top: 10px; padding: 8px 12px; border-radius: 10px; font-size: 16px; border-left: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 18%, #0008); }

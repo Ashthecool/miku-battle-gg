@@ -520,7 +520,8 @@
       <div class="stage-num">${pos + 1}</div>
       <div class="stage-name">${ch.name}</div>
       <div class="stage-loc">📍 ${bg.name}</div>
-      <div class="stage-state">${state === 'cleared' ? '★ Cleared' : state === 'next' ? '▶ Fight' : '🔒'}</div>`);
+      <div class="stage-state">${state === 'cleared' ? '★ Cleared' : state === 'next' ? '▶ Fight' : '🔒'}</div>
+      ${MB.bossOf(i) ? '<div class="stage-boss">👑 BOSS</div>' : ''}`);
     if (state !== 'locked') n.addEventListener('click', () => { MB.audio.sfx('click'); leaderSelect((lid) => intro(i, lid), st.foe); });
     return n;
   }
@@ -538,12 +539,20 @@
     $('#intro-text').textContent = '';
     gsap.fromTo('#intro-foe', { x: 400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
     gsap.fromTo('#intro-me', { x: -400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
-    const text = st.intro;
+    const text = st.intro, boss = MB.bossOf(i);
+    // a finale's boss rule, spelled out before the fight
+    document.querySelectorAll('#screen-intro .intro-boss').forEach((n) => n.remove());
+    if (boss) {
+      const b = el('div', 'intro-boss', `👑 <b>Boss rule — ${boss.name}:</b> ${boss.text}${boss.rage ? `<br>💢 <b>${boss.rage.name}:</b> ${boss.rage.text}` : ''}`);
+      b.style.setProperty('--c', boss.color);
+      $('#intro-text').after(b);
+      gsap.fromTo(b, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.6 + text.length * 0.03 });
+    }
     const o = { n: 0 };
     gsap.to(o, { n: text.length, duration: text.length * 0.03, delay: 0.6, ease: 'none', onUpdate: () => { $('#intro-text').textContent = text.slice(0, o.n | 0); } });
     $('#intro-go').onclick = () => {
       MB.audio.sfx('click');
-      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music, story: i });
+      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, bg: st.bg, music, story: i, boss });
     };
   }
 
@@ -608,7 +617,7 @@
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
     const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
-      playerDeck, enemyDeck });
+      playerDeck, enemyDeck, boss: cfg.boss });
     b.aiSkill = diff.ai(cfg.ai);
     $('#player-avatar').src = MB.avatarUrl(save.avatar);
     MB.battle = b;
