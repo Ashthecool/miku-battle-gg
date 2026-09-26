@@ -76,8 +76,8 @@ window.MB = window.MB || {};
   }
 
   // ---------------------------------------------------------------- flash: white-out, a burst of light rays and a bloom
-  function flash(at, strength = 0.95) {
-    const [x, y] = at || (rift ? [rift.x, rift.y] : lastAt || [50, 42]);
+  function flash(pos, strength = 0.95) {
+    const [x, y] = pos || (rift ? [rift.x, rift.y] : lastAt || [50, 42]);
     const f = $('#sc-flash'), rays = $('#sc-rays');
     f.style.background = `radial-gradient(circle at ${at(x, y)}, #fff 0, #fff 25%, #f3e6ff 60%, #e2ccff 100%)`;
     gsap.fromTo(f, { opacity: strength }, { opacity: 0, duration: 0.9, ease: 'power2.out' });

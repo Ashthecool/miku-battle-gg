@@ -6735,6 +6735,836 @@
     await goHome(v, A);
   };
 
+  // ---------------------------------------------------------------- cross-novel duo styles
+  // an emoji prop standing over P at height h, popped in (the caller removes it)
+  function propAt(V, P, h, ch, size, cls = 'thrown') {
+    const b = V.billboard(cls, ch, P.x, P.y);
+    if (size) b.body.style.fontSize = size + 'px';
+    gsap.set(b.body, { y: -h });
+    gsap.fromTo(b.body, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' });
+    return b;
+  }
+  const fadeOut = (b, delay = 0, dur = 0.3) => gsap.to(b.body, { opacity: 0, duration: dur, delay, onComplete: () => b.remove() });
+  // where each partner of a duo stands: 0 the left one, 1 the right one
+  const sideOf = (A, i) => ({ x: A.x + (i ? 45 : -45), y: A.y });
+  // a rubber stamp slammed down over T
+  function slamStamp(V, T, h, text, c, hold = 0.8) {
+    const st = V.billboard('stamp-mark', text, T.x, T.y);
+    st.body.style.color = c;
+    gsap.set(st.body, { y: -h, rotation: -10 });
+    gsap.to(st.body, { opacity: 0, y: `-=40`, duration: 0.4, delay: 0.2 + hold, onComplete: () => st.remove() });
+    return gsap.fromTo(st.body, { scale: 3.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'power4.in' });
+  }
+
+  // Keiko & Benjamin: her first shift at the minimarket. He punches her card, she tears through every job she has ever
+  // had on the target (sweep, fry, deliver...), and he stamps her HIRED on it
+  S.doubleshift = async (V, a, t, impact) => {
+    const { v, A, T, C, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    const card = propAt(V, sideOf(A, 1), H + 40, '🕘', 60);
+    pop(V, A, H + 30, own(a, 'cry', 'Shift starts NOW.'), 'float-text buff', 1);
+    await gsap.to(R, { y: -16, duration: 0.1, yoyo: true, repeat: 1 });
+    MB.audio.sfx('ding');
+    pop(V, sideOf(A, 1), H + 110, 'CLOCK IN!', 'float-text shield', 0.8);
+    fadeOut(card, 0.3);
+    const run = standIn(V, v, L, sideOf(A, 0));
+    MB.audio.sfx('zip');
+    await gsap.to(run.fl, { x: C.x, y: C.y, duration: 0.3, ease: 'power3.in', onUpdate: () => Math.random() < 0.3 && puff(V, { x: gsap.getProperty(run.fl, 'x'), y: gsap.getProperty(run.fl, 'y') }, '#e8dccb', 1, 0, 0.5) });
+    const jobs = [['🧹', 'SWEEP!', 'swish'], ['🍳', 'FRY!', 'bonk'], ['📦', 'DELIVERY!', 'thud'], ['🧾', 'RECEIPT!', 'tick'], ['🌭', 'LUNCH RUSH!', 'pop']];
+    for (let i = 0; i < jobs.length; i++) {
+      const [ch, w, sfx] = jobs[i], p = propAt(V, C, hT + 30, ch, 64);
+      gsap.to(run.fl.body, { rotation: i % 2 ? 12 : -12, y: -10, duration: 0.08, yoyo: true, repeat: 1 });
+      gsap.to(p, { x: T.x + rnd(-30, 30), y: T.y, duration: 0.14, ease: 'power2.in' });
+      await gsap.to(p.body, { rotation: i % 2 ? 200 : -200, duration: 0.14, ease: 'power2.in' });
+      MB.audio.sfx(sfx); burst(V, T, c, 8, { h: hT }); V.shake(5);
+      pop(V, T, hT + 60 + i * 14, w, 'float-text buff', 0.55);
+      toss(p, { v: [200, 380], dur: 0.6 });
+      await wait(0.06);
+    }
+    // his stamp
+    MB.audio.sfx('whoosh');
+    await slamStamp(V, T, hT, 'HIRED!', c);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(16); V.hitStop();
+    squash(vt, 0.6);
+    scatter(V, T, hT, ['🧹', '📦', '🍳', '💵'], 10, 170);
+    pop(V, T, hT + 150, own(a, 'finish', 'Welcome aboard.'), 'float-text buff', 1.1);
+    await gsap.to(run.fl, { x: sideOf(A, 0).x, y: A.y, duration: 0.4, ease: 'power2.inOut' });
+    run.back();
+    await gsap.to([L, R], { x: (i) => (i ? -12 : 12), duration: 0.15, yoyo: true, repeat: 1 }); // a handshake
+    resetDuo(v);
+  };
+
+  // Kuku & Olivia: two bartenders on a swapped shift. A giant mug hangs over the target, the fairy flies bottles into
+  // it and the barista sends espresso shots after them; it bubbles over and tips out on the target. Last call
+  S.irishcoffee = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), top = hT * 2 + 50, vt = victim(V, t);
+    pop(V, A, H + 30, own(a, 'cry', 'Two bars, one drink~'), 'float-text buff', 1);
+    const mug = propAt(V, T, top, '☕', 150);
+    const flutter = gsap.to(L, { y: -30, duration: 0.18, yoyo: true, repeat: -1, ease: 'sine.inOut' }); // the fairy hovers
+    const shots = [[0, '🥃'], [1, '☕'], [0, '🍸'], [1, '☕'], [0, '🍾']];
+    for (const [who, ch] of shots) {
+      const P0 = sideOf(A, who), b = V.billboard('thrown bottle', ch, P0.x, P0.y);
+      if (!who) rise(V, P0, '#ffe38a', 4, H); // fairy dust
+      MB.audio.sfx(who ? 'pop' : 'sparkle');
+      gsap.fromTo(who ? R : L, { rotation: who ? 10 : -10 }, { rotation: 0, duration: 0.2 });
+      path(b, (k) => ({ ...arc(P0, T, H * 0.7, top + 20, 140)(k), r: k * 540 }), 0.4, 'sine.inOut').then(() => {
+        b.remove(); MB.audio.sfx('bubble');
+        gsap.fromTo(mug.body, { scaleX: 1.15, scaleY: 0.9 }, { scaleX: 1, scaleY: 1, duration: 0.3, ease: 'elastic.out(1,0.4)' });
+        puff(V, T, '#f2e6d0', 2, top + 60, 0.5);
+      });
+      await wait(0.16);
+    }
+    await wait(0.45);
+    flutter.kill();
+    // it bubbles over and tips
+    MB.audio.sfx('wobble');
+    await gsap.to(mug.body, { rotation: -10, duration: 0.07, yoyo: true, repeat: 5 });
+    await gsap.to(mug.body, { rotation: 150, y: -hT * 1.4, duration: 0.25, ease: 'power2.in' });
+    impact(); hit(V, t, '#8b5a2b', true); MB.audio.sfx('splash'); MB.audio.sfx('sizzle'); V.shake(14); V.hitStop();
+    tint(vt, 'sepia(1) saturate(3) brightness(0.7)', 1);
+    for (let i = 0; i < 18; i++) { const s = dot(V, T, hT * 1.4, MB.pick(['#6b3a1a', '#8b5a2b', '#f2e6d0', '#d8a24a']), rnd(8, 16)); toss(s, { v: [220, 500], dur: 0.9 }); }
+    decal(V, T, 'splat', '#6b3a1a', 1);
+    scatter(V, T, hT, ['✨', '🍀', '☕', '🥃'], 10, 160);
+    pop(V, T, hT + 150, own(a, 'finish', 'Last call, hon~!'), 'float-text buff', 1.1);
+    fadeOut(mug, 0.4);
+    await gsap.to([L, R], { y: 0, rotation: 0, duration: 0.2 });
+    await wait(0.3);
+    resetDuo(v);
+  };
+
+  // Ophelia & Luxuria: the sin hunter hears a confession. Luxuria blows the target a kiss and its sins float out one
+  // by one and circle it while the count goes up; GUILTY, and a giant cross comes down on all of them
+  S.penance = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), GOLD = '#ffe38a';
+    const P1 = sideOf(A, 1), kiss = V.billboard('thrown', '💋', P1.x, P1.y);
+    kiss.body.style.fontSize = '50px';
+    MB.audio.sfx('kiss');
+    pop(V, A, H + 30, own(a, 'cry', 'Confess, little lamb~'), 'float-text baka', 1);
+    await path(kiss, arc(P1, T, H * 0.7, hT, 90), 0.4, 'sine.inOut');
+    kiss.remove();
+    const sins = ['🍷', '🍫', '💸', '😈', '💋'], orbs = [], q = { a: 0 };
+    const orbit = gsap.to(q, { a: Math.PI * 8, duration: 3, ease: 'none', onUpdate: () => orbs.forEach((b, i) => {
+      const ang = q.a + (i / sins.length) * Math.PI * 2;
+      gsap.set(b, { x: T.x + Math.cos(ang) * 120, y: T.y + Math.sin(ang) * 44 });
+      gsap.set(b.body, { y: -hT - 30 - Math.sin(ang) * 20 });
+    }) });
+    for (let i = 0; i < sins.length; i++) {
+      const b = V.billboard('thrown', sins[i], T.x, T.y);
+      b.body.style.fontSize = '46px';
+      orbs.push(b);
+      gsap.fromTo(b.body, { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(3)' });
+      MB.audio.sfx('tick');
+      pop(V, T, hT * 2 + 40, `SINS: ${i + 1}`, 'float-text burn', 0.35);
+      await wait(0.22);
+    }
+    gsap.to(L, { y: -20, duration: 0.2 });
+    pop(V, A, H + 80, 'GUILTY!', 'float-text verdict', 0.9);
+    MB.audio.sfx('choir');
+    const col = pillar(V, T, GOLD);
+    gsap.fromTo(col.body, { scaleY: 0, opacity: 0.8 }, { scaleY: 1.3, duration: 0.3 });
+    const cross = V.billboard('thrown spirit', '✝️', T.x, T.y);
+    cross.body.style.setProperty('--c', GOLD);
+    cross.body.style.fontSize = '170px';
+    gsap.set(cross.body, { yPercent: -100, y: -800, transformOrigin: '50% 100%' });
+    await gsap.to(cross.body, { y: 10, duration: 0.35, ease: EASE.drop });
+    orbit.kill();
+    impact(); hit(V, t, GOLD, true); MB.audio.sfx('holy'); MB.audio.sfx('slam'); V.shake(22); V.hitStop();
+    tint(vt, 'brightness(2) sepia(0.6)', 0.8);
+    ring(V, T, GOLD, 2.6); ring(V, T, c, 1.6);
+    orbs.forEach((b) => toss(b, { v: [300, 550], dur: 0.8 }));
+    scatter(V, T, hT, ['🕊️', '✨', '🪶'], 10, 170);
+    pop(V, T, hT + 170, own(a, 'finish', 'Absolved. Forcefully.'), 'float-text bond-name', 1.1);
+    await wait(0.5);
+    fadeOut(cross, 0, 0.4);
+    gsap.to(col.body, { opacity: 0, scaleX: 0.2, duration: 0.4, onComplete: () => col.remove() });
+    await gsap.to(L, { y: 0, duration: 0.2 });
+    resetDuo(v);
+  };
+
+  // Mr. Dino & Shiina: the math department. She writes the proof on a chalkboard over the target a line at a time,
+  // he flexes through every step, and the Q.E.D. is him slamming the whole board down on it
+  S.musclemath = async (V, a, t, impact) => {
+    const { v, A, T, C, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    const board = V.billboard('chalkboard proof', '', T.x, T.y);
+    gsap.set(board.body, { y: -hT - 190 });
+    await gsap.fromTo(board.body, { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.3, ease: 'back.out(2)' });
+    const steps = ['F = m × a', 'm = 💪', '∴ F = PAIN'];
+    for (let i = 0; i < steps.length; i++) {
+      gsap.fromTo(R, { rotation: -8 }, { rotation: 0, duration: 0.2 }); // she writes
+      MB.audio.sfx('tick');
+      const line = document.createElement('div');
+      line.textContent = steps[i];
+      board.body.appendChild(line);
+      gsap.fromTo(line, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.35, ease: 'none' });
+      await wait(0.35);
+      gsap.fromTo(L, { scaleX: 1.12, scaleY: 0.95 }, { scaleX: 1, scaleY: 1, duration: 0.35, ease: 'elastic.out(1,0.4)' }); // he flexes
+      pop(V, sideOf(A, 0), H + 20, ['FLEX!', 'GAINS!', 'PROVEN!'][i], 'float-text buff', 0.6);
+      MB.audio.sfx('buff');
+      await wait(0.2);
+    }
+    pop(V, A, H + 60, own(a, 'cry', 'Q.E.D., class!'), 'float-text buff', 0.9);
+    MB.audio.sfx('whoosh');
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.25, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+    await gsap.to(board.body, { y: -hT - 300, rotation: -20, duration: 0.2, ease: 'power2.out' });
+    await gsap.to(board.body, { y: -hT * 0.6, rotation: 0, duration: 0.14, ease: 'power4.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('clang'); V.shake(20); V.hitStop();
+    squash(vt, 0.5);
+    puff(V, T, '#ffffff', 10, hT, 1); // chalk dust
+    scatter(V, T, hT, ['📐', '✏️', '💪', '➗'], 12, 180);
+    slamStamp(V, T, hT * 2 + 60, 'Q.E.D.', c, 0.7);
+    pop(V, T, hT + 170, own(a, 'finish', 'Show your work!'), 'float-text buff', 1.1);
+    fadeOut(board, 0.3);
+    await wait(0.5);
+    resetDuo(v);
+    await goHome(v, A);
+  };
+
+  // Natsuki & Pepita: the bake-off. Natsuki fires three perfect cupcakes at the target; Pepita's pizza stays in the
+  // oven too long, comes out on fire, and she flings it in a panic. The judges are divided
+  S.ovenmitt = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    pop(V, A, H + 30, own(a, 'cry', 'Watch and learn!'), 'float-text baka', 0.9);
+    const P0 = sideOf(A, 0);
+    for (let i = 0; i < 3; i++) {
+      const b = V.billboard('thrown', '🧁', P0.x, P0.y), Q = { x: T.x + rnd(-40, 40), y: T.y + rnd(-15, 15) };
+      b.body.style.fontSize = '54px';
+      gsap.fromTo(L, { rotation: -10 }, { rotation: 0, duration: 0.2 });
+      MB.audio.sfx('whoosh');
+      path(b, (k) => ({ ...arc(P0, Q, H * 0.6, hT * 1.3, 130)(k), r: k * 360 }), 0.35, 'sine.in').then(() => {
+        MB.audio.sfx('splat'); b.remove();
+        for (let j = 0; j < 6; j++) { const s = dot(V, Q, hT * 1.3, MB.pick(['#ff6fae', '#ffd1e6', '#ffffff']), rnd(7, 13)); toss(s, { v: [160, 360], dur: 0.7 }); }
+      });
+      await wait(0.18);
+    }
+    await wait(0.3);
+    // Pepita's pizza
+    const P1 = sideOf(A, 1), pz = propAt(V, P1, H * 0.8, '🍕', 64), fire = propAt(V, P1, H * 0.8 - 30, '🔥', 50);
+    MB.audio.sfx('sizzle');
+    gsap.to(fire.body, { scale: 1.8, duration: 0.6 });
+    const panic = gsap.to(R, { x: 4, duration: 0.05, yoyo: true, repeat: 11 });
+    pop(V, P1, H + 50, 'T-TOO HOT!!', 'float-text burn', 0.8);
+    await wait(0.6);
+    panic.kill(); gsap.set(R, { x: 0 });
+    fadeOut(fire, 0, 0.1);
+    MB.audio.sfx('whoosh');
+    await path(pz, (k) => ({ ...arc(P1, T, H * 0.8, hT, 70)(k), r: k * 1440, s: 1 + k * 0.5 }), 0.45, 'power1.in', (p) => {
+      if (Math.random() < 0.5) { const f = dot(V, p, p.h, '#ff7a1c', rnd(14, 26), 'charge'); gsap.to(f.body, { opacity: 0, scale: 0.2, duration: 0.4, onComplete: () => f.remove() }); }
+    });
+    impact(); hit(V, t, '#ff7a1c', true); MB.audio.sfx('boom'); MB.audio.sfx('burn'); V.shake(18); V.hitStop();
+    flameBurst(V, T, hT * 2);
+    puff(V, T, '#fff6e8', 10, hT, 1.2); // flour everywhere
+    tint(vt, 'sepia(1) saturate(5) hue-rotate(-20deg) brightness(0.8)', 0.9);
+    toss(pz, { v: [300, 500], ang: [-110, -70], dur: 0.9, spin: 900 });
+    pop(V, T, hT * 2 + 70, '🧁 10 · 🍕 2?!', 'float-text buff', 1.2);
+    pop(V, T, hT + 150, own(a, 'finish', 'Mamma mia!!'), 'float-text burn', 1.1);
+    await gsap.to([L, R], { rotation: 0, duration: 0.2 });
+    await wait(0.4);
+    resetDuo(v);
+  };
+
+  // Rirarra & Diana: lifeguard on duty. The water rises round the target, the whistle blows, a lifebuoy lands over it
+  // (Diana insisted), and the lifeguard's fins close in anyway. CHOMP
+  S.lifebuoy = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    MB.audio.sfx('whistle');
+    pop(V, A, H + 30, own(a, 'cry', 'NO RUNNING ON DECK!'), 'float-text shield', 1);
+    decal(V, T, 'whirlpool', '#3fb6ff', 2.4);
+    droplets(V, T, 10);
+    MB.audio.sfx('wave');
+    await gsap.to(R, { y: -20, duration: 0.12, yoyo: true, repeat: 3 }); // Diana panics on its behalf
+    pop(V, sideOf(A, 1), H + 60, 'Throw the ring!!', 'float-text baka', 0.8);
+    const P0 = sideOf(A, 0), buoy = V.billboard('thrown', '🛟', P0.x, P0.y);
+    buoy.body.style.fontSize = '90px';
+    MB.audio.sfx('whoosh');
+    await path(buoy, (k) => ({ ...arc(P0, T, H * 0.6, hT * 0.7, 200)(k), r: k * 720 }), 0.55, 'sine.inOut');
+    MB.audio.sfx('splash'); ring(V, T, '#ff5a5a', 1.4); droplets(V, T, 8);
+    await gsap.to(buoy.body, { y: -hT * 0.5, scaleX: 2, scaleY: 0.7, rotation: 0, duration: 0.2, ease: 'back.out(2)' });
+    pop(V, T, hT * 2 + 40, 'SAFE...?', 'float-text shield', 0.7);
+    await wait(0.25);
+    await circleFins(V, T, c, 2, 1, 3);
+    await chomp(V, T, hT, c, 1.2);
+    impact(); hit(V, t, c, true); MB.audio.sfx('splash'); V.shake(20); V.hitStop();
+    squash(vt, 0.55);
+    toss(buoy, { v: [380, 560], ang: [-110, -70], dur: 1, spin: 720 });
+    droplets(V, T, 14, 180);
+    scatter(V, T, hT, ['🦈', '💦', '🛟'], 10, 160);
+    pop(V, T, hT + 150, own(a, 'finish', 'Rescued! ...Mostly.'), 'float-text shield', 1.1);
+    await wait(0.4);
+    resetDuo(v);
+  };
+
+  // Lisa & Cheetor: the nap club. They yawn a stream of Zzz over the target, a giant alarm clock goes off above it,
+  // and they each throw a shoe at the clock, hard enough to bury it (and the target). ...5 more minutes
+  S.snooze = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 50;
+    gsap.to([L, R], { rotation: (i) => (i ? 8 : -8), y: 8, duration: 0.5 }); // slump
+    pop(V, A, H + 30, own(a, 'cry', '*yaaawn*'), 'float-text debuff', 1);
+    MB.audio.sfx('wind');
+    for (let i = 0; i < 8; i++) {
+      const P0 = sideOf(A, i % 2), z = V.billboard('float-text debuff', 'Z', P0.x, P0.y);
+      z.body.style.fontSize = rnd(26, 44) + 'px';
+      path(z, (k) => ({ ...arc(P0, T, H * 0.8, hT * 1.3, 90)(k), r: Math.sin(k * 9) * 20 }), 0.8, 'sine.inOut').then(() => z.remove());
+      await wait(0.08);
+    }
+    await wait(0.5);
+    tint(vt, 'brightness(0.7) saturate(0.4)', 1.4);
+    const clock = propAt(V, T, top, '⏰', 130);
+    await wait(0.2);
+    const ringing = gsap.to(clock.body, { rotation: 12, duration: 0.05, yoyo: true, repeat: -1 });
+    pop(V, T, top + 90, 'RIIIING!!', 'float-text burn', 0.9);
+    for (let i = 0; i < 4; i++) gsap.delayedCall(i * 0.15, () => MB.audio.sfx('ding'));
+    await gsap.to([L, R], { rotation: 0, y: 0, duration: 0.2 });
+    pop(V, A, H + 60, '...not it.', 'float-text debuff', 0.7);
+    await wait(0.3);
+    MB.audio.sfx('whoosh');
+    gsap.fromTo([L, R], { rotation: (i) => (i ? 14 : -14) }, { rotation: 0, duration: 0.3 });
+    const shoes = [0, 1].map((i) => { const P0 = sideOf(A, i), s = V.billboard('thrown', '👟', P0.x, P0.y); s.body.style.fontSize = '56px'; return { s, P0 }; });
+    await Promise.all(shoes.map(({ s, P0 }, i) => path(s, (k) => ({ ...arc(P0, T, H * 0.7, top, 80 + i * 40)(k), r: k * 900 }), 0.35 + i * 0.06, 'power1.in')));
+    ringing.kill();
+    MB.audio.sfx('bonk');
+    shoes.forEach(({ s }) => toss(s, { v: [200, 400], dur: 0.7 }));
+    await gsap.to(clock.body, { y: -hT * 0.6, rotation: 200, duration: 0.2, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(16); V.hitStop();
+    squash(vt, 0.5);
+    debris(V, T, '#c0c0c0', 8, { chars: ['⚙️', '🔩'] });
+    fadeOut(clock, 0.1, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', '...5 more minutes.'), 'float-text debuff', 1.2);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Faneel & Hed: high rollers. Hed deals a hand round the target and pushes every chip in; while it watches the pot,
+  // Faneel lifts its wallet from behind. Royal flush: the cards fly into it
+  S.allin = async (V, a, t, impact) => {
+    const { v, A, T, d, hT, c } = ctx(V, a, t), [L] = duo(v), H = V.heightOf(a), vt = victim(V, t), P1 = sideOf(A, 1);
+    pop(V, A, H + 30, own(a, 'cry', 'Deal me in~'), 'float-text buff', 0.9);
+    const cards = [];
+    for (let i = 0; i < 5; i++) {
+      const P = { x: T.x + (i - 2) * 54, y: T.y + 30 }, k = V.billboard('play-card', '', P1.x, P1.y);
+      k.body.style.setProperty('--c', c);
+      MB.audio.sfx('deal');
+      path(k, (q) => ({ ...arc(P1, P, H * 0.6, hT * 2 + 40, 60)(q), r: (1 - q) * 360 + (i - 2) * 10 }), 0.3, 'power2.out');
+      cards.push(k);
+      await wait(0.09);
+    }
+    // all in
+    pop(V, P1, H + 70, 'ALL IN!!', 'float-text buff', 0.9);
+    MB.audio.sfx('coin');
+    const chips = Array.from({ length: 10 }, (_, i) => {
+      const ch = V.billboard('thrown', '🪙', P1.x, P1.y);
+      ch.body.style.fontSize = '30px';
+      path(ch, arc(P1, { x: T.x + rnd(-50, 50), y: T.y + 50 + rnd(-10, 10) }, H * 0.4, 0, 60 + rnd(0, 60)), 0.35 + i * 0.03, 'sine.in');
+      return ch;
+    });
+    await wait(0.4);
+    // the pickpocket
+    const sneak = standIn(V, v, L, sideOf(A, 0)), B = { x: T.x + d.x * 100, y: T.y + d.y * 100 };
+    gsap.set(sneak.fl.body, { opacity: 0.55 });
+    MB.audio.sfx('blink');
+    await gsap.to(sneak.fl, { x: B.x, y: B.y, duration: 0.45, ease: 'power2.inOut' });
+    const wal = propAt(V, T, hT, '👛', 50);
+    MB.audio.sfx('loot');
+    pop(V, B, H * 0.9 + 30, 'Yoink~♪', 'float-text baka', 0.8);
+    gsap.to(wal, { x: B.x, y: B.y, duration: 0.3 });
+    gsap.to(wal.body, { y: -H * 0.5, duration: 0.3, onComplete: () => fadeOut(wal, 0.1) });
+    // the reveal
+    const face = ['10', 'J', 'Q', 'K', 'A'];
+    cards.forEach((k, i) => gsap.to(k.body, { rotationY: 90, duration: 0.1, delay: i * 0.08, onComplete: () => {
+      k.body.textContent = face[i] + '♠'; k.body.classList.add('up');
+      gsap.to(k.body, { rotationY: 0, duration: 0.1 }); MB.audio.sfx('cardflip');
+    } }));
+    await wait(0.7);
+    pop(V, T, hT * 2 + 140, 'ROYAL FLUSH!', 'float-text buff', 1);
+    MB.audio.sfx('fanfare');
+    for (const k of cards) {
+      MB.audio.sfx('shuriken');
+      gsap.to(k, { x: T.x, y: T.y, duration: 0.15, ease: 'power2.in' });
+      gsap.to(k.body, { y: -hT, rotation: '+=540', duration: 0.15, ease: 'power2.in', onComplete: () => { k.remove(); burst(V, T, c, 6, { h: hT }); } });
+      await wait(0.07);
+    }
+    await wait(0.12);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('coin'); V.shake(16); V.hitStop();
+    squash(vt, 0.6);
+    chips.forEach((ch) => toss(ch, { v: [250, 480], dur: 0.8 }));
+    scatter(V, T, hT, ['🪙', '💰', '🃏', '💎'], 12, 180);
+    pop(V, T, hT + 150, own(a, 'finish', 'The house always wins~'), 'float-text buff', 1.1);
+    gsap.set(sneak.fl.body, { opacity: 1 });
+    await gsap.to(sneak.fl, { x: sideOf(A, 0).x, y: A.y, duration: 0.4, ease: 'power2.inOut' });
+    sneak.back();
+    resetDuo(v);
+  };
+
+  // Catherine & Susan: two divas, one painting. It hangs over the target and grows with every bid they shout over
+  // each other, the gavel comes down on the last one, and so does the frame
+  S.biddingwar = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 30;
+    const art = propAt(V, T, top, '🖼️', 70);
+    MB.audio.sfx('sparkle');
+    pop(V, A, H + 90, own(a, 'cry', 'Darling, I OWN art.'), 'float-text buff', 1);
+    const bids = ['$1M', '$5M', '$20M', '$100M', '$1B!!'];
+    for (let i = 0; i < bids.length; i++) {
+      const who = i % 2;
+      gsap.fromTo(who ? R : L, { y: -26 }, { y: 0, duration: 0.25, ease: 'power2.in' });
+      pop(V, sideOf(A, who), H + 20 + i * 8, `🪧 ${bids[i]}`, 'float-text buff', 0.6);
+      MB.audio.sfx(i === bids.length - 1 ? 'coin' : 'tick');
+      gsap.to(art.body, { scale: 1 + (i + 1) * 0.2, duration: 0.25, ease: 'back.out(2)' });
+      await wait(0.32);
+    }
+    pop(V, T, top + 120, 'SOLD!', 'float-text verdict', 0.9);
+    const gav = V.billboard('thrown giant-gavel', '🔨', T.x + 90, T.y);
+    gav.body.style.setProperty('--c', c);
+    gsap.set(gav.body, { y: -top - 40, rotation: -60, transformOrigin: '80% 80%' });
+    MB.audio.sfx('whoosh');
+    await gsap.to(gav.body, { rotation: 10, duration: 0.15, ease: 'power4.in' });
+    MB.audio.sfx('gong'); ring(V, T, c, 1.2);
+    fadeOut(gav, 0.2);
+    // the frame drops
+    await gsap.to(art.body, { y: -hT * 0.9, duration: 0.2, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('glass'); MB.audio.sfx('slam'); V.shake(18); V.hitStop();
+    squash(vt, 0.6);
+    for (let i = 0; i < 14; i++) {
+      const b = V.billboard('petal', '💸', T.x + rnd(-120, 120), T.y + rnd(-30, 30));
+      gsap.set(b.body, { y: -rnd(300, 500) });
+      gsap.to(b.body, { y: -rnd(0, 30), rotation: rnd(-180, 180), duration: rnd(0.6, 1), ease: 'power1.in', onComplete: () => fadeOut(b, 0.3) });
+    }
+    MB.audio.sfx('coin');
+    pop(V, T, hT + 160, own(a, 'finish', 'Put it in MY lobby.'), 'float-text buff', 1.1);
+    fadeOut(art, 0.5);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Yuri & Evelyn: horror book club. A book opens over the target and its pages flutter out as they read aloud, the
+  // lights go down, and whatever was in chapter nine climbs out behind it. BOO
+  S.chillchapter = async (V, a, t, impact) => {
+    const { v, A, T, d, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 60;
+    const book = propAt(V, T, top, '📖', 110);
+    pop(V, A, H + 30, own(a, 'cry', 'And then... the door creaked.'), 'float-text debuff', 1.3);
+    MB.audio.sfx('flutter');
+    for (let i = 0; i < 10; i++) {
+      const pg = V.billboard('page', '', T.x, T.y), ang = rnd(0, Math.PI * 2);
+      pg.body.style.setProperty('--c', c);
+      gsap.set(pg.body, { y: -top });
+      gsap.to(pg, { x: T.x + Math.cos(ang) * rnd(80, 200), y: T.y + Math.sin(ang) * rnd(30, 70), duration: 1 });
+      gsap.to(pg.body, { y: -top + rnd(-60, 120), rotation: rnd(-360, 360), opacity: 0, duration: 1.1, onComplete: () => pg.remove() });
+    }
+    const words = ['creak...', 'drip...', 'scratch...', 'behind you.'];
+    for (let i = 0; i < words.length; i++) {
+      const w = V.billboard('paper-word', words[i], T.x + rnd(-120, 120), T.y);
+      w.body.style.color = i % 2 ? '#8a5cc8' : '#3a2a4a';
+      gsap.set(w.body, { y: -top + rnd(-40, 60) });
+      gsap.fromTo(w.body, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.25 });
+      fadeOut(w, 0.7);
+      gsap.fromTo(i % 2 ? R : L, { y: -10 }, { y: 0, duration: 0.2 });
+      MB.audio.sfx('tick');
+      await wait(0.28);
+    }
+    // lights down; they huddle
+    tint(vt, 'brightness(0.3)', 1.5);
+    gsap.to(R, { x: -16, scaleY: 0.92, duration: 0.2 });
+    gsap.to(L, { x: 10, duration: 0.2 });
+    MB.audio.sfx('heartbeat');
+    await wait(0.5);
+    const g = V.billboard('ghost-rise', '👻', T.x + d.x * 40, T.y + d.y * 40 - 20);
+    g.body.style.setProperty('--c', '#b07cff');
+    gsap.set(g.body, { y: -top, scale: 0.2, opacity: 0 });
+    MB.audio.sfx('dark');
+    await gsap.to(g.body, { y: -hT * 1.2, scale: 1.4, opacity: 0.95, duration: 0.35, ease: 'power3.in' });
+    impact(); hit(V, t, '#9fe8ff', true); MB.audio.sfx('frost'); MB.audio.sfx('slam'); V.shake(18); V.hitStop();
+    tint(vt, 'brightness(1.6) saturate(0.2) hue-rotate(180deg)', 1);
+    decal(V, T, 'frost', '#9fe8ff', 1);
+    const boo = V.billboard('float-text boo', 'BOO!', T.x, T.y);
+    gsap.set(boo.body, { y: -hT * 2 - 60 });
+    gsap.timeline({ onComplete: () => boo.remove() }).fromTo(boo.body, { scale: 0.2 }, { scale: 1.3, duration: 0.2, ease: 'back.out(3)' }).to(boo.body, { opacity: 0, duration: 0.3, delay: 0.5 });
+    // the book snaps shut
+    MB.audio.sfx('thud');
+    gsap.to(book.body, { scaleX: 0.2, duration: 0.12, onComplete: () => { book.body.textContent = '📕'; gsap.to(book.body, { scaleX: 1, duration: 0.12 }); } });
+    gsap.to(g.body, { opacity: 0, y: '-=80', duration: 0.5, delay: 0.3, onComplete: () => g.remove() });
+    scatter(V, T, hT, ['👻', '📖', '🕯️', '❄️'], 10, 160);
+    pop(V, T, hT + 150, own(a, 'finish', 'Keep going... keep going~'), 'float-text debuff', 1.2);
+    fadeOut(book, 0.8);
+    await wait(0.4);
+    gsap.to([L, R], { x: 0, scaleY: 1, duration: 0.3 });
+    await wait(0.3);
+    resetDuo(v);
+  };
+
+  // Villainess-chan & Daphne: the evil master plan, three steps pinned over the target. They laugh (very differently),
+  // Daphne pulls the lever, the target drops through a trapdoor, and comes back up on a pillar of dark fire
+  S.masterplan = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 50;
+    const steps = ['STEP 1: Laugh', 'STEP 2: Trapdoor', 'STEP 3: ???'], notes = [];
+    for (let i = 0; i < steps.length; i++) {
+      const n = V.billboard('paper-word', steps[i], T.x + (i - 1) * 40, T.y);
+      gsap.set(n.body, { y: -top - (2 - i) * 34, rotation: rnd(-6, 6) });
+      gsap.fromTo(n.body, { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(3)' });
+      notes.push(n);
+      MB.audio.sfx('tick');
+      await wait(0.18);
+    }
+    gsap.to(L, { y: -24, rotation: -6, duration: 0.1, yoyo: true, repeat: 5 });
+    pop(V, sideOf(A, 0), H + 30, own(a, 'cry', 'OHOHOHO~!'), 'float-text baka', 1);
+    MB.audio.sfx('laugh');
+    await wait(0.45);
+    pop(V, sideOf(A, 1), H + 30, '...Heh.', 'float-text debuff', 0.9);
+    await wait(0.35);
+    const lever = propAt(V, sideOf(A, 1), H * 0.5, '🕹️', 48);
+    await gsap.to(lever.body, { rotation: 40, duration: 0.15, delay: 0.1 });
+    MB.audio.sfx('clang');
+    fadeOut(lever, 0.2);
+    // the trapdoor
+    const hole = V.flat('trapdoor', '', T.x, T.y);
+    hole.style.setProperty('--c', c);
+    gsap.fromTo(hole, { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    MB.audio.sfx('whistleDown');
+    if (vt) await gsap.to(vt.figure, { y: 140, opacity: 0, duration: 0.3, ease: 'power2.in' });
+    await wait(0.35);
+    notes[2].body.textContent = 'STEP 3: PROFIT';
+    const outer = pillar(V, T, c), inner = pillar(V, T, '#1a0030');
+    gsap.fromTo(outer.body, { scaleY: 0, scaleX: 1.8 }, { scaleY: 1.4, duration: 0.25, ease: 'power2.out' });
+    gsap.fromTo(inner.body, { scaleY: 0 }, { scaleY: 1.5, duration: 0.25, delay: 0.05, ease: 'power2.out' });
+    MB.audio.sfx('dark');
+    if (vt) await gsap.timeline().to(vt.figure, { y: -200, opacity: 1, duration: 0.25, ease: 'power2.out' }).to(vt.figure, { y: 0, duration: 0.3, ease: 'power2.in' });
+    else await wait(0.3);
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); V.shake(22); V.hitStop();
+    squash(vt, 0.5);
+    tint(vt, 'brightness(0.5) sepia(1) saturate(4) hue-rotate(230deg)', 0.9);
+    notes.forEach((n) => { gsap.to(n.body, { color: '#ff7a1c', duration: 0.1 }); fadeOut(n, 0.4, 0.4); });
+    scatter(V, T, hT, ['🖤', '🔥', '👑', '📜'], 12, 170);
+    pop(V, T, hT + 160, own(a, 'finish', 'Evil prevails, desu~!'), 'float-text bond-name', 1.1);
+    await wait(0.5);
+    [outer, inner].forEach((p) => gsap.to(p.body, { opacity: 0, scaleX: 0.2, duration: 0.4, onComplete: () => p.remove() }));
+    gsap.to(hole, { scale: 0, duration: 0.25, onComplete: () => hole.remove() });
+    resetDuo(v);
+  };
+
+  // Mariko & Brizz: the check-up. A heart monitor over the target beeps along and flatlines, the beach medic shocks it
+  // back (CLEAR!) and the nurse's giant syringe goes in. A clean bill of health
+  const ECG = 'M0,55 L40,55 L50,25 L62,85 L72,55 L110,55 L120,15 L132,90 L142,55 L240,55';
+  S.defib = async (V, a, t, impact) => {
+    const { v, A, T, C, hT, c } = ctx(V, a, t), [L] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 30;
+    pop(V, A, H + 30, own(a, 'cry', 'Say ahh~ ♥'), 'float-text heal', 0.9);
+    const mon = V.billboard('ecg', `<svg viewBox="0 0 240 100" width="240" height="100" fill="none" stroke-width="5" stroke-linejoin="round"
+      stroke-linecap="round"><path class="d" d="${ECG}"/></svg><b>♥ 72</b>`, T.x, T.y);
+    gsap.set(mon.body, { y: -top, scale: 0 });
+    await gsap.to(mon.body, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    const line = mon.body.querySelector('.d'), bpm = mon.body.querySelector('b');
+    for (let i = 0; i < 2; i++) { MB.audio.sfx('heartbeat'); await draw([line], { duration: 0.45, ease: 'none' }); }
+    // flatline
+    line.setAttribute('d', 'M0,55 L240,55');
+    bpm.textContent = '♥ 0';
+    mon.body.classList.add('flat-line');
+    draw([line], { duration: 0.4, ease: 'none' });
+    pop(V, T, top + 70, 'BEEEEEP', 'float-text debuff', 0.8);
+    MB.audio.sfx('beam');
+    gsap.to(L, { rotation: -10, duration: 0.15, yoyo: true, repeat: 1 });
+    await wait(0.45);
+    pop(V, sideOf(A, 1), H + 40, 'CLEAR!', 'float-text shield', 0.8);
+    MB.audio.sfx('zip');
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.25, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+    const pads = [-1, 1].map((s) => propAt(V, { x: T.x + s * 80, y: T.y }, hT, '⚡', 60));
+    await Promise.all(pads.map((p, i) => gsap.to(p, { x: T.x + (i ? 18 : -18), duration: 0.12, ease: 'power3.in' })));
+    impact(); hit(V, t, '#fff36a', true); MB.audio.sfx('zap'); MB.audio.sfx('thunder'); V.shake(18); V.hitStop();
+    flash(V, T, hT, '#ffffff', 380);
+    tint(vt, 'brightness(3) saturate(0)', 0.6);
+    pads.forEach((p) => fadeOut(p, 0.1));
+    // back to life (a little too much)
+    line.setAttribute('d', 'M0,55 L30,55 L40,10 L52,95 L62,55 L90,55 L100,5 L112,98 L122,55 L150,55 L160,10 L172,95 L182,55 L240,55');
+    mon.body.classList.remove('flat-line');
+    bpm.textContent = '♥ 180';
+    draw([line], { duration: 0.3, ease: 'none' });
+    MB.audio.sfx('heartbeat');
+    const syr = propAt(V, { x: T.x - 70, y: T.y }, hT + 40, '💉', 90);
+    await gsap.to(syr, { x: T.x - 20, duration: 0.14, delay: 0.1, ease: 'power3.in' });
+    MB.audio.sfx('stab'); ring(V, T, c, 1.2); burst(V, T, c, 10, { h: hT });
+    fadeOut(syr, 0.3);
+    scatter(V, T, hT, ['💊', '🩹', '💉', '🦈'], 10, 160);
+    pop(V, T, hT + 160, own(a, 'finish', 'Perfectly healthy~!'), 'float-text heal', 1.1);
+    fadeOut(mon, 0.6);
+    await wait(0.4);
+    resetDuo(v);
+    await goHome(v, A);
+  };
+
+  // Rhiannon & Valse: Sunday school. They sing a hymn together, the notes gather over the target into the church
+  // bell, and it comes down over it and tolls three times. Doves on the third
+  S.churchbell = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 80, GOLD = '#ffe38a';
+    pop(V, A, H + 30, own(a, 'cry', 'All together now~ ♪'), 'float-text heal', 1);
+    MB.audio.sfx('choir');
+    gsap.to([L, R], { y: -10, duration: 0.3, yoyo: true, repeat: 3, stagger: 0.15, ease: 'sine.inOut' });
+    for (let i = 0; i < 8; i++) {
+      const P0 = sideOf(A, i % 2), n = V.billboard('float-text note', MB.pick(['♪', '♫', '♩']), P0.x, P0.y);
+      n.body.style.color = i % 2 ? GOLD : c;
+      path(n, (k) => ({ ...arc(P0, T, H, top, 80)(k), r: Math.sin(k * 8) * 20 }), 0.6, 'sine.inOut').then(() => n.remove());
+      await wait(0.08);
+    }
+    await wait(0.45);
+    const bell = V.billboard('thrown spirit', '🔔', T.x, T.y);
+    bell.body.style.setProperty('--c', GOLD);
+    bell.body.style.fontSize = '190px';
+    gsap.set(bell.body, { yPercent: -100, y: -top, transformOrigin: '50% 10%' });
+    MB.audio.sfx('holy');
+    await gsap.fromTo(bell.body, { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
+    await gsap.to(bell.body, { y: 30, duration: 0.3, ease: 'power3.in' });
+    for (let i = 0; i < 3; i++) {
+      MB.audio.sfx('gong'); ring(V, T, GOLD, 1.6 + i * 0.5); V.shake(6 + i * 6);
+      if (i === 2) { impact(); hit(V, t, GOLD, true); V.hitStop(); tint(vt, 'brightness(1.8) sepia(0.5)', 0.8); }
+      pop(V, T, hT * 2 + 110 + i * 24, 'DONG!', 'float-text buff', 0.6);
+      await gsap.fromTo(bell.body, { rotation: i % 2 ? 8 : -8 }, { rotation: 0, duration: 0.3, ease: 'elastic.out(1,0.3)' });
+    }
+    MB.audio.sfx('flutter');
+    for (let i = 0; i < 5; i++) {
+      const dv = V.billboard('thrown dove', '🕊️', T.x, T.y);
+      gsap.set(dv.body, { y: -hT });
+      gsap.to(dv, { x: T.x + rnd(-260, 260), y: T.y + rnd(-60, 60), duration: 1.2, ease: 'power1.out' });
+      gsap.to(dv.body, { y: -rnd(300, 450), opacity: 0, duration: 1.2, onComplete: () => dv.remove() });
+    }
+    pop(V, T, hT + 170, own(a, 'finish', 'Bless you, dear.'), 'float-text heal', 1.1);
+    await gsap.to(bell.body, { y: -top, opacity: 0, duration: 0.4, ease: 'power2.in', onComplete: () => bell.remove() });
+    resetDuo(v);
+  };
+
+  // Peter & the Shogun: living history. The teacher unrolls the battle map under the target and calls out the date, the
+  // archers of 1600 darken the sky, and the Shogun himself crosses the field in one cut. History, reenacted
+  S.reenact = async (V, a, t, impact) => {
+    const { v, A, T, d, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    pop(V, A, H + 30, own(a, 'cry', 'History is ALIVE, people!'), 'float-text buff', 1);
+    const map = strip(V, { x: T.x - 170, y: T.y }, { x: T.x + 170, y: T.y }, 'battle-map', c);
+    MB.audio.sfx('crinkle');
+    gsap.to(L, { rotation: -8, y: -10, duration: 0.2, yoyo: true, repeat: 1 }); // points at it
+    await wait(0.35);
+    pop(V, T, hT * 2 + 80, '1600 · SEKIGAHARA', 'float-text buff', 1.1);
+    MB.audio.sfx('gong');
+    await wait(0.35);
+    MB.audio.sfx('wind');
+    for (let i = 0; i < 16; i++) {
+      const P = { x: T.x + rnd(-150, 150), y: T.y + rnd(-50, 50) }, ar = V.billboard('arrow-fall', '', P.x - 200, P.y);
+      gsap.set(ar.body, { y: -600, rotation: -18 });
+      gsap.to(ar, { x: P.x, duration: 0.45, delay: i * 0.03, ease: 'none' });
+      gsap.to(ar.body, { y: -30, duration: 0.45, delay: i * 0.03, ease: 'power1.in', onComplete: () => { i % 4 || MB.audio.sfx('stab'); fadeOut(ar, 0.5); } });
+    }
+    await wait(0.75);
+    // the Shogun crosses the field
+    const sh = standIn(V, v, R, sideOf(A, 1));
+    MB.audio.sfx('unsheathe');
+    pop(V, sideOf(A, 1), H + 40, 'Kneel.', 'float-text burn', 0.8);
+    await gsap.to(sh.fl.body, { opacity: 0, duration: 0.12 });
+    const B = { x: T.x + d.x * 130, y: T.y + d.y * 130 };
+    gsap.set(sh.fl, { x: B.x, y: B.y });
+    slashArc(V, T, -hT, c, -20);
+    MB.audio.sfx('swish');
+    await gsap.to(sh.fl.body, { opacity: 1, duration: 0.08 });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(20); V.hitStop();
+    squash(vt, 0.6);
+    await wait(0.15);
+    slashArc(V, T, -hT, '#ffffff', 60);
+    MB.audio.sfx('swish');
+    scatter(V, T, hT, ['🏯', '🎌', '🍂', '📜'], 12, 180);
+    pop(V, T, hT + 160, own(a, 'finish', 'That one is on the test!'), 'float-text buff', 1.1);
+    await wait(0.5);
+    gsap.to(map, { opacity: 0, duration: 0.4, onComplete: () => map.remove() });
+    await gsap.to(sh.fl.body, { opacity: 0, duration: 0.12 });
+    sh.back();
+    gsap.fromTo(R, { opacity: 0 }, { opacity: 1, duration: 0.15 });
+    await wait(0.15);
+    resetDuo(v);
+  };
+
+  // Reina & Eira: clout chasers. A phone goes live over the target, the like counter runs away, both of them stream
+  // hearts at it for the camera, and the comments decide: RATIO'D
+  S.viral = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 40;
+    pop(V, A, H + 30, own(a, 'cry', 'Hiii chat~! Say hi!'), 'float-text baka', 1);
+    const ph = V.billboard('live-phone', '<em>● LIVE</em><b>0</b><small>likes</small>', T.x, T.y);
+    ph.body.style.setProperty('--c', c);
+    gsap.set(ph.body, { y: -top, scale: 0 });
+    MB.audio.sfx('camera');
+    await gsap.to(ph.body, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    const cnt = ph.body.querySelector('b'), n = { v: 0 };
+    const fmt = (x) => (x >= 1e6 ? (x / 1e6).toFixed(1) + 'M' : x >= 1e3 ? Math.round(x / 1e3) + 'K' : String(Math.round(x)));
+    gsap.to(n, { v: 1.2e6, duration: 1.6, ease: 'power2.in', onUpdate: () => { cnt.textContent = fmt(n.v); } });
+    gsap.to([L, R], { y: -18, duration: 0.14, yoyo: true, repeat: 9, stagger: 0.07 }); // posing
+    for (let i = 0; i < 14; i++) {
+      const who = i % 2, P0 = sideOf(A, who), h = V.billboard('thrown', MB.pick(who ? ['💅', '✨', '👍'] : ['❤️', '💖', '👍']), P0.x, P0.y);
+      h.body.style.fontSize = '36px';
+      path(h, arc(P0, { x: T.x + rnd(-30, 30), y: T.y }, H * 0.7, hT * rnd(0.8, 1.6), rnd(60, 160)), 0.4, 'sine.in').then(() => {
+        h.remove(); burst(V, T, c, 3, { h: hT }); i % 3 || MB.audio.sfx('pop');
+      });
+      await wait(0.08);
+    }
+    await wait(0.45);
+    MB.audio.sfx('whoosh');
+    await slamStamp(V, T, hT, "RATIO'D", c);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('camera'); V.shake(16); V.hitStop();
+    squash(vt, 0.6);
+    flash(V, T, hT, '#ffffff', 340);
+    scatter(V, T, hT, ['❤️', '👍', '💬', '📸', '✨'], 14, 190);
+    pop(V, T, hT + 160, own(a, 'finish', 'Like, duh! Subscribe~'), 'float-text baka', 1.1);
+    fadeOut(ph, 0.6);
+    await wait(0.4);
+    resetDuo(v);
+  };
+
+  // Hime & Clara: the tsundere summit. They turn their backs on each other (hmph!), a heart floats up between them
+  // anyway, they both panic, and the heart and the target get the same double slap. BAKA!
+  S.bakaslap = async (V, a, t, impact) => {
+    const { v, A, T, C, perp, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    await gsap.to([L, R], { scaleX: -1, duration: 0.15 }); // backs turned
+    pop(V, sideOf(A, 0), H + 20, 'Hmph!', 'float-text baka', 0.7);
+    MB.audio.sfx('squeak');
+    await wait(0.25);
+    pop(V, sideOf(A, 1), H + 20, 'Hmph!!', 'float-text baka', 0.7);
+    MB.audio.sfx('squeak');
+    await wait(0.3);
+    const heart = propAt(V, A, H * 0.8, '💗', 60);
+    MB.audio.sfx('heartbeat');
+    await gsap.to(heart.body, { y: -H - 30, scale: 1.3, duration: 0.45, ease: 'sine.out' });
+    gsap.to([L, R], { scaleX: 1, duration: 0.1 });
+    pop(V, A, H + 90, own(a, 'cry', "I-IT'S NOT LIKE THAT!!"), 'float-text baka', 1);
+    MB.audio.sfx('whoosh');
+    path(heart, (k) => ({ ...arc(A, T, H + 30, hT, 40)(k), r: k * 360, s: 1.3 }), 0.35, 'power1.in').then(() => { heart.body.textContent = '💔'; fadeOut(heart, 0.3); });
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.3, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+    // the double slap
+    const hands = [-1, 1].map((s) => {
+      const h = V.billboard('thrown big-hand', '✋', T.x + perp.x * s * 160, T.y + perp.y * s * 160);
+      h.body.style.setProperty('--c', c);
+      gsap.set(h.body, { y: -hT, scaleX: s });
+      return h;
+    });
+    MB.audio.sfx('swish');
+    await Promise.all(hands.map((h) => gsap.to(h, { x: T.x, y: T.y, duration: 0.12, ease: 'power4.in' })));
+    impact(); hit(V, t, c, true); MB.audio.sfx('pow'); MB.audio.sfx('slam'); V.shake(18); V.hitStop();
+    tint(vt, 'sepia(1) saturate(5) hue-rotate(-50deg)', 0.8);
+    squash(vt, 0.65);
+    pop(V, { x: T.x - 60, y: T.y }, hT * 2 + 60, 'BAKA!!', 'float-text baka', 0.9);
+    pop(V, { x: T.x + 60, y: T.y }, hT * 2 + 100, 'BAKA!!', 'float-text baka', 0.9);
+    hands.forEach((h) => fadeOut(h, 0.2));
+    scatter(V, T, hT, ['💢', '💗', '💔', '✨'], 12, 170);
+    pop(V, T, hT + 160, own(a, 'finish', "D-don't get the wrong idea!"), 'float-text baka', 1.1);
+    await wait(0.3);
+    resetDuo(v);
+    await goHome(v, A);
+  };
+
+  // Borcolls & Mai: a price war between two stalls. Tags over the target undercut each other all the way down to FREE,
+  // and both stalls dump their stock on it at once: fruit, dango and one very large watermelon
+  S.pricewar = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 50;
+    const prices = ['¥500', '¥300!', '¥100!!', '¥1!!!', 'FREE!!!!'];
+    for (let i = 0; i < prices.length; i++) {
+      const who = i % 2, tag = V.billboard('price-tag', prices[i], T.x + (who ? 50 : -50), T.y);
+      gsap.fromTo(who ? R : L, { y: -22 }, { y: 0, duration: 0.25, ease: 'power2.in' });
+      gsap.set(tag.body, { y: -top - i * 12, rotation: who ? 8 : -8 });
+      gsap.fromTo(tag.body, { scale: 0 }, { scale: 1 + i * 0.1, duration: 0.2, ease: 'back.out(3)' });
+      fadeOut(tag, 0.4, 0.2);
+      MB.audio.sfx(i === prices.length - 1 ? 'coin' : 'tick');
+      await wait(0.3);
+    }
+    pop(V, A, H + 40, own(a, 'cry', 'EVERYTHING MUST GO!'), 'float-text buff', 0.9);
+    MB.audio.sfx('incoming');
+    for (let i = 0; i < 22; i++) {
+      const b = V.billboard('petal', MB.pick(i % 2 ? ['🍡', '🍡', '🍵'] : ['🍎', '🍊', '🍍', '🍇']), T.x + rnd(-110, 110), T.y + rnd(-35, 35));
+      b.body.style.fontSize = rnd(34, 50) + 'px';
+      gsap.set(b.body, { y: -rnd(500, 750), rotation: rnd(-90, 90) });
+      gsap.to(b.body, { y: -rnd(0, 30), rotation: `+=${rnd(-180, 180)}`, duration: rnd(0.45, 0.7), delay: i * 0.025, ease: 'power2.in', onComplete: () => {
+        i % 5 || MB.audio.sfx('bonk'); toss(b, { v: [120, 260], dur: 0.6 });
+      } });
+    }
+    await wait(0.6);
+    const mel = V.billboard('thrown', '🍉', T.x, T.y);
+    mel.body.style.fontSize = '150px';
+    gsap.set(mel.body, { yPercent: -100, y: -800, transformOrigin: '50% 100%' });
+    await gsap.to(mel.body, { y: 0, duration: 0.4, ease: EASE.drop });
+    impact(); hit(V, t, '#ff4a5e', true); MB.audio.sfx('splat'); MB.audio.sfx('slam'); V.shake(22); V.hitStop();
+    squash(vt, 0.5);
+    for (let i = 0; i < 16; i++) { const s = dot(V, T, hT * 0.6, MB.pick(['#ff4a5e', '#3aa84a', '#1a1a1a']), rnd(7, 14)); toss(s, { v: [220, 480], dur: 0.8 }); }
+    decal(V, T, 'splat', '#ff4a5e', 1);
+    gsap.to(mel.body, { scaleY: 0.4, scaleX: 1.4, opacity: 0, duration: 0.35, onComplete: () => mel.remove() });
+    slamStamp(V, T, hT * 2 + 40, 'SOLD OUT!', c, 0.8);
+    pop(V, T, hT + 170, own(a, 'finish', 'Come again~!'), 'float-text buff', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Iroha & Suzu: the airhead alliance. A butterfly gets away from them, they chase it round and round the target (one
+  // each way, question marks everywhere) and run into each other right on top of it. Bonk
+  S.airheads = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), R0 = 160;
+    const bf = propAt(V, A, H * 0.9, '🦋', 46);
+    pop(V, A, H + 40, own(a, 'cry', 'Ooh~ a butterfly!'), 'float-text baka', 0.9);
+    MB.audio.sfx('flutter');
+    const runs = [L, R].map((im, i) => standIn(V, v, im, sideOf(A, i)));
+    gsap.to(bf, { x: T.x, y: T.y, duration: 0.5, ease: 'sine.inOut' });
+    gsap.to(bf.body, { y: -hT * 2 - 40, duration: 0.5 });
+    const legs = runs.map((r) => gsap.to(r.fl.body, { y: -14, duration: 0.08, yoyo: true, repeat: -1 }));
+    MB.audio.sfx('zip');
+    await Promise.all(runs.map((r, i) => gsap.to(r.fl, { x: T.x + (i ? R0 : -R0) + 10 * (i ? 1 : -1), y: T.y, duration: 0.45, ease: 'power1.inOut' })));
+    const q = { k: 0 };
+    await gsap.to(q, { k: 1, duration: 1.6, ease: 'sine.inOut', onUpdate: () => {
+      const ang = q.k * Math.PI * 4, rr = R0 * (1 - q.k * 0.85) + 10;
+      runs.forEach((r, i) => { const an = i ? -ang : ang + Math.PI; gsap.set(r.fl, { x: T.x + Math.cos(an) * rr, y: T.y + Math.sin(an) * rr * 0.4 }); });
+      gsap.set(bf, { x: T.x + Math.cos(ang * 1.3) * 90, y: T.y + Math.sin(ang * 1.3) * 30 });
+      if (Math.random() < 0.06) pop(V, { x: T.x + rnd(-120, 120), y: T.y }, hT * 2 + rnd(0, 60), '?', 'float-text buff', 0.5);
+    } });
+    legs.forEach((l) => l.kill());
+    await Promise.all(runs.map((r, i) => gsap.to(r.fl, { x: T.x + (i ? 14 : -14), y: T.y, duration: 0.08, ease: 'power3.in' })));
+    impact(); hit(V, t, c, true); MB.audio.sfx('bonk'); MB.audio.sfx('boing'); V.shake(14); V.hitStop();
+    squash(vt, 0.55);
+    runs.forEach((r, i) => {
+      gsap.to(r.fl, { x: T.x + (i ? 80 : -80), duration: 0.25 });
+      gsap.to(r.fl.body, { rotation: i ? 18 : -18, scaleY: 0.85, y: 0, duration: 0.3, ease: 'bounce.out' });
+    });
+    dizzy(V, T, hT * 2 + 30, ['💫', '⭐', '❓'], 1.4, 3);
+    gsap.to(bf, { x: T.x + 200, y: T.y - 150, duration: 1 });
+    gsap.to(bf.body, { y: -hT * 3 - 80, opacity: 0, duration: 1, onComplete: () => bf.remove() });
+    pop(V, T, hT + 160, own(a, 'finish', 'Wait... what were we doing?'), 'float-text baka', 1.2);
+    await wait(0.9);
+    await Promise.all(runs.map((r, i) => Promise.all([
+      gsap.to(r.fl, { x: sideOf(A, i).x, y: A.y, duration: 0.45, ease: 'power2.inOut' }),
+      gsap.to(r.fl.body, { rotation: 0, scaleY: 1, duration: 0.3 }),
+    ])));
+    runs.forEach((r) => r.back());
+    resetDuo(v);
+  };
+
+  // Ben & Brutio: gym bros. They bench the barbell together for reps, counting, add more plates than is reasonable,
+  // and throw the whole bar on the target. Then they flex
+  S.spotme = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    const bar = V.billboard('barbell', '<i></i><i></i><i></i><i></i>', A.x, A.y);
+    gsap.set(bar.body, { y: -H * 0.9, scale: 0 });
+    await gsap.to(bar.body, { scale: 1, duration: 0.2, ease: 'back.out(3)' });
+    pop(V, A, H + 60, own(a, 'cry', 'SPOT ME, BRO!'), 'float-text buff', 0.9);
+    for (let i = 0; i < 3; i++) {
+      gsap.fromTo([L, R], { scaleY: 0.94 }, { scaleY: 1, duration: 0.2 }); // they strain
+      await gsap.to(bar.body, { y: -H - 40, duration: 0.18, ease: 'power2.out' });
+      pop(V, sideOf(A, i % 2), H + 20, `${i + 1}!`, 'float-text buff', 0.5);
+      MB.audio.sfx('buff');
+      await gsap.to(bar.body, { y: -H * 0.9, duration: 0.2, ease: 'power2.in' });
+      MB.audio.sfx('thud');
+    }
+    bar.body.classList.add('heavy');
+    MB.audio.sfx('clang');
+    pop(V, A, H + 100, 'MORE PLATES!', 'float-text burn', 0.8);
+    await gsap.to(bar.body, { scale: 1.4, duration: 0.2, ease: 'back.out(3)' });
+    MB.audio.sfx('whoosh');
+    gsap.to([L, R], { y: -30, duration: 0.15, yoyo: true, repeat: 1 });
+    await path(bar, (k) => ({ ...arc(A, T, H * 0.9, hT * 0.4, 260)(k), r: k * 360, s: 1.4 }), 0.6, 'sine.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('boom'); V.shake(26); V.hitStop();
+    squash(vt, 0.45);
+    cracks(V, T, '#2a1a0a', { n: 8, len: 170, w: 6 });
+    debris(V, T, '#8a7a6a', 10, { spread: 190 });
+    fadeOut(bar, 0.5, 0.3);
+    // the flex
+    MB.audio.sfx('sparkle');
+    gsap.to([L, R], { scaleX: 1.12, scaleY: 1.04, duration: 0.2, yoyo: true, repeat: 3 });
+    [0, 1].forEach((i) => pop(V, sideOf(A, i), H + 20, '💪', 'thrown', 1));
+    rise(V, A, '#ffe38a', 10, H);
+    pop(V, T, hT + 160, own(a, 'finish', 'Never skip arm day.'), 'float-text buff', 1.1);
+    await wait(0.8);
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- relationship fusion
   // full-screen anime cut-in with both partners in their fusion costumes
   function cutin(bond) {
@@ -6879,11 +7709,13 @@
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
     hora: 'void', riff: 'storm', yandere: 'blood', piano: 'night', siren: 'ocean', mercy: 'dream', rainbow: 'sunny', stainedglass: 'holy',
     tear: 'void', multiverse: 'space', justmonika: 'space', inkbound: 'void', pentagram: 'inferno', queenshadow: 'void', ghoststory: 'night',
-    poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night' };
+    poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
+    chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
-    'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch'];
+    'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch',
+    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
@@ -6998,7 +7830,8 @@
     'pronk', 'kickflip', 'lunchrush', 'present', 'livestream', 'boxingroo', 'haiku', 'bigl', 'lockdown', 'evaluation', 'rift', 'flambe', 'finishline',
     'multiverse', 'nat20', 'tear', 'timber', 'justmonika', 'toastdash', 'mangapanel', 'inkbound', 'choice', 'pentagram', 'devtail', 'queenshadow',
     'ibeam', 'yarn', 'strays', 'musclefive', 'ghoststory', 'checkmate', 'micdrop', 'fakecry', 'oilrig', 'likestorm', 'quill', 'warmap',
-    'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch'],
+    'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch',
+    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme'],
     fx: ['slashes', 'bolt', 'clones'] };
   const upgraded = (at) => !!at && (S[at.style] ? UPGRADED.styles.includes(at.style) : at.move || at.fx ? UPGRADED.fx.includes(at.fx) : true); // no style = dash
 

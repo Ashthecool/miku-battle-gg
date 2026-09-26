@@ -90,6 +90,17 @@ Duo styles (bonds; they animate two partners): `combo`✱ tag-team (tier 1 defau
 `lesson` chalkboard + ruler · `cheerchain` cheer + chain · `howl` moon + spirit wolf · `twinstar` sun & gloom ·
 `breakfast` pancake stack · `riptide` whirlpool · `restock` stockroom avalanche · `flashbang` blind + vault ·
 `feeding` two fins · `tidal` wave + crabs · `workshop` smash & stitch · `yuri` lilies + hearts · `alleyoop` lob + dunk.
+Cross-novel duos (partner 0 = the left one): `doubleshift` timecard, 0 runs through job props, 1 stamps HIRED ·
+`irishcoffee` bottles + espresso into a giant mug that tips · `penance` kiss pulls out orbiting sins, a cross drops ·
+`musclemath` chalkboard proof line by line, 0 flexes, board slam + Q.E.D. · `ovenmitt` 0 lobs cupcakes, 1's pizza
+catches fire and is flung · `lifebuoy` whistle, buoy lands round the target, fins + chomp · `snooze` Zzz stream,
+alarm clock, two shoes bury it · `allin` 1 deals cards and chips, 0 pickpockets, royal flush · `biddingwar` bids grow
+a painting, gavel, frame drops · `chillchapter` book + pages + spooky words, ghost, BOO + frost · `masterplan` 3-step
+plan notes, laugh, lever, trapdoor + dark pillar · `defib` ECG monitor flatlines, CLEAR paddles, syringe · `churchbell`
+hymn notes, bell drops and tolls 3×, doves · `reenact` battle map, date, arrow rain, 1 blinks through in one cut ·
+`viral` live phone + like counter, hearts, RATIO'D stamp · `bakaslap` backs turned, heart, double slap ·
+`pricewar` undercutting price tags, fruit/dango rain, watermelon · `airheads` butterfly chase round the target, collide
+· `spotme` bench reps, more plates, barbell thrown, flex.
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)
