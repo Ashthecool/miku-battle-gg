@@ -59,6 +59,7 @@
     if (place) $('#map-leave').innerHTML = `← ${A.title}`;
     tabs();
     counters();
+    motes();
     drawPath();
     drawNodes(opts.opened || []);
     const nxt = S.next(s);
@@ -207,7 +208,7 @@
     const t = $('#map-token'), from = [gsap.getProperty(t, 'x'), gsap.getProperty(t, 'y')];
     const dist = Math.hypot(at[0] - from[0], at[1] - from[1]);
     if (dist < 2) return;
-    gsap.to(t, { x: at[0], y: at[1], duration: Math.min(1.1, 0.25 + dist / 1400), ease: 'power2.inOut', overwrite: 'auto' });
+    gsap.to(t, { x: at[0], y: at[1], duration: Math.min(1.1, 0.25 + dist / 1400), ease: 'power2.inOut', overwrite: 'auto', onUpdate: trailer() });
     gsap.fromTo(t.firstChild, { rotation: -8 }, { rotation: 8, duration: 0.14, yoyo: true, repeat: Math.min(7, Math.round(dist / 180)) | 1, ease: 'sine.inOut', onComplete: () => gsap.set(t.firstChild, { rotation: 0 }) });
     token = x.id;
   }
@@ -217,9 +218,74 @@
     if (!pts) { if (q) walkTo(q); return; }
     const g = $(`#map-path .link[data-to="${to}"]`);
     if (g) gsap.fromTo(g.querySelector('.line'), { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.2, delay: 0.3, ease: 'power1.inOut' });
-    gsap.to('#map-token', { motionPath: { path: curve(pts) }, duration: 1.2, delay: 0.3, ease: 'power1.inOut', onComplete: () => MB.audio.sfx('ding') });
+    gsap.to('#map-token', { motionPath: { path: curve(pts) }, duration: 1.2, delay: 0.3, ease: 'power1.inOut', onUpdate: trailer(),
+      onComplete: () => { MB.audio.sfx('ding'); ripple(spot(q), '#ffd84a', 160); } });
     const n = $(`#map-nodes .qn[data-id="${to}"]`);
     if (n) gsap.fromTo(n, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, delay: 1.3, ease: 'back.out(2.5)' });
+  }
+
+  // ---------------------------------------------------------------- ambience and little celebrations
+  // motes of light drifting up over the map, in the act's colour (screen space, rebuilt when the view changes)
+  let motesOf = null;
+  function motes() {
+    const box = $('#map-motes'), key = act + '/' + place;
+    if (motesOf === key) return;
+    motesOf = key;
+    box.querySelectorAll('i').forEach((m) => gsap.killTweensOf(m));
+    box.innerHTML = '';
+    box.style.setProperty('--c', MB.ACTS[act].color);
+    for (let k = 0; k < 26; k++) {
+      const m = el('i'), x = Math.random() * VW, d = 10 + Math.random() * 10;
+      box.appendChild(m);
+      gsap.fromTo(m, { x, y: VH + 20, scale: 0.4 + Math.random() * 0.9 }, { y: -20, x: x + (Math.random() - 0.5) * 260, duration: d, repeat: -1, delay: -Math.random() * d, ease: 'none' });
+      gsap.to(m, { opacity: 0.35 + Math.random() * 0.55, duration: 1 + Math.random() * 2, yoyo: true, repeat: -1, delay: Math.random() * 2, ease: 'sine.inOut' });
+    }
+  }
+  // world-space effects over the map: a ring spreading from a point, a burst of stars, dust behind the token
+  function ripple(at, color = '#fff', size = 130) {
+    if (!at) return;
+    const r = el('i', 'mfx-ring');
+    r.style.borderColor = color;
+    $('#map-fx').appendChild(r);
+    gsap.fromTo(r, { x: at[0], y: at[1], xPercent: -50, yPercent: -50, width: 24, height: 24, opacity: 1 },
+      { width: size, height: size, opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => r.remove() });
+  }
+  function burst(at, color) {
+    for (let k = 0; k < 18; k++) {
+      const p = el('i', 'mfx-star', '★'), a = (k / 18) * Math.PI * 2, d = 80 + Math.random() * 70;
+      p.style.color = k % 2 ? '#ffd84a' : color;
+      $('#map-fx').appendChild(p);
+      gsap.fromTo(p, { x: at[0], y: at[1], xPercent: -50, yPercent: -50, scale: 0.4, opacity: 1, rotation: 0 },
+        { x: at[0] + Math.cos(a) * d, y: at[1] + Math.sin(a) * d, scale: 1.1, opacity: 0, rotation: 200, duration: 0.8 + Math.random() * 0.4, ease: 'power2.out', onComplete: () => p.remove() });
+    }
+  }
+  // an onUpdate for a tween that moves the token: little sparkles left where it walked
+  function trailer() {
+    let last = 0;
+    return () => {
+      const now = performance.now();
+      if (now - last < 55) return;
+      last = now;
+      const t = $('#map-token'), x = gsap.getProperty(t, 'x'), y = gsap.getProperty(t, 'y'), p = el('i', 'mfx-dust');
+      $('#map-fx').appendChild(p);
+      gsap.fromTo(p, { x: x + (Math.random() - 0.5) * 18, y: y - 4, xPercent: -50, yPercent: -50, scale: 1, opacity: 0.95 },
+        { y: y - 18 - Math.random() * 18, scale: 0, opacity: 0, duration: 0.7 + Math.random() * 0.4, ease: 'power1.out', onComplete: () => p.remove() });
+    };
+  }
+  // a quest just done for the first time: its marker jumps, a CLEAR stamp lands on it, stars burst out and its new
+  // stars pop in one by one
+  function celebrate(id) {
+    const n = $(`#map-nodes .qn[data-id="${id}"]`), at = spot(S.byId(id));
+    if (!n || !at) return;
+    const stamp = el('div', 'qn-clear', 'CLEAR!');
+    stamp.style.setProperty('--c', MB.ACTS[act].color);
+    n.appendChild(stamp);
+    gsap.timeline({ delay: 0.45, onComplete: () => stamp.remove() })
+      .call(() => { MB.audio.sfx('buff'); ripple(at, '#ffd84a', 240); burst(at, MB.ACTS[act].color); }, null, 0)
+      .fromTo(n.querySelector('.qn-ring'), { scale: 1 }, { scale: 1.3, duration: 0.14, yoyo: true, repeat: 1, ease: 'power2.out' }, 0)
+      .fromTo(stamp, { scale: 3, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: -12, duration: 0.35, ease: 'back.out(2)' }, 0.1)
+      .fromTo(n.querySelectorAll('.qn-stars i.on'), { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.4, stagger: 0.14, ease: 'back.out(3)' }, 0.35)
+      .to(stamp, { opacity: 0, y: -30, duration: 0.5 }, 1.9);
   }
 
   // ---------------------------------------------------------------- panning
@@ -300,13 +366,13 @@
   function select(q, animate) {
     mark_sel(`#map-nodes .qn[data-id="${q.id}"]`);
     centerAt(spot(q), animate);
-    if (animate) walkTo(q);
+    if (animate) { walkTo(q); ripple(spot(q)); }
     panel(q);
   }
   function selectPlace(p, animate) {
     mark_sel(`#map-nodes .qn[data-place="${p.id}"]`);
     centerAt(spot({ at: p.at }), animate);
-    if (animate) walkTo({ id: p.id, at: p.at });
+    if (animate) { walkTo({ id: p.id, at: p.at }); ripple(spot({ at: p.at })); }
     const s = save(), inside = actQuests(act).filter((q) => q.place === p.id), open = inside.filter((q) => S.isOpen(s, q));
     const pn = $('#map-panel');
     pn.innerHTML = `<button class="mp-close" title="Close">✕</button><div class="mp-tag" style="--c:${MB.ACTS[act].color}">Location</div><h2>${p.icon || ''} ${p.title}</h2>
@@ -352,7 +418,12 @@
       if (st) {
         const have = s.stars[q.stage] | 0;
         body += `<div class="mp-stars">${MB.Stars.starsOf(q.stage).map((x, k) => `<span class="${have & (1 << k) ? 'on' : ''}">${have & (1 << k) ? '★' : '☆'} ${x.text}</span>`).join('')}</div>`;
-        if (!done) body += `<div class="mp-reward">First win: <b>${ch.name}</b>'s card and leader · ${boss ? '<b style="color:#b35cff">Epic Pack</b>' : '<b style="color:#4aa3ff">Rare Pack</b>'}</div>`;
+        if (!done) {
+          const pics = MB.Collection.stageAvatars[q.stage].length, frags = !s.unlocked.includes(q.foe) && MB.Collection.storyShards(q.foe);
+          body += `<div class="mp-reward">First win: ${boss ? '🎁 <b style="color:#b35cff">Epic Pack</b>' : '🎁 <b style="color:#4aa3ff">Rare Pack</b>'}`
+            + `${save().leaders.includes(q.foe) ? '' : ` · <b>${ch.name}</b> as a leader`}${frags ? ` · 🧩 ${frags} card fragment${frags > 1 ? 's' : ''}` : ''}`
+            + `${pics ? ` · 🖼 ${pics} profile picture${pics > 1 ? 's' : ''}` : ''}</div>`;
+        }
       } else if (!done && q === S.lastOf(q.act)) body += '<div class="mp-reward">🏁 Act complete: <b style="color:#b35cff">Epic Pack</b></div>';
     }
     p.innerHTML = `<button class="mp-close" title="Close">✕</button>${body}<div class="mp-btns"></div>`;
@@ -415,7 +486,7 @@
     // walk on to the next quest of this act when it's in the same view; otherwise just look at it
     const sameView = nxt && !newAct && (nxt.place || null) === (q.place || null);
     if (newAct) open({ act: nxt.act, focus: nxt.id, opened: res.opened, walked: { act: -1 } });
-    else open({ focus: sameView ? nxt.id : q.id, place: q.place || null, opened: res.opened, walked: sameView ? { act: q.act, from: q.id, to: nxt.id } : null });
+    else { open({ focus: sameView ? nxt.id : q.id, place: q.place || null, opened: res.opened, walked: sameView ? { act: q.act, from: q.id, to: nxt.id } : null }); celebrate(q.id); }
     if (nxt && !newAct && !sameView && res.opened.length) toast(`New: <b>${S.byId(res.opened[0]).title}</b>${res.opened.length > 1 ? ` and ${res.opened.length - 1} more` : ''}`);
     const then = () => { if (newAct) flyover(nxt.act); };
     if (res.act != null) actDone(res.act, then);
@@ -471,15 +542,35 @@
       showPanel();
     }
   }
+  // an act finished: its title under spinning rays and confetti, and the Epic pack it paid dropping in
   function actDone(a, then) {
     const A = MB.ACTS[a], last = a === MB.ACTS.length - 1;
-    const box = el('div', 'act-done', `<small>Act ${a + 1} complete</small><b>${A.title}</b>`
-      + `<p>🎁 <b style="color:#b35cff">Epic Pack</b> earned!${last ? '<br>You finished the story. Side quests, secrets and rematches stay open on every map.' : `<br>Next: Act ${a + 2} · ${MB.ACTS[a + 1].title}`}</p><button class="btn primary">Continue</button>`);
+    const box = el('div', 'act-done', `<div class="ad-rays"></div><div class="ad-fx"></div><div class="ad-card">`
+      + `<small>Act ${a + 1} complete</small><b>${A.title}</b>`
+      + `<div class="ad-pack"><img src="${MB.packArt('epic')}" alt=""><span>🎁 <b style="color:#b35cff">Epic Pack</b> earned!</span></div>`
+      + `<p>${last ? 'You finished the story. Side quests, secrets and rematches stay open on every map.' : `Next: Act ${a + 2} · ${MB.ACTS[a + 1].title}`}</p>`
+      + '<button class="btn primary">Continue</button></div>');
     box.style.setProperty('--c', A.color);
     document.getElementById('ui-root').appendChild(box);
     MB.audio.sfx('fanfare');
-    gsap.fromTo(box, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' });
-    box.querySelector('button').onclick = () => { click(); box.remove(); then(); };
+    const card = box.querySelector('.ad-card'), pack = box.querySelector('.ad-pack img');
+    const tl = gsap.timeline()
+      .fromTo(box, { opacity: 0 }, { opacity: 1, duration: 0.4 })
+      .fromTo(box.querySelector('.ad-rays'), { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: 'power2.out' }, 0)
+      .fromTo(card, { scale: 0.7, opacity: 0, y: 40 }, { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.8)' }, 0.1)
+      .fromTo(card.querySelector('small'), { letterSpacing: '30px', opacity: 0 }, { letterSpacing: '6px', opacity: 1, duration: 0.7, ease: 'power2.out' }, 0.3)
+      .fromTo(card.querySelector('b'), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power2.out' }, 0.4)
+      .call(() => MB.Result.confetti(box.querySelector('.ad-fx'), 800, 330), null, 0.6)
+      .fromTo(pack, { y: -420, rotation: -25, scale: 1.3, opacity: 0 }, { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.7, ease: 'bounce.out' }, 0.9)
+      .call(() => MB.audio.sfx('loot'), null, 1.3)
+      .fromTo(card.querySelectorAll('.ad-pack span, p, .btn'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12 }, 1.4);
+    const float = gsap.to(pack, { y: -8, rotation: 3, duration: 1.4, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.8 });
+    box.addEventListener('pointerdown', (e) => { if (!e.target.closest('button') && tl.isActive()) tl.progress(1); });
+    box.querySelector('button').onclick = () => {
+      click();
+      float.kill();
+      gsap.to(box, { opacity: 0, duration: 0.3, onComplete: () => { box.remove(); then(); } });
+    };
   }
 
   // ---------------------------------------------------------------- scenes
@@ -506,8 +597,12 @@
     gsap.set('#sc-stage', { opacity: 1 });
     weather('none');
     FX.reset();
-    gsap.set('#sc-fade', { opacity: 0 });
+    gsap.killTweensOf('#sc-fade');
+    gsap.fromTo('#sc-fade', { opacity: 1, backgroundColor: '#000' }, { opacity: 0, duration: 0.7, ease: 'power1.out' });
+    document.querySelectorAll('#sc-stage .sc-emote').forEach((e) => e.remove());
     let i = 0, tick = 0, busy = false, over = false, typing = null, auto = false, autoTimer = null, closeWho = null, closeTweens = [];
+    const moods = {}, motion = { left: null, right: null, center: null }; // each speaker's last mood, each sprite's mood tween
+    let lastWho = null;
 
     // letterbox in, and the quest's title card
     gsap.fromTo('#sc-bars i', { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: 'power3.out' });
@@ -515,11 +610,13 @@
       if (!title) return;
       busy = true;
       const c = $('#sc-title');
-      c.innerHTML = `<small>${title.arc}</small><b>${title.title}</b>`;
+      c.innerHTML = `<i class="band"></i><small>${title.arc}</small><b>${title.title}</b>`;
       c.style.setProperty('--c', title.color);
       c.classList.remove('hidden');
       MB.audio.sfx('swish');
       await gsap.timeline().fromTo(c, { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' })
+        .fromTo(c.querySelector('.band'), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'power3.out' }, 0)
+        .fromTo(c.querySelector('small'), { letterSpacing: '24px', opacity: 0 }, { letterSpacing: '8px', opacity: 1, duration: 0.7, ease: 'power2.out' }, 0.1)
         .fromTo(c.querySelector('b'), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power2.out' }, 0.2)
         .to(c, { opacity: 0, x: 40, duration: 0.5, delay: title.short ? 0.6 : 1.2 });
       c.classList.add('hidden');
@@ -543,7 +640,11 @@
         slots[side] = who;
       }
       const im = img[side];
-      if (fresh) gsap.killTweensOf(im); // still leaving after someone else
+      if (fresh) { // still leaving after someone else
+        gsap.killTweensOf(im);
+        motion[side] = null;
+        gsap.set(im, { xPercent: 0, yPercent: 0, scale: 1, rotation: 0 });
+      }
       im.src = MB.bigSpriteUrl(who, role);
       im.classList.remove('gone');
       if (fresh) gsap.fromTo(im, { x: side === 'left' ? -320 : side === 'right' ? 320 : 0, y: side === 'center' ? 60 : 0, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' });
@@ -562,10 +663,11 @@
         await wait(250);
         await gsap.to('#sc-fade', { opacity: 0, duration: 0.7 });
       } else if (d.bg) {
-        // a new place: whoever was on stage stays behind, and an open rift closes
+        // a new place: whoever was on stage stays behind, and an open rift closes; the new one comes into focus
         sc = { ...sc, bg: d.bg };
         bgEl = bg();
         kenBurns(bgEl);
+        gsap.fromTo(bgEl, { filter: 'blur(14px) brightness(1.3)' }, { filter: 'blur(0px) brightness(1)', duration: 1, ease: 'power2.out', clearProps: 'filter' });
         SLOTS.forEach((k) => { if (slots[k]) leave(k); });
       }
       if (d.bg || d.fx === 'flash') FX.riftClose();
@@ -574,7 +676,7 @@
       if (d.weather && !d.fade) weather(d.weather);
       if (d.light && !d.fade) FX.light(d.light);
       if (d.hide && sideOf(d.hide)) leave(sideOf(d.hide));
-      if (d.enter && MB.charById(d.enter)) { place(d.enter, S.MOODS[d.mood] || 'idle', d.at); focus(sideOf(d.enter)); await wait(250); }
+      if (d.enter && MB.charById(d.enter)) { place(d.enter, S.MOODS[d.mood] || 'idle', d.at); focus(sideOf(d.enter)); moods[d.enter] = d.mood || 'neutral'; await wait(250); }
       if (d.where) caption(d.where, d.when);
       if (d.cam === 'push') { gsap.fromTo(bgEl, { scale: 1.02 }, { scale: 1.22, duration: 0.9, ease: 'power3.out' }); gsap.fromTo('#sc-sky', { scale: 1 }, { scale: 1.15, duration: 0.9, ease: 'power3.out' }); }
       if (d.cam === 'pull') { gsap.fromTo(bgEl, { scale: 1.25 }, { scale: 1.02, duration: 1.4, ease: 'power2.out' }); gsap.fromTo('#sc-sky', { scale: 1.18 }, { scale: 1, duration: 1.4, ease: 'power2.out' }); }
@@ -603,18 +705,26 @@
         const c = $('#sc-choices');
         c.innerHTML = '';
         c.classList.remove('hidden');
+        let picked = false;
+        MB.audio.sfx('swish');
         options.forEach(([label, branch], k) => {
           const b = el('button', 'sc-choice', label);
           b.onclick = (e) => {
             e.stopPropagation();
+            if (picked) return;
+            picked = true;
             click();
-            c.classList.add('hidden');
-            // what you said, then how they answer, then the scene goes on
-            lines.splice(i, 0, { who: 'you', role: 'idle', text: label.replace(/^"|"$/g, '') }, ...branch.map(S.lineOf));
-            res();
+            const rest = [...c.children].filter((x) => x !== b);
+            gsap.to(rest, { opacity: 0, x: (n) => (n % 2 ? 60 : -60), duration: 0.25, ease: 'power2.in' });
+            gsap.timeline({ onComplete: () => {
+              c.classList.add('hidden');
+              // what you said, then how they answer, then the scene goes on
+              lines.splice(i, 0, { who: 'you', role: 'idle', text: label.replace(/^"|"$/g, '') }, ...branch.map(S.lineOf));
+              res();
+            } }).to(b, { scale: 1.07, duration: 0.12, ease: 'power2.out' }).to(b, { scale: 1, opacity: 0, y: -24, duration: 0.3, delay: 0.12, ease: 'power2.in' });
           };
           c.appendChild(b);
-          gsap.fromTo(b, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, delay: k * 0.08 });
+          gsap.fromTo(b, { opacity: 0, x: k % 2 ? 120 : -120 }, { opacity: 1, x: 0, duration: 0.45, delay: k * 0.1, ease: 'back.out(1.6)' });
         });
       });
     }
@@ -638,7 +748,9 @@
       const narr = l.who === '*', you = l.who === 'you', char = !narr && !you && MB.charById(l.who);
       let side = null;
       if (char) { side = place(l.who, l.role); focus(side); } else SLOTS.forEach((k) => img[k].classList.add('dim'));
-      if (side && !l.close) gsap.fromTo(img[side], { y: 0 }, { y: -12, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.out' });
+      if (side && !l.close) react(side, l.who, l.mood || 'neutral');
+      if (l.who !== lastWho && !narr) gsap.fromTo('#sc-name', { x: -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.28, ease: 'power2.out' });
+      lastWho = l.who;
       const cl = $('#sc-close');
       if (l.close && char) {
         cl.querySelector('img').src = MB.bigSpriteUrl(l.who, l.role);
@@ -661,6 +773,47 @@
       $('#sc-more').classList.remove('hidden');
       if (auto) autoTimer = setTimeout(step, 1100 + text.length * 22);
     }
+    // a speaker reacts to their own mood: a new mood gets an emote by their head and a move of its own (a hop, a
+    // shake, a slump...), the same mood again just a little bounce. The moves use xPercent/yPercent/scale/rotation,
+    // so they never fight the x/y of a sprite walking on or off.
+    const MOVES = {
+      happy: (im) => gsap.timeline().to(im, { yPercent: -3, duration: 0.14, ease: 'power2.out' }).to(im, { yPercent: 0, duration: 0.45, ease: 'bounce.out' }),
+      excited: (im) => gsap.timeline().to(im, { yPercent: -4.5, duration: 0.13, yoyo: true, repeat: 3, ease: 'power2.out' }),
+      angry: (im) => gsap.timeline().to(im, { xPercent: 2, duration: 0.05, yoyo: true, repeat: 7, ease: 'none' }).set(im, { xPercent: 0 }),
+      rage: (im) => gsap.timeline().to(im, { scale: 1.05, duration: 0.12, ease: 'power2.out' }).to(im, { xPercent: 3, duration: 0.04, yoyo: true, repeat: 11, ease: 'none' }, 0)
+        .to(im, { scale: 1, xPercent: 0, duration: 0.3 }),
+      scared: (im) => gsap.timeline().to(im, { scale: 0.96, duration: 0.2, ease: 'power2.out' }).to(im, { xPercent: 1, duration: 0.04, yoyo: true, repeat: 13, ease: 'none' }, 0)
+        .to(im, { scale: 1, xPercent: 0, duration: 0.4 }),
+      sad: (im) => gsap.timeline().to(im, { yPercent: 3, duration: 0.7, ease: 'sine.out' }).to(im, { yPercent: 0, duration: 1.2, ease: 'sine.inOut' }),
+      proud: (im) => gsap.timeline().to(im, { scale: 1.04, rotation: -1.5, duration: 0.3, ease: 'power2.out' }).to(im, { scale: 1, rotation: 0, duration: 0.5, ease: 'power2.inOut' }),
+    };
+    const EMOTES = { happy: '🎵', excited: '❗', angry: '💢', rage: '💢', scared: '💦', sad: '💧', proud: '✨' };
+    function react(side, who, mood) {
+      const im = img[side], fresh = moods[who] !== mood;
+      moods[who] = mood;
+      if (motion[side]) { motion[side].kill(); gsap.set(im, { xPercent: 0, yPercent: 0, scale: 1, rotation: 0 }); }
+      const move = fresh && MOVES[mood];
+      motion[side] = move ? move(im) : gsap.fromTo(im, { yPercent: 0 }, { yPercent: -1.5, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.out' });
+      if (move) emote(side, mood);
+      if (fresh && mood === 'rage') shake(8);
+    }
+    // an emote popping up by the speaker's head: anger throbs, sweat and tears run down, the rest float up
+    function emote(side, mood) {
+      const im = img[side], e = el('div', `sc-emote m-${mood}`, EMOTES[mood]);
+      $('#sc-stage').appendChild(e);
+      // a sprite still loading has no width yet: guess where it will stand
+      const sized = im.offsetWidth > 50, w = sized ? im.offsetWidth : 520;
+      const left = sized ? im.offsetLeft : side === 'left' ? 70 : side === 'right' ? VW - 70 - w : VW / 2 - 260;
+      const x = left + w * (side === 'right' ? 0.3 : 0.7), y = im.offsetTop + im.offsetHeight * 0.1;
+      const drip = mood === 'sad' || mood === 'scared', throb = mood === 'angry' || mood === 'rage';
+      gsap.timeline({ onComplete: () => e.remove() })
+        .fromTo(e, { x, y, xPercent: -50, yPercent: -50, scale: 0, rotation: side === 'right' ? 30 : -30, opacity: 1 },
+          { scale: 1, rotation: 0, duration: 0.4, ease: 'back.out(3)' })
+        .to(e, throb ? { scale: 1.25, duration: 0.14, yoyo: true, repeat: 3, ease: 'power1.inOut' }
+          : drip ? { y: y + 26, duration: 0.8, ease: 'power1.in' } : { y: y - 16, duration: 0.8, ease: 'sine.inOut' })
+        .to(e, { opacity: 0, scale: 0.6, duration: 0.3 }, '+=0.25');
+    }
+
     // the close-up's backdrop: the speaker's look (MB.CLOSE_LOOKS: a CSS sky and particles), else the act's colour
     function closeLook(cl, who) {
       if (who === closeWho && !cl.classList.contains('hidden')) return; // same speaker, still up: let it keep playing
@@ -751,18 +904,19 @@
         }
       }
     }
-    function end() {
+    // now: straight on (another scene is taking over), else a quick fade to black first
+    function end(now) {
       if (over) return;
       over = true;
       clearTimeout(autoTimer);
       if (typing) typing.finish();
       director = null;
       document.removeEventListener('keydown', keys);
-      weather('none');
       gsap.to('#sc-bars i', { scaleY: 0, duration: 0.4 });
-      FX.reset();
       closeHide();
-      done();
+      const out = () => { weather('none'); FX.reset(); done(); };
+      if (now) out();
+      else gsap.to('#sc-fade', { opacity: 1, backgroundColor: '#000', duration: 0.35, ease: 'power1.in', onComplete: out });
     }
     function showLog() {
       const L = $('#sc-log');
@@ -785,7 +939,7 @@
       if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if ($('#sc-choices').classList.contains('hidden')) step(); } else if (e.key === 'Escape') end();
     };
     document.addEventListener('keydown', keys);
-    director = { stop: end };
+    director = { stop: () => end(true) };
     opening().then(step);
   }
 

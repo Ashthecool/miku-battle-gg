@@ -193,14 +193,6 @@
   // ---------------------------------------------------------------- collection
   const isUnlocked = (id) => save.unlocked.includes(id);
   const shardsOf = (id) => save.shards[id] || 0;
-  // Story rewards: the whole card at once
-  function unlock(id) {
-    if (!id || !MB.CARDS[id] || isUnlocked(id)) return false;
-    save.unlocked.push(id);
-    delete save.shards[id];
-    return true;
-  }
-
   // A locked card is drawn in pieces, one shard per fragment it needs; the ones you have are see-through.
   // A card is always cut the same way (seeded by its id) and its pieces always fill in in the same order.
   const SHARD_GRID = { 1: [1, 1], 2: [1, 2], 3: [1, 3], 4: [2, 2], 5: [1, 5], 6: [2, 3], 8: [2, 4], 9: [3, 3] };
@@ -531,6 +523,7 @@
     gsap.fromTo('#intro-foe', { x: 400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
     gsap.fromTo('#intro-me', { x: -400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
     const text = st.intro, boss = MB.bossOf(i);
+    faceOff(!!boss);
     // a finale's boss rule, spelled out before the fight
     document.querySelectorAll('#screen-intro .intro-boss, #screen-intro .intro-stars').forEach((n) => n.remove());
     // the stage's three stars, the ones you have lit
@@ -551,6 +544,27 @@
       MB.audio.sfx('click');
       startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, level: st.level, bg: st.bg, music, story: i, boss });
     };
+  }
+
+  // the rivals square up: streaks of colour rush in behind each of them, a flash, and a VS slams down between them
+  function faceOff(boss) {
+    const scr = $('#screen-intro');
+    scr.querySelectorAll('.intro-slash, .intro-vs, .intro-flash').forEach((n) => { gsap.killTweensOf(n); n.remove(); });
+    const left = el('div', 'intro-slash left'), right = el('div', 'intro-slash right' + (boss ? ' boss' : ''));
+    const vs = el('div', 'intro-vs' + (boss ? ' boss' : ''), `<b>VS</b>${boss ? '<small>👑 Boss battle</small>' : ''}`), flash = el('div', 'intro-flash');
+    scr.prepend(left, right);
+    scr.querySelector('.vn-box').before(vs);
+    scr.appendChild(flash);
+    MB.audio.sfx('swish');
+    const tl = gsap.timeline()
+      .fromTo(left, { xPercent: -110 }, { xPercent: 0, duration: 0.45, ease: 'power3.out' }, 0.05)
+      .fromTo(right, { xPercent: 110 }, { xPercent: 0, duration: 0.45, ease: 'power3.out' }, 0.05)
+      .fromTo(vs, { scale: 4, opacity: 0, rotation: -25 }, { scale: 1, opacity: 1, rotation: -6, duration: 0.35, ease: 'power4.in' }, 0.45)
+      .call(() => MB.audio.sfx('slam'), null, 0.8)
+      .fromTo(flash, { opacity: 0.85 }, { opacity: 0, duration: 0.5, ease: 'power2.out' }, 0.8)
+      .fromTo(scr, { x: 16 }, { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.2)', clearProps: 'x' }, 0.8)
+      .call(() => { gsap.to(vs, { scale: 1.06, duration: 0.7, yoyo: true, repeat: -1, ease: 'sine.inOut' }); flash.remove(); }, null, 1.3);
+    if (boss) tl.fromTo(vs.querySelector('small'), { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 }, 1);
   }
 
   // ---------------------------------------------------------------- quick battle
@@ -643,18 +657,21 @@
   }
 
   function battleOver(win) {
-    const cfg = current, r = $('#screen-result');
-    let unlocked = null;
-    const rewards = [], pics = [];
+    const cfg = current, b = MB.battle;
+    let recruited = null, frag = null;
+    const pics = [];
     // a Story win completes the rival's quest (js/story.js); the first one also plays its after-scene (js/storymap.js)
     const quest = cfg.story != null ? MB.Story.byStage(cfg.story) : null;
     const done = win && quest ? MB.Story.complete(save, quest.id) : null;
     const firstClear = !!(done && done.first), boss = cfg.story != null && MB.bossOf(cfg.story);
     if (quest) MB.StoryMap.won(quest, done || { first: false, opened: [], act: null });
+    // a Story win recruits the rival as a leader and hands out the stage's profile pictures; the first one also gives
+    // fragments of the rival's card (never the whole card at once: cards come together from fragments)
     if (win && cfg.story != null) {
-      if (!save.leaders.includes(cfg.foe)) { save.leaders.push(cfg.foe); unlocked = cfg.foe; }
-      if (unlock(cfg.foe)) rewards.push(cfg.foe);
+      if (!save.leaders.includes(cfg.foe)) { save.leaders.push(cfg.foe); recruited = cfg.foe; }
       pics.push(...MB.Collection.grantStoryAvatars(save));
+      if (firstClear) frag = MB.Collection.grantStoryShards(save, cfg.foe);
+      if (frag) save.glitter += frag.extra * MB.GLITTER.extra;
     }
     recordResult(cfg, win);
     // packs: Common for a win, Rare on Hard or a first Story win, Epic for a first win over a boss and every 5-win streak
@@ -662,62 +679,61 @@
     const packs = [], complete = allCollected();
     if (cfg.arena) MB.Arena.result(save, win);
     else if (win && !complete) {
-      packs.push(firstClear && boss ? 'epic' : firstClear || cfg.difficulty === 'hard' ? 'rare' : 'common');
-      if (save.stats.streak % 5 === 0) packs.push('epic');
-      packs.forEach((t) => save.packs[t]++);
+      packs.push({ tier: firstClear && boss ? 'epic' : firstClear || cfg.difficulty === 'hard' ? 'rare' : 'common',
+        note: firstClear ? (boss ? 'Boss defeated' : 'First win') : cfg.difficulty === 'hard' ? 'Hard win' : 'Victory' });
+      if (save.stats.streak % 5 === 0) packs.push({ tier: 'epic', note: `${save.stats.streak}-win streak` });
+      packs.forEach((p) => save.packs[p.tier]++);
     }
     // Glitter for the win, and the daily missions this battle moved along (the day may have turned mid-battle)
     const glitter = win ? (complete ? MB.GLITTER.complete : MB.GLITTER.win) : 0;
     save.glitter += glitter;
     MB.Missions.daily(save);
-    const finished = MB.Missions.progress(save, MB.battle ? MB.battle.tally : {}, cfg, win);
+    const finished = MB.Missions.progress(save, b ? b.tally : {}, cfg, win);
     // Story stars (and the chapter's Epic pack once every stage has all three)
-    const stars = cfg.story != null && MB.battle ? MB.Stars.awardStars(save, cfg.story, { won: win, hp: MB.battle.me(0).leader.hp, tally: MB.battle.tally, difficulty: cfg.difficulty }) : null;
+    const stars = cfg.story != null && b ? MB.Stars.awardStars(save, cfg.story, { won: win, hp: b.me(0).leader.hp, tally: b.tally, difficulty: cfg.difficulty }) : null;
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
-    show('screen-result');
-    $('#result-title').textContent = win ? 'VICTORY!' : 'DEFEAT...';
-    r.className = 'screen active ' + (win ? 'win' : 'lose');
-    $('#result-me').src = MB.bigSpriteUrl(cfg.leader, win ? 'win' : 'lose');
-    $('#result-foe').src = MB.bigSpriteUrl(cfg.foe, win ? 'lose' : 'win');
+
     const foe = MB.charById(cfg.foe);
-    $('#result-text').innerHTML = win
-      ? (unlocked ? `${foe.name} joins your roster! You can now pick them as a leader.` : `You beat ${foe.name}!`)
-      : `${foe.name} wins this round. Tweak your deck and try again!`;
-    if (done && done.act != null) $('#result-text').innerHTML += `<br>🏁 <b>Act ${done.act + 1} complete!</b> 🎁 <b style="color:#b35cff">Epic Pack</b>`;
+    // what was won, dealt in as tiles (js/result.js)
+    const rewards = packs.map((p) => ({ kind: 'pack', ...p }));
+    if (done && done.act != null) rewards.push({ kind: 'pack', tier: 'epic', note: `Act ${done.act + 1} complete` });
+    if (stars && stars.chapter != null) rewards.push({ kind: 'pack', tier: 'epic', note: `${MB.CHAPTERS[stars.chapter].title}: all stars` });
+    if (recruited) rewards.push({ kind: 'leader', id: recruited });
+    if (frag) rewards.push({ kind: 'shards', ...frag });
+    if (pics.length > 2) rewards.push({ kind: 'avatar', id: pics[0], name: `${pics.length} new pictures`, count: pics.length });
+    else pics.forEach((id) => rewards.push({ kind: 'avatar', id, name: avatarById.get(id).name }));
+    const newStars = stars ? MB.Stars.bits(stars.fresh) : 0, shine = glitter + (stars ? stars.glitter : 0);
+    if (shine) rewards.push({ kind: 'glitter', n: shine, note: newStars ? `Win + ${newStars} star${newStars > 1 ? 's' : ''}` : 'Glitter' });
+    const notes = [];
     const sides = done ? done.opened.filter((id) => MB.Story.byId(id).side).length : 0;
-    if (sides) $('#result-text').innerHTML += `<br>📜 ${sides} new side quest${sides > 1 ? 's' : ''} on the map!`;
-    if (rewards.length) $('#result-text').innerHTML += `<br>🎴 New card${rewards.length > 1 ? 's' : ''}: ` +
-      rewards.map((id) => `<b style="color:${MB.RARITY[MB.CARDS[id].rarity].color}">${MB.cardDef(id).name}</b>`).join(', ');
-    if (pics.length) $('#result-text').innerHTML += `<br>🖼 New profile picture${pics.length > 1 ? 's' : ''}: ` +
-      pics.map((id) => `<b style="color:#ff9cc9">${avatarById.get(id).name}</b>`).join(', ');
-    if (packs.length) $('#result-text').innerHTML += '<br>🎁 Earned: ' + packs.map((t, i) =>
-      `<b style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</b>${i ? ` <small>(${save.stats.streak}-win streak bonus!)</small>` : ''}`).join(' + ');
-    else if (win && complete && !cfg.arena) $('#result-text').innerHTML += '<br>🎴 Your collection is complete!';
-    if (stars && win) {
-      const n = MB.Stars.bits(stars.fresh);
-      $('#result-text').innerHTML += `<div class="result-stars">${starRow(save.stars[cfg.story] | 0, stars.fresh)}</div>`
-        + (cfg.difficulty === 'easy' ? '<small>Stars need Normal or Hard.</small>' : n ? `<span class="glit">⭐ ${n} new star${n > 1 ? 's' : ''}: +${stars.glitter} ✨</span>` : '')
-        + (stars.chapter != null ? `<br>🎁 Three stars on every ${MB.CHAPTERS[stars.chapter].title} fight: <b style="color:#b35cff">Epic Pack</b>!` : '');
+    if (sides) notes.push(`📜 ${sides} new side quest${sides > 1 ? 's' : ''} on the map!`);
+    if (win && complete && !cfg.arena) notes.push('🎴 Your collection is complete!');
+    finished.forEach((m) => notes.push(`📅 Mission done: <b>${MB.Missions.text(m)}</b> <span class="glit">(+${m.glitter} ✨ to claim)</span>`));
+    if (cfg.arena && save.arena) {
+      const a = save.arena;
+      notes.push(`🏟 Arena run: <b class="arena-wl">${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</b>`
+        + (a.stage === 'done' ? ' — the run is over! Claim your rewards in the Arena.' : ''));
     }
-    if (glitter) $('#result-text').innerHTML += `<br><span class="glit">✨ +${glitter} Glitter</span>`;
-    finished.forEach((m) => { $('#result-text').innerHTML += `<br>📅 Mission done: <b>${MB.Missions.text(m)}</b> <span class="glit">(+${m.glitter} ✨ to claim)</span>`; });
-    // new stars stamp in one by one (after the last change to the text, which would replace them)
-    const newStars = document.querySelectorAll('#result-text .result-stars i.new');
-    if (newStars.length) gsap.fromTo(newStars, { scale: 3, opacity: 0, rotation: -180 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 0.6, stagger: 0.25, delay: 0.7, ease: 'back.out(2.2)', onStart: () => MB.audio.sfx('ding') });
+    // the battle in numbers
+    const t = b ? b.tally : {}, me = b && b.me(0).leader;
+    const stats = [['🔁', t.turns | 0, 'turns'], ['🎴', t.cards | 0, 'cards played'], ['⚔', t.face | 0, 'damage'], ['💀', t.kills | 0, 'KOs']];
+    if (win && me) stats.push(['❤', `${Math.max(0, me.hp)}/${me.maxHp}`, 'HP left']);
+    const diff = { easy: 'Easy', normal: 'Normal', hard: 'Hard' }[cfg.difficulty];
+    const kicker = quest ? `Story · ${quest.arc || `Act ${quest.act + 1}`} · ${quest.title}` : cfg.arena ? 'Arena' : `Quick battle${diff ? ` · ${diff}` : ''}`;
+    MB.Result.show({
+      win, leader: cfg.leader, foe: cfg.foe, kicker, stats, rewards, notes,
+      color: quest ? MB.ACTS[quest.act].color : null,
+      line: win ? (recruited ? `You beat <b>${foe.name}</b>, who joins your roster as a leader!` : `You beat <b>${foe.name}</b>!`)
+        : `<b>${foe.name}</b> wins this round. Tweak your deck and try again!`,
+      stars: stars && win ? { row: starRow(save.stars[cfg.story] | 0, stars.fresh),
+        text: cfg.difficulty === 'easy' ? '<small>Stars need Normal or Hard.</small>' : newStars ? `<span class="glit">⭐ ${newStars} new star${newStars > 1 ? 's' : ''}!</span>` : '' } : null,
+      // a card the fragments just finished and new profile pictures get the full reveal once the tiles are in
+      onDealt: pics.length || (frag && frag.done) ? () => MB.Cards.reveal([...(frag && frag.done ? [frag] : []), ...pics.map((avatar) => ({ avatar }))]) : null,
+    });
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
-    if (rewards.length || pics.length) gsap.delayedCall(1.1, () => MB.Cards.reveal([...rewards, ...pics.map((avatar) => ({ avatar }))]));
-    gsap.fromTo('#result-title', { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2)' });
-    gsap.fromTo('#result-me', { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
-    gsap.fromTo('#result-foe', { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, delay: 0.2 });
-    if (cfg.arena && save.arena) {
-      const a = save.arena;
-      $('#result-text').innerHTML += `<br>🏟 Arena run: <b class="arena-wl">${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</b>`
-        + (a.stage === 'done' ? ' — the run is over! Claim your rewards in the Arena.' : '');
-    }
     $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.arena ? arena() : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
     $('#result-again').textContent = cfg.arena ? '🏟 Arena' : cfg.story != null ? (MB.StoryMap.hasAfter() ? '▶ Continue' : '🗺 Story Map') : 'Rematch';
   }

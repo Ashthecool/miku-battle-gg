@@ -1,4 +1,5 @@
-// Collecting: card fragments from packs, and the profile pictures won in Story.
+// Collecting: card fragments from packs and first Story wins (never a whole card at once), and the profile pictures
+// won in Story.
 // Works on a save's { unlocked, shards, avatars, quests } and nothing else, so tools/check_game.js can
 // simulate opening packs.
 window.MB = window.MB || {};
@@ -33,6 +34,17 @@ window.MB = window.MB || {};
     const from = s.shards[id] || 0, to = Math.min(need(id), from + n);
     if (to >= need(id)) { delete s.shards[id]; s.unlocked.push(id); } else s.shards[id] = to;
     return { from, to, extra: from + n - to };
+  }
+
+  // Story: the first win over a rival gives about a third of their card in fragments, never a whole card on its own
+  const storyShards = (id) => (MB.CARDS[id] && !MB.CARDS[id].token && need(id) > 1 ? Math.min(need(id) - 1, Math.max(1, Math.round(need(id) / 3))) : 0);
+  // adds them to the save: { card, from, to, need, done, extra } (done: they finished the card), or null if the card
+  // is owned already or has none to give
+  function grantStoryShards(s, id) {
+    const n = storyShards(id);
+    if (!n || owned(s, id)) return null;
+    const { from, to, extra } = addShards(s, id, n);
+    return { card: id, from, to, need: need(id), done: to >= need(id), extra };
   }
 
   // opens one pack of this tier into the save: [{ card, from, to, need, done }], one entry per card,
@@ -82,5 +94,5 @@ window.MB = window.MB || {};
     return fresh;
   }
 
-  MB.Collection = { deckCards, need, locked, rollCard, addShards, openPack, stageAvatars, avatarStage, clearedStages, grantStoryAvatars };
+  MB.Collection = { deckCards, need, locked, rollCard, addShards, openPack, storyShards, grantStoryShards, stageAvatars, avatarStage, clearedStages, grantStoryAvatars };
 })();

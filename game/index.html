@@ -153,8 +153,10 @@
         <img id="map-img" alt="" draggable="false">
         <svg id="map-path"></svg>
         <div id="map-nodes"></div>
+        <div id="map-fx"></div>
         <div id="map-token"></div>
       </div>
+      <div id="map-motes"></div>
     </div>
     <div id="map-head"><div id="map-acts"></div><div id="map-count"></div></div>
     <div id="map-panel" class="closed"></div>
@@ -234,8 +236,8 @@
       <p><b>Drag from a glowing character</b> to an enemy to attack. Both deal their ATK to each other — unless the attacker is 🏹 Ranged. Hitting the leader is free.</p>
       <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
       <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
-      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival adds their card at once. <b>Right-click</b> any card for a close-up.</p>
-      <p>🗺 <b>Story:</b> one story across every novel's world, in four acts, each on its own map. Play the <b>main quests</b> in order to move the story along; <b>side quests</b> (<b style="color:#ffd84a">!</b>) show up on the map as the story reaches them. Drag or scroll the map to look around. Beating a rival recruits them as a leader and gives you their card.</p>
+      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival for the first time gives a few fragments of their card too. <b>Right-click</b> any card for a close-up.</p>
+      <p>🗺 <b>Story:</b> one story across every novel's world, in four acts, each on its own map. Play the <b>main quests</b> in order to move the story along; <b>side quests</b> (<b style="color:#ffd84a">!</b>) show up on the map as the story reaches them. Drag or scroll the map to look around. Beating a rival recruits them as a leader and pays a 🎁 card pack, 🧩 fragments of their card and new <b>profile pictures</b>.</p>
       <p>👑 <b>Bosses:</b> every novel's boss has a <b>boss rule</b> that goes off every few turns, and a <b>💢 rage</b> the first time they drop to half HP. Both are shown before the fight and in the enemy's panel.</p>
       <p>⭐ <b>Stars:</b> every Story fight has three stars: win, win with your leader at 20+ HP, and a challenge of its own (shown before the fight). Stars count on Normal and Hard. Each new star gives ✨ Glitter, and three stars on every fight of one novel give an <b style="color:#b35cff">Epic Pack</b>.</p>
       <p>🏟 <b>Arena:</b> pick one of three leaders and <b>draft</b> a deck one card at a time from every card in the game (owned or not). Then battle until 7 wins or 3 losses; each win makes the next rival tougher. The more wins, the bigger the ✨ Glitter and pack rewards. You can retire any time and take what you've earned.</p>
@@ -252,11 +254,19 @@
   </div>
 
   <div id="screen-result" class="screen">
+    <div class="rs-rays"></div>
+    <div class="rs-gloom"></div>
     <img id="result-me" class="vn-sprite left">
     <img id="result-foe" class="vn-sprite right">
+    <div class="rs-fx"></div>
     <div class="result-box">
+      <div id="result-kicker"></div>
       <h1 id="result-title"></h1>
       <p id="result-text"></p>
+      <div id="result-stats"></div>
+      <div id="result-stars"></div>
+      <div id="result-rewards"></div>
+      <div id="result-notes"></div>
       <div class="row">
         <button id="result-again" class="btn primary">Again</button>
         <button id="result-packs" class="btn hidden"></button>
@@ -310,6 +320,7 @@
 <script src="js/ui.js"></script>
 <script src="js/scenefx.js"></script>
 <script src="js/storymap.js"></script>
+<script src="js/result.js"></script>
 <script src="js/cards.js"></script>
 <script src="js/menutips.js"></script>
 <script src="js/main.js"></script>

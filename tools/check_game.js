@@ -403,6 +403,14 @@ Object.entries(MB.PACKS).forEach(([t, p]) => p.slots.forEach((slot) => {
 }));
 ['rare', 'epic', 'legendary'].forEach((r) => { if (!(MB.RARITY[r].shards >= 1)) err(`rarity ${r}: needs a shards count`); });
 MB.AVATARS.forEach((a) => { if (a.id !== MB.STARTER_AVATAR && C.avatarStage[a.id] == null) err(`profile picture ${a.id} isn't won anywhere in Story`); });
+// a first Story win gives some fragments of the rival's card, never the whole card from nothing
+new Set(MB.STORY.map((st) => st.foe)).forEach((id) => {
+  const s = { unlocked: MB.STARTER_CARDS.slice(), shards: {} }, g = C.grantStoryShards(s, id);
+  if (!MB.CARDS[id] || s.unlocked.length > MB.STARTER_CARDS.length) err(`story fragments: ${id} has no card or was unlocked outright`);
+  if (g && !(g.to > 0 && g.to < g.need && !g.done)) err(`story fragments: ${id} gave ${JSON.stringify(g)}`);
+  if (!g && !MB.STARTER_CARDS.includes(id)) err(`story fragments: ${id} gave none`);
+  if (C.grantStoryShards({ unlocked: [id], shards: {} }, id)) err(`story fragments: ${id} gave fragments of a card already owned`);
+});
 // open packs from a fresh save until everything is unlocked, checking every result
 const packRuns = [];
 for (let run = 0; run < 100; run++) {

@@ -33,6 +33,7 @@ npx serve game
 | `game/js/arena.js` | The Arena draft mode: leaders, card offers, opponents and rewards (`MB.ARENA`). |
 | `game/js/story.js` | Story mode: the four acts, their maps, the main quests and side quests, and every scene's dialogue (`MB.ACTS`). |
 | `game/js/storymap.js` | The Story screen: the map, the quest panel and the visual-novel scenes. |
+| `game/js/result.js` | The result screen after a battle: the title, the battle in numbers, Story stars and the rewards dealt in as tiles. |
 | `game/js/scenefx.js` | Cutscene effects for Story scenes: the sky tearing open, lighting (power cuts, candles, night, rift glow), flashes, shakes and flickering lights. |
 | `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |

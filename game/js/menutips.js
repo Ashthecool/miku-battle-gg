@@ -265,7 +265,7 @@
   const TIPS = {
     'btn-story': { scene: story, title: 'Story', text: () => {
       const s = MB.UI.save, St = MB.Story, side = St.quests.filter((q) => q.side && !St.hidden(q));
-      return `One story through every novel's world, told on a map. Beat a rival to recruit them as a leader, take their card and win new <b>profile pictures</b>. Side quests pop up along the way.`
+      return `One story through every novel's world, told on a map. Beat a rival to recruit them as a leader and win 🎁 <b>card packs</b>, 🧩 <b>fragments</b> of their card and new <b>profile pictures</b>. Side quests pop up along the way.`
         + `<small>📖 ${St.main.filter((q) => St.isDone(s, q)).length}/${St.main.length} story quests · 📜 ${side.filter((q) => St.isDone(s, q)).length}/${side.length} side quests</small>`;
     } },
     'btn-deck': { scene: deckScene, title: 'Deck & Collection', text: () => {

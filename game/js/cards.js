@@ -3211,7 +3211,7 @@
       const have = MB.UI.shardsOf(def.id), need = MB.Collection.need(def.id);
       own = `<div class="cm-own lockedtxt">🔒 Not in your collection yet: <b>🧩 ${have}/${need}</b> fragments.
         <div class="cm-shardbar"><i style="width:${(have / need) * 100}%"></i></div>
-        Find the rest in 🎁 card packs (won in battle)${MB.STORY.some((s) => s.foe === def.id) ? ', or beat them in Story to get the whole card' : ''}.</div>`;
+        Find the rest in 🎁 card packs (won in battle)${MB.STORY.some((s) => s.foe === def.id) ? ', and a few more by beating them in Story' : ''}.</div>`;
     }
     else own = `<div class="cm-own">✔ In your collection · ${inDeck}/${MB.UI.maxCopies(def.id)} in deck</div>`;
     return `
