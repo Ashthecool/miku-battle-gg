@@ -110,6 +110,17 @@ for (const [id, c] of Object.entries(MB.CARDS)) {
   TRIGGERS.forEach((t) => c[t] && checkSpec(`${at} ${t}`, c[t], { trigger: t }));
   if (TRIGGERS.some((t) => typeof c[t] === 'string') && !c.text) warn(`${at}: a named ability but no text`);
   if (c.abilitySfx && !SFX.includes(c.abilitySfx)) err(`${at}: unknown abilitySfx "${c.abilitySfx}"`);
+  (c.upgrades || []).forEach((u, k) => {
+    const w = `${at} upgrade ${k + 1}`, ch = chars.get(id);
+    if (!u.name || !u.short || !(u.cost >= 0)) err(`${w}: needs name, short and cost`);
+    else if (u.short.length > 12) warn(`${w}: short name "${u.short}" is long for the board plate`);
+    if (u.costume && ch && !ch.costumes.some((o) => o.id === u.costume)) err(`${w}: ${id} has no costume "${u.costume}"`);
+    else if (u.costume && ch && ch.costumes.find((o) => o.id === u.costume).nsfw) warn(`${w}: costume "${u.costume}" is NSFW; pick a safe one`);
+    if (u.bonus && (!Array.isArray(u.bonus) || u.bonus.length !== 2)) err(`${w}: bonus should be [atk, hp]`);
+    (u.kw || []).forEach((kk) => { if (!MB.KEYWORDS[kk]) err(`${w}: unknown keyword ${kk}`); });
+    if (u.attack) checkAttack(w, u.attack);
+    if (u.onUpgrade) checkSpec(`${w} onUpgrade`, u.onUpgrade, { trigger: 'onUpgrade' });
+  });
   if (c.intro) {
     if (typeof c.intro === 'string') { if (!INTRO[c.intro] && !MB.Cards.styleIntros[c.intro]) err(`${at}: unknown intro "${c.intro}"`); }
     else {
@@ -192,7 +203,8 @@ Object.entries(MB.HIDDEN_COSTUMES).forEach(([id, list]) => list.forEach((o) => {
   if (!chars.get(id) || !chars.get(id).costumes.some((x) => x.id === o)) warn(`hidden costume ${id}/${o} doesn't exist`);
 }));
 
-const bgNames = new Set(M.backgrounds.map((b) => b.name.trim().toLowerCase())), music = new Set(M.music.map((m) => m.id));
+// a background by name, or by id where several share a name (ui.js bgByName)
+const bgNames = new Set(M.backgrounds.flatMap((b) => [b.name.trim().toLowerCase(), b.id.toLowerCase()])), music = new Set(M.music.map((m) => m.id));
 MB.STORY.forEach((s, i) => {
   const at = `story ${i} (${s.foe})`;
   if (MB.CHAPTERS[s.chapter] && MB.CHAPTERS[s.chapter].hidden) return; // NSFW mode off
@@ -501,11 +513,13 @@ const tallies = []; // { tally, won, leader, deck, hp } of the AI battles below,
 
 // ---------------------------------------------------------------- AI vs AI
 const combosSeen = new Map(); // combo id -> how often it happened in the AI battles
+const upgradesSeen = new Map(); // outfit name -> how often a card upgraded into it in the AI battles
 const viewStub = new Proxy({}, {
   get: (_, name) => (...args) => {
     const fn = args.find((a) => typeof a === 'function');
     if (name === 'fuse') { const u = args[2]; return Promise.resolve(u); }
     if (name === 'combo') combosSeen.set(args[1].id, (combosSeen.get(args[1].id) || 0) + 1);
+    if (name === 'upgrade') upgradesSeen.set(args[1].name, (upgradesSeen.get(args[1].name) || 0) + 1);
     if (fn) fn();
     return Promise.resolve();
   },
@@ -587,6 +601,7 @@ function randomDeck() {
   errors.forEach((e) => console.log('ERROR ' + e));
   console.log(`\n${M.characters.length} characters, ${Object.keys(MB.CARDS).length} cards, ${MB.BONDS.length} bonds, ${MB.STORY.length} story stages`);
   console.log(`combos: ${[...combosSeen.values()].reduce((a, b) => a + b, 0)} in the battles, ${combosSeen.size}/${MB.COMBOS.length} different`);
+  console.log(`outfit upgrades: ${[...upgradesSeen].map(([n, k]) => `${n} ${k}`).join(', ') || 'none'}`);
   console.log(`missions, battles to finish on average: ${missionPace.join(", ")}`);
   console.log(`boss battles: ${bossStats.battles}, rule went off in ${bossStats.fired}, rage in ${bossStats.raged}, boss won ${bossStats.won}`);
   console.log(`stars, share of wins that earn them: ${starPace.join(", ")}`);

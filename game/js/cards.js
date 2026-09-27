@@ -3225,7 +3225,8 @@
       ${def.rival ? `<div class="cm-text">⚔ Rival of <b>${defOf(def.rival).name}</b>: they deal each other double damage.</div>` : ''}
       ${bondsHtml(def)}
       ${combosHtml(def)}
-      ${!locked && !def.fused && !def.combo ? wardrobeHtml(def) : ''}
+      ${upgradesHtml(def)}
+      ${!locked && !def.fused && !def.combo && !def.outfit ? wardrobeHtml(def) : ''}
       ${def.type === 'unit' && def.attack.name ? `<div class="cm-attack" style="--c:${def.attack.color}">✦ ${def.attack.name}</div>` : ''}
       ${own}
       ${!stats && !def.fused && !def.combo ? glitterHtml(def, locked) : ''}`;
@@ -3263,6 +3264,14 @@
       return `<div class="cm-combo">🔗 <b>${c.name}</b>${def.combo ? '' : ` with ${with_}`}: ${c.text}</div>`;
     });
     return rows.length ? `<div class="cm-bonds">${rows.join('')}</div>` : '';
+  }
+  // the outfits a card with upgrades changes into on the board, in order (the one it wears now is marked)
+  function upgradesHtml(def) {
+    const ups = !def.fused && (def.upgrades || (MB.CARDS[def.id] || {}).upgrades);
+    if (!ups) return '';
+    const now = def.outfit ? ups.indexOf(def.outfit) : -1;
+    const rows = ups.map((u, i) => `<div class="cm-upgrade${i === now ? ' now' : i < now ? ' past' : ''}">👗 <b>${u.name}</b> <span class="cm-cost">${u.cost}</span> gold: ${u.text}</div>`);
+    return `<div class="cm-bonds">${rows.join('')}</div>`;
   }
   function wardrobeHtml(def) {
     const list = def.type === 'unit' ? MB.UI.costumesOf(def.id) : [];

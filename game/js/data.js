@@ -561,6 +561,67 @@ MB.CARDS = {
     attack: { style: 'warmap', name: 'Flanking Maneuver', color: '#5f7a3a' },
     quote: 'History is ALIVE, people!' },
 
+  // Anna
+  'anna':      { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['rebel'],
+    onPlay: { label: 'Up, baka!', color: '#e8a24a', emoji: '⏰', do: { op: 'ready', to: 'randomAlly', say: 'WAKE UP!' } },
+    attack: { name: 'Personal Alarm Clock', color: '#e8a24a', move: 'leap', fx: 'hit', big: true, sfx: 'bonk',
+      cry: 'Rise and shine, BAKA!', scatter: ['⏰', '💢', '🍳'], finish: "You're welcome." },
+    intro: { move: 'slide', fx: 'fling', emoji: ['🍳', '☕', '🥐'], sfx: 'ding' },
+    quote: "Finally up? Breakfast's getting cold." },
+
+  // Everythin' with Amy Lyn. `upgrades`: outfits she changes into on the board, for gold, once a turn (engine.js)
+  'amy-lyn':   { cost: 4, atk: 3, hp: 4, rarity: 'legendary', kw: [],
+    attack: { name: 'Look At Me! :3', color: '#ffc94a', move: 'zigzag', fx: 'hit', hits: 3,
+      cry: 'Watch this! :3', scatter: ['✨', '🎀', '⭐'], finish: 'Did you see?! Did you?!' },
+    intro: { move: 'pop', fx: 'confetti', sfx: 'boing' },
+    quote: 'Amy Lyn here! Wanna see something cool? :3',
+    upgrades: [
+      { costume: 'karate-outfit', name: 'Karate Amy', short: 'Karate', cost: 1, bonus: [2, 1], kw: ['rebel'], emoji: ['🥋'],
+        line: 'Hi-YAH! Black belt... almost :3',
+        attack: { style: 'uppercut', name: 'Almost-Black-Belt Chop', color: '#ff6a3d', cry: 'HI-YAH! :3', finish: 'Did I do it right?' } },
+      { costume: 'superhero-suit', name: 'Super Amy', short: 'Super', cost: 2, bonus: [1, 2], kw: ['guardian'], emoji: ['🦸', '⭐'],
+        line: "Never fear, Amy Lyn's here! :3",
+        onUpgrade: { label: 'Hero landing!', color: '#3a7cff', do: { op: 'shield', to: 'allAllies' } },
+        attack: { style: 'beam', name: 'Amy Beam', color: '#3a7cff', cry: 'Justice! And stuff! :3' } },
+      { costume: 'space-suit', name: 'Astro Amy', short: 'Astro', cost: 2, bonus: [2, 1], kw: ['ranged'], emoji: ['🚀', '🪐'],
+        line: 'One small step for Amy! :3',
+        onUpgrade: { label: 'Meteor shower!', color: '#b48cff', emoji: '☄️', do: { op: 'damage', to: 'randomEnemyAny', n: 1, times: 3 } },
+        attack: { style: 'meteor', name: 'Stardust Surprise', color: '#b48cff', emoji: ['⭐', '🌟', '☄️'], sky: 'space' } },
+      { costume: 'princess-dress', name: 'Princess Amy', short: 'Princess', cost: 3, bonus: [2, 2], kw: ['lifesteal'], emoji: ['👑', '💎'],
+        line: 'Everyone, approve of me! ...please? :3',
+        onUpgrade: { label: 'Royal approval!', color: '#3a8cff', do: { op: 'buff', to: 'allies', atk: 1, hp: 1 } },
+        attack: { style: 'redcarpet', name: 'Royal Approval', color: '#3a8cff', cry: 'Curtsy for the princess!', finish: 'Approved! :3' } },
+    ] },
+
+  // Hina
+  'hina':      { cost: 6, atk: 5, hp: 5, rarity: 'legendary', kw: ['rebel'],
+    onPlay: { label: 'MOSH PIT!', color: '#e0405a', emoji: '🤘', do: [{ op: 'damage', to: 'enemies', n: 1 }, { op: 'buff', to: 'allies', atk: 1 }] },
+    onHurt: { label: 'Is that all?', color: '#e0405a', do: { op: 'buff', to: 'self', atk: 1 } },
+    attack: { style: 'riff', name: 'Underground Anthem', color: '#e0405a', cry: "This one's for Grandma.", finish: 'Stay down, fanboy.' },
+    quote: 'Handshakes cost extra. Play or get lost.' },
+
+  // Nala
+  'nala':      { cost: 4, atk: 2, hp: 6, rarity: 'epic', kw: ['guardian'],
+    onHurt: { label: "I-I'm a good maid!", color: '#c0506e', do: [{ op: 'buff', to: 'self', atk: 1 }, { op: 'heal', to: 'myLeader', n: 1 }] },
+    attack: { name: 'Nervous Nekopunch', color: '#c0506e', move: 'hop', fx: 'hit', hits: 3,
+      cry: "P-please don't be mad!", scatter: ['🐾', '🧹', '💦'], finish: 'D-did I do good?' },
+    intro: { move: 'sneak', fx: 'fling', emoji: ['🧹', '🐾', '🫖'], sfx: 'squeak' },
+    quote: 'H-hello... I am a good maid, I promise...' },
+
+  // Saya
+  'saya':      { cost: 6, atk: 4, hp: 6, rarity: 'legendary', kw: ['shield'],
+    onPlay: { label: 'Reverse-engineered.', color: '#4a9eff', emoji: '🧠', do: [{ op: 'copy', to: 'strongestEnemy' }, { op: 'summon', card: 'nd-prototype' }] },
+    attack: { style: 'hack', name: 'Strategic Questioning', color: '#4a9eff', emoji: ['🧠', '💾', '❓'], cry: 'Tell me what you want.', finish: 'Data acquired.' },
+    quote: "Good morning. Let's align your objectives with mine." },
+
+  // Sweet Garlic
+  'maiko':     { cost: 4, atk: 3, hp: 4, rarity: 'epic', kw: ['lifesteal'],
+    onPlay: { label: 'Succubus charm...?', color: '#e05a8a', emoji: '💘', do: { op: 'buff', to: 'strongestEnemy', atk: -2, say: 'Charmed...?' } },
+    attack: { name: 'Clumsy Bite', color: '#e05a8a', move: 'fly', fx: 'hit', hits: 2, sfx: 'chomp',
+      cry: "I-I'll try biting!", scatter: ['🧄', '🦇', '💦'], finish: 'Bleh! GARLIC?!' },
+    intro: { move: 'drop', fx: 'fling', emoji: ['🧄', '🦇', '💫'], sfx: 'bonk' },
+    quote: "U-um! Greetings, human! I'm very scary!" },
+
   // tokens (never in decks)
   'stray-cat': { cost: 1, atk: 1, hp: 1, rarity: 'token', kw: ['haste'], token: true, name: 'Stray Cat', emoji: '🐈',
     text: '', attack: { style: 'bounce', name: 'Hiss!', color: '#d8283a' } },
@@ -574,6 +635,8 @@ MB.CARDS = {
     text: '', attack: { style: 'bounce', name: 'Peck', color: '#dfe9f5' } },
   'plant-golem': { cost: 1, atk: 1, hp: 2, rarity: 'token', kw: ['taunt'], token: true, name: 'Plant Golem', emoji: '🌿',
     attack: { style: 'bounce', name: 'Vine Slap', color: '#6fcf3f' } },
+  'nd-prototype': { cost: 2, atk: 2, hp: 2, rarity: 'token', kw: ['taunt'], token: true, name: 'ND Prototype', emoji: '🤖',
+    text: '', attack: { style: 'bounce', name: 'Beep Boop', color: '#4a9eff' } },
 
   // item spells (icons from the novel's inventory)
   'school-bag':    { type: 'spell', cost: 1, rarity: 'common', target: 'anyUnit', effect: 'bagSwing',
@@ -659,6 +722,15 @@ MB.CARDS = {
     effect: { do: { op: 'copy', to: 'target' } } },
   'japanese-artifact':    { type: 'spell', cost: 1, rarity: 'common', target: null, name: 'Japanese Artifact', color: '#c0392b',
     effect: { do: { op: 'addCard', card: 'randomItem' } } },
+  // Everythin' with Amy Lyn
+  'menu-card':            { type: 'spell', cost: 1, rarity: 'common', target: null, name: 'Menu Card', color: '#ffb84a',
+    effect: { do: { op: 'draw', pick: 'cheapest' } } },
+  'old-painting-book':    { type: 'spell', cost: 2, rarity: 'rare', target: null, name: 'Old Painting Book', color: '#b08a4a',
+    effect: { do: { op: 'buff', to: 'allAllies', hp: 2, say: 'Royal blood!' } } },
+  'the-riddle-note':      { type: 'spell', cost: 2, rarity: 'rare', target: 'enemyUnit', name: 'The Riddle Note', color: '#4a8ab0',
+    effect: { do: [{ op: 'freeze', to: 'target' }, { op: 'draw' }] } },
+  'lucia-thumana-s-note': { type: 'spell', cost: 5, rarity: 'epic', target: 'enemyUnit', name: "Lucia Thumana's Note", color: '#6a4a8a',
+    effect: { do: { op: 'kill', to: 'target' } } },
 };
 MB.itemCards = () => Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].type === 'spell');
 
@@ -674,6 +746,7 @@ MB.ITEM_NOVELS = {
   'Legend Of You 1.7 ': ['holy-water', 'glowing-brick', 'root-of-all-evil', 'cupid-arrow', '10000-degree-dagger', 'excalibur', 'red-button'],
   'Noble One': ['vinelace-family-wine', 'book-of-magical-creatures', 'maid-outfit'],
   'Doki Doki Literature Club': ['natsuki-s-cupcake', 'yuri-s-green-tea', 'purple-tulip', 'photograph-of-a-plant', 'japanese-artifact'],
+  "Everythin' with Amy Lyn": ['menu-card', 'old-painting-book', 'the-riddle-note', 'lucia-thumana-s-note'],
 };
 (function () {
   const novel = {};
@@ -839,6 +912,14 @@ MB.POWERS = {
   'reina':           { name: 'Clip Farming',   cost: 2, sfx: 'camera', target: 'allyUnit', effect: { do: [{ op: 'buff', to: 'target', atk: 1 }, { op: 'keyword', to: 'target', kw: 'taunt', say: 'Look at me!' }] } },
   'lucia-atkins':    { name: 'Red Pen',        cost: 2, target: 'enemyUnit',   emoji: '🖍️', effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'buff', to: 'target', atk: -1, say: 'Revise!' }] } },
   'peter-reeves':    { name: 'Pincer Attack',  cost: 3, target: null,          effect: { do: { op: 'damage', to: 'randomEnemy', n: 1, times: 2 } } },
+  // the one-girl novels
+  'anna':            { name: 'Breakfast in Bed', cost: 2, target: 'friendlyAny', emoji: '🍳', effect: { do: [{ op: 'thaw', to: 'target' }, { op: 'heal', to: 'target', n: 3 }] } },
+  'amy-lyn':         { name: 'Surprise! :3',   cost: 2, sfx: 'boing', target: 'allyUnit', emoji: '🎀',
+    effect: { do: [{ op: 'buff', to: 'target', atk: 1, hp: 1 }, { op: 'keyword', to: 'target', kw: 'rebel', say: 'Surprise! :3' }] } },
+  'hina':            { name: 'Stage Dive',     cost: 2, sfx: 'guitar', target: 'enemyAny', emoji: '🤘', effect: { do: [{ op: 'damage', to: 'target', n: 2 }, { op: 'damage', to: 'myLeader', n: 1 }] } },
+  'nala':            { name: 'Tidy Up',        cost: 2, sfx: 'swish', target: null, effect: { do: [{ op: 'thaw', to: 'allAllies' }, { op: 'heal', to: 'friendly', n: 1 }] } },
+  'saya':            { name: 'Realign Objectives', cost: 3, sfx: 'glitch', target: 'enemyUnit', emoji: '🧠', effect: { do: { op: 'swap', to: 'target', say: 'Realigned.' } } },
+  'maiko':           { name: 'Blood Snack',    cost: 2, sfx: 'chomp', target: 'enemyUnit', emoji: '🦇', effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'heal', to: 'myLeader', n: 2 }] } },
 };
 
 // Relationships. When both characters of a pair stand on the same side of the board they fuse into one
@@ -1284,6 +1365,26 @@ MB.BONDS = [
   { id: 'gym-bros', pair: ['ben-brier', 'brutio-bruscos'], costumes: [null, null], tier: 1,
     name: 'Gym Bros', short: 'Gym Bros', relation: 'Spotters (never skip arm day)', bonus: [1, 1], kw: ['taunt'],
     attack: { style: 'spotme', name: 'Spot Me, Bro', color: '#e0503a' } },
+  // Cross-novel: the one-girl novels (each pair has a duo style of its own)
+  { id: 'maid-corps', pair: ['anna', 'nala'], costumes: [null, null], tier: 2,
+    name: 'Maid Corps', short: 'Maids', relation: 'Veteran maid & the scared new hire', bonus: [1, 2], kw: ['guardian', 'shield'],
+    onFuse: { label: 'Spotless!', color: '#e8a24a', do: [{ op: 'strip', to: 'strongestEnemy', say: 'Tidied up!' }, { op: 'heal', to: 'friendly', n: 2 }] },
+    attack: { style: 'spotless', name: 'Spring Cleaning', color: '#e8a24a' } },
+  { id: 'project-hina', pair: ['saya', 'hina'], costumes: [null, null], tier: 2,
+    name: 'Project HINA', short: 'Project', relation: 'The CTO & the idol she wants to sign', bonus: [1, 2], kw: ['rebel', 'lifesteal'],
+    onFuse: { label: 'Sold out!', color: '#4a9eff', do: [{ op: 'freeze', to: 'strongestEnemy' }, { op: 'gold', n: 2 }] },
+    attack: { style: 'hologram', name: 'Hologram Idol', color: '#4a9eff' } },
+  { id: 'performance-review', pair: ['amy-lyn', 'saya'], costumes: ['work-suit', null], tier: 2,
+    name: 'Performance Review', short: 'Review', relation: 'Eager intern & her boss', bonus: [1, 2], kw: ['taunt', 'ranged'],
+    onFuse: { label: 'Approved!', color: '#3fbf6a', do: [{ op: 'buff', to: 'allies', atk: 1, hp: 1 }, { op: 'draw' }] },
+    attack: { style: 'keynote', name: 'Quarterly Keynote', color: '#ffb020' } },
+  { id: 'costume-party', pair: ['amy-lyn', 'maiko'], costumes: ['witch-outfit', 'kimono'], tier: 2,
+    name: 'Costume Party', short: 'Costumes', relation: 'Dress-up buddies (one is a real demon)', bonus: [1, 2], kw: ['stealth', 'poison'],
+    onFuse: { label: 'Makeover!', color: '#b04ae0', do: [{ op: 'buff', to: 'strongestEnemy', atk: -2, say: 'Makeover!' }, { op: 'addCard', card: 'randomItem' }] },
+    attack: { style: 'makeover', name: 'Makeover Madness', color: '#b04ae0' } },
+  { id: 'street-duet', pair: ['hina', 'maiko'], costumes: ['outdoor', 'snow'], tier: 1,
+    name: 'Street Duet', short: 'Buskers', relation: 'Two outsiders, one street corner', bonus: [1, 1], kw: ['lifesteal'],
+    attack: { style: 'busking', name: 'Pass the Hat', color: '#e0405a' } },
 ];
 // Close-up scenes (cards.js). kind: lovers, family, rivals, friends, school, crush, partners or mentor; scene picks a variant
 // (catalog.md); lines (2 or more) are said by the partners in turn; backdrop, emoji and word dress any scene.
@@ -1450,6 +1551,17 @@ MB.BOND_SCENES = {
   'price-war':        { kind: 'rivals', scene: 'tug', emoji: ['🧺'], lines: ["Can't pay? Then scram.", 'Dango! Half price! Today!'] },
   'airhead-alliance': { kind: 'friends', scene: 'dressup', model: 0, emoji: ['🦆', '🧦', '👒', '🍌', '🎀'], lines: ['Ehehe~ is this a hat?', 'What is a... hat?'] },
   'gym-bros':         { kind: 'friends', scene: 'pushups', emoji: ['💪', '🏋️'], word: 'NO DAYS OFF!', lines: ['Bro. Your form. Perfect.', 'ENLARGO! Look at zese guns!'] },
+  // Cross-novel: the one-girl novels
+  'maid-corps':         { kind: 'mentor', scene: 'etiquette', teacher: 0, emoji: ['🫖'], order: 'Again. Properly!',
+    lines: ['Chin up. Tray level. Walk.', "Y-yes! I won't drop it!"] },
+  'project-hina':       { kind: 'rivals', scene: 'hypnosis', hypnotist: 0, colors: ['#4a9eff', '#e0405a'],
+    lines: ["Sign here, and you're a star.", 'Nice try. I read contracts.'] },
+  'performance-review': { kind: 'mentor', scene: 'interview', mentor: 1, jobs: ['🥋', '🏴‍☠️', '🚀', '🌽', '👑', '🦸', '🧙'], stamp: 'APPROVED!',
+    lines: ['I can do EVERYTHING! :3', 'So I see. ...Approved.'] },
+  'costume-party':      { kind: 'friends', scene: 'dressup', model: 1, emoji: ['👗', '🎀', '👒', '🧄', '👘'], word: 'SO CUTE! :3',
+    lines: ['Ooh! Try THIS one! :3', 'I-is this what humans wear?!'] },
+  'street-duet':        { kind: 'friends', scene: 'concert', emoji: ['🎵', '🎸', '🧄'],
+    lines: ["Just hold the hat. I'll sing.", 'O-okay! Tips, please!'] },
 };
 
 // the strongest bond wins when a character could fuse with more than one partner (sort is stable)
@@ -1517,6 +1629,9 @@ MB.COMBOS = [
     onCombo: { label: 'Fresh batch!', emoji: '🧁', do: { op: 'addCard', card: 'natsuki-s-cupcake' } }, line: "They're NOT cute! ...Eat one." },
   { char: 'yuri', item: 'yuri-s-green-tea', name: 'Tea Time Yuri', short: 'Tea Time', costume: 'comfy-sweater-casual-outfit', bonus: [1, 2],
     onCombo: { label: 'So calming...', emoji: '🍵', do: { op: 'freeze', to: 'strongestEnemy' } }, line: 'Would you... like a cup too?' },
+  // Everythin' with Amy Lyn: a ghost, a riddle... a MYSTERY!
+  { char: 'amy-lyn', item: 'the-riddle-note', name: 'Ghost Hunter Amy', short: 'Ghost Hunt', costume: 'goth-outfit', bonus: [1, 1],
+    onCombo: { label: 'Mystery solved! :3', emoji: '🔎', do: { op: 'draw' } }, line: 'A ghost?! Ooh, a MYSTERY! :3' },
 ];
 MB.COMBOS.forEach((c) => { c.items = [].concat(c.item); c.id = c.char + '+' + c.items[0]; });
 MB.combosOf = (id) => MB.COMBOS.filter((c) => c.char === id || c.items.includes(id));
@@ -1576,6 +1691,7 @@ MB.CHAPTERS = [
   { title: 'Doki Doki Literature Club' },
   { title: 'Flaming, Lust, and Pain.' },
   { title: 'Paradiso Suburbia' },
+  { title: 'Solo Stories' },
 ];
 
 // Story rivals: each fights in their own location with their own music; `intro` is their line right before the fight.
@@ -1808,6 +1924,20 @@ MB.STORY = [
     intro: 'Your brother looks up from his phone. "Skylar\'s after you. ...Beat me first. Then I know you\'ll be fine."' },
   { chapter: 14, foe: 'skylar',          bg: 'Paramount Academy Entrance', music: 'song-1-2',
     intro: 'Skylar blocks the doors, all smiles. "Oh, the NEW kid! Love that you just... wear whatever. Let\'s play, sweetie~"' },
+
+  // Solo Stories: the one-girl novels (their backgrounds share names like "background 1", so they're named by id)
+  { chapter: 15, foe: 'anna',    bg: '0e17dd54-e07a-4193-b09e-35e2603f3607', music: 'sound-1',
+    intro: 'Anna bangs a frying pan. "Up, baka! You want breakfast? Then beat me first. And don\'t let it get cold."' },
+  { chapter: 15, foe: 'nala',    bg: 'f6fb2fe9-6a95-451a-9a75-cca6134a6a88', music: 'manor',
+    intro: 'The new maid bows so low her cat ears touch the floor. "A-a game? If it pleases you... I\'ll do my best!"' },
+  { chapter: 15, foe: 'amy-lyn', bg: 'Inside Mall',                          music: 'mall',
+    intro: 'Amy Lyn bounces over, arms full of shopping bags. "Hiii! Wanna play? I can change outfits mid-game. Watch! :3"' },
+  { chapter: 15, foe: 'maiko',   bg: '3a7e7ea1-c400-44a8-9f95-04dd42a2aa08', music: 'beautiful-life',
+    intro: 'A succubus hides behind a stall of garlic, sniffling. "I-I am VERY scary! ...Could we play instead of... biting?"' },
+  { chapter: 15, foe: 'hina',    bg: '121f3213-2afc-4438-93d6-e1732a163508', music: 'basement-beat',
+    intro: 'Hina wipes her face with a towel, backstage. "Another scout? Fine. One game. Lose, and you buy Grandma\'s medicine."' },
+  { chapter: 15, foe: 'saya',    bg: '62d8a17e-77ea-444d-856b-4bb460fc24d4', music: 'office',
+    intro: 'Saya swivels her chair toward you. "Good morning. I\'ve read your file. Let\'s see if the numbers were honest."' },
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
@@ -1860,6 +1990,10 @@ MB.BOSSES = {
   skylar: { name: 'Queen Bee', every: 3, color: '#ff7ab8', emoji: '🐝', text: 'Every 3rd turn: all your monsters get -1 ATK.',
     effect: { do: { op: 'buff', to: 'enemies', atk: -1, say: 'Did you hear?' } },
     rage: { name: 'Social Suicide', text: 'At half HP: removes all keywords and Shield from your monsters.', effect: { do: { op: 'strip', to: 'enemies', say: 'Canceled!' } } } },
+  saya: { name: 'Quarterly Review', every: 3, color: '#4a9eff', emoji: '📊', text: 'Every 3rd turn: your strongest monster swaps its ATK and HP.',
+    effect: { do: { op: 'swap', to: 'strongestEnemy', say: 'Restructured.' } },
+    rage: { name: 'Hostile Takeover', text: 'At half HP: sends your strongest monster back to your hand and deploys two ND Prototypes.',
+      effect: { do: [{ op: 'bounce', to: 'strongestEnemy' }, { op: 'summon', card: 'nd-prototype', n: 2 }] } } },
 };
 // the boss rule of a Story stage
 MB.bossOf = (i) => (MB.STORY[i] && MB.BOSSES[MB.STORY[i].foe]) || null;

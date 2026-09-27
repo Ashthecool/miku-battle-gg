@@ -38,6 +38,8 @@ SKIP_OUTFITS = {
     "yuri/school-uniform-transparent", "spoiler-character/default",
     # nude art that looks underage: never in the game, not even in NSFW mode
     "natsuki/nude",
+    # Everythin' with Amy Lyn: an empty placeholder character
+    "nothing/nothing",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -51,6 +53,8 @@ NSFW_OUTFITS = {
     "rirarra-charca/the-equality-beach",
     "anya/anya-2", "cream/cream-2", "juniper/juniper-5", "adam/adam-4", "alexis/alexis-4", "misaki/morning",
     "anna-vinelace/new-outfit", "charlotte/cat-outfit", "lily/default", "nerida/default", "kira/default",
+    "anna/covered", "amy-lyn/naked-ribbon", "amy-lyn/naughty-cat", "amy-lyn/for-the-thicc-lovers", "amy-lyn/strap-on-d",
+    "maiko/succubus", "maiko/crying",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
 NSFW_NOVELS = {"Noble One"}

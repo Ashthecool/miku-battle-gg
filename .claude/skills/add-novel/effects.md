@@ -15,7 +15,8 @@ effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'draw', if: 'targetDi
 
 Where specs go: card `onPlay` `onAttack` (as it attacks, before the blow; if the target dies the attack stops)
 `onKill` (whenever it destroys an enemy monster in a fight) `onDeath` `onTurnStart` `onTurnEnd` `onAllyDeath`
-(each other ally that dies) `onHurt` (whenever it survives damage), bond `onFuse`, item card `effect`, power `effect`.
+(each other ally that dies) `onHurt` (whenever it survives damage), bond `onFuse`, combo `onCombo`, outfit
+`onUpgrade` (catalog.md, Outfit upgrades), item card `effect`, power `effect`.
 A spec may also have `emoji`: it flies to the targets instead of the glowing orb.
 
 Order: all board steps happen during the animation, in order; card steps (`draw`, `addCard`, `summon`, `bounce`,

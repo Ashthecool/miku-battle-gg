@@ -458,6 +458,9 @@ window.MB = window.MB || {};
         { foe: 'joseph', side: true, from: 'aria', at: [48, 34], title: 'Lunch Rush', text: 'Joseph, the kangaroo who serves in the Institute cafeteria, has a crush on Diana and sees you as competition. One game before lunch goes cold.' },
         { foe: 'natalie', side: true, from: 'aria', at: [22, 38], title: 'Oh Deer', text: "Natalie is an elk. NOT a deer. She's also Aria's daughter, and her Christmas puns are sleigh-ing." },
         { foe: 'quinta', side: true, from: 'diana', at: [20, 28], title: 'Stream Challenger', text: "Quinta, Diana's best friend since preschool, streams her lab work. Chat wants a card battle." },
+        // the one-girl novels
+        { foe: 'amy-lyn', side: true, from: 'jane', at: [22, 63], title: "Everythin' with Amy Lyn", text: 'A blonde girl with a ":3" smile waits outside the arcade in a school uniform. She says she can be anything. Mid-game.' },
+        { foe: 'saya', side: true, from: 'diana', at: [60, 14], title: 'Aligned Objectives', text: "NeuralDynamics Inc. landed its tower downtown. Its CTO, Saya, has read your file, and she has questions. Strategic ones." },
         { foe: 'luxuria', side: true, from: 'aria', at: [88, 84], title: 'Sister Lucy', text: 'You wake up in the middle of a glowing circle, in an old chapel that fell into the woods. Three nuns stand around you. The youngest has a tail.' },
         { foe: 'ignis', side: true, from: 'luxuria', at: [95, 93], title: 'The Last Sacrifice', text: "Ignis explains, very calmly, that their ritual needs one last human. You. It's nothing personal. She's a demon general." },
         { foe: 'doloria', side: true, from: 'ignis', at: [85, 95], title: 'Twenty Years in a Veil', text: 'The ritual cracks the curse on Sister Doloria. For twenty years she thought she was a simple nun. She was a queen.' },
@@ -593,6 +596,9 @@ window.MB = window.MB || {};
         { foe: 'ai', side: true, from: 'yumi', at: [58, 88], title: 'Biggest Fan', text: "Ai worships Ichinose-sensei, your cousin. You live with her. Ai has... questions." },
         { foe: 'misaki', side: true, from: 'arisa', at: [72, 70], title: 'Cousin Sensei', text: 'Misaki wants half of those two million yen to go further. Beat her and she grades your homework. Lose and you grade hers.' },
         { foe: 'evil-villainess-chan', side: true, from: 'eri', at: [78, 62], title: 'OHOHOHO!', text: 'The most devious girl at Shirayuki has built a coliseum in the auditorium, desu! Her eyes are never seen.' },
+        // the one-girl novels
+        { foe: 'hina', side: true, from: 'petals', at: [21, 74], title: 'Underground', text: 'Hina Miyabi, underground idol, just finished a set under the cherry tree. She hates fans. You are not a fan. Yet.' },
+        { foe: 'maiko', side: true, from: 'petals', at: [8, 86], title: 'Sweet Garlic', text: "A very nervous succubus is hiding from a garlic festival. She's supposed to be scary. She'd like to practise on you." },
       ],
       secrets: [
         { id: 'hoshi-no-iruka', at: [48, 58], title: 'Hoshi no Iruka', lines: [
@@ -769,6 +775,9 @@ window.MB = window.MB || {};
         { foe: 'charlotte', side: true, from: 'lily', place: 'barony', at: [46, 48], title: 'Dinner Is Served', text: 'Charlotte the maid says Madam insists you win a game before dinner.' },
         { foe: 'sophia-vinelace', side: true, from: 'charlotte', place: 'barony', at: [70, 42], title: 'Not Like I Waited', text: "Your sister closes the piano. She definitely didn't wait for you." },
         { foe: 'anna-vinelace', side: true, from: 'sophia-vinelace', place: 'barony', at: [55, 30], title: 'The Vinelace Name', text: 'Your mother, the lady of the house, descends the grand staircase. Show her you are worthy of the name.' },
+        // the one-girl novels
+        { foe: 'anna', side: true, from: 'lisa-reed', at: [50, 45], title: 'Rise and Shine', text: 'Anna, maid of a mountain mansion and your oldest friend, kicked you out of bed. Again. Breakfast is getting cold.' },
+        { foe: 'nala', side: true, from: 'anna', at: [58, 34], title: 'The New Maid', text: "The mansion hired a new maid, Nala. Her cat ears are flat and she won't look up. A gentle game might help." },
       ],
       secrets: [
         { id: 'ruby-compass', at: [92, 84], title: "Ruby's Wares", lines: [

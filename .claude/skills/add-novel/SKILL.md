@@ -105,6 +105,10 @@ Add a commented section per novel in each table, in the novel's order. See `cata
   story.js for acts, quests and scene lines). A character with a `close` line gets a backdrop in `MB.CLOSE_LOOKS`
   (catalog.md). `node tools/check_game.js` checks every quest and plays the story through.
 - `MB.HIDDEN_COSTUMES` for costumes that aren't real clothes (a pose, a hurt variant).
+- **Outfit upgrades** (`upgrades` on a card, catalog.md) for a character whose novel is about changing costumes: the card
+  changes outfits mid-battle for gold. Use it sparingly (a legendary).
+- Novels with generic background names ("background 1") share them with other novels; name the story `bg` by its
+  manifest id instead (`bgByName` takes ids too).
 
 Design rules:
 - **Flavor first**: each ability, power, attack name, quote and entrance should say something about who the

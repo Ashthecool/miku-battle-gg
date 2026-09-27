@@ -357,6 +357,40 @@
       else { await this.resolveDeaths(); this.view.refresh(); }
     }
 
+    // ---------- outfit upgrades ----------
+    // a card with `upgrades` (data.js) changes into its next outfit mid-battle: its owner pays the outfit's gold cost
+    // while it stands on the board, once a turn. Each outfit adds stats and keywords, can bring a new attack and
+    // runs its onUpgrade ability. The stats become its new base.
+    nextUpgrade(u) {
+      const ups = u && !u.isLeader && !u.card.fused && u.card.upgrades;
+      return ups ? ups[u.stage || 0] || null : null;
+    }
+
+    canUpgrade(u) {
+      const up = this.nextUpgrade(u);
+      return !!up && !this.over && u.hp > 0 && u.side === this.active && u.upgradedTurn !== this.turn
+        && this.me(u.side).gold >= up.cost && this.find(u.uid) === u;
+    }
+
+    async upgrade(u) {
+      if (!this.canUpgrade(u)) return false;
+      const up = this.nextUpgrade(u), [atk, hp] = up.bonus || [0, 0];
+      this.me(u.side).gold -= up.cost;
+      u.stage = (u.stage || 0) + 1; u.upgradedTurn = this.turn;
+      this.count(u.side, 'upgrades');
+      this.view.log(`👗 ${u.name} → ${up.name}!`);
+      u.card = { ...u.card, outfit: up, name: up.name, atk: u.card.atk + atk, hp: u.card.hp + hp, ...(up.attack ? { attack: up.attack } : {}) };
+      u.name = up.name;
+      if (up.costume !== undefined) u.costume = up.costume;
+      u.atk += atk; u.maxHp += hp; u.hp += hp;
+      (up.kw || []).forEach((k) => { if (k === 'shield') u.shield = true; else u.kw.add(k); });
+      if (u.kw.has('haste') && u.sick && !u.frozen) u.attacksLeft = Math.max(u.attacksLeft, 1);
+      await this.view.upgrade(u, up);
+      if (up.onUpgrade) await this.trigger(up.onUpgrade, u);
+      else { await this.resolveDeaths(); this.view.refresh(); }
+      return true;
+    }
+
     // Applies damage immediately and tells the view; returns damage actually dealt.
     // A Guardian steps in front of its leader unless `self` (fatigue, self-inflicted costs).
     deal(target, amount, source, counter, self) {

@@ -12,6 +12,16 @@
   rival: 'celeste' },                        // optional: double damage both ways against that card
 ```
 
+Outfit upgrades (`upgrades`, a list): the card changes into its next outfit mid-battle. While it stands on the board its
+owner pays the outfit's `cost` in gold (a 👗 button on its plate, once a turn); each outfit adds `bonus` [atk, hp] (the new
+base), `kw`, can bring its own `attack`, and runs `onUpgrade` (a spec). The card text is written from it. Good for a
+character whose novel is all about costumes (Amy Lyn):
+```js
+upgrades: [{ costume: 'karate-outfit', name: 'Karate Amy', short: 'Karate', cost: 1, bonus: [2, 1], kw: ['rebel'],
+  emoji: ['🥋'], line: 'Hi-YAH!', onUpgrade: { ...spec }, attack: { style: 'uppercut', name: 'Chop', color: '#ff6a3d' } }, ...]
+```
+`short` fits the plate (≤ 12), `line` is said in the cut-in, `emoji` fly out of the dressing screen. Costumes must be safe.
+
 `rarity`: `common` `rare` `epic` `legendary`. `copies: n` overrides how many a deck may hold (`MB.RARITY[r].copies`). Tokens (`token: true, name, emoji`) are summonable only.
 Item card: `{ type: 'spell', cost, rarity, target?, filter?, effect, color, name?, cast? }`, id = the manifest item id.
 `cast` (untargeted item cards): `lob` (default: rises and fades) · `nuke` (flies over the enemy row and blasts it) ·
@@ -100,7 +110,10 @@ plan notes, laugh, lever, trapdoor + dark pillar · `defib` ECG monitor flatline
 hymn notes, bell drops and tolls 3×, doves · `reenact` battle map, date, arrow rain, 1 blinks through in one cut ·
 `viral` live phone + like counter, hearts, RATIO'D stamp · `bakaslap` backs turned, heart, double slap ·
 `pricewar` undercutting price tags, fruit/dango rain, watermelon · `airheads` butterfly chase round the target, collide
-· `spotme` bench reps, more plates, barbell thrown, flex.
+· `spotme` bench reps, more plates, barbell thrown, flex · `spotless` bubbles, feather duster, tablecloth yanked off, SPOTLESS ·
+`hologram` 0's laptop projects a singing hologram of 1 over the target, it glitches, 1 throws the mic · `keynote` chart
+screen, 0 clicks three slides, 1 stamps APPROVED, the arrow comes down · `makeover` outfits thrown on the target, garlic
+necklace, 1 panics, green cloud · `busking` 1 puts a hat down, 0 sings, tips rain in, 1 trips, hat slammed on.
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)

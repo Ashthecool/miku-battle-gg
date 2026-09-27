@@ -7565,6 +7565,247 @@
     resetDuo(v);
   };
 
+  // ---------------------------------------------------------------- cross-novel duo styles: the one-girl novels
+  // Anna & Nala: spring cleaning. Nala scrubs (bubbles, a feather duster, dust everywhere), then Anna drops a
+  // tablecloth over the target and Nala yanks it off like a magic trick. Spotless
+  S.spotless = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Spring cleaning. NOW.'), 'float-text buff', 1);
+    await gsap.to(L, { rotation: -10, duration: 0.12, yoyo: true, repeat: 1 }); // points
+    const bucket = propAt(V, sideOf(A, 1), H * 0.35, '🪣', 54);
+    MB.audio.sfx('splash');
+    const bubbles = [];
+    for (let i = 0; i < 10; i++) {
+      const b = V.billboard('thrown', '🫧', sideOf(A, 1).x, A.y);
+      b.body.style.fontSize = rnd(26, 44) + 'px';
+      gsap.set(b.body, { y: -H * 0.4 });
+      bubbles.push(b);
+      gsap.to(b, { x: T.x + rnd(-110, 110), y: T.y + rnd(-40, 40), duration: rnd(0.5, 0.8), delay: i * 0.04, ease: 'sine.out' });
+      gsap.to(b.body, { y: -hT * rnd(0.6, 2.2), duration: rnd(0.5, 0.8), delay: i * 0.04, ease: 'sine.out' });
+    }
+    await wait(0.6);
+    // the duster: four swipes, a cloud of dust each
+    const duster = propAt(V, T, hT * 1.3, '🪶', 70);
+    for (let i = 0; i < 4; i++) {
+      MB.audio.sfx('swish');
+      gsap.fromTo(R, { x: 0 }, { x: i % 2 ? -8 : 8, duration: 0.07, yoyo: true, repeat: 1 });
+      gsap.to(duster.body, { rotation: i % 2 ? -30 : 30, duration: 0.14 });
+      await gsap.to(duster, { x: T.x + (i % 2 ? -90 : 90), duration: 0.14, ease: 'power1.inOut' });
+      puff(V, { x: T.x + (i % 2 ? -60 : 60), y: T.y }, '#cfc6b8', 4, hT, 0.7);
+    }
+    fadeOut(duster, 0.1);
+    bubbles.forEach((b, i) => gsap.to(b.body, { scale: 1.6, opacity: 0, duration: 0.2, delay: i * 0.03, onComplete: () => b.remove() }));
+    MB.audio.sfx('pop');
+    // the tablecloth trick
+    pop(V, sideOf(A, 0), H + 40, 'Watch closely.', 'float-text ability', 0.8);
+    const cloth = V.billboard('maid-cloth', '', T.x, T.y);
+    cloth.body.style.setProperty('--c', c);
+    gsap.set(cloth.body, { y: -hT * 2 - 260, rotation: -8, scaleY: 0.4 });
+    MB.audio.sfx('whoosh');
+    await gsap.to(cloth.body, { y: -hT, scaleY: 1, rotation: 0, duration: 0.35, ease: 'power2.in' });
+    MB.audio.sfx('drumroll');
+    await wait(0.6);
+    gsap.fromTo(R, { x: 0 }, { x: 18, duration: 0.1, yoyo: true, repeat: 1 }); // the yank
+    MB.audio.sfx('rip');
+    gsap.to(cloth, { x: T.x + 520, duration: 0.3, ease: 'power3.in' });
+    gsap.to(cloth.body, { rotation: 40, scaleX: 0.6, opacity: 0, duration: 0.3, ease: 'power3.in', onComplete: () => cloth.remove() });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    if (vt) gsap.fromTo(vt.figure, { rotationY: 0 }, { rotationY: 720, duration: 0.7, ease: 'power3.out', onComplete: () => gsap.set(vt.figure, { rotationY: 0 }) });
+    scatter(V, T, hT, ['✨', '🫧', '🧽', '✨'], 14, 170);
+    slamStamp(V, T, hT * 2 + 40, 'SPOTLESS!', c, 0.8);
+    MB.audio.sfx('glint');
+    fadeOut(bucket, 0.2);
+    pop(V, T, hT + 170, own(a, 'finish', 'D-did I do good?'), 'float-text heal', 1.1);
+    await wait(0.6);
+    resetDuo(v);
+  };
+
+  // Saya & Hina: Project HINA. The CTO projects a hologram idol over the target and it sings on loop; the real Hina
+  // hates it, it glitches into static, and she throws the mic herself
+  S.hologram = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Initiating Project HINA.'), 'float-text shield', 1);
+    const lap = propAt(V, sideOf(A, 0), H * 0.45, '💻', 56);
+    MB.audio.sfx('glitch');
+    await wait(0.3);
+    // a cone of light over the target, and the hologram rises in it
+    const beam = V.billboard('holo-beam', '', T.x, T.y - 20);
+    beam.body.style.setProperty('--c', c);
+    gsap.set(beam.body, { yPercent: -100, y: 0, transformOrigin: '50% 100%' });
+    MB.audio.sfx('beam');
+    await gsap.fromTo(beam.body, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.3 });
+    const holo = standIn(V, v, R, { x: T.x, y: T.y - 20 }, 'ghost clone runner holo');
+    gsap.set(R, { opacity: 1 }); // the real one stays with Saya
+    holo.fl.body.style.setProperty('--c', c);
+    await gsap.fromTo(holo.fl.body, { scaleY: 0, opacity: 0 }, { scaleY: 1.2, scaleX: 1.2, opacity: 1, duration: 0.45, ease: 'back.out(1.6)' });
+    // it sings
+    MB.audio.sfx('melody');
+    for (let i = 0; i < 3; i++) {
+      const w = soundwave(V, { x: T.x + (i % 2 ? 90 : -90), y: T.y }, c, i % 2 ? 1 : -1);
+      gsap.set(w.body, { y: -hT * 1.6 });
+      fadeOut(w, 0.3, 0.3);
+      pop(V, { x: T.x + rnd(-90, 90), y: T.y }, hT * 2 + rnd(20, 80), MB.pick(['♪', '♫', '🎵']), 'float-text shield', 0.8);
+      gsap.to(holo.fl.body, { rotation: i % 2 ? 6 : -6, duration: 0.15, yoyo: true, repeat: 1 });
+      await wait(0.3);
+    }
+    pop(V, sideOf(A, 1), H + 40, "That's NOT me.", 'float-text burn', 0.9);
+    gsap.to(R, { y: -14, duration: 0.1, yoyo: true, repeat: 1 });
+    // static
+    MB.audio.sfx('glitch');
+    await gsap.to(holo.fl.body, { x: '+=14', skewX: 20, opacity: 0.35, duration: 0.05, yoyo: true, repeat: 7 });
+    for (let i = 0; i < 16; i++) {
+      const d = dot(V, { x: T.x + rnd(-60, 60), y: T.y }, hT * rnd(0.3, 2.4), MB.pick([c, '#ffffff', '#7af0ff']), rnd(6, 12), 'spark shard');
+      toss(d, { v: [150, 380], dur: 0.7 });
+    }
+    holo.back();
+    fadeOut(beam, 0, 0.2);
+    // the mic
+    MB.audio.sfx('whoosh');
+    const mic = V.billboard('thrown', '🎤', sideOf(A, 1).x, A.y);
+    mic.body.style.fontSize = '64px';
+    await path(mic, (k) => ({ ...arc(sideOf(A, 1), T, H * 0.8, hT, 200)(k), r: k * 720, s: 1 }), 0.5, 'power1.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); MB.audio.sfx('guitar'); V.shake(18); V.hitStop();
+    squash(vt, 0.55);
+    mic.remove();
+    slamStamp(V, T, hT * 2 + 40, 'MIC DROP', c);
+    scatter(V, T, hT, ['🎵', '💢', '⚡', '🎤'], 12, 180);
+    fadeOut(lap, 0.2);
+    pop(V, T, hT + 170, own(a, 'finish', 'Real ones only.'), 'float-text burn', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Amy & Saya: the intern's first presentation. A screen goes up over the target, Amy clicks through three slides
+  // while the chart climbs, Saya stamps it APPROVED, and the arrow off the top of the chart comes down on the target
+  S.keynote = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 70;
+    const scr = V.billboard('keynote', '<em>Q1</em><div class="kn-bars"><i></i><i></i><i></i></div><small>BY AMY LYN, INTERN :3</small>', T.x, T.y);
+    scr.body.style.setProperty('--c', c);
+    gsap.set(scr.body, { y: -top, scale: 0 });
+    MB.audio.sfx('pop');
+    await gsap.to(scr.body, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Next slide, please! :3'), 'float-text baka', 1);
+    const bars = [...scr.body.querySelectorAll('.kn-bars i')], label = scr.body.querySelector('em');
+    for (let i = 0; i < 3; i++) {
+      gsap.fromTo(L, { y: 0 }, { y: -14, duration: 0.1, yoyo: true, repeat: 1 }); // click
+      MB.audio.sfx('click');
+      label.textContent = ['Q1 😐', 'Q2 🙂', 'Q3 :3'][i];
+      gsap.to(bars[i], { scaleY: [0.35, 0.65, 1][i], duration: 0.3, ease: 'back.out(2)' });
+      await wait(0.4);
+    }
+    // off the chart
+    const arrow = V.billboard('thrown', '📈', T.x, T.y);
+    arrow.body.style.fontSize = '90px';
+    gsap.set(arrow.body, { y: -top });
+    MB.audio.sfx('riser');
+    await gsap.to(arrow.body, { y: -top - 300, scale: 1.6, duration: 0.45, ease: 'power2.in' });
+    gsap.fromTo(R, { y: 0 }, { y: -10, duration: 0.12, yoyo: true, repeat: 1 }); // Saya nods
+    slamStamp(V, T, top, 'APPROVED', '#3fbf6a');
+    MB.audio.sfx('thud');
+    await wait(0.4);
+    MB.audio.sfx('incoming');
+    await gsap.to(arrow.body, { y: -hT * 0.5, rotation: 150, scale: 2.2, duration: 0.3, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('boom'); V.shake(20); V.hitStop();
+    squash(vt, 0.5);
+    cracks(V, T, '#1a1a2a', { n: 7, len: 150, w: 6, glow: c });
+    fadeOut(arrow, 0.1);
+    gsap.to(scr.body, { opacity: 0, y: '-=40', duration: 0.4, delay: 0.3, onComplete: () => scr.remove() });
+    scatter(V, T, hT, ['📊', '📎', '💼', '✨'], 12, 180);
+    pop(V, sideOf(A, 0), H + 20, '💖', 'thrown', 1);
+    pop(V, T, hT + 170, own(a, 'finish', '...Good work, intern.'), 'float-text shield', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Amy & Maiko: a makeover. Outfit after outfit lands on the target (it spins into each one), and Amy finishes the
+  // look with an accessory: a garlic necklace. The succubus panics, and the look goes off in a green cloud
+  S.makeover = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Makeover time! :3'), 'float-text baka', 1);
+    const looks = ['👗', '🎩', '👘', '👑'];
+    for (let i = 0; i < looks.length; i++) {
+      const who = i % 2, P0 = sideOf(A, who), o = V.billboard('thrown', looks[i], P0.x, P0.y);
+      gsap.fromTo(who ? R : L, { rotation: 0 }, { rotation: who ? 12 : -12, duration: 0.1, yoyo: true, repeat: 1 });
+      o.body.style.fontSize = '58px';
+      MB.audio.sfx('whoosh');
+      await path(o, (k) => ({ ...arc(P0, T, H * 0.7, hT * 1.1, 150)(k), r: k * 360, s: 1 }), 0.32, 'sine.in');
+      o.remove();
+      MB.audio.sfx('pop');
+      if (vt) gsap.fromTo(vt.figure, { rotationY: 0 }, { rotationY: 360, duration: 0.3, ease: 'power2.out' });
+      burst(V, T, c, 8, { h: hT });
+      pop(V, T, hT * 2 + 50, ['Cute!', 'Classy!', 'Elegant~', 'ROYAL!'][i], 'float-text baka', 0.6);
+      await wait(0.15);
+    }
+    // the finishing touch
+    pop(V, sideOf(A, 0), H + 70, 'Accessorize! :3', 'float-text baka', 0.9);
+    const g = V.billboard('thrown', '🧄', sideOf(A, 0).x, A.y);
+    g.body.style.fontSize = '64px';
+    MB.audio.sfx('twang');
+    gsap.to(R, { x: 26, rotation: 14, duration: 0.12, yoyo: true, repeat: 3 });
+    pop(V, sideOf(A, 1), H + 20, 'EEK! GARLIC!', 'float-text burn', 0.9);
+    MB.audio.sfx('squeak');
+    await path(g, (k) => ({ ...arc(sideOf(A, 0), T, H * 0.7, hT * 1.2, 180)(k), r: k * 540, s: 1 }), 0.45, 'sine.in');
+    impact(); hit(V, t, '#9fdc5a', true); MB.audio.sfx('poof'); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    tint(vt, 'sepia(1) saturate(4) hue-rotate(40deg)', 0.9);
+    puff(V, T, '#b8e07a', 14, hT, 1.4);
+    squash(vt, 0.6);
+    g.remove();
+    scatter(V, T, hT, ['🧄', '💨', '🤢', '✨'], 12, 170);
+    pop(V, T, hT + 170, own(a, 'finish', 'Stunning! ...and smelly.'), 'float-text baka', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Hina & Maiko: busking on a street corner. Maiko puts a hat down in front of the target, Hina sings for Grandma,
+  // tips (coins and, this being a garlic town, garlic) pour in until it's full, and clumsy Maiko trips over it
+  S.busking = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), vt = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    const hat = V.billboard('thrown', '🎩', T.x, T.y + 40);
+    hat.body.style.fontSize = '70px';
+    gsap.set(hat.body, { y: -20, rotation: 180 });
+    MB.audio.sfx('pop');
+    gsap.fromTo(hat.body, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' });
+    pop(V, sideOf(A, 1), H + 30, 'Tips, p-please!', 'float-text ability', 0.9);
+    await wait(0.4);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', "This one's for Grandma."), 'float-text burn', 1);
+    const mic = propAt(V, sideOf(A, 0), H * 0.7, '🎤', 40);
+    MB.audio.sfx('guitar');
+    gsap.to(L, { y: -10, duration: 0.15, yoyo: true, repeat: 7 }); // headbanging
+    for (let i = 0; i < 3; i++) {
+      const w = soundwave(V, { x: sideOf(A, 0).x + sg * (60 + i * 40), y: A.y }, c, sg);
+      gsap.set(w.body, { y: -H * 0.6 });
+      fadeOut(w, 0.35, 0.3);
+      await wait(0.12);
+    }
+    for (let i = 0; i < 16; i++) {
+      const tip = V.billboard('petal', MB.pick(['🪙', '🪙', '💴', '🧄']), T.x + rnd(-40, 40), T.y + 40);
+      tip.body.style.fontSize = rnd(28, 40) + 'px';
+      gsap.set(tip.body, { y: -rnd(400, 600), rotation: rnd(-90, 90) });
+      gsap.to(tip.body, { y: -30, rotation: '+=180', duration: rnd(0.4, 0.6), delay: i * 0.05, ease: 'power2.in', onComplete: () => { if (i % 3 === 0) MB.audio.sfx('coin'); tip.remove(); } });
+    }
+    await gsap.to(hat.body, { scale: 1.5, duration: 1.1, ease: 'power1.in' }); // it fills up
+    // Maiko trips over it
+    const run = standIn(V, v, R, sideOf(A, 1));
+    MB.audio.sfx('zip');
+    await gsap.to(run.fl, { x: T.x - sg * 70, y: T.y + 40, duration: 0.35, ease: 'power1.in' });
+    MB.audio.sfx('squeak');
+    pop(V, T, hT * 2 + 40, 'Waah—!', 'float-text baka', 0.7);
+    gsap.to(run.fl.body, { rotation: sg * 70, duration: 0.2 });
+    await gsap.to(hat.body, { y: -hT * 2 - 120, rotation: 360, duration: 0.3, ease: 'power2.out' });
+    await gsap.to(hat.body, { y: -hT * 1.7, duration: 0.18, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('bonk'); MB.audio.sfx('slam'); V.shake(16); V.hitStop();
+    squash(vt, 0.55);
+    MB.audio.sfx('coin');
+    scatter(V, T, hT * 1.6, ['🪙', '💴', '🧄'], 16, 200);
+    pop(V, T, hT + 170, own(a, 'finish', 'Tip your performers.'), 'float-text burn', 1.1);
+    await wait(0.5);
+    fadeOut(hat, 0.1); fadeOut(mic, 0.1);
+    gsap.to(run.fl.body, { rotation: 0, duration: 0.3 });
+    await gsap.to(run.fl, { x: sideOf(A, 1).x, y: A.y, duration: 0.4, ease: 'power2.inOut' });
+    run.back();
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- relationship fusion
   // full-screen anime cut-in with both partners in their fusion costumes
   function cutin(bond) {
@@ -7704,18 +7945,86 @@
     await wait(0.3);
   }
 
+  // ---------------------------------------------------------------- outfit upgrades
+  // a cut-in of the new outfit, with the old one greyed out on the other side and a pip for each outfit so far
+  function outfitCutin(u, up, color) {
+    const ups = u.card.upgrades, n = ups.indexOf(up) + 1, id = u.card.id;
+    const ov = document.createElement('div');
+    ov.className = 'bond-cutin combo-cutin outfit-cutin';
+    ov.style.setProperty('--c', color);
+    ov.innerHTML = `<div class="bc-flash"></div><div class="bc-band"><div class="bc-rays"></div></div>
+      <img class="bc-b" src="${MB.bigSpriteUrl(id, 'idle', n > 1 ? ups[n - 2].costume : undefined)}"><img class="bc-a" src="${MB.bigSpriteUrl(id, 'play', up.costume)}">
+      <div class="bc-title"><small>👗 OUTFIT CHANGE ${n}/${ups.length}</small><b>${up.name}</b><span>${up.line || ''}</span></div>
+      <div class="oc-steps">${ups.map((x, i) => `<i class="${i < n ? 'on' : ''}">👗</i>`).join('')}</div>`;
+    document.getElementById('ui-root').appendChild(ov);
+    const band = ov.querySelector('.bc-band'), A = ov.querySelector('.bc-a'), B = ov.querySelector('.bc-b'), title = ov.querySelector('.bc-title');
+    const steps = ov.querySelector('.oc-steps');
+    MB.audio.sfx('fusion'); MB.audio.sfx('glint');
+    return gsap.timeline({ onComplete: () => ov.remove() })
+      .fromTo(ov.querySelector('.bc-flash'), { opacity: 0.4 }, { opacity: 0, duration: 0.4 }, 0)
+      .fromTo(band, { scaleY: 0 }, { scaleY: 1, duration: 0.22, ease: 'power3.out' }, 0)
+      .fromTo(ov.querySelector('.bc-rays'), { rotation: 0 }, { rotation: 60, duration: 1.9, ease: 'none' }, 0)
+      .fromTo(B, { x: 700, opacity: 0 }, { x: 0, opacity: 0.8, duration: 0.35, ease: 'power3.out' }, 0.05)
+      .to(B, { x: 60, scale: 0.9, opacity: 0, rotationY: 90, duration: 0.35, ease: 'power2.in' }, 0.55)
+      .fromTo(A, { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.4)' }, 0.5)
+      .fromTo(title, { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 0.6)
+      .fromTo(steps.children, { scale: 0 }, { scale: 1, duration: 0.25, stagger: 0.06, ease: 'back.out(3)' }, 0.7)
+      .to(A, { x: 40, duration: 0.9, ease: 'none' }, 0.9)
+      .to([A, title, steps], { opacity: 0, duration: 0.2 }, 1.7)
+      .to(band, { scaleY: 0, duration: 0.2, ease: 'power3.in' }, 1.75);
+  }
+
+  // a folding screen goes up in front of the character, clothes fly over the top, the cut-in plays, and the screen
+  // drops on the new outfit (swap puts it on)
+  async function outfitChange(V, v, P, u, up, swap) {
+    const color = (up.attack || u.card.attack).color || '#ff8ac8', H = MB.LAYOUT.UNIT_H;
+    v.el.classList.add('acting');
+    const scr = V.billboard('wardrobe-screen', '<i></i><i></i><i></i>', P.x, P.y + 30);
+    scr.body.style.setProperty('--c', color);
+    gsap.set(scr.body, { yPercent: -100, y: 0, transformOrigin: '50% 100%' });
+    MB.audio.sfx('whoosh');
+    await gsap.fromTo(scr.body, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.6)' });
+    MB.audio.sfx('swish');
+    gsap.to(scr.body, { rotation: 2, duration: 0.08, yoyo: true, repeat: 9 });
+    for (let i = 0; i < 9; i++) {
+      const b = V.billboard('petal', MB.pick(['👗', '👚', '🎀', '🧦', '👠', '👒', ...(up.emoji || [])]), P.x + rnd(-40, 40), P.y + 30);
+      b.body.style.fontSize = rnd(30, 44) + 'px';
+      gsap.set(b.body, { y: -H * 0.95 });
+      toss(b, { v: [300, 520], ang: [-140, -40], dur: 0.9 });
+      await wait(0.06);
+    }
+    await outfitCutin(u, up, color);
+    swap();
+    gsap.to(scr.body, { scaleX: 0, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => scr.remove() });
+    await gsap.fromTo(v.figure, { rotationY: -180 }, { rotationY: 0, duration: 0.5, ease: 'back.out(1.4)' });
+    flash(V, P, H * 0.5, '#ffffff', 300);
+    ring(V, P, color, 2.2, 0.8);
+    burst(V, P, color, 24, { h: H * 0.5, spread: 150 });
+    scatter(V, P, H * 0.6, ['✨', '💖', '⭐', ...(up.emoji || ['👗'])], 10, 150);
+    MB.audio.sfx('sparkle'); MB.audio.sfx('applause');
+    const name = V.billboard('float-text bond-name outfit-name', `👗 ${up.name}!`, P.x, P.y);
+    gsap.set(name.body, { y: -H - 50 });
+    gsap.timeline({ onComplete: () => name.remove() })
+      .fromTo(name.body, { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' })
+      .to(name.body, { y: -H - 110, opacity: 0, duration: 0.5, delay: 1.1 });
+    v.el.classList.remove('acting');
+    rise(V, P, color, 12, H);
+    await wait(0.3);
+  }
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
     hora: 'void', riff: 'storm', yandere: 'blood', piano: 'night', siren: 'ocean', mercy: 'dream', rainbow: 'sunny', stainedglass: 'holy',
     tear: 'void', multiverse: 'space', justmonika: 'space', inkbound: 'void', pentagram: 'inferno', queenshadow: 'void', ghoststory: 'night',
     poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
-    chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset' };
+    chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset', hologram: 'night' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
     'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch',
-    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme'];
+    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme',
+    'spotless', 'hologram', 'keynote', 'makeover', 'busking'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
@@ -7831,10 +8140,11 @@
     'multiverse', 'nat20', 'tear', 'timber', 'justmonika', 'toastdash', 'mangapanel', 'inkbound', 'choice', 'pentagram', 'devtail', 'queenshadow',
     'ibeam', 'yarn', 'strays', 'musclefive', 'ghoststory', 'checkmate', 'micdrop', 'fakecry', 'oilrig', 'likestorm', 'quill', 'warmap',
     'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch',
-    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme'],
+    'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme',
+    'spotless', 'hologram', 'keynote', 'makeover', 'busking'],
     fx: ['slashes', 'bolt', 'clones'] };
   const upgraded = (at) => !!at && (S[at.style] ? UPGRADED.styles.includes(at.style) : at.move || at.fx ? UPGRADED.fx.includes(at.fx) : true); // no style = dash
 
-  MB.FX = { attack, orbTo, spell, dust, burst, rise, ring, flash, flameBurst, fusion, combo, debris, puff, cracks, toss, sky, spiralSvg, eases: EASE, styles: S, duoStyles: DUO_STYLES, upgraded,
+  MB.FX = { attack, orbTo, spell, dust, burst, rise, ring, flash, flameBurst, fusion, combo, outfitChange, debris, puff, cracks, toss, sky, spiralSvg, eases: EASE, styles: S, duoStyles: DUO_STYLES, upgraded,
     skies: Object.keys(SKIES), recipe: { moves: RMOVE, fx: RFX, floors: FLOORS }, casts: ['lob', 'nuke', 'call', 'coins'] };
 })();

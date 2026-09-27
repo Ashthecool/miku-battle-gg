@@ -199,11 +199,15 @@
       } else {
         const base = e.card;
         const kw = [...e.kw].map((k) => MB.KEYWORDS[k] ? `<i title="${MB.KEYWORDS[k].name}">${MB.KEYWORDS[k].icon}</i>` : '').join('');
+        // the next outfit of a card with upgrades: a button on your side, a hint on the enemy's
+        const up = this.b && this.b.nextUpgrade(e);
         v.plate.innerHTML = `<span class="atk ${e.atk > base.atk ? 'up' : e.atk < base.atk ? 'down' : ''}">${e.atk}</span>` +
           (base.fused ? `<span class="pname bond">${MB.BOND_TIERS[base.bond.tier].hearts} ${base.bond.short}</span>`
+            : base.outfit ? `<span class="pname outfit">👗 ${base.outfit.short}</span>`
             : base.combo ? `<span class="pname combo">🔗 ${base.combo.short}</span>` : `<span class="pname">${e.name.split(' ')[0]}</span>`) +
           `<span class="hp ${e.hp < e.maxHp ? 'hurt' : e.maxHp > base.hp ? 'up' : ''}">${Math.max(0, e.hp)}</span>` +
-          (kw ? `<div class="kw">${kw}</div>` : '');
+          (kw ? `<div class="kw">${kw}</div>` : '') +
+          (up ? `<button class="up-btn ${e.side ? 'foe' : ''} ${this.b.canUpgrade(e) && e.side === 0 ? 'on' : ''}" title="${up.name}: ${up.text}">👗<b>${up.cost}</b></button>` : '');
       }
       v.status.innerHTML = (e.shield ? '<div class="bubble"></div>' : '') + (e.frozen ? '<div class="ice"></div>' : '') +
         (e.burning ? '<div class="flames"><i></i><i></i><i></i></div>' : '') +
@@ -436,6 +440,17 @@
       this.refresh();
     }
 
+    // a card with upgrades changes into its next outfit: a cut-in, then a dressing screen on the board
+    async upgrade(u, up) {
+      const v = this.ents.get(u.uid);
+      if (!v) return;
+      const restore = this.focus(this.pos(u), 0.07);
+      await MB.FX.outfitChange(this, v, this.pos(u), u, up, () => this.setSprite(v, 'taunt'));
+      restore();
+      this.emote(u, 'taunt', 1400);
+      this.refresh();
+    }
+
     // a unit leaves the board without dying (returned to hand)
     async unsummon(u) {
       const v = this.ents.get(u.uid);
@@ -557,7 +572,7 @@
       const endBtn = document.getElementById('end-turn');
       endBtn.disabled = b.active !== 0 || b.over;
       endBtn.textContent = b.active === 0 ? 'END TURN' : 'ENEMY TURN';
-      const anyMove = b.active === 0 && (me.hand.some((c) => b.canPlay(0, c)) || b.units(0).some((u) => b.canAttack(u)) || b.canPower(0));
+      const anyMove = b.active === 0 && (me.hand.some((c) => b.canPlay(0, c)) || b.units(0).some((u) => b.canAttack(u) || b.canUpgrade(u)) || b.canPower(0));
       endBtn.classList.toggle('pulse', b.active === 0 && !anyMove);
       this.handEl.querySelectorAll('.card').forEach((c) => {
         const card = me.hand.find((h) => h.cid === +c.dataset.cid);
@@ -630,6 +645,11 @@
         if (e.button !== 0 || !this.b || this.b.busy || this.b.active !== 0 || this.aiming) return;
         const uEl = e.target.closest('.unit');
         const u = uEl && this.b.find(uEl.dataset.uid);
+        if (u && e.target.closest('.up-btn')) { // an outfit upgrade
+          e.preventDefault();
+          if (u.side === 0 && this.b.canUpgrade(u)) { MB.audio.sfx('click'); this.run(() => this.b.upgrade(u)); } else MB.audio.sfx('error');
+          return;
+        }
         if (u && !u.isLeader && u.side === 0 && this.b.canAttack(u)) {
           e.preventDefault();
           this.startAim({ kind: 'attack', source: u, targets: this.b.attackTargets(u), color: '#ff4d6d', from: () => this.screenPos(u), downAt: performance.now() });

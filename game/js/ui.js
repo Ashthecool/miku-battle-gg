@@ -286,7 +286,8 @@
     gsap.fromTo(next, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out', onComplete: () => { while (bg.children.length > 1) bg.firstChild.remove(); } });
     return next;
   }
-  const bgByName = (name) => (MB.manifest.backgrounds.find((b) => b.name.trim().toLowerCase() === name.toLowerCase()) || MB.pick(MB.manifest.backgrounds));
+  // a background by name, or by id where several novels share a name ("background 1")
+  const bgByName = (name) => (MB.manifest.backgrounds.find((b) => b.id === name || b.name.trim().toLowerCase() === name.toLowerCase()) || MB.pick(MB.manifest.backgrounds));
 
   // ---------------------------------------------------------------- cards
   // big: the art will be shown zoomed in (close-up, reveal)
@@ -301,7 +302,7 @@
     if (def.type === 'spell') art = `<img class="item-art" src="${MB.itemIcon(def.id)}">`;
     else if (def.emoji) art = `<div class="emoji-art">${def.emoji}</div>`;
     else if (def.fused) art = MB.duoHtml(def, 'idle', big);
-    else art = `<img src="${MB.spriteUrl(def.id, 'idle', def.combo && def.combo.costume, big)}">`;
+    else art = `<img src="${MB.spriteUrl(def.id, 'idle', def.outfit ? def.outfit.costume : def.combo && def.combo.costume, big)}">`;
     const bonds = def.fused ? [def.bond] : def.type === 'unit' ? MB.bondsOf(def.id) : [];
     const badge = (bonds.length ? `<div class="card-bond" title="Relationship">${def.fused ? MB.BOND_TIERS[def.bond.tier].hearts : '♥'}</div>` : '') +
       (!def.fused && (def.combo || MB.combosOf(def.id).length) ? `<div class="card-combo${bonds.length ? ' second' : ''}" title="Item combo">🔗</div>` : '');
@@ -579,6 +580,11 @@
     }));
     // the combos that can happen: the partner's cut-in in the combo's outfit
     MB.COMBOS.filter((c) => ids.has(c.char) && c.items.some((id) => ids.has(id))).forEach((c) => need.push(MB.bigSpriteUrl(c.char, 'play', c.costume)));
+    // outfit upgrades: the cut-in in the new outfit, and its board sprites
+    ids.forEach((id) => ((MB.CARDS[id] || {}).upgrades || []).forEach((u) => {
+      need.push(MB.bigSpriteUrl(id, 'play', u.costume));
+      ['idle', 'taunt', 'attack', 'hurt'].forEach((role) => later.push(MB.spriteUrl(id, role, u.costume)));
+    }));
     // item cards aren't characters, so their urls come back empty and are skipped
     ids.forEach((id) => later.push(MB.bigSpriteUrl(id, 'idle'), MB.bigSpriteUrl(id, 'taunt')));
     [cfg.leader, cfg.foe].forEach((id) => later.push(MB.bigSpriteUrl(id, 'win'), MB.bigSpriteUrl(id, 'lose')));

@@ -154,6 +154,10 @@
       }
       if (!played) break;
     }
+    // 1b. outfit upgrades with the gold that's left
+    for (const u of b.units(side)) {
+      if (!b.over && b.canUpgrade(u) && Math.random() < 0.4 + skill) { await b.upgrade(u); await wait(400); }
+    }
     // 2. leader power
     const power = async () => {
       if (b.over) return;

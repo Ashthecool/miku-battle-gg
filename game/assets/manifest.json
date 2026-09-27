@@ -15,7 +15,13 @@
   "Noble One",
   "Doki Doki Literature Club",
   "Flaming, Lust, and Pain.",
-  "Paradiso Suburbia"
+  "Paradiso Suburbia",
+  "Anna",
+  "Everythin' with Amy Lyn",
+  "Hina",
+  "Nala",
+  "Saya",
+  "Sweet Garlic"
  ],
  "nsfwNovels": [
   "Noble One"
@@ -6587,6 +6593,726 @@
    "costumes": [],
    "portrait": "portraits/skylar.webp",
    "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "anna",
+   "name": "Anna",
+   "outfit": "default",
+   "short": "Anna is the mansion's serving maid and your childhood friend.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/anna/neutral.webp",
+    "play": "sprites/anna/happy.webp",
+    "attack": "sprites/anna/angry.webp",
+    "special": "sprites/anna/rage.webp",
+    "hurt": "sprites/anna/scared.webp",
+    "lose": "sprites/anna/sad.webp",
+    "win": "sprites/anna/excited.webp",
+    "taunt": "sprites/anna/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "covered",
+     "name": "covered",
+     "sprites": {
+      "idle": "sprites/anna/covered/neutral.webp",
+      "play": "sprites/anna/covered/happy.webp",
+      "attack": "sprites/anna/covered/angry.webp",
+      "special": "sprites/anna/covered/rage.webp",
+      "hurt": "sprites/anna/covered/scared.webp",
+      "lose": "sprites/anna/covered/sad.webp",
+      "win": "sprites/anna/covered/excited.webp",
+      "taunt": "sprites/anna/covered/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/anna.webp",
+   "novel": "Anna"
+  },
+  {
+   "id": "amy-lyn",
+   "name": "Amy Lyn",
+   "outfit": "School outfit",
+   "short": "A whimsical girl with a playful heart, with a seeking nature, but a cutie deep down, :3",
+   "traits": [
+    "whimsical",
+    "playful",
+    "seeking",
+    "curious",
+    "mischievous",
+    "cute",
+    "sweet",
+    "funny"
+   ],
+   "sprites": {
+    "idle": "sprites/amy-lyn/neutral.webp",
+    "play": "sprites/amy-lyn/happy.webp",
+    "attack": "sprites/amy-lyn/angry.webp",
+    "special": "sprites/amy-lyn/angry.webp",
+    "hurt": "sprites/amy-lyn/scared.webp",
+    "lose": "sprites/amy-lyn/sad.webp",
+    "win": "sprites/amy-lyn/happy.webp",
+    "taunt": "sprites/amy-lyn/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "sport-time",
+     "name": "Sport time",
+     "sprites": {
+      "idle": "sprites/amy-lyn/sport-time/neutral.webp",
+      "play": "sprites/amy-lyn/sport-time/happy.webp",
+      "attack": "sprites/amy-lyn/sport-time/angry.webp",
+      "special": "sprites/amy-lyn/sport-time/angry.webp",
+      "hurt": "sprites/amy-lyn/sport-time/scared.webp",
+      "lose": "sprites/amy-lyn/sport-time/sad.webp",
+      "win": "sprites/amy-lyn/sport-time/happy.webp",
+      "taunt": "sprites/amy-lyn/sport-time/happy.webp"
+     }
+    },
+    {
+     "id": "maid-outfit",
+     "name": "Maid Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/maid-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/maid-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/maid-outfit/angry.webp",
+      "special": "sprites/amy-lyn/maid-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/maid-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/maid-outfit/sad.webp",
+      "win": "sprites/amy-lyn/maid-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/maid-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "bikini-and-thigh-highs",
+     "name": "Bikini and thigh highs",
+     "sprites": {
+      "idle": "sprites/amy-lyn/bikini-and-thigh-highs/neutral.webp",
+      "play": "sprites/amy-lyn/bikini-and-thigh-highs/happy.webp",
+      "attack": "sprites/amy-lyn/bikini-and-thigh-highs/angry.webp",
+      "special": "sprites/amy-lyn/bikini-and-thigh-highs/angry.webp",
+      "hurt": "sprites/amy-lyn/bikini-and-thigh-highs/scared.webp",
+      "lose": "sprites/amy-lyn/bikini-and-thigh-highs/sad.webp",
+      "win": "sprites/amy-lyn/bikini-and-thigh-highs/happy.webp",
+      "taunt": "sprites/amy-lyn/bikini-and-thigh-highs/happy.webp"
+     }
+    },
+    {
+     "id": "work-suit",
+     "name": "Work Suit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/work-suit/neutral.webp",
+      "play": "sprites/amy-lyn/work-suit/happy.webp",
+      "attack": "sprites/amy-lyn/work-suit/angry.webp",
+      "special": "sprites/amy-lyn/work-suit/angry.webp",
+      "hurt": "sprites/amy-lyn/work-suit/scared.webp",
+      "lose": "sprites/amy-lyn/work-suit/sad.webp",
+      "win": "sprites/amy-lyn/work-suit/happy.webp",
+      "taunt": "sprites/amy-lyn/work-suit/happy.webp"
+     }
+    },
+    {
+     "id": "farmer-outfit",
+     "name": "Farmer Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/farmer-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/farmer-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/farmer-outfit/angry.webp",
+      "special": "sprites/amy-lyn/farmer-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/farmer-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/farmer-outfit/sad.webp",
+      "win": "sprites/amy-lyn/farmer-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/farmer-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "green-dress",
+     "name": "Green dress",
+     "sprites": {
+      "idle": "sprites/amy-lyn/green-dress/neutral.webp",
+      "play": "sprites/amy-lyn/green-dress/happy.webp",
+      "attack": "sprites/amy-lyn/green-dress/angry.webp",
+      "special": "sprites/amy-lyn/green-dress/angry.webp",
+      "hurt": "sprites/amy-lyn/green-dress/scared.webp",
+      "lose": "sprites/amy-lyn/green-dress/sad.webp",
+      "win": "sprites/amy-lyn/green-dress/happy.webp",
+      "taunt": "sprites/amy-lyn/green-dress/happy.webp"
+     }
+    },
+    {
+     "id": "prom-dress",
+     "name": "Prom dress",
+     "sprites": {
+      "idle": "sprites/amy-lyn/prom-dress/neutral.webp",
+      "play": "sprites/amy-lyn/prom-dress/happy.webp",
+      "attack": "sprites/amy-lyn/prom-dress/angry.webp",
+      "special": "sprites/amy-lyn/prom-dress/angry.webp",
+      "hurt": "sprites/amy-lyn/prom-dress/scared.webp",
+      "lose": "sprites/amy-lyn/prom-dress/sad.webp",
+      "win": "sprites/amy-lyn/prom-dress/happy.webp",
+      "taunt": "sprites/amy-lyn/prom-dress/happy.webp"
+     }
+    },
+    {
+     "id": "superhero-suit",
+     "name": "Superhero suit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/superhero-suit/neutral.webp",
+      "play": "sprites/amy-lyn/superhero-suit/happy.webp",
+      "attack": "sprites/amy-lyn/superhero-suit/angry.webp",
+      "special": "sprites/amy-lyn/superhero-suit/angry.webp",
+      "hurt": "sprites/amy-lyn/superhero-suit/scared.webp",
+      "lose": "sprites/amy-lyn/superhero-suit/sad.webp",
+      "win": "sprites/amy-lyn/superhero-suit/happy.webp",
+      "taunt": "sprites/amy-lyn/superhero-suit/happy.webp"
+     }
+    },
+    {
+     "id": "karate-outfit",
+     "name": "Karate Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/karate-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/karate-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/karate-outfit/angry.webp",
+      "special": "sprites/amy-lyn/karate-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/karate-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/karate-outfit/sad.webp",
+      "win": "sprites/amy-lyn/karate-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/karate-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "tanned-red-bikini",
+     "name": "(Tanned) Red Bikini",
+     "sprites": {
+      "idle": "sprites/amy-lyn/tanned-red-bikini/neutral.webp",
+      "play": "sprites/amy-lyn/tanned-red-bikini/happy.webp",
+      "attack": "sprites/amy-lyn/tanned-red-bikini/angry.webp",
+      "special": "sprites/amy-lyn/tanned-red-bikini/angry.webp",
+      "hurt": "sprites/amy-lyn/tanned-red-bikini/scared.webp",
+      "lose": "sprites/amy-lyn/tanned-red-bikini/sad.webp",
+      "win": "sprites/amy-lyn/tanned-red-bikini/happy.webp",
+      "taunt": "sprites/amy-lyn/tanned-red-bikini/happy.webp"
+     }
+    },
+    {
+     "id": "tanned-white-shirt-shorts",
+     "name": "(Tanned) White shirt & Shorts",
+     "sprites": {
+      "idle": "sprites/amy-lyn/tanned-white-shirt-shorts/neutral.webp",
+      "play": "sprites/amy-lyn/tanned-white-shirt-shorts/happy.webp",
+      "attack": "sprites/amy-lyn/tanned-white-shirt-shorts/angry.webp",
+      "special": "sprites/amy-lyn/tanned-white-shirt-shorts/angry.webp",
+      "hurt": "sprites/amy-lyn/tanned-white-shirt-shorts/scared.webp",
+      "lose": "sprites/amy-lyn/tanned-white-shirt-shorts/sad.webp",
+      "win": "sprites/amy-lyn/tanned-white-shirt-shorts/happy.webp",
+      "taunt": "sprites/amy-lyn/tanned-white-shirt-shorts/happy.webp"
+     }
+    },
+    {
+     "id": "goth-outfit",
+     "name": "Goth Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/goth-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/goth-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/goth-outfit/angry.webp",
+      "special": "sprites/amy-lyn/goth-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/goth-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/goth-outfit/sad.webp",
+      "win": "sprites/amy-lyn/goth-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/goth-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "witch-outfit",
+     "name": "Witch Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/witch-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/witch-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/witch-outfit/angry.webp",
+      "special": "sprites/amy-lyn/witch-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/witch-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/witch-outfit/sad.webp",
+      "win": "sprites/amy-lyn/witch-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/witch-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "black-bodysuit",
+     "name": "Black bodysuit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/black-bodysuit/neutral.webp",
+      "play": "sprites/amy-lyn/black-bodysuit/happy.webp",
+      "attack": "sprites/amy-lyn/black-bodysuit/angry.webp",
+      "special": "sprites/amy-lyn/black-bodysuit/angry.webp",
+      "hurt": "sprites/amy-lyn/black-bodysuit/scared.webp",
+      "lose": "sprites/amy-lyn/black-bodysuit/sad.webp",
+      "win": "sprites/amy-lyn/black-bodysuit/happy.webp",
+      "taunt": "sprites/amy-lyn/black-bodysuit/happy.webp"
+     }
+    },
+    {
+     "id": "pirate-outfit",
+     "name": "Pirate Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/pirate-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/pirate-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/pirate-outfit/angry.webp",
+      "special": "sprites/amy-lyn/pirate-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/pirate-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/pirate-outfit/sad.webp",
+      "win": "sprites/amy-lyn/pirate-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/pirate-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "miku-logo-cosplay",
+     "name": "Miku Logo cosplay",
+     "sprites": {
+      "idle": "sprites/amy-lyn/miku-logo-cosplay/neutral.webp",
+      "play": "sprites/amy-lyn/miku-logo-cosplay/happy.webp",
+      "attack": "sprites/amy-lyn/miku-logo-cosplay/angry.webp",
+      "special": "sprites/amy-lyn/miku-logo-cosplay/angry.webp",
+      "hurt": "sprites/amy-lyn/miku-logo-cosplay/scared.webp",
+      "lose": "sprites/amy-lyn/miku-logo-cosplay/sad.webp",
+      "win": "sprites/amy-lyn/miku-logo-cosplay/happy.webp",
+      "taunt": "sprites/amy-lyn/miku-logo-cosplay/happy.webp"
+     }
+    },
+    {
+     "id": "maria-hunley-outfit",
+     "name": "Maria Hunley Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/maria-hunley-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/maria-hunley-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/maria-hunley-outfit/angry.webp",
+      "special": "sprites/amy-lyn/maria-hunley-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/maria-hunley-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/maria-hunley-outfit/sad.webp",
+      "win": "sprites/amy-lyn/maria-hunley-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/maria-hunley-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "ddlc-outfit",
+     "name": "DDLC Outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/ddlc-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/ddlc-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/ddlc-outfit/angry.webp",
+      "special": "sprites/amy-lyn/ddlc-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/ddlc-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/ddlc-outfit/sad.webp",
+      "win": "sprites/amy-lyn/ddlc-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/ddlc-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "pajama-outfit",
+     "name": "Pajama outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/pajama-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/pajama-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/pajama-outfit/angry.webp",
+      "special": "sprites/amy-lyn/pajama-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/pajama-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/pajama-outfit/sad.webp",
+      "win": "sprites/amy-lyn/pajama-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/pajama-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "space-suit",
+     "name": "Space Suit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/space-suit/neutral.webp",
+      "play": "sprites/amy-lyn/space-suit/happy.webp",
+      "attack": "sprites/amy-lyn/space-suit/angry.webp",
+      "special": "sprites/amy-lyn/space-suit/angry.webp",
+      "hurt": "sprites/amy-lyn/space-suit/scared.webp",
+      "lose": "sprites/amy-lyn/space-suit/sad.webp",
+      "win": "sprites/amy-lyn/space-suit/happy.webp",
+      "taunt": "sprites/amy-lyn/space-suit/happy.webp"
+     }
+    },
+    {
+     "id": "princess-dress",
+     "name": "Princess Dress",
+     "sprites": {
+      "idle": "sprites/amy-lyn/princess-dress/neutral.webp",
+      "play": "sprites/amy-lyn/princess-dress/happy.webp",
+      "attack": "sprites/amy-lyn/princess-dress/angry.webp",
+      "special": "sprites/amy-lyn/princess-dress/angry.webp",
+      "hurt": "sprites/amy-lyn/princess-dress/scared.webp",
+      "lose": "sprites/amy-lyn/princess-dress/sad.webp",
+      "win": "sprites/amy-lyn/princess-dress/happy.webp",
+      "taunt": "sprites/amy-lyn/princess-dress/happy.webp"
+     }
+    },
+    {
+     "id": "sunglass-outfit",
+     "name": "Sunglass outfit",
+     "sprites": {
+      "idle": "sprites/amy-lyn/sunglass-outfit/neutral.webp",
+      "play": "sprites/amy-lyn/sunglass-outfit/happy.webp",
+      "attack": "sprites/amy-lyn/sunglass-outfit/angry.webp",
+      "special": "sprites/amy-lyn/sunglass-outfit/angry.webp",
+      "hurt": "sprites/amy-lyn/sunglass-outfit/scared.webp",
+      "lose": "sprites/amy-lyn/sunglass-outfit/sad.webp",
+      "win": "sprites/amy-lyn/sunglass-outfit/happy.webp",
+      "taunt": "sprites/amy-lyn/sunglass-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "naked-ribbon",
+     "name": "Naked Ribbon",
+     "sprites": {
+      "idle": "sprites/amy-lyn/naked-ribbon/neutral.webp",
+      "play": "sprites/amy-lyn/naked-ribbon/happy.webp",
+      "attack": "sprites/amy-lyn/naked-ribbon/angry.webp",
+      "special": "sprites/amy-lyn/naked-ribbon/angry.webp",
+      "hurt": "sprites/amy-lyn/naked-ribbon/scared.webp",
+      "lose": "sprites/amy-lyn/naked-ribbon/sad.webp",
+      "win": "sprites/amy-lyn/naked-ribbon/happy.webp",
+      "taunt": "sprites/amy-lyn/naked-ribbon/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "naughty-cat",
+     "name": "Naughty Cat",
+     "sprites": {
+      "idle": "sprites/amy-lyn/naughty-cat/neutral.webp",
+      "play": "sprites/amy-lyn/naughty-cat/happy.webp",
+      "attack": "sprites/amy-lyn/naughty-cat/angry.webp",
+      "special": "sprites/amy-lyn/naughty-cat/angry.webp",
+      "hurt": "sprites/amy-lyn/naughty-cat/scared.webp",
+      "lose": "sprites/amy-lyn/naughty-cat/sad.webp",
+      "win": "sprites/amy-lyn/naughty-cat/happy.webp",
+      "taunt": "sprites/amy-lyn/naughty-cat/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "half-naked",
+     "name": "Half-naked",
+     "sprites": {
+      "idle": "sprites/amy-lyn/half-naked/neutral.webp",
+      "play": "sprites/amy-lyn/half-naked/happy.webp",
+      "attack": "sprites/amy-lyn/half-naked/angry.webp",
+      "special": "sprites/amy-lyn/half-naked/angry.webp",
+      "hurt": "sprites/amy-lyn/half-naked/scared.webp",
+      "lose": "sprites/amy-lyn/half-naked/sad.webp",
+      "win": "sprites/amy-lyn/half-naked/happy.webp",
+      "taunt": "sprites/amy-lyn/half-naked/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "fully-naked",
+     "name": "Fully-Naked",
+     "sprites": {
+      "idle": "sprites/amy-lyn/fully-naked/neutral.webp",
+      "play": "sprites/amy-lyn/fully-naked/happy.webp",
+      "attack": "sprites/amy-lyn/fully-naked/angry.webp",
+      "special": "sprites/amy-lyn/fully-naked/angry.webp",
+      "hurt": "sprites/amy-lyn/fully-naked/scared.webp",
+      "lose": "sprites/amy-lyn/fully-naked/sad.webp",
+      "win": "sprites/amy-lyn/fully-naked/happy.webp",
+      "taunt": "sprites/amy-lyn/fully-naked/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "for-the-thicc-lovers",
+     "name": "For the THICC lovers",
+     "sprites": {
+      "idle": "sprites/amy-lyn/for-the-thicc-lovers/neutral.webp",
+      "play": "sprites/amy-lyn/for-the-thicc-lovers/happy.webp",
+      "attack": "sprites/amy-lyn/for-the-thicc-lovers/angry.webp",
+      "special": "sprites/amy-lyn/for-the-thicc-lovers/angry.webp",
+      "hurt": "sprites/amy-lyn/for-the-thicc-lovers/scared.webp",
+      "lose": "sprites/amy-lyn/for-the-thicc-lovers/sad.webp",
+      "win": "sprites/amy-lyn/for-the-thicc-lovers/happy.webp",
+      "taunt": "sprites/amy-lyn/for-the-thicc-lovers/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "tanned-naked",
+     "name": "(Tanned) Naked",
+     "sprites": {
+      "idle": "sprites/amy-lyn/tanned-naked/neutral.webp",
+      "play": "sprites/amy-lyn/tanned-naked/happy.webp",
+      "attack": "sprites/amy-lyn/tanned-naked/angry.webp",
+      "special": "sprites/amy-lyn/tanned-naked/angry.webp",
+      "hurt": "sprites/amy-lyn/tanned-naked/scared.webp",
+      "lose": "sprites/amy-lyn/tanned-naked/sad.webp",
+      "win": "sprites/amy-lyn/tanned-naked/happy.webp",
+      "taunt": "sprites/amy-lyn/tanned-naked/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "strap-on-d",
+     "name": "Strap on D",
+     "sprites": {
+      "idle": "sprites/amy-lyn/strap-on-d/neutral.webp",
+      "play": "sprites/amy-lyn/strap-on-d/happy.webp",
+      "attack": "sprites/amy-lyn/strap-on-d/angry.webp",
+      "special": "sprites/amy-lyn/strap-on-d/angry.webp",
+      "hurt": "sprites/amy-lyn/strap-on-d/scared.webp",
+      "lose": "sprites/amy-lyn/strap-on-d/sad.webp",
+      "win": "sprites/amy-lyn/strap-on-d/happy.webp",
+      "taunt": "sprites/amy-lyn/strap-on-d/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/amy-lyn.webp",
+   "novel": "Everythin' with Amy Lyn"
+  },
+  {
+   "id": "hina",
+   "name": "Hina",
+   "outfit": "dress",
+   "short": "Hina is a tough underground idol that wants to change her life.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/hina/neutral.webp",
+    "play": "sprites/hina/happy.webp",
+    "attack": "sprites/hina/angry.webp",
+    "special": "sprites/hina/rage.webp",
+    "hurt": "sprites/hina/scared.webp",
+    "lose": "sprites/hina/sad.webp",
+    "win": "sprites/hina/excited.webp",
+    "taunt": "sprites/hina/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "indoor",
+     "name": "indoor",
+     "sprites": {
+      "idle": "sprites/hina/indoor/neutral.webp",
+      "play": "sprites/hina/indoor/happy.webp",
+      "attack": "sprites/hina/indoor/angry.webp",
+      "special": "sprites/hina/indoor/rage.webp",
+      "hurt": "sprites/hina/indoor/scared.webp",
+      "lose": "sprites/hina/indoor/sad.webp",
+      "win": "sprites/hina/indoor/excited.webp",
+      "taunt": "sprites/hina/indoor/proud.webp"
+     }
+    },
+    {
+     "id": "outdoor",
+     "name": "outdoor",
+     "sprites": {
+      "idle": "sprites/hina/outdoor/neutral.webp",
+      "play": "sprites/hina/outdoor/happy.webp",
+      "attack": "sprites/hina/outdoor/angry.webp",
+      "special": "sprites/hina/outdoor/rage.webp",
+      "hurt": "sprites/hina/outdoor/scared.webp",
+      "lose": "sprites/hina/outdoor/sad.webp",
+      "win": "sprites/hina/outdoor/excited.webp",
+      "taunt": "sprites/hina/outdoor/proud.webp"
+     }
+    },
+    {
+     "id": "naked",
+     "name": "naked",
+     "sprites": {
+      "idle": "sprites/hina/naked/teasing.webp",
+      "play": "sprites/hina/naked/teasing.webp",
+      "attack": "sprites/hina/naked/intensity.webp",
+      "special": "sprites/hina/naked/intensity.webp",
+      "hurt": "sprites/hina/naked/teasing.webp",
+      "lose": "sprites/hina/naked/teasing.webp",
+      "win": "sprites/hina/naked/teasing.webp",
+      "taunt": "sprites/hina/naked/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/hina.webp",
+   "novel": "Hina"
+  },
+  {
+   "id": "nala",
+   "name": "Nala",
+   "outfit": "default",
+   "short": "Nala is your recently hired maid.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/nala/neutral.webp",
+    "play": "sprites/nala/happy.webp",
+    "attack": "sprites/nala/angry.webp",
+    "special": "sprites/nala/rage.webp",
+    "hurt": "sprites/nala/scared.webp",
+    "lose": "sprites/nala/sad.webp",
+    "win": "sprites/nala/excited.webp",
+    "taunt": "sprites/nala/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/nala.webp",
+   "novel": "Nala"
+  },
+  {
+   "id": "saya",
+   "name": "Saya",
+   "outfit": "saya_default",
+   "short": "Saya is our boss and main love interest.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/saya/neutral.webp",
+    "play": "sprites/saya/happy.webp",
+    "attack": "sprites/saya/angry.webp",
+    "special": "sprites/saya/rage.webp",
+    "hurt": "sprites/saya/scared.webp",
+    "lose": "sprites/saya/sad.webp",
+    "win": "sprites/saya/excited.webp",
+    "taunt": "sprites/saya/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "saya-informal",
+     "name": "saya_informal",
+     "sprites": {
+      "idle": "sprites/saya/saya-informal/neutral.webp",
+      "play": "sprites/saya/saya-informal/happy.webp",
+      "attack": "sprites/saya/saya-informal/angry.webp",
+      "special": "sprites/saya/saya-informal/rage.webp",
+      "hurt": "sprites/saya/saya-informal/scared.webp",
+      "lose": "sprites/saya/saya-informal/sad.webp",
+      "win": "sprites/saya/saya-informal/excited.webp",
+      "taunt": "sprites/saya/saya-informal/proud.webp"
+     }
+    },
+    {
+     "id": "saya-naked",
+     "name": "saya_naked",
+     "sprites": {
+      "idle": "sprites/saya/saya-naked/comfort.webp",
+      "play": "sprites/saya/saya-naked/comfort.webp",
+      "attack": "sprites/saya/saya-naked/intensity.webp",
+      "special": "sprites/saya/saya-naked/intensity.webp",
+      "hurt": "sprites/saya/saya-naked/comfort.webp",
+      "lose": "sprites/saya/saya-naked/comfort.webp",
+      "win": "sprites/saya/saya-naked/comfort.webp",
+      "taunt": "sprites/saya/saya-naked/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/saya.webp",
+   "novel": "Saya"
+  },
+  {
+   "id": "maiko",
+   "name": "Maiko",
+   "outfit": "Casual",
+   "short": "Maiko is inexperienced succubus",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/maiko/neutral.webp",
+    "play": "sprites/maiko/happy.webp",
+    "attack": "sprites/maiko/angry.webp",
+    "special": "sprites/maiko/rage.webp",
+    "hurt": "sprites/maiko/scared.webp",
+    "lose": "sprites/maiko/sad.webp",
+    "win": "sprites/maiko/excited.webp",
+    "taunt": "sprites/maiko/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "kimono",
+     "name": "Kimono",
+     "sprites": {
+      "idle": "sprites/maiko/kimono/neutral.webp",
+      "play": "sprites/maiko/kimono/happy.webp",
+      "attack": "sprites/maiko/kimono/angry.webp",
+      "special": "sprites/maiko/kimono/rage.webp",
+      "hurt": "sprites/maiko/kimono/scared.webp",
+      "lose": "sprites/maiko/kimono/sad.webp",
+      "win": "sprites/maiko/kimono/excited.webp",
+      "taunt": "sprites/maiko/kimono/proud.webp"
+     }
+    },
+    {
+     "id": "janitor",
+     "name": "Janitor",
+     "sprites": {
+      "idle": "sprites/maiko/janitor/neutral.webp",
+      "play": "sprites/maiko/janitor/happy.webp",
+      "attack": "sprites/maiko/janitor/angry.webp",
+      "special": "sprites/maiko/janitor/rage.webp",
+      "hurt": "sprites/maiko/janitor/scared.webp",
+      "lose": "sprites/maiko/janitor/sad.webp",
+      "win": "sprites/maiko/janitor/excited.webp",
+      "taunt": "sprites/maiko/janitor/proud.webp"
+     }
+    },
+    {
+     "id": "snow",
+     "name": "Snow",
+     "sprites": {
+      "idle": "sprites/maiko/snow/neutral.webp",
+      "play": "sprites/maiko/snow/happy.webp",
+      "attack": "sprites/maiko/snow/angry.webp",
+      "special": "sprites/maiko/snow/rage.webp",
+      "hurt": "sprites/maiko/snow/scared.webp",
+      "lose": "sprites/maiko/snow/sad.webp",
+      "win": "sprites/maiko/snow/excited.webp",
+      "taunt": "sprites/maiko/snow/proud.webp"
+     }
+    },
+    {
+     "id": "janitor-with-book",
+     "name": "Janitor with book",
+     "sprites": {
+      "idle": "sprites/maiko/janitor-with-book/neutral.webp",
+      "play": "sprites/maiko/janitor-with-book/happy.webp",
+      "attack": "sprites/maiko/janitor-with-book/angry.webp",
+      "special": "sprites/maiko/janitor-with-book/rage.webp",
+      "hurt": "sprites/maiko/janitor-with-book/scared.webp",
+      "lose": "sprites/maiko/janitor-with-book/sad.webp",
+      "win": "sprites/maiko/janitor-with-book/excited.webp",
+      "taunt": "sprites/maiko/janitor-with-book/proud.webp"
+     }
+    },
+    {
+     "id": "succubus",
+     "name": "succubus",
+     "sprites": {
+      "idle": "sprites/maiko/succubus/neutral.webp",
+      "play": "sprites/maiko/succubus/happy.webp",
+      "attack": "sprites/maiko/succubus/angry.webp",
+      "special": "sprites/maiko/succubus/rage.webp",
+      "hurt": "sprites/maiko/succubus/scared.webp",
+      "lose": "sprites/maiko/succubus/sad.webp",
+      "win": "sprites/maiko/succubus/excited.webp",
+      "taunt": "sprites/maiko/succubus/proud.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "crying",
+     "name": "Crying",
+     "sprites": {
+      "idle": "sprites/maiko/crying/neutral.webp",
+      "play": "sprites/maiko/crying/happy.webp",
+      "attack": "sprites/maiko/crying/angry.webp",
+      "special": "sprites/maiko/crying/rage.webp",
+      "hurt": "sprites/maiko/crying/scared.webp",
+      "lose": "sprites/maiko/crying/sad.webp",
+      "win": "sprites/maiko/crying/excited.webp",
+      "taunt": "sprites/maiko/crying/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/maiko.webp",
+   "novel": "Sweet Garlic"
   }
  ],
  "backgrounds": [
@@ -10754,6 +11480,960 @@
    "name": "Photo",
    "desc": "",
    "src": "backgrounds/photo-14896f.webp"
+  },
+  {
+   "id": "56e6f1c7-8e02-415a-9717-f4d596f861a3",
+   "name": "background 1",
+   "desc": "stable",
+   "src": "backgrounds/background-1-56e6f1.webp"
+  },
+  {
+   "id": "1708832e-b0b3-4e98-8404-46ba67172895",
+   "name": "background 2",
+   "desc": "onsen",
+   "src": "backgrounds/background-2-170883.webp"
+  },
+  {
+   "id": "d0457576-54d1-4b9f-968e-de61c0a6357b",
+   "name": "background 3",
+   "desc": "sauna",
+   "src": "backgrounds/background-3-d04575.webp"
+  },
+  {
+   "id": "0e17dd54-e07a-4193-b09e-35e2603f3607",
+   "name": "background 4",
+   "desc": "kitchen",
+   "src": "backgrounds/background-4-0e17dd.webp"
+  },
+  {
+   "id": "59527b0b-3ab7-4495-99e2-03a4e6110a3f",
+   "name": "background 5",
+   "desc": "library",
+   "src": "backgrounds/background-5-59527b.webp"
+  },
+  {
+   "id": "3e2c691a-2efd-48d8-b412-f6f470309a43",
+   "name": "background 6",
+   "desc": "garden",
+   "src": "backgrounds/background-6-3e2c69.webp"
+  },
+  {
+   "id": "ac0cee53-4044-4322-9077-36157d9e78f7",
+   "name": "background 7",
+   "desc": "bedroom",
+   "src": "backgrounds/background-7-ac0cee.webp"
+  },
+  {
+   "id": "6686b83c-d8a0-4d32-beb0-5df42c958b5d",
+   "name": "Classroom filler",
+   "desc": "",
+   "src": "backgrounds/classroom-filler-6686b8.webp"
+  },
+  {
+   "id": "914e318b-fd0f-4e34-9ad2-1b4119bd0a3e",
+   "name": "Street (1)",
+   "desc": "",
+   "src": "backgrounds/street-1-914e31.webp"
+  },
+  {
+   "id": "1e9882be-0c9e-4215-9261-15e11d0b300f",
+   "name": "Street (2)",
+   "desc": "",
+   "src": "backgrounds/street-2-1e9882.webp"
+  },
+  {
+   "id": "112929a5-cc65-4973-931a-b82549501eea",
+   "name": "Street way home",
+   "desc": "",
+   "src": "backgrounds/street-way-home-112929.webp"
+  },
+  {
+   "id": "2dc6b7bf-3999-4ad3-a729-9f9a8535b14e",
+   "name": "Street (3)",
+   "desc": "",
+   "src": "backgrounds/street-3-2dc6b7.webp"
+  },
+  {
+   "id": "097dca4d-e9a0-4059-a739-31fb17157fe0",
+   "name": "Park",
+   "desc": "",
+   "src": "backgrounds/park-097dca.webp"
+  },
+  {
+   "id": "6a9141f8-490b-43af-9567-6ee5486e663e",
+   "name": "City",
+   "desc": "",
+   "src": "backgrounds/city-6a9141.webp"
+  },
+  {
+   "id": "449a2ae6-46b0-4c8c-97e7-159ccec1a511",
+   "name": "City (2)",
+   "desc": "",
+   "src": "backgrounds/city-2-449a2a.webp"
+  },
+  {
+   "id": "0c827794-863f-4db5-8f2a-10553702ff3b",
+   "name": "Classroom",
+   "desc": "",
+   "src": "backgrounds/classroom-0c8277.webp"
+  },
+  {
+   "id": "e2395080-db14-433f-96d3-9e1039d4f465",
+   "name": "Hallway (South)",
+   "desc": "",
+   "src": "backgrounds/hallway-south-e23950.webp"
+  },
+  {
+   "id": "b42925fb-e398-463a-8160-74458cf2d87d",
+   "name": "Hallway (East)",
+   "desc": "",
+   "src": "backgrounds/hallway-east-b42925.webp"
+  },
+  {
+   "id": "e8b0ea84-6dba-4fc5-b34f-a6f0f6a572f7",
+   "name": "Hallway (West)",
+   "desc": "",
+   "src": "backgrounds/hallway-west-e8b0ea.webp"
+  },
+  {
+   "id": "94455f19-55b2-4e98-ba5b-5b6a92bf662f",
+   "name": "Hallway (North)",
+   "desc": "",
+   "src": "backgrounds/hallway-north-94455f.webp"
+  },
+  {
+   "id": "d9354cec-56f6-4582-806e-5606661edddf",
+   "name": "Cafeteria (North)",
+   "desc": "",
+   "src": "backgrounds/cafeteria-north-d9354c.webp"
+  },
+  {
+   "id": "0259f179-b739-4ef2-837d-3d4832bbf23d",
+   "name": "Cafeteria (South)",
+   "desc": "",
+   "src": "backgrounds/cafeteria-south-0259f1.webp"
+  },
+  {
+   "id": "47c27fc9-3907-437a-9579-f8a3074ac8ae",
+   "name": "Cafeteria (West)",
+   "desc": "",
+   "src": "backgrounds/cafeteria-west-47c27f.webp"
+  },
+  {
+   "id": "bf7b3bef-f439-41a6-b76a-45a298ac3cf6",
+   "name": "On way to college",
+   "desc": "",
+   "src": "backgrounds/on-way-to-college-bf7b3b.webp"
+  },
+  {
+   "id": "6c8b9f8c-feca-4cb4-8b38-7b0d284a8e6a",
+   "name": "Outside college",
+   "desc": "",
+   "src": "backgrounds/outside-college-6c8b9f.webp"
+  },
+  {
+   "id": "85b4add9-e033-4dda-87d4-5796a49e9ab3",
+   "name": "Bedroom (Close)",
+   "desc": "",
+   "src": "backgrounds/bedroom-close-85b4ad.webp"
+  },
+  {
+   "id": "c4183672-3290-4960-9c07-be109d22b232",
+   "name": "Outside house",
+   "desc": "",
+   "src": "backgrounds/outside-house-c41836.webp"
+  },
+  {
+   "id": "015b274d-1048-4e9e-bea9-4363de94814b",
+   "name": "Amy Lyn's room",
+   "desc": "",
+   "src": "backgrounds/amy-lyn-s-room-015b27.webp"
+  },
+  {
+   "id": "c0a570a0-09df-456e-bed9-e61a4b69a230",
+   "name": "Living room",
+   "desc": "",
+   "src": "backgrounds/living-room-c0a570.webp"
+  },
+  {
+   "id": "77af475c-a9a2-40dc-8c5b-70d879c82c39",
+   "name": "Beach",
+   "desc": "",
+   "src": "backgrounds/beach-77af47.webp"
+  },
+  {
+   "id": "e4464cdf-c3c1-408d-98c6-b2c61a96ec3b",
+   "name": "Big Beach",
+   "desc": "",
+   "src": "backgrounds/big-beach-e4464c.webp"
+  },
+  {
+   "id": "1beef80e-5a87-4339-bb95-a360d943a2ad",
+   "name": "Big Beach (2)",
+   "desc": "",
+   "src": "backgrounds/big-beach-2-1beef8.webp"
+  },
+  {
+   "id": "22905796-18f4-4ec4-b8ff-22e3c36f1726",
+   "name": "Mansion Bedroom",
+   "desc": "",
+   "src": "backgrounds/mansion-bedroom-229057.webp"
+  },
+  {
+   "id": "0aa1af50-459e-46c2-a15b-d788bd16961b",
+   "name": "Mansion",
+   "desc": "",
+   "src": "backgrounds/mansion-0aa1af.webp"
+  },
+  {
+   "id": "d90a4f82-acc1-4459-a3c3-de6606a6f6a8",
+   "name": "Mansion (2)",
+   "desc": "",
+   "src": "backgrounds/mansion-2-d90a4f.webp"
+  },
+  {
+   "id": "41a9cfd5-c654-47a4-acd6-1bdfc7f8ec4e",
+   "name": "Mansion (3)",
+   "desc": "",
+   "src": "backgrounds/mansion-3-41a9cf.webp"
+  },
+  {
+   "id": "a1b46c1d-6dd2-4f3a-8457-8680ef826785",
+   "name": "Christmas Eve",
+   "desc": "",
+   "src": "backgrounds/christmas-eve-a1b46c.webp"
+  },
+  {
+   "id": "273b321f-325d-49a6-ad22-a11743772da3",
+   "name": "Karate Hall",
+   "desc": "",
+   "src": "backgrounds/karate-hall-273b32.webp"
+  },
+  {
+   "id": "58599726-b380-43c1-986b-1728979c5e3d",
+   "name": "Clothes Shop",
+   "desc": "",
+   "src": "backgrounds/clothes-shop-585997.webp"
+  },
+  {
+   "id": "f89868a3-3bfb-4418-952a-deb342bb45d2",
+   "name": "Changing Rooms",
+   "desc": "",
+   "src": "backgrounds/changing-rooms-f89868.webp"
+  },
+  {
+   "id": "0d671216-d60d-45e7-9274-0e1612b3c60e",
+   "name": "Inside Mall",
+   "desc": "",
+   "src": "backgrounds/inside-mall-0d6712.webp"
+  },
+  {
+   "id": "13a3d72e-c048-4b38-8ac0-86119cc74534",
+   "name": "Outside Mall",
+   "desc": "",
+   "src": "backgrounds/outside-mall-13a3d7.webp"
+  },
+  {
+   "id": "1fb5584b-55cf-49fe-9b78-d2bba1205ab7",
+   "name": "Café",
+   "desc": "",
+   "src": "backgrounds/cafe-1fb558.webp"
+  },
+  {
+   "id": "64b9789e-7fda-4d82-a842-9fc80e85f33d",
+   "name": "Corn Farm (Noon)",
+   "desc": "",
+   "src": "backgrounds/corn-farm-noon-64b978.webp"
+  },
+  {
+   "id": "bed7215f-62c5-4d16-ad65-939c399b4e6f",
+   "name": "Corn Farm",
+   "desc": "",
+   "src": "backgrounds/corn-farm-bed721.webp"
+  },
+  {
+   "id": "02501484-a1f1-469f-a8c8-487c80857a21",
+   "name": "Corn Farm (2)",
+   "desc": "",
+   "src": "backgrounds/corn-farm-2-025014.webp"
+  },
+  {
+   "id": "5fd83a65-8ce2-47ba-8ef6-431f779f5a04",
+   "name": "Corn Farm (3)",
+   "desc": "",
+   "src": "backgrounds/corn-farm-3-5fd83a.webp"
+  },
+  {
+   "id": "e6e57f1b-2810-4909-b76d-52631939d3a4",
+   "name": "On Boat",
+   "desc": "",
+   "src": "backgrounds/on-boat-e6e57f.webp"
+  },
+  {
+   "id": "4a2ca2c5-8b7c-42e2-adbf-ca96e9b3d38e",
+   "name": "Bar (1)",
+   "desc": "",
+   "src": "backgrounds/bar-1-4a2ca2.webp"
+  },
+  {
+   "id": "018e8b95-24d5-4016-b21a-4257b4e890e1",
+   "name": "Bar (2)",
+   "desc": "",
+   "src": "backgrounds/bar-2-018e8b.webp"
+  },
+  {
+   "id": "215221b5-02e0-47da-adec-d3c5009ad430",
+   "name": "Deserted island",
+   "desc": "",
+   "src": "backgrounds/deserted-island-215221.webp"
+  },
+  {
+   "id": "b0e87d01-971f-4923-bcbe-2355600f577e",
+   "name": "Space Station",
+   "desc": "",
+   "src": "backgrounds/space-station-b0e87d.webp"
+  },
+  {
+   "id": "54b5d597-6585-4530-976a-5366aa1f3e3c",
+   "name": "Space Hallway",
+   "desc": "",
+   "src": "backgrounds/space-hallway-54b5d5.webp"
+  },
+  {
+   "id": "7ded6ef7-8c71-4de0-b862-fe37621e17a0",
+   "name": "Space Bedroom",
+   "desc": "",
+   "src": "backgrounds/space-bedroom-7ded6e.webp"
+  },
+  {
+   "id": "4e2f3649-85bf-45bb-9a75-8b8f83d2a393",
+   "name": "Amy's Space Bedroom",
+   "desc": "",
+   "src": "backgrounds/amy-s-space-bedroom-4e2f36.webp"
+  },
+  {
+   "id": "12ee86ec-2bb3-4f82-a341-cd61965a607f",
+   "name": "Space Cafeteria",
+   "desc": "",
+   "src": "backgrounds/space-cafeteria-12ee86.webp"
+  },
+  {
+   "id": "0f48239e-26a2-4e27-8e78-ce47e0063ba1",
+   "name": "Big Window",
+   "desc": "",
+   "src": "backgrounds/big-window-0f4823.webp"
+  },
+  {
+   "id": "c052eef8-d8c2-45ad-a713-845169d0b760",
+   "name": "Spain",
+   "desc": "",
+   "src": "backgrounds/spain-c052ee.webp"
+  },
+  {
+   "id": "57b1632f-f438-421d-98d6-ecb0018b30e6",
+   "name": "Spain (2)",
+   "desc": "",
+   "src": "backgrounds/spain-2-57b163.webp"
+  },
+  {
+   "id": "1aee07e1-4791-42a8-81a7-207b36885663",
+   "name": "Spain (Afternoon)",
+   "desc": "",
+   "src": "backgrounds/spain-afternoon-1aee07.webp"
+  },
+  {
+   "id": "6ad600d0-75e4-4584-897c-5510e9f6dd1b",
+   "name": "Spain (Night)",
+   "desc": "",
+   "src": "backgrounds/spain-night-6ad600.webp"
+  },
+  {
+   "id": "ad31dc85-4a50-43a5-a1bd-42011557c42c",
+   "name": "Hotel room",
+   "desc": "",
+   "src": "backgrounds/hotel-room-ad31dc.webp"
+  },
+  {
+   "id": "b301f962-e729-46fb-9198-2bddf7d810be",
+   "name": "Airport",
+   "desc": "",
+   "src": "backgrounds/airport-b301f9.webp"
+  },
+  {
+   "id": "d519c834-73e1-4729-8b59-dfb8366ec181",
+   "name": "Airport Check In",
+   "desc": "",
+   "src": "backgrounds/airport-check-in-d519c8.webp"
+  },
+  {
+   "id": "f087aad5-b2b8-4718-8008-45922d6dd26f",
+   "name": "Epic Town",
+   "desc": "",
+   "src": "backgrounds/epic-town-f087aa.webp"
+  },
+  {
+   "id": "e7d4c894-5447-4dbd-8443-8c65cab7310e",
+   "name": "Epic Town 2",
+   "desc": "",
+   "src": "backgrounds/epic-town-2-e7d4c8.webp"
+  },
+  {
+   "id": "2af386ab-abff-4f7a-94cd-b5ea8478cb94",
+   "name": "Party",
+   "desc": "",
+   "src": "backgrounds/party-2af386.webp"
+  },
+  {
+   "id": "ed4c71a8-04d2-420b-b7cf-922e77019b1c",
+   "name": "Party (2)",
+   "desc": "",
+   "src": "backgrounds/party-2-ed4c71.webp"
+  },
+  {
+   "id": "74bf4f01-ea74-4d79-8688-647a155cd093",
+   "name": "Basement",
+   "desc": "",
+   "src": "backgrounds/basement-74bf4f.webp"
+  },
+  {
+   "id": "e8424a78-bddb-438a-bf57-51b84d4b84a0",
+   "name": "Basement (2)",
+   "desc": "",
+   "src": "backgrounds/basement-2-e8424a.webp"
+  },
+  {
+   "id": "80c52f63-19f5-476e-b7a1-45a00fac8c6e",
+   "name": "Skyscraper view",
+   "desc": "",
+   "src": "backgrounds/skyscraper-view-80c52f.webp"
+  },
+  {
+   "id": "7fc0c600-549f-4dcf-b33b-bdeb0d56765a",
+   "name": "Meeting room",
+   "desc": "",
+   "src": "backgrounds/meeting-room-7fc0c6.webp"
+  },
+  {
+   "id": "ac930a5a-fefd-4015-b83f-2c4acea7a278",
+   "name": "Halloween street",
+   "desc": "",
+   "src": "backgrounds/halloween-street-ac930a.webp"
+  },
+  {
+   "id": "91b7a433-1021-4e47-b19c-d5bbd0e08f24",
+   "name": "Royal living room",
+   "desc": "",
+   "src": "backgrounds/royal-living-room-91b7a4.webp"
+  },
+  {
+   "id": "876ff004-af19-4103-a3ef-71b81202dfb7",
+   "name": "Royal Fireplace 2",
+   "desc": "",
+   "src": "backgrounds/royal-fireplace-2-876ff0.webp"
+  },
+  {
+   "id": "d217b8ec-871e-47dd-b3c6-a9473877c3c2",
+   "name": "Floral background",
+   "desc": "",
+   "src": "backgrounds/floral-background-d217b8.webp"
+  },
+  {
+   "id": "3fe5d5e3-12e5-4221-87f3-27dc5194e482",
+   "name": "The Note of Lucia Thumana",
+   "desc": "",
+   "src": "backgrounds/the-note-of-lucia-thumana-3fe5d5.webp"
+  },
+  {
+   "id": "6febd668-88b4-45ff-923a-43a629980585",
+   "name": "Big garden",
+   "desc": "",
+   "src": "backgrounds/big-garden-6febd6.webp"
+  },
+  {
+   "id": "fa0e9f13-e553-4345-ab25-1c14745f874d",
+   "name": "Big Garden (2)",
+   "desc": "",
+   "src": "backgrounds/big-garden-2-fa0e9f.webp"
+  },
+  {
+   "id": "acad45b1-1cf8-40ac-a02b-486b6fbe8571",
+   "name": "News Station",
+   "desc": "",
+   "src": "backgrounds/news-station-acad45.webp"
+  },
+  {
+   "id": "7f58f9ec-3596-4d37-9721-73feecf1ae6a",
+   "name": "News Station 2",
+   "desc": "",
+   "src": "backgrounds/news-station-2-7f58f9.webp"
+  },
+  {
+   "id": "bb0f71b1-440c-45c1-a616-daa4f48ec2aa",
+   "name": "The king.",
+   "desc": "",
+   "src": "backgrounds/the-king-bb0f71.webp"
+  },
+  {
+   "id": "f46a06c1-a485-48f4-a1f7-2796a089e1f5",
+   "name": "Forrest",
+   "desc": "",
+   "src": "backgrounds/forrest-f46a06.webp"
+  },
+  {
+   "id": "23d1e690-0206-4b2e-810f-f07a16a82aa9",
+   "name": "Ghost Lucia Thumana",
+   "desc": "",
+   "src": "backgrounds/ghost-lucia-thumana-23d1e6.webp"
+  },
+  {
+   "id": "45a6a687-2f96-4d15-bee2-a41857f19880",
+   "name": "Medieval town",
+   "desc": "",
+   "src": "backgrounds/medieval-town-45a6a6.webp"
+  },
+  {
+   "id": "05e9c4dc-cbdd-4302-a718-17a76170ce3a",
+   "name": "Medieval town (2)",
+   "desc": "",
+   "src": "backgrounds/medieval-town-2-05e9c4.webp"
+  },
+  {
+   "id": "d35974f3-533e-4114-8e2b-bd526d85dca7",
+   "name": "Beach View",
+   "desc": "",
+   "src": "backgrounds/beach-view-d35974.webp"
+  },
+  {
+   "id": "73c7aced-3abd-43a3-aec3-a9cb63e04dfc",
+   "name": "Your Living room",
+   "desc": "",
+   "src": "backgrounds/your-living-room-73c7ac.webp"
+  },
+  {
+   "id": "eb7885f4-1a5b-41e2-928d-88e5c46372c7",
+   "name": "Boss Amy's apartment",
+   "desc": "",
+   "src": "backgrounds/boss-amy-s-apartment-eb7885.webp"
+  },
+  {
+   "id": "aa6350dd-cecf-4d0d-8793-3804839a7cba",
+   "name": "Fancy bedroom",
+   "desc": "",
+   "src": "backgrounds/fancy-bedroom-aa6350.webp"
+  },
+  {
+   "id": "b8db4619-2a21-4c40-ba52-7588d6678c3c",
+   "name": "Your office",
+   "desc": "",
+   "src": "backgrounds/your-office-b8db46.webp"
+  },
+  {
+   "id": "9c8a6b6c-1d69-4263-b6bb-af335ecb4d84",
+   "name": "Bombs in mall",
+   "desc": "",
+   "src": "backgrounds/bombs-in-mall-9c8a6b.webp"
+  },
+  {
+   "id": "68ebbeb2-c0b3-4717-aa39-6fc077cdccc1",
+   "name": "The bomb room",
+   "desc": "",
+   "src": "backgrounds/the-bomb-room-68ebbe.webp"
+  },
+  {
+   "id": "f2be0e6e-377f-4fab-95fa-3588dfe63910",
+   "name": "You saved us!",
+   "desc": "",
+   "src": "backgrounds/you-saved-us-f2be0e.webp"
+  },
+  {
+   "id": "dcb852d5-cce9-4c25-a6ca-be3f54a60b26",
+   "name": "Ms. Amulet close up",
+   "desc": "",
+   "src": "backgrounds/ms-amulet-close-up-dcb852.webp"
+  },
+  {
+   "id": "f539a0e9-7432-491d-92af-d6bd74fbecb1",
+   "name": "Ms. Amulet (2)",
+   "desc": "",
+   "src": "backgrounds/ms-amulet-2-f539a0.webp"
+  },
+  {
+   "id": "70edb8b6-7997-479c-9372-40d49a57af60",
+   "name": "Karate Fighting ring (Beginners)",
+   "desc": "",
+   "src": "backgrounds/karate-fighting-ring-beginners-70edb8.webp"
+  },
+  {
+   "id": "d5d48408-83ae-425a-b565-157b6d3bd3cd",
+   "name": "Masters fighting ring",
+   "desc": "",
+   "src": "backgrounds/masters-fighting-ring-d5d484.webp"
+  },
+  {
+   "id": "ed5166eb-3bae-4bd6-9c0b-737acf08685e",
+   "name": "By the island",
+   "desc": "",
+   "src": "backgrounds/by-the-island-ed5166.webp"
+  },
+  {
+   "id": "69aa762c-8b2a-460f-843e-6733ba7ea899",
+   "name": "Chased by pirates!",
+   "desc": "",
+   "src": "backgrounds/chased-by-pirates-69aa76.webp"
+  },
+  {
+   "id": "f7cd3343-4a3a-449e-a5a7-c4e4181416f2",
+   "name": "On the enemy's ship",
+   "desc": "",
+   "src": "backgrounds/on-the-enemy-s-ship-f7cd33.webp"
+  },
+  {
+   "id": "36599304-1a60-4c97-b2ae-ae2f6fbc2830",
+   "name": "Late Afternoon Sea",
+   "desc": "",
+   "src": "backgrounds/late-afternoon-sea-365993.webp"
+  },
+  {
+   "id": "2595fa88-d948-455c-a9d9-6dc009f0042e",
+   "name": "Witch House",
+   "desc": "",
+   "src": "backgrounds/witch-house-2595fa.webp"
+  },
+  {
+   "id": "dc68ffdc-2372-49ba-8ad8-305196e49d28",
+   "name": "In the airplane",
+   "desc": "",
+   "src": "backgrounds/in-the-airplane-dc68ff.webp"
+  },
+  {
+   "id": "cb2c4254-e37e-4d08-9ec4-0e157295f45f",
+   "name": "The siren",
+   "desc": "",
+   "src": "backgrounds/the-siren-cb2c42.webp"
+  },
+  {
+   "id": "488f2056-a494-40ab-b957-95a6ec96327d",
+   "name": "Spanish Cafe",
+   "desc": "",
+   "src": "backgrounds/spanish-cafe-488f20.webp"
+  },
+  {
+   "id": "8b35a340-bc83-4b2c-a61c-98c00e5e5408",
+   "name": "Outside the window",
+   "desc": "",
+   "src": "backgrounds/outside-the-window-8b35a3.webp"
+  },
+  {
+   "id": "df5b4111-f749-4948-93e4-097e12de99e9",
+   "name": "Outside the window",
+   "desc": "",
+   "src": "backgrounds/outside-the-window-df5b41.webp"
+  },
+  {
+   "id": "636cbd19-0fcd-4894-9a5a-3c8987852f2e",
+   "name": "Outside the window",
+   "desc": "",
+   "src": "backgrounds/outside-the-window-636cbd.webp"
+  },
+  {
+   "id": "ea2f81cd-6bfc-4ab7-bdbe-49de49e9718e",
+   "name": "Outside window with police",
+   "desc": "",
+   "src": "backgrounds/outside-window-with-police-ea2f81.webp"
+  },
+  {
+   "id": "428b148e-3069-4626-8ba0-140dd4050d38",
+   "name": "In police car",
+   "desc": "",
+   "src": "backgrounds/in-police-car-428b14.webp"
+  },
+  {
+   "id": "877964c7-199b-4052-8e24-7f815e9a750f",
+   "name": "background 1",
+   "desc": "Idol music studio entrance door from the street.",
+   "src": "backgrounds/background-1-877964.webp"
+  },
+  {
+   "id": "4504d8e0-32de-47df-88a2-ea42b0a50b95",
+   "name": "background 2",
+   "desc": "Hina's bedroom. Pink colors, poor and dirty.",
+   "src": "backgrounds/background-2-4504d8.webp"
+  },
+  {
+   "id": "c252cbb5-913e-4c15-9120-896b465226c7",
+   "name": "background 3",
+   "desc": "Backstage of the underground alley.",
+   "src": "backgrounds/background-3-c252cb.webp"
+  },
+  {
+   "id": "ed394b4c-266f-4a19-9605-dfb9dcd5896f",
+   "name": "background 4",
+   "desc": "Sunset in Tokyo school area. Trees and park games.",
+   "src": "backgrounds/background-4-ed394b.webp"
+  },
+  {
+   "id": "29ccc0d0-a926-4569-af45-09f95ee7cc95",
+   "name": "background 5",
+   "desc": "Limousine backseats with big white leather.",
+   "src": "backgrounds/background-5-29ccc0.webp"
+  },
+  {
+   "id": "a26a5b50-4257-4315-af63-6b8feebc1005",
+   "name": "background 6",
+   "desc": "City Park. Sunny with big trees.",
+   "src": "backgrounds/background-6-a26a5b.webp"
+  },
+  {
+   "id": "b16f823c-d03b-45e4-b358-1242c4b37884",
+   "name": "background 7",
+   "desc": "Stage of concert. Fans cheering and lights everywhere.",
+   "src": "backgrounds/background-7-b16f82.webp"
+  },
+  {
+   "id": "121f3213-2afc-4438-93d6-e1732a163508",
+   "name": "background 8",
+   "desc": "Stage for a concert, empty for practice.",
+   "src": "backgrounds/background-8-121f32.webp"
+  },
+  {
+   "id": "bdcf1d0e-168f-4eae-a835-8cd114818fac",
+   "name": "background 9",
+   "desc": "Dark alley outside the the shady venue. Dirty poor depressing area. Close to Hina's house",
+   "src": "backgrounds/background-9-bdcf1d.webp"
+  },
+  {
+   "id": "9d85c2b2-1ac4-4202-8ff3-c49b0c616dc0",
+   "name": "background 10",
+   "desc": "Hina's house entrance. Poor, dirty and dangerously looking area. People are friendly and cozy.",
+   "src": "backgrounds/background-10-9d85c2.webp"
+  },
+  {
+   "id": "dba55367-d443-4117-8711-b32b8d249b79",
+   "name": "background 11",
+   "desc": "Hina's house interior living room. Dirty, sad and poor. A small TV and cigarrates.",
+   "src": "backgrounds/background-11-dba553.webp"
+  },
+  {
+   "id": "8e7857cd-c9cd-4aeb-b419-03d277034cc4",
+   "name": "background 12",
+   "desc": "Idol studio interior. Luxurious, big windows with city view. Instruments and white marble fool.",
+   "src": "backgrounds/background-12-8e7857.webp"
+  },
+  {
+   "id": "73178042-5854-4429-841c-ae28c89d7994",
+   "name": "background 13",
+   "desc": "Beach party concert. White sand and sunny day, with people looking at the stage.",
+   "src": "backgrounds/background-13-731780.webp"
+  },
+  {
+   "id": "be874c1b-26ad-4736-a795-a559b5a58940",
+   "name": "background 14",
+   "desc": "Manager's bedroom. Expensive looking, with a nice view of the city.",
+   "src": "backgrounds/background-14-be874c.webp"
+  },
+  {
+   "id": "42fb0fdb-1b8d-4ae6-bf16-647c4a45250a",
+   "name": "background 15",
+   "desc": "Manager's apartment balcony. Luxurious and big, with a nice view of the city.",
+   "src": "backgrounds/background-15-42fb0f.webp"
+  },
+  {
+   "id": "f0b7b208-77b3-4f18-9bc3-6d643cf50693",
+   "name": "background 16",
+   "desc": "Library full of fans and people, looking for idols signature on discs. Queues.",
+   "src": "backgrounds/background-16-f0b7b2.webp"
+  },
+  {
+   "id": "740cca21-e427-4480-97bb-090592ec20bd",
+   "name": "background 17",
+   "desc": "Bar full of people. Drinks and beers. Chill place.",
+   "src": "backgrounds/background-17-740cca.webp"
+  },
+  {
+   "id": "7350cbba-aa08-4c48-993b-6e97bc6563d9",
+   "name": "background 18",
+   "desc": "Manager's apartment living room. Spacious, high rise and with a nice view of the city. Table with sofas. ",
+   "src": "backgrounds/background-18-7350cb.webp"
+  },
+  {
+   "id": "baa429b4-6939-448d-819f-1a13a9ae7693",
+   "name": "background 19",
+   "desc": "Tokyo city park at night. Lights and sakura trees. Empty area with no people. ",
+   "src": "backgrounds/background-19-baa429.webp"
+  },
+  {
+   "id": "fb90842b-ba88-4229-9ea0-7c20b40997d4",
+   "name": "background 20",
+   "desc": "Beach hotel room, balcony with a view of the sea. Sunny and chill.",
+   "src": "backgrounds/background-20-fb9084.webp"
+  },
+  {
+   "id": "0e4c2998-a181-4a26-a686-b1a175f637cb",
+   "name": "background 21",
+   "desc": "Dressing room for idols.",
+   "src": "backgrounds/background-21-0e4c29.webp"
+  },
+  {
+   "id": "3d704109-221c-4e41-9007-9de1f147b0f3",
+   "name": "background 22",
+   "desc": "Exterior of a bar. Foggy and with shady people.",
+   "src": "backgrounds/background-22-3d7041.webp"
+  },
+  {
+   "id": "f6fb2fe9-6a95-451a-9a75-cca6134a6a88",
+   "name": "background 1",
+   "desc": "mansion",
+   "src": "backgrounds/background-1-f6fb2f.webp"
+  },
+  {
+   "id": "73a3f2f5-da6c-45c4-b4e2-29eb6af0893c",
+   "name": "background 2",
+   "desc": "00169-4890038",
+   "src": "backgrounds/background-2-73a3f2.webp"
+  },
+  {
+   "id": "f376efde-3922-4f3c-95de-5239a090ac89",
+   "name": "background 3",
+   "desc": "00013-3679832991",
+   "src": "backgrounds/background-3-f376ef.webp"
+  },
+  {
+   "id": "5987cd42-8cc1-4cc2-acac-2b9da6af9a66",
+   "name": "background 4",
+   "desc": "00011-862177933",
+   "src": "backgrounds/background-4-5987cd.webp"
+  },
+  {
+   "id": "3b1c0190-9534-4e61-834a-d5cd930f95a2",
+   "name": "background 5",
+   "desc": "00014-1011677844",
+   "src": "backgrounds/background-5-3b1c01.webp"
+  },
+  {
+   "id": "5f10d1fb-036b-43b6-9d36-2e4fdc1aa794",
+   "name": "background 1",
+   "desc": "city",
+   "src": "backgrounds/background-1-5f10d1.webp"
+  },
+  {
+   "id": "62d8a17e-77ea-444d-856b-4bb460fc24d4",
+   "name": "background 2",
+   "desc": "office",
+   "src": "backgrounds/background-2-62d8a1.webp"
+  },
+  {
+   "id": "6cd28bf1-ef4f-406f-96bd-1ad6215619ae",
+   "name": "background 3",
+   "desc": "dancing floor",
+   "src": "backgrounds/background-3-6cd28b.webp"
+  },
+  {
+   "id": "195c9470-4413-42fe-8a41-862bf2ea0385",
+   "name": "background 4",
+   "desc": "apartment ",
+   "src": "backgrounds/background-4-195c94.webp"
+  },
+  {
+   "id": "9b7a346a-45b5-4b3c-a980-20e210142731",
+   "name": "background 5",
+   "desc": "park",
+   "src": "backgrounds/background-5-9b7a34.webp"
+  },
+  {
+   "id": "80d58ba9-f66c-4a9f-ba04-6ea8e2b55211",
+   "name": "background 6",
+   "desc": "meeting room",
+   "src": "backgrounds/background-6-80d58b.webp"
+  },
+  {
+   "id": "0a299fac-c661-4d16-ab8f-f95f29ba4f7d",
+   "name": "background 7",
+   "desc": "bedroom",
+   "src": "backgrounds/background-7-0a299f.webp"
+  },
+  {
+   "id": "22c26e38-0667-46a9-b3b6-fbf01be4c665",
+   "name": "background 8",
+   "desc": "coffee shop",
+   "src": "backgrounds/background-8-22c26e.webp"
+  },
+  {
+   "id": "5f452a52-4c9f-47c2-ab1b-b1e0176ae724",
+   "name": "garlic dump",
+   "desc": "",
+   "src": "backgrounds/garlic-dump-5f452a.webp"
+  },
+  {
+   "id": "549c0c11-0f00-4453-be93-cad55bccf706",
+   "name": "background-2",
+   "desc": "",
+   "src": "backgrounds/background-2-549c0c.webp"
+  },
+  {
+   "id": "2247069c-7c87-4e43-b9cc-32dc094b090f",
+   "name": "background-3",
+   "desc": "",
+   "src": "backgrounds/background-3-224706.webp"
+  },
+  {
+   "id": "eea2cafa-aa52-412f-8145-a0520a7c4c0c",
+   "name": "background-4",
+   "desc": "",
+   "src": "backgrounds/background-4-eea2ca.webp"
+  },
+  {
+   "id": "78c48b8d-08e4-4527-8e3b-f7665c9fb320",
+   "name": "background-5",
+   "desc": "",
+   "src": "backgrounds/background-5-78c48b.webp"
+  },
+  {
+   "id": "d12dd318-6318-43b2-9aa5-e1f9229ac361",
+   "name": "background-6",
+   "desc": "",
+   "src": "backgrounds/background-6-d12dd3.webp"
+  },
+  {
+   "id": "85cd6362-99dc-4ad7-9fed-62fb70879f37",
+   "name": "background-7",
+   "desc": "",
+   "src": "backgrounds/background-7-85cd63.webp"
+  },
+  {
+   "id": "4da9455e-0ca6-4879-9988-296220eb24ee",
+   "name": "background-8",
+   "desc": "",
+   "src": "backgrounds/background-8-4da945.webp"
+  },
+  {
+   "id": "f4cc9cb4-c787-4a98-b67e-6e97a3e68dfe",
+   "name": "background-9",
+   "desc": "",
+   "src": "backgrounds/background-9-f4cc9c.webp"
+  },
+  {
+   "id": "3a7e7ea1-c400-44a8-9f95-04dd42a2aa08",
+   "name": "background-10",
+   "desc": "",
+   "src": "backgrounds/background-10-3a7e7e.webp"
+  },
+  {
+   "id": "2d0a5239-5327-42b7-a8c8-0ee955836bef",
+   "name": "background-11",
+   "desc": "",
+   "src": "backgrounds/background-11-2d0a52.webp"
+  },
+  {
+   "id": "3ca90366-ea7b-4208-a409-18c6a8f52602",
+   "name": "background-12",
+   "desc": "",
+   "src": "backgrounds/background-12-3ca903.webp"
+  },
+  {
+   "id": "c247f2e0-f200-4e42-a9d3-835086924669",
+   "name": "background-13",
+   "desc": "",
+   "src": "backgrounds/background-13-c247f2.webp"
   }
  ],
  "items": [
@@ -11087,6 +12767,30 @@
    "name": "M",
    "desc": "-",
    "icon": "items/m.webp"
+  },
+  {
+   "id": "menu-card",
+   "name": "Menu Card",
+   "desc": "A menu card that shows the cafeteria's food for the day.",
+   "icon": "items/menu-card.webp"
+  },
+  {
+   "id": "old-painting-book",
+   "name": "Old Painting Book",
+   "desc": "An old dusty book of paintings of royal owners of the mansion",
+   "icon": "items/old-painting-book.webp"
+  },
+  {
+   "id": "lucia-thumana-s-note",
+   "name": "Lucia Thumana's note",
+   "desc": "A really old note, with a horrible conclusion",
+   "icon": "items/lucia-thumana-s-note.webp"
+  },
+  {
+   "id": "the-riddle-note",
+   "name": "The Riddle Note",
+   "desc": "A Note with a riddle in it",
+   "icon": "items/the-riddle-note.webp"
   }
  ],
  "music": [
@@ -13726,6 +15430,573 @@
    "tags": [],
    "novel": "Paradiso Suburbia",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/ab30ad39-6d74-49cd-a2dc-8f7e155017b2/7beae57b-ac19-4adf-8f59-dee5221826b2.mpeg"
+  },
+  {
+   "id": "sound-1",
+   "name": "sound 1",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/70e05821-d8cb-4936-999d-9462ae4c1ad0.mpeg"
+  },
+  {
+   "id": "sound-2",
+   "name": "sound 2",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/3edcc2a1-e45e-4baf-9394-669caf8ccc0c.mpeg"
+  },
+  {
+   "id": "sound-3",
+   "name": "sound 3",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/88114603-1471-4024-b0b3-b3df8df84f11.mpeg"
+  },
+  {
+   "id": "sound-4",
+   "name": "sound 4",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/ebcfca1b-e8bc-4a54-a27c-011969ba155a.mpeg"
+  },
+  {
+   "id": "sound-5",
+   "name": "sound 5",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/30ada817-dbc6-49d8-b091-50d8884aed97.mpeg"
+  },
+  {
+   "id": "sound-6",
+   "name": "sound 6",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/668381c4-61fb-4b4c-ad8e-5e89578dccf7.mpeg"
+  },
+  {
+   "id": "sound-7",
+   "name": "sound 7",
+   "tags": [],
+   "novel": "Anna",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/0cc0410d-1fb7-462c-9384-64e31bb78f7b.mpeg"
+  },
+  {
+   "id": "classroom-3",
+   "name": "Classroom",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/928ace50-465a-4429-8ac4-3538e420287d.mpeg"
+  },
+  {
+   "id": "jog",
+   "name": "Jog",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/83889c6a-c29c-405d-8c5c-095e91ee548c.mpeg"
+  },
+  {
+   "id": "calm-3",
+   "name": "Calm",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f7fe093f-bb5b-4cfc-baa3-27883739a8a1.mpeg"
+  },
+  {
+   "id": "space",
+   "name": "Space",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3d1b900d-c0c6-4a78-b372-0be4aaa4d430.mpeg"
+  },
+  {
+   "id": "business",
+   "name": "Business",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/cdcd18ac-c05d-4bc4-b1b1-9c97b98337fc.mpeg"
+  },
+  {
+   "id": "folk",
+   "name": "Folk",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3ec0f717-d529-4dcc-8934-240f220fb44a.mpeg"
+  },
+  {
+   "id": "manor",
+   "name": "Manor",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/12509e79-175d-4a2e-a098-cd60b757ec45.mpeg"
+  },
+  {
+   "id": "street",
+   "name": "Street",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/49dcd192-6b64-4f2a-886e-eadf69bbcaf5.mpeg"
+  },
+  {
+   "id": "pirate",
+   "name": "Pirate",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/65feb482-f2df-49ae-bcd2-f87164b8f2d9.mpeg"
+  },
+  {
+   "id": "island",
+   "name": "Island",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/b4194753-3d77-4b3a-a089-3e1b4208370c.mpeg"
+  },
+  {
+   "id": "beach-2",
+   "name": "Beach",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5a215ff2-46e6-4858-a81f-edbd99780d6f.mpeg"
+  },
+  {
+   "id": "big-beach",
+   "name": "Big Beach",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3bd07fb1-c6ce-4b65-8cc3-3561c0f7c923.mpeg"
+  },
+  {
+   "id": "space-2",
+   "name": "Space (2)",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f02f3ef2-1d76-4365-b4f8-f0fb35a1434e.mpeg"
+  },
+  {
+   "id": "maracas",
+   "name": "Maracas",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/230d44c6-785a-4d1b-8f5a-adfe615dddd9.mpeg"
+  },
+  {
+   "id": "spain-s-panic",
+   "name": "Spain S-panic!",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/47ccc9cd-b99c-4c87-bad0-57c707085c41.mpeg"
+  },
+  {
+   "id": "cuban-crumbles",
+   "name": "Cuban Crumbles",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/a43ab32d-c83a-4616-89df-58755b05c962.mpeg"
+  },
+  {
+   "id": "hotel-rooms",
+   "name": "Hotel Rooms",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3e86a7ee-9007-4a5d-9925-15971cc6b983.mpeg"
+  },
+  {
+   "id": "flapjacks",
+   "name": "FlapJacks",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/740d53ba-61b9-49fd-b582-44e79144ade5.wav"
+  },
+  {
+   "id": "boss",
+   "name": "Boss",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/7a238507-6d6d-48e6-b863-20f60b8d012a.mpeg"
+  },
+  {
+   "id": "office",
+   "name": "Office",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2d42cb5d-49ae-4b70-afa7-815029884138.mpeg"
+  },
+  {
+   "id": "mall",
+   "name": "Mall",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d799af62-98d9-4e75-bb55-e4661d6bb540.mpeg"
+  },
+  {
+   "id": "changing-rooms",
+   "name": "Changing rooms",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/27f0c8fe-84a3-47ae-a82f-c4c18227f8c8.mpeg"
+  },
+  {
+   "id": "robbery",
+   "name": "Robbery",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/6beb0736-6641-4a6f-855d-adb9901b727d.mpeg"
+  },
+  {
+   "id": "tension-mention",
+   "name": "Tension Mention",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/729fa60a-f734-4f24-8832-3bf84fd3b762.mpeg"
+  },
+  {
+   "id": "ms-amulet",
+   "name": "Ms. Amulet",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/fee7cf3e-3482-4447-acd8-33b67d986946.mpeg"
+  },
+  {
+   "id": "spooky",
+   "name": "Spooky",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/e8ee65aa-4c5c-4de9-aead-be051ba930ab.mpeg"
+  },
+  {
+   "id": "airport-jazz",
+   "name": "Airport jazz",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5b152cbb-2798-4d1b-9bdf-58c0f077018a.mpeg"
+  },
+  {
+   "id": "royal-tango",
+   "name": "Royal Tango",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/02f9bd27-063f-40e1-af52-43b5e22eb7bc.mpeg"
+  },
+  {
+   "id": "basement-beat",
+   "name": "Basement Beat",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/1c510f24-2a8c-4e92-a32d-ef4b9f177786.mpeg"
+  },
+  {
+   "id": "selection-wait",
+   "name": "Selection wait",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/38a528ef-8407-4fce-9971-f258660243f0.mpeg"
+  },
+  {
+   "id": "hallway-2",
+   "name": "Hallway",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/a132c6bf-d050-4837-a08a-2b5300f5aea8.mpeg"
+  },
+  {
+   "id": "north-cafeteria",
+   "name": "North Cafeteria",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/e6488678-14a9-47ad-b790-29cf3142034b.mpeg"
+  },
+  {
+   "id": "south-cafeteria",
+   "name": "South Cafeteria",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/be6c4b9f-bb5b-44b1-b62b-36c8c04c7ad6.mpeg"
+  },
+  {
+   "id": "west-cafeteria",
+   "name": "West Cafeteria",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/e1c5ac22-df5a-4510-895e-d88cc033e4e8.mpeg"
+  },
+  {
+   "id": "food",
+   "name": "Food",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/13de55c8-5df3-4270-88c0-62d6c23493e8.mpeg"
+  },
+  {
+   "id": "home-excited",
+   "name": "Home Excited!",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/88a5f4a6-4896-4171-beea-401d2cde3581.mpeg"
+  },
+  {
+   "id": "lora",
+   "name": "Lora",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/da99e8e5-d563-466a-92ef-10e2a1f00134.mpeg"
+  },
+  {
+   "id": "the-cursed-room",
+   "name": "The Cursed room",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3bf05a94-8f87-40e1-b0bf-f869872fd40c.mpeg"
+  },
+  {
+   "id": "the-horrible-note",
+   "name": "The horrible note",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/cb8185e0-5b88-4cc6-b2c1-768ff15be717.mpeg"
+  },
+  {
+   "id": "waiting-room",
+   "name": "Waiting room..",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/801d36d6-c1ce-4395-8e4b-a6b43910910a.mpeg"
+  },
+  {
+   "id": "garden",
+   "name": "Garden",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2ccf81f0-0267-4211-97fa-49f442a8ec5c.mpeg"
+  },
+  {
+   "id": "medieval-town",
+   "name": "Medieval town",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8a4316f6-180f-4433-81a6-b385a878c79e.mpeg"
+  },
+  {
+   "id": "mmm-mmm-melodica",
+   "name": "Mmm-Mmm-Melodica",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d3334471-4472-42bf-a21a-b75ad05f4f61.mpeg"
+  },
+  {
+   "id": "corn-collector-crew",
+   "name": "Corn Collector Crew",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/d4f89714-ee7b-4924-bee5-3bc592610079.mpeg"
+  },
+  {
+   "id": "farmers-night",
+   "name": "Farmers Night",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/125f29f7-b604-4967-9864-3e93cf91abfd.mpeg"
+  },
+  {
+   "id": "a-farmers-morning",
+   "name": "A farmers morning",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/58dd004d-f44a-43e8-9c2c-2280189fa097.mpeg"
+  },
+  {
+   "id": "bar-night",
+   "name": "Bar night",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/0de5a6c7-1fdb-4a20-a816-cace8ae08a97.mpeg"
+  },
+  {
+   "id": "your-home",
+   "name": "Your home",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5a584294-23b9-44a9-bd74-81bba7ec7660.mpeg"
+  },
+  {
+   "id": "after-party",
+   "name": "After Party",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f550ac88-286b-447f-acfb-4a16266bd628.mpeg"
+  },
+  {
+   "id": "sweet-victory",
+   "name": "Sweet Victory",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3c3feaf1-ddc0-487a-8e96-e4bbde9803e5.mpeg"
+  },
+  {
+   "id": "tick-tock",
+   "name": "Tick Tock",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5d38f77c-b8c0-4939-9e41-31fc0261952d.mpeg"
+  },
+  {
+   "id": "beginners-karate",
+   "name": "Beginners Karate",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/3e45f2bf-92b3-4e6c-9320-cb5e22984f7e.mpeg"
+  },
+  {
+   "id": "masters-ring",
+   "name": "Masters ring",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5a4d3d51-96a4-4b21-b2ae-0a49c158ff8b.mpeg"
+  },
+  {
+   "id": "the-hall",
+   "name": "The Hall",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/8a272e13-874c-4316-9308-81e7470e25c6.mpeg"
+  },
+  {
+   "id": "pirate-bar",
+   "name": "Pirate Bar",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/5d2f1cd3-956f-4541-ba48-b141dd1c160f.mpeg"
+  },
+  {
+   "id": "chase",
+   "name": "Chase",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/62e67eaa-bde3-452a-8f46-75124c5c9ce6.mpeg"
+  },
+  {
+   "id": "high-tides",
+   "name": "High tides",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/20bf260c-7fac-474a-9059-db8c542c5a59.mpeg"
+  },
+  {
+   "id": "witch-house",
+   "name": "Witch house",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/70604426-8a9b-4b1d-a796-8a4332e44e4c.mpeg"
+  },
+  {
+   "id": "space-view",
+   "name": "Space view",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/2f36d145-6790-4442-828c-6ea0f0ea3b83.mpeg"
+  },
+  {
+   "id": "air-service",
+   "name": "Air Service",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/38ba318f-b3c3-42a0-a2ed-d818bab7f091.mpeg"
+  },
+  {
+   "id": "a-spanish-afternoon",
+   "name": "A spanish afternoon",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/928d5f8f-5608-464e-b906-37c6d1145482.mpeg"
+  },
+  {
+   "id": "spain-xxx",
+   "name": "Spain xxx",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/088af18f-847c-48f6-b39e-7572e7e237f6.mpeg"
+  },
+  {
+   "id": "la-cafe",
+   "name": "La Cafe",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/985d1393-afe2-44ef-8a2a-bb3495b12596.mpeg"
+  },
+  {
+   "id": "basement-chase",
+   "name": "Basement Chase",
+   "tags": [],
+   "novel": "Everythin' with Amy Lyn",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/14daff14-6a3e-4e1a-ad1d-adb592052f78/f469337c-c63c-4700-b433-bddc85ee33f4.mpeg"
+  },
+  {
+   "id": "reedplot",
+   "name": "reedplot",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/4a63180a-9d9d-47f4-8d6a-e1df4160d872.mpeg"
+  },
+  {
+   "id": "silent-rain",
+   "name": "silent rain",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/71da86f7-ad77-4a94-8454-bae15106e788.mpeg"
+  },
+  {
+   "id": "remin",
+   "name": "remin",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/45b06985-d88a-4714-afff-070ba5ef9d9a.mpeg"
+  },
+  {
+   "id": "eleven-oclock",
+   "name": "eleven oclock",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/484a4506-a136-46af-a04e-7e5a4a10f26d.mpeg"
+  },
+  {
+   "id": "wind-of-summer",
+   "name": "wind of summer",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/f8baeca5-8018-42de-b9b9-de350c309cfc.mpeg"
+  },
+  {
+   "id": "dreams-of-land",
+   "name": "dreams of land",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/1cd0885d-9132-4b5b-a8bb-1ba0de6e23a0.mpeg"
+  },
+  {
+   "id": "beautiful-life",
+   "name": "beautiful life",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/e2317e58-d372-4775-bd9e-1a6e91f1c3b6.mpeg"
+  },
+  {
+   "id": "through-the-forest",
+   "name": "through the forest",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/2f4fcecf-4e20-4ae5-9b91-6327d9654a95.mpeg"
+  },
+  {
+   "id": "on-the-way",
+   "name": "on the way",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a551e98b-d7a6-42df-8628-4611b481e59c.mpeg"
+  },
+  {
+   "id": "green-fog",
+   "name": "green fog",
+   "tags": [],
+   "novel": "Sweet Garlic",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/ddd1ff24-de24-4989-9aaf-fa058e2e7063.mpeg"
   }
  ]
 }
