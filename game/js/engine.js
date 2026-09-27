@@ -478,6 +478,8 @@
       }
       for (let guard = 0; guard < 10; guard++) {
         for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+        // the gallery's training dummies shrug off any blow
+        for (const u of this.allUnits()) if (u.undying && u.hp <= 0) { u.hp = u.maxHp; u.killedBy = null; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
         if (!dead.length) break;
         for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); this.count(u.side, 'lost'); }

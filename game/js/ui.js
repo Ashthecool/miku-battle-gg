@@ -948,9 +948,20 @@
     MB.battle = b;
     MB.view.init(b);
     $('#battle-hud').classList.add('hidden');
-    gal = { b, unit: null, dummy: null };
-    b.summon(1, MB.cardDef('dummy'), 1).then((d) => { gal.dummy = d; });
-    b.summon(1, MB.cardDef('dummy'), 2).then((d) => { gal.dummy2 = d; });
+    gal = { b, unit: null, dummies: [] };
+    // bottomless gold, and outfits can change every click, so any upgrade (Amy Lyn's wardrobe) can be tried
+    Object.defineProperty(b.me(0), 'gold', { get: () => 99, set() {} });
+    const upgrade = b.upgrade.bind(b);
+    b.upgrade = async (u) => {
+      if (gal.busy) return false;
+      gal.busy = true;
+      try {
+        const ok = await upgrade(u);
+        if (ok) { u.upgradedTurn = null; await galDummies(); MB.view.refresh(); }
+        return ok;
+      } finally { gal.busy = false; }
+    };
+    galDummies();
     list.appendChild(el('div', 'gal-head', '💞 RELATIONSHIPS'));
     MB.BONDS.forEach((bond) => {
       const row = el('div', 'gal-row bond', `${bond.pair.map((id, i) => `<img src="${MB.spriteUrl(id, 'idle', bond.costumes[i])}">`).join('')}
@@ -1007,6 +1018,17 @@
     gal.unit.card = { ...card, attack: { name: card.attack.name, color: card.attack.color, style } };
     $('#gal-info').innerHTML = `<b>${gal.unit.name}</b> — style <b>${style}</b><br><small>attack: { style: '${style}' } · add emoji, cry, finish, sky, aura…</small>`;
   }
+  // keep two training dummies on the enemy side: they can't die, and one that leaves the board anyway is replaced
+  function galDummies() {
+    const b = gal.b;
+    return Promise.all([1, 2].map(async (slot, i) => {
+      const d = gal.dummies[i];
+      if (d && d.hp > 0 && b.find(d.uid) === d) return;
+      if (d) gal.dummies[i] = null;
+      const nd = await b.summon(1, MB.cardDef('dummy'), slot);
+      if (nd) { nd.undying = true; gal.dummies[i] = nd; }
+    }));
+  }
   // empty the player's side of the gallery board
   async function galClear() {
     const b = gal.b;
@@ -1052,11 +1074,13 @@
     const b = gal.b;
     b.active = 0;
     gal.unit.attacksLeft = 1; gal.unit.frozen = false; gal.unit.hp = gal.unit.maxHp;
-    const target = MB.pick([gal.dummy, gal.dummy2].filter(Boolean));
-    target.hp = 99; target.frozen = false; target.shield = false; target.burning = false;
+    await galDummies();
+    const target = MB.pick(gal.dummies.filter(Boolean));
+    if (!target) { gal.busy = false; return; }
+    target.hp = target.maxHp; target.frozen = false; target.shield = false; target.burning = false;
     const unit = gal.unit, card = unit.card;
     if (gal.sky) unit.card = { ...card, attack: { ...card.attack, sky: gal.sky } };
-    try { await b.attack(unit, target); } finally { unit.card = card; gal.busy = false; }
+    try { await b.attack(unit, target); } finally { unit.card = card; await galDummies(); gal.busy = false; }
   }
 
   // ---------------------------------------------------------------- wardrobe
