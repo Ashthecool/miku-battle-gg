@@ -477,10 +477,165 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #sc-weather .embers { width: 6px; height: 6px; border-radius: 50%; background: #ffb347; box-shadow: 0 0 10px 3px #ff5a1f; }
 #sc-weather .sparkles, #sc-weather .stars { width: 5px; height: 5px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px 3px #fff8; }
 #sc-weather .sparkles { background: #fff3b0; box-shadow: 0 0 12px 4px #ffd84a99; }
-#sc-close { position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-  background: radial-gradient(circle at 70% 40%, color-mix(in srgb, var(--c) 45%, transparent), #0000 60%),
-    repeating-conic-gradient(from 0deg at 70% 38%, #ffffff10 0 2deg, #0000 2deg 9deg); }
-#sc-close img { position: absolute; right: calc(60px + var(--bx)); top: calc(var(--by) - 80px); height: 1500px; filter: drop-shadow(0 20px 40px #000c); }
+/* close-ups: the speaker in front of their own sky (data-sky, MB.CLOSE_LOOKS) with particles (.cl-fx, storymap.js).
+   --sx/--sy is the sun, behind the speaker's head; ::before/::after are each sky's moving layers */
+#sc-close { --sx: calc(var(--bx) + 1150px); --sy: calc(var(--by) + 340px); position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  background: radial-gradient(circle at var(--sx) var(--sy), color-mix(in srgb, var(--c) 45%, transparent), #0000 900px),
+    repeating-conic-gradient(from 0deg at var(--sx) var(--sy), #ffffff10 0 2deg, #0000 2deg 9deg); }
+#sc-close img { position: absolute; right: calc(60px + var(--bx)); top: calc(var(--by) - 80px); height: 1500px; filter: drop-shadow(0 20px 40px #000c); z-index: 2; }
+#sc-close::before, #sc-close::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+#sc-close:not([data-sky])::before, #sc-close:not([data-sky])::after { display: none; }
+/* a layer centred on the sun, big enough to spin without showing its corners */
+#sc-close[data-sky="impact"]::before, #sc-close[data-sky="sunshine"]::before, #sc-close[data-sky="blueprint"]::before,
+#sc-close[data-sky="blueprint"]::after, #sc-close[data-sky="riches"]::before, #sc-close[data-sky="disco"]::before,
+#sc-close[data-sky="obsession"]::before, #sc-close[data-sky="holy"]::before, #sc-close[data-sky="hypno"]::before, #sc-close[data-sky="hypno"]::after {
+  inset: auto; left: var(--sx); top: var(--sy); width: 4000px; height: 4000px; margin: -2000px 0 0 -2000px; }
+.cl-fx { position: absolute; inset: 0; z-index: 1; }
+.cl-fx i { position: absolute; left: 0; top: 0; display: block; font-style: normal; line-height: 1; }
+.cl-fx .emo { filter: drop-shadow(0 4px 8px #0006); }
+.cl-fx .ember { width: 7px; height: 7px; border-radius: 50%; background: #ffcf6a; box-shadow: 0 0 10px 4px #ff5a1f; }
+.cl-fx .spark { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px 5px color-mix(in srgb, var(--c) 70%, #fff); }
+.cl-fx .firefly { width: 7px; height: 7px; border-radius: 50%; background: #f4ffb0; box-shadow: 0 0 14px 6px #c8ff5a99; }
+.cl-fx .bubble { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #ffffffb0; background: radial-gradient(circle at 30% 30%, #fffc 0 3px, #ffffff22 5px, #fff0 70%); }
+.cl-fx .bubble:nth-child(3n) { width: 12px; height: 12px; } .cl-fx .bubble:nth-child(5n) { width: 36px; height: 36px; }
+.cl-fx .petal { width: 18px; height: 12px; border-radius: 60% 0 60% 0; background: linear-gradient(135deg, #fff0f5, #ff9cc9); box-shadow: 0 0 4px #ff9cc955; }
+.cl-fx .feather { width: 14px; height: 46px; border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; background: linear-gradient(90deg, #fff 48%, #e8dcc8 50%, #fff 52%); box-shadow: 0 0 10px #fff9; }
+.cl-fx .streak { width: 340px; height: 5px; border-radius: 3px; background: linear-gradient(90deg, #fff0, #fff 60%, #fff0); }
+.cl-fx .confetti { width: 12px; height: 18px; background: #ff5a8a; }
+.cl-fx .confetti:nth-child(5n+1) { background: #ffd84a; } .cl-fx .confetti:nth-child(5n+2) { background: #4aa3ff; }
+.cl-fx .confetti:nth-child(5n+3) { background: #5fd068; } .cl-fx .confetti:nth-child(5n+4) { background: #b35cff; }
+
+/* hell: a black-red sky, a burning sun and a wall of flames licking up */
+#sc-close[data-sky="hell"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff1b0 0 60px, #ff9a1c 115px, #d0200a 200px, #6a0606aa 340px, #0000 560px),
+  linear-gradient(#170204f4, #3a0606f0 55%, #901c04f4); }
+#sc-close[data-sky="hell"]::before, #sc-close[data-sky="hell"]::after { top: 42%; transform-origin: 50% 100%;
+  background: linear-gradient(0deg, #fff3a0, #ffb02e 16%, #ff4a1c 42%, #b0100a99 72%, #0000);
+  -webkit-mask: conic-gradient(from 160deg at 50% 0, #000 0 40deg, #0000 0) 0 0 / 110px 100% repeat-x;
+  mask: conic-gradient(from 160deg at 50% 0, #000 0 40deg, #0000 0) 0 0 / 110px 100% repeat-x; animation: clFlame .5s ease-in-out infinite alternate; }
+#sc-close[data-sky="hell"]::after { top: 58%; opacity: .85; -webkit-mask-size: 170px 100%; mask-size: 170px 100%; -webkit-mask-position: 60px 0; mask-position: 60px 0;
+  animation-duration: .37s; animation-direction: alternate-reverse; }
+@keyframes clFlame { from { transform: scaleY(1) skewX(-3deg); } to { transform: scaleY(1.14) skewX(3deg); } }
+
+/* hearth: warm pink morning light and soft glowing blurs */
+#sc-close[data-sky="hearth"] { background: radial-gradient(circle at var(--sx) var(--sy), #fffaf0 0 80px, #ffe0e6 160px, color-mix(in srgb, var(--c) 55%, transparent) 320px, #0000 700px),
+  linear-gradient(160deg, #ffb3c7f0, #ffd8b0f0 50%, #f79ab8f0); }
+#sc-close[data-sky="hearth"]::before { background: radial-gradient(circle at 12% 22%, #fff8 0 70px, #0000 72px), radial-gradient(circle at 30% 75%, #fff6 0 110px, #0000 112px),
+  radial-gradient(circle at 48% 30%, #ffffff50 0 50px, #0000 52px), radial-gradient(circle at 20% 50%, #fff5 0 36px, #0000 38px), radial-gradient(circle at 88% 85%, #fff6 0 90px, #0000 92px);
+  filter: blur(6px); animation: clBreathe 4s ease-in-out infinite alternate; }
+@keyframes clBreathe { from { opacity: .5; transform: scale(1); } to { opacity: 1; transform: scale(1.04); } }
+
+/* impact: manga speed lines rushing into a white-hot centre */
+#sc-close[data-sky="impact"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff 0 90px, var(--c) 280px, #7a2a00 900px); }
+#sc-close[data-sky="impact"]::before { background: repeating-conic-gradient(#0000 0 3deg, #fffc 3deg 3.6deg, #0000 3.6deg 7deg, #2a0e0099 7deg 7.4deg, #0000 7.4deg 11deg);
+  -webkit-mask: radial-gradient(circle, #0000 150px, #000 420px); mask: radial-gradient(circle, #0000 150px, #000 420px); animation: clJitter .24s steps(1) infinite; }
+@keyframes clJitter { 0% { transform: rotate(0); } 33% { transform: rotate(1.5deg); } 66% { transform: rotate(-1deg); } }
+
+/* sunshine: a blue sky, a huge happy sun turning its rays, and a rainbow */
+#sc-close[data-sky="sunshine"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff 0 90px, #fff3a0 130px, #ffd84a 180px, #ffd84a00 340px),
+  radial-gradient(circle at 18% 115%, #0000 0 540px, #ff5a5a88 540px 570px, #ffa64088 570px 600px, #ffe06688 600px 630px, #5fd06888 630px 660px, #4aa3ff88 660px 690px, #b35cff88 690px 720px, #0000 720px),
+  linear-gradient(#6fcaff, #bfe9ff 60%, #fff4c2); }
+#sc-close[data-sky="sunshine"]::before { background: repeating-conic-gradient(#fff6b077 0 8deg, #0000 8deg 20deg);
+  -webkit-mask: radial-gradient(circle, #000 20%, #0000 55%); mask: radial-gradient(circle, #000 20%, #0000 55%); animation: clSpin 40s linear infinite; }
+@keyframes clSpin { to { transform: rotate(360deg); } }
+
+/* bokeh: an evening glow full of soft out-of-focus lights */
+#sc-close[data-sky="bokeh"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff 0 40px, color-mix(in srgb, var(--c) 70%, #fff) 100px, #0000 380px),
+  linear-gradient(135deg, #1d1240f2, #4a2a7af2 50%, #b04a8af2); }
+#sc-close[data-sky="bokeh"]::before { background: radial-gradient(circle at 10% 20%, #ff9cc977 0 60px, #0000 62px), radial-gradient(circle at 34% 72%, color-mix(in srgb, var(--c) 60%, transparent) 0 90px, #0000 92px),
+  radial-gradient(circle at 22% 45%, #ffd84a55 0 40px, #0000 42px), radial-gradient(circle at 52% 18%, #ffffff44 0 70px, #0000 72px), radial-gradient(circle at 60% 88%, #ff9cc955 0 55px, #0000 57px),
+  radial-gradient(circle at 90% 12%, #ffffff33 0 80px, #0000 82px); filter: blur(4px); animation: clFloat 7s ease-in-out infinite alternate; }
+@keyframes clFloat { from { transform: translate(-20px, 10px); } to { transform: translate(30px, -20px); } }
+
+/* blueprint: a drafting grid, compass rings round the sun and a radar sweep */
+#sc-close[data-sky="blueprint"] { background: radial-gradient(circle at var(--sx) var(--sy), #e8fbff 0 50px, var(--c) 120px, #0000 400px),
+  linear-gradient(#ffffff40 2px, #0000 2px) 0 0 / 200px 200px, linear-gradient(90deg, #ffffff40 2px, #0000 2px) 0 0 / 200px 200px,
+  linear-gradient(#ffffff1c 1px, #0000 1px) 0 0 / 40px 40px, linear-gradient(90deg, #ffffff1c 1px, #0000 1px) 0 0 / 40px 40px, #0d3a73f4; }
+#sc-close[data-sky="blueprint"]::before { background: repeating-radial-gradient(circle, #0000 0 118px, #9fe8ff66 118px 121px, #0000 121px 180px);
+  -webkit-mask: radial-gradient(circle, #000 20%, #0000 30%); mask: radial-gradient(circle, #000 20%, #0000 30%); animation: clBreathe 3s ease-in-out infinite alternate; }
+#sc-close[data-sky="blueprint"]::after { background: conic-gradient(#9fe8ff66, #0000 50deg);
+  -webkit-mask: radial-gradient(circle, #000 12%, #0000 18%); mask: radial-gradient(circle, #000 12%, #0000 18%); animation: clSpin 5s linear infinite; }
+
+/* spotlight: a dark stage, two spotlights hunting for the star */
+#sc-close[data-sky="spotlight"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff 0 60px, var(--c) 190px, #0000 440px),
+  radial-gradient(ellipse at 50% 125%, color-mix(in srgb, var(--c) 45%, transparent), #0000 60%), #12061af2; }
+#sc-close[data-sky="spotlight"]::before, #sc-close[data-sky="spotlight"]::after { transform-origin: 18% 0;
+  background: conic-gradient(from 130deg at 18% 0, #0000 0deg, #fff5d955 6deg 24deg, #0000 30deg); animation: clSweep 3.2s ease-in-out infinite alternate; }
+#sc-close[data-sky="spotlight"]::after { transform-origin: 96% 0; background: conic-gradient(from 196deg at 96% 0, #0000 0deg, #ffd6ec55 6deg 22deg, #0000 28deg);
+  animation-duration: 2.6s; animation-direction: alternate-reverse; }
+@keyframes clSweep { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+
+/* moonwood: a silver moon over a pine forest at night */
+#sc-close[data-sky="moonwood"] { background: radial-gradient(circle at var(--sx) var(--sy), #fbfff0 0 72px, #dff2c8 82px, color-mix(in srgb, var(--c) 30%, transparent) 180px, #0000 440px),
+  linear-gradient(#071524f4, #0f2c2af4 70%, #081810f6); }
+#sc-close[data-sky="moonwood"]::before { top: 50%; background: conic-gradient(from 155deg at 50% 0, #0b2418 0 50deg, #0000 0) 30px 0 / 150px 100% repeat-x; }
+#sc-close[data-sky="moonwood"]::after { top: 64%; background: conic-gradient(from 150deg at 50% 0, #040d08 0 60deg, #0000 0) 0 0 / 220px 100% repeat-x; }
+
+/* deep: underwater, light shafts wavering down from the surface */
+#sc-close[data-sky="deep"] { background: radial-gradient(circle at var(--sx) var(--sy), #e6fbff 0 40px, #7fe0ff 110px, #3fb6ff33 280px, #0000 500px),
+  linear-gradient(#1b8fd0f2, #0b4f8cf4 50%, #041a3af6); }
+#sc-close[data-sky="deep"]::before { background: repeating-linear-gradient(100deg, #fff0 0 70px, #ffffff1e 70px 130px, #fff0 130px 230px);
+  -webkit-mask: linear-gradient(#000, #0000 80%); mask: linear-gradient(#000, #0000 80%); animation: clShafts 6s ease-in-out infinite alternate; }
+@keyframes clShafts { from { background-position: 0 0; } to { background-position: 160px 0; } }
+
+/* dawn: sunrise over a river that shimmers */
+#sc-close[data-sky="dawn"] { background: radial-gradient(circle at var(--sx) var(--sy), #fffbe8 0 75px, #ffd27a 135px, color-mix(in srgb, var(--c) 45%, transparent) 280px, #0000 560px),
+  linear-gradient(#ff9a8bf2, #ffc59af2 35%, #ffe3a8f2 60%, #6fc3c9f4 60%, #2f7f9af6); }
+#sc-close[data-sky="dawn"]::before { top: 60%; background: repeating-linear-gradient(#fff0 0 16px, #ffffff66 16px 18px);
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 90px, #0000 90px 150px); mask: repeating-linear-gradient(90deg, #000 0 90px, #0000 90px 150px);
+  opacity: .7; animation: clRipple 2.4s linear infinite; }
+@keyframes clRipple { to { -webkit-mask-position: 150px 0; mask-position: 150px 0; } }
+
+/* redsun: an ink-painting sky, a great red sun and mist drifting across it */
+#sc-close[data-sky="redsun"] { background: radial-gradient(circle at var(--sx) var(--sy), var(--c) 0 230px, #0000 232px),
+  radial-gradient(ellipse at 50% 125%, #ffc1d6, #0000 60%), linear-gradient(#fff4f0f4, #ffe0eaf4); }
+#sc-close[data-sky="redsun"]::before { inset: auto 0; top: calc(var(--by) + 280px); height: 150px;
+  background: linear-gradient(#0000 10%, #fff4f0e0 10% 30%, #0000 30% 55%, #fff4f0c8 55% 68%, #0000 68%) 0 0 / 900px 100%;
+  -webkit-mask: linear-gradient(90deg, #0000, #000 20% 80%, #0000) 0 0 / 900px 100%; mask: linear-gradient(90deg, #0000, #000 20% 80%, #0000) 0 0 / 900px 100%;
+  animation: clMist 14s linear infinite; }
+@keyframes clMist { to { -webkit-mask-position: 900px 0; mask-position: 900px 0; } }
+
+/* warlord: a blood sun over black mountains; a sword stroke cuts the sky */
+#sc-close[data-sky="warlord"] { background: radial-gradient(circle at var(--sx) var(--sy), #ff6a4a 0 180px, var(--c) 195px, #b8322a00 440px),
+  linear-gradient(#1a0606f4, #3a0a0af4 60%, #0a0303f6); }
+#sc-close[data-sky="warlord"]::before { top: 55%; background: conic-gradient(from 120deg at 50% 0, #0a0303 0 120deg, #0000 0) 0 0 / 520px 100% repeat-x,
+  conic-gradient(from 130deg at 50% 25%, #1c0808 0 100deg, #0000 0) 240px 0 / 700px 100% repeat-x; }
+#sc-close[data-sky="warlord"]::after { background: linear-gradient(-18deg, #0000 49.7%, #fff 49.85% 50.15%, #0000 50.3%);
+  transform-origin: 0 50%; animation: clSlash 2.6s ease-out infinite; }
+@keyframes clSlash { 0% { transform: scaleX(0); opacity: 1; } 12% { transform: scaleX(1); opacity: 1; } 40%, 100% { transform: scaleX(1); opacity: 0; } }
+
+/* riches: pink and gold, the sun a coin throwing golden rays */
+#sc-close[data-sky="riches"] { background: radial-gradient(circle at var(--sx) var(--sy), #fffbe6 0 60px, #ffe27a 140px, color-mix(in srgb, var(--c) 40%, transparent) 300px, #0000 580px),
+  linear-gradient(135deg, #ffd6e8f4, #ffe7a8f4 50%, #ffb8d6f4); }
+#sc-close[data-sky="riches"]::before { background: repeating-conic-gradient(#ffc93c55 0 6deg, #0000 6deg 15deg); animation: clSpin 50s linear infinite; }
+
+/* disco: party lights wheeling round a mirror-ball sun, colours cycling */
+#sc-close[data-sky="disco"] { background: radial-gradient(circle at var(--sx) var(--sy), #fff 0 55px, color-mix(in srgb, var(--c) 60%, transparent) 130px, #0000 320px), #140a24f4; }
+#sc-close[data-sky="disco"]::before { background: repeating-conic-gradient(#ff3b3b88 0 10deg, #0000 10deg 30deg, #ffd84a88 30deg 40deg, #0000 40deg 60deg, #4aa3ff88 60deg 70deg, #0000 70deg 90deg);
+  -webkit-mask: radial-gradient(circle, #000 5%, #0000 40%); mask: radial-gradient(circle, #000 5%, #0000 40%); animation: clDisco 6s linear infinite; }
+@keyframes clDisco { to { transform: rotate(360deg); filter: hue-rotate(360deg); } }
+
+/* obsession: a dark room, a heartbeat of red light */
+#sc-close[data-sky="obsession"] { background: radial-gradient(circle at var(--sx) var(--sy), #ffd6dc 0 40px, #ff4a5a 120px, #c0303a88 250px, #0000 540px),
+  linear-gradient(#2a0410f4, #150208f6); }
+#sc-close[data-sky="obsession"]::before { background: radial-gradient(circle, color-mix(in srgb, var(--c) 70%, transparent) 0 150px, #0000 560px);
+  animation: clBeat 1.2s ease-out infinite; }
+@keyframes clBeat { 0%, 30%, 100% { transform: scale(1); opacity: .6; } 10%, 40% { transform: scale(1.25); opacity: 1; } }
+
+/* holy: pale heaven, slow white rays and a halo behind her head */
+#sc-close[data-sky="holy"] { background: radial-gradient(circle at var(--sx) var(--sy), #0000 0 255px, #ffd76a 258px 268px, #0000 272px),
+  radial-gradient(circle at var(--sx) var(--sy), #fff 0 100px, #fff6dc 170px, color-mix(in srgb, var(--c) 50%, transparent) 340px, #0000 680px),
+  linear-gradient(#fff9f2f4, #ffe6eff4 60%, #f2d6fff4); }
+#sc-close[data-sky="holy"]::before { background: repeating-conic-gradient(#ffffffaa 0 3deg, #0000 3deg 12deg);
+  -webkit-mask: radial-gradient(circle, #000 5%, #0000 40%); mask: radial-gradient(circle, #000 5%, #0000 40%); animation: clSpin 70s linear infinite; }
+
+/* hypno: a turning pinwheel and rings falling inwards; look into her eyes */
+#sc-close[data-sky="hypno"] { background: #1a0630; }
+#sc-close[data-sky="hypno"]::before { background: repeating-conic-gradient(var(--c) 0 15deg, #2a0a4a 15deg 30deg); animation: clSpin 4s linear infinite; }
+#sc-close[data-sky="hypno"]::after { background: radial-gradient(circle, #fff 0 30px, color-mix(in srgb, var(--c) 60%, #fff) 60px, #0000 160px),
+  repeating-radial-gradient(circle, #0000 calc(0px - var(--ring)) calc(70px - var(--ring)), #0a021899 calc(70px - var(--ring)) calc(110px - var(--ring)));
+  animation: clSink 1.2s linear infinite; }
+@property --ring { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@keyframes clSink { to { --ring: 110px; } }
 #sc-bars { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 #sc-bars i { position: absolute; left: 0; right: 0; height: calc(64px + var(--by)); background: #000; transform-origin: 50% 0; pointer-events: none; z-index: 2; }
 #sc-bars i:first-child { top: 0; }

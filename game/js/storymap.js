@@ -507,7 +507,7 @@
     weather('none');
     FX.reset();
     gsap.set('#sc-fade', { opacity: 0 });
-    let i = 0, tick = 0, busy = false, over = false, typing = null, auto = false, autoTimer = null;
+    let i = 0, tick = 0, busy = false, over = false, typing = null, auto = false, autoTimer = null, closeWho = null, closeTweens = [];
 
     // letterbox in, and the quest's title card
     gsap.fromTo('#sc-bars i', { scaleY: 0 }, { scaleY: 1, duration: 0.6, ease: 'power3.out' });
@@ -642,12 +642,12 @@
       const cl = $('#sc-close');
       if (l.close && char) {
         cl.querySelector('img').src = MB.bigSpriteUrl(l.who, l.role);
-        cl.style.setProperty('--c', MB.ACTS[act].color);
+        closeLook(cl, l.who);
         cl.classList.remove('hidden');
         MB.audio.sfx('swish');
         gsap.fromTo(cl.querySelector('img'), { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: 'power3.out' });
         gsap.fromTo(cl, { opacity: 0 }, { opacity: 1, duration: 0.2 });
-      } else cl.classList.add('hidden');
+      } else closeHide();
       gsap.to('#sc-stage', { opacity: l.close && char ? 0.2 : 1, duration: 0.25 });
       if (l.shake) shake(18);
       $('#sc-name').textContent = narr ? '' : nameOf(l.who);
@@ -660,6 +660,62 @@
       await type(text);
       $('#sc-more').classList.remove('hidden');
       if (auto) autoTimer = setTimeout(step, 1100 + text.length * 22);
+    }
+    // the close-up's backdrop: the speaker's look (MB.CLOSE_LOOKS: a CSS sky and particles), else the act's colour
+    function closeLook(cl, who) {
+      if (who === closeWho && !cl.classList.contains('hidden')) return; // same speaker, still up: let it keep playing
+      closeHide();
+      closeWho = who;
+      const L = MB.CLOSE_LOOKS[who], fx = cl.querySelector('.cl-fx');
+      cl.style.setProperty('--c', (L && L.c) || MB.ACTS[act].color);
+      if (L && L.sky) cl.dataset.sky = L.sky; else delete cl.dataset.sky;
+      if (!L) return;
+      // the layer spans the whole window; the sun sits behind the speaker's head
+      const B = MB.bleed || { x: 0, y: 0 }, W = VW + 2 * B.x, H = VH + 2 * B.y, SX = B.x + 1150, SY = B.y + 340;
+      const R = Math.random, TAU = Math.PI * 2, go = (t) => closeTweens.push(t);
+      (L.parts || []).forEach((p) => {
+        const n = p.n || 12;
+        for (let k = 0; k < n; k++) {
+          const e = el('i', p.bit || 'emo', p.e ? p.e[k % p.e.length] : '');
+          if (p.e) e.style.fontSize = Math.round((p.size || 48) * (0.7 + R() * 0.6)) + 'px';
+          fx.appendChild(e);
+          gsap.set(e, { xPercent: -50, yPercent: -50 });
+          const d = 4 + R() * 5, x = R() * W, y = R() * H;
+          if (p.move === 'rise' || p.move === 'fall') {
+            const up = p.move === 'rise', dur = up ? d : d + 2;
+            go(gsap.fromTo(e, { x, y: up ? H + 80 : -80, rotation: up ? (R() - 0.5) * 30 : R() * 360 }, { x: x + (R() - 0.5) * (up ? 160 : 320), y: up ? -80 : H + 80,
+              rotation: '+=' + (up ? (R() - 0.5) * 60 : 360 + R() * 360), duration: dur, repeat: -1, delay: -R() * dur, ease: 'none' }));
+          } else if (p.move === 'drift') {
+            const dur = 9 + R() * 7, y0 = H * (0.12 + R() * 0.7);
+            go(gsap.fromTo(e, { x: -160, y: y0 }, { x: W + 160, duration: dur, repeat: -1, delay: -R() * dur, ease: 'none' }));
+            go(gsap.fromTo(e, { y: y0 - 30 }, { y: y0 + 30, rotation: 8, duration: 1.4 + R(), yoyo: true, repeat: -1, ease: 'sine.inOut' }));
+          } else if (p.move === 'burst') {
+            const a = R() * TAU, far = 700 + R() * 500, dur = 0.9 + R() * 0.8;
+            go(gsap.fromTo(e, { x: SX, y: SY, scale: 0.3, opacity: 1, rotation: p.bit ? a * 180 / Math.PI : 0 },
+              { x: SX + Math.cos(a) * far, y: SY + Math.sin(a) * far, scale: 1.4, opacity: 0, duration: dur, repeat: -1, repeatDelay: R() * 0.6, delay: -R() * dur, ease: 'power2.out' }));
+          } else if (p.move === 'orbit' || p.move === 'ring') {
+            // orbit: two tilted lanes round the sun; ring: one slow wreath whose pieces throb like a heartbeat
+            const ring = p.move === 'ring', o = { a: (k / n) * TAU }, r = ring ? 300 : 380 + (k % 2) * 150, squash = ring ? 1 : 0.5;
+            const at = () => gsap.set(e, { x: SX + Math.cos(o.a) * r, y: SY + Math.sin(o.a) * r * squash });
+            at();
+            go(gsap.to(o, { a: '+=' + TAU * (k % 2 && !ring ? -1 : 1), duration: ring ? 30 : 12 + (k % 2) * 6, repeat: -1, ease: 'none', onUpdate: at }));
+            if (ring) go(gsap.timeline({ repeat: -1, repeatDelay: 0.6 }).to(e, { scale: 1.3, duration: 0.12 }).to(e, { scale: 1, duration: 0.12 })
+              .to(e, { scale: 1.3, duration: 0.12 }).to(e, { scale: 1, duration: 0.3 }));
+          } else {
+            // twinkle
+            gsap.set(e, { x, y, scale: 0, rotation: (R() - 0.5) * 30 });
+            go(gsap.to(e, { scale: p.bit ? 0.5 + R() : 1, duration: 0.5 + R() * 0.7, yoyo: true, repeat: -1, repeatDelay: R() * 1.2, delay: R() * 2, ease: 'sine.inOut' }));
+          }
+        }
+      });
+    }
+    function closeHide() {
+      const cl = $('#sc-close');
+      cl.classList.add('hidden');
+      closeTweens.forEach((t) => t.kill());
+      closeTweens = [];
+      cl.querySelector('.cl-fx').innerHTML = '';
+      closeWho = null;
     }
     async function step() {
       clearTimeout(autoTimer);
@@ -705,7 +761,7 @@
       weather('none');
       gsap.to('#sc-bars i', { scaleY: 0, duration: 0.4 });
       FX.reset();
-      $('#sc-close').classList.add('hidden');
+      closeHide();
       done();
     }
     function showLog() {

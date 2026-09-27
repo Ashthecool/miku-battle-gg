@@ -223,6 +223,7 @@ St.secrets.forEach((x) => {
   if (St.secrets.filter((y) => y.id === x.id).length > 1) err(`secret ${x.id}: duplicate id`);
 });
 // a scene's lines, and the lines of every choice in them
+const plainCloseUps = new Set();
 function checkLines(where, lines) {
   lines.map(St.lineOf).forEach((l, k) => {
     const w = `${where} line ${k + 1}`;
@@ -253,6 +254,10 @@ function checkLines(where, lines) {
     if (typeof l.text !== 'string') err(`${w}: text must be a string`);
     if (l.text.length > 190) warn(`${w}: ${l.text.length} characters, may not fit the text box`);
     if (l.close && (l.who === '*' || l.who === 'you')) err(`${w}: only characters get close-ups`);
+    if (l.close && chars.has(l.who) && !MB.CLOSE_LOOKS[l.who] && !plainCloseUps.has(l.who)) {
+      plainCloseUps.add(l.who);
+      warn(`${w}: ${l.who} has a close-up but no MB.CLOSE_LOOKS entry (plain sun)`);
+    }
   });
 }
 St.quests.forEach((q) => {
@@ -280,6 +285,23 @@ St.quests.forEach((q) => {
   });
 });
 St.secrets.forEach((x) => checkLines(`secret ${x.id}`, x.lines));
+{ // close-up looks: skies are the #sc-close[data-sky] rules in style.css, moves and bits are storymap.js's closeLook
+  const css = fs.readFileSync(path.join(GAME, 'css', 'style.css'), 'utf8'), skies = new Set([...css.matchAll(/data-sky="([\w-]+)"/g)].map((m) => m[1]));
+  const MOVES = ['rise', 'fall', 'drift', 'burst', 'orbit', 'twinkle', 'ring'], BITS = ['ember', 'bubble', 'petal', 'confetti', 'spark', 'firefly', 'streak', 'feather'];
+  Object.entries(MB.CLOSE_LOOKS).forEach(([id, L]) => {
+    const at = `close-up look ${id}`;
+    if (!chars.has(id)) err(`${at}: unknown character`);
+    if (L.sky && !skies.has(L.sky)) err(`${at}: no sky "${L.sky}" (style.css has ${[...skies].join(', ')})`);
+    if (L.c && !/^#[0-9a-f]{6}$/i.test(L.c)) err(`${at}: c is a #rrggbb colour`);
+    (L.parts || []).forEach((p, k) => {
+      if (!MOVES.includes(p.move)) err(`${at}: part ${k + 1} has unknown move "${p.move}"`);
+      if (!!p.e === !!p.bit) err(`${at}: part ${k + 1} needs e (emoji list) or bit, not both`);
+      if (p.e && (!Array.isArray(p.e) || !p.e.length)) err(`${at}: part ${k + 1}: e is a list of emoji`);
+      if (p.bit && !BITS.includes(p.bit)) err(`${at}: part ${k + 1} has unknown bit "${p.bit}"`);
+      if (p.n && !(p.n > 0 && p.n <= 60)) err(`${at}: part ${k + 1}: n is 1-60`);
+    });
+  });
+}
 // every act's finale needs (through its needs) every other main quest of the act
 MB.ACTS.forEach((A, a) => {
   const fin = St.lastOf(a), reach = new Set(), walk = (q) => q.needs.forEach((id) => { if (!reach.has(id)) { reach.add(id); walk(St.byId(id)); } });

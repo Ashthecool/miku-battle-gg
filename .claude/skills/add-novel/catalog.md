@@ -187,3 +187,21 @@ MB.CHAPTERS.push({ title: 'Novel Title' });
 ```
 `chapter` is the index into MB.CHAPTERS. `bg` is a background *name* from the brief, `music` a music id. HP and AI
 skill are set from the quest's place in the story (js/story.js).
+
+### Close-up looks (`MB.CLOSE_LOOKS`, data.js)
+
+A scene line with `{ close: true }` cuts to the speaker in front of their own backdrop. Give every character who
+gets a story close-up a look that fits them (the checker warns about a close-up without one):
+```js
+'char-id': { sky: 'hell', c: '#ff4a1c', parts: [{ bit: 'ember', move: 'rise', n: 40 }, { e: ['🔥'], move: 'rise', n: 10, size: 64 }] },
+```
+Skies (style.css, `#sc-close[data-sky]`; `c` tints the ones that use it): `hell` flame wall + burning sun ·
+`hearth` warm pink light, soft blurs · `impact` manga speed lines · `sunshine` blue sky, turning sun rays, rainbow ·
+`bokeh` evening glow, out-of-focus lights · `blueprint` drafting grid, compass rings, radar sweep · `spotlight` dark
+stage, two sweeping spotlights · `moonwood` moon over a pine forest · `deep` underwater light shafts · `dawn` sunrise
+over a shimmering river · `redsun` ink-painting sky, big red sun, drifting mist · `warlord` blood sun, black
+mountains, a sword slash · `riches` pink-gold, turning golden rays · `disco` colour-cycling party lights · `obsession`
+dark room, heartbeat of red light · `holy` pale heaven, white rays, a halo · `hypno` spinning pinwheel, rings sinking in.
+Parts: `e` (emoji list) or `bit`: `ember` `bubble` `petal` `confetti` `spark` `firefly` `streak` `feather`; `move`:
+`rise` · `fall` · `drift` (across) · `burst` (out of the sun) · `orbit` (round the sun) · `twinkle` (in place) ·
+`ring` (a throbbing wreath round the sun); `n` how many (≤ 60), `size` emoji px. Two parts are plenty.

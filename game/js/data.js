@@ -1864,6 +1864,32 @@ MB.BOSSES = {
 // the boss rule of a Story stage
 MB.bossOf = (i) => (MB.STORY[i] && MB.BOSSES[MB.STORY[i].foe]) || null;
 
+// Story close-ups (a line with { close: true }, js/story.js) put the speaker in front of their own backdrop. `sky` names
+// the background (#sc-close[data-sky] in style.css, listed in catalog.md), `c` is its colour, and `parts` float in
+// front of it: { e: [emoji] or bit: 'ember' | 'bubble' | 'petal' | 'confetti' | 'spark' | 'firefly' | 'streak' |
+// 'feather', move, n: how many, size: emoji px }. Moves: rise · fall · drift (across) · burst (out of the sun) ·
+// orbit (round the sun) · twinkle (in place) · ring (a slow, throbbing wreath round the sun).
+// Someone without a look gets a plain sun in the act's colour.
+MB.CLOSE_LOOKS = {
+  lilith:               { sky: 'hell', c: '#ff4a1c', parts: [{ bit: 'ember', move: 'rise', n: 40 }, { e: ['🔥'], move: 'rise', n: 10, size: 64 }] },
+  'maria-hunley':       { sky: 'hearth', c: '#ff8fb1', parts: [{ e: ['💗', '💕', '💞', '💖', '🍲'], move: 'rise', n: 18, size: 56 }, { bit: 'spark', move: 'twinkle', n: 16 }] },
+  'maiko-ghan':         { sky: 'impact', c: '#ffa640', parts: [{ bit: 'streak', move: 'burst', n: 28 }, { e: ['💥', '👊', '🥋'], move: 'burst', n: 8, size: 70 }] },
+  'hayley-kate':        { sky: 'sunshine', c: '#ffd84a', parts: [{ e: ['✨', '🌟', '⭐', '📣'], move: 'twinkle', n: 20, size: 46 }, { bit: 'confetti', move: 'fall', n: 24 }] },
+  'andrea-lyle':        { sky: 'bokeh', c: '#8e7dff', parts: [{ bit: 'confetti', move: 'fall', n: 50 }, { e: ['💘', '☕', '🎉'], move: 'fall', n: 10, size: 58 }] },
+  diana:                { sky: 'blueprint', c: '#4fd1ff', parts: [{ e: ['⚛️', '🧪', '⚙️', '🧭', '🔬'], move: 'orbit', n: 8, size: 58 }, { bit: 'spark', move: 'twinkle', n: 14 }] },
+  doe:                  { sky: 'spotlight', c: '#ff4fa3', parts: [{ e: ['💋', '⭐', '📸'], move: 'twinkle', n: 12, size: 56 }, { bit: 'spark', move: 'twinkle', n: 26 }] },
+  marija:               { sky: 'moonwood', c: '#b7e4a0', parts: [{ bit: 'firefly', move: 'twinkle', n: 34 }, { e: ['🍃', '🦌'], move: 'drift', n: 5, size: 46 }] },
+  'rirarra-charca':     { sky: 'deep', c: '#3fb6ff', parts: [{ bit: 'bubble', move: 'rise', n: 36 }, { e: ['🐟', '🐠', '🦈'], move: 'drift', n: 6, size: 60 }] },
+  'rimu-hiraga':        { sky: 'dawn', c: '#ffb347', parts: [{ e: ['🎏'], move: 'drift', n: 4, size: 84 }, { e: ['❗', '‼️'], move: 'burst', n: 6, size: 64 }] },
+  'sakura-tooyama':     { sky: 'redsun', c: '#e0283c', parts: [{ bit: 'petal', move: 'fall', n: 46 }, { e: ['🌸'], move: 'fall', n: 6, size: 44 }] },
+  'shogun-kagetora':    { sky: 'warlord', c: '#b8322a', parts: [{ e: ['🍁'], move: 'fall', n: 16, size: 46 }, { bit: 'ember', move: 'rise', n: 20 }] },
+  arisa:                { sky: 'riches', c: '#ffcf4a', parts: [{ e: ['💎', '💴', '🪙', '💰'], move: 'fall', n: 22, size: 52 }, { e: ['💗'], move: 'twinkle', n: 6, size: 42 }] },
+  'deiste-junko':       { sky: 'disco', c: '#ff6b3d', parts: [{ e: ['👑', '🐉', '🔥', '🎉'], move: 'burst', n: 12, size: 66 }, { bit: 'confetti', move: 'fall', n: 30 }] },
+  miracle:              { sky: 'obsession', c: '#c0303a', parts: [{ e: ['❤️'], move: 'ring', n: 12, size: 56 }, { e: ['🪓', '📋'], move: 'twinkle', n: 3, size: 70 }] },
+  valse:                { sky: 'holy', c: '#ffe7b0', parts: [{ bit: 'feather', move: 'fall', n: 24 }, { e: ['🕊️'], move: 'drift', n: 3, size: 66 }] },
+  'beatrice-avalistos': { sky: 'hypno', c: '#b35cff', parts: [{ e: ['👁️'], move: 'ring', n: 8, size: 56 }, { e: ['👑'], move: 'twinkle', n: 3, size: 62 }] },
+};
+
 MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebration', lose: 'missing-my-hayley',
   deck: 'the-jazzer', gallery: 'speech-up-call' };
 
