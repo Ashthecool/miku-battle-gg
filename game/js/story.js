@@ -819,6 +819,30 @@ window.MB = window.MB || {};
       ] },
   ];
 
+  // The first time the game starts: M-chan, the miku.gg mascot, explains what is going on, hands you your starter
+  // deck and sends you to Story (js/ui.js plays it, then points at the Story button until the first quest is done).
+  MB.INTRO = { bg: 'miku.gg', music: 'good-ol-novel-makin', lines: [
+    { where: 'miku.gg', when: 'Somewhere between the novels' },
+    ['*', 'A browser tab flickers open in the dark. Then another. Then a thousand.'],
+    { enter: 'm-chan', at: 'center', mood: 'neutral' },
+    ['m-chan', 'neutral', "Oh. A new reader. Hi. I'm M-chan, the mascot of miku.gg. And before you ask: no, I am NOT Hatsune Miku."],
+    ['m-chan', 'angry', 'Different hair. Different beret. Different everything. Write that down.', { close: true }],
+    { choose: [
+      ['"Who?"', [['m-chan', 'sad', '...The Invisible Mascot. Every time. Every. Single. Time.']]],
+      ['"Nice beret."', [['m-chan', 'happy', "...Thanks. I-it's not like I wanted you to notice. Moving on!"]]],
+    ] },
+    ['m-chan', 'neutral', "Here's the problem. Somebody is stitching the novels together. Characters keep falling out of their stories and into each other's."],
+    { fx: 'flash', sfx: 'glitch' },
+    ['m-chan', 'scared', 'And every one of those stories has a "you" at its centre. The reader. Which, right now, is... you.'],
+    ['m-chan', 'proud', "So you're going in. You'll settle things the way everyone does around here: Miku Battle. Cards, leaders, big dramatic attacks."],
+    { sfx: 'deal' },
+    ['*', 'Twenty cards drop into your hands, still warm, like they were printed a second ago.'],
+    ['m-chan', 'happy', "Your starter deck. Beat the people you meet and they'll join you as leaders. Win packs, collect 🧩 fragments and piece new cards together."],
+    ['m-chan', 'angry', "Even the Commons. Two fragments each. Nobody gets anything for free around here. Low effort is how this mess started."],
+    ['m-chan', 'neutral', 'Your story starts in a quiet town in south England. A new mum, a new school. Don\'t get attached to quiet.'],
+    ['m-chan', 'proud', "Press Story when you're ready. I'll be watching. Critically.", { close: true }],
+  ] };
+
   // a line's mood -> the sprite role showing it (the manifest names them by battle role)
   const MOODS = { neutral: 'idle', happy: 'play', angry: 'attack', rage: 'special', scared: 'hurt', sad: 'lose', excited: 'win', proud: 'taunt' };
   const LEVEL = { hp: [20, 44], ai: [0.15, 1] };

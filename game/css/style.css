@@ -1009,6 +1009,20 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 #now-playing { font-size: 12px; opacity: .7; }
 #settings .save-row { display: flex; align-items: center; gap: 8px; font-size: 14px; border-top: 1px solid #ffffff22; padding-top: 10px; }
 #settings .save-row span { flex: 1; }
+#settings .save-row .btn { padding-left: 10px; padding-right: 10px; }
+#settings .btn.danger { background: linear-gradient(#ff6b6b, #c0282f); box-shadow: 0 4px 0 #6e1116; }
+
+/* M-chan pointing at Story after the intro */
+#screen-title .menu { position: relative; }
+#mchan-guide { position: absolute; left: 420px; top: -150px; display: flex; align-items: flex-start; pointer-events: none; z-index: 2; }
+#mchan-guide img { height: 520px; filter: drop-shadow(0 8px 18px #000a);
+  -webkit-mask-image: linear-gradient(#000 70%, transparent 96%); mask-image: linear-gradient(#000 70%, transparent 96%); }
+#mchan-guide .mg-bubble { position: relative; margin-top: 160px; margin-right: -30px; width: 220px; padding: 14px 16px; border-radius: 18px; z-index: 1;
+  background: #fff; color: #2a1640; font: 700 17px/1.35 'Segoe UI'; box-shadow: 0 6px 20px #0008; }
+#mchan-guide .mg-bubble b { color: #d8337e; }
+#mchan-guide .mg-bubble::before { content: ''; position: absolute; left: -10px; top: 18px; width: 20px; height: 20px; background: #fff; transform: rotate(45deg); }
+#mchan-guide { transition: opacity .2s; }
+#screen-title .menu:has(.menu-btn:hover) #mchan-guide { opacity: .2; } /* out of the way of the button's tip */
 #settings .btn.small { font-size: 13px; padding: 6px 12px; border-radius: 10px; box-shadow: 0 3px 0 #120c33; }
 #save-status { font-size: 12px; color: #7ee08a; min-height: 1em; }
 #save-status.bad { color: #ff7a7a; }

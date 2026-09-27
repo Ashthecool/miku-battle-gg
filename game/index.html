@@ -84,6 +84,8 @@
     </div>
     <div class="menu">
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
+      <!-- after the intro, M-chan points at Story until the first quest is done -->
+      <div id="mchan-guide" class="hidden"><div class="mg-bubble">Press <b>▶ Story</b> to begin! I'm watching.</div><img alt=""></div>
       <button id="btn-arena" class="menu-btn"><i>🏟</i><span>Arena</span><em id="arena-badge" class="badge hidden"></em></button>
       <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span><em id="deck-badge" class="badge hidden" title="Characters ready to level up"></em></button>
       <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
@@ -294,6 +296,7 @@
       <button id="save-export" class="btn small" title="Download your progress as a file">Export</button>
       <button id="save-import" class="btn small" title="Load progress from an exported file">Import</button>
       <input id="save-file" type="file" accept=".json,application/json" hidden>
+      <button id="save-reset" class="btn small danger" title="Delete all your progress and start over">Reset</button>
     </div>
     <div id="save-status"></div>
   </div>

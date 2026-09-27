@@ -1951,8 +1951,9 @@ MB.HIDDEN_COSTUMES = { 'james-lone': ['phone-james'], 'hayley-kate': ['hurt'] };
 MB.STARTER_LEADERS = ['hayley-kate', 'james-lone', 'maiko-ghan', 'luther-jones'];
 
 // Rarity drives card frames, drop odds, reveal effects and how many copies a deck may hold (a card's own
-// `copies` overrides it). Only commons are owned at the start; everything else is pieced together from the
-// fragments in card packs: `shards` of them unlock the card (weights are relative among still-locked rarities).
+// `copies` overrides it). Only the starter deck's cards are owned at the start; everything else, commons included,
+// is pieced together from the fragments in card packs: `shards` of them unlock the card (weights are relative among
+// still-locked rarities).
 MB.RARITY = {
   common:    { name: 'Common',    color: '#c9d1dc', stars: 1, weight: 50, copies: 2, shards: 2 },
   rare:      { name: 'Rare',      color: '#4aa3ff', stars: 2, weight: 30, copies: 2, shards: 4 },
@@ -1977,8 +1978,6 @@ MB.LEVELS = {
   },
 };
 
-MB.STARTER_CARDS = Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].rarity === 'common' && !MB.CARDS[id].token);
-
 // Packs are earned by winning and opened from the Packs screen. Each slot is a bundle of fragments of one
 // card of at least that rarity ('card' = any): mostly cards you don't own yet, otherwise characters you can still
 // level up (MB.LEVELS). MB.SHARD_DROP says how many fragments a bundle holds.
@@ -1997,6 +1996,8 @@ MB.STARTER_DECK = [
   'isabella-hunley', 'isabella-hunley', 'walking-stick', 'james-lone', 'james-lone',
   'wert-lone', 'wert-lone', 'farley-kate', 'farley-kate',
 ];
+// the cards you own from the start: the starter deck's
+MB.STARTER_CARDS = [...new Set(MB.STARTER_DECK)];
 
 // The novels' Story rivals are grouped in chapters, one per novel: NSFW mode hides a chapter (js/content.js), and three stars
 // on every fight of a chapter earn an Epic pack. The story itself, its order and its maps are in js/story.js.

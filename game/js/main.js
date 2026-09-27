@@ -89,7 +89,7 @@
     });
     pulse.kill();
     MB.audio.unlock();
-    MB.UI.title();
+    MB.UI.start();
     // kept for the battle loading screen (ui.js)
     gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
   });

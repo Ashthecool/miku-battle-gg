@@ -72,10 +72,12 @@
     s.version = SAVE_VERSION;
     // a hand-edited or partial save may claim a version but lack fields
     ['unlocked', 'quests', 'storyActs', 'secrets', 'actIntros', 'decks', 'avatars'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
-    // commons added by later novels are owned right away
+    // the starter deck's cards are always owned, so there is always a deck to play
     s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
     // Story: the quests done (ids; hidden ones kept for NSFW mode) and the acts whose Epic pack was paid
     s.quests = [...new Set(s.quests)].filter((id) => MB.Story.byId(id));
+    // whether M-chan's intro (MB.INTRO) was seen; saves that already started the story skip it
+    s.intro = !!s.intro || s.quests.length > 0;
     s.storyActs = [...new Set(s.storyActs)].filter((a) => MB.ACTS[a]);
     // Story secrets found, and the acts whose opening fly-over was shown
     s.secrets = [...new Set(s.secrets)].filter((id) => MB.Story.secrets.some((x) => x.id === id));
@@ -200,6 +202,17 @@
     saveStatus('Save loaded.');
     if ($('#arena').classList.contains('gallery-mode')) MB.view.clear();
     title();
+  }
+  function resetSave() {
+    if (MB.battle && !MB.battle.over && !$('#arena').classList.contains('gallery-mode')) return saveStatus('Finish or forfeit the battle first.', true);
+    if (!confirm('Delete ALL your progress (cards, packs, Story, stats) and start over?\nExport your save first if you might want it back.')) return;
+    Object.keys(save).forEach((k) => delete save[k]);
+    Object.assign(save, loadSave({}));
+    persist();
+    saveStatus('Progress reset.');
+    $('#settings').classList.remove('open');
+    if ($('#arena').classList.contains('gallery-mode')) MB.view.clear();
+    start();
   }
   function saveStatus(msg, bad) {
     const n = $('#save-status');
@@ -446,6 +459,31 @@
     const btns = [...document.querySelectorAll('#screen-title .menu-btn')].filter((b) => b.offsetParent);
     gsap.fromTo(btns, { opacity: 0, x: -80, rotationY: -35, filter: 'blur(10px)' },
       { opacity: 1, x: 0, rotationY: 0, filter: 'blur(0px)', duration: 0.8, stagger: 0.08, delay: 0.25, ease: 'power3.out', clearProps: 'filter' });
+    guide();
+  }
+
+  // the game's first start plays M-chan's intro, which leads to the title screen and its Story button
+  function start() {
+    if (save.intro) return title();
+    MB.StoryMap.scene(MB.INTRO, () => { save.intro = true; persist(); title(); }, { arc: 'Welcome to', title: 'Miku Battle', color: '#ff6fae' });
+  }
+  // until the first quest is done, M-chan stands next to the Story button and it pulses
+  let guideLoop = [];
+  function guide() {
+    const g = $('#mchan-guide'), on = save.intro && !save.quests.length && !!MB.charById('m-chan');
+    guideLoop.forEach((t) => t.kill());
+    guideLoop = [];
+    g.classList.toggle('hidden', !on);
+    if (!on) return gsap.set('#btn-story', { clearProps: 'boxShadow' });
+    const img = g.querySelector('img'), bub = g.querySelector('.mg-bubble');
+    img.src = MB.bigSpriteUrl('m-chan', 'taunt');
+    gsap.fromTo(img, { x: 160, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, delay: 0.9, ease: 'power3.out' });
+    gsap.fromTo(bub, { scale: 0, opacity: 0, transformOrigin: '0% 30%' }, { scale: 1, opacity: 1, duration: 0.5, delay: 1.3, ease: 'back.out(2)' });
+    guideLoop = [
+      gsap.to(bub, { x: -10, duration: 0.6, delay: 1.8, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+      gsap.fromTo('#btn-story', { boxShadow: '0 0 0 0 rgba(255,111,174,0)' },
+        { boxShadow: '0 0 0 4px rgba(255,111,174,.9), 0 0 40px rgba(255,111,174,.9)', duration: 0.8, delay: 1.3, yoyo: true, repeat: -1, ease: 'sine.inOut' }),
+    ];
   }
 
   function bindMenuFx() {
@@ -1656,6 +1694,7 @@
       if (MB.battle && !MB.battle.over && !$('#arena').classList.contains('gallery-mode')) return saveStatus('Finish or forfeit the battle first.', true);
       $('#save-file').click();
     };
+    $('#save-reset').onclick = () => { MB.audio.sfx('click'); resetSave(); };
     $('#save-file').onchange = (e) => { const f = e.target.files[0]; e.target.value = ''; if (f) importSave(f); };
     bindMenuFx();
     MB.Cards.bind();
@@ -1675,7 +1714,7 @@
     window.addEventListener('pointerdown', () => { MB.audio.unlock(); MB.audio.retry(); });
   }
 
-  MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
+  MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, start, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
     leaderSelect, storyIntro: intro, setBg, bgByName, persist, hideBattle,
     craft, makeShiny, levelUp, myDef, levelBadge, renderCollection: () => { if ($('#screen-deck').classList.contains('active')) renderDeck(); if ($('#screen-shop').classList.contains('active')) renderShop(); },
     refreshProfileBits,
