@@ -631,6 +631,12 @@
     if (boss) tl.fromTo(vs.querySelector('small'), { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 }, 1);
   }
 
+  // the first quest's practice battle against Hayley, Maria coaching (js/tutorial.js); then() goes on with the story
+  function lesson(then) {
+    const T = MB.TUTORIAL;
+    startBattle({ leader: T.leader, foe: T.foe, foeHp: T.foeHp, ai: T.ai, bg: T.bg, music: T.music, foeDeck: MB.STARTER_DECK, lesson: then });
+  }
+
   // ---------------------------------------------------------------- quick battle
   // a battle away from Story: any background that isn't a close-up scene, and the foe's theme or something upbeat
   const randomBg = () => MB.pick(MB.manifest.backgrounds.filter((b) => !/hug|white/i.test(b.name)));
@@ -690,7 +696,7 @@
     if (starting) return;
     const diff = cfg.arena ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
-    const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = MB.AI.deck(cfg.foe, cfg.level);
+    const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = cfg.foeDeck ? cfg.foeDeck.slice() : MB.AI.deck(cfg.foe, cfg.level);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
     starting = true;
     await loadImages(imgs.need);
@@ -702,8 +708,9 @@
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
     const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
-      playerDeck, enemyDeck, boss: cfg.boss, playerLevels: cfg.arena ? null : { ...save.levels } });
+      playerDeck, enemyDeck, boss: cfg.boss, first: cfg.lesson ? 0 : null, playerLevels: cfg.arena ? null : { ...save.levels } });
     b.aiSkill = diff.ai(cfg.ai);
+    if (cfg.lesson) MB.Tutorial.coach(b);
     $('#player-avatar').src = MB.avatarUrl(save.avatar);
     MB.battle = b;
     MB.view.b = b;
@@ -722,6 +729,7 @@
 
   function battleOver(win) {
     const cfg = current, b = MB.battle;
+    MB.Tutorial.stop();
     let recruited = null, frag = null;
     const pics = [];
     // a Story win completes the rival's quest (js/story.js); the first one also plays its after-scene (js/storymap.js)
@@ -784,12 +792,12 @@
     const stats = [['🔁', t.turns | 0, 'turns'], ['🎴', t.cards | 0, 'cards played'], ['⚔', t.face | 0, 'damage'], ['💀', t.kills | 0, 'KOs']];
     if (win && me) stats.push(['❤', `${Math.max(0, me.hp)}/${me.maxHp}`, 'HP left']);
     const diff = { easy: 'Easy', normal: 'Normal', hard: 'Hard' }[cfg.difficulty];
-    const kicker = quest ? `Story · ${quest.arc || `Act ${quest.act + 1}`} · ${quest.title}` : cfg.arena ? 'Arena' : `Quick battle${diff ? ` · ${diff}` : ''}`;
+    const kicker = quest ? `Story · ${quest.arc || `Act ${quest.act + 1}`} · ${quest.title}` : cfg.lesson ? 'Story · Practice with Hayley' : cfg.arena ? 'Arena' : `Quick battle${diff ? ` · ${diff}` : ''}`;
     MB.Result.show({
       win, leader: cfg.leader, foe: cfg.foe, kicker, stats, rewards, notes,
       color: quest ? MB.ACTS[quest.act].color : null,
       line: win ? (recruited ? `You beat <b>${foe.name}</b>, who joins your roster as a leader!` : `You beat <b>${foe.name}</b>!`)
-        : `<b>${foe.name}</b> wins this round. Tweak your deck and try again!`,
+        : cfg.lesson ? `<b>${foe.name}</b> wins this one. Don't worry, it was only practice!` : `<b>${foe.name}</b> wins this round. Tweak your deck and try again!`,
       stars: stars && win ? { row: starRow(save.stars[cfg.story] | 0, stars.fresh),
         text: cfg.difficulty === 'easy' ? '<small>Stars need Normal or Hard.</small>' : newStars ? `<span class="glit">⭐ ${newStars} new star${newStars > 1 ? 's' : ''}!</span>` : '' } : null,
       // a card the fragments just finished and new profile pictures get the full reveal once the tiles are in
@@ -798,8 +806,8 @@
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
-    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.arena ? arena() : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
-    $('#result-again').textContent = cfg.arena ? '🏟 Arena' : cfg.story != null ? (MB.StoryMap.hasAfter() ? '▶ Continue' : '🗺 Story Map') : 'Rematch';
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.lesson ? cfg.lesson() : cfg.arena ? arena() : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
+    $('#result-again').textContent = cfg.lesson ? '▶ Continue' : cfg.arena ? '🏟 Arena' : cfg.story != null ? (MB.StoryMap.hasAfter() ? '▶ Continue' : '🗺 Story Map') : 'Rematch';
   }
 
   // ---------------------------------------------------------------- deck & collection
@@ -1699,6 +1707,7 @@
     bindMenuFx();
     MB.Cards.bind();
     MB.StoryMap.bind();
+    MB.Tutorial.bind();
     $('#vol-music').value = MB.audio.settings.music;
     $('#vol-sfx').value = MB.audio.settings.sfx;
     $('#vol-music').oninput = (e) => MB.audio.setVolume('music', +e.target.value);
@@ -1715,7 +1724,7 @@
   }
 
   MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, start, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
-    leaderSelect, storyIntro: intro, setBg, bgByName, persist, hideBattle,
+    leaderSelect, storyIntro: intro, lesson, setBg, bgByName, persist, hideBattle,
     craft, makeShiny, levelUp, myDef, levelBadge, renderCollection: () => { if ($('#screen-deck').classList.contains('active')) renderDeck(); if ($('#screen-shop').classList.contains('active')) renderShop(); },
     refreshProfileBits,
     avatarById: (id) => avatarById.get(id) };

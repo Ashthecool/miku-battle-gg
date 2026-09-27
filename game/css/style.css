@@ -2299,3 +2299,24 @@ body.dev .dev-only { display: flex !important; }
 .fx-vn-box span.struck { text-decoration: line-through 4px #e8283c; color: #ffb0b8; }
 .mb-console { padding: 6px 12px; border-radius: 6px; font: 700 20px Consolas, monospace; color: #5dff8a; background: #000d;
   border: 2px solid #5dff8a; box-shadow: 0 0 12px #5dff8a88; }
+
+/* the practice battle's coaching (js/tutorial.js): a speech bubble at the top, and a ring around what it's about.
+   .block dims the screen and waits for a click; .tip lets you play while it's up */
+#coach { position: absolute; inset: 0; z-index: 60; pointer-events: none; }
+#coach.block { z-index: 200; pointer-events: auto; cursor: pointer; background: radial-gradient(ellipse at 50% 40%, #0b081644, #0b0816bb); }
+#coach .co-bubble { position: absolute; left: 50%; top: 74px; width: 700px; margin-left: -350px; display: flex; align-items: center; gap: 16px;
+  padding: 14px 20px 12px 14px; border-radius: 22px; background: rgba(14,10,34,.94); border: 3px solid var(--cc); box-shadow: 0 10px 30px #000a, 0 0 24px var(--cc); }
+#coach.ally { --cc: #6bb6ff; }
+#coach.rival { --cc: #ff8fb1; }
+#coach.rival .co-bubble { flex-direction: row-reverse; padding: 14px 14px 12px 20px; }
+#coach .co-face { width: 104px; height: 104px; flex: none; border-radius: 50%; object-fit: cover; object-position: 50% 6%; background: #ffffff14; border: 3px solid var(--cc); }
+#coach .co-say { flex: 1; min-width: 0; }
+#coach .co-name { font: 900 20px 'Segoe UI'; color: var(--cc); margin-bottom: 4px; }
+#coach .co-text { font-size: 19px; line-height: 1.4; }
+#coach .co-text b { color: #ffd84a; }
+#coach .co-foot { display: flex; align-items: center; gap: 12px; margin-top: 8px; font-size: 13px; }
+#coach .co-go { flex: 1; opacity: .7; animation: coachGo 1s infinite alternate; }
+#coach .co-skip { pointer-events: auto; cursor: pointer; background: none; border: 1px solid #ffffff44; border-radius: 10px; color: #fff; opacity: .6; padding: 3px 10px; font-size: 12px; }
+#coach .co-skip:hover { opacity: 1; }
+@keyframes coachGo { to { opacity: .3; } }
+#coach-ring { position: absolute; z-index: 201; pointer-events: none; border: 4px solid #ffd84a; border-radius: 22px; box-shadow: 0 0 0 4px #ffd84a44, 0 0 30px #ffd84a; }

@@ -18,6 +18,7 @@
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
       this.tally = { novel: {} }; // what the player did, for daily missions (count)
       this.boss = opts.boss || null; this.bossTurns = 0; this.raged = false; // a Story finale's boss rule (MB.BOSSES)
+      this.first = opts.first; // the side going first (0 or 1); a coin flip without it
       // card levels per side (card id -> Lv, MB.LEVELS); a side without them plays every card at Lv 1
       this.levels = [opts.playerLevels || null, opts.enemyLevels || null];
       this.players = [0, 1].map((side) => {
@@ -58,7 +59,7 @@
     // ---------- flow ----------
     async start() {
       this.view.init(this);
-      const first = Math.random() < 0.5 ? 0 : 1;
+      const first = this.first != null ? this.first : Math.random() < 0.5 ? 0 : 1;
       for (let i = 0; i < R.openingHand; i++) { await this.draw(first, true); await this.draw(1 - first, true); }
       await this.draw(1 - first, true); // going second: one extra card
       this.view.log(first === 0 ? 'You go first.' : `${MB.charById(this.me(1).leaderId).name} goes first.`);

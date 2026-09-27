@@ -393,12 +393,12 @@
   }
 
   function panel(q) {
-    const s = save(), p = $('#map-panel'), st = stageOf(q), open = S.isOpen(s, q), done = S.isDone(s, q);
+    const s = save(), p = $('#map-panel'), st = stageOf(q), avail = S.isOpen(s, q), done = S.isDone(s, q);
     const main = mainOf(q.act), arc = q.arc && q.main && S.arcsOf(q.act).find((x) => x.name === q.arc);
     const tag = q.side ? 'Side quest' : arc ? `Storyline · ${arc.name} · ${arc.quests.indexOf(q) + 1}/${arc.quests.length}` : `${q.foe ? 'Main story' : 'Story'} · ${main.indexOf(q) + 1}/${main.length}`;
     const boss = bossOf(q), ch = q.foe && MB.charById(q.foe);
     let art;
-    if (!open) art = '<div class="mp-art lock">?</div>';
+    if (!avail) art = '<div class="mp-art lock">?</div>';
     else if (q.foe) art = `<div class="mp-art"><img src="${MB.spriteUrl(q.foe, done ? 'win' : 'taunt')}"></div>`;
     else {
       // a scene: the first few characters who speak in it
@@ -407,8 +407,8 @@
     }
     // what it's waiting for: every need, ticked off
     const needs = q.needs.map(S.byId).filter((n) => n && n.act === q.act);
-    let body = `<div class="mp-tag" style="--c:${MB.ACTS[q.act].color}">${tag}${boss ? ' · 👑 Boss' : ''}</div><h2>${open ? q.title : '???'}</h2>`;
-    if (!open) {
+    let body = `<div class="mp-tag" style="--c:${MB.ACTS[q.act].color}">${tag}${boss ? ' · 👑 Boss' : ''}</div><h2>${avail ? q.title : '???'}</h2>`;
+    if (!avail) {
       body += art + `<div class="mp-list">${needs.map((n) => `<span class="${S.isDone(s, n) ? 'done' : ''}">${S.isDone(s, n) ? '✔' : '✖'} ${S.isOpen(s, n) || S.isDone(s, n) ? n.title : '???'}${n.arc && n.arc !== q.arc ? ` <small>(${n.arc})</small>` : ''}</span>`).join('')}</div>`;
     } else {
       body += art;
@@ -428,10 +428,15 @@
     }
     p.innerHTML = `<button class="mp-close" title="Close">✕</button>${body}<div class="mp-btns"></div>`;
     const btns = p.querySelector('.mp-btns');
-    if (open) {
+    if (avail) {
       const go = el('button', 'btn primary', q.foe ? (done ? '⚔ Rematch' : '⚔ Battle!') : done ? '🎬 Watch again' : '🎬 Play');
       go.onclick = () => { click(); play(q); };
       btns.appendChild(go);
+      if (q.lesson && done) {
+        const re = el('button', 'btn', '⚔ Practice again');
+        re.onclick = () => { click(); U().lesson(() => open({ focus: q.id })); };
+        btns.appendChild(re);
+      }
       if (q.foe && done && (q.before || q.after)) {
         const re = el('button', 'btn', '🎬 Scenes');
         re.onclick = () => { click(); replay(q); };
@@ -448,7 +453,10 @@
     const s = save();
     if (!S.isOpen(s, q)) return;
     if (!q.foe) {
-      scene(S.sceneOf(q, 'scene'), () => finish(q, S.complete(s, q.id)), titleOf(q));
+      const done = () => finish(q, S.complete(s, q.id)), after = S.sceneOf(q, 'after');
+      const then = () => (after ? scene(after, done) : done());
+      // the first quest's practice battle comes between its scenes (watching it again skips the battle)
+      scene(S.sceneOf(q, 'scene'), q.lesson && !S.isDone(s, q) ? () => U().lesson(then) : then, titleOf(q));
       return;
     }
     const first = !S.isDone(s, q);

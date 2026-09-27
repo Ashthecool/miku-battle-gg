@@ -13,7 +13,8 @@
 // follows the main quest listed before it, a side quest needs `from`), at: [x, y] in % of the map, via: [[x, y], ...]
 // (bends of the path from its first need), place (a location of the act it sits in, else the act map), arc (the
 // storyline's name), title, text (the quest panel's description), and scenes: `before` (played before the fight until it's won) and `after` (once, after the first win),
-// or `scene` for a quest without a fight. The act's last main quest is its finale.
+// or `scene` for a quest without a fight. The act's last main quest is its finale. `lesson` (the first quest only): after
+// its scene comes the practice battle that teaches you to play (js/tutorial.js), then its `after` scene.
 //
 // Act fields: title, map (+ w, h: its size in px, size: how wide it is drawn), color, music, bg (for scenes), intro
 // (shown when the act opens), places: [{ id, title, map, w, h, size, at, icon, text }] (locations you enter from the
@@ -49,7 +50,8 @@ window.MB = window.MB || {};
           text: 'A boarding school fell out of the sky onto the hill, prom banners and all. Its students are very confused.' },
       ],
       quests: [
-        { id: 'moving-day', at: [47, 93], title: 'Goodmorning, Sunshine', text: 'Your first morning with Maria, the woman who adopted you. First day at a new school, too.',
+        { id: 'moving-day', at: [47, 93], title: 'Goodmorning, Sunshine', lesson: true,
+          text: 'Your first morning with Maria, the woman who adopted you. First day at a new school, too, and a crash course in Miku Battle.',
           scene: { bg: "Your's bedroom (Morning)", music: 'goodmorning-baby-boy', lines: [
             { where: 'The Hunley house', when: 'Monday, 7:12 AM' },
             ['*', 'A new town. A new house. A new mum.'],
@@ -68,7 +70,21 @@ window.MB = window.MB || {};
             { bg: 'Street to school', music: 'hello-hayley' },
             { enter: 'hayley-kate', at: 'right', mood: 'excited' },
             ['hayley-kate', 'excited', "NEW PERSON! *screeech* Hi hi hi! Hayley Kate, class 4B, second-best person you'll meet today! Maiko's first, she's my best friend, she does karate. HI-YAH!"],
-            ['hayley-kate', 'happy', "You play Miku Battle, right? Everyone in town does. No? Oh, you SO do now. Stick with me, new friend!"],
+            ['hayley-kate', 'happy', "You play Miku Battle, right? Everyone in town does."],
+            ['you', "...I've never actually played."],
+            ['hayley-kate', 'scared', "NEVER?! Okay. Okay! Emergency lesson. Right here, right now. School can wait five minutes.", { shake: true }],
+            { enter: 'maria-hunley', at: 'left', mood: 'happy' },
+            ['maria-hunley', 'happy', "Did somebody say lesson? I'll have you know I was the Miku Battle champion of my sixth form. Two years running."],
+            ['maria-hunley', 'proud', "Tell you what, sweetie. I'll be your leader for this one and talk you through it. Hayley, go easy on them."],
+            ['hayley-kate', 'excited', "Easy? Me? I'm ALWAYS gentle! Mostly! Deal 'em!"],
+          ] },
+          after: { bg: 'Street to school', music: 'hello-hayley', lines: [
+            { enter: 'hayley-kate', at: 'right', mood: 'excited' },
+            ['hayley-kate', 'excited', "See?! You're a natural! Well. A natural-ish. Beat people, they join your side, you get packs full of cards. That's the whole game!"],
+            { enter: 'maria-hunley', at: 'left', mood: 'happy' },
+            ['maria-hunley', 'happy', "If you forget anything, hover over it, or have a look at How to Play on the main menu. Now GO, you'll be late!"],
+            ['maria-hunley', 'proud', "And sweetie? Your lunchbox."],
+            ['*', 'You take the lunchbox. It is only slightly squashed.'],
           ] } },
         { foe: 'james-lone', at: [30, 79], title: 'Welcome to School', text: "James Lone has been assigned to show you around. He'd rather be anywhere else.",
           before: { bg: 'Outside School', music: 'welcome-to-school', lines: [
