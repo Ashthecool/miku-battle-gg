@@ -80,7 +80,7 @@
   const rarityOf = (def) => MB.RARITY[def.rarity] || MB.RARITY.common;
   const starStr = (r) => [1, 2, 3, 4].map((i) => `<i class="${i <= r.stars ? 'on' : ''}">★</i>`).join('');
   function bigCard(card, stats) {
-    const def = card.cid ? card : defOf(card.id || card);
+    const def = card.cid ? card : MB.UI.myDef(card.id || card); // at your level, like the card drawn
     const c = MB.UI.cardEl(card, true);
     if (stats && def.type === 'unit') {
       const a = c.querySelector('.stat.atk'), h = c.querySelector('.stat.hp');
@@ -675,6 +675,14 @@
     micdrop: { move: 'slide', fx: 'fling', emoji: ['🎤', '📻', '😎'], sfx: 'thud' }, fakecry: { move: 'strut', fx: 'flash', sfx: 'camera' },
     oilrig: { move: 'drop', fx: 'rain', emoji: ['💸', '💳', '💎'], sfx: 'coin' }, likestorm: { move: 'zoom', fx: 'swirl', emoji: ['❤️', '👍', '✌️'], sfx: 'camera' },
     quill: { move: 'fade', fx: 'swirl', emoji: ['📚', '🪶', '🍷'], sfx: 'crinkle' }, warmap: { move: 'drop', fx: 'fling', emoji: ['💂', '🗺️', '⚔️'], sfx: 'drumroll' },
+    manaseal: { move: 'fade', fx: 'column', sfx: 'holy' }, lastcall: { move: 'strut', fx: 'fling', emoji: ['🍾', '🍷', '✨'], sfx: 'bubble' },
+    friendcount: { move: 'pop', fx: 'confetti', sfx: 'ding' }, divinemark: { move: 'sneak', fx: 'column', sfx: 'choir' },
+    armory: { move: 'spin', fx: 'fling', emoji: ['🔱', '🪓', '🌙'], sfx: 'unsheathe' },
+    extracredit: { move: 'strut', fx: 'swirl', emoji: ['📖', '💘', '✨'], sfx: 'kiss' }, critique: { move: 'fade', fx: 'rain', emoji: ['⭐', '📝', '💜'], sfx: 'tick' },
+    express: { move: 'slide', fx: 'fling', emoji: ['🍕', '🛵', '📦'], sfx: 'honk' }, targetlock: { move: 'drop', fx: 'flash', sfx: 'scope' },
+    splice: { move: 'fade', fx: 'swirl', emoji: ['🧬', '💉', '⌚'], sfx: 'glitch' }, glitchblade: { move: 'zoom', fx: 'flash', sfx: 'glitch' },
+    mothdust: { move: 'rise', fx: 'swirl', emoji: ['🦋', '✨', '🤍'], sfx: 'flutter' }, jukebox: { move: 'slide', fx: 'fling', emoji: ['📼', '🎸', '🏍️'], sfx: 'guitar' },
+    cleaver: { move: 'drop', fx: 'fling', emoji: ['🔪', '🍳', '🌶️'], sfx: 'clang' },
   };
   // a recipe attack (fx.js) enters the way it moves, flinging its props
   const RECIPE_ENTRANCE = { stay: 'pop', float: 'fade', dash: 'slide', leap: 'drop', blink: 'zoom', spin: 'spin', hop: 'hop', zigzag: 'slide',
@@ -3090,8 +3098,27 @@
         spray(layer, cardX, CARD_Y, '#ffe27a', 30, { dist: [100, 300], stars: 0.8 });
         MB.UI.renderCollection();
         if (got.done) { close().then(() => reveal([def.id])); return; }
-        c.querySelector('.shards').remove();
-        MB.UI.lockCard(c);
+        if (!got.up) { c.querySelector('.shards').remove(); MB.UI.lockCard(c); }
+        fill();
+      }));
+      // banked fragments buy the next level: the card's new stats pop in
+      info.querySelectorAll('[data-levelup]').forEach((btn) => btn.addEventListener('click', () => {
+        const got = MB.UI.levelUp(def.id);
+        if (!got) return MB.audio.sfx('error');
+        const nd = MB.UI.myDef(def.id);
+        Object.assign(def, { atk: nd.atk, hp: nd.hp, level: nd.level });
+        c.querySelector('.stat.atk').textContent = def.atk;
+        c.querySelector('.stat.hp').textContent = def.hp;
+        c.querySelectorAll('.card-lv').forEach((n) => n.remove());
+        c.insertAdjacentHTML('beforeend', MB.UI.levelBadge(def.level));
+        const top = got.to >= MB.LEVELS.max;
+        MB.audio.sfx('buff'); MB.audio.sfx(top ? 'fanfare' : 'sparkle');
+        gsap.fromTo(c.querySelectorAll('.stat, .card-lv'), { scale: 2.2 }, { scale: 1, duration: 0.6, stagger: 0.08, ease: 'back.out(3)' });
+        gsap.fromTo(c, { filter: 'brightness(2.5)' }, { filter: 'brightness(1)', duration: 0.7, clearProps: 'filter' });
+        spray(layer, cardX, CARD_Y, col, top ? 70 : 36, { dist: [120, top ? 460 : 320], stars: 0.6 });
+        ring(layer, cardX, CARD_Y, top ? '#ffe27a' : col, { size: 200, scale: top ? 5 : 3.5 });
+        word(layer, cardX, CARD_Y - 300, top ? '★ MAX LEVEL!' : `LEVEL ${got.to}!`, top ? '#ffe27a' : col, 54);
+        MB.UI.renderCollection();
         fill();
       }));
       info.querySelectorAll('[data-shiny]').forEach((btn) => btn.addEventListener('click', () => {
@@ -3232,19 +3259,37 @@
       ${!stats && !def.fused && !def.combo ? glitterHtml(def, locked) : ''}`;
   }
 
-  // what Glitter can do for this card (missions.js): craft its fragments while it's locked, then a Shiny finish
+  // what Glitter can do for this card (missions.js): craft its fragments while it's locked; once owned, level it up
+  // (levelHtml), then a Shiny finish
   function glitterHtml(def, locked) {
     const s = MB.UI.save, M = MB.Missions, bank = `<span class="glit">✨ ${s.glitter}</span>`;
+    const btn = (n, label) => { const per = M.craftCost(s, def.id); return `<button data-craft="${n}"${s.glitter < per * n ? ' disabled' : ''}>${label} <b>✨ ${per * n}</b></button>`; };
     if (locked) {
-      const per = M.craftCost(s, def.id);
-      if (!per) return '';
-      const left = MB.Collection.need(def.id) - MB.UI.shardsOf(def.id);
-      const btn = (n, label) => `<button data-craft="${n}"${s.glitter < per * n ? ' disabled' : ''}>${label} <b>✨ ${per * n}</b></button>`;
+      if (!M.craftCost(s, def.id)) return '';
+      const left = M.nextStep(s, def.id);
       return `<div class="cm-glitter">${bank}${btn(1, '🧩 Craft a fragment')}${left > 1 ? btn(left, `Craft all ${left}`) : ''}</div>`;
     }
-    if (s.shiny.includes(def.id)) return '<div class="cm-glitter on">✨ Shiny!</div>';
     const cost = M.shinyCost(s, def.id);
-    return cost ? `<div class="cm-glitter">${bank}<button data-shiny${s.glitter < cost ? ' disabled' : ''}>Make it Shiny <b>✨ ${cost}</b></button></div>` : '';
+    return levelHtml(def, bank, btn) + (s.shiny.includes(def.id) ? '<div class="cm-glitter on">✨ Shiny!</div>'
+      : cost ? `<div class="cm-glitter">${bank}<button data-shiny${s.glitter < cost ? ' disabled' : ''}>Make it Shiny <b>✨ ${cost}</b></button></div>` : '');
+  }
+  // a character you own: its level, the fragments banked toward the next one, and what that level adds
+  function levelHtml(def, bank, btn) {
+    const s = MB.UI.save, C = MB.Collection, L = MB.LEVELS;
+    if (!C.levels(def.id) || def.cid) return ''; // not on a card in a battle: it plays at the level it started with
+    const lv = C.level(s, def.id), pips = Array.from({ length: L.max }, (_, k) => `<i class="${k < lv ? 'on' : ''}"></i>`).join('');
+    if (lv >= L.max) {
+      return `<div class="cm-level max"><div class="cm-lvhead"><b>★ MAX LEVEL</b><span class="cm-pips">${pips}</span></div>
+        <div class="cm-lvnext">✦ Special move unlocked <small>(its animation is coming soon)</small></div></div>`;
+    }
+    const cost = C.upCost(s, def.id), have = MB.UI.shardsOf(def.id), [a, h] = L.gain[def.rarity][lv - 1];
+    const plus = [a && `+${a} ATK`, h && `+${h} HP`].filter(Boolean).join(' ');
+    const want = Math.min(MB.Missions.nextStep(s, def.id), C.room(s, def.id));
+    return `<div class="cm-level"><div class="cm-lvhead"><b>Lv ${lv}</b><span class="cm-pips">${pips}</span>
+        <span class="cm-lvnext">Lv ${lv + 1}: <b>${plus}</b>${lv + 1 >= L.max ? ' · ✦ special move' : ''}</span></div>
+      <div class="cm-lvbar"><div class="cm-shardbar"><i style="width:${Math.min(100, (have / cost) * 100)}%"></i></div><span>🧩 ${have}/${cost}</span></div>
+      <div class="cm-glitter"><button class="lvup" data-levelup${have >= cost ? '' : ' disabled'}>⬆ Level up</button>
+        ${have < cost ? `${bank}${btn(1, '+1 🧩')}${want > 1 ? btn(want, `+${want} 🧩`) : ''}` : ''}</div></div>`;
   }
 
   // relationships this character can fuse through
@@ -3351,9 +3396,9 @@
   function revealOne(ov, item, i, n) {
     const it = typeof item === 'string' ? { card: item } : item;
     const X = 800, Y = 440, S = 1.9;
-    const def = it.card && defOf(it.card), r = def ? rarityOf(def) : null, shard = it.need != null;
+    const def = it.card && defOf(it.card), r = def ? rarityOf(def) : null, shard = it.need != null && !it.up, up = !!it.up;
     // a few fragments get a shorter build-up than a card coming together
-    const col = r ? r.color : AVATAR_COLOR, lvl = r ? Math.max(1, shard && !it.done ? Math.min(2, r.stars) : r.stars) : 2;
+    const col = r ? r.color : AVATAR_COLOR, lvl = r ? Math.max(1, (shard || up) && !it.done ? Math.min(2, r.stars) : r.stars) : 2;
     const layer = ov.querySelector('.rv-fx'), rays = ov.querySelector('.rv-rays'), flash = ov.querySelector('.rv-flash');
     const title = ov.querySelector('.rv-title'), sub = ov.querySelector('.rv-sub'), hint = ov.querySelector('.rv-hint');
     ov.style.setProperty('--rc', col);
@@ -3371,12 +3416,12 @@
     gsap.set([glow, back, front], { x: X, y: Y, xPercent: -50, yPercent: -50 });
     gsap.set(front, { rotationY: -90, opacity: 0, transformPerspective: 1200 });
     gsap.set(glow, { opacity: 0 });
-    const got = shard ? it.to - it.from : 0;
-    title.textContent = shard ? `+${got} FRAGMENT${got > 1 ? 'S' : ''}` : def ? r.name.toUpperCase() + '!' : 'NEW PICTURE!';
+    const got = shard || up ? it.to - it.from : 0;
+    title.textContent = shard || up ? `+${got} FRAGMENT${got > 1 ? 'S' : ''}` : def ? r.name.toUpperCase() + '!' : 'NEW PICTURE!';
     title.style.color = col;
     const count = n > 1 ? ` <small>(${i + 1}/${n})</small>` : '';
     const shardLine = (k) => `<b>${def.name}</b> · 🧩 ${k}/${it.need}${count}`;
-    sub.innerHTML = shard ? shardLine(it.from) : def ? `<b>${def.name}</b> joined your collection${count}`
+    sub.innerHTML = shard ? shardLine(it.from) : up ? upLine(it) + count : def ? `<b>${def.name}</b> joined your collection${count}`
       : `<b>${MB.UI.avatarById(it.avatar).name}</b> is now a profile picture${count}`;
     hint.textContent = 'Click the card to flip it';
     gsap.set([title, sub, hint], { opacity: 0 });
@@ -3602,6 +3647,10 @@
       .fromTo(title, { scale: 2.4 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' }, '<');
   }
 
+  // fragments that went to a card you own: where its next level stands
+  const upTag = (it) => (!it.need ? '★ MAX' : it.to >= it.need ? `⬆ Lv ${it.level + 1} ready!` : `Lv ${it.level} · ${it.to}/${it.need}`);
+  const upLine = (it) => `<b>${defOf(it.card).name}</b> · ${!it.need ? '★ max level' : it.to >= it.need ? `ready to reach <b>Lv ${it.level + 1}</b>!` : `Lv ${it.level} · 🧩 ${it.to}/${it.need} to Lv ${it.level + 1}`}`;
+
   // ---------------------------------------------------------------- the haul
   // everything from the pack side by side, to look over (they tilt and lift under the pointer). Resolves true for
   // "open another".
@@ -3623,16 +3672,16 @@
     gsap.set(rays, { rotation: 0 });
 
     const boxes = items.map((it, k) => {
-      const def = it.card && defOf(it.card), whole = it.need == null || it.done, color = def ? rarityOf(def).color : AVATAR_COLOR;
+      const def = it.card && defOf(it.card), whole = it.need == null || it.done, inPieces = !whole && !it.up, color = def ? rarityOf(def).color : AVATAR_COLOR;
       const c = def ? MB.UI.cardEl(it.card, true) : avatarCard(it.avatar, W * S, H * S);
       if (def) c.style.zoom = S;
-      if (!whole) MB.UI.lockCard(c, it.to);
+      if (inPieces) MB.UI.lockCard(c, it.to);
       if (def) c.appendChild(el('div', 'glare'));
       const box = el('div', 'rv-haul' + (whole ? ' new' : ''));
       box.style.setProperty('--rc', color);
       Object.assign(box.style, { width: W * S + 'px', height: H * S + 'px' });
       box.appendChild(c);
-      box.appendChild(el('div', 'rv-haul-tag', whole ? 'NEW!' : `+${it.to - it.from} 🧩 ${it.to}/${it.need}`));
+      box.appendChild(el('div', 'rv-haul-tag' + (it.up ? ' up' : ''), whole ? 'NEW!' : it.up ? `+${it.to - it.from} 🧩 · ${upTag(it)}` : `+${it.to - it.from} 🧩 ${it.to}/${it.need}`));
       ov.insertBefore(box, layer);
       const x = 800 + (k - (N - 1) / 2) * (W * S + gap);
       gsap.set(box, { x: 800, y: Y, xPercent: -50, yPercent: -50, transformPerspective: 900, opacity: 0 });

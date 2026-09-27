@@ -40,6 +40,9 @@ SKIP_OUTFITS = {
     "natsuki/nude",
     # Everythin' with Amy Lyn: an empty placeholder character
     "nothing/nothing",
+    # Academia Magicka and Makin' Magic with Miku: blank outfits
+    "beatrice/cg1", "beatrice/new-outfit", "ruby/cg1", "irene/new-outfit", "charlotte/new-outfit",
+    "gwendolyn/new-outfit", "m-chan/new-outfit",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -54,7 +57,7 @@ NSFW_OUTFITS = {
     "anya/anya-2", "cream/cream-2", "juniper/juniper-5", "adam/adam-4", "alexis/alexis-4", "misaki/morning",
     "anna-vinelace/new-outfit", "charlotte/cat-outfit", "lily/default", "nerida/default", "kira/default",
     "anna/covered", "amy-lyn/naked-ribbon", "amy-lyn/naughty-cat", "amy-lyn/for-the-thicc-lovers", "amy-lyn/strap-on-d",
-    "maiko/succubus", "maiko/crying",
+    "maiko/succubus", "maiko/crying", "gwendolyn/spicy",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
 NSFW_NOVELS = {"Noble One"}
@@ -64,7 +67,8 @@ NSFW_BACKGROUNDS = {"Paradiso Suburbia/CGH1"}
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids
 ONLY_CHARACTERS = {
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
-                  "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew"},
+                  "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew",
+                  "queen", "bob", "noelle", "anya", "shenzi"},
     # without the nameless binary entity and Hil Kuntnovi
     "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)": {
         "beatrice-avalistos", "julia-aquacrucis", "priest-pristo", "hed", "curtis-vongravis", "pepita-pazzarella",
@@ -74,7 +78,14 @@ ONLY_CHARACTERS = {
                                        "evil-villainess-chan", "mariko", "keiko"},
     # the families, the Reid sisters' circle, the Johnsons and two teachers (without Asher, Kayden, Julia and Jake)
     "Paradiso Suburbia": {"hunter-smith", "marie-smith", "chris", "olivia", "evelyn", "sophia", "ethan", "skylar",
-                          "hime", "reina", "lucia-atkins", "peter-reeves"},
+                          "hime", "reina", "lucia-atkins", "peter-reeves", "kayden"},
+    # the students and teachers the stories revolve around (without the explainer, the AU Irene and the side cast)
+    "Academia Magicka: Entrance Ceremony [DEMO]": {"beatrice", "jeffery", "ruby", "steel", "irene", "charlotte", "thomas",
+                                                   "elyssa", "gwendolyn", "howard", "hailey", "rion",
+                                                   "marianne", "makoto", "nevaeh", "hubertson", "farigh-anterim", "aria", "licht"},
+    # the named cast (without the nameless workers, guards and goons)
+    "Cyber Delivery": {"dani", "kat-13", "stv-3", "takeda", "jet", "lamina", "seo-jin-tae", "nikita", "mel", "crash",
+                       "hope", "pedro"},
 }
 
 # Emotions the battle system uses; first match per role wins.
@@ -191,12 +202,16 @@ def add_novel(novel, manifest):
             jobs.append((emo[pick], "1080p/", rel, dict(max_h=900)))
         return sprites
 
-    taken = {ch["id"] for ch in manifest["characters"]}
+    # a character re-added from its export keeps the id it had (cards, saves and bonds use it); a new one never
+    # takes an id already in use, whatever order the novels are re-added in
+    taken = {ch["id"] for ch in manifest["characters"]} | set(manifest["_old_ids"].values())
     for entry in characters(novel):
         c, outfits = entry["src"], entry["outfits"]
-        cid = slug(entry["name"])
-        if cid in taken:  # same name in an earlier novel
-            cid = f"{cid}-{slug(novel['title']).split('-')[0]}"
+        cid = manifest["_old_ids"].get((novel["title"], entry["name"]))
+        if not cid:
+            cid = slug(entry["name"])
+            if cid in taken:  # same name in an earlier novel
+                cid = f"{cid}-{slug(novel['title']).split('-')[0]}"
         taken.add(cid)
         outfit = outfits[0]
         sprites = outfit_sprites(outfit, f"sprites/{cid}")
@@ -265,6 +280,7 @@ def main():
         old = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8"))
     except FileNotFoundError:
         old = None
+    manifest["_old_ids"] = {(c["novel"], c["name"]): c["id"] for c in old["characters"]} if old else {}
     if old:
         manifest["novels"] = [t for t in old["novels"] if t not in given]
         manifest["nsfwNovels"] = [t for t in old["nsfwNovels"] if t not in given]
@@ -278,6 +294,12 @@ def main():
         if novel["title"] in NSFW_NOVELS:
             manifest["nsfwNovels"].append(novel["title"])
         jobs += add_novel(novel, manifest)
+    del manifest["_old_ids"]
+    # characters and songs an export no longer has (an older export of the novel had them) stay as they were
+    if old:
+        for k in ("characters", "music"):
+            ids = {e["id"] for e in manifest[k]}
+            manifest[k] += [e for e in old[k] if e["novel"] in given and e["id"] not in ids]
 
     if local:
         def store(rel, data):

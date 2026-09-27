@@ -18,6 +18,8 @@
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
       this.tally = { novel: {} }; // what the player did, for daily missions (count)
       this.boss = opts.boss || null; this.bossTurns = 0; this.raged = false; // a Story finale's boss rule (MB.BOSSES)
+      // card levels per side (card id -> Lv, MB.LEVELS); a side without them plays every card at Lv 1
+      this.levels = [opts.playerLevels || null, opts.enemyLevels || null];
       this.players = [0, 1].map((side) => {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
         const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
@@ -25,7 +27,7 @@
           side, leaderId, power: MB.POWERS[leaderId], powerUsed: false,
           leader: { uid: 'L' + side, isLeader: true, side, hp, maxHp: hp, atk: 0, charId: leaderId },
           gold: 0, maxGold: 0, fatigue: 0,
-          deck: shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++uidSeq, ...cardDef(id) }))),
+          deck: shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++uidSeq, ...this.defOf(side, id) }))),
           hand: [], board: new Array(SLOTS).fill(null),
         };
       });
@@ -35,6 +37,12 @@
     // kills (enemy monsters), face (damage to the enemy leader), healed; tally.novel counts cards played per novel
     count(side, key, n = 1) {
       if (side === 0 && n > 0) this.tally[key] = (this.tally[key] || 0) + n;
+    }
+
+    // a card as this side plays it: at its level, if the side has levels
+    defOf(side, id) {
+      const lv = this.levels[side] && this.levels[side][id];
+      return lv > 1 ? MB.Collection.leveled(cardDef(id), lv) : cardDef(id);
     }
 
     me(side) { return this.players[side]; }
@@ -451,7 +459,7 @@
 
     // put a card straight into the hand (with a fresh cid); burns it when the hand is full
     async addToHand(side, id, mod) {
-      const p = this.me(side), card = { ...cardDef(id), cid: ++uidSeq, ...mod };
+      const p = this.me(side), card = { ...this.defOf(side, id), cid: ++uidSeq, ...mod };
       if (p.hand.length >= R.maxHand) { await this.view.burn(side, card); return false; }
       p.hand.push(card);
       await this.view.drawCard(side, card);

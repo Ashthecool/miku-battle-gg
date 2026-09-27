@@ -1,15 +1,18 @@
 // Daily missions and Glitter ✨. Missions count what you do in battle (Battle.tally) and pay out Glitter, which also
-// comes from every win and from pack fragments past a card's complete. Glitter crafts fragments of a card you pick,
-// or makes a card you own Shiny. Works on a save's { glitter, missions, shiny, unlocked, shards, leaders } only, so
-// tools/check_game.js can simulate it.
+// comes from every win and from pack fragments no card could use. Glitter crafts fragments of a card you pick (to
+// unlock it or level it up), buys the Shop's daily deals and packs, or makes a card you own Shiny. Works on a save's
+// { glitter, missions, shop, shiny, unlocked, shards, levels, packs, leaders, decks } only, so tools/check_game.js can
+// simulate it.
 window.MB = window.MB || {};
 (function () {
   const G = MB.GLITTER = {
     win: 5,        // every win
-    complete: 25,  // a win once every card is collected (instead of a pack)
-    extra: 10,     // each pack fragment past a card's complete
-    craft: { rare: 20, epic: 30, legendary: 45 },                // one fragment
+    complete: 25,  // a win once every card is collected and maxed (instead of a pack)
+    extra: 10,     // each pack fragment no card could use
+    craft: { common: 12, rare: 20, epic: 30, legendary: 45 },    // one fragment
     shiny: { common: 60, rare: 120, epic: 240, legendary: 480 },  // a Shiny finish on a card you own
+    // the Shop: `deals` fragment bundles a day (`bundle` fragments of one card, `off` cheaper than crafting them), and packs
+    shop: { deals: 6, off: 0.3, bundle: { common: 3, rare: 3, epic: 2, legendary: 2 }, packs: { common: 45, rare: 110, epic: 220 } },
   };
   const PER_DAY = 3;
   const pick = (a) => a[Math.random() * a.length | 0];
@@ -98,18 +101,68 @@ window.MB = window.MB || {};
   const claimable = (s) => (s.missions ? s.missions.list.filter((m) => done(m) && !m.claimed).length : 0);
 
   // ---------------------------------------------------------------- spending
-  // Glitter per fragment of a locked card (null: nothing to craft), and for its Shiny finish once you own it
-  const craftCost = (s, id) => (MB.CARDS[id] && !has(s, id) && G.craft[MB.CARDS[id].rarity]) || null;
+  const C = MB.Collection;
+  // Glitter per fragment of a card that can still use some: a locked one, or a character short of the top level
+  // (null: nothing to craft); and for its Shiny finish once you own it
+  const craftCost = (s, id) => (MB.CARDS[id] && C.room(s, id) > 0 && G.craft[MB.CARDS[id].rarity]) || null;
   const shinyCost = (s, id) => (MB.CARDS[id] && has(s, id) && !s.shiny.includes(id) && G.shiny[MB.CARDS[id].rarity]) || null;
-  // crafts up to n fragments (all the card still needs, if n is left out); returns { from, to, done } or null
+  // fragments a card still needs for its next step: to unlock it, or for its next level
+  const nextStep = (s, id) => (has(s, id) ? Math.max(0, C.upCost(s, id) - (s.shards[id] || 0)) : C.need(id) - (s.shards[id] || 0));
+  // crafts up to n fragments (by default what its next step needs); returns { from, to, up?, done } or null
   function craft(s, id, n) {
     const per = craftCost(s, id);
     if (!per) return null;
-    const left = MB.Collection.need(id) - (s.shards[id] || 0), k = Math.min(n || left, left, Math.floor(s.glitter / per));
+    const k = Math.min(n || nextStep(s, id) || 1, C.room(s, id), Math.floor(s.glitter / per));
     if (k < 1) return null;
     s.glitter -= k * per;
-    const r = MB.Collection.addShards(s, id, k);
-    return { ...r, done: has(s, id) };
+    const r = C.addShards(s, id, k);
+    return { ...r, done: !r.up && has(s, id) };
+  }
+
+  // ---------------------------------------------------------------- the Shop
+  // A save keeps { shop: { day, deals: [{ card, n, price, bought? }] } }. Each day brings fresh deals, half of them (when
+  // it can) on cards you're already after: in one of your decks, or with fragments started.
+  const bundle = (id) => G.shop.bundle[MB.CARDS[id].rarity] || 1;
+  const dealPrice = (id, n) => Math.round(n * G.craft[MB.CARDS[id].rarity] * (1 - G.shop.off));
+  function rollDeals(s) {
+    const pool = C.deckCards().filter((id) => G.craft[MB.CARDS[id].rarity] && C.room(s, id) > 0);
+    const inDecks = new Set((s.decks || []).flatMap((d) => d.cards || []));
+    const keen = pool.filter((id) => inDecks.has(id) || s.shards[id] > 0);
+    const out = [], take = (list) => { const id = pick(list.filter((x) => !out.includes(x))); if (id) out.push(id); };
+    for (let i = 0; i < G.shop.deals && out.length < pool.length; i++) take(i % 2 === 0 && keen.some((x) => !out.includes(x)) ? keen : pool);
+    return out.sort((a, b) => MB.RARITY[MB.CARDS[a].rarity].stars - MB.RARITY[MB.CARDS[b].rarity].stars)
+      .map((id) => ({ card: id, n: bundle(id), price: dealPrice(id, bundle(id)) }));
+  }
+  // a new day brings new deals; true when it rolled
+  function shopDaily(s, day = today()) {
+    if (s.shop && s.shop.day === day) return false;
+    s.shop = { day, deals: rollDeals(s) };
+    return true;
+  }
+  // a deal can be bought once, while its card can still use fragments (a card that needs fewer than the bundle holds
+  // gets what it can use, for that share of the price)
+  function dealCost(s, d) {
+    if (!d || d.bought || !MB.CARDS[d.card]) return null;
+    const k = Math.min(d.n, C.room(s, d.card));
+    return k < 1 ? null : { k, cost: k === d.n ? d.price : Math.ceil((d.price * k) / d.n) };
+  }
+  // buys deal i; returns its fragments as a pack-haul entry plus { extra }, or null
+  function buyDeal(s, i) {
+    const d = s.shop && s.shop.deals[i], c = dealCost(s, d);
+    if (!c || s.glitter < c.cost) return null;
+    s.glitter -= c.cost;
+    d.bought = true;
+    const r = C.addShards(s, d.card, c.k);
+    return { ...C.entry(s, d.card, r), extra: r.extra };
+  }
+  // packs for Glitter, while a pack still has something to give
+  const packCost = (s, tier) => (!C.finished(s) && G.shop.packs[tier]) || null;
+  function buyPack(s, tier) {
+    const cost = packCost(s, tier);
+    if (!cost || s.glitter < cost) return false;
+    s.glitter -= cost;
+    s.packs[tier] = (s.packs[tier] | 0) + 1;
+    return true;
   }
   function makeShiny(s, id) {
     const cost = shinyCost(s, id);
@@ -163,5 +216,6 @@ window.MB = window.MB || {};
   const starCount = (s, stages) => stages.reduce((t, k) => t + bits(s.stars[k] | 0), 0);
   MB.Stars = { starsOf, starsWon, awardStars, starCount, bits, CHALLENGES, HP_STAR };
 
-  MB.Missions = { daily, roll, text, done, progress, claim, reroll, claimable, craftCost, shinyCost, craft, makeShiny, novelName, today, PER_DAY };
+  MB.Missions = { daily, roll, text, done, progress, claim, reroll, claimable, craftCost, shinyCost, nextStep, craft, makeShiny, novelName, today, PER_DAY };
+  MB.Shop = { daily: shopDaily, rollDeals, dealCost, buyDeal, packCost, buyPack };
 })();

@@ -309,6 +309,8 @@ window.MB = window.MB || {};
           text: "Rinco and Melanika's stretch of the beach. There is a bar. There is a seagull. The seagull runs the bar." },
         { id: 'workshop', title: "The Medic's Workshop", map: 'maps/lifeguard_workshop.webp', w: 1024, h: 1024, size: 1600, at: [5, 57], icon: '🔨',
           text: 'The cabin Daphne the engineer and Brizz the medic share. Not lovers. Very clear about that.' },
+        { id: 'neon', title: 'The Neon District', map: 'backgrounds/neon-district-17d4b3.webp', w: 1280, h: 768, size: 1900, at: [53, 22], icon: '🍕',
+          text: 'Grid City, a cyberpunk megacity, landed behind the skyline. It never stops raining neon. Somebody ordered a pizza.' },
       ],
       quests: [
         { id: 'new-haven', at: [34, 90], title: 'Welcome to the City', text: 'Glass towers, a beach, a university... and a very excited deer girl.',
@@ -464,6 +466,17 @@ window.MB = window.MB || {};
         { foe: 'luxuria', side: true, from: 'aria', at: [88, 84], title: 'Sister Lucy', text: 'You wake up in the middle of a glowing circle, in an old chapel that fell into the woods. Three nuns stand around you. The youngest has a tail.' },
         { foe: 'ignis', side: true, from: 'luxuria', at: [95, 93], title: 'The Last Sacrifice', text: "Ignis explains, very calmly, that their ritual needs one last human. You. It's nothing personal. She's a demon general." },
         { foe: 'doloria', side: true, from: 'ignis', at: [85, 95], title: 'Twenty Years in a Veil', text: 'The ritual cracks the curse on Sister Doloria. For twenty years she thought she was a simple nun. She was a queen.' },
+        // Makin' Magic with Miku
+        { foe: 'm-chan', side: true, from: 'jane', at: [12, 72], title: 'The Invisible Mascot', text: 'Every screen in the arcade shows the same girl in a beret, arms crossed. She is NOT Hatsune Miku, and she has notes on your story.' },
+        // Cyber Delivery, in the Neon District
+        { foe: 'dani', side: true, from: 'diana', place: 'neon', at: [22, 78], title: 'Delivery for You', text: "A pizza van skids to a stop in the rain. Dani, the delivery girl, is sure someone here ordered. It wasn't you. She'll play you for it anyway." },
+        { foe: 'jet', side: true, from: 'dani', place: 'neon', at: [8, 60], title: "Can't Stand Still", text: "Jet, Dani's old coworker, can't stop moving. Cards are the only thing that holds him in one place. Almost." },
+        { foe: 'pedro', side: true, from: 'dani', place: 'neon', at: [42, 84], title: "Pedro's Diner", text: 'An ex-combat android runs the diner now. The food is great. The chef has seen things. Lose, and you wash the dishes.' },
+        { foe: 'takeda', side: true, from: 'dani', place: 'neon', at: [30, 42], title: 'The Ronin', text: 'An android samurai guards the back alleys from the megacorps. He speaks in broken proverbs and refuses to use guns.' },
+        { foe: 'crash', side: true, from: 'jet', place: 'neon', at: [62, 70], title: 'A Biker Named Crash', text: "The gang boss wants his full name used. His sister Hope wants this over with. They both want your turf." },
+        { foe: 'kat-13', side: true, from: 'takeda', place: 'neon', at: [72, 30], title: 'Enforcer', text: 'Valkyrie Corp sent KAT-13 to keep the peace. She keeps it very, very violently. She is smiling. Somehow.' },
+        { foe: 'lamina', side: true, from: 'crash', place: 'neon', at: [88, 86], title: 'The Chitin Creed', text: "Under the streets, the moth mother leads the experiments Jeong-ui threw away. She knows who made her. She'd like you to know too." },
+        { foe: 'seo-jin-tae', side: true, from: 'lamina', place: 'neon', at: [84, 18], title: 'Machines of Flesh', text: "Jeong-ui BioWorks' CEO watches the city from his tower. To him, you're raw material with opinions." },
       ],
       secrets: [
         { id: 'man-and-doe', at: [60, 84], title: 'A Man and His Doe', lines: [
@@ -618,6 +631,8 @@ window.MB = window.MB || {};
       places: [
         { id: 'barony', title: 'The Vinelace Barony', map: 'maps/noble_one_barony.webp', w: 1536, h: 1024, size: 2200, at: [88, 44], icon: '🍷',
           text: 'A noble estate with vineyards, down in the valley. The servants call you "young master".' },
+        { id: 'academy', title: 'The Royal Academy', map: 'backgrounds/courtyard-dd29ea.webp', w: 1152, h: 896, size: 1700, at: [93, 26], icon: '🏰',
+          text: 'The Royal Academy of Gralia appeared on a ridge overnight, entrance ceremony and all. New students, please find your seats.' },
       ],
       quests: [
         { id: 'foothills', at: [43, 93], title: 'The Foothills', text: 'You land at the foot of the Peaks, on a stone trail near a small mountain town.',
@@ -778,6 +793,16 @@ window.MB = window.MB || {};
         // the one-girl novels
         { foe: 'anna', side: true, from: 'lisa-reed', at: [50, 45], title: 'Rise and Shine', text: 'Anna, maid of a mountain mansion and your oldest friend, kicked you out of bed. Again. Breakfast is getting cold.' },
         { foe: 'nala', side: true, from: 'anna', at: [58, 34], title: 'The New Maid', text: "The mansion hired a new maid, Nala. Her cat ears are flat and she won't look up. A gentle game might help." },
+        // Academia Magicka, at the Royal Academy
+        { foe: 'rion', side: true, from: 'flora-aquila', place: 'academy', at: [14, 80], title: 'Student Paper', text: 'Rion Usagi, rabbit girl and student journalist, wants an exclusive on the new student. She seems very sweet. Seems.' },
+        { foe: 'gwendolyn', side: true, from: 'rion', place: 'academy', at: [50, 72], title: 'General Studies', text: 'Professor Gwendolyn teaches maths, English and science, and starts every term with a practical exam.' },
+        { foe: 'thomas', side: true, from: 'rion', place: 'academy', at: [30, 88], title: 'The Crown Prince', text: 'Thomas von Gralin II means well. He is also used to people bowing, and you have not bowed.' },
+        { foe: 'ruby-academia', side: true, from: 'thomas', place: 'academy', at: [10, 56], title: 'Exchange Student', text: 'The princess of Azol ran away to study here. She speaks in pieces, practises blood magic, and is very normal. Yes.' },
+        { foe: 'charlotte-academia', side: true, from: 'gwendolyn', place: 'academy', at: [84, 78], title: 'Friend Request', text: "Charlotte wants to be your friend. She wants everyone to be her friend. She doesn't blink much." },
+        { foe: 'elina', side: true, from: 'gwendolyn', place: 'academy', at: [32, 62], title: 'Visiting Lecturer', text: "Elina teaches at another wizard academy and is only visiting. She has taken a keen interest in you. A very keen one." },
+        { foe: 'hailey', side: true, from: 'charlotte-academia', place: 'academy', at: [88, 58], title: 'Practical Studies', text: 'Hailey Grail, ex-soldier, teaches practical studies with a spear, a scythe and a halberd. Do not call her old.' },
+        { foe: 'elyssa', side: true, from: 'hailey', place: 'academy', at: [70, 90], title: 'The Mark of the God', text: 'A timid healer hides her left hand in a lace glove. Whatever is under it, the whole academy whispers about it.' },
+        { foe: 'irene', side: true, from: 'elyssa', place: 'academy', at: [50, 42], title: 'The Chancellor', text: 'Madam Chancellor Irene knows every spell ever written and only works blackout drunk. Your real entrance exam.' },
       ],
       secrets: [
         { id: 'ruby-compass', at: [92, 84], title: "Ruby's Wares", lines: [

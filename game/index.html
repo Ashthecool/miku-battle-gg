@@ -75,6 +75,7 @@
 
   <!-- ============ screens ============ -->
   <div id="screen-title" class="screen">
+    <button id="btn-howto" title="How to Play">?</button>
     <button id="profile-chip" title="Profile"><img id="chip-avatar" alt=""><span><b id="chip-name"></b><small id="chip-sub"></small></span></button>
     <div id="logo">
       <div class="logo-top">MIKU</div>
@@ -84,11 +85,10 @@
     <div class="menu">
       <button id="btn-story" class="menu-btn primary"><i>▶</i><span>Story</span></button>
       <button id="btn-arena" class="menu-btn"><i>🏟</i><span>Arena</span><em id="arena-badge" class="badge hidden"></em></button>
-      <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span></button>
+      <button id="btn-deck" class="menu-btn"><i>🂠</i><span>Deck &amp; Collection</span><em id="deck-badge" class="badge hidden" title="Characters ready to level up"></em></button>
       <button id="btn-packs" class="menu-btn"><i>🎁</i><span>Card Packs</span><em id="packs-badge" class="badge hidden"></em></button>
+      <button id="btn-shop" class="menu-btn"><i>🛒</i><span>Shop</span></button>
       <button id="btn-missions" class="menu-btn"><i>📅</i><span>Daily Missions</span><em id="missions-badge" class="badge hidden"></em></button>
-      <button id="btn-howto" class="menu-btn"><i>?</i><span>How to Play</span></button>
-      <button id="btn-profile" class="menu-btn"><i>👤</i><span>Profile</span></button>
       <!-- developer tools, shown in dev mode (⚙️ → Developer mode, ?dev, or running locally) -->
       <div class="menu-dev dev-only">
         <button id="btn-quick" class="menu-btn"><i>⚡</i><span>Quick Battle</span></button>
@@ -101,13 +101,25 @@
     <h1>Card Packs</h1>
     <div id="pack-progress"></div>
     <div id="pack-list"></div>
-    <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for your first win over a boss, finishing a Story act and every 5-win streak</p>
+    <p class="pack-tip">Packs hold 🧩 card fragments: collect enough of a card to unlock it, then more to level it up. Win battles to earn packs: <b style="color:#c9d1dc">Common</b> for any win · <b style="color:#4aa3ff">Rare</b> on Hard or your first win against a Story rival · <b style="color:#b35cff">Epic</b> for your first win over a boss, finishing a Story act and every 5-win streak</p>
     <button class="btn back" data-back>← Back</button>
   </div>
 
   <div id="screen-arena" class="screen">
     <h1>Arena</h1>
     <div id="arena-body"></div>
+    <button class="btn back" data-back>← Back</button>
+  </div>
+
+  <div id="screen-shop" class="screen">
+    <h1>Shop</h1>
+    <div id="shop-bank"></div>
+    <div id="shop-tabs">
+      <button data-tab="deals">🔥 Daily deals</button>
+      <button data-tab="cards">🧩 Any card</button>
+    </div>
+    <div id="shop-body"></div>
+    <p id="shop-foot" class="pack-tip"></p>
     <button class="btn back" data-back>← Back</button>
   </div>
 
@@ -230,25 +242,18 @@
 
   <div id="screen-howto" class="screen">
     <h1>How to Play</h1>
-    <div class="howto scroll-y">
-      <p>Knock the enemy leader's HP to <b>0</b>. You gain <b>1 more gold</b> every turn (max 10).</p>
-      <p><b>Drag a character card</b> onto one of your 4 tiles to summon it. It can attack <b>next turn</b> (unless it has ⚡ Haste).</p>
-      <p><b>Drag from a glowing character</b> to an enemy to attack. Both deal their ATK to each other — unless the attacker is 🏹 Ranged. Hitting the leader is free.</p>
-      <p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>
-      <p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn.</p>
-      <p>You start with the <b>Common</b> cards. Every win earns a 🎁 <b>card pack</b> full of 🧩 <b>card fragments</b> — open it in <b>Card Packs</b>. Collect enough fragments of a card and it's yours: <b style="color:#4aa3ff">Rare</b> cards take 4, <b style="color:#b35cff">Epic</b> 6 and <b style="color:#ffc93c">Legendary</b> 9. Beating a Story rival for the first time gives a few fragments of their card too. <b>Right-click</b> any card for a close-up.</p>
-      <p>🗺 <b>Story:</b> one story across every novel's world, in four acts, each on its own map. Play the <b>main quests</b> in order to move the story along; <b>side quests</b> (<b style="color:#ffd84a">!</b>) show up on the map as the story reaches them. Drag or scroll the map to look around. Beating a rival recruits them as a leader and pays a 🎁 card pack, 🧩 fragments of their card and new <b>profile pictures</b>.</p>
-      <p>👑 <b>Bosses:</b> every novel's boss has a <b>boss rule</b> that goes off every few turns, and a <b>💢 rage</b> the first time they drop to half HP. Both are shown before the fight and in the enemy's panel.</p>
-      <p>⭐ <b>Stars:</b> every Story fight has three stars: win, win with your leader at 20+ HP, and a challenge of its own (shown before the fight). Stars count on Normal and Hard. Each new star gives ✨ Glitter, and three stars on every fight of one novel give an <b style="color:#b35cff">Epic Pack</b>.</p>
-      <p>🏟 <b>Arena:</b> pick one of three leaders and <b>draft</b> a deck one card at a time from every card in the game (owned or not). Then battle until 7 wins or 3 losses; each win makes the next rival tougher. The more wins, the bigger the ✨ Glitter and pack rewards. You can retire any time and take what you've earned.</p>
-      <p>📅 <b>Daily Missions:</b> three new missions every day (↻ swaps one). Finishing them earns <b style="color:#ffe27a">✨ Glitter</b>, as does every win and any pack fragment a card didn't need. Spend it in the card close-up (right-click a card): <b>craft fragments</b> of a card you're missing, or make a card you own <b>Shiny</b>.</p>
-      <p>🖼 <b>Profile:</b> open <b>Profile</b> (or click your name at the top right of the main menu) to pick a profile picture and see your stats. New pictures are won by beating Story rivals.</p>
-      <p>💞 <b>Relationships:</b> cards with a <b style="color:#ff8fc6">♥</b> have a partner. When both partners are on your side of the board they <b>fuse</b> into one duo — new costumes, combined stats, new keywords, a special attack, and they can attack right away. Stronger bonds (<b style="color:#ff8fc6">♥♥</b>, <b style="color:#ff8fc6">♥♥♥</b>) also unleash an effect when they fuse.</p>
-      <p>🔗 <b>Item combos:</b> some items belong to a character (cards with a <b style="color:#ffc93c">🔗</b>). Play the item while that character is on your side of the board (aim it at them, if it targets your monsters) and they change into a combo: a new outfit, extra stats and often a bonus effect. A hand card marked <b style="color:#ffc93c">COMBO</b> has its partner on the board right now.</p>
-      <p>🂠 <b>Decks:</b> keep up to 3 decks in <b>Deck &amp; Collection</b> (✎ renames one); the filters above the cards find what you need. Pick which deck to bring, and the <b>difficulty</b>, when you choose your leader.</p>
-      <p>👗 <b>Costumes:</b> right-click a character you own and pick an outfit from its <b>Wardrobe</b>.</p>
-      <div class="kw-list"></div>
-      <p>Every character has their own <b>attack style</b>.</p>
+    <div class="howto">
+      <nav id="ht-tabs" class="scroll-y"></nav>
+      <div class="ht-main">
+        <div class="ht-head"><h2 id="ht-title"></h2><span id="ht-step"></span></div>
+        <div id="ht-stage"></div>
+        <div id="ht-text" class="scroll-y"></div>
+        <div class="ht-nav">
+          <button id="ht-prev" class="btn">◀ Prev</button>
+          <button id="ht-replay" class="btn" title="Replay the clip">↻ Replay</button>
+          <button id="ht-next" class="btn primary">Next ▶</button>
+        </div>
+      </div>
     </div>
     <button class="btn back" data-back>← Back</button>
   </div>
@@ -323,9 +328,7 @@
 <script src="js/result.js"></script>
 <script src="js/cards.js"></script>
 <script src="js/menutips.js"></script>
+<script src="js/howto.js"></script>
 <script src="js/main.js"></script>
-<script>
-  document.querySelector('.kw-list').innerHTML = Object.values(MB.KEYWORDS).map((k) => `<div>${k.icon} <b>${k.name}</b> — ${k.text}</div>`).join('');
-</script>
 </body>
 </html>

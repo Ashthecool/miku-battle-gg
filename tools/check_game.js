@@ -421,11 +421,12 @@ for (let run = 0; run < 100; run++) {
     const got = C.openPack(s, tier);
     n++;
     got.forEach((g) => {
+      if (g.up) { if (!(g.to > g.from) || !C.levels(g.card) || !s.unlocked.includes(g.card)) err(`pack ${tier}: bad level fragments ${JSON.stringify(g)}`); return; }
       if (!(g.to > g.from && g.to <= g.need)) err(`pack ${tier}: bad fragments ${JSON.stringify(g)}`);
       if (g.done !== s.unlocked.includes(g.card)) err(`pack ${tier}: ${g.card} done=${g.done} but unlocked=${s.unlocked.includes(g.card)}`);
     });
     if (!got.length) err(`pack ${tier}: empty while cards are still locked`);
-    if (Object.entries(s.shards).some(([id, k]) => s.unlocked.includes(id) || k >= C.need(id))) err('fragments left on an unlocked or complete card');
+    if (Object.entries(s.shards).some(([id, k]) => (s.unlocked.includes(id) ? !C.levels(id) || k > C.toMax(id, C.level(s, id)) : k >= C.need(id)))) err('fragments past what a card can use');
   }
   if (C.locked(s).length) err(`packs: collection still incomplete after ${n} packs`);
   packRuns.push(n);
@@ -474,9 +475,90 @@ for (const unlocked of [MB.STARTER_CARDS, C.deckCards()]) for (let k = 0; k < 40
   s.glitter = 10000;
   const b = Ms.craft(s, id);
   if (!b || !b.done || !s.unlocked.includes(id) || s.glitter !== 10000 - per * (C.need(id) - 3)) err('crafting: finishing a card went wrong');
-  if (Ms.craftCost(s, id) !== null || Ms.craft(s, id)) err('crafting: an owned card can still be crafted');
   if (!Ms.makeShiny(s, id) || Ms.makeShiny(s, id) || !s.shiny.includes(id)) err('shiny: should work once');
-  if (Ms.craftCost(s, MB.STARTER_CARDS[0]) !== null) err('crafting: commons are owned from the start');
+  // once owned, crafting buys level fragments: by default just what the next level needs, never past the top level
+  if (Ms.craftCost(s, id) !== per) err('crafting: an owned legendary can\'t be crafted for its levels');
+  const g = s.glitter, c = Ms.craft(s, id);
+  if (!c || !c.up || c.done || c.to !== C.upCost(s, id) || s.glitter !== g - per * C.upCost(s, id)) err(`crafting: level fragments went wrong ${JSON.stringify(c)}`);
+  while (C.levelUp(s, id) || Ms.craft(s, id));
+  if (!C.maxed(s, id) || s.shards[id] || Ms.craftCost(s, id) !== null || Ms.craft(s, id)) err('crafting: a maxed card can still be crafted');
+  const common = MB.STARTER_CARDS.find(C.levels);
+  if (Ms.craftCost(s, common) !== MB.GLITTER.craft.common) err('crafting: commons are owned from the start, and craft level fragments');
+  const item = C.deckCards().find((x) => MB.CARDS[x].type === 'spell' && s.unlocked.includes(x));
+  if (item && Ms.craftCost(s, item) !== null) err('crafting: an owned item card has no levels to craft for');
+}
+
+// ---------------------------------------------------------------- card levels
+const LV = MB.LEVELS;
+['common', 'rare', 'epic', 'legendary'].forEach((r) => {
+  const cost = LV.cost[r], gain = LV.gain[r];
+  if (!cost || cost.length !== LV.max - 1 || cost.some((n) => !(n >= 1))) err(`levels ${r}: needs ${LV.max - 1} fragment costs`);
+  if (!gain || gain.length !== LV.max - 1 || gain.some((g) => g.length !== 2 || g[0] + g[1] < 1)) err(`levels ${r}: every level needs to add something`);
+});
+// rarer cards need more fragments to max and gain more for it
+['common', 'rare', 'epic', 'legendary'].reduce((prev, r) => {
+  const cost = LV.cost[r].reduce((a, b) => a + b, 0), gain = LV.gain[r].reduce((a, g) => a + g[0] + g[1], 0);
+  if (prev && (cost <= prev.cost || gain < prev.gain)) warn(`levels ${r}: costs ${cost} for +${gain}, not more than the rarity below`);
+  return { cost, gain };
+}, null);
+{ // leveling a card: fragments bank on an owned card, a level spends them, stats grow, Lv 1 is the card itself
+  const s = { unlocked: C.deckCards(), shards: {}, levels: {} }, id = C.deckCards().find((x) => C.levels(x) && MB.CARDS[x].rarity === 'epic');
+  const base = MB.cardDef(id);
+  if (C.leveled(base, 1) !== base || C.level(s, id) !== 1) err('levels: Lv 1 should be the plain card');
+  if (C.levelUp(s, id)) err('levels: leveled up without fragments');
+  const r = C.addShards(s, id, 100);
+  if (!r.up || r.to !== C.toMax(id, 1) || r.extra !== 100 - C.toMax(id, 1)) err(`levels: banking went wrong ${JSON.stringify(r)}`);
+  let prev = base;
+  for (let lv = 2; lv <= LV.max; lv++) {
+    const up = C.levelUp(s, id), d = C.leveled(MB.cardDef(id), C.level(s, id));
+    if (!up || up.to !== lv || d.level !== lv || d.atk < prev.atk || d.hp < prev.hp || d.atk + d.hp <= prev.atk + prev.hp) err(`levels: Lv ${lv} went wrong ${JSON.stringify(up)}`);
+    prev = d;
+  }
+  if (C.levelUp(s, id) || s.shards[id] || C.room(s, id) || !C.maxed(s, id)) err('levels: something left past the top level');
+  // a battle plays your cards at your level, and the other side's at Lv 1
+  const b = new MB.Battle({ view: {}, playerLeader: MB.STARTER_LEADERS[0], enemyLeader: MB.STARTER_LEADERS[1], playerDeck: [id], enemyDeck: [id], playerLevels: s.levels });
+  if (b.me(0).deck[0].atk !== prev.atk || b.me(0).deck[0].hp !== prev.hp || b.me(1).deck[0].atk !== base.atk) err('levels: a battle didn\'t use the levels');
+  // an unlock that overshoots banks the rest toward Lv 2
+  const t = { unlocked: [], shards: {} }, need = C.need(id), u = C.addShards(t, id, need + 1);
+  if (!t.unlocked.includes(id) || t.shards[id] !== 1 || u.extra) err(`levels: fragments past an unlock went wrong ${JSON.stringify(u)}`);
+}
+{ // packs keep coming until every card is owned and maxed, and then there's nothing left for them
+  const s = { unlocked: MB.STARTER_CARDS.slice(), shards: {}, levels: {} };
+  let n = 0;
+  while (!C.finished(s) && n < 5000) {
+    C.openPack(s, pick(['common', 'common', 'common', 'rare', 'epic']));
+    s.unlocked.forEach((id) => { while (C.levelUp(s, id)); });
+    n++;
+  }
+  if (!C.finished(s)) err(`levels: still not maxed after ${n} packs`);
+  else if (n > 900) warn(`levels: ${n} packs to collect and max everything`);
+  if (C.openPack(s, 'common').length) err('levels: a pack gave fragments with nothing left to collect');
+}
+
+// ---------------------------------------------------------------- the Shop
+{
+  const Sh = MB.Shop, G = MB.GLITTER.shop;
+  const s = { ...saveOf(MB.STARTER_CARDS), levels: {}, packs: { common: 0, rare: 0, epic: 0 }, decks: [{ cards: MB.STARTER_DECK.slice() }], shop: null };
+  for (let k = 0; k < 30; k++) {
+    s.shop = null;
+    Sh.daily(s, 'day' + k);
+    const ids = s.shop.deals.map((d) => d.card);
+    if (ids.length !== G.deals || new Set(ids).size !== ids.length) err(`shop: ${ids.length} deals, or the same card twice (${ids})`);
+    if (s.shop.deals.some((d) => !(d.price > 0) || d.price >= d.n * MB.GLITTER.craft[MB.CARDS[d.card].rarity])) err('shop: a deal isn\'t cheaper than crafting');
+  }
+  if (Sh.daily(s, 'day29')) err('shop: rolled twice on one day');
+  const d = s.shop.deals[0];
+  s.glitter = d.price - 1;
+  if (Sh.buyDeal(s, 0) || s.glitter !== d.price - 1) err('shop: bought a deal without the Glitter');
+  s.glitter = 10000;
+  const had = s.shards[d.card] || 0, got = Sh.buyDeal(s, 0);
+  if (!got || got.card !== d.card || s.glitter !== 10000 - d.price || !d.bought) err(`shop: buying a deal went wrong ${JSON.stringify(got)}`);
+  if (!s.unlocked.includes(d.card) && s.shards[d.card] !== had + d.n) err('shop: a deal\'s fragments didn\'t arrive');
+  if (Sh.buyDeal(s, 0)) err('shop: a deal bought twice');
+  if (!Sh.buyPack(s, 'rare') || s.packs.rare !== 1 || s.glitter !== 10000 - d.price - G.packs.rare) err('shop: buying a pack went wrong');
+  const done = { ...s, unlocked: C.deckCards(), shards: {}, levels: Object.fromEntries(C.deckCards().filter(C.levels).map((id) => [id, LV.max])), shop: null };
+  Sh.daily(done, 'x');
+  if (done.shop.deals.length || Sh.packCost(done, 'common') !== null) err('shop: offers something with nothing left to collect');
 }
 { // Story stars: three per stage, paid once each; a fully starred chapter pays one Epic pack
   const S = MB.Stars, s = { stars: {}, starChapters: [], glitter: 0, packs: { epic: 0 } };
