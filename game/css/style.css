@@ -2293,9 +2293,9 @@ body.dev .dev-only { display: flex !important; }
   box-shadow: 0 8px 12px #0007, inset 0 0 0 5px #8a5a2a; }
 .cocoon { width: 130px; height: 230px; border-radius: 50% 50% 46% 46%; box-shadow: 0 0 20px #fff8, inset -10px -10px 20px #0003;
   background: repeating-linear-gradient(35deg, #fffaf0 0 6px, #efe6d8 6px 12px); }
-.vn-box { width: 320px; padding: 22px 16px 12px; border-radius: 12px; white-space: normal; color: #fff; font: 600 18px 'Segoe UI', sans-serif;
+.fx-vn-box { width: 320px; padding: 22px 16px 12px; border-radius: 12px; white-space: normal; color: #fff; font: 600 18px 'Segoe UI', sans-serif;
   background: #151028e8; border: 3px solid #b48cff; box-shadow: 0 0 16px #b48cff88, 0 8px 12px #0008; }
-.vn-box b { position: absolute; left: 12px; top: -16px; padding: 2px 12px; border-radius: 8px; background: #b48cff; color: #1a1030; font: 900 16px 'Segoe UI', sans-serif; }
-.vn-box span.struck { text-decoration: line-through 4px #e8283c; color: #ffb0b8; }
+.fx-vn-box b { position: absolute; left: 12px; top: -16px; padding: 2px 12px; border-radius: 8px; background: #b48cff; color: #1a1030; font: 900 16px 'Segoe UI', sans-serif; }
+.fx-vn-box span.struck { text-decoration: line-through 4px #e8283c; color: #ffb0b8; }
 .mb-console { padding: 6px 12px; border-radius: 6px; font: 700 20px Consolas, monospace; color: #5dff8a; background: #000d;
   border: 2px solid #5dff8a; box-shadow: 0 0 12px #5dff8a88; }

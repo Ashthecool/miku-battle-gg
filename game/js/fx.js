@@ -8586,7 +8586,7 @@
   S.fourthwall = async (V, a, t, impact) => {
     const { A, T, hT, c } = ctx(V, a, t), v = V.ents.get(a.uid), H = V.heightOf(a), vt = victim(V, t), top = hT * 2 + 80;
     const who = String(t.name || (t.card && t.card.name) || '???').replace(/[<>&]/g, '');
-    const box = V.billboard('vn-box', `<b>${who}</b><span>...</span>`, T.x, T.y), span = box.body.querySelector('span');
+    const box = V.billboard('fx-vn-box', `<b>${who}</b><span>...</span>`, T.x, T.y), span = box.body.querySelector('span');
     gsap.set(box.body, { y: -top });
     await gsap.fromTo(box.body, { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out' });
     const line = 'I will defeat you, because... reasons!';
