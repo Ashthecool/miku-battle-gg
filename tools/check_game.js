@@ -599,6 +599,17 @@ for (let k = 0; k < 200 && errors.length < 20; k++) arenaDraft();
   const r = Ar.finish(s);
   if (!r || s.arena || s.glitter !== MB.ARENA.rewards(r.wins).glitter || s.arenaBest !== r.wins || Ar.finish(s)) err(`arena: finishing went wrong ${JSON.stringify(r)}`);
 }
+{ // Casual PvP pays for the first paidPerDay matches of a day, and one pack for the day's first win
+  const P = MB.PVP, s = { glitter: 0, packs: { common: 0 }, pvp: MB.Pvp.clean(null) };
+  MB.Pvp.result(s, false, 'd1');
+  MB.Pvp.result(s, true, 'd1');
+  MB.Pvp.result(s, true, 'd1');
+  if (s.glitter !== P.loss + 2 * P.win || s.packs[P.firstWin] !== 1 || s.pvp.best !== 2) err(`pvp: day one paid ${s.glitter} Glitter, ${s.packs[P.firstWin]} packs`);
+  for (let k = 0; k < P.paidPerDay + 5; k++) MB.Pvp.result(s, false, 'd1');
+  if (s.pvp.paid !== P.paidPerDay || MB.Pvp.paidLeft(s, 'd1') !== 0 || s.pvp.losses !== P.paidPerDay + 6) err('pvp: the daily cap is off');
+  MB.Pvp.result(s, true, 'd2');
+  if (s.packs[P.firstWin] !== 2 || s.pvp.paid !== 1) err('pvp: a new day doesn\'t pay again');
+}
 const tallies = []; // { tally, won, leader, deck, hp } of the AI battles below, to see how long each mission takes
 
 // ---------------------------------------------------------------- AI vs AI
@@ -625,6 +636,22 @@ function randomDeck() {
   return deck;
 }
 
+// PvP runs the same battle in two browsers from its seed and moves, the second one with the sides swapped. Replays
+// each battle that way and checks that every move meets the same state (a desync would split the two players' games).
+let replays = 0;
+async function replay(b, opts) {
+  const r = new MB.Battle({ view: viewStub, flip: true, seed: b.seed, control: ['remote', 'remote'],
+    playerLeader: opts.enemyLeader, enemyLeader: opts.playerLeader, playerDeck: opts.enemyDeck, enemyDeck: opts.playerDeck });
+  await r.start();
+  for (const [k, m] of b.moves.entries()) {
+    const h = r.digest();
+    if (h !== m.h) return err(`replay: desync before move ${k} (${JSON.stringify(m)}) of a ${opts.playerLeader} vs ${opts.enemyLeader} battle`);
+    if (!(await r.apply(m))) return err(`replay: move ${k} (${JSON.stringify(m)}) was refused`);
+  }
+  if (r.digest() !== b.digest() || r.over !== b.over || (b.over && r.winner !== 1 - b.winner)) return err(`replay: ${opts.playerLeader} vs ${opts.enemyLeader} ended differently`);
+  replays++;
+}
+
 (async () => {
   const failures = new Map();
   let turns = 0, done = 0;
@@ -632,12 +659,16 @@ function randomDeck() {
     const bossy = bossFoes.length && i % 3 === 0, foe = bossy ? pick(bossFoes) : pick(leaders); // every 3rd battle is against a boss
     const drafted = i % 5 === 1 ? arenaDraft() : null; // every 5th battle is played with an Arena draft
     const deck = drafted ? drafted.deck : randomDeck();
-    const b = new MB.Battle({ view: viewStub, playerLeader: drafted ? drafted.leader : pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe), boss: bossy ? MB.BOSSES[foe] : null });
+    const opts = { view: viewStub, playerLeader: drafted ? drafted.leader : pick(leaders), enemyLeader: foe, playerDeck: deck, enemyDeck: MB.AI.deck(foe), boss: bossy ? MB.BOSSES[foe] : null };
+    const b = new MB.Battle(opts);
     b.aiSkill = Math.random();
+    const record = b.record.bind(b);
+    b.record = (side, m) => { m.h = b.digest(); record(side, m); }; // the state each move was made in, for the replay
     try {
       await b.start();
       for (let g = 0; g < 120 && !b.over; g++) await MB.AI.takeTurn(b, 0);
       turns += b.turn; done++;
+      if (!bossy) await replay(b, opts);
       if (bossy) { bossStats.battles++; bossStats.fired += b.bossTurns >= b.boss.every ? 1 : 0; bossStats.raged += b.raged ? 1 : 0; bossStats.won += b.winner === 1 ? 1 : 0; }
       tallies.push({ tally: b.tally, won: b.winner === 0, leader: b.me(0).leaderId, deck, hp: b.me(0).leader.hp });
     } catch (e) {
@@ -697,6 +728,7 @@ function randomDeck() {
   console.log(`stars, share of wins that earn them: ${starPace.join(", ")}`);
   console.log(`rival decks: avg ${(homeShare.reduce((a, b) => a + b, 0) / homeShare.length).toFixed(1)}/${MB.RULES.deckSize} cards from their own novel, ${Math.min(...homeShare)}-${Math.max(...homeShare)}`);
   console.log(`packs to complete the collection from scratch: avg ${packAvg.toFixed(1)}, ${Math.min(...packRuns)}-${Math.max(...packRuns)}`);
+  console.log(`PvP replays: ${replays} battles replayed with the sides swapped, move for move`);
   console.log(`${done}/${BATTLES} battles finished (avg ${(turns / Math.max(1, done)).toFixed(1)} turns); ${errors.length} errors, ${warnings.length} warnings`);
   process.exit(errors.length ? 1 : 0);
 })();

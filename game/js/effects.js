@@ -5,7 +5,6 @@
 // `do` can also be a single step. Missing card/power texts are written from the spec (MB.Effects.describe).
 // The full reference (ops, targets, conditions) is in .claude/skills/add-novel/effects.md.
 (function () {
-  const pick = (a) => a[Math.random() * a.length | 0];
   const alive = (t) => t && t.hp > 0;
   const visible = (u) => !u.kw.has('stealth');
   const value = (u) => u.atk * 1.3 + u.hp + (u.kw.has('taunt') ? 1 : 0) + (u.kw.has('frenzy') ? u.atk : 0) + (u.kw.has('guardian') ? 2 : 0);
@@ -77,7 +76,7 @@
     } },
     addCard: { async: true, run: async (c, s) => {
       for (let i = 0; i < (s.n || 1); i++) {
-        const id = s.card === 'randomItem' ? pick(MB.itemCards()) : s.card === 'randomUnit' ? pick(unitPool(s.maxCost)) : s.card;
+        const id = s.card === 'randomItem' ? c.pick(MB.itemCards()) : s.card === 'randomUnit' ? c.pick(unitPool(s.maxCost)) : s.card;
         await c.b.addToHand(c.side, id, s.costMod ? { cost: Math.max(0, MB.CARDS[id].cost + s.costMod) } : undefined);
       }
     } },
@@ -88,12 +87,12 @@
         if (s.from === 'deck') {
           const deck = b.me(c.side).deck, units = deck.filter((x) => x.type === 'unit');
           if (!units.length) return;
-          const card = pick(units);
+          const card = c.pick(units);
           deck.splice(deck.indexOf(card), 1);
           const u = await b.summon(c.side, card, slot);
           if (u && card.onPlay) await b.trigger(card.onPlay, u);
         } else {
-          const id = s.card === 'randomUnit' ? pick(unitPool(s.maxCost)) : s.card;
+          const id = s.card === 'randomUnit' ? c.pick(unitPool(s.maxCost)) : s.card;
           await b.summon(c.side, MB.cardDef(id), slot);
         }
       }
@@ -135,12 +134,13 @@
     if (s.where) ts = ts.filter(WHERE[s.where]);
     if (op.valid && s.to !== 'target' && s.to !== 'self') ts = ts.filter((t) => op.valid(t, s));
     if (!ts.length || !sel.choose) return ts;
-    return [sel.choose === 'random' ? pick(ts) : sel.choose(ts)];
+    return [sel.choose === 'random' ? c.pick(ts) : sel.choose(ts)];
   }
 
   // Resolves the targets now (so the animation flies to the right ones) and returns the parts to run.
-  function prepare(b, spec, { side, self = null, target = null }) {
-    const c = { b, side, self, target };
+  // probe: only looking (the AI weighing a play), so random picks don't draw from the battle's seeded generator
+  function prepare(b, spec, { side, self = null, target = null, probe = false }) {
+    const c = { b, side, self, target, pick: probe ? MB.pick : (a) => b.pick(a) };
     const plan = stepsOf(spec).map((s) => ({ s, ts: OPS[s.op].async || OPS[s.op].self || !s.to || s.times ? null : select(c, s) }));
     const ok = (s) => !s.if || IF[s.if](c);
     return {
@@ -180,7 +180,7 @@
     const steps = stepsOf(src.effect), me = b.me(side);
     if (steps.every((s) => s.op === 'draw' || s.op === 'addCard' || s.op === 'copy') && me.hand.length >= 7) return null;
     if (!src.target) {
-      const r = prepare(b, src.effect, { side });
+      const r = prepare(b, src.effect, { side, probe: true });
       if (r.empty) return null;
       if (steps.some((s) => s.op === 'damage' && ['myLeader', 'friendly'].includes(s.to)) && me.leader.hp <= 8) return null;
       if (steps.some((s) => s.op === 'damage' && ['everyone', 'allAllies', 'allies', 'otherMonsters'].includes(s.to))

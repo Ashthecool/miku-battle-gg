@@ -30,7 +30,8 @@ npx serve game
 | `tools/check_game.js` | Validates the cards, bonds and story against the manifest and plays AI-vs-AI battles (`node tools/check_game.js`). |
 | `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
 | `game/js/missions.js` | Daily missions, Glitter, crafting, Shiny cards and Story stars (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`, star challenges in `MB.Stars`). |
-| `game/js/arena.js` | The Arena draft mode: leaders, card offers, opponents and rewards (`MB.ARENA`). |
+| `game/js/arena.js` | The Arena's Deathpick mode (draft a deck, battle rivals: leaders, card offers, opponents and rewards in `MB.ARENA`) and Casual PvP's rewards (`MB.PVP`). |
+| `game/js/net.js` | Casual PvP: quick match, friend rooms and the lockstep battle over Supabase Realtime. |
 | `game/js/story.js` | Story mode: the four acts, their maps, the main quests and side quests, and every scene's dialogue (`MB.ACTS`). |
 | `game/js/storymap.js` | The Story screen: the map, the quest panel and the visual-novel scenes. |
 | `game/js/result.js` | The result screen after a battle: the title, the battle in numbers, Story stars and the rewards dealt in as tiles. |
@@ -53,6 +54,12 @@ The game only reads public URLs and needs no key. The tools write to the buckets
 ```sh
 SUPABASE_SECRET_KEY=sb_secret_... py tools/sync_avatars.py
 ```
+
+## PvP
+
+**Arena → Casual PvP** pits your active deck and leader, at your card levels, against another player's. Both browsers run the same battle from one shared seed (the engine's randomness is seeded, `game/js/engine.js`) and send each other only their moves. Each player's battle has the sides swapped so both see themselves at the bottom. Every end of turn carries a digest of the battle state, so a desync ends the match instead of letting the two games drift apart. `node tools/check_game.js` replays every AI battle that way, move for move.
+
+Matches go through Supabase Realtime (broadcast and presence, no tables). Set the project's publishable key (`sb_publishable_...`, meant to be public) as `MB.SUPABASE_KEY` in `game/js/config.js`. Until then the Arena hides PvP, except in developer mode or with `?pvp=local` in the address, where matches run between tabs of one browser.
 
 ## NSFW mode
 

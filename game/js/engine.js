@@ -1,10 +1,22 @@
 // Battle rules. Pure game state + async calls into the view for animation.
+// Every random choice comes from the battle's own seeded generator (b.rng), so a battle replays exactly from its seed
+// and its moves (b.moves). PvP (js/net.js) relies on that: both players run the same battle and send each other
+// only their moves.
 (function () {
   const SLOTS = 4, R = MB.RULES; // the rest of the numbers live in data.js
-  let uidSeq = 0;
 
-  const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const shuffle = (a, rng = Math.random) => { for (let i = a.length - 1; i > 0; i--) { const j = rng() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const pick = (a) => a[Math.random() * a.length | 0];
+  // a seeded random generator (mulberry32): the same seed gives the same numbers in every browser
+  function rng(seed) {
+    let t = seed >>> 0;
+    return () => {
+      t = (t + 0x6D2B79F5) >>> 0;
+      let x = Math.imul(t ^ (t >>> 15), 1 | t);
+      x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+      return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+    };
+  }
 
   function cardDef(id) {
     const c = MB.CARDS[id];
@@ -19,20 +31,35 @@
       this.tally = { novel: {} }; // what the player did, for daily missions (count)
       this.boss = opts.boss || null; this.bossTurns = 0; this.raged = false; // a Story finale's boss rule (MB.BOSSES)
       this.first = opts.first; // the side going first (0 or 1); a coin flip without it
+      this.seed = opts.seed ?? (Math.random() * 4294967296 >>> 0);
+      this.rng = rng(this.seed);
+      this.seq = 0; // card cids and unit uids
+      // who moves each side: 'local' (the player's input), 'ai' (MB.AI) or 'remote' (PvP moves arriving through apply)
+      this.control = opts.control || ['local', 'ai'];
+      // PvP: each player sees themself as side 0, so the second player's battle is the first one's with the sides
+      // swapped (flip). Whatever depends on the order of the two sides goes host side first, keeping both runs identical.
+      this.flip = !!opts.flip;
+      this.order = this.flip ? [1, 0] : [0, 1];
+      this.moves = []; // every move made, in canonical terms (see record)
+      this.onMove = null; // called with each move of a local side (PvP sends it on)
       // card levels per side (card id -> Lv, MB.LEVELS); a side without them plays every card at Lv 1
       this.levels = [opts.playerLevels || null, opts.enemyLevels || null];
-      this.players = [0, 1].map((side) => {
+      this.players = [];
+      for (const side of this.order) {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
         const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
-        return {
+        this.players[side] = {
           side, leaderId, power: MB.POWERS[leaderId], powerUsed: false,
           leader: { uid: 'L' + side, isLeader: true, side, hp, maxHp: hp, atk: 0, charId: leaderId },
           gold: 0, maxGold: 0, fatigue: 0,
-          deck: shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++uidSeq, ...this.defOf(side, id) }))),
+          deck: this.shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++this.seq, ...this.defOf(side, id) }))),
           hand: [], board: new Array(SLOTS).fill(null),
         };
-      });
+      }
     }
+
+    pick(a) { return a[this.rng() * a.length | 0]; }
+    shuffle(a) { return shuffle(a, this.rng); }
 
     // counts something the player (side 0) did: turns, cards, items, big (cost 5+), powers, attacks, bonds, combos, lost (own monsters died),
     // kills (enemy monsters), face (damage to the enemy leader), healed; tally.novel counts cards played per novel
@@ -49,17 +76,59 @@
     me(side) { return this.players[side]; }
     foe(side) { return this.players[1 - side]; }
     units(side) { return this.players[side].board.filter(Boolean); }
-    allUnits() { return [...this.units(0), ...this.units(1)]; }
+    allUnits() { return [...this.units(this.order[0]), ...this.units(this.order[1])]; }
     find(uid) {
       if (uid === 'L0' || uid === 'L1') return this.players[+uid[1]].leader;
       return this.allUnits().find((u) => u.uid === uid) || null;
     }
     freeSlots(side) { return this.me(side).board.map((u, i) => (u ? -1 : i)).filter((i) => i >= 0); }
 
+    // ---------- moves ----------
+    // A move as plain data, the way PvP sends it: { t: 'play', cid, slot, target } | { t: 'attack', src, target }
+    // | { t: 'power', target } | { t: 'upgrade', src } | { t: 'end' }, plus s, the side that made it. Sides and leader
+    // uids ('L0'/'L1') are canonical (as the unflipped battle has them); cids and unit uids are the same in both runs.
+    canon(side) { return this.flip ? 1 - side : side; }
+    canonUid(uid) { return this.flip && (uid === 'L0' || uid === 'L1') ? 'L' + (1 - uid[1]) : uid; }
+
+    record(side, m) {
+      m.s = this.canon(side);
+      if (m.target) m.target = this.canonUid(m.target);
+      this.moves.push(m);
+      if (this.control[side] === 'local' && this.onMove) this.onMove(m);
+    }
+
+    // makes a recorded move (from the other player, or a replay); false when it isn't legal here
+    async apply(m) {
+      const side = this.canon(m.s), ent = (uid) => (typeof uid === 'string' ? this.find(this.canonUid(uid)) : null);
+      if (this.over || side !== this.active) return false;
+      switch (m.t) {
+        case 'play': return this.playCard(side, m.cid, { slot: Number.isInteger(m.slot) && m.slot >= 0 && m.slot < SLOTS ? m.slot : null, target: ent(m.target) });
+        case 'attack': { const a = ent(m.src), t = ent(m.target); return !!(a && t && a.side === side) && this.attack(a, t); }
+        case 'power': return this.usePower(side, ent(m.target));
+        case 'upgrade': { const u = ent(m.src); return !!(u && u.side === side) && this.upgrade(u); }
+        case 'end': await this.endTurn(); return true;
+      }
+      return false;
+    }
+
+    // the whole battle state as a short string, the same in both PvP runs (checked at every end of turn)
+    digest() {
+      const ent = (e) => [e.uid, e.atk, e.hp, e.maxHp, e.shield ? 1 : 0, e.frozen ? 1 : 0, e.burning ? 1 : 0, e.attacksLeft | 0, e.kw ? [...e.kw].sort().join('+') : ''].join(',');
+      const text = [this.turn, this.canon(this.active), ...this.order.map((side) => {
+        const p = this.players[side];
+        return [p.leader.hp, p.gold, p.maxGold, p.fatigue, p.powerUsed ? 1 : 0, p.hand.map((c) => c.cid + ':' + c.cost).join('.'),
+          p.deck.map((c) => c.cid).join('.'), p.board.map((u) => (u ? ent(u) : '-')).join('|')].join(';');
+      })].join('/');
+      let h = 0x811c9dc5; // FNV-1a
+      for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 0x01000193);
+      return (h >>> 0).toString(36);
+    }
+
     // ---------- flow ----------
     async start() {
       this.view.init(this);
-      const first = this.first != null ? this.first : Math.random() < 0.5 ? 0 : 1;
+      const coin = this.rng() < 0.5 ? 0 : 1; // drawn even when the first side is set, so PvP runs stay in step
+      const first = this.first != null ? this.first : this.flip ? 1 - coin : coin;
       for (let i = 0; i < R.openingHand; i++) { await this.draw(first, true); await this.draw(1 - first, true); }
       await this.draw(1 - first, true); // going second: one extra card
       this.view.log(first === 0 ? 'You go first.' : `${MB.charById(this.me(1).leaderId).name} goes first.`);
@@ -87,12 +156,13 @@
       for (const u of this.units(side)) if (u.onTurnStart && u.hp > 0) await this.trigger(u.onTurnStart, u);
       await this.resolveDeaths();
       this.view.refresh();
-      if (!this.over && side === 1) await MB.AI.takeTurn(this, 1);
+      if (!this.over && this.control[side] === 'ai') await MB.AI.takeTurn(this, side);
     }
 
     async endTurn() {
       if (this.over) return;
       const side = this.active;
+      this.record(side, { t: 'end' });
       for (const u of this.units(side)) if (u.onTurnEnd && u.hp > 0) await this.trigger(u.onTurnEnd, u);
       await this.resolveDeaths();
       if (this.over) return;
@@ -180,6 +250,7 @@
         target = target && valid.find((t) => t.uid === target.uid);
         if (!target) return false;
       }
+      this.record(side, { t: 'play', cid, slot: card.type === 'unit' ? slot : null, target: target ? target.uid : null });
       p.hand.splice(idx, 1);
       p.gold -= card.cost;
       this.count(side, 'cards');
@@ -218,6 +289,7 @@
         target = target && this.targetsFor(side, pw.target, pw.filter).find((t) => t.uid === target.uid);
         if (!target) return false;
       }
+      this.record(side, { t: 'power', target: target ? target.uid : null });
       p.gold -= pw.cost; p.powerUsed = true;
       this.count(side, 'powers');
       this.view.log(`${side ? 'Enemy' : 'You'} used ${pw.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
@@ -237,10 +309,11 @@
     async attack(attacker, target) {
       if (!this.canAttack(attacker)) return false;
       if (!this.attackTargets(attacker).some((t) => t.uid === target.uid)) return false;
+      this.record(attacker.side, { t: 'attack', src: attacker.uid, target: target.uid });
       attacker.attacksLeft--;
       this.count(attacker.side, 'attacks');
       const tipsy = attacker.kw.has('tipsy');
-      if (tipsy) target = pick(this.attackTargets(attacker));
+      if (tipsy) target = this.pick(this.attackTargets(attacker));
       if (attacker.kw.has('stealth')) { attacker.kw.delete('stealth'); this.view.react({ type: 'reveal', ent: attacker }); }
       if (attacker.onAttack) { // may take out the target (or the attacker) before the blow lands
         await this.trigger(attacker.onAttack, attacker);
@@ -268,7 +341,7 @@
       if (slot == null || p.board[slot]) slot = this.freeSlots(side)[0];
       if (slot == null) return null;
       const u = {
-        uid: 'u' + (++uidSeq), card, name: card.name, side, slot,
+        uid: 'u' + (++this.seq), card, name: card.name, side, slot,
         atk: card.atk, hp: card.hp, maxHp: card.hp, kw: new Set(card.kw),
         shield: card.kw.includes('shield'), frozen: false, thaw: false, burning: false,
         sick: true, attacksLeft: 0, onTurnStart: card.onTurnStart, onDeath: card.onDeath,
@@ -304,13 +377,13 @@
       const [stay, go] = +a.uid.slice(1) < +b.uid.slice(1) ? [a, b] : [b, a];
       const atk = Math.max(0, a.atk + b.atk + bond.bonus[0]), maxHp = a.maxHp + b.maxHp + bond.bonus[1];
       const card = {
-        id: 'bond:' + bond.id, cid: ++uidSeq, type: 'unit', fused: true, bond, rarity: 'bond',
+        id: 'bond:' + bond.id, cid: ++this.seq, type: 'unit', fused: true, bond, rarity: 'bond',
         name: bond.name, cost: a.card.cost + b.card.cost, atk, hp: maxHp, kw: bond.kw.slice(),
         text: bond.text, attack: bond.attack, members: bond.pair.map((id, i) => ({ id, costume: bond.costumes[i] })),
       };
       const kw = new Set(bond.kw);
       const u = {
-        uid: 'u' + (++uidSeq), card, name: bond.name, side, slot: stay.slot,
+        uid: 'u' + (++this.seq), card, name: bond.name, side, slot: stay.slot,
         atk, hp: a.hp + b.hp + bond.bonus[1], maxHp, kw,
         shield: kw.has('shield') || a.shield || b.shield, frozen: false, thaw: false, burning: false,
         sick: false, attacksLeft: this.active === side ? (kw.has('frenzy') ? 2 : 1) : 0,
@@ -383,6 +456,7 @@
 
     async upgrade(u) {
       if (!this.canUpgrade(u)) return false;
+      this.record(u.side, { t: 'upgrade', src: u.uid });
       const up = this.nextUpgrade(u), [atk, hp] = up.bonus || [0, 0];
       this.me(u.side).gold -= up.cost;
       u.stage = (u.stage || 0) + 1; u.upgradedTurn = this.turn;
@@ -460,7 +534,7 @@
 
     // put a card straight into the hand (with a fresh cid); burns it when the hand is full
     async addToHand(side, id, mod) {
-      const p = this.me(side), card = { ...this.defOf(side, id), cid: ++uidSeq, ...mod };
+      const p = this.me(side), card = { ...this.defOf(side, id), cid: ++this.seq, ...mod };
       if (p.hand.length >= R.maxHand) { await this.view.burn(side, card); return false; }
       p.hand.push(card);
       await this.view.drawCard(side, card);
@@ -486,7 +560,7 @@
         if (u.hp > 0 && this.find(u.uid)) await this.trigger(u.onHurt, u);
       }
       for (let guard = 0; guard < 10; guard++) {
-        for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+        for (const p of this.order.map((sd) => this.players[sd])) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
         // the gallery's training dummies shrug off any blow
         for (const u of this.allUnits()) if (u.undying && u.hp <= 0) { u.hp = u.maxHp; u.killedBy = null; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
@@ -497,7 +571,7 @@
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);
         for (const u of dead) { const k = u.killedBy; if (k && k.onKill && k.side !== u.side && k.hp > 0 && this.find(k.uid)) await this.trigger(k.onKill, k); }
       }
-      for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+      for (const p of this.order.map((sd) => this.players[sd])) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
       // a boss flies into a rage at half HP (as soon as the rage has something to hit)
       const bl = this.me(1).leader;
       if (this.boss && this.boss.rage && !this.raged && !this.over && bl.hp <= bl.maxHp / 2) {
@@ -520,12 +594,12 @@
         }
         case 'cheer': {
           const allies = this.units(side).filter((a) => a !== u);
-          if (allies.length) { const a = pick(allies); await fx('Cheer!', [a], () => this.buff(a, 1, 0), '#ff8ad8'); }
+          if (allies.length) { const a = this.pick(allies); await fx('Cheer!', [a], () => this.buff(a, 1, 0), '#ff8ad8'); }
           break;
         }
         case 'soothe': await fx('Soothe', [this.me(side).leader], () => this.heal(this.me(side).leader, 3), '#ffb3dc'); break;
         case 'giddyPop': {
-          const t = pick([...foeUnits, this.foe(side).leader]);
+          const t = this.pick([...foeUnits, this.foe(side).leader]);
           await fx('Giddy Pop!', [t], () => this.deal(t, 1, null), '#c58cff');
           break;
         }
@@ -534,7 +608,7 @@
           break;
         }
         case 'badJoke': {
-          if (foeUnits.length) { const t = pick(foeUnits); await fx('Bad Joke...', [t], () => this.buff(t, -2, 0), '#ffe066'); }
+          if (foeUnits.length) { const t = this.pick(foeUnits); await fx('Bad Joke...', [t], () => this.buff(t, -2, 0), '#ffe066'); }
           break;
         }
         case 'drawOne': await this.draw(side); break;
@@ -562,7 +636,7 @@
         }
         case 'tsundere': {
           const allies = this.units(side).filter((a) => a !== u);
-          if (allies.length) { const a = pick(allies); await fx("I-it's not like I care!", [a], () => { this.deal(a, 1, null); if (a.hp > 0) this.buff(a, 2, 0); }, '#ff5c8a'); }
+          if (allies.length) { const a = this.pick(allies); await fx("I-it's not like I care!", [a], () => { this.deal(a, 1, null); if (a.hp > 0) this.buff(a, 2, 0); }, '#ff5c8a'); }
           break;
         }
         case 'repaint': {
@@ -625,7 +699,7 @@
         case 'couponGift': await fx('Coupon!', [], () => {}, '#ffd23f'); await this.addToHand(side, 'coupon'); break;
         case 'parcel': {
           const allies = this.units(side).filter((a) => a !== u);
-          if (allies.length) { const a = pick(allies); await fx('Parcel!', [a], () => this.buff(a, 1, 1), '#e2b04a'); }
+          if (allies.length) { const a = this.pick(allies); await fx('Parcel!', [a], () => this.buff(a, 1, 1), '#e2b04a'); }
           break;
         }
         case 'steadfast': if (u.hp < u.maxHp) await fx('Steadfast', [u], () => this.heal(u, 2), '#4caf6a'); break;
@@ -646,9 +720,9 @@
           break;
         }
         case 'smashFix': {
-          if (foeUnits.length) { const t = pick(foeUnits); await fx('Smash!', [t], () => this.deal(t, 3, null), '#e0463c'); }
+          if (foeUnits.length) { const t = this.pick(foeUnits); await fx('Smash!', [t], () => this.deal(t, 3, null), '#e0463c'); }
           const hurt = this.units(side).filter((a) => a !== u && a.hp > 0 && a.hp < a.maxHp);
-          if (hurt.length) { const a = pick(hurt); await fx('...Fixed.', [a], () => this.heal(a, 3), '#6fff9a'); }
+          if (hurt.length) { const a = this.pick(hurt); await fx('...Fixed.', [a], () => this.heal(a, 3), '#6fff9a'); }
           break;
         }
         case 'firstAid': {
@@ -670,7 +744,7 @@
         // new relationship fusions
         case 'aisleFive':
           await fx('Clearance!', [], () => {}, '#4caf6a');
-          for (let i = 0; i < 2; i++) await this.addToHand(side, pick(MB.itemCards()));
+          for (let i = 0; i < 2; i++) await this.addToHand(side, this.pick(MB.itemCards()));
           break;
         case 'mayhem': {
           const all = [...foeUnits, this.foe(side).leader];
@@ -726,7 +800,7 @@
         case 'waterGun':
           for (let i = 0; i < 3; i++) {
             const alive = [...foeUnits.filter((e) => e.hp > 0 && !e.kw.has('stealth')), this.foe(side).leader];
-            this.deal(pick(alive), 1, null);
+            this.deal(this.pick(alive), 1, null);
           }
           break;
       }
@@ -734,7 +808,7 @@
 
     async spellAfter(side, card, t) {
       if (card.effect === 'allowance') { await this.draw(side); await this.draw(side); }
-      if (card.effect === 'deliveryBox') for (let i = 0; i < 2; i++) await this.addToHand(side, pick(MB.itemCards()));
+      if (card.effect === 'deliveryBox') for (let i = 0; i < 2; i++) await this.addToHand(side, this.pick(MB.itemCards()));
       if (card.effect === 'exchange' && t && t.hp > 0) {
         this.me(side).board[t.slot] = null;
         await this.view.unsummon(t);
@@ -744,14 +818,14 @@
       if (card.effect === 'closet') {
         const deck = this.me(side).deck, units = deck.filter((c) => c.type === 'unit');
         if (!units.length) { this.view.log('The closet is empty...'); return; }
-        const c = pick(units);
+        const c = this.pick(units);
         deck.splice(deck.indexOf(c), 1);
         const u = await this.summon(side, c, this.freeSlots(side)[0]);
         if (u && c.onPlay) await this.trigger(c.onPlay, u);
       }
       if (card.effect === 'callFriend') {
         const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && !MB.CARDS[id].type && MB.CARDS[id].cost <= 3);
-        await this.summon(side, cardDef(pick(pool)), this.freeSlots(side)[0]);
+        await this.summon(side, cardDef(this.pick(pool)), this.freeSlots(side)[0]);
       }
     }
 
@@ -784,7 +858,7 @@
         case 'partyFoul':
           for (let i = 0; i < 2; i++) {
             const alive = [...this.units(1 - side).filter((e) => e.hp > 0 && !e.kw.has('stealth')), foe.leader];
-            this.deal(pick(alive), 1, null);
+            this.deal(this.pick(alive), 1, null);
           }
           break;
         case 'nap': this.heal(me.leader, 4); break;
@@ -805,7 +879,7 @@
           break;
         case 'darkJoke': this.deal(t, 1, null); break;
         case 'takeCharge': this.buff(t, 1, 0); t.attacksLeft = 1; break;
-        case 'threePointer': this.deal(pick([...this.units(1 - side).filter((e) => !e.kw.has('stealth')), foe.leader]), 3, null); break;
+        case 'threePointer': this.deal(this.pick([...this.units(1 - side).filter((e) => !e.kw.has('stealth')), foe.leader]), 3, null); break;
       }
     }
 
@@ -823,7 +897,7 @@
       if (pw.effect === 'research') await this.drawChosen(side, (deck) => deck.reduce((a, b) => (b.cost < a.cost ? b : a)));
       if (pw.effect === 'infoDump') await this.drawChosen(side, (deck) => deck.reduce((a, b) => (b.cost > a.cost ? b : a)));
       if (pw.effect === 'storeCredit') await this.drawChosen(side, (deck) => deck.filter((c) => c.type === 'spell').pop());
-      if (pw.effect === 'delivery') await this.addToHand(side, pick(MB.itemCards()));
+      if (pw.effect === 'delivery') await this.addToHand(side, this.pick(MB.itemCards()));
       if (pw.effect === 'darkJoke' && t && t.hp <= 0) await this.draw(side);
       if (pw.effect === 'teddy') await this.summon(side, cardDef('teddy'), this.freeSlots(side)[0]);
       if (pw.effect === 'seagull') await this.summon(side, cardDef('seagull'), this.freeSlots(side)[0]);
@@ -832,6 +906,7 @@
 
   MB.Battle = Battle;
   MB.cardDef = cardDef;
-  MB.shuffle = shuffle;
+  MB.shuffle = (a) => shuffle(a);
+  MB.rng = rng;
   MB.pick = pick;
 })();

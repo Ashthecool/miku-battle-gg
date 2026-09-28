@@ -51,6 +51,7 @@
     <button id="power-btn" title="Leader power"></button>
     <button id="end-turn">END TURN</button>
     <button id="btn-forfeit" title="Forfeit">🏳</button>
+    <div id="pvp-timer" class="hidden"></div>
     <div id="log"></div>
     <div id="hand"></div>
     <div id="banner" class="banner"></div>
@@ -113,6 +114,10 @@
 
   <div id="screen-arena" class="screen">
     <h1>Arena</h1>
+    <div id="arena-tabs">
+      <button data-mode="deathpick">💀 Deathpick</button>
+      <button data-mode="pvp">⚔ Casual PvP</button>
+    </div>
     <div id="arena-body"></div>
     <button class="btn back" data-back>← Back</button>
   </div>
@@ -323,6 +328,7 @@
 <script src="js/collection.js"></script>
 <script src="js/missions.js"></script>
 <script src="js/arena.js"></script>
+<script src="js/net.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>

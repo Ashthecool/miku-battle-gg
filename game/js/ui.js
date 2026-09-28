@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 9;
+  const SAVE_VERSION = 10;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -59,6 +59,10 @@
       // card levels (MB.LEVELS) and the Shop arrived; every card you own starts at Lv 1
       s.levels = {};
       s.shop = null;
+    },
+    (s) => {
+      // Casual PvP arrived (js/net.js): its record and today's paid matches (MB.Pvp)
+      s.pvp = null;
     },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
@@ -144,13 +148,15 @@
     s.starChapters = Array.isArray(s.starChapters) ? s.starChapters.filter((c) => MB.CHAPTERS[c]) : [];
     if (!MB.Arena.valid(s.arena)) s.arena = null; // a run built on cards that are gone (NSFW mode switched off) ends
     s.arenaBest = s.arenaBest | 0; s.arenaRuns = s.arenaRuns | 0;
+    s.pvp = MB.Pvp.clean(s.pvp);
     return s;
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
       && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
       && ['costumes', 'stats', 'packs', 'shards', 'levels', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
-      && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena)) && (s.shop == null || obj(s.shop));
+      && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena)) && (s.shop == null || obj(s.shop))
+      && (s.pvp == null || obj(s.pvp));
   }
   function readStored() {
     const raw = localStorage.getItem('mb-save');
@@ -604,6 +610,7 @@
     }
     const o = { n: 0 };
     gsap.to(o, { n: text.length, duration: text.length * 0.03, delay: 0.6, ease: 'none', onUpdate: () => { $('#intro-text').textContent = text.slice(0, o.n | 0); } });
+    $('#intro-go').classList.remove('hidden'); // (PvP's face-off hides it)
     $('#intro-go').onclick = () => {
       MB.audio.sfx('click');
       startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, level: st.level, bg: st.bg, music, story: i, boss });
@@ -694,7 +701,7 @@
     // cfg.deck: the Arena's drafted deck instead of yours; the Arena sets its own foe HP and skill, so no difficulty
     if (!cfg.deck && save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
     if (starting) return;
-    const diff = cfg.arena ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
+    const diff = cfg.arena || cfg.pvp ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
     const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = cfg.foeDeck ? cfg.foeDeck.slice() : MB.AI.deck(cfg.foe, cfg.level);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);
@@ -702,18 +709,22 @@
     await loadImages(imgs.need);
     starting = false;
     MB.preloadImages(imgs.later);
-    current = { ...cfg, difficulty: cfg.arena ? 'arena' : save.difficulty };
+    current = { ...cfg, difficulty: cfg.pvp ? 'pvp' : cfg.arena ? 'arena' : save.difficulty };
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
     setBg(MB.asset(bgSrc));
     MB.audio.music(cfg.music);
     $('#arena').classList.remove('gallery-mode');
-    const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: Math.round(cfg.foeHp * diff.hp),
-      playerDeck, enemyDeck, boss: cfg.boss, first: cfg.lesson ? 0 : null, playerLevels: cfg.arena ? null : { ...save.levels } });
+    // PvP (cfg.pvp): the other player's deck and levels, the match's seed, and their moves arrive through MB.Net
+    const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: cfg.pvp ? null : Math.round(cfg.foeHp * diff.hp),
+      playerDeck, enemyDeck, boss: cfg.boss, first: cfg.lesson ? 0 : null, playerLevels: cfg.arena ? null : { ...save.levels },
+      ...(cfg.pvp ? { seed: cfg.pvp.seed, flip: cfg.pvp.flip, control: ['local', 'remote'], enemyLevels: cfg.pvp.peer.levels } : {}) });
+    if (cfg.pvp) b.names = [save.name, cfg.pvp.peer.name];
     b.aiSkill = diff.ai(cfg.ai);
     if (cfg.lesson) MB.Tutorial.coach(b);
     $('#player-avatar').src = MB.avatarUrl(save.avatar);
     MB.battle = b;
     MB.view.b = b;
+    if (cfg.pvp) MB.Net.attach(b);
     MB.view.run(() => b.start());
   }
 
@@ -729,6 +740,7 @@
 
   function battleOver(win) {
     const cfg = current, b = MB.battle;
+    if (cfg.pvp) return pvpOver(win, null);
     MB.Tutorial.stop();
     let recruited = null, frag = null;
     const pics = [];
@@ -806,7 +818,7 @@
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
-    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.lesson ? cfg.lesson() : cfg.arena ? arena() : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.lesson ? cfg.lesson() : cfg.arena ? arena('deathpick') : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
     $('#result-again').textContent = cfg.lesson ? '▶ Continue' : cfg.arena ? '🏟 Arena' : cfg.story != null ? (MB.StoryMap.hasAfter() ? '▶ Continue' : '🗺 Story Map') : 'Rematch';
   }
 
@@ -1243,10 +1255,21 @@
   }
 
   // ---------------------------------------------------------------- arena
-  function arena() {
+  // two modes: Deathpick (a drafted run against rivals, js/arena.js) and Casual PvP (js/net.js)
+  let arenaMode = 'deathpick';
+  function arena(mode) {
+    if (mode) arenaMode = mode;
+    if (!MB.Net.available()) arenaMode = 'deathpick';
+    $('#arena-tabs').classList.toggle('hidden', !MB.Net.available());
     hideBattle();
     show('screen-arena');
     MB.audio.music(MB.MUSIC.deck);
+    // leaving the Arena stops a PvP search (a match being played isn't left this way)
+    $('#screen-arena [data-back]').onclick = () => { MB.audio.sfx('click'); if (!(current && current.pvp && MB.battle && !MB.battle.over)) MB.Net.leave(); title(); };
+    document.querySelectorAll('#arena-tabs button').forEach((b) => {
+      b.classList.toggle('on', b.dataset.mode === arenaMode);
+      b.onclick = () => { if (arenaMode === b.dataset.mode) return; MB.audio.sfx('click'); arenaMode = b.dataset.mode; arena(); };
+    });
     renderArena();
   }
   // the drafted deck as a cost curve and a list (cost · name · ×copies)
@@ -1265,6 +1288,7 @@
     return `<img src="${MB.spriteUrl(id, 'idle')}"><div class="lt-name">${MB.charById(id).name}</div><div class="lt-power"><b>${pw.name}</b> (${pw.cost})<br>${pw.text}</div>`;
   };
   function renderArena() {
+    if (arenaMode === 'pvp') return renderPvp();
     const A = MB.ARENA, a = save.arena, body = $('#arena-body');
     body.innerHTML = '';
     body.className = a ? 'stage-' + a.stage : 'stage-none';
@@ -1354,6 +1378,142 @@
     $('#ui-root').appendChild(note);
     gsap.fromTo(note, { x: 800, y: 420, xPercent: -50, scale: 0.4, opacity: 0 }, { y: 360, scale: 1.4, opacity: 1, duration: 0.5, ease: 'back.out(2)' });
     gsap.to(note, { opacity: 0, y: 300, delay: 1.6, duration: 0.5, onComplete: () => note.remove() });
+  }
+
+  // ---------------------------------------------------------------- Casual PvP (js/net.js)
+  // what MB.Net last said about the search (text may hold markup of ours; the other player's name is cleaned by net.js)
+  let pvpStatus = { text: '', state: 'idle' };
+  const pvpSay = (text, state) => {
+    pvpStatus = { text, state };
+    if ($('#screen-arena').classList.contains('active') && arenaMode === 'pvp') renderPvp();
+  };
+  // what this player brings: name, picture, leader, the active deck and the levels of its cards
+  function pvpHello() {
+    const levels = {};
+    save.deck.forEach((id) => { if (save.levels[id] > 1) levels[id] = save.levels[id]; });
+    return { name: save.name, avatar: save.avatar, leader: save.leader, deck: save.deck.slice(), levels };
+  }
+  function renderPvp() {
+    const P = MB.PVP, p = save.pvp, body = $('#arena-body');
+    body.className = 'stage-pvp';
+    if (!save.leaders.includes(save.leader)) save.leader = save.leaders[0];
+    const ready = save.deck.length === DECK_SIZE, busy = MB.Net.busy(), paid = MB.Pvp.paidLeft(save);
+    const pack = MB.PACKS[P.firstWin];
+    body.innerHTML = `<div class="ar-main pvp-main">
+        <div class="ar-intro">
+          <p>Battle another player with <b>your own deck and leader</b>, at your card levels. Turns last <b>${P.turnSecs} seconds</b>.</p>
+          <div class="ar-tiers">
+            <div class="ar-tier"><b>Win</b><span class="glit">✨ ${P.win}</span></div>
+            <div class="ar-tier"><b>Loss</b><span class="glit">✨ ${P.loss}</span></div>
+            <div class="ar-tier${MB.Pvp.firstWinLeft(save) ? '' : ' done'}"><b>First win today</b><span style="color:${pack.color}">🎁 ${pack.name}</span></div>
+          </div>
+          <p class="ar-best">${paid ? `${paid} paid match${paid > 1 ? 'es' : ''} left today` : 'Today\'s paid matches are used up (back tomorrow). You can still play for fun.'}
+            · ${p.wins + p.losses ? `Record <b>${p.wins}-${p.losses}</b> · best streak <b>${p.best}</b>` : 'No matches yet.'}</p>
+          ${MB.Net.local() ? '<p class="pvp-local">🧪 Test mode: no PvP server is set up, so matches only happen between tabs of this browser.</p>' : ''}
+        </div>
+        <div class="pvp-status ${pvpStatus.state}">${pvpStatus.text}</div>
+        <div class="pvp-btns"></div>
+      </div>
+      <div class="ar-side pvp-side">
+        <div class="ar-leader">${leaderHtml(save.leader)}</div>
+        <button class="btn small pvp-leader">Change leader</button>
+        <label class="pvp-deck"><span>Deck</span></label>
+        ${ready ? '' : `<p class="pvp-warn">${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.</p>`}
+      </div>`;
+    const btns = body.querySelector('.pvp-btns');
+    const side = body.querySelector('.pvp-side');
+    // deck and leader can't change mid-search: the other player gets them in the hello
+    const sel = el('select');
+    save.decks.forEach((d, i) => sel.appendChild(new Option(`${d.name} (${(i === save.activeDeck ? save.deck : d.cards).length}/${DECK_SIZE})`, i, false, i === save.activeDeck)));
+    sel.disabled = busy;
+    sel.onchange = () => { MB.audio.sfx('click'); switchDeck(+sel.value); renderPvp(); };
+    side.querySelector('.pvp-deck').appendChild(sel);
+    const lead = side.querySelector('.pvp-leader');
+    lead.disabled = busy;
+    lead.onclick = () => { MB.audio.sfx('click'); leaderSelect(() => arena('pvp'), null, () => arena('pvp')); };
+    if (busy) {
+      const cancel = btns.appendChild(el('button', 'btn', '✖ Cancel'));
+      cancel.onclick = () => { MB.audio.sfx('click'); MB.Net.leave(); };
+      return;
+    }
+    const quickBtn = btns.appendChild(el('button', 'btn primary', '🔎 Quick match'));
+    const hostBtn = btns.appendChild(el('button', 'btn', '🏠 Create room'));
+    const code = btns.appendChild(el('input', 'pvp-code-in'));
+    code.placeholder = 'CODE'; code.maxLength = 4;
+    const joinBtn = btns.appendChild(el('button', 'btn', '🔑 Join'));
+    [quickBtn, hostBtn, joinBtn, code].forEach((b) => { b.disabled = !ready; });
+    quickBtn.onclick = () => { MB.audio.sfx('click'); MB.Net.quick(pvpHello(), pvpSay); };
+    hostBtn.onclick = () => { MB.audio.sfx('click'); MB.Net.host(pvpHello(), pvpSay); };
+    const join = () => { MB.audio.sfx('click'); MB.Net.join(code.value, pvpHello(), pvpSay); };
+    joinBtn.onclick = join;
+    code.onkeydown = (e) => { if (e.key === 'Enter') join(); };
+  }
+
+  // matched (net.js): a face-off while both players load, then the battle; the other player's moves wait for it
+  function startPvp({ peer, seed, flip }) {
+    const leader = save.leader, foe = peer.leader, bg = randomBg();
+    setBg(MB.asset(bg.src));
+    MB.audio.music(battleMusic(foe));
+    show('screen-intro');
+    $('#intro-me').src = MB.bigSpriteUrl(leader, 'idle');
+    $('#intro-foe').src = MB.bigSpriteUrl(foe, 'taunt');
+    $('#intro-name').textContent = peer.name;
+    $('#intro-text').textContent = `${peer.name} steps into the Arena with ${MB.charById(foe).name}!`;
+    $('#intro-go').classList.add('hidden');
+    document.querySelectorAll('#screen-intro .intro-boss, #screen-intro .intro-stars').forEach((n) => n.remove());
+    gsap.fromTo('#intro-foe', { x: 400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
+    gsap.fromTo('#intro-me', { x: -400, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' });
+    faceOff(false);
+    setTimeout(() => {
+      if (!MB.Net.busy() || MB.Net.peer() !== peer) return; // they left during the face-off
+      startBattle({ leader, foe, deck: save.deck, foeDeck: peer.deck, bgSrc: bg.src, music: battleMusic(foe), pvp: { seed, flip, peer } });
+    }, 2600);
+  }
+  // the other player left before the battle began
+  function pvpCancel() {
+    if ($('#screen-intro').classList.contains('active')) arena('pvp');
+  }
+
+  // the match ended some other way than on the board: the other player forfeited or left (win), or the two games
+  // fell out of step (win null: no contest)
+  function pvpEnd(win, why) {
+    const b = MB.battle;
+    if (!b || !current || !current.pvp || b.overShown) return;
+    b.over = true; b.overShown = true;
+    MB.view.cancelAim(); MB.view.cancelDrag();
+    pvpOver(win, why);
+  }
+
+  function pvpOver(win, why) {
+    const cfg = current, b = MB.battle, peer = cfg.pvp.peer, counts = win != null;
+    MB.Net.done();
+    const r = counts ? MB.Pvp.result(save, win) : { glitter: 0, pack: null };
+    MB.Missions.daily(save);
+    const finished = counts ? MB.Missions.progress(save, b ? b.tally : {}, cfg, win) : [];
+    persist();
+    MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
+    const rewards = [];
+    if (r.pack) rewards.push({ kind: 'pack', tier: r.pack, note: 'First win today' });
+    if (r.glitter) rewards.push({ kind: 'glitter', n: r.glitter, note: win ? 'PvP win' : 'For playing' });
+    const p = save.pvp, notes = [];
+    if (why === 'forfeit') notes.push(`🏳 ${peer.name} forfeited.`);
+    if (why === 'left') notes.push(`🔌 ${peer.name} left the match.`);
+    if (why === 'desync') notes.push('⚠ The two games fell out of step, so this match doesn\'t count. Refresh the page before the next one.');
+    if (counts) notes.push(`⚔ PvP record: <b class="arena-wl">${p.wins} win${p.wins === 1 ? '' : 's'} · ${p.losses} loss${p.losses === 1 ? '' : 'es'}</b>${p.streak > 1 ? ` · 🔥 ${p.streak} in a row` : ''}`);
+    if (counts && !MB.Pvp.paidLeft(save)) notes.push('✨ That was today\'s last paid match. PvP pays again tomorrow.');
+    finished.forEach((m) => notes.push(`📅 Mission done: <b>${MB.Missions.text(m)}</b> <span class="glit">(+${m.glitter} ✨ to claim)</span>`));
+    const t = b ? b.tally : {}, me = b && b.me(0).leader;
+    const stats = [['🔁', t.turns | 0, 'turns'], ['🎴', t.cards | 0, 'cards played'], ['⚔', t.face | 0, 'damage'], ['💀', t.kills | 0, 'KOs']];
+    if (win && me) stats.push(['❤', `${Math.max(0, me.hp)}/${me.maxHp}`, 'HP left']);
+    MB.Result.show({
+      win: !!win, leader: cfg.leader, foe: cfg.foe, kicker: 'Arena · Casual PvP', stats, rewards, notes,
+      line: !counts ? 'No contest.' : win ? `You beat <b>${peer.name}</b>!` : `<b>${peer.name}</b> wins this one. GG!`,
+    });
+    $('#result-packs').classList.toggle('hidden', !packCount());
+    $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
+    $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); arena('pvp'); };
+    $('#result-again').textContent = '⚔ PvP';
   }
 
   // ---------------------------------------------------------------- daily missions & Glitter
@@ -1715,6 +1875,7 @@
     $('#btn-forfeit').onclick = () => {
       if (!MB.battle || MB.battle.over || $('#arena').classList.contains('gallery-mode')) return;
       if (!confirm('Forfeit this battle?')) return;
+      if (current && current.pvp) MB.Net.forfeit();
       MB.battle.over = true; MB.battle.overShown = true; MB.view.cancelAim();
       battleOver(false);
     };
@@ -1723,7 +1884,7 @@
     window.addEventListener('pointerdown', () => { MB.audio.unlock(); MB.audio.retry(); });
   }
 
-  MB.UI = { cardEl, lockCard, shardOverlay, shardsOf, preview, title, start, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
+  MB.UI = { startPvp, pvpEnd, pvpCancel, cardEl, lockCard, shardOverlay, shardsOf, preview, title, start, battleOver, bind, save, show, isUnlocked, maxCopies, costumesOf, setCostume,
     leaderSelect, storyIntro: intro, lesson, setBg, bgByName, persist, hideBattle,
     craft, makeShiny, levelUp, myDef, levelBadge, renderCollection: () => { if ($('#screen-deck').classList.contains('active')) renderDeck(); if ($('#screen-shop').classList.contains('active')) renderShop(); },
     refreshProfileBits,

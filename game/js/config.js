@@ -4,6 +4,10 @@
 window.MB = window.MB || {};
 MB.ASSET_BASE = 'https://djknvuaivmtudiecwztx.supabase.co/storage/v1/object/public/game-assets/';
 MB.asset = (path) => MB.ASSET_BASE + path;
+// PvP (js/net.js) talks through Supabase Realtime with the project's publishable key (Dashboard > Project Settings >
+// API keys, the sb_publishable_... one: it is meant to be public). Empty: PvP only works between tabs of one browser.
+MB.SUPABASE_URL = 'https://djknvuaivmtudiecwztx.supabase.co';
+MB.SUPABASE_KEY = '';
 // sprites also come half size (450px tall) under sm/: shrinking the 900px originals 4-8x into cards and onto
 // the 3D board makes them grainy, so small displays use sm/ unless the screen is dense enough for the big ones.
 // main.js sets SMALL_SPRITES; big forces the full size (close-ups, story scenes).

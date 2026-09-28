@@ -1,4 +1,4 @@
-// Arena: pick one of three random leaders, draft a deck from every card in the game (one of three, 20 times; you
+// Arena, Deathpick mode: pick one of three random leaders, draft a deck from every card in the game (one of three, 20 times; you
 // don't need to own them), then battle until MB.ARENA.maxWins wins or maxLosses losses. Rewards grow with the wins.
 // Works on a save's { arena, arenaBest, arenaRuns, glitter, packs } only, so tools/check_game.js can simulate it.
 // save.arena: null, or { stage: 'leader' | 'draft' | 'run' | 'done', leaders, leader, deck, offer, wins, losses, foes, next }
@@ -104,4 +104,36 @@ window.MB = window.MB || {};
   }
 
   MB.Arena = { start, chooseLeader, offer, pick, nextFoe, result, finish, valid };
+
+  // Casual PvP (js/net.js): your own deck, leader and card levels against another player. Like Undercards' Standard
+  // mode it pays a little for a win and less for a loss, here for the first paidPerDay matches of each day, plus a
+  // pack for the day's first win. save.pvp: { wins, losses, streak, best, day, paid, firstWin }
+  const P = MB.PVP = {
+    win: 10, loss: 4, paidPerDay: 10, firstWin: 'common',
+    turnSecs: 90,   // a turn ends by itself after this long
+    graceSecs: 60,  // how long a player who dropped out has to come back before the other one wins
+  };
+  const freshPvp = () => ({ wins: 0, losses: 0, streak: 0, best: 0, day: '', paid: 0, firstWin: false });
+  function pvpClean(p) {
+    const o = p && typeof p === 'object' ? p : {}, f = freshPvp();
+    ['wins', 'losses', 'streak', 'best', 'paid'].forEach((k) => { f[k] = Math.max(0, o[k] | 0); });
+    f.day = typeof o.day === 'string' ? o.day : '';
+    f.firstWin = !!o.firstWin;
+    return f;
+  }
+  // a finished match; returns what it paid: { glitter, pack }
+  function pvpResult(s, won, day = MB.Missions.today()) {
+    const p = s.pvp = pvpClean(s.pvp);
+    if (p.day !== day) { p.day = day; p.paid = 0; p.firstWin = false; }
+    if (won) { p.wins++; p.streak++; p.best = Math.max(p.best, p.streak); } else { p.losses++; p.streak = 0; }
+    const out = { glitter: 0, pack: null };
+    if (p.paid < P.paidPerDay) { p.paid++; out.glitter = won ? P.win : P.loss; s.glitter += out.glitter; }
+    if (won && !p.firstWin) { p.firstWin = true; out.pack = P.firstWin; s.packs[out.pack] = (s.packs[out.pack] | 0) + 1; }
+    return out;
+  }
+  // matches left today that still pay
+  const pvpPaidLeft = (s, day = MB.Missions.today()) => (s.pvp && s.pvp.day === day ? Math.max(0, P.paidPerDay - s.pvp.paid) : P.paidPerDay);
+  const pvpFirstWinLeft = (s, day = MB.Missions.today()) => !(s.pvp && s.pvp.day === day && s.pvp.firstWin);
+
+  MB.Pvp = { clean: pvpClean, result: pvpResult, paidLeft: pvpPaidLeft, firstWinLeft: pvpFirstWinLeft };
 })();

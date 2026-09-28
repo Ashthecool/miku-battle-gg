@@ -119,7 +119,8 @@
       this.arena.classList.remove('hidden');
       document.getElementById('log').innerHTML = '';
       const foe = MB.charById(battle.me(1).leaderId), me = MB.charById(battle.me(0).leaderId);
-      document.getElementById('enemy-name').textContent = foe.name;
+      // PvP: the other player's name (b.names) with their leader
+      document.getElementById('enemy-name').textContent = battle.names ? `${battle.names[1]} · ${foe.name}` : foe.name;
       document.getElementById('player-name').textContent = me.name;
       const pw = battle.me(0).power;
       document.getElementById('power-btn').innerHTML = `<div class="pw-cost">${pw.cost}</div><div class="pw-name">${pw.name}</div><div class="pw-text">${pw.text}</div>`;
