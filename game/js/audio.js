@@ -109,6 +109,16 @@
     swipe: { file: 'swipe-60007.mp3', vol: 0.45, vary: 0.1 },
     heartbeat: { file: 'heartbeat-784654.mp3', vol: 0.9 },
     glint: { file: 'glint-734238.mp3', vol: 0.25, vary: 0.1 },
+    // props in the attack and bond scenes
+    gavel: { file: 'gavel-703748.mp3', vol: 0.8, max: 1.2, vary: 0.05 },
+    harp: { file: 'harp-490831.mp3', vol: 0.6 },
+    chalk: { file: 'chalk-447925.mp3', vol: 0.7, vary: 0.12 },
+    alarm: { file: 'alarm-347138.mp3', vol: 0.5 },
+    ohoho: { file: 'ohoho-219778.mp3', vol: 0.7, max: 2.4 },
+    slap: { file: 'slap-539163.mp3', vol: 0.8, max: 0.9, vary: 0.06 },
+    kick: { file: 'kick-555042.mp3', vol: 0.8, vary: 0.08 },
+    megaphone: { file: 'megaphone-556362.mp3', vol: 0.5 },
+    kaching: { file: 'kaching-728224.mp3', vol: 0.6 },
   };
   const buffers = {};
 
@@ -306,6 +316,16 @@
     swipe: () => SFX.whoosh(),
     heartbeat: () => [0, 0.16].forEach((d, i) => tone({ type: 'sine', f0: 70, f1: 40, dur: 0.15, vol: 0.4 - i * 0.15, delay: d })),
     glint: (o = {}) => tone({ type: 'sine', f0: 3200 * (o.rate || 1), dur: 0.08, vol: 0.05 }),
+    // synth stand-ins for the scene prop samples
+    gavel: () => { SFX.bonk(0.5); SFX.thud(); },
+    harp: () => [523, 659, 784, 988, 1175, 1319].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.4, vol: 0.07, delay: i * 0.04 })),
+    chalk: () => noise({ dur: 0.12, vol: 0.12, f: 3500, q: 6 }),
+    alarm: () => { for (let i = 0; i < 8; i++) tone({ type: 'square', f0: 1800, dur: 0.05, vol: 0.05, delay: i * 0.1 }); },
+    ohoho: () => SFX.laugh(),
+    slap: () => noise({ dur: 0.1, vol: 0.45, f: 2500, q: 0.8 }),
+    kick: () => SFX.thud(),
+    megaphone: () => tone({ type: 'sawtooth', f0: 1200, f1: 1500, dur: 0.4, vol: 0.05, lp: 3000 }),
+    kaching: () => { SFX.coin(); SFX.ding(); },
   };
 
   // a recorded sample when it's loaded (optional options object, see sample()), else the synth version

@@ -975,7 +975,7 @@
         tl.fromTo(board, { xPercent: -50, scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 0.3)
           .to(a, { rotation: -7, duration: 0.15, yoyo: true, repeat: 3 }, 0.8) // taps the board
           .to({ n: 0 }, { n: full.length, duration: 0.8, ease: 'none', onUpdate() { txt.textContent = full.slice(0, Math.round(this.targets()[0].n)); } }, 0.8)
-          .call(() => MB.audio.sfx('click'), null, 0.8);
+          .call(() => MB.audio.sfx('chalk'), null, 0.8);
         talk(S, tl, 1.8);
         tl.to(b, { y: -40, duration: 0.15, yoyo: true, repeat: 1 }, 3.2) // hand up!
           .fromTo(grade, { scale: 4, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: -12, duration: 0.3, ease: 'back.out(3)' }, 3.4)
@@ -2524,7 +2524,7 @@
     solve: (S) => {
       const { a, b, L, c, cfg } = S, board = prop(S, 'cm-chalkboard', `<span></span><b>${cfg.answer || '= ♥'}</b>`, 0), txt = board.querySelector('span'), ans = board.querySelector('b');
       const steps = cfg.steps || ['x² + y² = ?', 'x² + y² = 4?', '...(x + y)² ?!'];
-      const chalk = (im) => { const r = board.getBoundingClientRect(), p = toUi(r.left + r.width * (im === a ? 0.3 : 0.7), r.top + r.height * 0.45); spray(L, p.x, p.y, '#f4f4ea', 10, { dist: [10, 80], size: [3, 7], stars: 0, gravity: 120 }); MB.audio.sfx('swish'); };
+      const chalk = (im) => { const r = board.getBoundingClientRect(), p = toUi(r.left + r.width * (im === a ? 0.3 : 0.7), r.top + r.height * 0.45); spray(L, p.x, p.y, '#f4f4ea', 10, { dist: [10, 80], size: [3, 7], stars: 0, gravity: 120 }); MB.audio.sfx('chalk'); };
       const tl = gsap.timeline()
         .fromTo(board, { xPercent: -50, y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 0)
         .fromTo([a, b], { y: 200, opacity: 0 }, { y: 0, opacity: SPRITE_OP, duration: 0.6, stagger: 0.12, ease: 'back.out(1.4)' }, 0.1);
@@ -2630,7 +2630,7 @@
         gsap.fromTo(k, { x: x0, y: bp.y - 20, xPercent: -50, yPercent: -100, scale: 0 }, { keyframes: [{ scale: 1, duration: 0.15 }, { x: (x0 + x1) / 2, y: bp.y - 100, duration: 0.25, ease: 'power1.out' }, { x: x1, y: bp.y - 20, duration: 0.25, ease: 'power1.in' }],
           onComplete: () => MB.audio.sfx('tink') });
         const h = headOf(S, im);
-        gsap.delayedCall(0.4, () => { word(L, h.x, h.y + 20, laughs[i % 2], i % 2 ? cb : ca, 34); MB.audio.sfx('laugh'); });
+        gsap.delayedCall(0.4, () => { word(L, h.x, h.y + 20, laughs[i % 2], i % 2 ? cb : ca, 34); MB.audio.sfx(/^ohoho/i.test(laughs[i % 2]) ? 'ohoho' : 'laugh'); });
         gsap.fromTo(im, { rotation: i % 2 ? -8 : 8 }, { rotation: 0, duration: 0.6, ease: 'elastic.out(1,0.4)' });
         mood(S, im, 'taunt');
       }, null, 1.1 + i * 0.9);
@@ -2778,7 +2778,7 @@
       const alarm = 3.2;
       tl.call(() => { const p = midOf(S); gsap.fromTo(clock, { x: p.x, y: p.y - 180, opacity: 1, scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' }); }, null, alarm)
         .to(clock, { rotation: 18, duration: 0.05, yoyo: true, repeat: 21 }, alarm + 0.2)
-        .add(gsap.timeline({ repeat: 5 }).call(() => MB.audio.sfx('ding')).to({}, { duration: 0.18 }), alarm + 0.2);
+        .call(() => MB.audio.sfx('alarm'), null, alarm + 0.2);
       talk(S, tl, alarm + 0.3, 1.1);
       const whack = Math.max(alarm + 1.6, afterTalk(S, alarm + 0.3, 1.1) - 0.8);
       tl.call(() => {
@@ -2879,7 +2879,7 @@
         const p = artAt(), g = fxEl(L, 'cm-emoji', '🔨');
         g.style.fontSize = '80px';
         gsap.fromTo(g, { x: p.x + 120, y: p.y - 60, xPercent: -50, yPercent: -50, rotation: -60 }, { rotation: 20, duration: 0.2, ease: 'power3.in', yoyo: true, repeat: 1, onComplete: () => g.remove() });
-        gsap.delayedCall(0.2, () => { MB.audio.sfx('thud'); MB.audio.sfx('gong'); shake(S.ov, 10); word(L, p.x, p.y - 120, cfg.gavel || 'SOLD!', '#ffffff', 60); });
+        gsap.delayedCall(0.2, () => { MB.audio.sfx('gavel'); shake(S.ov, 10); word(L, p.x, p.y - 120, cfg.gavel || 'SOLD!', '#ffffff', 60); });
       }, null, sold)
         .call(() => {
           const h = headOf(S, win);

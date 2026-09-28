@@ -2,7 +2,7 @@
 
 Pixabay (Pixabay Content License): `animated-cartoon-explosion-impact.mp3`, `cartoon-blinking.mp3`.
 
-Added by hand (source not recorded): `choir.wav`, `laughter.wav`.
+Added by hand (source not recorded): `choir.wav`, `laughter.wav`, `alarm-347138.mp3`, `chalk-447925.mp3`, `gavel-703748.mp3`, `harp-490831.mp3`, `kaching-728224.mp3`, `kick-555042.mp3`, `megaphone-556362.mp3`, `ohoho-219778.mp3`, `slap-539163.mp3`.
 
 Freesound, all CC0 (no attribution required, listed anyway). The game plays these under the names in `SAMPLES` (game/js/audio.js).
 
