@@ -2,7 +2,7 @@
 // you're online; images come from the R2 bucket (MB.ASSET_BASE) and are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v19';
+const SHELL = 'mb-shell-v20';
 const ASSETS = 'mb-assets-v4';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
@@ -52,7 +52,7 @@ self.addEventListener('message', (e) => {
     for (const u of assetUrls(e.data.small, e.data.nsfw)) if (!(await cache.match(u))) missing.push(u);
     // a few at a time so the game itself isn't starved of bandwidth
     for (let i = 0; i < missing.length; i += 6) {
-      await Promise.all(missing.slice(i, i + 6).map((u) => cache.add(u).catch(() => {})));
+      await Promise.all(missing.slice(i, i + 6).map((u) => fetchAsset(u).then((res) => res.ok && cache.put(u, res)).catch(() => {})));
     }
   })());
 });
@@ -69,9 +69,15 @@ async function cacheFirst(url) {
   const cache = await caches.open(ASSETS);
   const hit = await cache.match(url);
   if (hit) return hit;
-  const res = await fetch(url, { mode: 'cors', credentials: 'omit' });
+  const res = await fetchAsset(url);
   if (res.ok) cache.put(url, res.clone());
   return res;
+}
+
+// skips the browser's HTTP cache: R2 only sends Access-Control-Allow-Origin to requests with an Origin, and
+// without Vary: Origin, so a copy cached from a plain <img> load (before this worker ran) would fail CORS
+function fetchAsset(url) {
+  return fetch(url, { mode: 'cors', credentials: 'omit', cache: 'reload' });
 }
 
 async function networkFirst(req) {
