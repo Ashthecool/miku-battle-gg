@@ -1279,55 +1279,88 @@
     const ids = Object.keys(counts).sort((a, b) => MB.CARDS[a].cost - MB.CARDS[b].cost || MB.cardDef(a).name.localeCompare(MB.cardDef(b).name));
     const curve = [0, 1, 2, 3, 4, 5, 6, 7].map((c) => deck.filter((id) => Math.min(7, MB.CARDS[id].cost) === c).length);
     const top = Math.max(1, ...curve);
-    return `<div class="ad-curve">${curve.map((n, c) => `<div><i style="height:${(n / top) * 100}%"></i><span>${c === 7 ? '7+' : c}</span></div>`).join('')}</div>
+    return `<div class="ad-curve">${curve.map((n, c) => `<div><em>${n || ''}</em><i style="height:${(n / top) * 100}%"></i><span>${c === 7 ? '7+' : c}</span></div>`).join('')}</div>
       <div class="ad-list scroll-y">${ids.map((id) => { const d = MB.cardDef(id);
         return `<div class="ad-row" style="--rc:${MB.RARITY[d.rarity].color}"><b>${d.cost}</b><span>${d.name}</span>${counts[id] > 1 ? `<i>×${counts[id]}</i>` : ''}</div>`; }).join('')}</div>`;
   }
-  const leaderHtml = (id) => {
-    const pw = MB.POWERS[id];
-    return `<img src="${MB.spriteUrl(id, 'idle')}"><div class="lt-name">${MB.charById(id).name}</div><div class="lt-power"><b>${pw.name}</b> (${pw.cost})<br>${pw.text}</div>`;
-  };
+  const novelName = (id) => MB.charById(id).novel.replace(/\s*[([].*?[)\]]/g, '').trim();
+  // a leader's power: cost gem, name, what it does
+  const powerHtml = (id) => { const pw = MB.POWERS[id]; return `<div class="ar-power"><b>${pw.cost}</b><span><em>${pw.name}</em>${pw.text}</span></div>`; };
+  // the side panel's header: the leader you play with
+  const sideLeaderHtml = (id, label) => `<div class="ar-leader"><img src="${MB.spriteUrl(id, 'idle')}" alt="">
+    <div><small>${label}</small><div class="lt-name">${MB.charById(id).name}</div><span class="ar-novel">${novelName(id)}</span></div></div>${powerHtml(id)}`;
+  // Deathpick's three steps; the current one lit
+  const STEPS = ['Leader', 'Draft', 'Battle'];
+  const stepperHtml = (at) => `<div class="ar-stepper">${STEPS.map((s, k) => `<span class="${k < at ? 'past' : k === at ? 'on' : ''}"><i>${k < at ? '✓' : k + 1}</i>${s}</span>`).join('<b></b>')}</div>`;
+  // the reward track, 0 to maxWins wins: glitter at every step, packs where they're added; wins < 0 lights nothing
+  function ladderHtml(wins, next) {
+    const A = MB.ARENA, nodes = [];
+    for (let w = 0; w <= A.maxWins; w++) {
+      const r = A.rewards(w), before = w ? A.rewards(w - 1).packs : [];
+      const packs = r.packs.filter((t) => !before.includes(t));
+      nodes.push(`<div class="al-node${w <= wins ? ' on' : ''}${next && w === wins + 1 ? ' next' : ''}${packs.length ? ' prize' : ''}">
+        <div class="al-pack">${packs.map((t) => `<img src="${MB.packArt(t)}" alt="" title="${MB.PACKS[t].name}" style="--pc:${MB.PACKS[t].color}">`).join('')}</div>
+        <i>${w}</i><span class="glit">✨${r.glitter}</span></div>`);
+    }
+    const fill = Math.max(0, wins) / A.maxWins * 100;
+    return `<div class="ar-ladder"><div class="al-track"><div class="al-fill" style="width:${fill}%"></div></div>${nodes.join('')}</div>`;
+  }
+  // what a finished run pays, as tiles
+  const rewardHtml = (r) => `<div class="ar-rewards"><div class="ar-reward"><b class="glit">✨</b><span class="glit">${r.glitter}</span><small>Glitter</small></div>${r.packs.map((t) =>
+    `<div class="ar-reward" style="--pc:${MB.PACKS[t].color}"><img src="${MB.packArt(t)}" alt=""><small style="color:${MB.PACKS[t].color}">${MB.PACKS[t].name}</small></div>`).join('')}</div>`;
   function renderArena() {
     if (arenaMode === 'pvp') return renderPvp();
     const A = MB.ARENA, a = save.arena, body = $('#arena-body');
     body.innerHTML = '';
     body.className = a ? 'stage-' + a.stage : 'stage-none';
     if (!a) {
-      const tiers = [0, 3, 5, 7].map((w) => { const r = A.rewards(w);
-        return `<div class="ar-tier"><b>${w} win${w === 1 ? '' : 's'}</b><span class="glit">✨ ${r.glitter}</span>${r.packs.map((t) => `<span style="color:${MB.PACKS[t].color}">🎁 ${MB.PACKS[t].name}</span>`).join('')}</div>`; }).join('');
-      body.innerHTML = `<div class="ar-intro">
-        <p>Pick a leader, then <b>draft a deck</b> one card at a time from <b>every card in the game</b>, owned or not. Then battle until
-          <b>${A.maxWins} wins</b> or <b>${A.maxLosses} losses</b>. Every win makes the next rival tougher, and the rewards bigger.</p>
-        <div class="ar-tiers">${tiers}</div>
-        <p class="ar-best">${save.arenaRuns ? `🏆 Best run: <b>${save.arenaBest} wins</b> · ${save.arenaRuns} run${save.arenaRuns > 1 ? 's' : ''} played` : 'No runs yet.'}</p>
+      body.innerHTML = `<div class="ar-hero">
+        <div class="ar-hero-head">
+          <div class="ar-hero-title"><small>💀 Draft mode</small><b>Deathpick</b></div>
+          <div class="ar-stats"><div><b>${save.arenaRuns ? save.arenaBest : '–'}</b><span>Best run</span></div><div><b>${save.arenaRuns}</b><span>Runs</span></div></div>
+        </div>
+        <div class="ar-steps">
+          <div><i>1</i><b>Pick a leader</b><span>One of three, chosen at random</span></div>
+          <div><i>2</i><b>Draft ${A.picks} cards</b><span>From <em>every card in the game</em>, owned or not</span></div>
+          <div><i>3</i><b>Battle</b><span>Until <em>${A.maxWins} wins</em> or <em>${A.maxLosses} losses</em>. Every rival is tougher</span></div>
+        </div>
+        <div class="ar-label">Rewards by wins</div>
+        ${ladderHtml(-1)}
       </div>`;
       const go = body.appendChild(el('button', 'btn primary ar-go', '🏟 Start a run'));
       go.onclick = () => { MB.audio.sfx('click'); MB.Arena.start(save); persist(); renderArena(); refreshProfileBits(); };
+      gsap.from(body.querySelectorAll('.ar-steps > div, .al-node'), { y: 24, opacity: 0, duration: 0.35, stagger: 0.03, ease: 'back.out(1.6)' });
       return;
     }
     if (a.stage === 'leader') {
+      body.insertAdjacentHTML('beforeend', stepperHtml(0));
       body.appendChild(el('h2', 'ar-step', 'Choose your leader'));
       const row = body.appendChild(el('div', 'ar-leaders'));
       a.leaders.forEach((id) => {
-        const t = row.appendChild(el('div', 'leader-tile', leaderHtml(id)));
-        t.addEventListener('pointerenter', () => { MB.audio.sfx('hover'); t.querySelector('img').src = MB.spriteUrl(id, 'taunt'); });
-        t.addEventListener('pointerleave', () => { t.querySelector('img').src = MB.spriteUrl(id, 'idle'); });
+        const t = row.appendChild(el('div', 'ar-lead', `<div class="al-art"><img src="${MB.bigSpriteUrl(id, 'idle')}" alt=""></div>
+          <div class="al-info"><div class="lt-name">${MB.charById(id).name}</div><span class="ar-novel">${novelName(id)}</span>${powerHtml(id)}</div>`));
+        const img = t.querySelector('img');
+        t.addEventListener('pointerenter', () => { MB.audio.sfx('hover'); img.src = MB.bigSpriteUrl(id, 'taunt'); });
+        t.addEventListener('pointerleave', () => { img.src = MB.bigSpriteUrl(id, 'idle'); });
         t.onclick = () => { MB.audio.sfx('click'); MB.Arena.chooseLeader(save, id); persist(); renderArena(); };
       });
-      gsap.from(row.children, { y: 60, opacity: 0, rotationY: -40, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)' });
+      gsap.from(row.children, { y: 60, opacity: 0, rotationY: -40, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)', clearProps: 'transform,opacity' });
       return;
     }
-    const side = el('div', 'ar-side', `<div class="ar-leader">${leaderHtml(a.leader)}</div>
+    const side = el('div', 'ar-side', `${sideLeaderHtml(a.leader, 'Your leader')}
       <div class="ad-head">🂠 Deck <b>${a.deck.length}/${A.picks}</b></div>${arenaDeckHtml(a.deck)}`);
     if (a.stage === 'draft') {
       const main = el('div', 'ar-main');
-      main.appendChild(el('h2', 'ar-step', `Pick a card <small>${a.deck.length + 1} / ${A.picks}</small>`));
+      const rar = MB.RARITY[MB.CARDS[a.offer[0]].rarity];
+      main.insertAdjacentHTML('beforeend', stepperHtml(1));
+      main.appendChild(el('div', 'ar-draft-head', `<h2 class="ar-step">Pick a card <em style="--c:${rar.color}">${rar.name}</em></h2>
+        <div class="ar-progress"><div>${Array.from({ length: A.picks }, (_, k) => `<i class="${k < a.deck.length ? 'on' : k === a.deck.length ? 'now' : ''}"></i>`).join('')}</div>
+        <span><b>${a.deck.length + 1}</b> / ${A.picks}</span></div>`));
       const row = main.appendChild(el('div', 'ar-offer'));
       a.offer.forEach((id) => {
         const box = row.appendChild(el('div', 'ar-card'));
         const c = box.appendChild(cardEl(id, true, { base: true }));
-        const home = MB.novelOf(id) === MB.novelOf(a.leader);
-        if (home) box.appendChild(el('div', 'ar-tag', 'Same novel as your leader'));
+        if (MB.novelOf(id) === MB.novelOf(a.leader)) box.appendChild(el('div', 'ar-tag', '♥ Same novel as your leader'));
         c.onclick = () => {
           if (row.classList.contains('picked')) return;
           row.classList.add('picked');
@@ -1338,32 +1371,39 @@
           gsap.to(box, { y: -30, scale: 1.08, duration: 0.25, ease: 'power2.out', onComplete: renderArena });
         };
       });
-      main.appendChild(el('p', 'pack-tip', 'Right-click a card for a close-up. Relationships and item combos work here too: draft both halves!'));
+      main.appendChild(el('p', 'pack-tip ar-tip', 'Right-click a card for a close-up. Relationships and item combos work here too: draft both halves!'));
       body.append(main, side);
       gsap.from(row.children, { y: 80, opacity: 0, rotationX: -40, duration: 0.45, stagger: 0.08, ease: 'back.out(1.5)' });
       return;
     }
-    // the run: wins and losses so far, then the next rival (or the rewards, once it's over)
+    // the run: the reward track and lives left, then the next rival (or the rewards, once it's over)
     const main = el('div', 'ar-main');
-    const pips = (n, max, cls, sym) => Array.from({ length: max }, (_, k) => `<i class="${k < n ? cls : ''}">${sym}</i>`).join('');
-    main.appendChild(el('div', 'ar-record', `<div class="ar-wins">${pips(a.wins, A.maxWins, 'on', '★')}</div><div class="ar-losses">${pips(a.losses, A.maxLosses, 'on', '✖')}</div>`));
+    main.insertAdjacentHTML('beforeend', stepperHtml(a.stage === 'run' ? 2 : 3));
+    const lives = Array.from({ length: A.maxLosses }, (_, k) => `<i class="${k < A.maxLosses - a.losses ? '' : 'lost'}">♥</i>`).join('');
+    main.appendChild(el('div', 'ar-record', `${ladderHtml(a.wins, a.stage === 'run')}<div class="ar-lives"><small>Lives</small><div>${lives}</div></div>`));
+    const r = A.rewards(a.wins);
     if (a.stage === 'run') {
-      const n = a.next, ch = MB.charById(n.foe);
-      main.appendChild(el('div', 'ar-next', `<small>Next rival · battle ${a.wins + a.losses + 1}</small>
-        <img src="${MB.bigSpriteUrl(n.foe, 'taunt')}"><b>${ch.name}</b><span>❤ ${n.hp} HP · ${ch.novel.replace(/\s*\(.*\)/, '').trim()}</span>`));
-      const btns = main.appendChild(el('div', 'row'));
-      const fight = btns.appendChild(el('button', 'btn primary', '⚔ Fight'));
+      const n = a.next, threat = Math.round(n.ai * 5);
+      main.appendChild(el('div', 'ar-vs', `<div class="vs-side you"><img src="${MB.bigSpriteUrl(a.leader, 'idle')}" alt=""><b>${MB.charById(a.leader).name}</b><span>You</span></div>
+        <div class="vs-mid"><small>Battle ${a.wins + a.losses + 1}</small><b>VS</b></div>
+        <div class="vs-side foe"><img src="${MB.bigSpriteUrl(n.foe, 'taunt')}" alt=""><b>${MB.charById(n.foe).name}</b><span>${novelName(n.foe)}</span>
+          <div class="vs-stats"><em>❤ ${n.hp} HP</em><em class="vs-threat" title="How well they play">${Array.from({ length: 5 }, (_, k) => `<i class="${k < threat ? 'on' : ''}">💀</i>`).join('')}</em></div></div>`));
+      const btns = main.appendChild(el('div', 'row ar-btns'));
+      const fight = btns.appendChild(el('button', 'btn primary ar-fight', '⚔ Fight'));
       fight.onclick = () => { MB.audio.sfx('click'); startBattle({ leader: a.leader, foe: n.foe, foeHp: n.hp, ai: n.ai, bgSrc: randomBg().src, music: battleMusic(n.foe), arena: true, deck: a.deck }); };
-      const retire = btns.appendChild(el('button', 'btn', 'Retire'));
-      const r = A.rewards(a.wins);
+      const retire = btns.appendChild(el('button', 'btn ar-retire', `Retire <small>take ✨ ${r.glitter}${r.packs.length ? ` + 🎁 ×${r.packs.length}` : ''}</small>`));
       retire.onclick = () => { if (confirm(`End this run now and take the rewards for ${a.wins} win${a.wins === 1 ? '' : 's'} (✨ ${r.glitter}${r.packs.length ? ' and ' + r.packs.length + ' pack' + (r.packs.length > 1 ? 's' : '') : ''})?`)) arenaClaim(); };
+      gsap.from(main.querySelector('.vs-side.you'), { x: -80, opacity: 0, duration: 0.5, ease: 'power3.out' });
+      gsap.from(main.querySelector('.vs-side.foe'), { x: 80, opacity: 0, duration: 0.5, ease: 'power3.out' });
+      gsap.from(main.querySelector('.vs-mid b'), { scale: 2.4, opacity: 0, duration: 0.45, delay: 0.25, ease: 'back.out(2)' });
     } else {
-      const r = A.rewards(a.wins);
-      main.appendChild(el('div', 'ar-done', `<b>${a.wins >= A.maxWins ? '🏆 A perfect run!' : 'The run is over!'}</b>
-        <span>${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</span>
-        <div class="ar-tier"><span class="glit">✨ ${r.glitter}</span>${r.packs.map((t) => `<span style="color:${MB.PACKS[t].color}">🎁 ${MB.PACKS[t].name}</span>`).join('')}</div>`));
-      const claim = main.appendChild(el('button', 'btn primary', '🎁 Claim rewards'));
+      const perfect = a.wins >= A.maxWins;
+      main.appendChild(el('div', 'ar-done' + (perfect ? ' perfect' : ''), `<small>${perfect ? 'Flawless' : 'Run complete'}</small>
+        <b>${perfect ? '🏆 A perfect run!' : 'The run is over!'}</b>
+        <span>${a.wins} win${a.wins === 1 ? '' : 's'} · ${a.losses} loss${a.losses === 1 ? '' : 'es'}</span>${rewardHtml(r)}`));
+      const claim = main.appendChild(el('button', 'btn primary ar-go', '🎁 Claim rewards'));
       claim.onclick = arenaClaim;
+      gsap.from(main.querySelectorAll('.ar-reward'), { y: 40, scale: 0.6, opacity: 0, duration: 0.45, stagger: 0.1, delay: 0.1, ease: 'back.out(2)' });
     }
     body.append(main, side);
   }
@@ -1398,27 +1438,38 @@
     body.className = 'stage-pvp';
     if (!save.leaders.includes(save.leader)) save.leader = save.leaders[0];
     const ready = save.deck.length === DECK_SIZE, busy = MB.Net.busy(), paid = MB.Pvp.paidLeft(save);
-    const pack = MB.PACKS[P.firstWin];
+    const pack = MB.PACKS[P.firstWin], firstWin = MB.Pvp.firstWinLeft(save);
     body.innerHTML = `<div class="ar-main pvp-main">
-        <div class="ar-intro">
-          <p>Battle another player with <b>your own deck and leader</b>, at your card levels. Turns last <b>${P.turnSecs} seconds</b>.</p>
-          <div class="ar-tiers">
-            <div class="ar-tier"><b>Win</b><span class="glit">✨ ${P.win}</span></div>
-            <div class="ar-tier"><b>Loss</b><span class="glit">✨ ${P.loss}</span></div>
-            <div class="ar-tier${MB.Pvp.firstWinLeft(save) ? '' : ' done'}"><b>First win today</b><span style="color:${pack.color}">🎁 ${pack.name}</span></div>
+        <div class="ar-hero">
+          <div class="ar-hero-head">
+            <div class="ar-hero-title"><small>⚔ Online</small><b>Casual PvP</b></div>
+            <div class="ar-stats"><div><b>${p.wins}</b><span>Wins</span></div><div><b>${p.losses}</b><span>Losses</span></div>
+              <div class="${p.streak > 1 ? 'hot' : ''}"><b>${p.streak > 1 ? '🔥' : ''}${p.streak}</b><span>Streak</span></div><div><b>${p.best}</b><span>Best</span></div></div>
           </div>
-          <p class="ar-best">${paid ? `${paid} paid match${paid > 1 ? 'es' : ''} left today` : 'Today\'s paid matches are used up (back tomorrow). You can still play for fun.'}
-            · ${p.wins + p.losses ? `Record <b>${p.wins}-${p.losses}</b> · best streak <b>${p.best}</b>` : 'No matches yet.'}</p>
+          <p class="pvp-lead">Battle another player with <b>your own deck and leader</b>, at your card levels. Turns last <b>${P.turnSecs} seconds</b>.</p>
+          <div class="pvp-pay">
+            <div class="ar-rewards">
+              <div class="ar-reward"><b class="glit">✨${P.win}</b><small>Win</small></div>
+              <div class="ar-reward"><b class="glit">✨${P.loss}</b><small>Loss</small></div>
+              <div class="ar-reward wide${firstWin ? '' : ' done'}" style="--pc:${pack.color}"><img src="${MB.packArt(P.firstWin)}" alt=""><small><span style="color:${pack.color}">${pack.name}</span><br>first win today</small></div>
+            </div>
+            <div class="pvp-daily"><span>Paid matches today <b>${P.paidPerDay - paid} / ${P.paidPerDay}</b></span>
+              <div class="ar-meter"><i style="width:${(P.paidPerDay - paid) / P.paidPerDay * 100}%"></i></div>
+              <small>${paid ? `${paid} left that pay Glitter` : 'All used up: back tomorrow. You can still play for fun.'}</small></div>
+          </div>
           ${MB.Net.local() ? '<p class="pvp-local">🧪 Test mode: no PvP server is set up, so matches only happen between tabs of this browser.</p>' : ''}
         </div>
-        <div class="pvp-status ${pvpStatus.state}">${pvpStatus.text}</div>
-        <div class="pvp-btns"></div>
+        <div class="pvp-play">
+          <div class="pvp-status ${pvpStatus.state}">${pvpStatus.text}</div>
+          <div class="pvp-btns"></div>
+        </div>
       </div>
       <div class="ar-side pvp-side">
-        <div class="ar-leader">${leaderHtml(save.leader)}</div>
+        ${sideLeaderHtml(save.leader, 'Your leader')}
         <button class="btn small pvp-leader">Change leader</button>
         <label class="pvp-deck"><span>Deck</span></label>
         ${ready ? '' : `<p class="pvp-warn">${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.</p>`}
+        ${arenaDeckHtml(save.deck)}
       </div>`;
     const btns = body.querySelector('.pvp-btns');
     const side = body.querySelector('.pvp-side');
@@ -1436,11 +1487,14 @@
       cancel.onclick = () => { MB.audio.sfx('click'); MB.Net.leave(); };
       return;
     }
-    const quickBtn = btns.appendChild(el('button', 'btn primary', '🔎 Quick match'));
-    const hostBtn = btns.appendChild(el('button', 'btn', '🏠 Create room'));
-    const code = btns.appendChild(el('input', 'pvp-code-in'));
+    const quickBtn = btns.appendChild(el('button', 'btn primary pvp-quick', '🔎 Quick match'));
+    btns.appendChild(el('div', 'pvp-or', '<span>or play a friend</span>'));
+    const friend = btns.appendChild(el('div', 'pvp-friend'));
+    const hostBtn = friend.appendChild(el('button', 'btn', '🏠 Create room'));
+    const joinBox = friend.appendChild(el('div', 'pvp-join'));
+    const code = joinBox.appendChild(el('input', 'pvp-code-in'));
     code.placeholder = 'CODE'; code.maxLength = 4;
-    const joinBtn = btns.appendChild(el('button', 'btn', '🔑 Join'));
+    const joinBtn = joinBox.appendChild(el('button', 'btn', '🔑 Join'));
     [quickBtn, hostBtn, joinBtn, code].forEach((b) => { b.disabled = !ready; });
     quickBtn.onclick = () => { MB.audio.sfx('click'); MB.Net.quick(pvpHello(), pvpSay); };
     hostBtn.onclick = () => { MB.audio.sfx('click'); MB.Net.host(pvpHello(), pvpSay); };
