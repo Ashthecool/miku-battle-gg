@@ -1,6 +1,6 @@
 ---
 name: add-novel
-description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to Supabase. Covers checking outfits, uploading assets, and writing cards, powers, bonds, chapters and story quests as data (no engine code).
+description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to the R2 bucket. Covers checking outfits, uploading assets, and writing cards, powers, bonds, chapters and story quests as data (no engine code).
 ---
 
 # Add a novel to Miku Battle
@@ -51,15 +51,15 @@ takes the first match).
 
 ## 4. Upload the images
 
-Needs the Supabase secret key (`sb_secret_...`). Ask the user if it isn't in the conversation or environment;
-pass it only as an env var on the command line, never write it to a file or commit it.
+Needs the R2 keys (`R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`). Ask the user if they aren't in the
+conversation or environment; pass them only as env vars on the command line, never write them to a file or commit them.
 
 ```sh
-SUPABASE_SECRET_KEY=sb_secret_... py tools/fetch_assets.py > <scratch>/fetch.log 2>&1   # run in background
+R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/fetch_assets.py > <scratch>/fetch.log 2>&1   # run in background
 ```
 
 It skips files already in the bucket and rewrites `game/assets/manifest.{json,js}` at the end (ids, costumes,
-songs, backgrounds). A novel adds ~15-30 MB per 10 characters; the free bucket holds 1 GB. Check the log for
+songs, backgrounds). A novel adds ~15-30 MB per 10 characters; R2's free tier holds 10 GB. Check the log for
 `FAIL` lines (failed images are left out of the manifest automatically). Characters whose name exists in an
 earlier novel get a suffix (`keiko-atarashi`); same-named characters inside one novel are merged.
 

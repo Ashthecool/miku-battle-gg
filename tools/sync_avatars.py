@@ -1,15 +1,16 @@
 """Turn the pictures in the Supabase "card-images" bucket into unlockable profile pictures.
 
 For every image there (json files and the common/rare/epic pack art aside) it uploads a 256px square
-thumbnail to game-assets/avatars/<id>.webp, uploads the pack art to game-assets/packs/<tier>.webp,
+thumbnail to the R2 game-assets bucket at avatars/<id>.webp, uploads the pack art to game-assets/packs/<tier>.webp,
 and writes game/js/avatars.js, the list the game unlocks from.
 
-Usage:  SUPABASE_SECRET_KEY=sb_secret_... py tools/sync_avatars.py [--force]
+Usage:  SUPABASE_SECRET_KEY=sb_secret_... R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/sync_avatars.py [--force]
 Run it again after adding pictures to card-images; --force also rebuilds thumbnails that already exist.
 """
 import io, json, os, re, sys
 from PIL import Image
 import supabase_storage as sb
+import r2_storage as r2
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_JS = os.path.join(ROOT, "game", "js", "avatars.js")
@@ -57,9 +58,8 @@ def pack_art(data):
 
 def main():
     force = "--force" in sys.argv
-    sb.ensure_bucket(sb.GAME_BUCKET)
     src = sb.list_objects(sb.CARD_BUCKET)
-    have = set(sb.list_objects(sb.GAME_BUCKET, "avatars")) | set(sb.list_objects(sb.GAME_BUCKET, "packs"))
+    have = set(r2.list_objects("avatars/")) | set(r2.list_objects("packs/"))
 
     avatars, seen_ids, prints, items = [], set(), {}, []
     for name in sorted(src):
@@ -76,7 +76,7 @@ def main():
             aid, n = f"{slug(stem)}-{n}", n + 1
         path = f"avatars/{aid}.webp"
         built = force or path not in have
-        data = thumb(sb.download(sb.CARD_BUCKET, name)) if built else sb.download(sb.GAME_BUCKET, path)
+        data = thumb(sb.download(sb.CARD_BUCKET, name)) if built else r2.download(path)
         fp = fingerprint(data)
         twin = next((other for other, f in prints.items() if sum(abs(a - b) for a, b in zip(fp, f)) < len(fp) * 6), None)
         if twin:  # the same picture uploaded twice, maybe as png and jpg
@@ -90,12 +90,12 @@ def main():
         print(f"[{len(avatars)}] {'built' if built else 'kept'} {path}", flush=True)
 
     print(f"{len(avatars)} profile pictures, {len(items)} images to upload")
-    failed = sb.upload_many(sb.GAME_BUCKET, items)
+    failed = r2.upload_many(items)
     # thumbnails of pictures that were removed or turned out to be duplicates
     stale = sorted(p for p in have if p.startswith("avatars/"))
     stale = [p for p in stale if p not in {f"avatars/{a['id']}.webp" for a in avatars}]
     if stale:
-        sb.remove(sb.GAME_BUCKET, stale)
+        r2.remove(stale)
         print("removed " + ", ".join(stale))
 
     with open(OUT_JS, "w", encoding="utf-8") as f:

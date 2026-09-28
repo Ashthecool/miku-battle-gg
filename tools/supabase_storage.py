@@ -7,7 +7,7 @@ import json, os, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 
 URL = os.environ.get("SUPABASE_URL", "https://djknvuaivmtudiecwztx.supabase.co")
-GAME_BUCKET = "game-assets"   # sprites, backgrounds, items, portraits, avatar thumbnails, pack art
+GAME_BUCKET = "game-assets"   # the old copy of what the game reads; that now lives on R2 (r2_storage.py)
 CARD_BUCKET = "card-images"   # original profile pictures and the common/rare/epic pack images
 
 MIME = {".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".gif": "image/gif",

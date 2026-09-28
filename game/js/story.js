@@ -14,7 +14,10 @@
 // (bends of the path from its first need), place (a location of the act it sits in, else the act map), arc (the
 // storyline's name), title, text (the quest panel's description), and scenes: `before` (played before the fight until it's won) and `after` (once, after the first win),
 // or `scene` for a quest without a fight. The act's last main quest is its finale. `lesson` (the first quest only): after
-// its scene comes the practice battle that teaches you to play (js/tutorial.js), then its `after` scene.
+// its scene comes the practice battle that teaches you to play (js/tutorial.js), then its `after` scene. `art` stages the
+// quest panel's picture instead of acting out the scene's opening: { cast: [[id, mood, x], ...], rift: [x, y, size?, tilt?],
+// shadows: [[id, at], ...] } (x, y in % of the picture; at: -1 to 1 along the tear): the cast posed in those moods, a tear
+// in the sky, and the shadows of figures lingering in it.
 //
 // Act fields: title, map (+ w, h: its size in px, size: how wide it is drawn), color, music, bg (for scenes), intro
 // (shown when the act opens), places: [{ id, title, map, w, h, size, at, icon, text }] (locations you enter from the
@@ -139,6 +142,7 @@ window.MB = window.MB || {};
             ['*', 'Where the sky tore, something is still glowing, low over the gazebos. Waiting.'],
           ] } },
         { id: 'crack-in-the-sky', at: [60, 55], title: 'A Crack in the Sky', text: 'Something fell into the park when the sky tore. You and Hayley go and look.',
+          art: { rift: [66, 28, 1.25, -6], cast: [['hayley-kate', 'scared', 26]], shadows: [['lilith', -0.6], ['celeste', 0.6]] },
           scene: { bg: 'Park', music: 'the-unknown-tear', lines: [
             { where: 'The park', when: '11:58 PM', light: 'night' },
             ['hayley-kate', 'scared', 'Okay. Midnight, park, glowing sky. This is how horror films start. I LOVE horror films. I hate this.'],

@@ -22,7 +22,7 @@ npx serve game
 | `game/assets/manifest.js` | Characters, sprites, backgrounds, items and music of the novels. Generated. |
 | `game/assets/music/` | Songs made for the game. Register each in `MB.SONGS` (`game/js/data.js`); `foes` makes it that character's battle theme. |
 | `game/js/avatars.js` | The unlockable profile pictures. Generated. |
-| `game/js/config.js` | Where the images live (the Supabase bucket). |
+| `game/js/config.js` | Where the images live (the R2 bucket). |
 | `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |
 | `tools/fetch_assets.py` | Downloads the images for the novels in `novels/` (kept local, not in the repo), uploads them to the bucket and writes the manifest. `--local` writes them to `game/assets/` instead, for trying out a new novel before uploading. |
 | `tools/outfit_sheets.py` | Contact sheets of a novel's outfits, to check them by eye before uploading. |
@@ -39,20 +39,23 @@ npx serve game
 | `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
 | `tools/sync_maps.py` | Copies the Story maps from the `map-images` bucket into `game-assets/maps/` as WebP. |
+| `tools/migrate_to_r2.py` | One-off: copied `game-assets` from Supabase Storage to R2. Safe to run again; it skips what R2 already has. |
 
-## Images (Supabase)
+## Images (Cloudflare R2)
 
-The images are not in the repo. They live in the public Supabase Storage bucket `game-assets`:
+The images are not in the repo. They live in the public Cloudflare R2 bucket `game-assets` (R2 has no egress fees; they used to be served from Supabase Storage, whose free plan ran out of cached egress):
 
 - `sprites/`, `backgrounds/`, `items/`, `portraits/`: from `tools/fetch_assets.py`
 - `sm/sprites/`: half-size sprite copies used for cards and the board, so they stay sharp when drawn small
 - `avatars/`, `packs/`: profile picture thumbnails and the Common/Rare/Epic pack art, made by `tools/sync_avatars.py` from the `card-images` bucket
 - `maps/`: the Story act maps, copied by `tools/sync_maps.py` from the `map-images` bucket
 
-The game only reads public URLs and needs no key. The tools write to the buckets, so they need the secret key in the environment (never commit it):
+The source pictures stay in the Supabase Storage buckets `card-images` and `map-images`, which only the tools read.
+
+The game only reads public URLs and needs no key. The tools write to the buckets, so they need the keys in the environment (never commit them): an R2 API token with Object Read & Write (Cloudflare dashboard > R2 > Manage API tokens), plus the Supabase secret key for the tools that read the source buckets:
 
 ```sh
-SUPABASE_SECRET_KEY=sb_secret_... py tools/sync_avatars.py
+SUPABASE_SECRET_KEY=sb_secret_... R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/sync_avatars.py
 ```
 
 ## PvP

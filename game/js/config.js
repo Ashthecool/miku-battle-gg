@@ -1,8 +1,9 @@
-// Where the images live: the public Supabase "game-assets" bucket (filled by tools/fetch_assets.py and
-// tools/sync_avatars.py). Paths in assets/manifest.js and js/avatars.js are relative to it.
+// Where the images live: the public Cloudflare R2 "game-assets" bucket (filled by tools/fetch_assets.py,
+// tools/sync_avatars.py and tools/sync_maps.py; R2 has no egress fees). Paths in assets/manifest.js and
+// js/avatars.js are relative to it.
 // Also loaded by sw.js, so keep it free of DOM access.
 window.MB = window.MB || {};
-MB.ASSET_BASE = 'https://djknvuaivmtudiecwztx.supabase.co/storage/v1/object/public/game-assets/';
+MB.ASSET_BASE = 'https://pub-40e44f2871f24e02bab0f29092f963c9.r2.dev/';
 MB.asset = (path) => MB.ASSET_BASE + path;
 // PvP (js/net.js) talks through Supabase Realtime with the project's publishable key (Dashboard > Project Settings >
 // API keys, the sb_publishable_... one: it is meant to be public). Empty: PvP only works between tabs of one browser.

@@ -1,9 +1,9 @@
 // Offline support. Code (html/js/css) is fetched network-first (skipping the browser's HTTP cache) so updates arrive whenever
-// you're online; images come from the Supabase bucket (MB.ASSET_BASE) and are cache-first.
+// you're online; images come from the R2 bucket (MB.ASSET_BASE) and are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
 const SHELL = 'mb-shell-v19';
-const ASSETS = 'mb-assets-v3';
+const ASSETS = 'mb-assets-v4';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
   'lib/MotionPathPlugin.min.js', 'lib/supabase.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
@@ -17,7 +17,7 @@ importScripts('js/config.js', 'assets/manifest.js', 'js/avatars.js');
 
 // the images to fetch up front: the small ones every menu shows (items, portraits, profile pictures, pack art,
 // ~5 MB). Sprites and backgrounds (~130 MB, most never seen by a given player) are cached the first time they
-// are shown instead: downloading them all for every new browser was nearly all of the Supabase cached egress.
+// are shown instead: downloading them all for every new browser was nearly all of our old Supabase cached egress.
 // NSFW entries only in NSFW mode (js/content.js).
 function assetUrls(small, nsfw) {
   const out = new Set();

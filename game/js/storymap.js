@@ -357,6 +357,194 @@
     gsap.timeline({ onComplete: () => c.remove() }).fromTo(c, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.4 }).to(c, { opacity: 0, duration: 0.5, delay: 1.4 });
   }
 
+  // a speaker's mood, acted out (in scenes and the panel's art): a new mood gets an emote by their head and a move of
+  // its own (a hop, a shake, a slump...), the same mood again just a little bounce. The moves use
+  // xPercent/yPercent/scale/rotation, so they never fight the x/y of a sprite walking on or off.
+  const MOVES = {
+    happy: (im) => gsap.timeline().to(im, { yPercent: -3, duration: 0.14, ease: 'power2.out' }).to(im, { yPercent: 0, duration: 0.45, ease: 'bounce.out' }),
+    excited: (im) => gsap.timeline().to(im, { yPercent: -4.5, duration: 0.13, yoyo: true, repeat: 3, ease: 'power2.out' }),
+    angry: (im) => gsap.timeline().to(im, { xPercent: 2, duration: 0.05, yoyo: true, repeat: 7, ease: 'none' }).set(im, { xPercent: 0 }),
+    rage: (im) => gsap.timeline().to(im, { scale: 1.05, duration: 0.12, ease: 'power2.out' }).to(im, { xPercent: 3, duration: 0.04, yoyo: true, repeat: 11, ease: 'none' }, 0)
+      .to(im, { scale: 1, xPercent: 0, duration: 0.3 }),
+    scared: (im) => gsap.timeline().to(im, { scale: 0.96, duration: 0.2, ease: 'power2.out' }).to(im, { xPercent: 1, duration: 0.04, yoyo: true, repeat: 13, ease: 'none' }, 0)
+      .to(im, { scale: 1, xPercent: 0, duration: 0.4 }),
+    sad: (im) => gsap.timeline().to(im, { yPercent: 3, duration: 0.7, ease: 'sine.out' }).to(im, { yPercent: 0, duration: 1.2, ease: 'sine.inOut' }),
+    proud: (im) => gsap.timeline().to(im, { scale: 1.04, rotation: -1.5, duration: 0.3, ease: 'power2.out' }).to(im, { scale: 1, rotation: 0, duration: 0.5, ease: 'power2.inOut' }),
+  };
+  const EMOTES = { happy: '🎵', excited: '❗', angry: '💢', rage: '💢', scared: '💦', sad: '💧', proud: '✨' };
+
+  // ---------------------------------------------------------------- the panel's art: the chapter's opening, shown not told
+  // The art acts out how the chapter starts, and no further, without a word: the place (in the light it opens in) and
+  // cast of its scene's first shot (up to the first change of place or choice), each character striking the moods of
+  // their first lines in turn, then a rival squaring up for the fight (a boss flares its aura). A beaten chapter acts
+  // out the opening of its after-scene instead; a locked one shows only silhouettes. A chapter can stage its art
+  // instead (its `art`, see js/story.js): its cast posed in set moods, under a tear in the sky with figures lingering
+  // in it as shadows. The beats stop when the panel changes.
+  const SEATS = { left: 22, center: 50, right: 78 };
+  function shotOf(q, done) {
+    const part = q.foe ? (done && q.after ? 'after' : !done && q.before ? 'before' : null) : done && q.after ? 'after' : 'scene';
+    const sc = part && S.sceneOf(q, part), st = stageOf(q);
+    const shot = { bg: sc ? sc.bg : st ? st.bg : MB.ACTS[q.act].bg, light: null, cast: [], beats: [] };
+    const seat = (id, at, mood) => { if (!shot.cast.some((c) => c.id === id) && shot.cast.length < 3) shot.cast.push({ id, at, mood: mood || 'neutral' }); };
+    for (const raw of sc ? sc.lines : []) {
+      const l = S.lineOf(raw);
+      if (l.choose || (l.bg && shot.beats.length) || shot.beats.length >= 6) break;
+      if (l.light && !shot.beats.length) shot.light = l.light;
+      if (l.bg) shot.bg = l.bg;
+      else if (l.enter && MB.charById(l.enter)) seat(l.enter, l.at, l.mood);
+      else if (l.fx === 'shake' && shot.beats.length) shot.beats[shot.beats.length - 1].shake = true;
+      if (l.who && typeof l.text === 'string' && MB.charById(l.who)) {
+        seat(l.who, null, l.mood);
+        if (shot.cast.some((c) => c.id === l.who)) shot.beats.push({ who: l.who, mood: l.mood || 'neutral', shake: l.shake });
+      }
+    }
+    if (q.foe && !shot.cast.some((c) => c.id === q.foe)) { if (shot.cast.length > 2) shot.cast.pop(); seat(q.foe, null, done ? 'happy' : 'proud'); }
+    // seats: where the scene puts them, else the rival (or a lone character) in the middle, the rest to the sides
+    const free = (at) => !shot.cast.some((c) => c.at === at);
+    shot.cast.forEach((c) => { if (c.at && !(c.at in SEATS)) c.at = null; });
+    shot.cast.forEach((c) => {
+      if (c.at) return;
+      const pref = shot.cast.length === 1 || c.id === q.foe ? ['center', 'right', 'left'] : c.id === 'hayley-kate' ? ['left', 'right', 'center'] : ['right', 'left', 'center'];
+      c.at = pref.find(free) || 'center';
+    });
+    if (shot.cast.length === 2) shot.cast.forEach((c) => { if (c.at === 'center') c.at = free('right') ? 'right' : 'left'; });
+    shot.cast.forEach((c) => { c.x = SEATS[c.at]; });
+    if (q.art) Object.assign(shot, { beats: [], cast: (q.art.cast || []).map(([id, mood, x]) => ({ id, mood, x })) });
+    return shot;
+  }
+
+  // the scene's opening light, on the place (the cast stays lit, as in scenes)
+  const LIGHT = { night: 'brightness(.5) saturate(.8) sepia(.4) hue-rotate(185deg)', dark: 'brightness(.38) saturate(.6)', candle: 'brightness(.62) sepia(.4) saturate(1.2)',
+    rift: 'brightness(.7) saturate(.75)' };
+  // a small tear in the sky: a jagged lens of starry void with a crackling rim, its light spilling over the place, and
+  // the shadows of whoever lingers in it standing in the void (at -1 to 1 along it); it opens wider to hold them
+  let riftUid = 0;
+  function riftHtml(A) {
+    const [x, y, size = 1, tilt = -8] = A.rift, id = 'mr' + ++riftUid, sh = A.shadows || [], L = 110, H = sh.length ? 40 : 26, n = 14, top = [], bot = [];
+    for (let k = 0; k <= n; k++) {
+      const t = k / n, px = -L + 2 * L * t, w = H * Math.pow(Math.sin(Math.PI * t), 0.9), j = k === 0 || k === n ? 0 : (Math.random() - 0.5) * 8;
+      top.push(`${(px + j).toFixed(1)},${(-w * (0.6 + Math.random() * 0.6)).toFixed(1)}`);
+      bot.push(`${(px - j).toFixed(1)},${(w * (0.6 + Math.random() * 0.6)).toFixed(1)}`);
+    }
+    const shape = 'M' + top.join('L') + 'L' + bot.reverse().join('L') + 'Z';
+    const stars = Array.from({ length: 16 }, () => `<circle class="mr-star" cx="${(Math.random() * 2 - 1) * L | 0}" cy="${(Math.random() * 2 - 1) * H | 0}" r="${(0.6 + Math.random() * 1.4).toFixed(1)}" fill="#fff"/>`).join('');
+    const shades = sh.map(([sid, at]) => `<image class="mr-shadow" href="${MB.spriteUrl(sid, 'idle')}" x="${(at * L * 0.8 - H * 1.3).toFixed(0)}" y="${-H * 0.9}" width="${H * 2.6}" height="${H * 4}" preserveAspectRatio="xMidYMin meet"/>`).join('');
+    return `<div class="mp-spill" style="left:${x}%;top:${y}%"></div>`
+      + `<svg class="mp-rift" viewBox="${-L - 30} ${-H * 2.5} ${2 * L + 60} ${H * 5}" style="left:${x}%;top:${y}%;--s:${size};--t:${tilt}deg">
+        <defs><radialGradient id="${id}-v" cx="0" cy="0" r="${L}" gradientUnits="userSpaceOnUse" gradientTransform="scale(1 .3)">
+          <stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#f3a6ff"/><stop offset=".5" stop-color="#a152ff"/><stop offset="1" stop-color="#1a0845"/></radialGradient>
+          <filter id="${id}-g" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="9"/></filter>
+          <clipPath id="${id}-c"><path d="${shape}"/></clipPath></defs>
+        <g class="mr-open"><path d="${shape}" fill="#b27cff" stroke="#a86bff" stroke-width="22" filter="url(#${id}-g)"/>
+          <g clip-path="url(#${id}-c)"><rect x="${-L}" y="${-H * 2}" width="${2 * L}" height="${H * 4}" fill="url(#${id}-v)"/>${shades}
+            <g class="mr-swirl"><ellipse rx="${L * 0.8}" ry="${H * 1.3}" fill="none" stroke="#ff6fae" stroke-opacity=".5" stroke-width="6"/>
+              <ellipse rx="${L * 0.5}" ry="${H * 1.8}" fill="none" stroke="#7ad7ff" stroke-opacity=".4" stroke-width="8"/></g>${stars}</g>
+          <path class="mr-rim" d="${shape}" fill="none" stroke="#f4e8ff" stroke-width="2.5"/></g></svg>`;
+  }
+  function riftPlay(box) {
+    const q = (s) => box.querySelectorAll(s);
+    gsap.to(q('.mr-swirl'), { rotation: 360, svgOrigin: '0 0', duration: 6, repeat: -1, ease: 'none' });
+    gsap.to(q('.mr-star'), { opacity: 0.2, duration: () => 0.3 + Math.random() * 0.8, repeat: -1, yoyo: true, stagger: { each: 0.06, from: 'random' } });
+    gsap.fromTo(q('.mr-open'), { scaleY: 0.92 }, { scaleY: 1.1, svgOrigin: '0 0', duration: 1.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to(q('.mr-rim'), { opacity: 0.4, duration: 0.07, repeat: -1, yoyo: true, repeatDelay: 0.5, ease: 'steps(1)' });
+    gsap.fromTo(q('.mp-spill'), { opacity: 0.55, scale: 0.95 }, { opacity: 0.9, scale: 1.08, duration: 1.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    // the shadows sway in the glow, fade in and out, and now and then glitch sideways
+    q('.mr-shadow').forEach((im, i) => {
+      gsap.fromTo(im, { y: 0 }, { y: -4, duration: 2 + i * 0.6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * 0.5 });
+      gsap.fromTo(im, { opacity: 0.55 }, { opacity: 0.95, duration: 1.1 + i * 0.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      gsap.timeline({ repeat: -1, repeatDelay: 2.6 + i * 1.3, delay: 1 + i }).to(im, { x: 4, duration: 0.04, yoyo: true, repeat: 5, ease: 'steps(1)' });
+    });
+  }
+
+  // one character acting out a mood: its move and an emote by its head (only a little bounce without a new mood)
+  function actOut(f, mood, fresh) {
+    const im = f.querySelector('img'), move = fresh && MOVES[mood];
+    gsap.killTweensOf(im);
+    gsap.set(im, { xPercent: 0, yPercent: 0, scale: 1, rotation: 0 });
+    if (!move) return gsap.fromTo(im, { yPercent: 0 }, { yPercent: -1.5, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.out' });
+    move(im);
+    if (!EMOTES[mood]) return;
+    const e = el('div', 'mp-emote', EMOTES[mood]);
+    f.appendChild(e);
+    gsap.timeline({ onComplete: () => e.remove() }).fromTo(e, { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.35, ease: 'back.out(3)' })
+      .to(e, { y: -12, duration: 0.9, ease: 'sine.inOut' }).to(e, { opacity: 0, duration: 0.3 });
+  }
+
+  let artBeat = null, artBox = null;
+  function stopArt() {
+    if (artBeat) artBeat.kill();
+    if (artBox) gsap.killTweensOf([artBox, ...artBox.querySelectorAll('*')]);
+    artBeat = artBox = null;
+  }
+  function artOf(q, avail, done) {
+    const boss = bossOf(q), shot = shotOf(q, done), cast = shot.cast.map((c) => c.id);
+    const beats = shot.beats.slice();
+    if (q.foe && !done && !q.art) {
+      beats.push({ who: q.foe, mood: 'angry', fight: true });
+      if (boss) beats.push({ who: q.foe, mood: 'rage', fight: true });
+    }
+    const box = el('div', `mp-art stage${cast.length > 1 ? ' crowd' : ''}${avail ? '' : ' lock'}`,
+      `<div class="mp-bg" style="background-image:url('${MB.asset(U().bgByName(shot.bg).src)}')"></div><div class="mp-shade"></div>`
+      + (boss && avail && !done ? '<div class="mp-aura"></div>' : '')
+      + (q.art && q.art.rift ? riftHtml(q.art) : '')
+      + shot.cast.map((c) => `<div class="mp-fig" style="left:${c.x}%"><img src="${MB.spriteUrl(c.id, S.MOODS[c.mood] || 'idle')}"></div>`).join('')
+      + '<div class="mp-slash"></div>' + (avail ? '' : '<div class="mp-q">?</div>'));
+    box.style.setProperty('--c', boss ? boss.color : MB.ACTS[q.act].color);
+    stopArt();
+    artBox = box;
+    const bgEl = box.querySelector('.mp-bg'), figs = [...box.querySelectorAll('.mp-fig')];
+    if (avail && LIGHT[shot.light]) bgEl.style.filter = LIGHT[shot.light];
+    if (q.art && q.art.rift) riftPlay(box);
+    gsap.fromTo(bgEl, { scale: 1.06 }, { scale: 1.16, xPercent: -2, duration: 14, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    figs.forEach((f, i) => gsap.fromTo(f, { scaleY: 1 }, { scaleY: 1.018, duration: 1.6 + i * 0.25, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: i * 0.4 }));
+    if (box.querySelector('.mp-aura')) gsap.fromTo(box.querySelector('.mp-aura'), { scale: 0.9, opacity: 0.35 }, { scale: 1.1, opacity: 0.7, duration: 1.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    if (!avail) return box;
+    // a staged cast acts out its set moods in turn, over and over
+    if (q.art) {
+      if (!figs.length) return box;
+      let k = 0;
+      const pose = () => {
+        if (!box.isConnected) return stopArt();
+        const i = k++ % figs.length;
+        if (box.offsetParent) actOut(figs[i], shot.cast[i].mood, true);
+        artBeat = gsap.delayedCall(2.8, pose);
+      };
+      artBeat = gsap.delayedCall(0.8, pose);
+      return box;
+    }
+    if (!beats.length) return box;
+    // every pose it will strike, loaded before the first swap so none flickers in
+    beats.forEach((b) => { new Image().src = MB.spriteUrl(b.who, S.MOODS[b.mood] || 'idle'); });
+    const last = {}, start = () => shot.cast.forEach((c) => { last[c.id] = c.mood; });
+    start();
+    let k = 0;
+    const beat = () => {
+      if (!box.isConnected) return stopArt();
+      if (k === beats.length) { // the shot again, from the top
+        k = 0;
+        start();
+        shot.cast.forEach((c, i) => { figs[i].querySelector('img').src = MB.spriteUrl(c.id, S.MOODS[c.mood] || 'idle'); figs[i].classList.remove('hush'); });
+        artBeat = gsap.delayedCall(1.4, beat);
+        return;
+      }
+      const b = beats[k++], i = cast.indexOf(b.who), f = figs[i];
+      if (box.offsetParent) {
+        // whoever's turn it is takes the light, in the mood they're in
+        if (figs.length > 1) figs.forEach((x, j) => x.classList.toggle('hush', j !== i));
+        f.querySelector('img').src = MB.spriteUrl(b.who, S.MOODS[b.mood] || 'idle');
+        actOut(f, b.mood, last[b.who] !== b.mood);
+        last[b.who] = b.mood;
+        // the rival squaring up slashes across the stage, a boss's rage flares its aura; the scene's own shakes shake
+        if (b.fight) gsap.fromTo(box.querySelector('.mp-slash'), { opacity: 1, xPercent: -60, scaleY: 1 }, { xPercent: 60, scaleY: 0.3, opacity: 0, duration: 0.35, delay: 0.15, ease: 'power2.in' });
+        if (b.fight || b.shake || b.mood === 'rage') gsap.fromTo(box, { x: 0 }, { x: 4, duration: 0.04, yoyo: true, repeat: 5, delay: b.fight ? 0.3 : 0, ease: 'none', clearProps: 'x' });
+        if (b.mood === 'rage' && box.querySelector('.mp-aura')) gsap.fromTo(box.querySelector('.mp-aura'), { opacity: 1, scale: 1.5 }, { opacity: 0.5, scale: 1, duration: 0.8, ease: 'power2.out' });
+      }
+      artBeat = gsap.delayedCall(b.mood === 'neutral' ? 1.8 : 2.4, beat);
+    };
+    artBeat = gsap.delayedCall(0.8, beat);
+    return box;
+  }
+
   // ---------------------------------------------------------------- the panel
   function mark_sel(sel) {
     document.querySelectorAll('#map-nodes .sel').forEach((n) => n.classList.remove('sel'));
@@ -375,6 +563,7 @@
     if (animate) { walkTo({ id: p.id, at: p.at }); ripple(spot({ at: p.at })); }
     const s = save(), inside = actQuests(act).filter((q) => q.place === p.id), open = inside.filter((q) => S.isOpen(s, q));
     const pn = $('#map-panel');
+    stopArt();
     pn.innerHTML = `<button class="mp-close" title="Close">✕</button><div class="mp-tag" style="--c:${MB.ACTS[act].color}">Location</div><h2>${p.icon || ''} ${p.title}</h2>
       <div class="mp-art place" style="background-image:url('${MB.asset(p.map)}')"></div><p class="mp-text">${p.text || ''}</p>
       <div class="mp-list">${inside.map((q) => `<span class="${S.isDone(s, q) ? 'done' : S.isOpen(s, q) ? 'open' : ''}">${S.isDone(s, q) ? '✔' : S.isOpen(s, q) ? (q.main ? '▶' : '!') : '🔒'} ${S.isOpen(s, q) ? q.title : '???'}</span>`).join('')}</div>
@@ -397,14 +586,7 @@
     const main = mainOf(q.act), arc = q.arc && q.main && S.arcsOf(q.act).find((x) => x.name === q.arc);
     const tag = q.side ? 'Side quest' : arc ? `Storyline · ${arc.name} · ${arc.quests.indexOf(q) + 1}/${arc.quests.length}` : `${q.foe ? 'Main story' : 'Story'} · ${main.indexOf(q) + 1}/${main.length}`;
     const boss = bossOf(q), ch = q.foe && MB.charById(q.foe);
-    let art;
-    if (!avail) art = '<div class="mp-art lock">?</div>';
-    else if (q.foe) art = `<div class="mp-art"><img src="${MB.spriteUrl(q.foe, done ? 'win' : 'taunt')}"></div>`;
-    else {
-      // a scene: the first few characters who speak in it
-      const who = [...new Set(q.scene.lines.map(S.lineOf).filter((l) => l.who && l.who !== '*' && l.who !== 'you' && MB.charById(l.who)).map((l) => l.who))].slice(0, 3);
-      art = `<div class="mp-art trio">${who.map((id) => `<img src="${MB.spriteUrl(id, 'idle')}">`).join('')}</div>`;
-    }
+    const art = '<div class="mp-art-slot"></div>';
     // what it's waiting for: every need, ticked off
     const needs = q.needs.map(S.byId).filter((n) => n && n.act === q.act);
     let body = `<div class="mp-tag" style="--c:${MB.ACTS[q.act].color}">${tag}${boss ? ' · 👑 Boss' : ''}</div><h2>${avail ? q.title : '???'}</h2>`;
@@ -426,7 +608,9 @@
         }
       } else if (!done && q === S.lastOf(q.act)) body += '<div class="mp-reward">🏁 Act complete: <b style="color:#b35cff">Epic Pack</b></div>';
     }
+    stopArt();
     p.innerHTML = `<button class="mp-close" title="Close">✕</button>${body}<div class="mp-btns"></div>`;
+    p.querySelector('.mp-art-slot').replaceWith(artOf(q, avail, done));
     const btns = p.querySelector('.mp-btns');
     if (avail) {
       const go = el('button', 'btn primary', q.foe ? (done ? '⚔ Rematch' : '⚔ Battle!') : done ? '🎬 Watch again' : '🎬 Play');
@@ -781,21 +965,7 @@
       $('#sc-more').classList.remove('hidden');
       if (auto) autoTimer = setTimeout(step, 1100 + text.length * 22);
     }
-    // a speaker reacts to their own mood: a new mood gets an emote by their head and a move of its own (a hop, a
-    // shake, a slump...), the same mood again just a little bounce. The moves use xPercent/yPercent/scale/rotation,
-    // so they never fight the x/y of a sprite walking on or off.
-    const MOVES = {
-      happy: (im) => gsap.timeline().to(im, { yPercent: -3, duration: 0.14, ease: 'power2.out' }).to(im, { yPercent: 0, duration: 0.45, ease: 'bounce.out' }),
-      excited: (im) => gsap.timeline().to(im, { yPercent: -4.5, duration: 0.13, yoyo: true, repeat: 3, ease: 'power2.out' }),
-      angry: (im) => gsap.timeline().to(im, { xPercent: 2, duration: 0.05, yoyo: true, repeat: 7, ease: 'none' }).set(im, { xPercent: 0 }),
-      rage: (im) => gsap.timeline().to(im, { scale: 1.05, duration: 0.12, ease: 'power2.out' }).to(im, { xPercent: 3, duration: 0.04, yoyo: true, repeat: 11, ease: 'none' }, 0)
-        .to(im, { scale: 1, xPercent: 0, duration: 0.3 }),
-      scared: (im) => gsap.timeline().to(im, { scale: 0.96, duration: 0.2, ease: 'power2.out' }).to(im, { xPercent: 1, duration: 0.04, yoyo: true, repeat: 13, ease: 'none' }, 0)
-        .to(im, { scale: 1, xPercent: 0, duration: 0.4 }),
-      sad: (im) => gsap.timeline().to(im, { yPercent: 3, duration: 0.7, ease: 'sine.out' }).to(im, { yPercent: 0, duration: 1.2, ease: 'sine.inOut' }),
-      proud: (im) => gsap.timeline().to(im, { scale: 1.04, rotation: -1.5, duration: 0.3, ease: 'power2.out' }).to(im, { scale: 1, rotation: 0, duration: 0.5, ease: 'power2.inOut' }),
-    };
-    const EMOTES = { happy: '🎵', excited: '❗', angry: '💢', rage: '💢', scared: '💦', sad: '💧', proud: '✨' };
+    // a speaker reacts to their own mood (MOVES and EMOTES, with the panel above)
     function react(side, who, mood) {
       const im = img[side], fresh = moods[who] !== mood;
       moods[who] = mood;

@@ -446,9 +446,30 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
   background: color-mix(in srgb, var(--c) 30%, #0000); border: 1px solid var(--c); color: color-mix(in srgb, var(--c) 60%, #fff); }
 .mp-art { height: 230px; flex: none; display: flex; justify-content: center; align-items: flex-end; border-radius: 16px; overflow: hidden;
   background: radial-gradient(ellipse at 50% 100%, #ffffff22, #0000 70%); }
-.mp-art img { height: 250px; margin-bottom: -20px; filter: drop-shadow(0 6px 10px #000); }
-.mp-art.trio img { height: 220px; margin: 0 -40px -20px; }
-.mp-art.lock { align-items: center; font: 900 90px 'Segoe UI'; color: #ffffff33; }
+/* a chapter's art (storymap.js artOf): its place, its characters acting out beats on it */
+.mp-art.stage { position: relative; display: block; background: #0a0818; border: 2px solid color-mix(in srgb, var(--c) 55%, #ffffff22);
+  box-shadow: inset 0 0 0 1px #0008, 0 0 18px color-mix(in srgb, var(--c) 30%, #0000); }
+.mp-bg { position: absolute; inset: -4%; background-size: cover; background-position: center; }
+.mp-shade { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(#0000 45%, #000a), radial-gradient(ellipse at 50% 115%, color-mix(in srgb, var(--c) 45%, #0000), #0000 60%); }
+.mp-aura { position: absolute; left: 50%; bottom: -60px; width: 340px; height: 340px; margin-left: -170px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 75%, #0000), #0000 65%); mix-blend-mode: screen; }
+.mp-fig { position: absolute; bottom: -24px; width: 0; display: flex; justify-content: center; transform-origin: 50% 100%; }
+.mp-fig img { height: 250px; flex: none; filter: drop-shadow(0 6px 10px #000); transition: filter .35s; }
+.mp-art.crowd .mp-fig img { height: 215px; }
+.mp-fig.hush img { filter: drop-shadow(0 6px 10px #000) brightness(.55) saturate(.7); }
+.mp-emote { position: absolute; bottom: 196px; left: 30px; font-size: 34px; line-height: 1; pointer-events: none; filter: drop-shadow(0 3px 3px #000a); }
+.mp-art.crowd .mp-emote { bottom: 168px; left: 18px; font-size: 28px; }
+.mp-slash { position: absolute; left: -20%; top: 42%; width: 140%; height: 7px; opacity: 0; pointer-events: none; transform: rotate(-16deg);
+  background: linear-gradient(90deg, #0000, #fff 45%, color-mix(in srgb, var(--c) 60%, #fff) 55%, #0000); box-shadow: 0 0 14px var(--c); }
+.mp-spill { position: absolute; width: 300px; height: 220px; margin: -110px 0 0 -150px; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(ellipse, #c9a0ffcc, #7a3cff55 40%, #0000 70%); }
+.mp-rift { position: absolute; width: 250px; height: 125px; margin: -62px 0 0 -125px; overflow: visible; pointer-events: none; transform: rotate(var(--t)) scale(var(--s)); }
+.mr-shadow { filter: brightness(0); }
+.mp-art.lock .mp-bg { filter: blur(3px) brightness(.4) grayscale(.6); }
+.mp-art.lock .mp-fig img { filter: brightness(0) drop-shadow(0 0 6px #ffffff55); opacity: .85; }
+.mp-q { position: absolute; inset: 0; display: grid; place-items: center; font: 900 90px 'Segoe UI'; color: #ffffffb0;
+  text-shadow: 0 4px 0 #000, 0 0 24px var(--c); }
 .mp-who { font-size: 15px; line-height: 1.35; }
 .mp-who small { opacity: .75; }
 .mp-text { margin: 0; font-size: 16px; line-height: 1.4; opacity: .95; }

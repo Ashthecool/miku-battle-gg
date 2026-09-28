@@ -1,8 +1,8 @@
 """Download sprites, backgrounds and item icons referenced by the miku.gg novels, resize them and upload
-them to the Supabase "game-assets" bucket, then write game/assets/manifest.{json,js}, the one merged
+them to the Cloudflare R2 "game-assets" bucket, then write game/assets/manifest.{json,js}, the one merged
 manifest the game reads (image paths are relative to the bucket; music is streamed by URL).
 
-Usage:  SUPABASE_SECRET_KEY=sb_secret_... py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
+Usage:  R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/fetch_assets.py [novel.json ...]   (default: every novels/*.json)
 Novels already in the manifest that aren't given keep their entries, so new novels can be added on their own.
 Images already in the bucket are skipped. Set MIKU_TOKEN to send the miku.gg auth token with each request.
 With --local the images are written to game/assets/ instead (no key needed; point MB.ASSET_BASE at 'assets/'
@@ -11,7 +11,7 @@ to try them before uploading).
 import io, json, os, re, sys, glob, unicodedata, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
-import supabase_storage as sb
+import r2_storage as r2
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "game", "assets")
@@ -310,9 +310,8 @@ def main():
         uploaded = {os.path.relpath(os.path.join(d, n), OUT).replace(os.sep, "/") for d, _, ns in os.walk(OUT) for n in ns}
     else:
         def store(rel, data):
-            sb.upload(sb.GAME_BUCKET, rel, data)
-        sb.ensure_bucket(sb.GAME_BUCKET)
-        uploaded = set(sb.list_objects(sb.GAME_BUCKET))
+            r2.upload(rel, data)
+        uploaded = set(r2.list_objects())
 
     # sprites also get a half-size copy under sm/, which the game uses for cards and the board
     def run(job):
