@@ -156,25 +156,97 @@
       .to(name, { opacity: 0, duration: 0.3 }, '+=0.6');
   }
 
-  // three cards are offered, one is picked and flies into the deck, again and again; the win stars light up
+  // the Arena's two modes in turn, under a little copy of its mode switch. Deathpick: two cards are drafted into the
+  // deck, then the reward track lights up win by win until a pack drops. Casual PvP: a search, a rival player found,
+  // VS, a win and its Glitter.
   function arenaScene(S) {
+    const A = MB.ARENA, P = MB.PVP, save = MB.UI.save, pvp = MB.Net.available(), picks = A.picks;
     const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && !MB.cardDef(id).emoji);
-    const stack = place(el('div', 'mt-stack', '<i></i><i></i><i></i><b>0/20</b>'), 264, 60);
-    const stars = place(el('div', 'mt-gold', '☆☆☆'), 250, 6);
-    S.append(stack, stars);
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
-    let n = 0;
-    for (let round = 0; round < 3; round++) {
-      const cards = [0, 1, 2].map((k) => { const c = place(mini(pick(pool), 0.4), 12 + k * 76, 36); S.appendChild(c); return c; });
-      const chosen = cards[round % 3];
-      tl.fromTo(cards, { y: 120, opacity: 0 }, { y: 36, opacity: 1, duration: 0.35, stagger: 0.08, ease: 'back.out(1.6)' })
-        .to(chosen, { y: 24, scale: 1.08, duration: 0.2 }, '+=0.35')
-        .to(cards.filter((c) => c !== chosen), { opacity: 0, duration: 0.2 }, '<')
-        .to(chosen, { x: 268, y: 60, scale: 0.5, opacity: 0, duration: 0.4, ease: 'power2.in' })
-        .call(() => { n++; stack.querySelector('b').textContent = `${n}/20`; })
-        .set(cards, { opacity: 0, x: (k) => 12 + k * 76, scale: 1 });
-    }
-    tl.call(() => { stars.textContent = '★★☆'; n = 0; }).to(stars, { scale: 1.3, duration: 0.15, yoyo: true, repeat: 1 }).call(() => { stars.textContent = '☆☆☆'; }, null, '+=0.8');
+    const modes = place(el('div', 'mt-modes', `<i></i><span>💀 Deathpick</span>${pvp ? '<span>⚔ Casual PvP</span>' : ''}`), pvp ? 70 : 120, 6);
+    const glide = modes.querySelector('i'), tabs = modes.querySelectorAll('span');
+    S.appendChild(modes);
+    // the sets below give every piece its starting state, so no fromTo may render ahead of its turn
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2, defaults: { immediateRender: false } });
+    const tab = (k) => tl.call(() => tabs.forEach((t, j) => t.classList.toggle('on', j === k)))
+      .to(glide, { x: k * 100, duration: 0.3, ease: 'power3.inOut' }, '<');
+
+    // ---- Deathpick
+    const stack = place(el('div', 'mt-stack', '<i></i><i></i><i></i><b></b>'), 264, 48), count = stack.querySelector('b');
+    const rounds = [0, 1].map(() => [0, 1, 2].map((k) => { const c = place(mini(pick(pool), 0.4), 12 + k * 76, 42); S.appendChild(c); return c; }));
+    const nodes = Array.from({ length: A.maxWins + 1 }, (_, w) => `<b style="left:${w * 40}px">${w}</b>`).join('');
+    const prize = A.rewards(3).packs[0] || 'common';
+    const ladder = place(el('div', 'mt-ladder', `<div><i></i></div>${nodes}<img src="${MB.packArt(prize)}" alt="">`), 22, 78);
+    const fill = ladder.querySelector('i'), dots = [...ladder.querySelectorAll('b')], pack = ladder.querySelector('img');
+    const bank = place(el('div', 'mt-gold', ''), 136, 136), glit = { n: 0 };
+    const showGlit = () => { bank.textContent = `✨ ${Math.round(glit.n)}`; };
+    S.append(stack, ladder, bank);
+    gsap.set([...rounds.flat(), ladder, bank], { opacity: 0 });
+    tl.set(stack, { opacity: 1, scale: 1 }).call(() => { count.textContent = `${picks - 2}/${picks}`; })
+      .set([ladder, bank], { opacity: 0 }).set(fill, { width: 0 }).set(pack, { scale: 0, opacity: 0 })
+      .call(() => { dots.forEach((d, w) => d.classList.toggle('on', w === 0)); glit.n = A.rewards(0).glitter; showGlit(); });
+    tab(0);
+    rounds.forEach((cards, r) => {
+      const chosen = cards[r ? 2 : 1];
+      tl.set(cards, { x: (k) => 12 + k * 76, scale: 1 })
+        .fromTo(cards, { y: 120, opacity: 0 }, { y: 42, opacity: 1, duration: 0.3, stagger: 0.07, ease: 'back.out(1.6)' })
+        .to(chosen, { y: 30, scale: 1.08, duration: 0.18 }, '+=0.25')
+        .to(cards.filter((c) => c !== chosen), { opacity: 0, duration: 0.18 }, '<')
+        .to(chosen, { x: 268, y: 52, scale: 0.5, opacity: 0, duration: 0.35, ease: 'power2.in' })
+        .call(() => { count.textContent = `${picks - 1 + r}/${picks}`; })
+        .fromTo(stack, { scale: 1.15 }, { scale: 1, duration: 0.25, ease: 'back.out(3)' });
+    });
+    // the deck is ready: on to the battles
+    tl.to(stack, { opacity: 0, x: 294, duration: 0.25 }, '+=0.15').set(stack, { x: 264 })
+      .fromTo([ladder, bank], { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    [1, 2, 3].forEach((w) => {
+      tl.to(fill, { width: w * 40, duration: 0.3, ease: 'power1.inOut' }, '+=0.12')
+        .call(() => dots[w].classList.add('on'))
+        .fromTo(dots[w], { scale: 1.5 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' })
+        .to(glit, { n: A.rewards(w).glitter, duration: 0.3, onUpdate: showGlit }, '<');
+    });
+    tl.to(pack, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2.5)' })
+      .to([ladder, bank], { opacity: 0, duration: 0.25 }, '+=0.9');
+    if (!pvp) return tl;
+
+    // ---- Casual PvP
+    const others = MB.AVATARS.filter((a) => a.id !== save.avatar);
+    const player = (cls, src, name) => {
+      const n = place(el('div', 'mt-player ' + cls, `<div><img src="${src}" alt=""></div><span></span>`), 0, 0);
+      n.querySelector('span').textContent = name; // a player's own name: text, never markup
+      return n;
+    };
+    const me = player('me', MB.avatarUrl(save.avatar), save.name || 'You'), foe = player('foe', MB.avatarUrl(pick(others).id), '???');
+    const foeImg = foe.querySelector('img'), foeName = foe.querySelector('span');
+    const spin = place(el('div', 'mt-search'), 150, 62), vs = place(el('div', 'mt-vs', 'VS'), 132, 44);
+    const cap = place(el('div', 'mt-cap'), 0, 140), coin = place(el('div', 'mt-frag', '✨'), 158, 70);
+    S.append(me, foe, spin, vs, cap, coin);
+    gsap.set([me, foe, spin, vs, cap, coin], { opacity: 0 });
+    tab(1);
+    tl.set(me, { x: 24, y: 38 }).set(foe, { x: 236, y: 38, opacity: 0, scale: 1 }).set([me, foe], { filter: 'none' })
+      .set([spin, vs, coin], { opacity: 0 })
+      .call(() => { cap.textContent = 'Searching…'; foeName.textContent = '???'; })
+      .fromTo(me, { x: -60, opacity: 0 }, { x: 24, opacity: 1, duration: 0.35, ease: 'power3.out' })
+      .fromTo(cap, { opacity: 0 }, { opacity: 1, duration: 0.2 }, '<')
+      .to(spin, { opacity: 1, duration: 0.2 }, '<')
+      .fromTo(spin, { rotation: 0 }, { rotation: 720, duration: 1.2, ease: 'none' }, '<')
+      .set(foe, { opacity: 1 }, '<0.3');
+    // the rival's picture spins like a slot machine until someone is found
+    for (let k = 0; k < 8; k++) tl.call(() => { foeImg.src = MB.avatarUrl(pick(others).id); }, null, k ? '<0.1' : '<');
+    tl.call(() => { cap.textContent = 'Matched!'; foeName.textContent = 'Rival'; }, null, '+=0.1')
+      .fromTo(foe, { scale: 1.2 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' }, '<')
+      .to(spin, { opacity: 0, duration: 0.15 }, '<')
+      .fromTo(vs, { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' }, '+=0.1')
+      .to(S, { x: 4, duration: 0.05, repeat: 5, yoyo: true }, '<0.1')
+      .set(S, { x: 0 })
+      // you win
+      .to(foe, { filter: 'grayscale(1) brightness(.55)', duration: 0.3 }, '+=0.5')
+      .fromTo(me, { scale: 1 }, { scale: 1.12, duration: 0.2, yoyo: true, repeat: 1 }, '<')
+      .to(vs, { opacity: 0, duration: 0.2 }, '<')
+      .call(() => { cap.innerHTML = `🏆 Win · <b>✨ +${P.win}</b>`; })
+      .fromTo(coin, { x: 158, y: 70, opacity: 1, scale: 0.6 }, { y: 118, scale: 1.3, duration: 0.4, ease: 'power2.in' })
+      .to(coin, { opacity: 0, duration: 0.1 })
+      .fromTo(cap, { scale: 1.2 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' }, '<')
+      .to([me, foe, cap], { opacity: 0, duration: 0.25 }, '+=1');
     return tl;
   }
 
@@ -258,10 +330,11 @@
         <small>${n ? `🎁 ${n} pack${n > 1 ? 's' : ''} waiting to be opened!` : '🎁 No packs right now: go win some!'}</small>`;
     } },
     'btn-arena': { scene: arenaScene, title: 'Arena', text: () => {
-      const s = MB.UI.save, a = s.arena, A = MB.ARENA;
-      return `Draft a deck one card at a time from <b>every card in the game</b>, owned or not, then battle until ${A.maxWins} wins or ${A.maxLosses} losses. More wins, bigger rewards.
-        <small>${a ? (a.stage === 'done' ? '🎁 Your run is over: claim the rewards!' : a.stage === 'run' ? `⚔ Run in progress: ${a.wins} wins · ${a.losses} losses` : '🂠 Draft in progress')
-          : s.arenaRuns ? `🏆 Best run: ${s.arenaBest} wins` : '🏟 No runs yet'}</small>`;
+      const s = MB.UI.save, a = s.arena, A = MB.ARENA, p = s.pvp, pvp = MB.Net.available();
+      const dp = `<b>💀 Deathpick</b>: draft a deck from <b>every card in the game</b>, owned or not, then battle until ${A.maxWins} wins or ${A.maxLosses} losses. More wins, bigger rewards.`;
+      return (pvp ? `${dp}<br><b>⚔ Casual PvP</b>: your own deck against other players, for <b>✨ Glitter</b> every match.` : dp)
+        + `<small>${a ? (a.stage === 'done' ? '🎁 Your run is over: claim the rewards!' : a.stage === 'run' ? `💀 Run in progress: ${a.wins} wins · ${a.losses} losses` : '🂠 Draft in progress')
+          : s.arenaRuns ? `🏆 Best run: ${s.arenaBest} wins` : '💀 No runs yet'}${pvp && p && p.wins + p.losses ? ` · ⚔ PvP ${p.wins}-${p.losses}` : ''}</small>`;
     } },
     'btn-shop': { scene: shopScene, title: 'Shop', text: () => {
       const s = MB.UI.save, left = ((s.shop && s.shop.deals) || []).filter((d) => MB.Shop.dealCost(s, d)).length;
