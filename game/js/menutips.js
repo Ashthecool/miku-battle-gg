@@ -250,24 +250,33 @@
     return tl;
   }
 
-  // today's missions fill up one by one and their Glitter flies into the counter
+  // today's missions fill up one by one; each one's Glitter pops off its reward and arcs into the counter
   function missionsScene(S) {
-    const list = MB.UI.save.missions.list.slice(0, 3);
+    const list = ((MB.UI.save.missions && MB.UI.save.missions.list) || []).slice(0, 3);
     const bank = place(el('div', 'mt-gold', '✨ 0'), 262, 138);
     const rows = list.map((m, i) => place(el('div', 'mt-mission', `<span>${MB.Missions.text(m)}</span><b><i></i></b><em>✨${m.glitter}</em>`), 12, 12 + i * 42));
-    S.append(...rows, bank);
-    const sum = { n: 0 };
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 });
-    tl.set(rows.map((r) => r.querySelector('i')), { width: '0%' }).set(sum, { n: 0 }).call(() => { bank.textContent = '✨ 0'; })
-      .from(rows, { x: -40, opacity: 0, stagger: 0.12, duration: 0.3 });
+    const flies = list.map(() => place(el('div', 'mt-frag', '✨'), 0, 0));
+    const bars = rows.map((r) => r.querySelector('i')), labels = rows.map((r) => r.querySelector('em'));
+    S.append(...rows, bank, ...flies);
+    gsap.set(flies, { opacity: 0 });
+    const sum = { n: 0 }, showSum = () => { bank.textContent = `✨ ${Math.round(sum.n)}`; };
+    // the sets give every piece its starting state, so no fromTo may render ahead of its turn
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8, defaults: { immediateRender: false } });
+    tl.set(bars, { width: '0%' }).set(flies, { opacity: 0 }).set(sum, { n: 0 })
+      .call(() => { showSum(); rows.forEach((r) => r.classList.remove('done')); })
+      .fromTo(rows, { x: -40, opacity: 0 }, { x: 12, opacity: 1, stagger: 0.12, duration: 0.3 });
     rows.forEach((r, i) => {
-      const fly = place(el('div', 'mt-frag', '✨'), 300, 20 + i * 42);
-      S.appendChild(fly);
-      tl.to(r.querySelector('i'), { width: '100%', duration: 0.55, ease: 'power1.inOut' })
-        .fromTo(fly, { x: 290, y: 16 + i * 42, opacity: 1, scale: 0.6 }, { x: 280, y: 132, scale: 1.2, duration: 0.4, ease: 'power2.in' })
-        .set(fly, { opacity: 0 })
-        .to(sum, { n: `+=${list[i].glitter}`, duration: 0.3, onUpdate: () => { bank.textContent = `✨ ${Math.round(sum.n)}`; } }, '<');
+      const y = 12 + i * 42;
+      tl.to(bars[i], { width: '100%', duration: 0.55, ease: 'power1.inOut' }, '+=0.1')
+        .call(() => r.classList.add('done'))
+        .fromTo(labels[i], { scale: 1.35 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' })
+        .fromTo(flies[i], { x: 296, y: y + 2, scale: 0.7, opacity: 1 },
+          { motionPath: { path: [{ x: 296, y: y + 2 }, { x: 236, y: (y + 132) / 2 }, { x: 266, y: 130 }], curviness: 1.2 }, scale: 1.1, duration: 0.45, ease: 'power1.in' }, '<')
+        .set(flies[i], { opacity: 0 })
+        .to(sum, { n: `+=${list[i].glitter}`, duration: 0.3, onUpdate: showSum }, '<')
+        .fromTo(bank, { scale: 1.25 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' }, '<');
     });
+    tl.to({}, { duration: 0.6 });
     return tl;
   }
 
