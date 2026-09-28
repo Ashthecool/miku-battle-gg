@@ -124,7 +124,9 @@
       const pw = battle.me(0).power;
       document.getElementById('power-btn').innerHTML = `<div class="pw-cost">${pw.cost}</div><div class="pw-name">${pw.name}</div><div class="pw-text">${pw.text}</div>`;
       const epw = battle.me(1).power;
-      document.getElementById('enemy-power').innerHTML = `<b>${epw.name}</b> (${epw.cost}): ${epw.text}`;
+      const boss = battle.boss;
+      document.getElementById('enemy-power').innerHTML = `<b>${epw.name}</b> (${epw.cost}): ${epw.text}` + (boss
+        ? `<div class="boss-rule" style="--c:${boss.color}">👑 <b>${boss.name}</b>: ${boss.text}${boss.rage ? `<br>💢 <b>${boss.rage.name}</b>: ${boss.rage.text}` : ''}</div>` : '');
       this.refresh();
       gsap.fromTo(this.camera, { z: -600, rotationX: 20, opacity: 0 }, { z: 0, rotationX: 0, opacity: 1, duration: 1.4, ease: 'power3.out' });
     }
@@ -149,7 +151,7 @@
       let img;
       if (card && card.emoji) { img = el('div', 'emoji-sprite', card.emoji); }
       else if (card && card.fused) { img = el('div', 'duo-sprite', MB.duoHtml(card)); img.style.setProperty('--c', card.attack.color); MB.fitDuo(img, h, 330, 18); }
-      else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle'); img.draggable = false; }
+      else { img = el('img', 'sprite'); img.src = MB.spriteUrl(ent.isLeader ? ent.charId : card.id, 'idle', ent.costume); img.draggable = false; }
       figure.appendChild(img);
       const status = el('div', 'status');
       figure.appendChild(status);
@@ -197,10 +199,15 @@
       } else {
         const base = e.card;
         const kw = [...e.kw].map((k) => MB.KEYWORDS[k] ? `<i title="${MB.KEYWORDS[k].name}">${MB.KEYWORDS[k].icon}</i>` : '').join('');
+        // the next outfit of a card with upgrades: a button on your side, a hint on the enemy's
+        const up = this.b && this.b.nextUpgrade(e);
         v.plate.innerHTML = `<span class="atk ${e.atk > base.atk ? 'up' : e.atk < base.atk ? 'down' : ''}">${e.atk}</span>` +
-          (base.fused ? `<span class="pname bond">${MB.BOND_TIERS[base.bond.tier].hearts} ${base.bond.short}</span>` : `<span class="pname">${e.name.split(' ')[0]}</span>`) +
+          (base.fused ? `<span class="pname bond">${MB.BOND_TIERS[base.bond.tier].hearts} ${base.bond.short}</span>`
+            : base.outfit ? `<span class="pname outfit">👗 ${base.outfit.short}</span>`
+            : base.combo ? `<span class="pname combo">🔗 ${base.combo.short}</span>` : `<span class="pname">${e.name.split(' ')[0]}</span>`) +
           `<span class="hp ${e.hp < e.maxHp ? 'hurt' : e.maxHp > base.hp ? 'up' : ''}">${Math.max(0, e.hp)}</span>` +
-          (kw ? `<div class="kw">${kw}</div>` : '');
+          (kw ? `<div class="kw">${kw}</div>` : '') +
+          (up ? `<button class="up-btn ${e.side ? 'foe' : ''} ${this.b.canUpgrade(e) && e.side === 0 ? 'on' : ''}" title="${up.name}: ${up.text}">👗<b>${up.cost}</b></button>` : '');
       }
       v.status.innerHTML = (e.shield ? '<div class="bubble"></div>' : '') + (e.frozen ? '<div class="ice"></div>' : '') +
         (e.burning ? '<div class="flames"><i></i><i></i><i></i></div>' : '') +
@@ -218,7 +225,7 @@
         return;
       }
       if (v.img.tagName !== 'IMG') return;
-      const src = MB.spriteUrl(v.ent.isLeader ? v.ent.charId : v.ent.card.id, role);
+      const src = MB.spriteUrl(v.ent.isLeader ? v.ent.charId : v.ent.card.id, role, v.ent.costume); // costume: a combo's outfit
       if (!v.img.src.endsWith(src)) v.img.src = src;
     }
 
@@ -375,6 +382,27 @@
       await wait(350);
     }
 
+    // a boss rule: a banner drops in, the enemy leader flares up and the rule flies at its targets
+    async bossFx(boss, rule, targets, fn, rage) {
+      const leader = this.b.me(1).leader, from = LEADER_POS[1], color = boss.color;
+      const banner = el('div', 'boss-banner' + (rage ? ' rage' : ''), `<small>${rage ? '💢 BOSS RAGE' : '👑 BOSS RULE'}</small><b>${rule.name}</b><span>${rule.text}</span>`);
+      banner.style.setProperty('--c', color);
+      this.root.appendChild(banner);
+      this.emote(leader, rage ? 'special' : 'attack', 1600);
+      const lv = this.ents.get(leader.uid);
+      if (lv) gsap.fromTo(lv.img, { filter: `brightness(2) drop-shadow(0 0 30px ${color})` }, { filter: 'brightness(1) drop-shadow(0 0 0px #fff)', duration: 1.2, clearProps: 'filter' });
+      MB.audio.sfx(rage ? 'thunder' : 'gong');
+      if (rage) { this.shake(14); this.hitStop(); }
+      gsap.timeline({ onComplete: () => banner.remove() })
+        .fromTo(banner, { y: -160, opacity: 0, scale: 1.4 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(1.8)' })
+        .to(banner, { opacity: 0, y: -40, duration: 0.35, delay: 1.5 });
+      await wait(900);
+      await Promise.all(targets.map((t, i) => MB.FX.orbTo(this, from, this.pos(t), color, this.heightOf(t), i * 0.08, 180, boss.emoji)));
+      fn();
+      this.refresh();
+      await wait(450);
+    }
+
     // burning monsters flare up before taking their damage
     async burnFx(units, fn) {
       MB.audio.sfx('burn');
@@ -396,6 +424,28 @@
         this.updatePlate(v);
         return v;
       });
+      restore();
+      this.emote(u, 'taunt', 1400);
+      this.refresh();
+    }
+
+    // an item reaches its partner: a cut-in, and the partner spins into the combo's outfit
+    async combo(u, c, item) {
+      const v = this.ents.get(u.uid);
+      if (!v) return;
+      const restore = this.focus(this.pos(u), 0.07);
+      await MB.FX.combo(this, v, this.pos(u), c, item, () => this.setSprite(v, 'taunt'));
+      restore();
+      this.emote(u, 'taunt', 1400);
+      this.refresh();
+    }
+
+    // a card with upgrades changes into its next outfit: a cut-in, then a dressing screen on the board
+    async upgrade(u, up) {
+      const v = this.ents.get(u.uid);
+      if (!v) return;
+      const restore = this.focus(this.pos(u), 0.07);
+      await MB.FX.outfitChange(this, v, this.pos(u), u, up, () => this.setSprite(v, 'taunt'));
       restore();
       this.emote(u, 'taunt', 1400);
       this.refresh();
@@ -522,11 +572,12 @@
       const endBtn = document.getElementById('end-turn');
       endBtn.disabled = b.active !== 0 || b.over;
       endBtn.textContent = b.active === 0 ? 'END TURN' : 'ENEMY TURN';
-      const anyMove = b.active === 0 && (me.hand.some((c) => b.canPlay(0, c)) || b.units(0).some((u) => b.canAttack(u)) || b.canPower(0));
+      const anyMove = b.active === 0 && (me.hand.some((c) => b.canPlay(0, c)) || b.units(0).some((u) => b.canAttack(u) || b.canUpgrade(u)) || b.canPower(0));
       endBtn.classList.toggle('pulse', b.active === 0 && !anyMove);
       this.handEl.querySelectorAll('.card').forEach((c) => {
         const card = me.hand.find((h) => h.cid === +c.dataset.cid);
         c.classList.toggle('playable', !!card && b.active === 0 && b.canPlay(0, card));
+        c.classList.toggle('combo-ready', !!card && b.comboPartners(0, card).length > 0);
       });
     }
 
@@ -594,6 +645,11 @@
         if (e.button !== 0 || !this.b || this.b.busy || this.b.active !== 0 || this.aiming) return;
         const uEl = e.target.closest('.unit');
         const u = uEl && this.b.find(uEl.dataset.uid);
+        if (u && e.target.closest('.up-btn')) { // an outfit upgrade
+          e.preventDefault();
+          if (u.side === 0 && this.b.canUpgrade(u)) { MB.audio.sfx('click'); this.run(() => this.b.upgrade(u)); } else MB.audio.sfx('error');
+          return;
+        }
         if (u && !u.isLeader && u.side === 0 && this.b.canAttack(u)) {
           e.preventDefault();
           this.startAim({ kind: 'attack', source: u, targets: this.b.attackTargets(u), color: '#ff4d6d', from: () => this.screenPos(u), downAt: performance.now() });
@@ -667,6 +723,9 @@
       cEl.style.zIndex = 200;
       if (card.type === 'unit') this.highlightSlots(true);
       else if (card.target) this.highlightTargets(this.b.targetsFor(0, card.target, card.filter));
+      // an item's combo partners glow while it's dragged
+      const partners = this.b.comboPartners(0, card).map((p) => p.u);
+      this.ents.forEach((v) => v.el.classList.toggle('combo-partner', partners.includes(v.ent)));
     }
 
     onMove(e) {
@@ -755,6 +814,7 @@
       if (!this.drag) return;
       this.drag.el.classList.remove('dragging');
       this.drag = null;
+      this.ents.forEach((v) => v.el.classList.remove('combo-partner'));
       this.highlightSlots(false);
       this.highlightTargets([]);
       this.arrow.classList.add('hidden');

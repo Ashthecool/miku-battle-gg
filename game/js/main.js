@@ -14,6 +14,11 @@
     root.style.transform = `scale(${s})`;
     root.style.left = (window.innerWidth - 1600 * s) / 2 + 'px';
     root.style.top = (window.innerHeight - 900 * s) / 2 + 'px';
+    // how far the window runs past the 1600x900 box on each side, in UI pixels: full-screen layers (cutscene
+    // lighting, fades, bars, weather) stretch by this much so they cover the letterbox margins too
+    MB.bleed = { x: (window.innerWidth / s - 1600) / 2, y: (window.innerHeight / s - 900) / 2 };
+    root.style.setProperty('--bx', MB.bleed.x + 'px');
+    root.style.setProperty('--by', MB.bleed.y + 'px');
   }
   window.addEventListener('resize', fit);
   fit();
@@ -49,6 +54,7 @@
       if (worn) sprites(worn.sprites);
     });
     MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => { const o = costume(MB.charById(id), bd.costumes[i]); if (o) sprites(o.sprites); }));
+    MB.COMBOS.forEach((c) => { const o = costume(MB.charById(c.char), c.costume); if (o) sprites(o.sprites); });
     MB.manifest.items.forEach((i) => urls.push(MB.asset(i.icon)));
     Object.keys(MB.PACKS).forEach((t) => urls.push(MB.packArt(t)));
     urls.push(MB.avatarUrl(MB.UI.save.avatar));
@@ -83,7 +89,7 @@
     });
     pulse.kill();
     MB.audio.unlock();
-    MB.UI.title();
+    MB.UI.start();
     // kept for the battle loading screen (ui.js)
     gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
   });

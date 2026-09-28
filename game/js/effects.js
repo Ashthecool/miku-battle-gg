@@ -278,7 +278,7 @@
   }
   const PREFIX = { onPlay: 'On play: ', onDeath: 'On death: ', onTurnStart: 'Start of your turn: ', onAllyDeath: 'Whenever another ally dies: ',
     onHurt: 'Whenever it survives damage: ', onFuse: 'On fusion: ', onAttack: 'Whenever it attacks: ',
-    onKill: 'Whenever it destroys a monster: ', onTurnEnd: 'End of your turn: ' };
+    onKill: 'Whenever it destroys a monster: ', onTurnEnd: 'End of your turn: ', onCombo: 'On combo: ', onUpgrade: 'On upgrade: ' };
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   // kind: 'trigger' (with the trigger's name) or 'play' (item cards and powers, with their target type)
   function describe(spec, { trigger, target, filter } = {}) {
@@ -296,12 +296,24 @@
       if (o.text) return;
       if (o.effect && typeof o.effect === 'object') o.text = describe(o.effect, { target: o.target, filter: o.filter });
       else o.text = TRIGGERS.filter((k) => o[k] && typeof o[k] === 'object').map((k) => describe(o[k], { trigger: k })).join(' ');
+      if (o.upgrades) o.text = [o.text, `Upgrades: pay ${o.upgrades.map((u) => u.cost).join(' → ')} gold on the board (once a turn) for new outfits.`].filter(Boolean).join(' ');
     };
     Object.values(MB.CARDS).forEach((c) => fill(c));
+    Object.values(MB.CARDS).forEach((c) => (c.upgrades || []).forEach((u) => { if (!u.text) u.text = gainsText(u); }));
     Object.values(MB.POWERS).forEach((p) => fill(p));
     MB.BONDS.forEach((b) => fill(b));
+    MB.COMBOS.forEach((c) => { if (!c.text) c.text = comboText(c); });
   }
 
-  MB.Effects = { SEL, OPS, IF, WHERE, prepare, trigger, plan, describe, needsSlot, stepsOf, fillTexts };
+  // what a combo or an outfit upgrade adds: "+2/+3 and Taunt. On combo: draw a card."
+  function gainsText(c, trigger = c.onUpgrade ? 'onUpgrade' : 'onCombo') {
+    const [atk, hp] = c.bonus || [0, 0];
+    const gains = [...(atk || hp ? [`+${atk}/+${hp}`] : []), ...(c.kw || []).map((k) => MB.KEYWORDS[k].name)];
+    const text = gains.length ? `${gains.slice(0, -1).join(', ')}${gains.length > 1 ? ' and ' : ''}${gains[gains.length - 1]}.` : '';
+    return [text, c[trigger] ? describe(c[trigger], { trigger }) : ''].filter(Boolean).join(' ');
+  }
+  const comboText = (c) => gainsText(c, 'onCombo');
+
+  MB.Effects = { SEL, OPS, IF, WHERE, prepare, trigger, plan, describe, comboText, gainsText, needsSlot, stepsOf, fillTexts };
   fillTexts();
 })();

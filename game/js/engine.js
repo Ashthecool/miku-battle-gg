@@ -16,6 +16,11 @@
     constructor(opts) {
       this.view = opts.view;
       this.over = false; this.winner = null; this.turn = 0; this.active = 0; this.busy = false;
+      this.tally = { novel: {} }; // what the player did, for daily missions (count)
+      this.boss = opts.boss || null; this.bossTurns = 0; this.raged = false; // a Story finale's boss rule (MB.BOSSES)
+      this.first = opts.first; // the side going first (0 or 1); a coin flip without it
+      // card levels per side (card id -> Lv, MB.LEVELS); a side without them plays every card at Lv 1
+      this.levels = [opts.playerLevels || null, opts.enemyLevels || null];
       this.players = [0, 1].map((side) => {
         const leaderId = side === 0 ? opts.playerLeader : opts.enemyLeader;
         const hp = side === 0 ? R.leaderHp : (opts.enemyHp || R.leaderHp);
@@ -23,10 +28,22 @@
           side, leaderId, power: MB.POWERS[leaderId], powerUsed: false,
           leader: { uid: 'L' + side, isLeader: true, side, hp, maxHp: hp, atk: 0, charId: leaderId },
           gold: 0, maxGold: 0, fatigue: 0,
-          deck: shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++uidSeq, ...cardDef(id) }))),
+          deck: shuffle((side === 0 ? opts.playerDeck : opts.enemyDeck).map((id) => ({ cid: ++uidSeq, ...this.defOf(side, id) }))),
           hand: [], board: new Array(SLOTS).fill(null),
         };
       });
+    }
+
+    // counts something the player (side 0) did: turns, cards, items, big (cost 5+), powers, attacks, bonds, combos, lost (own monsters died),
+    // kills (enemy monsters), face (damage to the enemy leader), healed; tally.novel counts cards played per novel
+    count(side, key, n = 1) {
+      if (side === 0 && n > 0) this.tally[key] = (this.tally[key] || 0) + n;
+    }
+
+    // a card as this side plays it: at its level, if the side has levels
+    defOf(side, id) {
+      const lv = this.levels[side] && this.levels[side][id];
+      return lv > 1 ? MB.Collection.leveled(cardDef(id), lv) : cardDef(id);
     }
 
     me(side) { return this.players[side]; }
@@ -42,7 +59,7 @@
     // ---------- flow ----------
     async start() {
       this.view.init(this);
-      const first = Math.random() < 0.5 ? 0 : 1;
+      const first = this.first != null ? this.first : Math.random() < 0.5 ? 0 : 1;
       for (let i = 0; i < R.openingHand; i++) { await this.draw(first, true); await this.draw(1 - first, true); }
       await this.draw(1 - first, true); // going second: one extra card
       this.view.log(first === 0 ? 'You go first.' : `${MB.charById(this.me(1).leaderId).name} goes first.`);
@@ -53,6 +70,7 @@
       if (this.over) return;
       this.active = side; this.turn++;
       const p = this.me(side);
+      this.count(side, 'turns');
       p.maxGold = Math.min(R.maxGold, p.maxGold + 1); p.gold = p.maxGold; p.powerUsed = false;
       for (const u of this.units(side)) {
         u.sick = false;
@@ -64,6 +82,8 @@
       if (burning.length) { await this.view.burnFx(burning, () => burning.forEach((u) => this.deal(u, 1, null))); await this.resolveDeaths(); }
       if (this.over) return;
       await this.draw(side);
+      if (side === 1 && this.boss && !this.over && ++this.bossTurns % this.boss.every === 0) await this.bossRule(this.boss);
+      if (this.over) return;
       for (const u of this.units(side)) if (u.onTurnStart && u.hp > 0) await this.trigger(u.onTurnStart, u);
       await this.resolveDeaths();
       this.view.refresh();
@@ -162,6 +182,11 @@
       }
       p.hand.splice(idx, 1);
       p.gold -= card.cost;
+      this.count(side, 'cards');
+      if (card.type === 'spell') this.count(side, 'items');
+      if (card.cost >= 5) this.count(side, 'big');
+      const novel = MB.novelOf(card.id);
+      if (side === 0 && novel) this.tally.novel[novel] = (this.tally.novel[novel] || 0) + 1;
       await this.view.cardPlayed(side, card);
       if (card.type === 'unit') {
         this.view.log(`${side ? 'Enemy' : 'You'} played ${card.name}.`);
@@ -169,6 +194,7 @@
         if (u && card.onPlay) await this.trigger(card.onPlay, u);
       } else {
         this.view.log(`${side ? 'Enemy' : 'You'} used ${card.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
+        const combo = this.comboFor(side, card, target);
         if (typeof card.effect === 'object') { // a spec (effects.js)
           const r = MB.Effects.prepare(this, card.effect, { side, target });
           await this.view.spellFx(side, card, target, () => r.sync());
@@ -177,6 +203,7 @@
           await this.view.spellFx(side, card, target, () => this.spellEffect(side, card, target));
           await this.spellAfter(side, card, target);
         }
+        if (combo && !this.over && combo.u.hp > 0 && this.find(combo.u.uid) === combo.u) await this.comboUp(combo.u, combo.combo, card);
       }
       await this.resolveDeaths();
       await this.checkBonds(side);
@@ -192,6 +219,7 @@
         if (!target) return false;
       }
       p.gold -= pw.cost; p.powerUsed = true;
+      this.count(side, 'powers');
       this.view.log(`${side ? 'Enemy' : 'You'} used ${pw.name}${target ? ' on ' + this.nameOf(target) : ''}.`);
       if (typeof pw.effect === 'object') { // a spec (effects.js)
         const r = MB.Effects.prepare(this, pw.effect, { side, target });
@@ -210,6 +238,7 @@
       if (!this.canAttack(attacker)) return false;
       if (!this.attackTargets(attacker).some((t) => t.uid === target.uid)) return false;
       attacker.attacksLeft--;
+      this.count(attacker.side, 'attacks');
       const tipsy = attacker.kw.has('tipsy');
       if (tipsy) target = pick(this.attackTargets(attacker));
       if (attacker.kw.has('stealth')) { attacker.kw.delete('stealth'); this.view.react({ type: 'reveal', ent: attacker }); }
@@ -289,9 +318,86 @@
       };
       p.board[a.slot] = null; p.board[b.slot] = null; p.board[u.slot] = u;
       this.view.log(`💞 ${a.name} & ${b.name} → ${bond.name}!`);
+      this.count(side, 'bonds');
       await this.view.fuse(stay, go, u, bond);
       if (bond.onFuse) await this.trigger(bond.onFuse, u);
       else { await this.resolveDeaths(); this.view.refresh(); }
+    }
+
+    // a boss rule (or its rage) goes off from the enemy leader; false when it had nothing to hit
+    async bossRule(rule, rage) {
+      const r = MB.Effects.prepare(this, rule.effect, { side: 1 });
+      if (r.empty) return false;
+      this.view.log(`👑 ${rule.name}!`);
+      await this.view.bossFx(this.boss, rule, r.targets, () => r.sync(), rage);
+      await r.after();
+      await this.resolveDeaths();
+      this.view.refresh();
+      return true;
+    }
+
+    // ---------- item combos ----------
+    // characters on this side that would combo with this item card: [{ combo, u }]
+    comboPartners(side, card) {
+      if (card.type !== 'spell') return [];
+      return MB.COMBOS.filter((c) => c.items.includes(card.id)).flatMap((c) => this.units(side)
+        .filter((u) => u.card.id === c.char && !u.card.combo && u.hp > 0).map((u) => ({ combo: c, u })));
+    }
+
+    // the partner this play combos with: an item aimed at one of your monsters only combos with the one it hits
+    comboFor(side, card, target) {
+      const ps = this.comboPartners(side, card);
+      if (target && !target.isLeader && target.side === side) return ps.find((p) => p.u === target) || null;
+      return ps[0] || null;
+    }
+
+    // the partner changes into the combo (after the item's own effect)
+    async comboUp(u, c, item) {
+      this.view.log(`🔗 ${u.name} + ${item.name} → ${c.name}!`);
+      this.count(u.side, 'combos');
+      u.card = { ...u.card, combo: c, name: c.name };
+      u.name = c.name;
+      if (c.costume) u.costume = c.costume;
+      const [atk, hp] = c.bonus || [0, 0];
+      u.atk += atk; u.maxHp += hp; u.hp += hp;
+      (c.kw || []).forEach((k) => { if (k === 'shield') u.shield = true; else u.kw.add(k); });
+      await this.view.combo(u, c, item);
+      if (c.onCombo) await this.trigger(c.onCombo, u);
+      else { await this.resolveDeaths(); this.view.refresh(); }
+    }
+
+    // ---------- outfit upgrades ----------
+    // a card with `upgrades` (data.js) changes into its next outfit mid-battle: its owner pays the outfit's gold cost
+    // while it stands on the board, once a turn. Each outfit adds stats and keywords, can bring a new attack and
+    // runs its onUpgrade ability. The stats become its new base.
+    nextUpgrade(u) {
+      const ups = u && !u.isLeader && !u.card.fused && u.card.upgrades;
+      return ups ? ups[u.stage || 0] || null : null;
+    }
+
+    canUpgrade(u) {
+      const up = this.nextUpgrade(u);
+      return !!up && !this.over && u.hp > 0 && u.side === this.active && u.upgradedTurn !== this.turn
+        && this.me(u.side).gold >= up.cost && this.find(u.uid) === u;
+    }
+
+    async upgrade(u) {
+      if (!this.canUpgrade(u)) return false;
+      const up = this.nextUpgrade(u), [atk, hp] = up.bonus || [0, 0];
+      this.me(u.side).gold -= up.cost;
+      u.stage = (u.stage || 0) + 1; u.upgradedTurn = this.turn;
+      this.count(u.side, 'upgrades');
+      this.view.log(`👗 ${u.name} → ${up.name}!`);
+      u.card = { ...u.card, outfit: up, name: up.name, atk: u.card.atk + atk, hp: u.card.hp + hp, ...(up.attack ? { attack: up.attack } : {}) };
+      u.name = up.name;
+      if (up.costume !== undefined) u.costume = up.costume;
+      u.atk += atk; u.maxHp += hp; u.hp += hp;
+      (up.kw || []).forEach((k) => { if (k === 'shield') u.shield = true; else u.kw.add(k); });
+      if (u.kw.has('haste') && u.sick && !u.frozen) u.attacksLeft = Math.max(u.attacksLeft, 1);
+      await this.view.upgrade(u, up);
+      if (up.onUpgrade) await this.trigger(up.onUpgrade, u);
+      else { await this.resolveDeaths(); this.view.refresh(); }
+      return true;
     }
 
     // Applies damage immediately and tells the view; returns damage actually dealt.
@@ -308,6 +414,7 @@
         return 0;
       }
       target.hp -= amount;
+      if (target.isLeader && !self) this.count(1 - target.side, 'face', amount);
       this.view.react({ type: 'damage', ent: target, amount, counter });
       if (!target.isLeader) target.killedBy = source && !source.isLeader ? source : null; // for onKill, if this blow is fatal
       if (source && !source.isLeader) {
@@ -329,6 +436,7 @@
     heal(t, n) {
       const before = t.hp;
       t.hp = Math.min(t.maxHp, t.hp + n);
+      this.count(t.side, 'healed', t.hp - before);
       if (t.hp > before) this.view.react({ type: 'heal', ent: t, amount: t.hp - before });
       if (t.burning) { t.burning = false; this.view.react({ type: 'extinguish', ent: t }); }
     }
@@ -352,7 +460,7 @@
 
     // put a card straight into the hand (with a fresh cid); burns it when the hand is full
     async addToHand(side, id, mod) {
-      const p = this.me(side), card = { ...cardDef(id), cid: ++uidSeq, ...mod };
+      const p = this.me(side), card = { ...this.defOf(side, id), cid: ++uidSeq, ...mod };
       if (p.hand.length >= R.maxHand) { await this.view.burn(side, card); return false; }
       p.hand.push(card);
       await this.view.drawCard(side, card);
@@ -379,15 +487,23 @@
       }
       for (let guard = 0; guard < 10; guard++) {
         for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+        // the gallery's training dummies shrug off any blow
+        for (const u of this.allUnits()) if (u.undying && u.hp <= 0) { u.hp = u.maxHp; u.killedBy = null; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
         if (!dead.length) break;
-        for (const u of dead) this.me(u.side).board[u.slot] = null;
+        for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); this.count(u.side, 'lost'); }
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);
         for (const u of dead) { const k = u.killedBy; if (k && k.onKill && k.side !== u.side && k.hp > 0 && this.find(k.uid)) await this.trigger(k.onKill, k); }
       }
       for (const p of this.players) if (p.leader.hp <= 0 && !this.over) { this.over = true; this.winner = 1 - p.side; }
+      // a boss flies into a rage at half HP (as soon as the rage has something to hit)
+      const bl = this.me(1).leader;
+      if (this.boss && this.boss.rage && !this.raged && !this.over && bl.hp <= bl.maxHp / 2) {
+        this.raged = true;
+        if (!(await this.bossRule(this.boss.rage, true))) this.raged = false;
+      }
       if (this.over && !this.overShown) { this.overShown = true; this.view.refresh(); await this.view.gameOver(this.winner); }
     }
 

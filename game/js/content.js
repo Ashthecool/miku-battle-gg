@@ -46,6 +46,12 @@ window.MB = window.MB || {};
   MB.BONDS.forEach((b) => {
     b.costumes = b.costumes.map((cos, i) => (cos && byId.get(b.pair[i]).costumes.some((o) => o.id === cos) ? cos : null));
   });
+  // a combo needs its character and at least one of its items
+  MB.COMBOS = MB.COMBOS.filter((c) => {
+    c.items = c.items.filter((id) => MB.CARDS[id]);
+    return byId.has(c.char) && c.items.length;
+  });
+  MB.COMBOS.forEach((c) => { if (c.costume && !byId.get(c.char).costumes.some((o) => o.id === c.costume)) delete c.costume; });
   // hidden chapters stay in MB.CHAPTERS / MB.STORY so stage indexes (and the saves that count them) don't move
   MB.CHAPTERS.forEach((ch) => { ch.hidden = ch.nsfw; });
   MB.STARTER_CARDS = MB.STARTER_CARDS.filter((id) => MB.CARDS[id]);

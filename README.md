@@ -1,6 +1,6 @@
 # Miku Battle — miku.gg All-Stars
 
-A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG* and *Legend of You*, plus *Noble One* in NSFW mode.
+A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG*, *Legend of You*, *Doki Doki Literature Club*, *Flaming, Lust, and Pain.*, *Paradiso Suburbia*, and the one-girl novels *Anna*, *Everythin' with Amy Lyn*, *Hina*, *Nala*, *Saya* and *Sweet Garlic*, plus *Noble One* in NSFW mode.
 
 **Play:** https://ashthecool.github.io/miku-battle-gg/
 
@@ -20,6 +20,7 @@ npx serve game
 | --- | --- |
 | `game/` | The whole game: plain HTML/CSS/JS, no build step. This folder is what gets published. |
 | `game/assets/manifest.js` | Characters, sprites, backgrounds, items and music of the novels. Generated. |
+| `game/assets/music/` | Songs made for the game. Register each in `MB.SONGS` (`game/js/data.js`); `foes` makes it that character's battle theme. |
 | `game/js/avatars.js` | The unlockable profile pictures. Generated. |
 | `game/js/config.js` | Where the images live (the Supabase bucket). |
 | `game/sw.js` | Service worker for offline play. Bump `ASSETS` after changing images in the bucket. |
@@ -28,8 +29,15 @@ npx serve game
 | `tools/novel_brief.py` | Condenses the novels into a design brief (characters, items, backgrounds, music). |
 | `tools/check_game.js` | Validates the cards, bonds and story against the manifest and plays AI-vs-AI battles (`node tools/check_game.js`). |
 | `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
+| `game/js/missions.js` | Daily missions, Glitter, crafting, Shiny cards and Story stars (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`, star challenges in `MB.Stars`). |
+| `game/js/arena.js` | The Arena draft mode: leaders, card offers, opponents and rewards (`MB.ARENA`). |
+| `game/js/story.js` | Story mode: the four acts, their maps, the main quests and side quests, and every scene's dialogue (`MB.ACTS`). |
+| `game/js/storymap.js` | The Story screen: the map, the quest panel and the visual-novel scenes. |
+| `game/js/result.js` | The result screen after a battle: the title, the battle in numbers, Story stars and the rewards dealt in as tiles. |
+| `game/js/scenefx.js` | Cutscene effects for Story scenes: the sky tearing open, lighting (power cuts, candles, night, rift glow), flashes, shakes and flickering lights. |
 | `.claude/skills/add-novel/` | The Claude Code skill for adding a novel: workflow, effect reference, animation catalog. |
 | `tools/sync_avatars.py` | Turns the pictures in the `card-images` bucket into profile pictures and pack art. Run it after adding pictures there. |
+| `tools/sync_maps.py` | Copies the Story maps from the `map-images` bucket into `game-assets/maps/` as WebP. |
 
 ## Images (Supabase)
 
@@ -38,6 +46,7 @@ The images are not in the repo. They live in the public Supabase Storage bucket 
 - `sprites/`, `backgrounds/`, `items/`, `portraits/`: from `tools/fetch_assets.py`
 - `sm/sprites/`: half-size sprite copies used for cards and the board, so they stay sharp when drawn small
 - `avatars/`, `packs/`: profile picture thumbnails and the Common/Rare/Epic pack art, made by `tools/sync_avatars.py` from the `card-images` bucket
+- `maps/`: the Story act maps, copied by `tools/sync_maps.py` from the `map-images` bucket
 
 The game only reads public URLs and needs no key. The tools write to the buckets, so they need the secret key in the environment (never commit it):
 

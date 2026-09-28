@@ -12,6 +12,16 @@
   rival: 'celeste' },                        // optional: double damage both ways against that card
 ```
 
+Outfit upgrades (`upgrades`, a list): the card changes into its next outfit mid-battle. While it stands on the board its
+owner pays the outfit's `cost` in gold (a 👗 button on its plate, once a turn); each outfit adds `bonus` [atk, hp] (the new
+base), `kw`, can bring its own `attack`, and runs `onUpgrade` (a spec). The card text is written from it. Good for a
+character whose novel is all about costumes (Amy Lyn):
+```js
+upgrades: [{ costume: 'karate-outfit', name: 'Karate Amy', short: 'Karate', cost: 1, bonus: [2, 1], kw: ['rebel'],
+  emoji: ['🥋'], line: 'Hi-YAH!', onUpgrade: { ...spec }, attack: { style: 'uppercut', name: 'Chop', color: '#ff6a3d' } }, ...]
+```
+`short` fits the plate (≤ 12), `line` is said in the cut-in, `emoji` fly out of the dressing screen. Costumes must be safe.
+
 `rarity`: `common` `rare` `epic` `legendary`. `copies: n` overrides how many a deck may hold (`MB.RARITY[r].copies`). Tokens (`token: true, name, emoji`) are summonable only.
 Item card: `{ type: 'spell', cost, rarity, target?, filter?, effect, color, name?, cast? }`, id = the manifest item id.
 `cast` (untargeted item cards): `lob` (default: rises and fades) · `nuke` (flies over the enemy row and blasts it) ·
@@ -90,6 +100,20 @@ Duo styles (bonds; they animate two partners): `combo`✱ tag-team (tier 1 defau
 `lesson` chalkboard + ruler · `cheerchain` cheer + chain · `howl` moon + spirit wolf · `twinstar` sun & gloom ·
 `breakfast` pancake stack · `riptide` whirlpool · `restock` stockroom avalanche · `flashbang` blind + vault ·
 `feeding` two fins · `tidal` wave + crabs · `workshop` smash & stitch · `yuri` lilies + hearts · `alleyoop` lob + dunk.
+Cross-novel duos (partner 0 = the left one): `doubleshift` timecard, 0 runs through job props, 1 stamps HIRED ·
+`irishcoffee` bottles + espresso into a giant mug that tips · `penance` kiss pulls out orbiting sins, a cross drops ·
+`musclemath` chalkboard proof line by line, 0 flexes, board slam + Q.E.D. · `ovenmitt` 0 lobs cupcakes, 1's pizza
+catches fire and is flung · `lifebuoy` whistle, buoy lands round the target, fins + chomp · `snooze` Zzz stream,
+alarm clock, two shoes bury it · `allin` 1 deals cards and chips, 0 pickpockets, royal flush · `biddingwar` bids grow
+a painting, gavel, frame drops · `chillchapter` book + pages + spooky words, ghost, BOO + frost · `masterplan` 3-step
+plan notes, laugh, lever, trapdoor + dark pillar · `defib` ECG monitor flatlines, CLEAR paddles, syringe · `churchbell`
+hymn notes, bell drops and tolls 3×, doves · `reenact` battle map, date, arrow rain, 1 blinks through in one cut ·
+`viral` live phone + like counter, hearts, RATIO'D stamp · `bakaslap` backs turned, heart, double slap ·
+`pricewar` undercutting price tags, fruit/dango rain, watermelon · `airheads` butterfly chase round the target, collide
+· `spotme` bench reps, more plates, barbell thrown, flex · `spotless` bubbles, feather duster, tablecloth yanked off, SPOTLESS ·
+`hologram` 0's laptop projects a singing hologram of 1 over the target, it glitches, 1 throws the mic · `keynote` chart
+screen, 0 clicks three slides, 1 stamps APPROVED, the arrow comes down · `makeover` outfits thrown on the target, garlic
+necklace, 1 panics, green cloud · `busking` 1 puts a hat down, 0 sings, tips rain in, 1 trips, hat slammed on.
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)
@@ -110,7 +134,8 @@ entrance (e.g. a `shout` card with `intro: 'hellfire'`). A recipe:
   · attacks: `choir` `laugh` `incoming` (falling bomb) `tornado` `vortex` `missile` `vines` `rune` `shuriken` `melody` `poof`
   `gunshot` `scope` `lava` `kiss` `swish` `clang` `glitch` `camera` `tick` `stab` `cheer` `scythe` `surf` `guitar` `piano`
   `axe` `glass` `flutter` (wings) `stomp` (giant step) `grow` `trash` `drumroll` `gong` `sizzle` `applause` `hypno` `warp`
-  `unsheathe` `siren` (singing). Recorded files in game/assets/sounds/ replace a synth sound
+  `unsheathe` `siren` (singing) · card packs: `crinkle` `foil` `rip` `tear` `cardflip` `deal` `riser` `loot` `gem`
+  `fanfare` `fragment` `tink` `unlock` `thud` `swipe` `heartbeat` `glint`. Recorded files in game/assets/sounds/ replace a synth sound
   of the same name (the SAMPLES table in audio.js)
 
 The entrance ends with the card's `quote` (else the style's own line, "Hi!" for recipes).
@@ -149,11 +174,47 @@ Shared scene variants (`scene`; the kinds that may use each are in `SCENE_VARIAN
 - `etiquette` (family, school, mentor): `teacher` 0/1 makes the other walk with a book on their head; `order` on the fail.
 - `harvest` (family, friends): `food` rains into a tub, they stomp it, a `result` bottle pops out.
 - `dressup` (friends): a folding screen in front of `model` 0/1 (default 1), clothes (`emoji`) fly out, the reveal.
+- `interview` (mentor): desk, résumé, past jobs (`jobs` emoji) spill out, the boss (`mentor` 0/1) reads, `stamp`, handshake.
+- `standup` (rivals, friends): a spotlight each, the mic passes per line, rimshot (`rim`) + tomato after each; they crack up.
+- `flair` (lovers, friends): bottles (`food`) juggled between them, poured into `result`, cheers.
+- `patrol` (partners): flashlight beams sweep the dark (use `backdrop: 'night'`), something (`emoji[0]`) sneaks in, `freeze`.
+- `confession` (rivals): lattice screen, the `sinner` 0/1 confesses, sins (`emoji`) fill a `meter`, `alarm`, the other lunges.
+- `shrine` (rivals): corkboard fills with photos of YOU (`face`, `caption`), both grab the last one, it rips in half.
+- `solve` (school, crush): chalkboard `steps`, the first flexes (`flex`), the second is flustered (`fluster`), `answer`.
+- `boxing` (rivals, partners): three rounds (`emoji` [a's, b's] blows), double K.O., the count, fist bump.
+- `scheme` (partners): chessboard, pieces (`emoji`) moved with `laughs` [a, b], a crown (`result`), hidden daggers.
+- `bakeoff` (rivals, friends, family): an oven each, `food` [a's perfect one, b's explodes into it], judges' `scores`.
+- `rescue` (lovers, friends): water rises, the `swimmer` 0/1 flails, lifebuoy, reeled in, the lifeguard's `grin`, faint.
+- `nap` (lovers, family, friends): hammock, zzz, alarm clock, a thrown `throw` emoji sends it flying.
+- `poker` (rivals, friends): felt table, deal, the `gambler` 0/1 goes `allin` and wins (`hand`, `brag`), the other takes the pot.
+- `auction` (rivals): `result` on show, paddles with rising `bids`, gavel (`gavel`), the `winner` 0/1 takes it, the loser fumes.
+- `reading` (family, friends, school): candle, books (`food`), a ghost (`emoji[0]`) creeps up, `boo`, they laugh.
 
 ## Story
 
 ```js
-MB.CHAPTERS.push({ title: 'Novel Title', outro: 'One upbeat line when the chapter is cleared. 🎉' });
-{ chapter: 5, foe: 'char-id', hp: 24, ai: 0.45, bg: 'Background name', music: 'music-id', intro: 'In-character line.' },
+MB.CHAPTERS.push({ title: 'Novel Title' });
+{ chapter: 15, foe: 'char-id', bg: 'Background name', music: 'music-id', intro: 'In-character line.' },  // at the end of MB.STORY
+// game/js/story.js, in the quests of the act that fits the novel:
+{ foe: 'char-id', side: true, from: 'jane', at: [62, 48], title: 'Short Quest Title', text: 'One or two sentences for the map panel.' },
 ```
-`chapter` is the index into MB.CHAPTERS. `bg` is a background *name* from the brief, `music` a music id.
+`chapter` is the index into MB.CHAPTERS. `bg` is a background *name* from the brief, `music` a music id. HP and AI
+skill are set from the quest's place in the story (js/story.js).
+
+### Close-up looks (`MB.CLOSE_LOOKS`, data.js)
+
+A scene line with `{ close: true }` cuts to the speaker in front of their own backdrop. Give every character who
+gets a story close-up a look that fits them (the checker warns about a close-up without one):
+```js
+'char-id': { sky: 'hell', c: '#ff4a1c', parts: [{ bit: 'ember', move: 'rise', n: 40 }, { e: ['🔥'], move: 'rise', n: 10, size: 64 }] },
+```
+Skies (style.css, `#sc-close[data-sky]`; `c` tints the ones that use it): `hell` flame wall + burning sun ·
+`hearth` warm pink light, soft blurs · `impact` manga speed lines · `sunshine` blue sky, turning sun rays, rainbow ·
+`bokeh` evening glow, out-of-focus lights · `blueprint` drafting grid, compass rings, radar sweep · `spotlight` dark
+stage, two sweeping spotlights · `moonwood` moon over a pine forest · `deep` underwater light shafts · `dawn` sunrise
+over a shimmering river · `redsun` ink-painting sky, big red sun, drifting mist · `warlord` blood sun, black
+mountains, a sword slash · `riches` pink-gold, turning golden rays · `disco` colour-cycling party lights · `obsession`
+dark room, heartbeat of red light · `holy` pale heaven, white rays, a halo · `hypno` spinning pinwheel, rings sinking in.
+Parts: `e` (emoji list) or `bit`: `ember` `bubble` `petal` `confetti` `spark` `firefly` `streak` `feather`; `move`:
+`rise` · `fall` · `drift` (across) · `burst` (out of the sun) · `orbit` (round the sun) · `twinkle` (in place) ·
+`ring` (a throbbing wreath round the sun); `n` how many (≤ 60), `size` emoji px. Two parts are plenty.
