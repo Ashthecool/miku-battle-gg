@@ -72,7 +72,7 @@ async function cacheFirst(url) {
   const hit = await cache.match(url);
   if (hit) return hit;
   const res = await fetchAsset(url);
-  if (res.ok) cache.put(url, res.clone());
+  if (res.ok) cachePut(cache, url, res.clone());
   return res;
 }
 
@@ -82,11 +82,17 @@ function fetchAsset(url) {
   return fetch(url, { mode: 'cors', credentials: 'omit', cache: 'reload' });
 }
 
+async function cachePut(cache, request, response) {
+  try {
+    await cache.put(request, response);
+  } catch {}
+}
+
 async function networkFirst(req) {
   const cache = await caches.open(SHELL);
   try {
     const res = await fetch(req, { cache: 'no-cache' }); // revalidate: Pages lets browsers keep files for 10 minutes
-    if (res.status === 200) cache.put(req, res.clone()); // not the partial (206) replies audio streams get: the cache refuses them
+    if (res.status === 200) cachePut(cache, req, res.clone()); // not the partial (206) replies audio streams get: the cache refuses them
     return res;
   } catch (err) {
     const hit = await cache.match(req, { ignoreSearch: true });
