@@ -12,6 +12,7 @@ import io, json, os, re, sys, glob, unicodedata, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
 import r2_storage as r2
+from attack_emotions import pick_attack_emotion
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "game", "assets")
@@ -235,11 +236,13 @@ def add_novel(novel, manifest):
     jobs = []
     novel_nsfw = novel["title"] in NSFW_NOVELS
 
-    def outfit_sprites(outfit, folder):
+    def outfit_sprites(outfit, folder, cid):
         emo = {e["id"]: e["sources"]["png"] for e in outfit["emotions"]}
         sprites = {}
         for role, prefs in ROLES.items():
             pick = next((p for p in prefs if p in emo), "neutral" if "neutral" in emo else next(iter(emo)))
+            if role == "attack":
+                pick = pick_attack_emotion(cid, emo) or pick
             rel = f"{folder}/{pick}.webp"
             sprites[role] = rel
             jobs.append((emo[pick], "1080p/", rel, dict(max_h=900)))
@@ -257,14 +260,14 @@ def add_novel(novel, manifest):
                 cid = f"{cid}-{slug(novel['title']).split('-')[0]}"
         taken.add(cid)
         outfit = outfits[0]
-        sprites = outfit_sprites(outfit, f"sprites/{cid}")
+        sprites = outfit_sprites(outfit, f"sprites/{cid}", cid)
         # every other outfit becomes a costume (used by the wardrobe and by relationship fusions)
         seen, costumes = {slug(outfit["name"])}, []
         for o in outfits[1:]:
             if slug(o["name"]) not in seen:  # outfit names repeat now and then ("Joey 3" twice)
                 seen.add(slug(o["name"]))
                 costumes.append({"id": slug(o["name"]), "name": o["name"].strip(),
-                                 "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}"),
+                                 "sprites": outfit_sprites(o, f"sprites/{cid}/{slug(o['name'])}", cid),
                                  **({"nsfw": True} if o["_nsfw"] else {})})
         portrait = None
         if c.get("profile_pic") and c["profile_pic"] != "empty_char.png":

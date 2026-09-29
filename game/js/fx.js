@@ -557,7 +557,7 @@
 
   S.coins = async (V, a, t, impact) => {
     const { v, T, hT, c } = ctx(V, a, t);
-    V.emote(a, 'taunt', 0);
+    V.emote(a, 'attack', 0);
     await gsap.to(v.figure, { y: -30, duration: 0.25 });
     let first = true;
     const drops = [];
@@ -645,7 +645,7 @@
   // generic: a shower of attack.emoji comes down on the target
   S.shower = async (V, a, t, impact) => {
     const { v, T, hT, c } = ctx(V, a, t), em = a.card.attack.emoji || '⭐';
-    V.emote(a, 'taunt', 0);
+    V.emote(a, 'attack', 0);
     await gsap.to(v.figure, { y: -30, duration: 0.25 });
     let first = true;
     const drops = [];
@@ -988,7 +988,7 @@
   S.jackpot = async (V, a, t, impact) => {
     const { v, T, hT, c } = ctx(V, a, t);
     const [, R] = duo(v);
-    V.emote(a, 'taunt', 0);
+    V.emote(a, 'attack', 0);
     const slot = V.billboard('slot-machine', '<i>💰</i><i>💎</i><i>🍒</i>', T.x, T.y);
     gsap.set(slot.body, { y: -hT - 190 });
     await gsap.fromTo(slot.body, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' });
@@ -9888,7 +9888,7 @@
       const { r, land, tv } = setup(V, a, t, impact);
       const offer = { x: lerp(r.A.x, r.T.x, 0.72), y: lerp(r.A.y, r.T.y, 0.72) };
       const coin = emo(V, '🪙', r.A, r.hA, 60);
-      V.emote(a, 'taunt', 0);
+      V.emote(a, 'attack', 0);
       MB.audio.sfx('coin');
       pop(V, r.A, r.hA + 100, 'Name your price.', 'float-text buff', 0.8);
       await path(coin, (k) => ({ ...arc(r.A, offer, r.hA, r.hT + 65, 45)(k), r: k * 540 }), 0.55, 'power1.out');
@@ -10067,6 +10067,7 @@
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
+    const emotionCalls = (at.emotions || []).filter((cue) => cue.at > 0).map((cue) => gsap.delayedCall(cue.at, () => V.emote(a, cue.emotion, 0)));
     // options that work with every style: sky, aura, shake, slowmo, floor, scatter (+ cry, finish, sfx below)
     const unsky = sky(at.sky === undefined ? STYLE_SKY[at.style] : at.sky);
     const unaura = at.aura ? aura(V, a, at.aura === true ? at.color : at.aura) : null;
@@ -10095,6 +10096,7 @@
       await style(V, a, t, onHit);
       onHit();
     } finally {
+      emotionCalls.forEach((call) => { if (call && call.kill) call.kill(); });
       unsky();
       if (unaura) unaura();
     }

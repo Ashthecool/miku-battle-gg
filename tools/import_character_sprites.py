@@ -51,6 +51,8 @@ def main(title, name):
     sprites = {}
     for role, prefs in assets.ROLES.items():
         emotion = next((p for p in prefs if p in available), "neutral" if "neutral" in available else next(iter(available)))
+        if role == "attack":
+            emotion = assets.pick_attack_emotion(cid, available) or emotion
         sprites[role] = f"local/sprites/{cid}/{emotion}.webp"
     tasks = {path.rsplit("/", 1)[-1]: available[path.rsplit("/", 1)[-1][:-5]] for path in sprites.values()}
     for filename, src in tasks.items():

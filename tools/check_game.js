@@ -71,6 +71,7 @@ function checkSpec(where, spec, { trigger, target }) {
 }
 
 const RECIPE = MB.FX.recipe;
+const EMOTION_ROLES = ['idle', 'play', 'attack', 'special', 'hurt', 'lose', 'win', 'taunt'];
 function checkAttack(where, a, duo) {
   if (!a) return err(`${where}: no attack`);
   if (a.style ? !STYLES[a.style] : !(a.move || a.fx)) err(`${where}: unknown attack style "${a.style}" (or give a recipe: move/fx)`);
@@ -83,6 +84,14 @@ function checkAttack(where, a, duo) {
   ['cry', 'finish', 'shout', 'mark'].forEach((k) => { if (a[k] != null && (typeof a[k] !== 'string' || a[k].length > 30)) warn(`${where}: ${k} should be a short line (≤ 30 chars)`); });
   if (a.words && !Array.isArray(a.words)) err(`${where}: words must be a list`);
   if (a.sfx && !SFX.includes(a.sfx)) err(`${where}: unknown sfx "${a.sfx}"`);
+  if (a.emotions != null) {
+    if (!Array.isArray(a.emotions)) err(`${where}: emotions must be a list`);
+    else a.emotions.forEach((cue, i) => {
+      if (!cue || !Number.isFinite(cue.at) || cue.at < 0) err(`${where}: emotion cue ${i + 1} needs a non-negative time`);
+      if (!cue || !EMOTION_ROLES.includes(cue.emotion)) err(`${where}: emotion cue ${i + 1} has unknown role "${cue && cue.emotion}"`);
+      if (i && cue && a.emotions[i - 1] && cue.at < a.emotions[i - 1].at) err(`${where}: emotion cues must be ordered by time`);
+    });
+  }
   if (a.sky != null && a.sky !== 'none' && a.sky !== false && !MB.FX.skies.includes(a.sky)) err(`${where}: unknown sky "${a.sky}" (${MB.FX.skies.join(', ')})`);
   if (a.aura != null && a.aura !== true && !/^#[0-9a-f]{3,8}$/i.test(a.aura)) err(`${where}: aura should be true or a color`);
   if (a.zoom != null && !(a.zoom >= 0 && a.zoom <= 0.3)) err(`${where}: zoom should be 0-0.3`);

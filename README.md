@@ -58,6 +58,18 @@ The game only reads public URLs and needs no key. The tools write to the buckets
 SUPABASE_SECRET_KEY=sb_secret_... R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/sync_avatars.py
 ```
 
+Attack expressions are authored per character in `tools/attack_emotions.py`: Lisa's Sleepy Slouch uses
+`tired`, Pepita's Panic Pizza Toss uses `scared`, and Clara Click's B-Baka Heartbreak uses `embarrassed`.
+The importers resolve these into each outfit's `sprites.attack`; the battle and gallery use that role,
+and fused partners each keep their own expression. Outfits with fewer emotions use related expressions
+from the same outfit, then neutral; outfits with none of those retain their existing attack artwork.
+
+After editing those choices, preview with `py tools/sync_attack_emotions.py`. Add `--source-dir PATH`
+for each directory containing novel exports. With the R2 environment variables above, add `--upload`
+to upload missing sprites at both sizes and verify public URLs before updating both manifests.
+The preview report is written to the ignored `game/assets/attack-emotion-report.json`. If an export is
+unavailable, the tool can still choose among that character's already-imported expressions.
+
 ## PvP
 
 **Arena → Casual PvP** pits your active deck and leader, at your card levels, against another player's. Both browsers run the same battle from one shared seed (the engine's randomness is seeded, `game/js/engine.js`) and send each other only their moves. Each player's battle has the sides swapped so both see themselves at the bottom. Every end of turn carries a digest of the battle state, so a desync ends the match instead of letting the two games drift apart. `node tools/check_game.js` replays every AI battle that way, move for move.

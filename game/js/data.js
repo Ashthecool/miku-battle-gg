@@ -32,6 +32,8 @@ MB.KEYWORDS = {
 //   attack: { name, color, move: 'blink', fx: 'slashes', hits: 3, prop: ['🐾'], scatter: ['❤️'], floor: 'splat', big: true }
 // Any attack can also have `cry` (said as it winds up), `finish` (over the target after the hit), `sfx`
 // (impact sound), and for some styles `words` / `mark` / `shout`. They replace the style's own lines.
+// `emotions` can switch sprite roles during the attack: [{ at: 0, emotion: 'play' }, { at: 1.8, emotion: 'hurt' }].
+// Times are seconds from attack start; the first cue also sets the opening emotion.
 // Triggers: onPlay, onAttack, onKill, onDeath, onTurnStart, onTurnEnd, onAllyDeath, onHurt (effect specs).
 MB.CARDS = {
   'maria-hunley':    { cost: 6, atk: 5, hp: 8, rarity: 'legendary', kw: ['taunt'], onPlay: 'momHug',
@@ -605,8 +607,8 @@ MB.CARDS = {
       { costume: 'karate-outfit', name: 'Karate Amy', short: 'Karate', cost: 1, bonus: [2, 1], kw: ['rebel'], emoji: ['🥋'],
         line: 'Hi-YAH! Black belt... almost :3',
         attack: { style: 'uppercut', name: 'Almost-Black-Belt Chop', color: '#ff6a3d', cry: 'HI-YAH! :3', finish: 'Did I do it right?' } },
-      { costume: 'superhero-suit', name: 'Super Amy', short: 'Super', cost: 2, bonus: [1, 2], kw: ['guardian'], emoji: ['🦸', '⭐'],
-        line: "Never fear, Amy Lyn's here! :3",
+      { costume: 'superhero-suit', name: 'Ms. Amulet', short: 'Amulet', cost: 2, bonus: [1, 2], kw: ['guardian'], emoji: ['🦸', '⭐'],
+        line: "Never fear, Ms. Amulet's here! :3",
         onUpgrade: { label: 'Hero landing!', color: '#3a7cff', do: { op: 'shield', to: 'allAllies' } },
         attack: { style: 'beam', name: 'Amy Beam', color: '#3a7cff', cry: 'Justice! And stuff! :3' } },
       { costume: 'space-suit', name: 'Astro Amy', short: 'Astro', cost: 2, bonus: [2, 1], kw: ['ranged'], emoji: ['🚀', '🪐'],
@@ -630,6 +632,7 @@ MB.CARDS = {
   'nala':      { cost: 4, atk: 2, hp: 6, rarity: 'epic', kw: ['guardian'],
     onHurt: { label: "I-I'm a good maid!", color: '#c0506e', do: [{ op: 'buff', to: 'self', atk: 1 }, { op: 'heal', to: 'myLeader', n: 1 }] },
     attack: { style: 'nekopunch', name: 'Nervous Nekopunch', color: '#c0506e',
+      emotions: [{ at: 0, emotion: 'play' }, { at: 1.84, emotion: 'hurt' }],
       cry: "P-please don't be mad!", scatter: ['🐾', '🧹', '💦'], finish: 'D-did I do good?' },
     intro: { move: 'sneak', fx: 'fling', emoji: ['🧹', '🐾', '🫖'], sfx: 'squeak' },
     quote: 'H-hello... I am a good maid, I promise...' },
