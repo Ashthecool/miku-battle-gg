@@ -683,6 +683,13 @@
     splice: { move: 'fade', fx: 'swirl', emoji: ['🧬', '💉', '⌚'], sfx: 'glitch' }, glitchblade: { move: 'zoom', fx: 'flash', sfx: 'glitch' },
     mothdust: { move: 'rise', fx: 'swirl', emoji: ['🦋', '✨', '🤍'], sfx: 'flutter' }, jukebox: { move: 'slide', fx: 'fling', emoji: ['📼', '🎸', '🏍️'], sfx: 'guitar' },
     cleaver: { move: 'drop', fx: 'fling', emoji: ['🔪', '🍳', '🌶️'], sfx: 'clang' },
+    camellia: { move: 'fade', fx: 'swirl', emoji: ['🌺', '🏹', '❄️'], sfx: 'twang' }, skilift: { move: 'drop', fx: 'rain', emoji: ['❄️', '🚡', '❄️'], sfx: 'clang' },
+    kendo: { move: 'strut', fx: 'flash', sfx: 'unsheathe' }, jinx: { move: 'sneak', fx: 'fling', emoji: ['🃏', '🐈‍⬛', '♠️'], sfx: 'deal' },
+    fireworks: { move: 'drop', fx: 'confetti', sfx: 'boom' }, kamaitachi: { move: 'fade', fx: 'swirl', emoji: ['📖', '🍃', '🌪️'], sfx: 'wind' },
+    foxfire: { move: 'fade', fx: 'swirl', emoji: ['🔥', '🦊', '💙'], sfx: 'poof' }, ropes: { move: 'slide', fx: 'fling', emoji: ['🥊', '🔔', '💥'], sfx: 'ding' },
+    piping: { move: 'hop', fx: 'fling', emoji: ['🧁', '🍓', '🍰'], sfx: 'ding' }, swanlake: { move: 'spin', fx: 'swirl', emoji: ['🪶', '🦢', '✨'], sfx: 'piano' },
+    candelabra: { move: 'fade', fx: 'swirl', emoji: ['🕯️', '🦇', '🍷'], sfx: 'flutter' }, redstring: { move: 'fade', fx: 'rain', emoji: ['💘', '💗', '🔔'], sfx: 'flutter' },
+    purikura: { move: 'pop', fx: 'flash', sfx: 'camera' }, rhythm: { move: 'zoom', fx: 'rain', emoji: ['⬅️', '⬇️', '➡️'], sfx: 'melody' },
   };
   // a recipe attack (fx.js) enters the way it moves, flinging its props
   const RECIPE_ENTRANCE = { stay: 'pop', float: 'fade', dash: 'slide', leap: 'drop', blink: 'zoom', spin: 'spin', hop: 'hop', zigzag: 'slide',

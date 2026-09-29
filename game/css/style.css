@@ -2508,6 +2508,18 @@ body.dev .dev-only { display: flex !important; }
 .moth-wings { font-size: 260px; filter: saturate(0) brightness(1.8) drop-shadow(0 0 20px var(--c)); }
 .cutting-board { width: 200px; height: 90px; border-radius: 14px; background: linear-gradient(#c89a5a, #a8763a);
   box-shadow: 0 8px 12px #0007, inset 0 0 0 5px #8a5a2a; }
+.lift-cable { width: 760px; height: 5px; border-radius: 3px; background: linear-gradient(#555, #111); box-shadow: 0 0 6px #fff8; }
+.fx-playcard { width: 64px; height: 90px; border-radius: 8px; background: #fff; border: 3px solid #222; box-shadow: 0 6px 10px #0008;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; font: 900 26px 'Segoe UI Symbol', 'Segoe UI', sans-serif; color: #111; }
+.fx-playcard i { font-style: normal; font-size: 34px; line-height: 1; }
+.ring-ropes { width: 240px; height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
+.ring-ropes i { display: block; height: 7px; border-radius: 4px; background: var(--c); box-shadow: 0 0 8px var(--c), 0 3px 0 #0006; }
+.fx-purikura { width: 200px; border: 10px solid var(--c); border-radius: 18px; background: #ffffff14; box-shadow: 0 0 18px var(--c), inset 0 0 18px var(--c); }
+.fx-purikura b { position: absolute; left: 50%; bottom: -8px; transform: translate(-50%, 100%); padding: 2px 10px; border-radius: 8px;
+  background: var(--c); color: #fff; font: 900 18px 'Segoe UI', sans-serif; white-space: nowrap; }
+.fx-judge { width: 210px; height: 6px; border-radius: 3px; background: var(--c); box-shadow: 0 0 12px var(--c); }
+.fx-note { width: 42px; height: 42px; border-radius: 10px; line-height: 42px; text-align: center; color: #fff; background: var(--c);
+  box-shadow: 0 0 12px var(--c); font: 900 32px 'Segoe UI Symbol', 'Segoe UI', sans-serif; }
 .cocoon { width: 130px; height: 230px; border-radius: 50% 50% 46% 46%; box-shadow: 0 0 20px #fff8, inset -10px -10px 20px #0003;
   background: repeating-linear-gradient(35deg, #fffaf0 0 6px, #efe6d8 6px 12px); }
 .fx-vn-box { width: 320px; padding: 22px 16px 12px; border-radius: 12px; white-space: normal; color: #fff; font: 600 18px 'Segoe UI', sans-serif;

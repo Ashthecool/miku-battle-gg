@@ -331,6 +331,8 @@ window.MB = window.MB || {};
           text: 'The cabin Daphne the engineer and Brizz the medic share. Not lovers. Very clear about that.' },
         { id: 'neon', title: 'The Neon District', map: 'backgrounds/neon-district-17d4b3.webp', w: 1280, h: 768, size: 1900, at: [53, 22], icon: '🍕',
           text: 'Grid City, a cyberpunk megacity, landed behind the skyline. It never stops raining neon. Somebody ordered a pizza.' },
+        { id: 'paris', title: 'Rue Douceur', map: 'maps/sugar_paris.webp', w: 1750, h: 977, size: 2000, at: [12, 88], icon: '🥐',
+          text: 'A corner of Paris drifted in by the market stalls: a pâtisserie, a ballet school, a theatre, and a tram that never quite leaves.' },
       ],
       quests: [
         { id: 'new-haven', at: [34, 90], title: 'Welcome to the City', text: 'Glass towers, a beach, a university... and a very excited deer girl.',
@@ -497,6 +499,51 @@ window.MB = window.MB || {};
         { foe: 'kat-13', side: true, from: 'takeda', place: 'neon', at: [72, 30], title: 'Enforcer', text: 'Valkyrie Corp sent KAT-13 to keep the peace. She keeps it very, very violently. She is smiling. Somehow.' },
         { foe: 'lamina', side: true, from: 'crash', place: 'neon', at: [88, 86], title: 'The Chitin Creed', text: "Under the streets, the moth mother leads the experiments Jeong-ui threw away. She knows who made her. She'd like you to know too." },
         { foe: 'seo-jin-tae', side: true, from: 'lamina', place: 'neon', at: [84, 18], title: 'Machines of Flesh', text: "Jeong-ui BioWorks' CEO watches the city from his tower. To him, you're raw material with opinions." },
+        { foe: 'nanami-hana', side: true, from: 'jane', at: [63, 74], title: 'The Furious Two', text: 'A boxing gym opened behind the shops. Its star, Nanami Hana, fights bullies for a living. Her friend Anon told her about you.' },
+        // Sugar & Sweethearts: Rue Douceur, a corner of Paris with its own map
+        { foe: 'nico', side: true, from: 'jane', place: 'paris', at: [78, 58], title: 'The New Manager',
+          text: "A pâtisserie from Paris appeared by the market stalls. Its staff are waiting for their new manager. Apparently that's you.",
+          before: { bg: '56f0ec14-26ba-4168-93d6-85914c9c4f2b', music: 'parisian-daydream', lines: [
+            { where: 'Rue Douceur, Paris', when: 'Opening time', weather: 'petals' },
+            ['*', 'Where the market stalls should end, the street turns to cobblestones. Lamp posts. A tram bell. A pink awning that says PÂTISSERIE.'],
+            ['hayley-kate', 'excited', 'Is that... PARIS? Next to the bowling alley?!'],
+            { enter: 'nico', at: 'right', mood: 'happy' },
+            ['nico', 'happy', "Nya~! There you are! You're the new manager, right? Dante said the new manager would look lost. You look SO lost."],
+            ['you', "I think there's been a mistake."],
+            ['nico', 'proud', "Nope! No mistakes at Douceur. Only pranks. And card games. Beat me and I'll show you around~"],
+          ] },
+          after: [
+            ['nico', 'sad', 'Nyaa... you are good. Fine, fine. Welcome to Douceur Café, manager!'],
+            ['nico', 'happy', "Momo's at the market, Haruka's at the theatre, Finn's at ballet, and Ryu is in the park, NOT sulking. Go say hi! They'll all want to test you~"],
+          ] },
+        { foe: 'momo', side: true, from: 'nico', place: 'paris', at: [22, 50], title: 'Market Run',
+          text: 'Momo, the pastry chef, is buying strawberries for the day. He is very, very nervous about meeting the new manager.' },
+        { foe: 'haruka', side: true, from: 'nico', place: 'paris', at: [64, 88], title: "All the World's a Stage",
+          text: 'Haruka rehearses Shakespeare on the empty stage before her shift. She demands an audience. You will do.' },
+        { foe: 'finn', side: true, from: 'haruka', place: 'paris', at: [77, 80], title: 'École de Ballet',
+          text: 'Finn practises at the ballet school before work. He does not like to be rushed. Or watched. Or beaten.' },
+        { foe: 'ryu', side: true, from: 'momo', place: 'paris', at: [50, 22], title: 'The Ryuzaki Band',
+          text: 'Ryu plays guitar in the park gazebo for his fan club of regulars. He is not sulking. He is on a break. A long one.' },
+        { foe: 'velour', side: true, from: 'finn', place: 'paris', at: [24, 80], title: 'After Hours',
+          text: 'The cinema is dark and empty. The night maid of Douceur watches old films here before his shift. Nobody has seen him in daylight.' },
+        { foe: 'cupid', side: true, from: 'ryu', place: 'paris', at: [44, 44], title: 'A Little Favour',
+          text: 'A boy with pink wings is rearranging the flower shop. He says he is the god of love, and that your love life is VERY interesting.' },
+        { foe: 'dante', side: true, from: 'velour', place: 'paris', at: [84, 36], title: 'Closing Time',
+          text: 'Dante, owner of Douceur Café, has heard all about the new manager. Tonight the two of you close up. After one last game.',
+          before: { bg: '9c1c1a99-95db-423f-b5fb-5538467a43a9', music: 'moonlight-cafe', lines: [
+            { where: 'Douceur Café', when: 'Closing time', light: 'candle' },
+            { enter: 'dante', at: 'center', mood: 'neutral' },
+            ['dante', 'neutral', 'Nico says you let her win once. Momo says you ate three danishes. Ryu says nothing, which from Ryu is a compliment.'],
+            ['dante', 'proud', 'I run a gentle café, and I protect my staff from anyone who would hurt them. So I need to know who you are.'],
+            ['dante', 'neutral', 'Sit. One game. Win, and the keys are yours.'],
+          ] },
+          after: [
+            ['dante', 'happy', '...Good. Very good.', { close: true }],
+            { enter: 'nico', at: 'left', mood: 'excited' },
+            ['nico', 'excited', 'THEY WON?! Manager! Manager! Manager!'],
+            ['dante', 'happy', 'The keys. We open at eight. Momo bakes at five, so be gentle with him. And never, ever put Velour on the morning shift.'],
+            ['*', 'Somewhere above the café, little bells jingle. A pink feather drifts down past the window.'],
+          ] },
       ],
       secrets: [
         { id: 'man-and-doe', at: [60, 84], title: 'A Man and His Doe', lines: [
@@ -632,6 +679,15 @@ window.MB = window.MB || {};
         // the one-girl novels
         { foe: 'hina', side: true, from: 'petals', at: [21, 74], title: 'Underground', text: 'Hina Miyabi, underground idol, just finished a set under the cherry tree. She hates fans. You are not a fan. Yet.' },
         { foe: 'maiko', side: true, from: 'petals', at: [8, 86], title: 'Sweet Garlic', text: "A very nervous succubus is hiding from a garlic festival. She's supposed to be scary. She'd like to practise on you." },
+        { foe: 'kumi', side: true, from: 'petals', at: [6, 72], title: 'Kitsune Wife', text: 'A fox spirit is napping in a sunbeam under the great tree, wearing your clothes. She says she is your wife. She has been for 140 years.' },
+        // Cries behind Snowfall: the Spur lodge from Nagano, winter 1995, snowed in on the far peaks
+        { foe: 'sumire', side: true, from: 'shogun-kagetora', at: [90, 70], title: 'Above the Clouds', text: 'A hiker from Okinawa found a lodge on a snowy peak that was never on these mountains. She wants company for the climb.' },
+        { foe: 'keiji', side: true, from: 'sumire', at: [97, 77], title: 'Snowed In', text: "The Spur lodge, Nagano, winter 1995, is snowed in. Keiji's girlfriend isn't speaking to him. He wants a distraction." },
+        { foe: 'hakari', side: true, from: 'sumire', at: [80, 94], title: 'Slopes Closed', text: 'A punk rock star came to ski all month. The blizzard closed the slopes. She is bored enough to be dangerous.' },
+        { foe: 'sugiura', side: true, from: 'keiji', at: [66, 78], title: 'The Two of Spades', text: 'A truck driver hunting the lodge for a lost ring deals cards alone by the fire. Bad luck follows him. It never touches him.' },
+        { foe: 'fumiko', side: true, from: 'sugiura', at: [52, 70], title: 'Off Duty', text: 'A Nagano police officer is "on holiday" at the lodge. Someone broke into the storage cabin, and she has questions.' },
+        { foe: 'atsuo', side: true, from: 'hakari', at: [88, 57], title: 'Yokai by Lamplight', text: 'The old owner of Spur tells ghost stories to his snowed-in guests. Tonight: the yuki-onna. And a card game.' },
+        { foe: 'itsuki', side: true, from: 'fumiko', at: [96, 50], title: 'Cries behind Snowfall', text: 'Two years ago a ski lift fell at this lodge. One man walked away. He has come back for everyone who kept laughing.' },
       ],
       secrets: [
         { id: 'hoshi-no-iruka', at: [48, 58], title: 'Hoshi no Iruka', lines: [

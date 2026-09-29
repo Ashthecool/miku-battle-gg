@@ -43,6 +43,10 @@ SKIP_OUTFITS = {
     # Academia Magicka and Makin' Magic with Miku: blank outfits
     "beatrice/cg1", "beatrice/new-outfit", "ruby/cg1", "irene/new-outfit", "charlotte/new-outfit",
     "gwendolyn/new-outfit", "m-chan/new-outfit",
+    # Sugar & Sweethearts: the [Transparent] outfits are empty images
+    "momo/transparent", "haruka/transparent", "nico/transparent", "ryu/transparent", "finn/transparent",
+    "zero/transparent", "dante/transparent", "velour/transparent", "cupid/transparent", "dani/transparent",
+    "marine/transparent",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -58,11 +62,50 @@ NSFW_OUTFITS = {
     "anna-vinelace/new-outfit", "charlotte/cat-outfit", "lily/default", "nerida/default", "kira/default",
     "anna/covered", "amy-lyn/naked-ribbon", "amy-lyn/naughty-cat", "amy-lyn/for-the-thicc-lovers", "amy-lyn/strap-on-d",
     "maiko/succubus", "maiko/crying", "gwendolyn/spicy",
+    # Cries behind Snowfall, Kumi, Nanami Hana
+    "sumire/new-outfit", "kumi/naked-apron", "kumi/halloween-mummy", "nanami-hana/seggs",
+    # Sugar & Sweethearts
+    "momo/lewd", "momo/naked-apron", "haruka/lewd", "haruka/strapon", "nico/lewd", "nico/lingerie",
+    "ryu/lewd-set", "ryu/training-lewd", "finn/lewd", "finn/training-lewd", "zero/lewd-set", "zero/pink-lingerie",
+    "dante/lewd-set", "dante/lewd-apron", "velour/lewd-set", "velour/shibari", "cupid/classic-outfit",
+    "cupid/lewd-outfit", "dani/lewd", "marine/lewd",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
 NSFW_NOVELS = {"Noble One"}
-# single backgrounds marked by eye: "novel title/background name"
-NSFW_BACKGROUNDS = {"Paradiso Suburbia/CGH1"}
+# single backgrounds marked by eye: "novel title/background name", or the background's id when the novel names them
+# all alike ("background-47", some of them twice)
+NSFW_BACKGROUNDS = {
+    "Paradiso Suburbia/CGH1",
+    # Cries behind Snowfall: the bloody crime-scene CGs
+    "bffc1c4e-d26d-47b6-ac94-aea6b8d30dfb", "db3cdb43-1558-4de2-8eb3-eafd11a809e2", "1df80627-0bb7-4d5f-a2ea-1c83db9c0fb3",
+    "b6e7b8d8-8472-48a5-a2ac-97d0c8e1c970", "9135b340-fe2f-4c10-8735-3875df5897ac", "087b6138-6e29-4723-9351-60e03b6cf2b7",
+    # Sugar & Sweethearts: the lewd CGs and the touch-minigame screens
+    "1f649249-1d57-434f-9e7c-4478d046096e", "174162e5-2f30-41d0-8208-5cca49157735", "850912f5-239f-4a56-b686-4f0ea6be769e",
+    "0c557fa8-73b4-4ef3-86a6-35e4baec3cbe", "eb594ddb-f612-49e1-9fff-6a9b329addab", "fa49d7af-0a05-4c50-af05-b42d234b35b2",
+    "9f1fee0e-bb01-488f-8c5e-01d134d842a5", "ba21da70-8991-4303-b750-4e2a3a7dea23", "f75e1c65-8ab7-4718-b257-61277d2401df",
+    "ef6a9f48-39b8-448f-aa13-981422252eb3", "b283cc46-c820-4af5-ad86-f7573e7d7b08", "9f93047d-387e-4433-916e-f96a9d5bdf7a",
+    "decc2ab7-7f72-475e-89b1-7ea0f2168c39", "87cd1aed-ac83-498f-828e-10663fed474c", "6d05e925-b4ca-4fe0-bccd-a2a92a8c4ea9",
+    "99c34151-c132-416b-bee7-ba6dcb089091", "5275a2ae-051f-44d5-a89f-d1db3127b425", "ac226a99-53c3-4a42-87ce-bac89a86801f",
+    "e93f27f9-01ff-487f-a6bd-d1fe86b03a37", "0fc6bf48-e7df-4e88-93ce-5c43c6b23d17", "3b553537-38f9-4a79-a522-6e541a7df272",
+    "8f02d151-682e-461e-882c-9bf7a1b6b2e9", "6db86622-946c-4fa3-b0ed-dfd2d90ab770", "81fb467e-3158-42ae-bac6-a09189e39d87",
+    "d608e175-9d34-4bd6-ba3d-4c58630831d9", "b2d66cee-0c38-404b-b0d6-f7f6574f0a54", "85495c28-d5b4-46c2-9296-9407e02a8ad5",
+    "516cf712-8044-4ca6-8da4-459c8e6f7c85", "d084b327-e8b9-4954-bf0c-6c4360987feb", "f654b2a4-6d8b-48d6-9991-36c13b4a4408",
+    "a38b5b27-7f96-4ed1-9240-6bebae0993bc", "aa9b8ac4-aa64-47ef-a5f1-9d5e874f98ae", "95d0c5d8-9130-44cf-a8f6-3e7108e1dd69",
+    "5fe28711-95a5-423a-8b8d-cf7d0a9e5aa1", "06aa93a2-6de4-4e98-9e0e-4d7c7d3d57cd", "dfc39eb8-1217-4abc-b80b-f06bd74db2a2",
+    "c9617ac7-d61e-4588-b46f-38f886bc5ed6", "9607bbe5-76fe-4d19-b3b7-26c0abed4e0b", "a157334e-3d88-4f30-9919-3a87f9ee4400",
+    "5316ba08-8cad-4c15-911f-96404065e4db", "29c41897-fc20-44ff-81db-3740db38ec9a", "a6775cc4-63e1-45d0-8455-90a78b943312",
+    "bc60ed54-4528-41dc-8ca2-c38edf264785", "ca46b175-b970-4550-bdd8-e529cba43a40", "d9ba6d33-77cc-40c2-beda-db982c9100db",
+    "34f7b9be-5e1c-4c3c-9550-750279dac626", "418c77c4-ff01-444b-adc3-b7f9a6d721c5", "695d166b-beea-4f4a-8d7f-07d912f6f9ab",
+    "e6f40b2b-f2d2-4ff7-b2e9-539fcb6fa83f", "db5d0dbb-688a-4747-8fd4-8d555874b40a", "7e33267b-4803-4d9c-879e-c2bf72df2579",
+    "75f99108-7f83-4767-9ccd-f19afaf16955", "c0910550-2603-4bbb-b16f-cfdf29b34101", "26d14e61-d149-405a-b94b-b84fb7cb71b6",
+    "a13064e6-67b0-4417-8785-062c5f3274c4", "28643da7-33f0-4b1b-83a1-d566039748d1", "f9242c8b-e1e4-470c-a8d6-18a716aa2049",
+    "221e1dd5-8d07-4d9f-963c-e52bf05139fd", "0f1009b1-28dc-4c07-8fc7-5cf3f5874228", "4c345cc0-4a9f-412a-b353-efec62e25a16",
+    "e9f0a98b-7b0c-427b-a1fd-cc50954bf6ea", "f6e182a0-2b93-45e3-bdc6-d7c78d610a1f", "b43d3d34-6a62-485c-abbb-50e5b4ad4ff4",
+    "13112133-8728-41c1-b0c5-d5a6daf4f38b", "4653e8c2-0e61-4307-9e90-6e1bfcfc45f2", "275d428b-cdf5-4848-b37c-509d179c1101",
+    "f715e6fa-f15d-4d93-bab1-fadfb6b0c82c", "583d3eed-0896-4be7-919f-54216944bc80", "ebad6d04-1e58-4dfe-966e-2b49aaf7c14c",
+    "f6da9eee-3c00-4dc7-a66b-6a05ddff3170", "78fa6b51-3747-4c5b-aaca-484e60c37f0a", "d14f71da-efcd-46f6-8770-f24e3ea8ddd9",
+    "cfbb001f-60c5-4af0-91a8-69d083f88376", "4456c04a-843d-4136-8074-7c6bef7ea538", "cdf7861f-4368-4ca0-9eaf-a87fca72b05b",
+}
 
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids
 ONLY_CHARACTERS = {
@@ -246,7 +289,7 @@ def add_novel(novel, manifest):
         manifest["backgrounds"].append({"id": b["id"], "name": b["name"].replace("{{user}}", "Your"),
                                         "desc": b["description"], "src": rel,
                                         **({"nsfw": True} if novel_nsfw or NSFW_NAME.search(b["name"])
-                                           or f"{novel['title']}/{b['name']}" in NSFW_BACKGROUNDS else {})})
+                                           or f"{novel['title']}/{b['name']}" in NSFW_BACKGROUNDS or b["id"] in NSFW_BACKGROUNDS else {})})
 
     for it in novel.get("inventory") or []:
         if any(i["id"] == slug(it["name"]) for i in manifest["items"]):
