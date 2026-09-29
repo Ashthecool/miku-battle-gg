@@ -334,6 +334,117 @@
     await goHome(v, A);
   };
 
+  // Maiko tries to be formal for one second, then her honest impatience wins.
+  S.karatecombo = async (V, a, t, impact) => {
+    const { v, A, C, T, d, hT, c } = ctx(V, a, t);
+    const H = V.heightOf(a);
+    pop(V, A, H + 65, 'Bow first!', 'float-text ability', 1);
+    await gsap.to(v.figure, { rotation: d.x * 18, y: 25, duration: 0.28, ease: 'sine.inOut' });
+    MB.audio.sfx('ding');
+    pop(V, A, H + 35, 'Nope. GO!', 'float-text ability', 0.85);
+    await gsap.to(v.figure, { rotation: -d.x * 14, y: -70, duration: 0.16, ease: 'power2.out' });
+    MB.audio.sfx('swish');
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.32, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+    const kick = V.billboard('thrown', '🦶', C.x, C.y);
+    kick.body.style.fontSize = '115px';
+    await path(kick, (k) => ({ ...arc(C, T, H * 0.4, hT, 65)(k), r: -25 + k * 45, s: 0.65 + k * 0.55 }), 0.22, 'power3.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('kick'); V.shake(13);
+    pop(V, T, hT + 85, 'KICK!', 'float-text dmg', 0.7);
+    gsap.to(kick.body, { scale: 1.6, opacity: 0, duration: 0.24, onComplete: () => kick.remove() });
+    await gsap.to(v.figure, { rotation: d.x * 20, y: 0, duration: 0.2, ease: 'bounce.out' });
+    pop(V, C, H + 80, '...I bowed!', 'float-text ability', 0.9);
+    await goHome(v, A, 0.5);
+  };
+
+  // Isabella's gentle tennis serve comes off the racket much harder than she intended.
+  S.tennisserve = async (V, a, t, impact) => {
+    const { v, A, T, hA, hT, c } = ctx(V, a, t);
+    const hand = { x: A.x + (A.x > 850 ? -95 : 95), y: A.y + 40 };
+    const serve = { x: hand.x - (A.x > 850 ? -30 : 30), y: hand.y };
+    const racket = V.billboard('thrown', '<span style="display:block;width:62px;height:80px;border:9px solid #e184b3;border-radius:50%;background:repeating-linear-gradient(90deg,transparent 0 9px,#ffffffaa 10px 12px),repeating-linear-gradient(0deg,transparent 0 9px,#ffffffaa 10px 12px)"></span><span style="display:block;width:12px;height:55px;margin:-3px auto 0;background:#e184b3;border-radius:7px"></span>', hand.x, hand.y);
+    gsap.set(racket.body, { y: -hA * 1.1, rotation: -32, scale: 0.9 });
+    const ball = V.billboard('thrown', '<svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="#c8ee54" stroke="#76972d" stroke-width="3"/><path d="M12 10c18 8 18 28 0 36M44 10c-18 8-18 28 0 36" fill="none" stroke="#fffef0" stroke-width="4"/></svg>', serve.x, serve.y);
+    gsap.set(ball.body, { y: -hA * 0.55, scale: 0.7 });
+    pop(V, A, V.heightOf(a) + 75, 'Easy serve...', 'float-text ability', 1);
+    MB.audio.sfx('boing');
+    await gsap.to(ball.body, { y: -hA - 105, duration: 0.35, ease: 'power2.out' });
+    await Promise.all([
+      gsap.to(ball.body, { y: -hA * 1.15, duration: 0.22, ease: 'power2.in' }),
+      gsap.to(v.figure, { rotation: -13, y: -12, duration: 0.22 }),
+    ]);
+    await gsap.to(racket.body, { rotation: 25, duration: 0.12, ease: 'power2.in' });
+    MB.audio.sfx('twang');
+    gsap.to(racket.body, { rotation: 85, duration: 0.16, ease: 'power3.out' });
+    await path(ball, (k) => ({ ...arc(serve, T, hA * 1.15, hT, 140)(k), r: k * 450, s: 0.75 + k * 0.45 }), 0.55, 'power2.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('bonk'); V.shake(9);
+    pop(V, A, V.heightOf(a) + 65, 'Too hard?!', 'float-text ability', 0.95);
+    await path(ball, (k) => ({ ...arc(T, serve, hT, hA * 0.5, 100)(k), r: 450 + k * 360, s: 1.2 - k * 0.6 }), 0.5, 'power2.out');
+    ball.remove(); MB.audio.sfx('pop');
+    gsap.to(racket.body, { opacity: 0, scale: 0.5, duration: 0.2, onComplete: () => racket.remove() });
+    pop(V, A, V.heightOf(a) + 75, 'Good rally?', 'float-text ability', 0.9);
+    await gsap.to(v.figure, { rotation: 0, y: 0, duration: 0.3 });
+  };
+
+  // Luther barely lifts a foot. The runaway board does the fighting for him and rolls right back.
+  S.skatekick = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t);
+    const board = V.billboard('thrown', '🛹', A.x, A.y);
+    board.body.style.fontSize = '115px';
+    gsap.set(board.body, { y: -25, rotation: -12, scale: 0.65 });
+    pop(V, A, V.heightOf(a) + 60, 'Watch. Barely.', 'float-text ability', 0.9);
+    await gsap.to(v.figure, { rotation: -8, y: -8, duration: 0.3 });
+    MB.audio.sfx('slide');
+    await path(board, (k) => ({ ...arc(A, T, 25, hT, 115)(k), r: -12 + k * 740, s: 0.65 + k * 0.45 }), 0.8, 'power2.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('whack'); V.shake(10);
+    pop(V, T, hT + 90, 'BONK', 'float-text dmg', 0.65);
+    await path(board, (k) => ({ ...arc(T, A, hT, 25, 85)(k), r: 728 + k * 700, s: 1.1 - k * 0.45 }), 0.6, 'power2.out');
+    board.remove();
+    pop(V, A, V.heightOf(a) + 60, 'Probably nailed it.', 'float-text ability', 1);
+    await gsap.to(v.figure, { rotation: 0, y: 0, duration: 0.25 });
+  };
+
+  // Ben shows off a lift, loses the weight, and calls the resulting collision a workout.
+  S.gymfail = async (V, a, t, impact) => {
+    const { v, A, T, hA, hT, c } = ctx(V, a, t);
+    const weight = V.billboard('thrown', '<span style="display:flex;align-items:center;gap:3px;filter:drop-shadow(0 6px 3px #0008)"><b style="width:24px;height:62px;background:#30303b;border:4px solid #aaa;border-radius:8px"></b><i style="display:block;width:72px;height:12px;background:#d4d4da;border-radius:8px"></i><b style="width:24px;height:62px;background:#30303b;border:4px solid #aaa;border-radius:8px"></b></span>', A.x, A.y);
+    gsap.set(weight.body, { y: -hA * 0.75, scale: 0.7 });
+    pop(V, A, V.heightOf(a) + 70, 'Check my gains!', 'float-text ability', 1);
+    MB.audio.sfx('grow');
+    await gsap.to(weight.body, { y: -hA - 65, scale: 1, duration: 0.45, ease: 'back.out(2)' });
+    await gsap.to(v.figure, { rotation: 8, y: 12, duration: 0.15 });
+    pop(V, A, V.heightOf(a) + 40, 'Spot me?!', 'float-text ability', 0.85);
+    MB.audio.sfx('whistleUp');
+    await path(weight, (k) => ({ ...arc(A, T, hA + 65, hT, 110)(k), r: k * 580, s: 1 + k * 0.3 }), 0.67, 'power1.in');
+    impact(); hit(V, t, c, true); MB.audio.sfx('clang'); V.shake(14);
+    pop(V, T, hT + 100, 'NEW RECORD!', 'float-text ability', 0.9);
+    gsap.to(weight.body, { rotation: '+=120', opacity: 0, y: -hT + 80, duration: 0.38, onComplete: () => weight.remove() });
+    await gsap.to(v.figure, { rotation: -10, y: -18, duration: 0.2, ease: 'back.out(2)' });
+    await gsap.to(v.figure, { rotation: 0, y: 0, duration: 0.25 });
+  };
+
+  // Keiko treats the fight like another shift: punch the timecard, stamp it, and get back to work.
+  S.timecard = async (V, a, t, impact) => {
+    const { v, A, T, hA, hT, c } = ctx(V, a, t);
+    const card = V.billboard('thrown', '<span style="display:block;background:#fff8ed;color:#78374c;border:3px solid #78374c;border-radius:5px;padding:8px 12px;font:900 19px sans-serif;white-space:nowrap">TIME CARD<br>08:00 → 22:00</span>', A.x, A.y);
+    gsap.set(card.body, { y: -hA, rotation: -9, scale: 0.7 });
+    MB.audio.sfx('tick');
+    await gsap.to(v.figure, { rotation: -10, duration: 0.18 });
+    await path(card, (k) => ({ ...arc(A, T, hA, hT, 95)(k), r: -9 + k * 18, s: 0.7 + k * 0.3 }), 0.52, 'power1.in');
+    const stamp = V.billboard('thrown', '🔴', T.x, T.y);
+    stamp.body.style.fontSize = '62px';
+    gsap.set(stamp.body, { y: -hT - 135, scale: 0.8 });
+    MB.audio.sfx('whistleDown');
+    await gsap.to(stamp.body, { y: -hT, scale: 1, duration: 0.2, ease: 'power3.in' });
+    impact(); hit(V, t, c); MB.audio.sfx('slam'); V.shake(9);
+    const mark = V.billboard('float-text debuff', 'OVERTIME', T.x, T.y);
+    mark.body.style.color = c;
+    gsap.set(mark.body, { y: -hT - 48, rotation: -8, scale: 0.8 });
+    gsap.to(mark.body, { opacity: 0, y: -hT - 90, duration: 0.65, delay: 0.3, onComplete: () => mark.remove() });
+    gsap.to(stamp.body, { opacity: 0, y: -hT - 80, duration: 0.25, onComplete: () => stamp.remove() });
+    gsap.to(card.body, { opacity: 0, rotation: 22, duration: 0.25, onComplete: () => card.remove() });
+    await gsap.to(v.figure, { rotation: 0, duration: 0.25 });
+  };
+
   S.slam = async (V, a, t, impact) => {
     const { v, A, T, d, C, c } = ctx(V, a, t);
     MB.audio.sfx('whistleUp');
