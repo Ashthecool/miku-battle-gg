@@ -18,3 +18,4 @@ game/assets/*
 !game/assets/manifest.json
 !game/assets/sounds/
 !game/assets/attacks/
+!game/assets/local/

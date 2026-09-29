@@ -3764,7 +3764,7 @@
 
   // Julia: a stammered prayer, and a cross of ice forms high over the target, trembles, and drops like a stone
   S.icecross = async (V, a, t, impact) => {
-    const { v, A, T, hT } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = hT + 420, ice = '#9fe8ff';
+    const { v, A, T, hT } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = Math.min(210, hT + 95), ice = '#9fe8ff';
     await glowUp(v, ice, -30);
     pop(V, A, H + 95, own(a, 'cry', 'G-g-GELO!'), 'float-text shield', 1.1);
     const cross = V.billboard('ice-cross', '<svg viewBox="0 0 120 190" width="120" height="190"><path d="M44,4 H76 V52 H116 V84 H76 V186 H44 V84 H4 V52 H44 Z"/><path class="hl" d="M53,14 V176 M14,63 H106"/></svg>', T.x, T.y);
@@ -5880,7 +5880,7 @@
     gsap.fromTo(bp, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.35, ease: 'power2.out' });
     const cones = [-1, 1].map((s) => { const k = V.billboard('thrown', '🚧', T.x + s * 150, T.y + 10); k.body.style.fontSize = '46px'; gsap.set(k.body, { y: -26 }); gsap.fromTo(k.body, { scale: 0 }, { scale: 1, duration: 0.25, delay: 0.2, ease: 'back.out(3)' }); return k; });
     // the beam comes down on its cable
-    const top = hT * 2 + 330, beam = V.billboard('ibeam', '<i class="cable"></i><i class="hook"></i><b></b>', T.x, T.y);
+    const top = Math.min(250, hT + 110), beam = V.billboard('ibeam', '<i class="cable"></i><i class="hook"></i><b></b>', T.x, T.y);
     beam.body.style.setProperty('--c', c);
     gsap.set(beam.body, { y: -top - 300, transformOrigin: '50% 0%' });
     MB.audio.sfx('whistleDown');
@@ -7998,7 +7998,7 @@
   // Elina, the wizard teacher, gives a pop quiz. A chalkboard over the target asks the question, three answers are
   // marked wrong, and the right one is a heart-shaped fireball, with a wink
   S.extracredit = async (V, a, t, impact) => {
-    const { A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = hT * 2 + 90;
+    const { A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = Math.min(255, hT + 130);
     pop(V, A, H + 95, own(a, 'cry', 'Pop quiz, dear~'), 'float-text debuff', 1);
     const book = propAt(V, A, H * 0.55, '📖', 44);
     MB.audio.sfx('crinkle');
@@ -8035,7 +8035,7 @@
   // ("omg Hatsune Miku!!"), a vein throbs, and she reviews it: the stars drop one by one to a single star, LOW EFFORT
   // is stamped on it, and the whole review window comes down on its head
   S.critique = async (V, a, t, impact) => {
-    const { v, A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = hT * 2 + 110;
+    const { v, A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = Math.min(255, hT + 130);
     const com = V.billboard('mb-comment', '<b>anon</b>omg Hatsune Miku!! 😍', T.x, T.y);
     gsap.set(com.body, { y: -top + 20 });
     MB.audio.sfx('pop');
@@ -8673,13 +8673,15 @@
   // Itsuki: two years ago only his ski lift broke, and his sister died breaking his fall. Snow blows in, a cable
   // strings itself over the target, a chair creaks along it and sways... and the cable snaps
   S.skilift = async (V, a, t, impact) => {
-    const { A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = hT * 2 + 190;
+    const { A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a), top = Math.min(220, hT + 125);
     snowfall(V, T, 40, 360, 300);
     pop(V, A, H + 95, own(a, 'cry', 'Only ours broke. Why ours?'), 'float-text debuff', 1.3);
-    const cable = V.billboard('lift-cable', '', T.x, T.y);
+    const chairStart = T.x + (T.x < 590 ? 300 : -300);
+    const cable = V.billboard('lift-cable', '', (chairStart + T.x) / 2, T.y);
+    cable.body.style.width = '400px';
     gsap.set(cable.body, { y: -top });
     await gsap.fromTo(cable.body, { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: 'power2.out' });
-    const chair = V.billboard('thrown', '🚡', T.x - 340, T.y);
+    const chair = V.billboard('thrown', '🚡', chairStart, T.y);
     chair.body.style.fontSize = '96px';
     gsap.set(chair.body, { y: -top + 42, transformOrigin: '50% 0%' });
     MB.audio.sfx('tick');
@@ -9881,6 +9883,27 @@
       if (!land.done()) land(0);
     };
 
+    // Asher, spoiled rich kid: offers a bribe, takes "no" badly and turns the coin into a projectile.
+    S.bribe = async (V, a, t, impact) => {
+      const { r, land, tv } = setup(V, a, t, impact);
+      const offer = { x: lerp(r.A.x, r.T.x, 0.72), y: lerp(r.A.y, r.T.y, 0.72) };
+      const coin = emo(V, '🪙', r.A, r.hA, 60);
+      V.emote(a, 'taunt', 0);
+      MB.audio.sfx('coin');
+      pop(V, r.A, r.hA + 100, 'Name your price.', 'float-text buff', 0.8);
+      await path(coin, (k) => ({ ...arc(r.A, offer, r.hA, r.hT + 65, 45)(k), r: k * 540 }), 0.55, 'power1.out');
+      await wait(0.24);
+      pop(V, r.A, r.hA + 90, 'No? How gauche.', 'float-text debuff', 0.8);
+      await gsap.to(r.v.figure, { rotation: -7, duration: 0.13 });
+      MB.audio.sfx('whoosh');
+      await path(coin, (k) => ({ ...arc(offer, r.T, r.hT + 65, r.hT, 12)(k), r: 540 + k * 700,
+        s: 1 + k * 0.65 }), 0.3, 'power2.in');
+      coin.remove();
+      land(0); MB.audio.sfx('slam'); V.shake(9); jolt(tv, 18);
+      scatter(V, r.T, r.hT, ['🪙', '💢'], 6, 90);
+      await gsap.to(r.v.figure, { rotation: 0, duration: 0.2 });
+    };
+
     // Mizuha, librarian: shushes the target, then the library falls on it
     S.shhh = async (V, a, t, impact) => {
       const { r, land, tv, H } = setup(V, a, t, impact);
@@ -9893,18 +9916,19 @@
         return path(w, (k) => ({ x: lerp(r.A.x, r.T.x, k), y: lerp(r.A.y, r.T.y, k), h: lerp(r.hA + 40, r.hT + 30, k), s: 0.6 + k * 0.9 }), 0.45, 'power1.in').then(() => w.remove());
       })));
       fade(f);
-      const mute = emo(V, '🔇', r.T, r.hT * 2 + 50, 64);
+      const mute = emo(V, '🔇', r.T, Math.min(255, r.hT + 125), 64);
       gsap.from(mute.body, { scale: 0.2, duration: 0.2, ease: 'back.out(3)' });
       await wait(0.35);
       // the shelf lets go, one heavy book at a time
       const books = [['📕', 'War & Peace'], ['📗', 'Ulysses'], ['📘', 'The Brothers Karamazov'], ['📙', 'Critique of Pure Reason']];
-      const stack = [mute], label = (e, s, big) => `<div style="text-align:center;white-space:nowrap"><div style="font-size:${big ? 170 : 76}px;line-height:1">${e}</div><div style="font:900 ${big ? 24 : 19}px sans-serif;color:#fff;background:#000c;border-radius:6px;padding:2px 8px">${s}</div></div>`;
+      const stack = [mute], label = (e, s, big) => `<div style="text-align:center;width:${big ? 190 : 170}px"><div style="font-size:${big ? 120 : 76}px;line-height:1">${e}</div><div style="font:900 ${big ? 19 : 16}px/1.1 sans-serif;color:#fff;background:#000c;border-radius:6px;padding:3px 5px;white-space:normal">${s}</div></div>`;
       MB.audio.sfx('riserhit');
       for (let i = 0; i <= books.length; i++) {
         const big = i === books.length, [e, s] = big ? ['📖', 'Dictionary (Unabridged)'] : books[i];
         const b = V.billboard('', label(e, s, big), r.T.x + rnd(-8, 8), r.T.y);
-        gsap.set(b.body, { y: -1000, rotation: rnd(-25, 25) });
-        await gsap.to(b.body, { y: -(r.hT * 2 + 6 + i * 44), duration: big ? 0.22 : 0.28, ease: 'power3.in' });
+        gsap.set(b.body, { y: -Math.min(430, r.hT + 270), rotation: rnd(-25, 25) });
+        // Land at the target's face, then pile only a little higher so every book still overlaps it.
+        await gsap.to(b.body, { y: -(r.hT - 25 + i * 8), duration: big ? 0.28 : 0.34, ease: 'power3.in' });
         MB.audio.sfx(big ? 'stomp' : 'thud'); land(i); V.shake(big ? 22 : 8 + i * 3);
         puff(V, r.T, '#d9ccb4', 3, 12);
         if (tv) gsap.to(tv.img, { scaleY: big ? 0.6 : 1 - 0.05 * (i + 1), duration: 0.08 });

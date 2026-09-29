@@ -582,6 +582,10 @@ MB.CARDS = {
     onPlay: { label: 'Hey, friend!', color: '#6cc04a', emoji: '🤗', do: { op: 'shield', to: 'randomAlly' } },
     attack: { style: 'bubble', name: 'Bright Side', color: '#6cc04a', cry: 'Bright side, friend!', finish: 'See? All better!' },
     intro: { move: 'hop', fx: 'confetti' }, quote: 'Hola, friend! Hug?' },
+  'asher':           { cost: 3, atk: 3, hp: 4, rarity: 'rare', kw: [],
+    attack: { style: 'bribe', name: 'Name Your Price', color: '#b49a59' },
+    intro: { move: 'strut', fx: 'fling', emoji: ['🪙', '💎'], sfx: 'coin' },
+    quote: 'Surely we can settle this.' },
 
   // Anna
   'anna':      { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['rebel'],
@@ -1265,6 +1269,8 @@ MB.POWERS = {
   'lucia-atkins':    { name: 'Red Pen',        cost: 2, target: 'enemyUnit',   emoji: '🖍️', effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'buff', to: 'target', atk: -1, say: 'Revise!' }] } },
   'peter-reeves':    { name: 'Pincer Attack',  cost: 3, target: null,          effect: { do: { op: 'damage', to: 'randomEnemy', n: 1, times: 2 } } },
   'kayden':          { name: 'Group Hug',      cost: 2, target: 'allyUnit',    emoji: '🤗', text: 'Give an ally +2 HP and thaw it.', effect: { do: [{ op: 'buff', to: 'target', hp: 2 }, { op: 'thaw', to: 'target' }] } },
+  'asher':           { name: 'Terms and Conditions', cost: 2, target: 'enemyUnit', sfx: 'coin', emoji: '🪙',
+    effect: { do: { op: 'buff', to: 'target', atk: -1, say: 'A reasonable offer.' } } },
   // the one-girl novels
   'anna':            { name: 'Breakfast in Bed', cost: 2, target: 'friendlyAny', emoji: '🍳', effect: { do: [{ op: 'thaw', to: 'target' }, { op: 'heal', to: 'target', n: 3 }] } },
   'amy-lyn':         { name: 'Surprise! :3',   cost: 2, sfx: 'boing', target: 'allyUnit', emoji: '🎀',

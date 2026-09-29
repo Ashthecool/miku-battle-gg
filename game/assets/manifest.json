@@ -10303,6 +10303,30 @@
    ],
    "portrait": "portraits/marine.webp",
    "novel": "Sugar & Sweethearts"
+  },
+  {
+   "id": "asher",
+   "name": "Asher",
+   "outfit": "default",
+   "short": "A spoiled, posh newcomer who tries to buy his way out of trouble.",
+   "traits": [
+    "spoiled",
+    "arrogant",
+    "posh"
+   ],
+   "sprites": {
+    "idle": "sprites/asher/neutral.webp",
+    "play": "sprites/asher/happy.webp",
+    "attack": "sprites/asher/angry.webp",
+    "special": "sprites/asher/angry.webp",
+    "hurt": "sprites/asher/scared.webp",
+    "lose": "sprites/asher/sad.webp",
+    "win": "sprites/asher/happy.webp",
+    "taunt": "sprites/asher/happy.webp"
+   },
+   "costumes": [],
+   "portrait": null,
+   "novel": "Paradiso Suburbia"
   }
  ],
  "backgrounds": [

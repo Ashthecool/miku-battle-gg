@@ -9,6 +9,7 @@ Everything a novel brings is **data in `game/js/data.js`**: cards, leader powers
 chapter. Abilities are effect specs (`effects.md`), animations are picked from a catalog (`catalog.md`).
 Only write engine/animation code when a concept truly can't be expressed; if so, add it to `effects.js` or the
 catalog generically so the next novel can reuse it, and document it in this skill.
+For a new or changed character attack, apply the [attack-animation helper](../attack-animation/SKILL.md) before deciding the style and checking its visible impact.
 
 Scratch output (sheets, brief, logs) goes to the session scratchpad, never the repo. `novels/` and
 `game/assets/*` images are gitignored; only `game/assets/manifest.{js,json}` are committed.

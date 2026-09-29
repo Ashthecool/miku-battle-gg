@@ -1,8 +1,8 @@
 // Offline support. Code (html/js/css) is fetched network-first (skipping the browser's HTTP cache) so updates arrive whenever
-// you're online; images come from the R2 bucket (MB.ASSET_BASE) and are cache-first.
+// you're online; R2 images and imported local character sprites are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v21';
+const SHELL = 'mb-shell-v22';
 const ASSETS = 'mb-assets-v4';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
@@ -61,8 +61,9 @@ self.addEventListener('message', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
-  if (req.url.startsWith(MB.ASSET_BASE)) e.respondWith(cacheFirst(req.url));
-  else if (new URL(req.url).origin === location.origin) e.respondWith(networkFirst(req));
+  const url = new URL(req.url);
+  if (req.url.startsWith(MB.ASSET_BASE) || (url.origin === location.origin && url.pathname.includes('/assets/local/'))) e.respondWith(cacheFirst(req.url));
+  else if (url.origin === location.origin) e.respondWith(networkFirst(req));
 });
 
 // keyed by URL; fetched with CORS (the bucket allows it) so the cached copy isn't an opaque response
