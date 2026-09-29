@@ -102,3 +102,26 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | swipe | swipe-60007.mp3 | Swipe Whoosh | qubodup | https://freesound.org/people/qubodup/sounds/60007/ |
 | heartbeat | heartbeat-784654.mp3 | heartbeat sub kick - loud | music_is_wiggly_air | https://freesound.org/people/music_is_wiggly_air/sounds/784654/ |
 | glint | glint-734238.mp3 | Crystal1 | NoisyRedFox | https://freesound.org/people/NoisyRedFox/sounds/734238/ |
+| laser | laser-77088.mp3 | Laser short 2.wav | Defunct3 | https://freesound.org/people/Defunct3/sounds/77088/ |
+| whipcrack | whipcrack-529925.mp3 | Whip Crack.m4a | SciFiSounds | https://freesound.org/people/SciFiSounds/sounds/529925/ |
+| slash | slash-118792.mp3 | 1_Knife_Slash_A.wav | lmbubec | https://freesound.org/people/lmbubec/sounds/118792/ |
+| charge | charge-172631.mp3 | Power Up Charge [Remix of LegoLunatic's Charged laser 151243] | qubodup | https://freesound.org/people/qubodup/sounds/172631/ |
+| ricochet | ricochet-148840.mp3 | ricochet.mp3 | cedarstudios | https://freesound.org/people/cedarstudios/sounds/148840/ |
+| whack | whack-114683.mp3 | whack02.mp3 | Qat | https://freesound.org/people/Qat/sounds/114683/ |
+| roar | roar-132874.mp3 | Monster Short Roar.wav | ecfike | https://freesound.org/people/ecfike/sounds/132874/ |
+| rocks | rocks-389618.mp3 | Rock Tumble 2.wav | _stubb | https://freesound.org/people/_stubb/sounds/389618/ |
+| gasp | gasp-812418.mp3 | Exaggerated Surprised Gasp! | CuboRodante | https://freesound.org/people/CuboRodante/sounds/812418/ |
+| powerup | powerup-220173.mp3 | Spacey 1up/Power up | GameAudio | https://freesound.org/people/GameAudio/sounds/220173/ |
+| meow | meow-436541.mp3 | Cat Meow | Mafon2 | https://freesound.org/people/Mafon2/sounds/436541/ |
+| pulse | pulse-144887.mp3 | Energy Weapon.wav | WillFitch1 | https://freesound.org/people/WillFitch1/sounds/144887/ |
+| rumble | rumble-151854.mp3 | Thunder rumbling, underwater, outdoors_Thunder rumbling.aif | carroll27 | https://freesound.org/people/carroll27/sounds/151854/ |
+| crunch | crunch-348112.mp3 | Crunch | LilMati | https://freesound.org/people/LilMati/sounds/348112/ |
+| collision | collision-332058.mp3 | Collision | qubodup | https://freesound.org/people/qubodup/sounds/332058/ |
+| shockwave | shockwave-110819.mp3 | Shockwave.mp3 | TristanLuigi | https://freesound.org/people/TristanLuigi/sounds/110819/ |
+| boulder | boulder-807186.mp3 | Boulder Roll | sound368 | https://freesound.org/people/sound368/sounds/807186/ |
+| blast | blast-431174.mp3 | Fireball Explosion.wav | Blankened | https://freesound.org/people/Blankened/sounds/431174/ |
+| hiss | hiss-343928.mp3 | hiss3.wav | Reitanna | https://freesound.org/people/Reitanna/sounds/343928/ |
+| sonicboom | sonicboom-785927.mp3 | Cinema "Sonic Boom" | modusmogulus | https://freesound.org/people/modusmogulus/sounds/785927/ |
+| chain | chain-536737.mp3 | Chain.ogg | egomassive | https://freesound.org/people/egomassive/sounds/536737/ |
+| karate | karate-443535.mp3 | _karate_.wav | juliandmc4 | https://freesound.org/people/juliandmc4/sounds/443535/ |
+| riserhit | riserhit-511874.mp3 | Riser Hit sfx 031.wav | AudioPapkin | https://freesound.org/people/AudioPapkin/sounds/511874/ |

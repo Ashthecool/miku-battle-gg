@@ -690,10 +690,19 @@
     piping: { move: 'hop', fx: 'fling', emoji: ['🧁', '🍓', '🍰'], sfx: 'ding' }, swanlake: { move: 'spin', fx: 'swirl', emoji: ['🪶', '🦢', '✨'], sfx: 'piano' },
     candelabra: { move: 'fade', fx: 'swirl', emoji: ['🕯️', '🦇', '🍷'], sfx: 'flutter' }, redstring: { move: 'fade', fx: 'rain', emoji: ['💘', '💗', '🔔'], sfx: 'flutter' },
     purikura: { move: 'pop', fx: 'flash', sfx: 'camera' }, rhythm: { move: 'zoom', fx: 'rain', emoji: ['⬅️', '⬇️', '➡️'], sfx: 'melody' },
+    flurry: { move: 'slide', fx: 'flash', sfx: 'punch' }, cyclone: { move: 'spin', fx: 'swirl', emoji: ['💨', '✨'] },
+    pounce: { move: 'hop', fx: 'fling', emoji: ['🐾', '✨'] }, crescent: { move: 'fade', fx: 'flash', sfx: 'swish' }, xslash: { move: 'zoom', fx: 'flash', sfx: 'swish' },
+    stalker: { move: 'sneak', fx: 'smoke' }, cartwheel: { move: 'spin', fx: 'confetti' }, shockwave: { move: 'drop', fx: 'flash', sfx: 'stomp' },
+    fissure: { move: 'rise', fx: 'column', sfx: 'stomp' }, helix: { move: 'fade', fx: 'swirl', emoji: ['✨', '💫'], sfx: 'sparkle' },
+    ricochet: { move: 'hop', fx: 'fling', emoji: ['⚽', '🏀'] }, whip: { move: 'pop', fx: 'flash', sfx: 'twang' }, crush: { move: 'drop', fx: 'flash', sfx: 'slam' },
+    comet: { move: 'fade', fx: 'column', sfx: 'incoming' }, ribbon: { move: 'fade', fx: 'swirl', emoji: ['🌸', '🎀'] }, skydive: { move: 'drop', fx: 'flash', sfx: 'stomp' },
+    slingshot: { move: 'zoom', fx: 'flash', sfx: 'twang' }, pulse: { move: 'fade', fx: 'flash', sfx: 'zap' }, boulder: { move: 'drop', fx: 'fling', emoji: ['🪨', '💥'] },
+    laserweb: { move: 'fade', fx: 'column', sfx: 'beam' },
   };
   // a recipe attack (fx.js) enters the way it moves, flinging its props
   const RECIPE_ENTRANCE = { stay: 'pop', float: 'fade', dash: 'slide', leap: 'drop', blink: 'zoom', spin: 'spin', hop: 'hop', zigzag: 'slide',
-    fly: 'drop', dive: 'rise', charge: 'slide', slide: 'slide', portal: 'portal' };
+    fly: 'drop', dive: 'rise', charge: 'slide', slide: 'slide', portal: 'portal',
+    pounce: 'hop', cartwheel: 'spin', skydrop: 'drop', stalk: 'sneak', circle: 'spin', slingshot: 'zoom' };
   function introOf(def) {
     if (def.intro && typeof def.intro === 'object') return customIntro;
     const name = def.intro || def.attack.style;

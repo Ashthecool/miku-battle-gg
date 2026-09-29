@@ -9418,6 +9418,611 @@
     await wait(0.3);
   }
 
+  // ---------------------------------------------------------------- more attack parts
+  // New recipe moves and fx (catalog.md lists them), and a named style that pairs each fx with a move.
+  {
+    const dirX = (r) => (r.d.x >= 0 ? 1 : -1);
+    const dirt = (V, P) => burst(V, P, '#c9b79c', 6, { h: 5, spread: 70 });
+    const trail = (V, p, c, size = 8) => { const e = dot(V, p, p.h, c, size); gsap.to(e.body, { opacity: 0, scale: 0.1, duration: 0.4, onComplete: () => e.remove() }); };
+    const sweepTo = (r, o, w) => gsap.set(r.v.el, { x: lerp(r.A.x, r.C.x, o.k) + r.perp.x * w, y: lerp(r.A.y, r.C.y, o.k) + r.perp.y * w });
+
+    // ---- moves
+    // crouches, springs over in a flip and lands on the target's doorstep
+    RMOVE.pounce = { go: (V, r) => {
+      const o = { k: 0 };
+      return gsap.timeline()
+        .to(r.v.img, { scaleY: 0.72, scaleX: 1.22, duration: 0.2, ease: 'power2.out' })
+        .call(() => MB.audio.sfx('boing'))
+        .to(r.v.img, { scaleY: 1.1, scaleX: 0.92, duration: 0.12 })
+        .to(o, { k: 1, duration: 0.55, ease: 'power1.in', onUpdate: () => { sweepTo(r, o, 0); gsap.set(r.v.figure, { y: -240 * Math.sin(Math.PI * o.k) }); ghost(V, r.v, r.c); } }, '<')
+        .to(r.v.figure, { rotation: dirX(r) * 360, duration: 0.55, ease: 'power1.inOut' }, '<')
+        .to(r.v.img, { scaleY: 1, scaleX: 1, duration: 0.2 }, '<')
+        .set(r.v.figure, { rotation: 0, y: 0 })
+        .call(() => { MB.audio.sfx('thud'); V.shake(9); dirt(V, r.C); });
+    } };
+    // three cartwheels, weaving side to side
+    RMOVE.cartwheel = { go: (V, r) => {
+      const o = { k: 0 };
+      MB.audio.sfx('whoosh');
+      return gsap.timeline()
+        .to(o, { k: 1, duration: 0.7, ease: 'power1.inOut', onUpdate: () => { sweepTo(r, o, 60 * Math.sin(o.k * Math.PI * 2)); gsap.set(r.v.figure, { y: -70 * Math.abs(Math.sin(o.k * Math.PI * 4)) }); ghost(V, r.v, r.c); } })
+        .to(r.v.figure, { rotation: dirX(r) * 1080, duration: 0.7, ease: 'power1.inOut' }, 0)
+        .set(r.v.figure, { rotation: 0, y: 0 })
+        .call(() => dirt(V, r.C));
+    } };
+    // shoots up out of sight, a warning ring opens by the target, then drops in on it
+    RMOVE.skydrop = { go: async (V, r) => {
+      MB.audio.sfx('whistleUp');
+      await gsap.timeline().to(r.v.img, { scaleY: 0.8, scaleX: 1.15, duration: 0.15 })
+        .to(r.v.figure, { y: -720, opacity: 0, duration: 0.3, ease: 'power2.in' })
+        .to(r.v.img, { scaleY: 1, scaleX: 1, duration: 0.05 }, '<');
+      gsap.set(r.v.el, { x: r.C.x, y: r.C.y });
+      ring(V, r.C, r.c, 1.6, 0.6); MB.audio.sfx('incoming');
+      await wait(0.35);
+      gsap.set(r.v.figure, { y: -720, opacity: 1 });
+      await gsap.to(r.v.figure, { y: 0, duration: 0.3, ease: 'power3.in' });
+      MB.audio.sfx('stomp'); V.shake(16);
+      ring(V, r.C, '#ffffff', 2.4, 0.6); debris(V, r.C, '#c9b79c', 8, { spread: 150 }); puff(V, r.C, '#d9ccb4', 4, 10);
+      await gsap.to(r.v.img, { scaleY: 0.8, scaleX: 1.2, duration: 0.08, yoyo: true, repeat: 1 });
+    } };
+    // low and half-faded, creeps up on the target, then shows itself
+    RMOVE.stalk = { go: async (V, r) => {
+      const o = { k: 0 };
+      MB.audio.sfx('swish');
+      await gsap.to(r.v.img, { scaleY: 0.78, scaleX: 1.12, duration: 0.2 });
+      await gsap.to(o, { k: 1, duration: 0.8, ease: 'sine.inOut', onUpdate: () => { sweepTo(r, o, 0); gsap.set(r.v.figure, { opacity: 0.3 + 0.12 * Math.sin(o.k * 20), y: 3 * Math.sin(o.k * 30) }); } });
+      gsap.to(r.v.img, { scaleY: 1, scaleX: 1, duration: 0.1 });
+      await gsap.to(r.v.figure, { opacity: 1, y: 0, duration: 0.08 });
+    } };
+    // runs one lap round the target, closing in, then strikes
+    RMOVE.circle = { go: (V, r) => {
+      const o = { k: 0 }, sign = dirX(r);
+      MB.audio.sfx('whoosh');
+      return gsap.to(o, { k: 1, duration: 0.85, ease: 'power1.inOut', onUpdate: () => {
+        const th = o.k * Math.PI * 2 * sign, rad = lerp(r.d.len, 85, o.k), s = lerp(1, 0.6, Math.sin(Math.PI * o.k));
+        const bx = -r.d.x * Math.cos(th) + r.d.y * Math.sin(th), by = -r.d.x * Math.sin(th) - r.d.y * Math.cos(th);
+        gsap.set(r.v.el, { x: r.T.x + bx * rad, y: r.T.y + by * rad * s });
+        ghost(V, r.v, r.c);
+      } });
+    } };
+    // stretches back like a slingshot, then fires itself at the target spinning
+    RMOVE.slingshot = { go: (V, r) => gsap.timeline()
+      .to(r.v.figure, { x: -r.d.x * 60, duration: 0.35, ease: 'power2.out' })
+      .to(r.v.img, { scaleX: 0.85, scaleY: 1.15, duration: 0.35 }, 0)
+      .call(() => MB.audio.sfx('twang'))
+      .to(r.v.el, { x: r.C.x, y: r.C.y, duration: 0.28, ease: 'power3.in', onUpdate: () => ghost(V, r.v, r.c) })
+      .to(r.v.figure, { x: 0, rotation: dirX(r) * 1440, duration: 0.28, ease: 'power3.in' }, '<')
+      .to(r.v.img, { scaleX: 1, scaleY: 1, duration: 0.1 }, '<')
+      .set(r.v.figure, { rotation: 0 })
+      .call(() => V.shake(8)) };
+
+    // ---- fx
+    // a burst of punches: comic words pop round the target
+    RFX.flurry = async (V, t, r, F, land, o) => {
+      const words = o.words || ['POW!', 'BAM!', 'WHAM!', 'BONK!', 'ZAP!', 'KAPOW!'];
+      for (let i = 0; i < (o.hits || 8); i++) {
+        gsap.timeline().to(r.v.figure, { x: r.d.x * rnd(14, 30), y: rnd(-24, 4), rotation: rnd(-6, 6), duration: 0.04 }).to(r.v.figure, { x: 0, y: 0, rotation: 0, duration: 0.05 });
+        const P = { x: r.T.x + rnd(-45, 45), y: r.T.y + rnd(-15, 15) }, h = r.hT + rnd(-50, 60);
+        flash(V, P, h, i % 2 ? '#ffffff' : r.c, rnd(90, 150));
+        MB.audio.sfx(['punch', 'whack', 'pow'][i % 3]);
+        if (i % 2 === 0) pop(V, P, h + 30, MB.pick(words), 'float-text ability', 0.6);
+        land(i);
+        await wait(0.075);
+      }
+      V.shake(12); flash(V, r.T, r.hT, '#ffffff', 300); ring(V, r.T, r.c, 2);
+      await wait(0.15);
+    };
+    // a big crescent of light sweeps across the target
+    const crescentSvg = (c) => `<svg viewBox="0 0 320 160" width="320" height="160"><path d="M8,140 C60,-10 260,-10 312,140 C250,40 70,40 8,140 Z" fill="${c}" opacity="0.85"/><path d="M28,132 C80,20 240,20 292,132 C240,56 80,56 28,132 Z" fill="#fff"/></svg>`;
+    RFX.crescent = async (V, t, r, F, land, o) => {
+      for (let i = 0; i < (o.hits || 2); i++) {
+        const s = V.billboard('slash-svg', crescentSvg(r.c), r.T.x, r.T.y);
+        s.body.style.setProperty('--c', r.c);
+        gsap.set(s.body, { y: -r.hT, rotation: i % 2 ? 200 : -20 });
+        MB.audio.sfx('slash');
+        gsap.fromTo(s.body, { scale: 0.5, clipPath: 'inset(0% 100% 0% 0%)' }, { scale: 1.3, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.14, ease: 'power3.out' });
+        gsap.to(s.body, { opacity: 0, scale: 1.6, duration: 0.25, delay: 0.14, onComplete: () => s.remove() });
+        await wait(0.1);
+        land(i); flash(V, r.T, r.hT, '#ffffff', 180);
+        await wait(0.14);
+      }
+    };
+    // two slashes cross into an X
+    RFX.cross = async (V, t, r, F, land, o) => {
+      for (let i = 0; i < (o.hits || 2); i++) {
+        MB.audio.sfx('slash'); slashArc(V, r.T, -r.hT, r.c, -50);
+        await wait(0.09);
+        MB.audio.sfx('slash'); slashArc(V, r.T, -r.hT, '#ffffff', 50);
+        await wait(0.07);
+        land(i); flash(V, r.T, r.hT, '#ffffff', 200);
+        await wait(0.12);
+      }
+    };
+    // rings race across the floor to the target, then the ground splits under it
+    RFX.shockwave = async (V, t, r, F, land, o) => {
+      MB.audio.sfx('shockwave'); V.shake(8);
+      gsap.to(r.v.img, { scaleY: 0.85, scaleX: 1.15, duration: 0.1, yoyo: true, repeat: 1 });
+      for (let i = 0; i < 3; i++) {
+        const rg = V.flat('shock-ring', '', F.x, F.y);
+        rg.style.setProperty('--c', i % 2 ? '#ffffff' : r.c);
+        gsap.timeline({ delay: i * 0.12, onComplete: () => rg.remove() })
+          .fromTo(rg, { x: F.x, y: F.y, scale: 0.3, opacity: 1 }, { x: r.T.x, y: r.T.y, scale: 2.2, duration: 0.55, ease: 'power1.in' })
+          .to(rg, { opacity: 0, duration: 0.2 }, '-=0.2');
+      }
+      await wait(0.75);
+      for (let i = 0; i < (o.hits || 1); i++) land(i);
+      MB.audio.sfx('rocks');
+      cracks(V, r.T, '#2b1d12', { n: 8, len: 150, w: 6, glow: r.c, hold: 0.9 });
+      debris(V, r.T, '#c9b79c', 10, { spread: 180 }); V.shake(14);
+      await wait(0.3);
+    };
+    // the floor cracks open in a line and light erupts along it
+    RFX.fissure = async (V, t, r, F, land, o) => {
+      const n = 6;
+      MB.audio.sfx('rumble'); V.shake(10);
+      for (let i = 1; i <= n; i++) {
+        const P = { x: lerp(F.x, r.T.x, i / n) + rnd(-15, 15), y: lerp(F.y, r.T.y, i / n) + rnd(-8, 8) };
+        cracks(V, P, '#2b1d12', { n: 4, len: 60 + i * 10, w: 5, glow: r.c, hold: 0.7 });
+        debris(V, P, '#c9b79c', 3, { spread: 70 });
+        const f = pillar(V, P, r.c, 'pillar small');
+        gsap.fromTo(f.body, { scaleY: 0 }, { scaleY: 0.5 + i * 0.12, duration: 0.15, ease: 'power2.out' });
+        gsap.to(f.body, { opacity: 0, scaleX: 0.2, duration: 0.3, delay: 0.2, onComplete: () => f.remove() });
+        await wait(0.08);
+      }
+      for (let i = 0; i < (o.hits || 1); i++) land(i);
+      MB.audio.sfx('rocks');
+      cracks(V, r.T, '#2b1d12', { n: 9, len: 170, w: 7, glow: r.c, hold: 1 });
+      await wait(0.3);
+    };
+    // props corkscrew over in pairs
+    RFX.helix = (V, t, r, F, land, o) => {
+      const ps = propsOf(o, ['✨']);
+      MB.audio.sfx('sparkle');
+      return Promise.all(Array.from({ length: o.hits || 4 }, (_, i) => wait(i * 0.12).then(() => {
+        const b = V.billboard('star-shot', ps[i % ps.length], F.x, F.y), ph = (i % 2) * Math.PI;
+        b.body.style.setProperty('--c', r.c);
+        return path(b, (k) => {
+          const a = k * Math.PI * 6 + ph, w = 70 * (1 - k * 0.5) * Math.sin(a);
+          return { x: lerp(F.x, r.T.x, k) + r.perp.x * w, y: lerp(F.y, r.T.y, k) + r.perp.y * w, h: lerp(r.hA, r.hT, k) + 50 * Math.cos(a), r: k * 540, s: 0.7 + k * 0.5 };
+        }, 0.7, 'power1.in', (p) => { if (Math.random() < 0.6) trail(V, p, r.c); }).then(() => { b.remove(); land(i); });
+      })));
+    };
+    // props skip along the floor, bouncing on the way
+    RFX.ricochet = (V, t, r, F, land, o) => {
+      const ps = propsOf(o, ['⚽']);
+      return Promise.all(Array.from({ length: o.hits || 2 }, (_, i) => wait(i * 0.25).then(() => {
+        MB.audio.sfx('ricochet');
+        const b = V.billboard('thrown', ps[i % ps.length], F.x, F.y), off = i ? (i % 2 ? 50 : -50) : 0;
+        let last = 0;
+        sized(b, o, 70);
+        return path(b, (k) => ({
+          x: lerp(F.x, r.T.x, k) + r.perp.x * off * k, y: lerp(F.y, r.T.y, k) + r.perp.y * off * k,
+          h: 10 + Math.abs(Math.sin(k * Math.PI * 3)) * 190 * (1 - k * 0.5) + k * k * k * (r.hT - 10), r: k * 720,
+        }), 0.8, 'none', (p, k) => {
+          const n = Math.floor(k * 3);
+          if (n > last) { last = n; MB.audio.sfx('boing'); dirt(V, p); }
+        }).then(() => { b.remove(); land(i); });
+      })));
+    };
+    // a whip of light lashes out and cracks on the target
+    RFX.whip = async (V, t, r, F, land, o) => {
+      const n = 22;
+      for (let j = 0; j < (o.hits || 2); j++) {
+        const segs = Array.from({ length: n + 1 }, () => dot(V, F, r.hA, r.c, 18, 'beam-seg')), q = { p: 0 };
+        MB.audio.sfx('swish');
+        await gsap.to(q, { p: 1, duration: 0.28, ease: 'power2.in', onUpdate: () => segs.forEach((s, i) => {
+          const k = i / n, w = 90 * (1 - q.p) * Math.sin(k * Math.PI * 3 + q.p * 10);
+          gsap.set(s, { x: lerp(F.x, r.T.x, k * q.p) + r.perp.x * w, y: lerp(F.y, r.T.y, k * q.p) + r.perp.y * w });
+          gsap.set(s.body, { y: -(lerp(r.hA, r.hT, k * q.p) + 40 * (1 - q.p) * Math.cos(k * Math.PI * 3 + q.p * 10)) });
+        }) });
+        MB.audio.sfx('whipcrack'); land(j);
+        flash(V, r.T, r.hT, '#ffffff', 220);
+        await gsap.to(segs.map((s) => s.body), { scale: 0, opacity: 0, duration: 0.2, stagger: 0.004 });
+        segs.forEach((s) => s.remove());
+      }
+    };
+    // a shadow grows on the floor and something huge drops into it
+    RFX.crush = async (V, t, r, F, land, o) => {
+      const ps = propsOf(o, ['🪨']), sh = V.flat('', '', r.T.x, r.T.y);
+      Object.assign(sh.style, { width: '120px', height: '70px', borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(0,0,0,.65), transparent 70%)' });
+      gsap.fromTo(sh, { scale: 0.2, opacity: 0 }, { scale: 1.6, opacity: 1, duration: 0.55, ease: 'power1.in' });
+      const b = V.billboard('thrown big', ps[0], r.T.x, r.T.y);
+      sized(b, o, 110);
+      gsap.set(b.body, { y: -900, scale: 2.4 });
+      MB.audio.sfx('incoming');
+      await wait(0.2);
+      await gsap.to(b.body, { y: -r.hT * 0.5, duration: 0.4, ease: 'power3.in' });
+      MB.audio.sfx('collision'); MB.audio.sfx('crunch'); V.hitStop(); V.shake(22);
+      for (let i = 0; i < (o.hits || 1); i++) land(i);
+      cracks(V, r.T, '#2b1d12', { n: 8, len: 150, w: 6, glow: r.c, hold: 0.9 });
+      debris(V, r.T, '#c9b79c', 10, { spread: 200 }); ring(V, r.T, r.c, 2.6, 0.7); puff(V, r.T, '#d9ccb4', 5, 10);
+      gsap.to(b.body, { scale: 3.4, opacity: 0, duration: 0.4, onComplete: () => b.remove() });
+      gsap.to(sh, { opacity: 0, duration: 0.4, onComplete: () => sh.remove() });
+      await wait(0.4);
+    };
+    // a big glowing comet arcs up over the board and dives on the target
+    RFX.comet = async (V, t, r, F, land, o) => {
+      const c = dot(V, F, r.hA, r.c, 70, 'charge');
+      MB.audio.sfx('charge');
+      await gsap.fromTo(c.body, { scale: 0 }, { scale: 1.2, duration: 0.25, ease: 'back.out(2)' });
+      await path(c, (k) => ({ ...arc(F, r.T, r.hA, r.hT, 380)(k), s: 1.2 + k * 0.6 }), 0.7, 'power2.in',
+        (p) => { trail(V, p, MB.pick([r.c, '#ffffff', '#ffe066']), rnd(14, 30)); });
+      c.remove();
+      for (let i = 0; i < (o.hits || 1); i++) land(i);
+      flash(V, r.T, r.hT, r.c, 420); ring(V, r.T, r.c, 3, 0.7); V.shake(18); MB.audio.sfx('blast');
+      await wait(0.3);
+    };
+    // a ribbon of props streams over, weaving as it goes
+    RFX.ribbon = (V, t, r, F, land, o) => {
+      const ps = propsOf(o, ['🌸']);
+      MB.audio.sfx('flutter');
+      return Promise.all(Array.from({ length: o.hits || 12 }, (_, i) => wait(i * 0.05).then(() => {
+        const b = V.billboard('petal', ps[i % ps.length], F.x, F.y), ph = i * 0.9, amp = rnd(30, 70);
+        return path(b, (k) => ({
+          x: lerp(F.x, r.T.x, k) + r.perp.x * amp * Math.sin(k * Math.PI * 4 + ph), y: lerp(F.y, r.T.y, k) + r.perp.y * amp * Math.sin(k * Math.PI * 4 + ph),
+          h: lerp(r.hA, r.hT, k) + 40 * Math.sin(k * Math.PI * 3 + ph), r: k * 360, s: 0.7 + k * 0.5,
+        }), 0.6, 'sine.in').then(() => { b.remove(); land(i); });
+      })));
+    };
+    // pulses of force ring out from the target and shake it
+    RFX.pulse = async (V, t, r, F, land, o) => {
+      const tv = V.ents.get(t.uid);
+      for (let i = 0; i < (o.hits || 3); i++) {
+        MB.audio.sfx('pulse');
+        ring(V, r.T, i % 2 ? '#ffffff' : r.c, 1.4 + i * 0.6, 0.5); flash(V, r.T, r.hT, r.c, 200 + i * 60);
+        if (tv) gsap.fromTo(tv.figure, { x: -10 }, { x: 0, duration: 0.25, ease: EASE.shakeX || 'power2.out' });
+        land(i);
+        await wait(0.18);
+      }
+    };
+    // a boulder (or `prop`) rolls along the floor and runs the target over
+    RFX.roll = (V, t, r, F, land, o) => {
+      const ps = propsOf(o, ['🪨']);
+      return Promise.all(Array.from({ length: o.hits || 1 }, (_, i) => wait(i * 0.2).then(() => {
+        const b = V.billboard('thrown big', ps[i % ps.length], F.x, F.y), off = i ? (i % 2 ? 60 : -60) : 0;
+        sized(b, o, 110);
+        MB.audio.sfx('boulder');
+        return path(b, (k) => ({
+          x: lerp(F.x, r.T.x, k) + r.perp.x * off * k, y: lerp(F.y, r.T.y, k) + r.perp.y * off * k,
+          h: 45 + 10 * Math.abs(Math.sin(k * Math.PI * 8)) + k * k * (r.hT - 45), r: k * 1440, s: 0.8 + k * 0.4,
+        }), 0.8, 'power1.in', (p) => { if (Math.random() < 0.5) burst(V, { x: p.x, y: p.y }, '#c9b79c', 1, { h: 5, spread: 40 }); })
+          .then(() => { b.remove(); land(i); ring(V, r.T, r.c, 1.6, 0.5); V.shake(10); });
+      })));
+    };
+    // beams stab down from the sky one after another
+    RFX.lasers = async (V, t, r, F, land, o) => {
+      const n = o.hits || 3, N = 14, all = [];
+      const beams = Array.from({ length: n }, (_, i) => {
+        const S = { x: r.T.x + (i - (n - 1) / 2) * 230, y: r.T.y - 50 };
+        return Array.from({ length: N + 1 }, (_, j) => {
+          const k = j / N, s = dot(V, { x: lerp(S.x, r.T.x, k), y: lerp(S.y, r.T.y, k) }, lerp(520, r.hT, k), r.c, 34, 'beam-seg');
+          gsap.set(s.body, { scale: 0 });
+          all.push(s);
+          return s;
+        });
+      });
+      MB.audio.sfx('charge');
+      for (let i = 0; i < n; i++) {
+        await gsap.to(beams[i].map((s) => s.body), { scale: 1, duration: 0.05, stagger: 0.01 });
+        land(i); V.shake(6); MB.audio.sfx('laser');
+      }
+      await wait(0.15);
+      await gsap.to(all.map((s) => s.body), { scale: 0, opacity: 0, duration: 0.25, stagger: 0.003 });
+      all.forEach((s) => s.remove());
+    };
+
+    // ---- styles: a move, then an fx (cry / finish / emoji work as on any style)
+    const moved = (move, fx, { cry, finish, cls = 'float-text buff' } = {}) => async (V, a, t, impact) => {
+      const r = ctx(V, a, t), o = fxOpts(a), m = RMOVE[move];
+      if (cry) pop(V, r.A, V.heightOf(a) + 30, own(a, 'cry', cry), cls, 1);
+      await m.go(V, r);
+      await RFX[fx](V, t, r, m.ranged ? r.A : here(r.v), lander(V, t, impact, r, o), o);
+      if (finish) pop(V, r.T, r.hT + 110, own(a, 'finish', finish), cls, 1.1);
+      await wait(0.15);
+      await (m.back ? m.back(V, r) : goHome(r.v, r.A));
+    };
+    S.flurry = moved('dash', 'flurry', { cry: 'Hyaaa!' });
+    S.cyclone = moved('circle', 'flurry', { cry: 'Can you keep up?' });
+    S.pounce = moved('pounce', 'claws', { cry: 'Pounce!', finish: 'Gotcha~' });
+    S.crescent = moved('float', 'crescent', { cry: 'Moonlit cut!', cls: 'float-text ability' });
+    S.xslash = moved('blink', 'cross', { finish: 'Sliced.', cls: 'float-text shield' });
+    S.stalker = moved('stalk', 'cross', { finish: '...Too slow.', cls: 'float-text shield' });
+    S.cartwheel = moved('cartwheel', 'crescent', { cry: 'Ta-da~!' });
+    S.shockwave = moved('stay', 'shockwave', { cry: 'Feel that?' });
+    S.fissure = moved('stay', 'fissure', { cry: 'Split!', cls: 'float-text burn' });
+    S.helix = moved('float', 'helix', { cry: 'Spiral!', cls: 'float-text ability' });
+    S.ricochet = moved('stay', 'ricochet', { cry: 'Bounce it!' });
+    S.whip = moved('stay', 'whip', { cry: 'Crack!', cls: 'float-text ability' });
+    S.crush = moved('stay', 'crush', { finish: 'Flattened.', cls: 'float-text shield' });
+    S.comet = moved('float', 'comet', { cry: 'Shooting star!', cls: 'float-text ability' });
+    S.ribbon = moved('float', 'ribbon', { cry: 'Flutter~', cls: 'float-text heal' });
+    S.skydive = moved('skydrop', 'pulse', { cry: 'Bombs away!' });
+    S.slingshot = moved('slingshot', 'pulse', { finish: 'BOING!' });
+    S.pulse = moved('float', 'pulse', { cry: 'Feel the beat.', cls: 'float-text ability' });
+    S.boulder = moved('stay', 'roll', { cry: 'Heads up!' });
+    S.laserweb = moved('float', 'lasers', { cry: 'Target acquired.', cls: 'float-text debuff' });
+  }
+
+  // ---------------------------------------------------------------- signature attacks
+  // One character each, written as a little scene (the attack card names them by `style`). The attack() wrapper already
+  // shows the name, cry, finish and scatter, so these only stage the action and call land() when the hit connects.
+  {
+    const dirX = (r) => (r.d.x >= 0 ? 1 : -1);
+    const emo = (V, ch, P, h, size, cls = 'thrown') => {
+      const b = V.billboard(cls, ch, P.x, P.y);
+      b.body.style.fontSize = size + 'px';
+      gsap.set(b.body, { y: -h });
+      return b;
+    };
+    const dashTo = (V, r, P, dur = 0.2) => gsap.to(r.v.el, { x: P.x, y: P.y, duration: dur, ease: 'power3.in', onUpdate: () => ghost(V, r.v, r.c) });
+    const setup = (V, a, t, impact) => {
+      const r = ctx(V, a, t), o = fxOpts(a);
+      return { r, land: lander(V, t, impact, r, o), tv: !t.isLeader && V.ents.get(t.uid), H: V.heightOf(a), sg: dirX(r) };
+    };
+    const wrapUp = async (r, land) => { if (!land.done()) land(0); await wait(0.2); await goHome(r.v, r.A); };
+    // a point `dist` sideways of P, toward the middle of the board so it stays in view
+    const beside = (r, P, dist) => { const sd = Math.sign((590 - P.x) * r.perp.x) || 1; return { x: P.x + r.perp.x * sd * dist, y: P.y + r.perp.y * sd * dist }; };
+    const jolt = (tv, x) => tv && gsap.fromTo(tv.figure, { x }, { x: 0, duration: 0.25, ease: EASE.shakeX || 'power2.out' });
+    const fade = (b, dur = 0.25) => gsap.to(b.body, { opacity: 0, duration: dur, onComplete: () => b.remove() });
+
+    // Mel, mechanic: runs a diagnostic on the target, then fixes it the way she fixes everything
+    S.diagnostic = async (V, a, t, impact) => {
+      const { r, land, tv, sg } = setup(V, a, t, impact);
+      await dashTo(V, r, r.C);
+      MB.audio.sfx('tick'); ring(V, r.T, r.c, 1.8, 0.7);
+      const lines = ['SCANNING...', 'ATTITUDE: <b style="color:#ff5566">BROKEN</b>', 'WARRANTY: <b style="color:#ff5566">VOID</b>', 'FIX: <b style="color:#ffd23f">HIT IT</b>'];
+      const panel = V.billboard('', `<div style="font:900 24px monospace;color:${r.c};background:#04150eee;border:3px solid ${r.c};border-radius:8px;padding:8px 14px;white-space:nowrap;text-align:left;box-shadow:0 0 18px ${r.c}88">${lines.map((l) => `<div class="dg" style="opacity:0">&#9656; ${l}</div>`).join('')}</div>`, r.T.x + 190, r.T.y);
+      gsap.set(panel.body, { y: -(r.hT * 1.4) });
+      gsap.from(panel.body, { scale: 0.3, opacity: 0, duration: 0.2, ease: 'back.out(2)' });
+      for (const l of panel.body.querySelectorAll('.dg')) { gsap.set(l, { opacity: 1 }); MB.audio.sfx('tick'); await wait(0.2); }
+      await wait(0.15);
+      const wr = emo(V, '🔧', { x: lerp(r.C.x, r.T.x, 0.6), y: lerp(r.C.y, r.T.y, 0.6) }, r.hT * 1.2, 100);
+      const bangs = ['CLUNK!', 'BONK!', 'KA-CHUNK!'];
+      for (let i = 0; i < 3; i++) {
+        const last = i === 2;
+        await gsap.to(wr.body, { rotation: -100 * sg, y: -r.hT * 1.9, duration: last ? 0.3 : 0.14, ease: 'power2.out' });
+        await gsap.to(wr.body, { rotation: 25 * sg, y: -r.hT * 1.1, duration: 0.09, ease: 'power3.in' });
+        MB.audio.sfx('clang'); land(i); flash(V, r.T, r.hT, '#ffffff', 200);
+        burst(V, r.T, '#ffd23f', last ? 18 : 6, { h: r.hT, shape: 'shard' });
+        pop(V, r.T, r.hT + 60 + i * 12, bangs[i], 'float-text dmg', 0.6);
+        jolt(tv, -sg * 12);
+        if (tv) gsap.to(tv.figure, { opacity: 0.35, duration: 0.03, yoyo: true, repeat: 5 });
+        if (i === 1) MB.audio.sfx('glitch');
+      }
+      // the third hit reboots it
+      V.hitStop(); V.shake(14); MB.audio.sfx('sizzle');
+      scatter(V, r.T, r.hT, ['⚙️', '🔩'], 8, 150);
+      pop(V, r.T, r.hT * 2 + 60, '⚠️', 'float-text debuff', 1);
+      dizzy(V, r.T, r.hT * 2 + 10, ['⚡', '⚙️'], 1);
+      fade(wr); fade(panel, 0.3);
+      await wait(0.45);
+      await wrapUp(r, land);
+    };
+
+    // Nala, nervous maid: pats the target apologetically, panics and windmills a broom
+    S.nekopunch = async (V, a, t, impact) => {
+      const { r, land, tv, H, sg } = setup(V, a, t, impact), o = { k: 0 };
+      MB.audio.sfx('squeak');
+      await gsap.to(o, { k: 1, duration: 0.7, ease: 'none', onUpdate: () => {
+        gsap.set(r.v.el, { x: lerp(r.A.x, r.C.x, o.k), y: lerp(r.A.y, r.C.y, o.k) });
+        gsap.set(r.v.figure, { y: -34 * Math.abs(Math.sin(o.k * Math.PI * 2)) });
+      } });
+      gsap.set(r.v.figure, { y: 0 });
+      // three little pats that do nothing
+      for (let i = 0; i < 3; i++) {
+        gsap.timeline().to(r.v.figure, { x: sg * 14, duration: 0.06 }).to(r.v.figure, { x: 0, duration: 0.1 });
+        const paw = emo(V, '🐾', { x: r.T.x - sg * 25, y: r.T.y }, r.hT + rnd(-15, 25), 46);
+        gsap.fromTo(paw.body, { scale: 0.3 }, { scale: 1, duration: 0.12, ease: 'back.out(3)' });
+        gsap.to(paw.body, { opacity: 0, y: '-=25', duration: 0.3, delay: 0.15, onComplete: () => paw.remove() });
+        MB.audio.sfx('pop');
+        pop(V, { x: r.T.x + rnd(-30, 30), y: r.T.y }, r.hT + 70, ['*pat*', '*pat pat*', '*poke*'][i], 'float-text', 0.55);
+        await wait(0.28);
+      }
+      pop(V, r.T, r.hT * 2 + 30, '❔', 'float-text', 0.8);
+      await wait(0.3);
+      // she realises what she's doing
+      MB.audio.sfx('gasp');
+      pop(V, here(r.v), H + 40, '😳', 'float-text', 0.8);
+      scatter(V, here(r.v), H * 0.6, ['💦'], 5, 80);
+      await gsap.fromTo(r.v.figure, { x: -10 }, { x: 10, duration: 0.05, yoyo: true, repeat: 9 });
+      gsap.set(r.v.figure, { x: 0 });
+      // ...and panics: spinning, broom out
+      MB.audio.sfx('meow');
+      const b = emo(V, '🧹', r.C, 90, 150), hits = [0.33, 0.66, 0.98], hitText = ['WHAP!', 'FWOP!', 'BOINK!'];
+      let n = 0;
+      gsap.to(r.v.figure, { rotation: sg * 1080, duration: 1, ease: 'power1.inOut' });
+      await path(b, (k) => {
+        const ang = k * Math.PI * 6;
+        return { x: r.C.x + (r.d.x * Math.cos(ang) + r.perp.x * Math.sin(ang)) * 105, y: r.C.y + (r.d.y * Math.cos(ang) + r.perp.y * Math.sin(ang)) * 105,
+          h: 80 + 30 * Math.sin(ang * 2), r: k * 1440 };
+      }, 1, 'power1.inOut', (p, k) => {
+        if (n < 3 && k >= hits[n]) {
+          land(n); MB.audio.sfx('whack'); flash(V, r.T, r.hT, '#ffffff', 190); puff(V, r.T, '#d9ccb4', 3, 10);
+          pop(V, r.T, r.hT + 70, hitText[n], 'float-text dmg', 0.6); jolt(tv, sg * 30);
+          n++;
+        }
+      });
+      b.remove();
+      gsap.set(r.v.figure, { rotation: 0 });
+      dizzy(V, here(r.v), H + 10, ['💫', '💦'], 0.9);
+      pop(V, here(r.v), H + 55, 'S-sorry!!', 'float-text buff', 0.9);
+      await gsap.to(r.v.figure, { rotation: sg * 25, y: 6, duration: 0.3 });
+      await wait(0.5);
+      await wrapUp(r, land);
+    };
+
+    // Jet, hyperactive courier: zips through the target four times, can't brake, wipes out on delivery boxes
+    S.overshoot = async (V, a, t, impact) => {
+      const { r, land, tv, H, sg } = setup(V, a, t, impact);
+      const at = [-1, 1, -1, 1, -1].map((s) => ({ x: r.T.x + r.perp.x * s * 170, y: r.T.y + r.perp.y * s * 170 }));
+      MB.audio.sfx('whoosh');
+      await dashTo(V, r, at[0], 0.18);
+      const zip = ['zip!', 'zap!', 'zoom!', 'ZOOOM!'];
+      for (let i = 0; i < 4; i++) {
+        gsap.delayedCall(0.06, () => {
+          land(i); MB.audio.sfx(i % 2 ? 'whack' : 'punch'); flash(V, r.T, r.hT + rnd(-20, 30), '#ffffff', 170);
+          pop(V, r.T, r.hT + 50 + i * 12, zip[i], 'float-text ability', 0.5); jolt(tv, -sg * 16);
+        });
+        await gsap.to(r.v.el, { x: at[i + 1].x, y: at[i + 1].y, duration: 0.13, ease: 'none', onUpdate: () => ghost(V, r.v, r.c) });
+        puff(V, here(r.v), '#d9ccb4', 2, 8);
+      }
+      // the last lap goes straight through and out the far side
+      const out = { x: r.T.x + r.perp.x * 400, y: r.T.y + r.perp.y * 400 };
+      gsap.delayedCall(0.08, () => {
+        MB.audio.sfx('sonicboom'); ring(V, r.T, '#ffffff', 3.2, 0.7); ring(V, r.T, r.c, 2.2, 0.5); V.shake(16); land(4);
+        if (tv) gsap.timeline().to(tv.figure, { rotation: sg * 720, x: r.d.x * 50, duration: 0.4, ease: 'power2.out' }).set(tv.figure, { rotation: 0 }).to(tv.figure, { x: 0, duration: 0.3 });
+      });
+      await gsap.to(r.v.el, { x: out.x, y: out.y, duration: 0.22, ease: 'power2.in', onUpdate: () => ghost(V, r.v, r.c) });
+      MB.audio.sfx('collision'); V.shake(22);
+      scatter(V, out, 60, ['📦', '✉️', '💥'], 9, 150);
+      gsap.to(r.v.figure, { rotation: sg * 70, y: -6, duration: 0.15 });
+      await dizzy(V, out, H + 10, ['💫', '⭐'], 1.1);
+      await goHome(r.v, r.A, 0.35);
+      if (!land.done()) land(0);
+    };
+
+    // Mizuha, librarian: shushes the target, then the library falls on it
+    S.shhh = async (V, a, t, impact) => {
+      const { r, land, tv, H } = setup(V, a, t, impact);
+      await gsap.to(r.v.figure, { y: -14, duration: 0.15 });
+      const f = emo(V, '🤫', here(r.v), H + 30, 80);
+      gsap.fromTo(f.body, { scale: 0.2 }, { scale: 1.2, duration: 0.2, ease: 'back.out(3)' });
+      MB.audio.sfx('hiss');
+      await Promise.all([0, 1, 2].map((i) => wait(i * 0.14).then(() => {
+        const w = V.billboard('float-text debuff', 'SHH!', r.A.x, r.A.y);
+        return path(w, (k) => ({ x: lerp(r.A.x, r.T.x, k), y: lerp(r.A.y, r.T.y, k), h: lerp(r.hA + 40, r.hT + 30, k), s: 0.6 + k * 0.9 }), 0.45, 'power1.in').then(() => w.remove());
+      })));
+      fade(f);
+      const mute = emo(V, '🔇', r.T, r.hT * 2 + 50, 64);
+      gsap.from(mute.body, { scale: 0.2, duration: 0.2, ease: 'back.out(3)' });
+      await wait(0.35);
+      // the shelf lets go, one heavy book at a time
+      const books = [['📕', 'War & Peace'], ['📗', 'Ulysses'], ['📘', 'The Brothers Karamazov'], ['📙', 'Critique of Pure Reason']];
+      const stack = [mute], label = (e, s, big) => `<div style="text-align:center;white-space:nowrap"><div style="font-size:${big ? 170 : 76}px;line-height:1">${e}</div><div style="font:900 ${big ? 24 : 19}px sans-serif;color:#fff;background:#000c;border-radius:6px;padding:2px 8px">${s}</div></div>`;
+      MB.audio.sfx('riserhit');
+      for (let i = 0; i <= books.length; i++) {
+        const big = i === books.length, [e, s] = big ? ['📖', 'Dictionary (Unabridged)'] : books[i];
+        const b = V.billboard('', label(e, s, big), r.T.x + rnd(-8, 8), r.T.y);
+        gsap.set(b.body, { y: -1000, rotation: rnd(-25, 25) });
+        await gsap.to(b.body, { y: -(r.hT * 2 + 6 + i * 44), duration: big ? 0.22 : 0.28, ease: 'power3.in' });
+        MB.audio.sfx(big ? 'stomp' : 'thud'); land(i); V.shake(big ? 22 : 8 + i * 3);
+        puff(V, r.T, '#d9ccb4', 3, 12);
+        if (tv) gsap.to(tv.img, { scaleY: big ? 0.6 : 1 - 0.05 * (i + 1), duration: 0.08 });
+        if (big) { V.hitStop(); ring(V, r.T, r.c, 2.4, 0.6); cracks(V, r.T, '#2b1d12', { n: 6, len: 120, w: 5, glow: r.c, hold: 0.7 }); debris(V, r.T, '#c9b79c', 8, { spread: 150 }); }
+        else gsap.to(b.body, { rotation: rnd(-8, 8), duration: 0.1 });
+        stack.push(b);
+        await wait(big ? 0.4 : 0.14);
+      }
+      await wait(0.3);
+      stack.forEach((b) => fade(b, 0.3));
+      if (tv) gsap.to(tv.img, { scaleY: 1, duration: 0.3 });
+      await wait(0.3);
+      await wrapUp(r, land);
+    };
+
+    // Borcolls, fruit seller: sets up a stall, sells the target a barrage, and hands over the receipt
+    S.marketstall = async (V, a, t, impact) => {
+      const { r, land, tv } = setup(V, a, t, impact);
+      const SP = beside(r, { x: r.A.x + r.d.x * 60, y: r.A.y + r.d.y * 60 }, 210);
+      MB.audio.sfx('kaching');
+      const stall = V.billboard('', `<div style="text-align:center;white-space:nowrap"><div style="font-size:120px;line-height:1">🏪</div><div style="font:900 24px sans-serif;color:#3b2200;background:#ffe9a8;border:3px solid #3b2200;border-radius:6px;padding:2px 10px;transform:rotate(-4deg)">APPLES 🍎 $5</div></div>`, SP.x, SP.y);
+      gsap.set(stall.body, { y: -60 });
+      gsap.from(stall.body, { scale: 0.1, y: -320, duration: 0.4, ease: 'bounce.out' });
+      await wait(0.25);
+      MB.audio.sfx('thud'); puff(V, SP, '#d9ccb4', 4, 10);
+      await wait(0.3);
+      pop(V, SP, 190, MB.pick(['Fresh! Organic!', 'Two for one!', 'Best in town!']), 'float-text buff', 0.9);
+      await wait(0.25);
+      await Promise.all(['🍎', '🍏', '🍐', '🍊', '🍎', '🍏'].map((f, i) => wait(i * 0.12).then(() => {
+        MB.audio.sfx('pop');
+        const b = emo(V, f, SP, 90, 60), fn = arc(SP, r.T, 90, r.hT, 170);
+        return path(b, (k) => ({ ...fn(k), r: k * 720 }), 0.5).then(() => {
+          b.remove(); land(i); MB.audio.sfx('splat');
+          burst(V, r.T, i % 2 ? '#e33a3a' : '#7cc33a', 8, { h: r.hT, spread: 90 });
+          pop(V, { x: r.T.x + rnd(-30, 30), y: r.T.y }, r.hT + 40 + rnd(0, 40), '-$5', 'float-text ability', 0.6); jolt(tv, rnd(-8, 8));
+        });
+      })));
+      // the premium item
+      MB.audio.sfx('incoming');
+      const m = emo(V, '🍉', SP, 100, 130), fn = arc(SP, r.T, 100, r.hT, 420);
+      await path(m, (k) => ({ ...fn(k), r: k * 540, s: 1 + k * 0.5 }), 0.75, 'power1.in');
+      m.remove(); MB.audio.sfx('splat'); V.shake(18); V.hitStop(); land(6);
+      ring(V, r.T, '#e33a3a', 2.4, 0.6); burst(V, r.T, '#e33a3a', 20, { h: r.hT, spread: 150 });
+      scatter(V, r.T, r.hT, ['🍉', '💦', '🍎'], 10, 170);
+      await wait(0.5);
+      // receipt, stamped
+      const rc = V.billboard('', '<div style="font-size:70px;line-height:1">🧾</div>', r.T.x, r.T.y);
+      gsap.set(rc.body, { y: -(r.hT * 2 + 240) });
+      gsap.to(rc.body, { y: -(r.hT + 30), rotation: 14, duration: 0.7, ease: 'sine.out' });
+      gsap.fromTo(rc, { x: r.T.x - 50 }, { x: r.T.x, duration: 0.7, ease: 'elastic.out(1,0.3)' });
+      await wait(0.75);
+      const st = V.billboard('', '<div style="font:900 34px sans-serif;color:#d11;border:6px solid #d11;border-radius:10px;padding:4px 14px;transform:rotate(-14deg);white-space:nowrap;background:#fff8">NO REFUNDS</div>', r.T.x, r.T.y);
+      gsap.set(st.body, { y: -(r.hT + 30) });
+      gsap.from(st.body, { scale: 3, opacity: 0, duration: 0.15, ease: 'power4.in' });
+      MB.audio.sfx('stab'); V.shake(6);
+      await wait(0.7);
+      [rc, st, stall].forEach((b) => fade(b, 0.3));
+      await wait(0.3);
+      await wrapUp(r, land);
+    };
+
+    // Dante, cafe owner and bouncer: flips the sign to CLOSED and throws the target out the door
+    S.bouncer = async (V, a, t, impact) => {
+      const { r, land, tv, H, sg } = setup(V, a, t, impact), o = { k: 0 };
+      const out = beside(r, r.T, 420);
+      const door = emo(V, '🚪', out, 95, 190);
+      gsap.from(door.body, { scale: 0.1, opacity: 0, duration: 0.3, ease: 'back.out(2)' });
+      // unhurried walk over
+      await gsap.to(o, { k: 1, duration: 0.8, ease: 'sine.inOut', onUpdate: () => {
+        gsap.set(r.v.el, { x: lerp(r.A.x, r.C.x, o.k), y: lerp(r.A.y, r.C.y, o.k) });
+        gsap.set(r.v.figure, { y: -6 * Math.abs(Math.sin(o.k * Math.PI * 4)) });
+      } });
+      gsap.set(r.v.figure, { y: 0 });
+      const sign = V.billboard('', '<div class="sn" style="font:900 34px sans-serif;color:#fff;background:#2e9d4f;padding:8px 18px;border:4px solid #fff;border-radius:8px">OPEN</div>', r.C.x + r.perp.x * 75, r.C.y + r.perp.y * 75);
+      gsap.set(sign.body, { y: -H * 0.85 });
+      gsap.from(sign.body, { scale: 0.2, opacity: 0, duration: 0.2, ease: 'back.out(3)' });
+      await wait(0.35);
+      await gsap.to(sign.body, { scaleX: 0, duration: 0.12 });
+      const face = sign.body.querySelector('.sn');
+      face.textContent = 'CLOSED'; face.style.background = '#c33';
+      MB.audio.sfx('chain');
+      await gsap.to(sign.body, { scaleX: 1, duration: 0.14, ease: 'back.out(3)' });
+      // knuckles
+      MB.audio.sfx('crunch'); pop(V, here(r.v), H + 35, '*crack*', 'float-text', 0.6);
+      await wait(0.25);
+      MB.audio.sfx('crunch'); pop(V, here(r.v), H + 55, '💢', 'float-text dmg', 0.7);
+      await wait(0.35);
+      // collar grab
+      if (tv) {
+        await gsap.to(tv.figure, { y: -80, duration: 0.25 });
+        await gsap.fromTo(tv.figure, { rotation: -6 }, { rotation: 6, duration: 0.06, yoyo: true, repeat: 5 });
+        gsap.set(tv.figure, { rotation: 0 });
+      }
+      // out
+      MB.audio.sfx('karate'); land(0);
+      gsap.to(r.v.figure, { x: sg * 30, rotation: sg * -14, duration: 0.08, yoyo: true, repeat: 1 });
+      if (tv) {
+        MB.audio.sfx('whistleDown');
+        await gsap.timeline()
+          .to(tv.el, { x: out.x, y: out.y, duration: 0.45, ease: 'power2.in' })
+          .to(tv.figure, { rotation: sg * 1080, duration: 0.45, ease: 'none' }, 0)
+          .to(tv.figure, { y: -200, duration: 0.22, ease: 'power2.out' }, 0)
+          .to(tv.figure, { y: 0, duration: 0.23, ease: 'power2.in' }, 0.22);
+        gsap.set(tv.figure, { rotation: 0 });
+      }
+      MB.audio.sfx('crunch'); MB.audio.sfx('slam'); V.shake(18);
+      scatter(V, out, 90, ['🪵', '💥'], 8, 150); debris(V, out, '#8a5a2b', 8, { spread: 130 });
+      gsap.to(door.body, { rotation: sg * 25, opacity: 0.4, duration: 0.3 });
+      if (tv) { dizzy(V, out, r.hT * 2 + 10, ['💫', '⭐'], 1); await wait(0.6); }
+      fade(sign, 0.3); fade(door, 0.3);
+      if (tv) {
+        MB.audio.sfx('bonk');
+        await gsap.to(tv.el, { x: r.T.x, y: r.T.y, duration: 0.6, ease: 'sine.inOut' });
+      }
+      await wrapUp(r, land);
+    };
+  }
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -9426,7 +10031,7 @@
     poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
     chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset', hologram: 'night',
     manaseal: 'holy', lastcall: 'void', divinemark: 'holy', splice: 'matrix', glitchblade: 'night', mothdust: 'dream', bloodwind: 'blood', metamorph: 'night', fourthwall: 'matrix',
-    skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', redstring: 'dream', oninight: 'night' };
+    skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',

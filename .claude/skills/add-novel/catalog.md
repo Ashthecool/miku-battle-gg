@@ -70,6 +70,13 @@ the tea, then a cursed blade's eye opens · `redcarpet` carpet rolls out, flashb
 target stringing razor wire, pulls it tight, loot falls out.
 Effect styles (any fx below as a style): `meteor` `tornado` `blackhole` `missiles` `vines` `runes` `bubble` `clones` `snipe`
 `volcano` `kiss` `blades` `hack` `camera` `gravity` `spikes` `melody` `ninja` `timestop` (`emoji` = their prop).
+Move + fx styles: `flurry` (dash) · `cyclone` (circles, then flurry) · `pounce` (flip, claws) · `crescent` · `xslash` (blink, X slash) ·
+`stalker` (creeps up, X slash) · `cartwheel` · `shockwave` · `fissure` · `helix` · `ricochet` · `whip` · `crush` · `comet` · `ribbon` ·
+`skydive` (drops from the sky, pulses) · `slingshot` · `pulse` · `boulder` · `laserweb` (`emoji` = their prop).
+Signature scenes, each written for one character (reuse the name only if the character fits the gag): `diagnostic` (Mel: scans the target, then fixes
+it with a wrench) · `nekopunch` (Nala: apologetic pats, then a panicked broom windmill) · `overshoot` (Jet: zips through the target, can't brake) ·
+`shhh` (Mizuha: shushes, then the library falls) · `marketstall` (Borcolls: a stall, a fruit barrage, a NO REFUNDS receipt) · `bouncer` (Dante: flips
+the sign to CLOSED and throws the target out the door).
 
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
 the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
@@ -84,10 +91,16 @@ attack: { name: 'Cat Scratch Combo', color: '#ff9a3c', move: 'blink', fx: 'slash
 ```
 - `move` (how the attacker gets there): `stay` (winds up at home) · `float` (rises glowing, magic) · `dash` · `leap`
   (jumps over and lands) · `blink` (vanishes, appears beside the target) · `spin` · `hop` · `zigzag` · `fly` · `dive`
-  (sinks into the floor, pops up) · `charge` · `slide` · `portal` (steps through a portal, out of another by the target)
+  (sinks into the floor, pops up) · `charge` · `slide` · `portal` (steps through a portal, out of another by the target) · `pounce` (flip-jump) ·
+  `cartwheel` · `skydrop` (up out of sight, drops on the target) · `stalk` (creeps up half-faded) · `circle` (one lap round the target) ·
+  `slingshot` (stretches back, fires itself spinning)
 - `fx` (what hits, from where the move left it): `hit` (melee jabs) · `throw` (props arc over) · `volley` (many glowing
   props) · `rain` (props fall on the target) · `orbit` (props circle in) · `slashes` · `pillar` (light columns) · `beam` ·
-  `bolt` (lightning) · `stamp` (`mark`) · `words` (`words` fly over) · `quake` (shockwaves along the floor)
+  `bolt` (lightning) · `stamp` (`mark`) · `words` (`words` fly over) · `quake` (shockwaves along the floor) ·
+  `flurry` (rapid punches + comic words) · `crescent` (big crescent of light) · `cross` (X slash) · `shockwave` (rings race to the target,
+  the floor splits) · `fissure` (crack + light erupting in a line) · `helix` (props corkscrew over) · `ricochet` (props skip along the
+  floor) · `whip` (light whip lashes out) · `crush` (shadow, then a huge prop drops) · `comet` (arcs up and dives) · `ribbon` (props
+  stream over weaving) · `pulse` (force rings shake the target) · `roll` (boulder rolls over it) · `lasers` (beams stab from the sky)
 - `prop`: emoji or list for throw/volley/rain/orbit · `hits`: how many (1-20) · `floor`: `splat` `frost` `sigil`
   `whirlpool` `ring` decal · `scatter`: emoji flung out on impact · `big`: bigger hit + shake · `shake`: strength
 - Defaults: fx `hit` → move `dash`; other fx → move `stay`; move only → `hit` (melee) or `throw` (stay/float).
