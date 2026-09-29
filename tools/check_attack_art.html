@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="../game/">
+  <title>Attack artwork verification</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { overflow: auto; height: auto; background: #171022; color: #f8edf6; font: 15px system-ui; }
+    main { max-width: 1100px; margin: 24px auto; padding: 20px; }
+    h1 { font-size: 24px; } #checks { color: #a9edc9; white-space: pre-wrap; }
+    #props { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+    .sample { padding: 10px; border: 1px solid #ffffff33; border-radius: 10px; text-align: center; }
+    .sample:nth-child(even) { background: #eee5ef; color: #281c3d; }
+    .sample .art { font-size: 70px; height: 95px; display: grid; place-items: center; }
+    .sample small { display: block; font-size: 12px; }
+    #fixtures { display: none; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Attack artwork verification</h1>
+  <p>Serve the repository root and open <code>/tools/check_attack_art.html</code> to check all 48 props and renderer behavior.</p>
+  <pre id="checks" role="status">Checking…</pre>
+  <div id="props"></div>
+  <div id="fixtures"></div>
+</main>
+<script src="js/config.js"></script>
+<script src="js/attack-art.js"></script>
+<script>
+(async () => {
+  const results = [], failures = [];
+  const check = (name, passed) => { results.push(`${passed ? 'PASS' : 'FAIL'} ${name}`); if (!passed) failures.push(name); };
+  const fixture = (html) => {
+    const root = document.createElement('div'); root.innerHTML = html;
+    document.querySelector('#fixtures').append(root); return root;
+  };
+  const glyphs = '✨ ⭐ 💗 💔 🪶 🌸 🎵 💋 🔥 ⚡ ❄️ 💦 🌙 🍃 🦇 🪽 📖 🍳 🍵 🔨 🪙 💎 🎁 🧪 🚀 🪓 🗡️ 🥊 ⚙️ 🔩 🔔 🎀 🍎 🍞 🧁 🍬 🍕 🧄 💊 💉 🩹 🌹 🐾 👊 💨 💣 👑 📱'.split(' ');
+  for (const glyph of glyphs) {
+    const sprite = MB.AttackArt.sprite(glyph);
+    const box = document.createElement('div'); box.className = 'sample';
+    const art = document.createElement('div'); art.className = 'art'; art.append(sprite);
+    const name = document.createElement('small'); name.textContent = sprite.dataset.prop;
+    box.append(art, name); document.querySelector('#props').append(box);
+  }
+  const sprites = [...document.querySelectorAll('#props .attack-art')];
+  check('All 48 distinct props render', sprites.length === 48 && new Set(sprites.map((s) => s.dataset.prop)).size === 48);
+  const rich = fixture('<b data-original="✨">Great! ✨</b> 🍳 <em>keep this</em> 🐬');
+  const original = rich.querySelector('b'); let clicked = false;
+  original.addEventListener('click', () => clicked = true);
+  MB.AttackArt.decorate(rich); original.click();
+  check('Nested markup, attributes, event handlers, words and unmapped props survive',
+    rich.querySelector('b') === original && original.dataset.original === '✨' && clicked && rich.textContent === 'Great!   keep this 🐬' && rich.querySelectorAll('.attack-art').length === 2);
+  const once = rich.innerHTML; MB.AttackArt.decorate(rich);
+  check('Decorating twice is safe', once === rich.innerHTML);
+  const protectedArt = fixture('<svg><text>✨</text></svg><div class="emoji-sprite">💗</div>');
+  MB.AttackArt.decorate(protectedArt);
+  check('SVG text and character/token sprites are untouched', !protectedArt.querySelector('.attack-art') && protectedArt.textContent === '✨💗');
+  const variants = fixture('❄ ❄️ ❤ ❤️'); MB.AttackArt.decorate(variants);
+  check('Emoji and text variation selectors both work', variants.querySelectorAll('.attack-art').length === 4 && variants.textContent.trim() === '');
+  const dynamic = fixture('💗'); MB.AttackArt.decorate(dynamic); MB.AttackArt.setText(dynamic, '💔');
+  check('Animated prop changes replace the artwork', dynamic.querySelectorAll('.attack-art').length === 1 && dynamic.firstElementChild.dataset.prop === 'broken-heart');
+  MB.AttackArt.setText(dynamic, '7️⃣');
+  check('Animated props can return to ordinary text', !dynamic.querySelector('.attack-art') && dynamic.textContent === '7️⃣');
+  const colored = fixture('💚 💙 🖤'); MB.AttackArt.decorate(colored);
+  check('Color-themed hearts retain distinct colors', [...colored.querySelectorAll('.attack-art')].every((s) => s.style.filter));
+  for (const url of MB.AttackArt.urls) {
+    const image = new Image(); image.src = url;
+    try { await image.decode(); check(`${url} loads at native resolution`, image.naturalWidth === 1254 && image.naturalHeight === 1254); }
+    catch { check(`${url} loads`, false); }
+  }
+  document.querySelector('#checks').textContent = `${failures.length ? 'FAILED' : 'ALL PASSED'} — ${results.length} checks\n${results.join('\n')}`;
+  if (failures.length) document.querySelector('#checks').style.color = '#ff9999';
+})();
+</script>
+</body>
+</html>

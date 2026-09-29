@@ -101,6 +101,7 @@
   const shake = (ov, s) => gsap.fromTo(ov, { x: -s, y: s / 2 }, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.2)', clearProps: 'x,y' });
   function fxEl(layer, cls, html, color) {
     const e = el('div', cls, html);
+    if (html) MB.AttackArt.decorate(e);
     if (color) e.style.setProperty('--c', color);
     layer.appendChild(e);
     return e;

@@ -45,7 +45,7 @@
   // wardrobe's pick) and in their relationship costumes so fusions don't pop in; item icons, pack art and the
   // profile picture. Other costumes load when first shown; each battle adds its background and close-ups (ui.js)
   function preload() {
-    const urls = [];
+    const urls = [...MB.AttackArt.urls];
     const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
     const costume = (c, id) => id && c && c.costumes.find((o) => o.id === id);
     MB.manifest.characters.forEach((c) => {

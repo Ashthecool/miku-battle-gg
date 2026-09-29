@@ -17,3 +17,4 @@ game/assets/*
 !game/assets/manifest.js
 !game/assets/manifest.json
 !game/assets/sounds/
+!game/assets/attacks/

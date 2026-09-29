@@ -123,10 +123,11 @@ button { font-family: inherit; }
 .dust { background: #efe6f7; border-radius: 1px; }
 .star-shot { font-size: 46px; color: #fff; text-shadow: 0 0 8px var(--c), 0 0 18px var(--c), 0 0 30px #fff; }
 .petal-orb { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, #fff 0 15%, var(--c) 40%, transparent 70%); }
-.petal-orb span { position: absolute; inset: 0; text-align: center; font-size: 24px; line-height: 1; }
-.petal-orb span:nth-child(2) { rotate: 120deg; }
-.petal-orb span:nth-child(3) { rotate: 240deg; }
+.petal-orb > span { position: absolute; inset: 0; text-align: center; font-size: 24px; line-height: 1; }
+.petal-orb > span:nth-child(2) { rotate: 120deg; }
+.petal-orb > span:nth-child(3) { rotate: 240deg; }
 .petal { font-size: 26px; }
+mb-attack-art.attack-art { display: inline-block; width: 1.15em; height: 1.15em; vertical-align: -.15em; background-size: 400% 400%; background-repeat: no-repeat; pointer-events: none; flex: none; }
 .confetti { width: 11px; height: 18px; border-radius: 2px; }
 .hex-cloud { width: 260px; height: 110px; border-radius: 50%; background: radial-gradient(ellipse, #12051f 0 30%, var(--c) 58%, transparent 72%); }
 .bolt svg { display: block; overflow: visible; filter: drop-shadow(0 0 10px #fff); }
@@ -1013,6 +1014,16 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 
 #gallery-panel { position: absolute; right: 20px; top: 20px; bottom: 20px; width: 340px; background: rgba(14,10,34,.9); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; z-index: 20; border: 2px solid #ffffff33; }
 #gallery-panel h2 { margin: 0; }
+.gal-search-label { font-size: 12px; color: #e2c9ef; }
+.gal-search { display: flex; align-items: center; gap: 6px; }
+#gallery-search { flex: 1; min-width: 0; width: 100%; padding: 10px 12px; border: 1px solid #ffffff44; border-radius: 10px; background: #08061999; color: #fff; font: inherit; font-size: 14px; }
+#gallery-search::placeholder { color: #c6b3d7; }
+#gallery-search::-webkit-search-cancel-button { -webkit-appearance: none; }
+#gallery-search:focus-visible { outline: 2px solid #ff9fcf; outline-offset: 2px; }
+#gallery-search-clear { flex: none; width: 30px; height: 34px; border: 1px solid #ffffff44; border-radius: 8px; background: #ffffff12; color: #fff; cursor: pointer; font-size: 22px; }
+#gallery-count { font-size: 12px; color: #c6b3d7; }
+#gallery-empty { margin: 0; padding: 16px 4px; color: #e2c9ef; font-size: 14px; }
+#gallery-panel [hidden] { display: none !important; }
 #gallery-list { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 5px; }
 .gal-row { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: 10px; cursor: pointer; border-left: 5px solid var(--c); background: #ffffff0d; }
 .gal-row img { width: 44px; height: 44px; object-fit: cover; object-position: top; border-radius: 8px; }

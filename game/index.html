@@ -70,6 +70,13 @@
   <!-- ============ attack gallery ============ -->
   <div id="gallery-panel" class="hidden">
     <h2>Attack Gallery</h2>
+    <label class="gal-search-label" for="gallery-search">Search the gallery</label>
+    <div class="gal-search">
+      <input id="gallery-search" type="search" placeholder="Character, attack, style, or sky…" autocomplete="off" aria-controls="gallery-list">
+      <button id="gallery-search-clear" type="button" aria-label="Clear gallery search" hidden>×</button>
+    </div>
+    <div id="gallery-count" role="status" aria-live="polite"></div>
+    <p id="gallery-empty" hidden>No matches. Try another character, attack, or style.</p>
     <div id="gallery-list" class="scroll-y"></div>
     <div id="gal-info"></div>
     <div class="row">
@@ -333,6 +340,7 @@
 <script src="js/audio.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/ai.js"></script>
+<script src="js/attack-art.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/view.js"></script>
 <script src="js/ui.js"></script>

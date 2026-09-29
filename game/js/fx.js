@@ -792,7 +792,7 @@
       if (Math.random() < 0.3) { const s = dot(V, p, p.h, c, 8); gsap.to(s.body, { opacity: 0, scale: 0.1, duration: 0.4, onComplete: () => s.remove() }); }
     });
     await gsap.to(h.body, { scale: 1.7, duration: 0.14, yoyo: true, repeat: 1 });
-    h.body.textContent = '💔';
+    MB.AttackArt.setText(h.body, '💔');
     impact(); hit(V, t, c); MB.audio.sfx('hit');
     // the broken heart's shards spill down under gravity
     debris(V, T, c, 10, { h: hT + 60, spread: 150 });
@@ -994,7 +994,7 @@
     await gsap.fromTo(slot.body, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' });
     gsap.to(R, { rotationY: 1080, duration: 1.1, ease: 'power1.inOut' }); // skate spin while the reels roll
     const reels = [...slot.body.children], icons = ['💰', '💎', '🍒', '🔔', '⭐', '7️⃣'];
-    const roll = setInterval(() => reels.forEach((r) => { if (!r.dataset.stop) r.textContent = MB.pick(icons); }), 60);
+    const roll = setInterval(() => reels.forEach((r) => { if (!r.dataset.stop) MB.AttackArt.setText(r, MB.pick(icons)); }), 60);
     for (let i = 0; i < 3; i++) {
       await wait(0.3);
       reels[i].dataset.stop = 1; reels[i].textContent = '7️⃣';
@@ -5629,7 +5629,7 @@
     gsap.set(book.body, { y: -H * 0.55, scale: 0 });
     await gsap.to(book.body, { scale: 1.1, duration: 0.25, ease: 'back.out(2)' });
     MB.audio.sfx('crinkle');
-    book.body.textContent = '📖';
+    MB.AttackArt.setText(book.body, '📖');
     for (let i = 0; i < 3; i++) { MB.audio.sfx('swish'); await gsap.fromTo(book.body, { rotationY: 0 }, { rotationY: 180, duration: 0.12 }); gsap.set(book.body, { rotationY: 0 }); }
     pop(V, A, H + 95, own(a, 'cry', '...Isn\'t it beautiful?'), 'float-text debuff', 1.2);
     const eye = V.billboard('thrown eye', '👁️', B.x, B.y);
@@ -5668,7 +5668,7 @@
     tendrils.forEach(({ tt }) => gsap.to(tt.body, { scaleY: 0, opacity: 0, duration: 0.25, onComplete: () => tt.remove() }));
     gsap.to(ink.f, { opacity: 0, duration: 0.4, onComplete: () => ink.f.remove() });
     await wait(0.3);
-    book.body.textContent = '🍵';
+    MB.AttackArt.setText(book.body, '🍵');
     MB.audio.sfx('pop');
     pop(V, T, hT + 120, own(a, 'finish', 'Ah... where was I?'), 'float-text debuff', 1.2);
     await wait(0.5);
@@ -7422,7 +7422,7 @@
     gsap.to([L, R], { scaleX: 1, duration: 0.1 });
     pop(V, A, H + 90, own(a, 'cry', "I-IT'S NOT LIKE THAT!!"), 'float-text baka', 1);
     MB.audio.sfx('whoosh');
-    path(heart, (k) => ({ ...arc(A, T, H + 30, hT, 40)(k), r: k * 360, s: 1.3 }), 0.35, 'power1.in').then(() => { heart.body.textContent = '💔'; fadeOut(heart, 0.3); });
+    path(heart, (k) => ({ ...arc(A, T, H + 30, hT, 40)(k), r: k * 360, s: 1.3 }), 0.35, 'power1.in').then(() => { MB.AttackArt.setText(heart.body, '💔'); fadeOut(heart, 0.3); });
     await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.3, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
     // the double slap
     const hands = [-1, 1].map((s) => {

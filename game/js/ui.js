@@ -1043,6 +1043,27 @@
 
   // ---------------------------------------------------------------- attack gallery
   let gal = null;
+  const galleryTerms = (text) => String(text).normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function filterGallery() {
+    const query = $('#gallery-search').value.trim();
+    const terms = galleryTerms(query).split(/\s+/).filter(Boolean);
+    let count = 0, total = 0, head = null, sectionCount = 0;
+    for (const row of $('#gallery-list').children) {
+      if (row.classList.contains('gal-head')) {
+        if (head) head.hidden = !sectionCount;
+        head = row; sectionCount = 0;
+      } else {
+        row.hidden = !terms.every((term) => row.dataset.search.includes(term));
+        total++;
+        if (!row.hidden) { count++; sectionCount++; }
+      }
+    }
+    if (head) head.hidden = !sectionCount;
+    $('#gallery-count').textContent = terms.length ? `${count} of ${total} entries` : `${total} entries`;
+    $('#gallery-empty').hidden = count > 0;
+    $('#gallery-search-clear').hidden = !$('#gallery-search').value;
+    $('#gallery-list').scrollTop = 0;
+  }
   function gallery() {
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
     MB.audio.music(MB.MUSIC.gallery);
@@ -1051,6 +1072,13 @@
     $('#gallery-panel').classList.remove('hidden');
     const list = $('#gallery-list');
     list.innerHTML = '';
+    const search = $('#gallery-search');
+    search.value = '';
+    search.oninput = filterGallery;
+    $('#gallery-search-clear').onclick = () => { search.value = ''; filterGallery(); search.focus(); };
+    search.onkeydown = (e) => {
+      if (e.key === 'Escape') { e.stopPropagation(); search.value = ''; filterGallery(); }
+    };
     const b = new MB.Battle({ view: MB.view, playerLeader: 'hayley-kate', enemyLeader: 'james-lone', playerDeck: [], enemyDeck: [] });
     MB.battle = b;
     MB.view.init(b);
@@ -1074,6 +1102,7 @@
       const row = el('div', 'gal-row bond', `${bond.pair.map((id, i) => `<img src="${MB.spriteUrl(id, 'idle', bond.costumes[i])}">`).join('')}
         <div><b>${MB.BOND_TIERS[bond.tier].hearts} ${bond.name}</b><span>✦ ${bond.attack.name}</span></div>`);
       row.style.setProperty('--c', bond.attack.color);
+      row.dataset.search = galleryTerms([bond.name, bond.attack.name, bond.attack.style, bond.relation, 'relationships', ...bond.pair.map((id) => MB.cardDef(id).name)].join(' '));
       row.addEventListener('click', () => galBond(bond, row));
       list.appendChild(row);
     });
@@ -1082,6 +1111,7 @@
       const d = MB.cardDef(id);
       const row = el('div', 'gal-row', `<img src="${MB.spriteUrl(id, 'idle')}"><div><b>${d.name}</b><span>✦ ${d.attack.name}</span></div>`);
       row.style.setProperty('--c', d.attack.color);
+      row.dataset.search = galleryTerms([id, d.name, d.attack.name, d.attack.style, d.attack.fx, d.attack.move, 'characters'].join(' '));
       row.addEventListener('click', () => galPick(id, row));
       list.appendChild(row);
     });
@@ -1091,6 +1121,9 @@
     Object.keys(MB.FX.styles).sort().forEach((style) => {
       const duo = MB.FX.duoStyles.includes(style);
       const row = el('div', 'gal-row style', `<i>${duo ? '💞' : '✦'}</i><div><b>${style}</b><span>${duo ? 'duo style' : usersOf(style)}</span></div>`);
+      const users = Object.entries(MB.CARDS).filter(([, c]) => c.attack && c.attack.style === style);
+      row.dataset.search = galleryTerms([style, duo ? 'duo relationships' : 'solo', 'attack styles', ...users.flatMap(([id, c]) => [MB.cardDef(id).name, c.attack.name])].join(' '));
+      MB.AttackArt.decorate(row.querySelector('i'));
       row.addEventListener('click', () => galStyle(style, duo ? pair : null, row));
       list.appendChild(row);
     });
@@ -1098,6 +1131,7 @@
     list.appendChild(el('div', 'gal-head', '🌌 SKIES'));
     ['', ...MB.FX.skies].forEach((name) => {
       const row = el('div', 'gal-row sky', `<i>${name ? '🌌' : '○'}</i><div><b>${name || 'no extra sky'}</b><span>${name ? `sky: '${name}'` : "the attack's own"}</span></div>`);
+      row.dataset.search = galleryTerms(`${name || 'no extra sky'} skies sky`);
       row.addEventListener('click', () => {
         gal.sky = name || null;
         list.querySelectorAll('.gal-row.sky').forEach((r) => r.classList.toggle('on', r === row));
@@ -1107,6 +1141,7 @@
       list.appendChild(row);
     });
     const firstChar = list.querySelector('.gal-row:not(.bond)');
+    filterGallery();
     galPick(deckCards()[0], firstChar);
   }
   // who has this style, for the gallery row

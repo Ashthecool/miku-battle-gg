@@ -67,6 +67,7 @@
     // billboard element standing on the board at (x,y); its .bb-body can be lifted with gsap y (negative = up)
     billboard(cls, html, x, y) {
       const w = el('div', 'bb'), s = el('div', 'bb-stand'), b = el('div', 'bb-body ' + (cls || ''), html);
+      if (html) MB.AttackArt.decorate(b);
       s.appendChild(b); w.appendChild(s); this.fxLayer.appendChild(w);
       gsap.set(w, { x, y }); gsap.set(b, { xPercent: -50, yPercent: -50 });
       w.body = b;
@@ -74,6 +75,7 @@
     }
     flat(cls, html, x, y) {
       const f = el('div', 'flat ' + (cls || ''), html);
+      if (html) MB.AttackArt.decorate(f);
       this.fxLayer.appendChild(f);
       gsap.set(f, { x, y, xPercent: -50, yPercent: -50 });
       return f;
