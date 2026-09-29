@@ -28,6 +28,7 @@ npx serve game
 | `tools/outfit_sheets.py` | Contact sheets of a novel's outfits, to check them by eye before uploading. |
 | `tools/novel_brief.py` | Condenses the novels into a design brief (characters, items, backgrounds, music). |
 | `tools/check_game.js` | Validates the cards, bonds and story against the manifest and plays AI-vs-AI battles (`node tools/check_game.js`). |
+| `tools/check_save.js` | Checks randomized starting cards, save migration and NSFW defaults (`node tools/check_save.js`). |
 | `game/js/effects.js` | Card abilities as data (effect specs) and the texts written from them. |
 | `game/js/missions.js` | Daily missions, Glitter, crafting, Shiny cards and Story stars (rewards and prices in `MB.GLITTER`, missions in `MB.MISSIONS`, star challenges in `MB.Stars`). |
 | `game/js/arena.js` | The Arena's Deathpick mode (draft a deck, battle rivals: leaders, card offers, opponents and rewards in `MB.ARENA`) and Casual PvP's rewards (`MB.PVP`). |
@@ -78,11 +79,13 @@ Matches go through Supabase Realtime (broadcast and presence, no tables). Set th
 
 ## NSFW mode
 
-**⚙️ → NSFW mode (18+)** adds the NSFW novels, outfits and backgrounds (tagged `nsfw` in the manifest by `tools/fetch_assets.py`, filtered out by `game/js/content.js` when the mode is off).
+**⚙️ → NSFW mode (18+)** adds the NSFW novels, outfits and backgrounds (tagged `nsfw` in the manifest by `tools/fetch_assets.py`, filtered out by `game/js/content.js` when the mode is off). New games and progress resets start with this setting off. An existing game remembers your choice.
 
 ## Saves
 
 Progress lives in the browser's `localStorage`. **⚙️ → Export / Import** moves it between browsers or devices. The save format is versioned; see `SAVE_VERSION` and `MIGRATIONS` in `game/js/ui.js`.
+
+New games receive a random Common starter deck with 20 cards. The starting selection is saved with your progress, so refreshing or using **Starter** in the deck builder restores the same cards. Resetting progress rolls a new selection; existing saves keep their cards.
 
 ## Deploying
 

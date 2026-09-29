@@ -2242,13 +2242,14 @@ MB.PACKS = {
 MB.SHARD_DROP = { card: 1, rare: 2, epic: 3 };
 MB.STARTER_AVATAR = 'hayley';
 
+// Legacy starter and tutorial rival deck; new saves roll commons with this cost curve (MB.Collection.starterDeck).
 MB.STARTER_DECK = [
   'julie-hunley', 'julie-hunley', 'school-bag', 'school-bag', 'towel',
   'rimu-hiraga', 'rimu-hiraga', 'keiko-ghan', 'keiko-ghan', 'luther-jones', 'luther-jones',
   'isabella-hunley', 'isabella-hunley', 'walking-stick', 'james-lone', 'james-lone',
   'wert-lone', 'wert-lone', 'farley-kate', 'farley-kate',
 ];
-// the cards you own from the start: the starter deck's
+// Original starter cards, retained for legacy saves and content checks.
 MB.STARTER_CARDS = [...new Set(MB.STARTER_DECK)];
 
 // The novels' Story rivals are grouped in chapters, one per novel: NSFW mode hides a chapter (js/content.js), and three stars

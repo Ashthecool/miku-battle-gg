@@ -5,7 +5,12 @@
 window.MB = window.MB || {};
 (function () {
   if (MB.NSFW == null) {
-    try { MB.NSFW = localStorage.getItem('mb-nsfw') === '1'; } catch (e) { MB.NSFW = false; }
+    // A new game starts with NSFW off; an existing save remembers an explicit opt-in.
+    try {
+      const hasSave = !!localStorage.getItem('mb-save');
+      MB.NSFW = hasSave && localStorage.getItem('mb-nsfw') === '1';
+      if (!hasSave) localStorage.setItem('mb-nsfw', '0');
+    } catch (e) { MB.NSFW = false; }
   }
   MB.setNsfw = (on) => {
     try { localStorage.setItem('mb-nsfw', on ? '1' : '0'); } catch (e) { /* not remembered */ }

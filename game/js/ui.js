@@ -7,7 +7,7 @@
   // ---------------------------------------------------------------- save
   // When the save's shape changes: bump SAVE_VERSION and append a step to MIGRATIONS.
   // MIGRATIONS[v] upgrades a version-v save to v+1; saves from before versioning count as 0.
-  const SAVE_VERSION = 10;
+  const SAVE_VERSION = 11;
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
@@ -18,7 +18,7 @@
   const MIGRATIONS = [
     (s) => {
       // older saves predate unlocks: start them on commons plus the rivals they already beat
-      if (!Array.isArray(s.unlocked)) s.unlocked = [...new Set([...MB.STARTER_CARDS, ...MB.STORY.slice(0, s.story || 0).map((st) => st.foe)])];
+      if (!Array.isArray(s.unlocked)) s.unlocked = [...new Set([...s.starterDeck, ...MB.STORY.slice(0, s.story || 0).map((st) => st.foe)])];
       // story progress is kept per chapter; old saves only had chapter 1
       if (!Array.isArray(s.progress)) s.progress = [s.story || 0];
     },
@@ -64,20 +64,27 @@
       // Casual PvP arrived (js/net.js): its record and today's paid matches (MB.Pvp)
       s.pvp = null;
     },
+    (s) => {
+      // Remember each save's starting cards; existing players keep the original starter.
+      if (!Array.isArray(s.starterDeck)) s.starterDeck = MB.STARTER_DECK.slice();
+    },
   ];
   const avatarById = new Map(MB.AVATARS.map((a) => [a.id, a]));
-  const freshSave = () => ({ deck: MB.STARTER_DECK.slice(), leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
+  const freshSave = (starterDeck = MB.Collection.starterDeck()) => ({ starterDeck: starterDeck.slice(), deck: starterDeck.slice(),
+    leaders: MB.STARTER_LEADERS.slice(), story: 0, leader: 'hayley-kate' });
   const obj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 
   // upgrades an old save, then fills in whatever content added since it was written
   function loadSave(raw) {
-    const s = Object.assign(freshSave(), raw);
+    const s = Object.assign(freshSave(Object.keys(raw).length ? MB.STARTER_DECK : undefined), raw);
     for (let v = s.version || 0; v < SAVE_VERSION; v++) MIGRATIONS[v](s);
     s.version = SAVE_VERSION;
     // a hand-edited or partial save may claim a version but lack fields
     ['unlocked', 'quests', 'storyActs', 'secrets', 'actIntros', 'decks', 'avatars'].forEach((k) => { if (!Array.isArray(s[k])) s[k] = []; });
-    // the starter deck's cards are always owned, so there is always a deck to play
-    s.unlocked = [...new Set([...s.unlocked, ...MB.STARTER_CARDS])];
+    if (!Array.isArray(s.starterDeck) || s.starterDeck.length !== DECK_SIZE
+      || s.starterDeck.some((id) => !MB.CARDS[id] && !MB.HIDDEN_CARDS.has(id))) s.starterDeck = MB.STARTER_DECK.slice();
+    // This save's starter cards are always owned, so there is always a deck to play.
+    s.unlocked = [...new Set([...s.unlocked, ...s.starterDeck])];
     // Story: the quests done (ids; hidden ones kept for NSFW mode) and the acts whose Epic pack was paid
     s.quests = [...new Set(s.quests)].filter((id) => MB.Story.byId(id));
     // whether M-chan's intro (MB.INTRO) was seen; saves that already started the story skip it
@@ -113,7 +120,7 @@
         d.hidden = all.filter((id) => MB.HIDDEN_CARDS.has(id));
         if (!d.hidden.length) delete d.hidden;
       }
-      if (!Array.isArray(d.cards) || d.cards.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) d.cards = MB.STARTER_DECK.slice();
+      if (!Array.isArray(d.cards) || d.cards.some((id) => !MB.CARDS[id] || !s.unlocked.includes(id))) d.cards = s.starterDeck.filter((id) => MB.CARDS[id]);
       d.name = String(d.name || '').slice(0, 20) || 'Deck ' + (i + 1);
       s.decks[i] = d;
     }
@@ -153,7 +160,7 @@
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['deck', 'starterDeck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
       && ['costumes', 'stats', 'packs', 'shards', 'levels', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
       && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena)) && (s.shop == null || obj(s.shop))
       && (s.pvp == null || obj(s.pvp));
@@ -212,6 +219,13 @@
   function resetSave() {
     if (MB.battle && !MB.battle.over && !$('#arena').classList.contains('gallery-mode')) return saveStatus('Finish or forfeit the battle first.', true);
     if (!confirm('Delete ALL your progress (cards, packs, Story, stats) and start over?\nExport your save first if you might want it back.')) return;
+    // Restart in safe mode before rolling the new deck from the available cards.
+    if (MB.NSFW) {
+      localStorage.removeItem('mb-save');
+      MB.setNsfw(false);
+      return;
+    }
+    localStorage.setItem('mb-nsfw', '0');
     Object.keys(save).forEach((k) => delete save[k]);
     Object.assign(save, loadSave({}));
     persist();
@@ -1941,7 +1955,7 @@
     $('#result-menu').onclick = () => { MB.audio.sfx('click'); title(); };
     $('#gal-attack').onclick = galAttack;
     $('#gal-back').onclick = () => { MB.audio.sfx('click'); MB.view.clear(); title(); };
-    $('#deck-reset').onclick = () => { save.deck = MB.STARTER_DECK.slice(); persist(); renderDeck(); };
+    $('#deck-reset').onclick = () => { save.deck = save.starterDeck.filter((id) => MB.CARDS[id]); persist(); renderDeck(); };
     $('#deck-clear').onclick = () => { save.deck = []; persist(); renderDeck(); };
     $('#btn-settings').onclick = settings;
     $('#save-export').onclick = () => { MB.audio.sfx('click'); exportSave(); };

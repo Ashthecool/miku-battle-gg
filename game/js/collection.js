@@ -19,6 +19,27 @@ window.MB = window.MB || {};
 
   const pickFrom = (list, rng) => list[Math.floor(rng() * list.length)];
 
+  // Roll the starting commons after content filtering, keeping the original deck's costs and unit/item mix.
+  // Each distinct template card becomes a distinct common, with the same number of copies.
+  function starterDeck(rng = Math.random) {
+    const pool = deckCards().filter((id) => MB.CARDS[id].rarity === 'common');
+    const counts = new Map(), replacements = new Map(), used = new Set();
+    MB.STARTER_DECK.forEach((id) => counts.set(id, (counts.get(id) || 0) + 1));
+    counts.forEach((n, id) => {
+      const template = MB.CARDS[id];
+      const choices = pool.filter((cid) => {
+        const c = MB.CARDS[cid];
+        return !used.has(cid) && c.cost === template.cost && (c.type || 'unit') === (template.type || 'unit')
+          && (c.copies || MB.RARITY.common.copies) >= n;
+      });
+      if (!choices.length) throw new Error(`No starting common for ${id}`);
+      const chosen = pickFrom(choices, rng);
+      replacements.set(id, chosen);
+      used.add(chosen);
+    });
+    return MB.STARTER_DECK.map((id) => replacements.get(id));
+  }
+
   // ---------------------------------------------------------------- levels
   const L = MB.LEVELS;
   // character cards level up; items and tokens don't
@@ -162,6 +183,6 @@ window.MB = window.MB || {};
     return fresh;
   }
 
-  MB.Collection = { deckCards, need, locked, rollCard, addShards, openPack, storyShards, grantStoryShards, stageAvatars, avatarStage, clearedStages, grantStoryAvatars,
+  MB.Collection = { deckCards, starterDeck, need, locked, rollCard, addShards, openPack, storyShards, grantStoryShards, stageAvatars, avatarStage, clearedStages, grantStoryAvatars,
     entry, levels, level, maxed, stepCost, upCost, toMax, room, growing, gainAt, leveled, levelUp, finished };
 })();
