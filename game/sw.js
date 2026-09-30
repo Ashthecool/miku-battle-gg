@@ -2,7 +2,7 @@
 // you're online; R2 images and imported local character sprites are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v31';
+const SHELL = 'mb-shell-v32';
 const ASSETS = 'mb-assets-v5';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',

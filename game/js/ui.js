@@ -85,6 +85,11 @@
       || s.starterDeck.some((id) => !MB.CARDS[id] && !MB.HIDDEN_CARDS.has(id))) s.starterDeck = MB.STARTER_DECK.slice();
     // This save's starter cards are always owned, so there is always a deck to play.
     s.unlocked = [...new Set([...s.unlocked, ...s.starterDeck])];
+    // leaders: characters cut from the game drop out (NSFW ones are kept while the mode is off)
+    const chars = new Set(window.MIKU_MANIFEST.characters.map((c) => c.id));
+    s.leaders = [...new Set(Array.isArray(s.leaders) ? s.leaders : [])].filter((id) => chars.has(id) || MB.HIDDEN_CARDS.has(id));
+    if (!s.leaders.length) s.leaders = MB.STARTER_LEADERS.slice();
+    if (!s.leaders.includes(s.leader)) s.leader = s.leaders[0];
     // Story: the quests done (ids; hidden ones kept for NSFW mode) and the acts whose Epic pack was paid
     s.quests = [...new Set(s.quests)].filter((id) => MB.Story.byId(id));
     // whether M-chan's intro (MB.INTRO) was seen; saves that already started the story skip it

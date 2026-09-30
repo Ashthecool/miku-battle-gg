@@ -130,11 +130,9 @@ john proud
 saria scorn
 delphine intrigued
 juniper neutral
-anya amused
 shenzi amused
 susan disdain
 noelle happy
-bob confident
 andrew confident
 louis happy
 monika amused
