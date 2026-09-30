@@ -9,6 +9,31 @@
     { name: 'everyday', x: [0, 320, 640, 940, 1254], y: [0, 330, 630, 920, 1254] },
   ];
   const urls = sheets.map(({ name }) => `assets/attacks/${name}.png`);
+  const yumi = {
+    rise: 'assets/attacks/yumi/dolphin-rise.png',
+    ride: 'assets/attacks/yumi/yumi-ride.png',
+    fall: 'assets/attacks/yumi/yumi-fall.png',
+  };
+  urls.push(...Object.values(yumi));
+  const eri = { rise: yumi.rise, ride: 'assets/attacks/yumi/eri-ride.png', fall: 'assets/attacks/yumi/eri-fall.png' };
+  urls.push(eri.ride, eri.fall);
+  const jay = {
+    frames: 'assets/attacks/jay/jay-painting-frames.png',
+    proud: 'assets/attacks/jay/jay-proud.png',
+    sketch: 'assets/attacks/jay/spike-sketch.png',
+    spike: 'assets/attacks/jay/painted-spike.png',
+  };
+  urls.push(...Object.values(jay));
+  const artBooks = {
+    jay: 'assets/attacks/art-books/jay-stairs.png',
+    janice: 'assets/attacks/art-books/janice-climb.png',
+  };
+  urls.push(...Object.values(artBooks));
+  const pristo = { poses: 'assets/attacks/pristo/guitar-poses.png' };
+  urls.push(...Object.values(pristo));
+  const metalMass = { julia: 'assets/attacks/metal-mass/julia-singing-poses.png',
+    width: 1270, height: 1239, x: [0, 650, 1270], y: [0, 610, 1239] };
+  urls.push(metalMass.julia);
   const entries = [
     ['sparkle', '✨ ✦ ✧'], ['star', '⭐ 🌟 💫 ★'], ['heart', '💗 💖 💕 💞 💘 ❤️ ❤ ♥'], ['broken-heart', '💔'],
     ['feather', '🪶'], ['blossom', '🌸 💮'], ['note', '🎵 🎶 ♪ ♫'], ['kiss', '💋'],
@@ -85,5 +110,5 @@
   }
 
   function setText(root, text) { root.textContent = text; return decorate(root); }
-  MB.AttackArt = { urls, sprite, decorate, setText };
+  MB.AttackArt = { urls, yumi, eri, jay, artBooks, pristo, metalMass, sprite, decorate, setText };
 })();

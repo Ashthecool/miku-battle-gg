@@ -1,0 +1,242 @@
+{
+  "version": 1,
+  "generator": "Built-in image_gen tool",
+  "status": "Asset library; not registered in battle renderer",
+  "layout": {
+    "columns": 4,
+    "rows": 4,
+    "order": "row-major"
+  },
+  "sets": [
+    {
+      "file": "01-food-and-drinks.png",
+      "title": "Food and drinks",
+      "subjects": [
+        "strawberry",
+        "peach",
+        "lemon wedge",
+        "pair of cherries",
+        "rice ball wrapped in nori",
+        "salmon sushi piece",
+        "bowl of ramen with chopsticks",
+        "steamed dumpling",
+        "chocolate-chip cookie",
+        "pink macaron",
+        "caramel pudding on small saucer",
+        "vanilla ice-cream cone",
+        "milk carton with blank label",
+        "clear cup of brown milk tea with tapioca pearls",
+        "small white coffee mug",
+        "melon soda in glass with scoop of ice cream"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: strawberry; peach; lemon wedge; pair of cherries.\nRow 2: rice ball wrapped in nori; salmon sushi piece; bowl of ramen with chopsticks; steamed dumpling.\nRow 3: chocolate-chip cookie; pink macaron; caramel pudding on small saucer; vanilla ice-cream cone.\nRow 4: milk carton with blank label; clear cup of brown milk tea with tapioca pearls; small white coffee mug; melon soda in glass with scoop of ice cream.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "02-school-and-art.png",
+      "title": "School and art",
+      "subjects": [
+        "closed navy school notebook with blank cover",
+        "yellow pencil",
+        "pink eraser",
+        "blue ballpoint pen",
+        "wooden ruler with ticks but no digits",
+        "steel scissors with blue handles",
+        "small purple pencil case",
+        "red school backpack",
+        "artist paintbrush with blue paint at tip",
+        "wooden paint palette with five color spots",
+        "stack of three colored sticky notes",
+        "white paper airplane",
+        "rolled cream parchment tied with string",
+        "small blue stapler",
+        "piece of white chalk",
+        "silver binder clip"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: closed navy school notebook with blank cover; yellow pencil; pink eraser; blue ballpoint pen.\nRow 2: wooden ruler with ticks but no digits; steel scissors with blue handles; small purple pencil case; red school backpack.\nRow 3: artist paintbrush with blue paint at tip; wooden paint palette with five color spots; stack of three colored sticky notes; white paper airplane.\nRow 4: rolled cream parchment tied with string; small blue stapler; piece of white chalk; silver binder clip.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "03-music-and-stage.png",
+      "title": "Music and stage",
+      "subjects": [
+        "black handheld microphone",
+        "pink over-ear headphones",
+        "small wooden acoustic guitar",
+        "red electric guitar",
+        "brown violin with bow",
+        "small brass trumpet",
+        "cream tambourine",
+        "pair of wooden drumsticks",
+        "tiny red snare drum",
+        "three ivory and black piano keys",
+        "purple portable music player with blank screen",
+        "small gray stage speaker",
+        "mint glow stick",
+        "pink glow stick",
+        "red theater curtain tied with cord, isolated",
+        "white theatrical half-mask with subtle blue details"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: black handheld microphone; pink over-ear headphones; small wooden acoustic guitar; red electric guitar.\nRow 2: brown violin with bow; small brass trumpet; cream tambourine; pair of wooden drumsticks.\nRow 3: tiny red snare drum; three ivory and black piano keys; purple portable music player with blank screen; small gray stage speaker.\nRow 4: mint glow stick; pink glow stick; red theater curtain tied with cord, isolated; white theatrical half-mask with subtle blue details.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "04-nature-and-garden.png",
+      "title": "Nature and garden",
+      "subjects": [
+        "purple tulip with two leaves",
+        "white daisy with yellow center",
+        "yellow sunflower",
+        "blue hydrangea flower cluster",
+        "pink lotus blossom",
+        "four-leaf clover",
+        "sprouting seedling with two leaves",
+        "small green cactus in terracotta pot",
+        "red spotted mushroom",
+        "pine cone",
+        "brown autumn maple leaf",
+        "acorn with cap",
+        "small smooth gray rock",
+        "blue butterfly with spread wings",
+        "small curled green vine",
+        "mint watering can"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: purple tulip with two leaves; white daisy with yellow center; yellow sunflower; blue hydrangea flower cluster.\nRow 2: pink lotus blossom; four-leaf clover; sprouting seedling with two leaves; small green cactus in terracotta pot.\nRow 3: red spotted mushroom; pine cone; brown autumn maple leaf; acorn with cap.\nRow 4: small smooth gray rock; blue butterfly with spread wings; small curled green vine; mint watering can.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "05-magic-and-status.png",
+      "title": "Magic and status",
+      "subjects": [
+        "small lavender glowing orb with sharp outline and flat shading",
+        "turquoise swirl of magic",
+        "pink spiral hypnosis symbol",
+        "pale cyan cracked ice crystal",
+        "three orange floating embers",
+        "simple violet smoke puff",
+        "mint poison droplet",
+        "three pale lavender sleep bubbles",
+        "golden halo ring",
+        "small blue protective shield",
+        "white starburst impact with pale yellow center",
+        "red jagged impact burst",
+        "violet crescent slash arc",
+        "cyan circular shockwave ring",
+        "two small linked pink hearts",
+        "gray dust puff with simple contour"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: small lavender glowing orb with sharp outline and flat shading; turquoise swirl of magic; pink spiral hypnosis symbol; pale cyan cracked ice crystal.\nRow 2: three orange floating embers; simple violet smoke puff; mint poison droplet; three pale lavender sleep bubbles.\nRow 3: golden halo ring; small blue protective shield; white starburst impact with pale yellow center; red jagged impact burst.\nRow 4: violet crescent slash arc; cyan circular shockwave ring; two small linked pink hearts; gray dust puff with simple contour.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "06-weapons-and-tools.png",
+      "title": "Weapons and tools",
+      "subjects": [
+        "simple curved katana with black grip, pointing upper right",
+        "short steel dagger with purple grip",
+        "wooden practice sword",
+        "wooden bow with taut string",
+        "single wooden arrow with white fletching",
+        "four-point steel throwing star",
+        "plain wooden round shield with steel center",
+        "wooden baseball bat",
+        "steel wrench",
+        "flat-head screwdriver with red handle",
+        "garden trowel with wooden handle",
+        "small gray pliers",
+        "coiled brown rope",
+        "single length of steel chain curled into an S",
+        "wooden slingshot with red elastic",
+        "simple wooden broom"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: simple curved katana with black grip, pointing upper right; short steel dagger with purple grip; wooden practice sword; wooden bow with taut string.\nRow 2: single wooden arrow with white fletching; four-point steel throwing star; plain wooden round shield with steel center; wooden baseball bat.\nRow 3: steel wrench; flat-head screwdriver with red handle; garden trowel with wooden handle; small gray pliers.\nRow 4: coiled brown rope; single length of steel chain curled into an S; wooden slingshot with red elastic; simple wooden broom.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "07-tech-and-games.png",
+      "title": "Tech and games",
+      "subjects": [
+        "white and purple game controller",
+        "mint handheld game console with blank screen",
+        "open gray laptop with blank blue screen",
+        "compact white keyboard",
+        "pink computer mouse",
+        "small blue USB flash drive",
+        "black digital camera",
+        "white instant camera",
+        "small white robot head with cyan eyes",
+        "mint and white battery",
+        "white six-sided die with black pips",
+        "red playing card face with one simple heart and no lettering",
+        "black chess knight",
+        "small wooden spinning top",
+        "yellow arcade token with simple star stamp",
+        "purple retro game cartridge with blank label"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: white and purple game controller; mint handheld game console with blank screen; open gray laptop with blank blue screen; compact white keyboard.\nRow 2: pink computer mouse; small blue USB flash drive; black digital camera; white instant camera.\nRow 3: small white robot head with cyan eyes; mint and white battery; white six-sided die with black pips; red playing card face with one simple heart and no lettering.\nRow 4: black chess knight; small wooden spinning top; yellow arcade token with simple star stamp; purple retro game cartridge with blank label.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "08-gifts-and-accessories.png",
+      "title": "Gifts and accessories",
+      "subjects": [
+        "cream envelope sealed with pink heart",
+        "pink heart-shaped chocolate box",
+        "small lavender gift bag with white tissue",
+        "folded blue silk ribbon",
+        "simple yellow star hair clip",
+        "pink butterfly hair clip",
+        "blue scrunchie",
+        "plain cream scarf folded loosely",
+        "small red beret",
+        "purple folded umbrella",
+        "small brown satchel",
+        "pair of round silver eyeglasses",
+        "simple brass key",
+        "tiny white plush rabbit with pink ears",
+        "tiny brown plush teddy bear",
+        "small round white hand mirror with pink handle"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: cream envelope sealed with pink heart; pink heart-shaped chocolate box; small lavender gift bag with white tissue; folded blue silk ribbon.\nRow 2: simple yellow star hair clip; pink butterfly hair clip; blue scrunchie; plain cream scarf folded loosely.\nRow 3: small red beret; purple folded umbrella; small brown satchel; pair of round silver eyeglasses.\nRow 4: simple brass key; tiny white plush rabbit with pink ears; tiny brown plush teddy bear; small round white hand mirror with pink handle.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "09-home-and-care.png",
+      "title": "Home and care",
+      "subjects": [
+        "small glass perfume bottle with lavender liquid",
+        "pink comb",
+        "blue toothbrush",
+        "white soap bar with mint bubbles",
+        "folded white towel",
+        "small mint tissue box with one tissue",
+        "plain white medicine bottle with blue blank label",
+        "pink hot-water bottle",
+        "small white first-aid box with red cross",
+        "small white candle with orange flame",
+        "wooden alarm clock with plain hands and no digits",
+        "pink cushion",
+        "blue ceramic bowl",
+        "wooden spoon",
+        "clear drinking glass of water",
+        "small blue spray bottle with blank label"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: small glass perfume bottle with lavender liquid; pink comb; blue toothbrush; white soap bar with mint bubbles.\nRow 2: folded white towel; small mint tissue box with one tissue; plain white medicine bottle with blue blank label; pink hot-water bottle.\nRow 3: small white first-aid box with red cross; small white candle with orange flame; wooden alarm clock with plain hands and no digits; pink cushion.\nRow 4: blue ceramic bowl; wooden spoon; clear drinking glass of water; small blue spray bottle with blank label.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    },
+    {
+      "file": "10-seasonal-extras.png",
+      "title": "Seasonal extras",
+      "subjects": [
+        "orange jack-o-lantern with simple carved face",
+        "small smiling white cartoon ghost",
+        "purple witch hat with plain ribbon",
+        "black cat face with yellow eyes",
+        "red and white candy cane",
+        "small snowman with blue scarf",
+        "green holly sprig with red berries",
+        "red winter mitten",
+        "pastel pink painted egg",
+        "small straw basket holding three pastel eggs",
+        "yellow festival lantern with no writing",
+        "red-and-white folding paper fan",
+        "goldfish-shaped orange paper charm",
+        "blue seashell",
+        "small sandcastle",
+        "small red maple leaf-shaped charm with short cord"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE new production-quality battle prop asset sheet for Miku Battle, square, exactly 4 columns x 4 rows, 16 isolated sprites.\nInput image: existing game prop sheet is a STYLE REFERENCE only. Make NEW subjects; do not alter or reproduce the original sheet.\nStyle: match the reference's simple-color hand-drawn anime visual-novel props. Clean thin dark contour lines, matte soft natural colors, 2-to-3 flat tones per material, modest small white highlights. Clear silhouettes readable when small. No ornate decorations, filigree, fancy jewelry, glossy 3D, photorealism, heavy gradients, emoji fonts or sticker border.\nBackground: genuinely transparent alpha everywhere outside sprites, no checkerboard baked in, no colored backdrop, no drop shadows, no text, no labels, no frames or grid lines.\nLayout: EXACT evenly spaced 4x4 grid of equal square cells. One complete centered standalone subject per cell, consistent visual scale. Confine all artwork to central 70% of each cell, leaving at least 15% fully transparent padding on ALL sides. No touching or overlapping cells. No cropped parts. Do not add unrelated decorative sparkles.\nSubjects in row-major order:\nRow 1: orange jack-o-lantern with simple carved face; small smiling white cartoon ghost; purple witch hat with plain ribbon; black cat face with yellow eyes.\nRow 2: red and white candy cane; small snowman with blue scarf; green holly sprig with red berries; red winter mitten.\nRow 3: pastel pink painted egg; small straw basket holding three pastel eggs; yellow festival lantern with no writing; red-and-white folding paper fan.\nRow 4: goldfish-shaped orange paper charm; blue seashell; small sandcastle; small red maple leaf-shaped charm with short cord.\nConstraints: exactly these 16 subjects, stated order, coherent simple anime art matching reference. These are reusable asset-library extras, not a scene."
+    }
+  ]
+}

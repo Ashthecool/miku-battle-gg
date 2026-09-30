@@ -85,7 +85,7 @@ MB.CARDS = {
   'janice-garmund':    { cost: 3, atk: 1, hp: 5, rarity: 'rare', kw: [], onTurnStart: 'bookworm',
     text: 'Start of your turn: if you hold 3 or fewer cards, draw one.', attack: { style: 'pages', name: 'Library Blizzard', color: '#9a8cff' } },
   'jay-lester':        { cost: 3, atk: 2, hp: 3, rarity: 'common', kw: [], onPlay: 'repaint',
-    text: 'On play: swap ATK and HP of the strongest enemy monster.', attack: { style: 'paint', name: 'Splash of Color', color: '#29c5ff' } },
+    text: 'On play: swap ATK and HP of the strongest enemy monster.', attack: { style: 'paintspike', name: 'Painted into Reality', color: '#29c5ff', zoom: 0 } },
   'charlie-and-jenny': { cost: 2, atk: 3, hp: 2, rarity: 'common', kw: ['tipsy'], name: 'Charlie & Jenny',
     text: '', attack: { style: 'stumble', name: 'Double Trouble', color: '#ffb347' } },
 
@@ -417,7 +417,7 @@ MB.CARDS = {
     intro: { move: 'fade', fx: 'column', emoji: ['👑', '💜'] }, quote: 'My my... kneel. CEDERE.' },
   'priest-pristo':      { cost: 7, atk: 5, hp: 7, rarity: 'legendary', kw: ['lifesteal'],
     onPlay: { label: 'CASA!', color: '#f0d27a', emoji: '⛪', do: { op: 'kill', to: 'strongestEnemy' } },
-    attack: { style: 'riff', name: 'Light of Lies', color: '#f0d27a', sky: 'holy', cry: 'Welcome to my CASA.', finish: 'Amen. \\m/' },
+    attack: { style: 'lightriff', name: 'Light of Lies', color: '#f0d27a', sky: 'holy', zoom: 0.06, cry: 'Welcome to my CASA.', finish: 'Amen. \\m/' },
     quote: "Heh. Been priest here longer than you've been alive, kid." },
 
   // Legend Of You
@@ -1437,7 +1437,7 @@ MB.BONDS = [
     text: '', attack: { style: 'riptide', name: 'Riptide Rush', color: '#3fb6ff' } },
   { id: 'art-club', pair: ['janice-garmund', 'jay-lester'], costumes: ['summer-clothes', 'new-outfit'], tier: 1,
     name: 'Art & Books', short: 'Club', relation: 'Clubmates', bonus: [1, 1], kw: ['taunt'],
-    text: '', attack: { style: 'combo', name: 'Illustrated Edition', color: '#29c5ff', emoji: '🎨' } },
+    text: '', attack: { style: 'bookstairs', name: 'Stairway to the Library', color: '#29c5ff', emoji: '📖', zoom: 0 } },
   { id: 'extra-credit', pair: ['mr-dino', 'jay-lester'], costumes: ['coach-outfit', null], tier: 1,
     name: 'Extra Credit', short: 'Class', relation: 'Teacher & Student', bonus: [1, 1], kw: ['shield'],
     text: '', attack: { style: 'lesson', name: 'Pop Quiz Barrage', color: '#3ddc84' } },
@@ -1513,7 +1513,7 @@ MB.BONDS = [
     attack: { style: 'kiss', name: 'Love Letter Barrage', color: '#e0245e', emoji: '💌', hits: 3, cry: 'Please read them all!', finish: '...Noted.' } },
   { id: 'common-sense', pair: ['eri', 'yumi'], costumes: [null, null], tier: 1,
     name: 'Common Sense Club', short: 'Club', relation: 'Classmates', bonus: [1, 1], kw: ['haste'],
-    attack: { style: 'combo', name: 'Dolphin Tsukkomi', color: '#ff4f6d', emoji: '🐬' } },
+    attack: { style: 'dolphinduet', name: 'Dolphin Tsukkomi', color: '#7fd3ff', emoji: '🐬' } },
   // Bloodline
   { id: 'tooyama-legacy', pair: ['shogun-kagetora', 'sakura-tooyama'], costumes: [null, 'sakura-white-yukata'], tier: 2,
     name: 'Tooyama Legacy', short: 'Tooyama', relation: 'Father & Daughter', bonus: [1, 2], kw: ['taunt', 'frenzy'],
@@ -1636,7 +1636,8 @@ MB.BONDS = [
     attack: { style: 'twinstar', name: 'Joyo & Nullio', color: '#7fd3f0' } },
   { id: 'church-of-dalmavilla', pair: ['julia-aquacrucis', 'priest-pristo'], costumes: [null, null], tier: 1,
     name: 'Church of Dalmavilla', short: 'Church', relation: 'Nun & Priest', bonus: [1, 1], kw: ['lifesteal'],
-    attack: { style: 'combo', name: 'Metal Mass', color: '#f0d27a', emoji: '✝️' } },
+    attack: { style: 'metalmass', name: 'Metal Mass', color: '#f0d27a', sky: 'holy', zoom: 0.04,
+      cry: 'Pristo: Take it away, Sister!' } },
   { id: 'hero-and-thug', pair: ['flora-aquila', 'brutio-bruscos'], costumes: [null, null], tier: 1,
     name: 'Hero & Thug', short: 'Frenemies', relation: 'Hero vs thug', bonus: [1, 1], kw: ['rebel'],
     attack: { style: 'combo', name: 'Grass Knuckle', color: '#6fcf3f', emoji: '🌿' } },

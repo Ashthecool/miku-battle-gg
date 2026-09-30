@@ -961,6 +961,134 @@
     await wait(0.2);
   };
 
+  // Jay: paints a rough spike on a canvas in close-up, returns to his slot, and leaves a real spike over the enemy.
+  S.paintspike = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), art = MB.AttackArt.jay;
+    const face = T.x < 590 ? -1 : 1, P = A;
+    const nodes = [], cut = document.createElement('div');
+    const cameraHome = { scale: gsap.getProperty(V.camera, 'scale'), x: gsap.getProperty(V.camera, 'x'), y: gsap.getProperty(V.camera, 'y') };
+    const painterHTML = `<div class="jay-painter" role="img" aria-label="Jay painting with his back turned" style="background-image:url('${art.frames}')"></div>`;
+    // Atlas cells share the same body anchor. The extra 38px includes frame 2's full brush;
+    // the right column's empty left gutter excludes neighboring brush tips, never any part of Jay.
+    const pose = (node, frame) => {
+      node.dataset.paintFrame = frame;
+      node.style.backgroundPosition = `${frame % 2 ? 480 / 474 * 100 : 0}% ${frame >= 2 ? 100 : 0}%`;
+      node.style.clipPath = frame % 2 ? 'inset(0 0 0 13%)' : 'none';
+    };
+    const spikeHTML = `<img src="${art.spike}" alt="A painted steel spike pointing down">`;
+    cut.className = 'jay-paint-cut'; cut.dataset.jayPhase = 'paint';
+    cut.innerHTML = `<div class="jay-paint-caption">Just a little finishing touch...</div><div class="jay-paint-stage"><div class="jay-spike-art"><div class="jay-canvas"></div><img class="jay-sketch" src="${art.sketch}" alt="Jay's rough painted spike on canvas"><img class="jay-solid" src="${art.spike}" alt="The painted spike becoming real"></div>${painterHTML}</div>`;
+    const stage = cut.querySelector('.jay-paint-stage'), closeJay = stage.querySelector('.jay-painter');
+    const closeSpike = stage.querySelector('.jay-spike-art'), stroke = { frame: 0 };
+    const canvas = closeSpike.querySelector('.jay-canvas'), sketch = closeSpike.querySelector('.jay-sketch'), solid = closeSpike.querySelector('.jay-solid');
+    const caption = cut.querySelector('.jay-paint-caption');
+    let painter, spike;
+    const rectInUi = (node) => {
+      const b = node.getBoundingClientRect(), p = V.toUi(b.left + b.width / 2, b.top + b.height / 2);
+      const scale = V.root.getBoundingClientRect().width / 1600;
+      return { x: p.x, y: p.y, width: b.width / scale, height: b.height / scale };
+    };
+    try {
+      await MB.preloadImages(Object.values(art));
+      V.root.appendChild(cut);
+      gsap.set(stage, { x: 620, y: 350 });
+      gsap.set(closeJay, { width: 430, height: 600, x: face > 0 ? -450 : 20, y: -185, scaleX: face });
+      pose(closeJay, 0);
+      gsap.set(closeSpike, { width: 240, height: 360, x: -120, y: -180 });
+      gsap.set(sketch, { clipPath: 'inset(0% 0% 100% 0%)' });
+      gsap.set(solid, { opacity: 0 });
+      await gsap.fromTo(cut, { opacity: 0 }, { opacity: 1, duration: 0.25 });
+      gsap.set(v.figure, { opacity: 0 });
+      MB.audio.sfx('draw');
+      // Each frame is a complete, naturally drawn pose. The shoulder, sleeve and elbow stay connected.
+      await gsap.timeline()
+        .to(stroke, { frame: 3, duration: 1.42, ease: 'none', onUpdate: () => pose(closeJay, Math.min(3, Math.floor(stroke.frame + 0.3))) })
+        .to(sketch, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.42, ease: 'none' }, 0)
+        .to(closeJay, { x: face > 0 ? -403 : -26, y: -75, duration: 0.85, ease: 'sine.inOut' }, 0.57)
+        .to(closeJay, { rotation: 2, duration: 0.7, yoyo: true, repeat: 1 }, 0);
+      MB.audio.sfx('splat');
+      caption.textContent = 'And... done!';
+      await wait(0.45); // let the completed, still-flat canvas painting read before the reveal
+      // Pull back the board too, leaving sky for a readable drop even above the enemy leader.
+      await gsap.to(V.camera, { scale: 0.88, x: 0, y: 55, duration: 0.25, ease: 'sine.inOut' });
+
+      painter = V.billboard('', painterHTML, P.x, P.y); nodes.push(painter);
+      painter.dataset.jayPhase = 'painting-pose';
+      painter.body.style.width = '179.167px'; painter.body.style.height = '250px';
+      const boardJay = painter.body.querySelector('.jay-painter');
+      boardJay.style.width = '100%'; boardJay.style.height = '100%';
+      gsap.set(boardJay, { scaleX: face });
+      pose(boardJay, 3);
+      gsap.set(painter.body, { y: -125, opacity: 0 });
+      spike = V.billboard('jay-spike-art', spikeHTML, T.x, T.y); nodes.push(spike);
+      spike.dataset.jayPhase = 'hover';
+      let spikeHeight = 180, hoverHeight = hT + spikeHeight * 0.43 + 100;
+      spike.body.style.width = spikeHeight * 2 / 3 + 'px'; spike.body.style.height = spikeHeight + 'px';
+      gsap.set(spike.body, { y: -hoverHeight, opacity: 0 });
+      // Adapt the hover to the actual projected viewport; the far row and leader have less sky available.
+      const hoverBox = spike.body.getBoundingClientRect(), screenScale = hoverBox.height / 180;
+      if (hoverBox.top < 85) {
+        spikeHeight = Math.max(80, spikeHeight - (85 - hoverBox.top) / (0.93 * Math.max(0.1, screenScale)));
+        spike.body.style.width = spikeHeight * 2 / 3 + 'px'; spike.body.style.height = spikeHeight + 'px';
+        hoverHeight = hT + spikeHeight * 0.43 + 100;
+        gsap.set(spike.body, { y: -hoverHeight });
+        const box = spike.body.getBoundingClientRect();
+        if (box.top < 85) hoverHeight -= (85 - box.top) / Math.max(0.1, screenScale);
+      }
+      gsap.set(spike.body, { y: -hoverHeight });
+      const s = rectInUi(spike.body), p = rectInUi(painter.body);
+      cut.dataset.jayPhase = 'reveal';
+      // Jay shrinks back to his own slot while the canvas peels away and the drawing gains solid steel facets.
+      await gsap.timeline()
+        .to(stage, { x: 0, y: 0, duration: 0.85, ease: 'power2.inOut' })
+        .to(closeSpike, { x: s.x - s.width / 2, y: s.y - s.height / 2, width: s.width, height: s.height,
+          duration: 0.85, ease: 'power2.inOut' }, 0)
+        .to(closeJay, { x: p.x - p.width / 2, y: p.y - p.height / 2, width: p.width, height: p.height,
+          rotation: 0, scaleX: face, duration: 0.85, ease: 'power2.inOut' }, 0)
+        .to(canvas, { opacity: 0, duration: 0.4 }, 0.15)
+        .to(sketch, { opacity: 0, duration: 0.45 }, 0.3)
+        .to(solid, { opacity: 1, duration: 0.45 }, 0.3)
+        .to(caption, { opacity: 0, duration: 0.35 }, 0.25)
+        .to(cut, { '--veil': 0, duration: 0.85 }, 0);
+      gsap.set([painter.body, spike.body], { opacity: 1 });
+      cut.remove();
+      MB.audio.sfx('glint');
+      // Jay remains back in his slot; the solid spike hangs for a beat, then accelerates straight down.
+      await wait(0.5);
+      spike.dataset.jayPhase = 'fall';
+      MB.audio.sfx('whistleDown');
+      // The generated tip is at (50%, 93%) in its PNG. Land that point on the target's visual center.
+      await gsap.to(spike.body, { y: -hT - spikeHeight * 0.43, duration: 0.42, ease: 'power3.in' });
+      spike.dataset.jayPhase = 'contact';
+      impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('splat'); V.shake(11);
+      ring(V, T, c, 1.6); burst(V, T, c, 10, { h: hT, spread: 65 });
+      await wait(0.16);
+      await Promise.all([
+        gsap.to(spike.body, { opacity: 0, duration: 0.25 }),
+        gsap.to(painter.body, { opacity: 0, duration: 0.3 }),
+      ]);
+      // He turns back to us with a proud toothy grin after his masterpiece lands.
+      painter.body.classList.add('jay-proud-art');
+      painter.body.innerHTML = `<img src="${art.proud}" alt="Jay grinning proudly with his teeth showing">`;
+      painter.body.style.width = '200px'; painter.body.style.height = '300px';
+      painter.dataset.jayPhase = 'proud';
+      gsap.set(painter.body, { y: -150, rotation: 0, scale: 0.94 });
+      await gsap.to(painter.body, { opacity: 1, scale: 1, duration: 0.22, ease: 'back.out(1.4)' });
+      pop(V, A, 325, 'Heh. Nailed it!', 'float-text ability', 1);
+      await wait(1.05);
+      await Promise.all([
+        gsap.to(painter.body, { opacity: 0, duration: 0.25 }),
+        gsap.to(v.figure, { opacity: 1, duration: 0.25 }),
+      ]);
+    } finally {
+      gsap.killTweensOf([cut, stage, closeJay, closeSpike, stroke, caption, canvas, sketch, solid]); cut.remove();
+      nodes.forEach((node) => { gsap.killTweensOf(node.body); node.remove(); });
+      gsap.set(v.figure, { x: 0, y: 0, rotation: 0, opacity: 1 });
+      gsap.set(v.el, { x: A.x, y: A.y }); gsap.set(v.img, { scaleX: 1, scaleY: 1 });
+      gsap.to(V.camera, { ...cameraHome, duration: 0.4, ease: 'sine.inOut' });
+    }
+  };
+
   S.stumble = async (V, a, t, impact) => {
     const { v, A, T, C, d, perp, hA, hT, c } = ctx(V, a, t);
     const hic = (x, y) => {
@@ -1010,6 +1138,133 @@
   }
 
   // Tier 1: tag-team — one partner leaps in, the other spins after
+  // Art & Books: Jay creates the route; Janice crawls up with her books and accidentally delivers them from above.
+  S.bookstairs = async (V, a, t, impact) => {
+    const r = ctx(V, a, t), { v, A, T, hT, c } = r, art = MB.AttackArt.artBooks;
+    const face = T.x < 590 ? -1 : 1, nodes = [], stroke = { frame: 0 };
+    const cameraHome = { scale: gsap.getProperty(V.camera, 'scale'), x: gsap.getProperty(V.camera, 'x'), y: gsap.getProperty(V.camera, 'y') };
+    const parts = duo(v), savedParts = parts.map(p => ({ opacity: gsap.getProperty(p, 'opacity') }));
+    const land = lander(V, t, impact, r, { big: true });
+    let sceneScale = 1, step = 0, janiceFrame = 0;
+    const jay = V.billboard('art-books-pose art-books-jay', '', T.x - face * 365, T.y + 65);
+    jay.body.style.backgroundImage = `url('${art.jay}')`; jay.dataset.artBooksPhase = 'paint'; nodes.push(jay);
+    const janice = V.billboard('art-books-pose art-books-janice', '', T.x - face * 275, T.y + 45);
+    janice.body.style.backgroundImage = `url('${art.janice}')`; janice.dataset.artBooksPhase = 'carry'; nodes.push(janice);
+    const stairPath = 'M345 35 H290 V70 H235 V105 H180 V140 H125 V175 H70 V210 H15';
+    const stairs = V.billboard('art-books-stairs', `<svg viewBox="0 0 360 210" aria-label="Jay's painted staircase">
+      <path class="stair-solid" d="M15 210 H70 V175 H125 V140 H180 V105 H235 V70 H290 V35 H345 V210 Z"/>
+      <path class="stair-tread" fill="none" d="M70 175 H125 M125 140 H180 M180 105 H235 M235 70 H290 M290 35 H345"/>
+      <path class="stair-ink" d="${stairPath}"/></svg>`, T.x - face * 137.5, T.y + 45);
+    stairs.dataset.artBooksPhase = 'draw'; nodes.push(stairs);
+    const solids = stairs.body.querySelectorAll('.stair-solid, .stair-tread'), ink = stairs.body.querySelector('.stair-ink');
+    const poseJay = (frame) => {
+      jay.dataset.paintFrame = frame;
+      jay.body.style.backgroundPosition = `${frame % 2 ? 100 : 0}% ${frame >= 2 ? 100 : 0}%`;
+    };
+    const poseJanice = (frame) => {
+      janiceFrame = frame; janice.dataset.climbFrame = frame;
+      const rowH = frame < 2 ? 768 : 562, height = 215 * sceneScale * rowH / 591;
+      janice.body.style.width = 215 * sceneScale + 'px'; janice.body.style.height = height + 'px';
+      janice.body.style.backgroundSize = `200% ${1330 / rowH * 100}%`;
+      janice.body.style.backgroundPosition = `${frame % 2 ? 100 : 0}% ${frame >= 2 ? 100 : 0}%`;
+      // The atlas contains full upright and kneeling poses at the same pixel scale, each with its own floor baseline.
+      gsap.set(janice.body, { y: -step * 35 * sceneScale - (0.96 - 0.5) * height, scaleX: face });
+    };
+    const placeScene = () => {
+      gsap.set(jay, { x: T.x - face * 365 * sceneScale, y: T.y + 65 });
+      jay.body.style.width = 150 * sceneScale + 'px'; jay.body.style.height = 225 * sceneScale + 'px';
+      gsap.set(jay.body, { y: -112.5 * sceneScale, scaleX: face });
+      gsap.set(stairs, { x: T.x - face * 137.5 * sceneScale, y: T.y + 45 });
+      stairs.body.style.width = 360 * sceneScale + 'px'; stairs.body.style.height = 210 * sceneScale + 'px';
+      gsap.set(stairs.body, { y: -105 * sceneScale, scaleX: face });
+      gsap.set(janice, { x: T.x - face * 275 * sceneScale, y: T.y + 45 }); poseJanice(janiceFrame);
+    };
+    const cleanup = () => {
+      nodes.forEach(node => { gsap.killTweensOf(node); gsap.killTweensOf(node.body); node.remove(); });
+      gsap.killTweensOf(stroke); gsap.killTweensOf([ink, ...solids]);
+      gsap.set(v.figure, { x: 0, y: 0, rotation: 0, opacity: 1 });
+      parts.forEach((p, i) => gsap.set(p, { opacity: savedParts[i].opacity }));
+      gsap.set(v.el, { x: A.x, y: A.y }); gsap.set(v.img, { scaleX: 1, scaleY: 1 });
+      gsap.to(V.camera, { ...cameraHome, duration: 0.45, ease: 'sine.inOut' });
+    };
+    try {
+      gsap.set([jay.body, janice.body, stairs.body], { opacity: 0 });
+      await MB.preloadImages(Object.values(art));
+      // Stop the wrapper's focus tween so it cannot override this attack's framing.
+      gsap.killTweensOf(V.camera, 'scale,x,y');
+      await gsap.to(V.camera, { scale: 0.82, x: 0, y: 70, duration: 0.4, ease: 'sine.inOut' });
+      poseJay(0); placeScene();
+      // Fit both the taller upright climb and the top-step crawling pose, leaving room for their hop.
+      const climbTop = () => {
+        step = 1; poseJanice(1); const uprightTop = janice.body.getBoundingClientRect().top;
+        step = 5; poseJanice(2);
+        return Math.min(uprightTop, janice.body.getBoundingClientRect().top);
+      };
+      while (climbTop() < 75 && sceneScale > 0.58) {
+        sceneScale -= 0.06; placeScene();
+      }
+      step = 0; poseJanice(0); placeScene();
+      gsap.set(solids, { opacity: 0 });
+      const length = ink.getTotalLength(); ink.style.strokeDasharray = length; ink.style.strokeDashoffset = length;
+      await Promise.all([
+        gsap.to(v.figure, { opacity: 0, duration: 0.18 }),
+        gsap.to([jay.body, janice.body, stairs.body], { opacity: 1, duration: 0.25 }),
+      ]);
+      pop(V, { x: T.x - face * 285 * sceneScale, y: T.y + 45 }, 255 * sceneScale, 'Jay: I’ll make a shortcut!', 'float-text ability', 1);
+      MB.audio.sfx('draw');
+      await gsap.timeline()
+        .to(stroke, { frame: 3, duration: 1.15, ease: 'none', onUpdate: () => poseJay(Math.min(3, Math.floor(stroke.frame + 0.3))) })
+        .to(ink, { strokeDashoffset: 0, duration: 1.15, ease: 'none' }, 0)
+        .to(solids, { opacity: 1, duration: 0.4 }, 0.75);
+      stairs.dataset.artBooksPhase = 'solid'; MB.audio.sfx('glint');
+      await wait(0.18);
+      janice.dataset.artBooksPhase = 'climb';
+      // She climbs on her knees, moving onto each actual tread rather than floating across the staircase.
+      for (let i = 1; i <= 5; i++) {
+        poseJanice(i === 1 ? 1 : 2);
+        const height = parseFloat(janice.body.style.height), fromHeight = step * 35 * sceneScale;
+        const toHeight = i * 35 * sceneScale;
+        const move = { k: 0 }, fromX = T.x - face * (275 - step * 55) * sceneScale;
+        const toX = T.x - face * (275 - i * 55) * sceneScale;
+        await gsap.to(move, { k: 1, duration: 0.3, ease: 'sine.inOut', onUpdate: () => {
+          gsap.set(janice, { x: lerp(fromX, toX, move.k) });
+          gsap.set(janice.body, { y: -lerp(fromHeight, toHeight, move.k) - 0.46 * height - 8 * sceneScale * Math.sin(Math.PI * move.k) });
+        } });
+        step = i; MB.audio.sfx('draw', { vol: 0.2 });
+        await wait(0.08);
+      }
+      janice.dataset.artBooksPhase = 'balance';
+      await gsap.to(janice.body, { rotation: face * 5, duration: 0.12, yoyo: true, repeat: 1 });
+      await wait(0.2);
+      // Her book-carrying pose changes to the complete empty-handed pose exactly as the books leave her arms.
+      janice.dataset.artBooksPhase = 'drop'; poseJanice(3);
+      const bookStart = { x: T.x + face * 62 * sceneScale, y: T.y + 45 };
+      const bookHeight = Math.max(270 * sceneScale, hT + 60 * sceneScale);
+      MB.audio.sfx('gasp');
+      const books = Array.from({ length: 3 }, (_, i) => {
+        const book = V.billboard('thrown art-books-book', '📖', bookStart.x, bookStart.y);
+        book.body.style.fontSize = 64 * sceneScale + 'px'; book.dataset.artBooksPhase = 'book-fall';
+        book.dataset.book = i; gsap.set(book.body, { y: -bookHeight - i * 12 * sceneScale, rotation: face * (i - 1) * 8 });
+        nodes.push(book); return book;
+      });
+      await Promise.all(books.map((book, i) => wait(i * 0.11).then(async () => {
+        MB.audio.sfx('whoosh', { vol: 0.4 });
+        // Every book reaches the target center before its corresponding contact effect.
+        await path(book, k => ({ x: lerp(bookStart.x, T.x, k), y: lerp(bookStart.y, T.y, k),
+          h: lerp(bookHeight + i * 12 * sceneScale, hT, k), r: face * (i * 9 + k * 95) }), 0.48, 'power2.in');
+        book.dataset.artBooksPhase = 'book-contact';
+        land(i); MB.audio.sfx('bonk');
+        await gsap.to(book.body, { y: '-=15', rotation: `+=${face * 25}`, opacity: 0, duration: 0.2 });
+        book.remove();
+      })));
+      janice.dataset.artBooksPhase = 'reaction';
+      pop(V, T, hT + 90, 'Janice: ...Those were heavy.', 'float-text ability', 1);
+      await wait(0.5);
+      await gsap.to([janice.body, jay.body, stairs.body], { opacity: 0, duration: 0.3 });
+      await gsap.to(v.figure, { opacity: 1, duration: 0.25 });
+    } finally { cleanup(); }
+  };
+
   S.combo = async (V, a, t, impact) => {
     const { v, A, T, C, hT, c } = ctx(V, a, t);
     const [L, R] = duo(v), em = a.card.attack.emoji || '💞';
@@ -2330,29 +2585,105 @@
     await glowDown(v);
   };
 
-  // Yumi: daydreams up a sea of stars, and dolphins leap out of the board and splash down on the target
-  S.dolphin = async (V, a, t, impact) => {
-    const { v, A, T, d, perp, hA, hT, c } = ctx(V, a, t);
-    pop(V, A, V.heightOf(a) + 95, own(a, 'cry', '♪~'), 'float-text hic', 1);
-    await gsap.to(v.figure, { y: -20, rotation: -5, duration: 0.3, ease: 'sine.inOut' });
-    const face = d.x > 0 ? 'scaleX(-1)' : 'none'; // the emoji swims left
-    let first = true;
-    await Promise.all([0, 1, 2].map((i) => wait(i * 0.18).then(() => {
-      const dol = V.billboard('thrown', `<span style="display:inline-block;transform:${face}">🐬</span>`, A.x, A.y);
-      const F = { x: A.x + perp.x * (i - 1) * 60, y: A.y + perp.y * (i - 1) * 60 }, TT = { x: T.x + rnd(-25, 25), y: T.y + rnd(-10, 10) };
-      MB.audio.sfx('splash');
-      return path(dol, (k) => ({ ...arc(F, TT, 0, hT, 260 + i * 30)(k), r: (d.x > 0 ? 1 : -1) * lerp(-35, 55, k) }), 0.7, 'sine.in', (p) => {
-        if (Math.random() < 0.4) { const s = dot(V, p, p.h, MB.pick([c, '#ffffff', '#ffe066']), rnd(6, 11)); gsap.to(s.body, { opacity: 0, scale: 0.1, duration: 0.5, onComplete: () => s.remove() }); }
-      }).then(() => {
-        dol.remove();
-        if (first) { first = false; impact(); hit(V, t, c); } else burst(V, TT, c, 6, { h: hT, spread: 60 });
-        droplets(V, TT, 6, 100);
+  // Yumi: a dolphin breaches, carries her into the target, then she tumbles back to her slot.
+  async function dolphinRide(V, a, t, impact, o = {}) {
+    const r = ctx(V, a, t), { v, T, d, hT, c } = r, A = o.home || r.A;
+    const figure = o.figure || v.figure;
+    const face = d.x < 0 ? -1 : 1, size = t.isLeader ? 180 : 280;
+    // Breach on the near side of Yumi, away from the enemy; leave room at edge slots.
+    const launch = { x: Math.max(125, Math.min(1055, A.x - face * 100)), y: A.y + 45 };
+    const art = o.art || MB.AttackArt.yumi, nodes = [];
+    const sprite = (phase, p, width) => {
+      const node = V.billboard('yumi-dolphin-art', '', p.x, p.y);
+      const img = document.createElement('img');
+      img.src = art[phase]; img.alt = ''; img.draggable = false;
+      img.style.transform = `scaleX(${face})`;
+      node.body.style.width = node.body.style.height = width + 'px';
+      node.body.appendChild(img); node.dataset.phase = phase;
+      node.dataset.rider = o.rider || 'yumi';
+      nodes.push(node); return node;
+    };
+    // Measured nose in the riding PNG: (94%, 69%). Put that point on the target center.
+    const contact = { x: T.x - face * size * 0.44, y: T.y };
+    const rideHeight = hT + size * 0.19;
+    const land = o.land || lander(V, t, impact, r, { big: false });
+    try {
+      await MB.audio.prepare('dolphin');
+      pop(V, A, V.heightOf(a) + 35, o.cry || own(a, 'cry', 'Iruka-san, let’s go~!'), 'float-text shield', 1);
+      ring(V, launch, c, 1.3, 0.65); MB.audio.sfx('bubble');
+      await gsap.to(figure, { y: -24, rotation: -4 * face, duration: 0.25, ease: 'sine.out' });
+      const rising = sprite('rise', launch, 175);
+      gsap.set(rising.body, { y: 25, clipPath: 'inset(100% 0% 0% 0%)' });
+      MB.audio.sfx('dolphin'); MB.audio.sfx('splash', { vol: 0.6 });
+      await gsap.to(rising.body, { y: -100, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.42, ease: 'power2.out' });
+      await gsap.to(figure, { x: launch.x - A.x, y: -65, opacity: 0, duration: 0.2, ease: 'power2.out' });
+      const riding = sprite('ride', launch, size);
+      gsap.set(riding.body, { y: -150, opacity: 0 });
+      await Promise.all([
+        gsap.to(rising.body, { opacity: 0, duration: 0.12 }),
+        gsap.to(riding.body, { opacity: 1, duration: 0.12 }),
+      ]);
+      rising.remove(); MB.audio.sfx('surf');
+      let trailAt = -1;
+      await path(riding, (k) => ({ ...arc(launch, contact, 150, rideHeight, t.isLeader ? 25 : 65)(k), r: face * -8 * Math.sin(Math.PI * k) }), 0.95, 'power1.inOut', (p, k) => {
+        if (k - trailAt < 0.1) return;
+        trailAt = k;
+        const drop = dot(V, { x: p.x - face * 65, y: p.y }, Math.max(10, p.h - 60), c, 9);
+        nodes.push(drop);
+        gsap.to(drop.body, { y: '+=30', opacity: 0, scale: 0.2, duration: 0.3, onComplete: () => drop.remove() });
       });
-    })));
-    ring(V, T, c, 2);
-    droplets(V, T, 14);
-    pop(V, T, hT + 110, own(a, 'finish', 'Iruka-san~ ♪'), 'float-text shield', 1);
-    await gsap.to(v.figure, { y: 0, rotation: 0, duration: 0.3 });
+      land(o.hitIndex || 0); // Dolphin nose touches the target here, before the return pose appears.
+      MB.audio.sfx('splash'); V.shake(7);
+      droplets(V, T, 16, 95); ring(V, T, c, 1.7);
+      await gsap.to(riding.body, { y: '+=55', opacity: 0, duration: 0.18, ease: 'power2.in' });
+      riding.remove(); MB.audio.sfx('whistleDown', { vol: 0.4 });
+      const falling = sprite('fall', A, 220);
+      gsap.set(falling.body, { y: 0, opacity: 0 });
+      // Measure the actual projection so the whole sprite begins above the viewport at any screen size.
+      const box = falling.body.getBoundingClientRect(), screenScale = Math.max(0.1, box.height / 220);
+      const fromHeight = Math.max(350, (box.bottom + 40) / screenScale);
+      gsap.set(falling.body, { y: -fromHeight, opacity: 1 });
+      await gsap.to(falling.body, { y: -108, duration: 0.85, ease: 'power2.in' });
+      await gsap.to(falling.body, { y: o.rider === 'eri' ? -104 : -95, scaleY: 0.92, duration: 0.1, ease: 'power2.in' });
+      await gsap.to(falling.body, { opacity: 0, duration: 0.12 });
+      falling.remove();
+      gsap.set(figure, { x: 0, y: -10, rotation: 0, opacity: 1 });
+      await gsap.to(figure, { y: 0, duration: 0.2 });
+      pop(V, A, V.heightOf(a) + 30, o.finish || own(a, 'finish', 'Again, again~ ♪'), 'float-text shield', 0.8);
+    } finally {
+      nodes.forEach((node) => { gsap.killTweensOf(node); gsap.killTweensOf(node.body); node.remove(); });
+      gsap.set(figure, { x: 0, y: 0, rotation: 0, rotationY: 0, opacity: 1 });
+      if (!o.figure) {
+        gsap.set(v.el, { x: r.A.x, y: r.A.y });
+        gsap.set(v.img, { scaleX: 1, scaleY: 1 });
+      }
+    }
+  };
+  S.dolphin = (V, a, t, impact) => dolphinRide(V, a, t, impact);
+
+  // Yumi leads happily; Eri follows reluctantly on her own dolphin a moment later.
+  S.dolphinduet = async (V, a, t, impact) => {
+    const r = ctx(V, a, t), { v, A } = r;
+    if (!a.card.fused) return dolphinRide(V, a, t, impact);
+    const parts = duo(v), members = a.card.members;
+    const yi = members.findIndex((m) => m.id === 'yumi'), ei = members.findIndex((m) => m.id === 'eri');
+    if (yi < 0 || ei < 0) return S.combo(V, a, t, impact);
+    const land = lander(V, t, impact, r, { big: false });
+    const home = (index) => ({ x: A.x + (index ? 55 : -55), y: A.y });
+    try {
+      // Both routines share the lander: the follow-up splash never deals duplicate damage.
+      const results = await Promise.allSettled([
+        dolphinRide(V, a, t, impact, { figure: parts[yi], home: home(yi), land, rider: 'yumi', cry: 'Come on, Eri~!', finish: 'That was fun~ ♪' }),
+        (async () => {
+          await wait(0.38);
+          await dolphinRide(V, a, t, impact, { figure: parts[ei], home: home(ei), land, hitIndex: 1, art: MB.AttackArt.eri, rider: 'eri', cry: 'YUMI! SLOW DOWN!', finish: 'Never. Again.' });
+        })(),
+      ]);
+      const failed = results.find((result) => result.status === 'rejected'); if (failed) throw failed.reason;
+    } finally {
+      gsap.set(parts, { opacity: 1 }); resetDuo(v);
+      await goHome(v, A, 0.2);
+    }
   };
 
   // Mariko: "hold still~". One giant syringe, one jab, and a flurry of pink crosses
@@ -3614,6 +3945,216 @@
     gsap.to(gtr.body, { scale: 0, rotation: '+=180', duration: 0.3, onComplete: () => gtr.remove() });
     gsap.to(amp.body, { scaleY: 0, duration: 0.3, delay: 0.2, ease: 'power2.in', onComplete: () => amp.remove() });
     await gsap.to(v.figure, { rotation: 0, duration: 0.2 });
+  };
+
+  // Pristo's drawn guitar poses: a holy-looking riff hides the vampire's appetite.
+  // Each chord's center reaches the target before land(); the crimson return is visual only.
+  S.lightriff = async (V, a, t, impact) => {
+    const r = ctx(V, a, t), { v, A, T, hA, hT, c } = r;
+    const H = V.heightOf(a), nodes = [], loops = [], blood = '#c52e59';
+    const make = (cls, html, P, phase) => {
+      const b = V.billboard(cls, html, P.x, P.y);
+      b.dataset.pristoPhase = phase; nodes.push(b); return b;
+    };
+    const setPose = (node, frame, phase) => {
+      node.dataset.pristoPhase = phase; node.dataset.pristoFrame = frame;
+      node.body.style.backgroundPosition = `${frame % 2 * 100}% ${Math.floor(frame / 2) * 100}%`;
+    };
+    const land = lander(V, t, impact, r, { big: true });
+    try {
+      // Stage directly behind his own slot, keeping the amp away from side margins.
+      const amp = make('amp', '<i></i><i></i>', { x: A.x, y: A.y - 26 }, 'amp');
+      amp.body.style.setProperty('--c', c);
+      gsap.set(amp.body, { yPercent: -100, y: 0, scale: 0.72, transformOrigin: '50% 100%' });
+      MB.audio.sfx('slam');
+      await gsap.fromTo(amp.body, { scaleY: 0 }, { scaleY: 0.72, duration: 0.28, ease: 'back.out(2)' });
+      const pose = make('pristo-guitar-pose', '', A, 'wind-up');
+      pose.body.style.backgroundImage = `url("${MB.AttackArt.pristo.poses}")`;
+      gsap.set(pose.body, { yPercent: -100, y: 20, transformOrigin: '50% 85%' });
+      setPose(pose, 0, 'wind-up');
+      gsap.set(v.figure, { opacity: 0 });
+      await gsap.fromTo(pose.body, { opacity: 0, rotation: -3 }, { opacity: 1, rotation: 0, duration: 0.22 });
+      ring(V, A, c, 1.1, 0.45);
+      await wait(0.4);
+      loops.push(gsap.to(amp.body, { scaleX: 0.77, duration: 0.13, yoyo: true, repeat: -1 }));
+      const flights = [];
+      for (let i = 0; i < 3; i++) {
+        setPose(pose, 1, 'strum');
+        MB.audio.sfx('guitar');
+        await gsap.fromTo(pose.body, { rotation: -4 }, { rotation: 3, duration: 0.1, ease: 'power2.in' });
+        const wave = make('pristo-chord', `<svg viewBox="0 0 140 140" width="140" height="140" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round">
+          <path d="M38 30 Q12 70 38 110 M102 30 Q128 70 102 110"/>
+          <path d="M48 43 Q29 70 48 97 M92 43 Q111 70 92 97" stroke-width="3"/>
+          <path d="M70 49 V91 M55 63 H85" stroke="#fff8d6" stroke-width="7"/>
+        </svg>`, A, 'flight');
+        wave.body.style.setProperty('--c', c);
+        flights.push((async () => {
+          // Zero side offset, small lift: works at far corners and against a leader too.
+          await path(wave, (k) => ({ ...arc(A, T, hA, hT, 24)(k), s: 0.5 + k * 0.3 }), 0.5, 'power1.in');
+          wave.dataset.pristoPhase = 'contact';
+          land(i);
+          MB.audio.sfx(i ? 'hit' : 'holy');
+          wave.body.style.setProperty('--c', blood);
+          wave.body.querySelector('svg').setAttribute('stroke', blood);
+          flash(V, T, hT, blood, 115); ring(V, T, c, 1.3, 0.35);
+          await gsap.to(wave.body, { opacity: 0, scale: 1.05, duration: 0.2 });
+          wave.remove();
+        })());
+        await wait(0.13);
+        setPose(pose, 2, 'solo');
+        await gsap.to(pose.body, { rotation: -3, duration: 0.12, ease: 'sine.inOut' });
+      }
+      await Promise.all(flights);
+      setPose(pose, 3, 'grin');
+      await gsap.to(pose.body, { rotation: 0, duration: 0.15 });
+      // The gold blessing gives way to a crimson thread returning to the smiling priest.
+      const essence = make('charge', '', T, 'drain');
+      essence.body.style.width = essence.body.style.height = '24px';
+      essence.body.style.setProperty('--c', blood);
+      await path(essence, (k) => ({ ...arc(T, A, hT, hA, 30)(k), s: 1 - k * 0.25 }), 0.65, 'sine.inOut');
+      essence.remove();
+      rise(V, A, c, 5, hA); MB.audio.sfx('heal');
+      await wait(0.28);
+      await Promise.all([
+        gsap.to(pose.body, { opacity: 0, duration: 0.2 }),
+        gsap.to(v.figure, { opacity: 1, duration: 0.2 }),
+        gsap.to(amp.body, { opacity: 0, scaleY: 0, duration: 0.2 }),
+      ]);
+    } finally {
+      loops.forEach((tw) => tw.kill());
+      nodes.forEach((node) => {
+        gsap.killTweensOf(node); gsap.killTweensOf(node.body); node.remove();
+      });
+      gsap.set(v.figure, { opacity: 1 });
+    }
+  };
+
+  // Church of Dalmavilla: shy Julia finds her voice while Pristo supplies the riff.
+  // Her recorded hymn drives the drawn mouth poses; ice notes and gold chords merge before contact.
+  S.metalmass = async (V, a, t, impact) => {
+    if (!a.card.fused) return S.riff(V, a, t, impact);
+    const r = ctx(V, a, t), { v, A, T, hA, hT, c } = r, ice = '#9fe8ff';
+    const members = a.card.members, ji = members.findIndex(m => m.id === 'julia-aquacrucis');
+    const pi = members.findIndex(m => m.id === 'priest-pristo');
+    if (ji < 0 || pi < 0) return S.combo(V, a, t, impact);
+    const nodes = [], tweens = [], parts = duo(v), land = lander(V, t, impact, r, { big: true });
+    const home = index => ({ x: A.x + (index ? 80 : -80), y: A.y });
+    const J = home(ji), P = home(pi), Q = { x: lerp(A.x, T.x, 0.4), y: lerp(A.y, T.y, 0.4) };
+    const hQ = lerp(hA, hT, 0.4);
+    const make = (cls, html, point, phase, by) => {
+      const node = V.billboard(cls, html, point.x, point.y);
+      node.dataset.metalMassPhase = phase;
+      if (by) node.dataset.performer = by;
+      nodes.push(node); return node;
+    };
+    const poseFrame = (node, frame) => {
+      if (+node.dataset.poseFrame === frame && node.dataset.poseFrame != null) return;
+      node.dataset.poseFrame = frame;
+      if (node.dataset.performer === 'julia') {
+        // Sample between the generated silhouettes, whose transparent gutters are not a perfect grid.
+        const sheet = MB.AttackArt.metalMass, col = frame % 2, row = Math.floor(frame / 2);
+        const width = sheet.x[col + 1] - sheet.x[col], height = sheet.y[row + 1] - sheet.y[row];
+        node.body.style.backgroundSize = `${sheet.width / width * 100}% ${sheet.height / height * 100}%`;
+      }
+      node.body.style.backgroundPosition = `${frame % 2 * 100}% ${Math.floor(frame / 2) * 100}%`;
+    };
+    let stopVoice, voiceMotion;
+    try {
+      const [voice] = await MB.audio.prepare('singing', 'guitar');
+      const seconds = voice ? voice.duration : 6.35;
+      // RMS bins follow the supplied voice, including its breath and quiet reverb tail.
+      const envelope = [], binSeconds = 0.12;
+      if (voice) {
+        const data = voice.getChannelData(0), size = Math.round(voice.sampleRate * binSeconds);
+        for (let start = 0; start < data.length; start += size) {
+          let sum = 0; const end = Math.min(data.length, start + size);
+          for (let i = start; i < end; i++) sum += data[i] * data[i];
+          envelope.push(Math.sqrt(sum / (end - start)));
+        }
+      }
+      const peak = Math.max(0.001, ...envelope);
+      const amp = make('amp', '<i></i><i></i>', { x: P.x, y: P.y - 28 }, 'amp');
+      amp.body.style.setProperty('--c', c);
+      gsap.set(amp.body, { yPercent: -100, y: 0, scale: 0.65 });
+      const priest = make('pristo-guitar-pose', '', P, 'ready', 'pristo');
+      const singer = make('julia-singing-pose', '', J, 'breath', 'julia');
+      priest.body.style.backgroundImage = `url("${MB.AttackArt.pristo.poses}")`;
+      singer.body.style.backgroundImage = `url("${MB.AttackArt.metalMass.julia}")`;
+      [priest, singer].forEach(node => {
+        node.body.style.width = node.body.style.height = '220px';
+        gsap.set(node.body, { yPercent: -100, y: 14, transformOrigin: '50% 90%' });
+        poseFrame(node, 0);
+      });
+      await Promise.all([
+        gsap.to(v.figure, { opacity: 0, duration: 0.2 }),
+        gsap.fromTo([priest.body, singer.body, amp.body], { opacity: 0 }, { opacity: 1, duration: 0.2 }),
+      ]);
+      await wait(0.35);
+      const audioClock = MB.audio.unlock(), started = audioClock.currentTime, clock = { t: 0 };
+      stopVoice = MB.audio.sfx('singing');
+      singer.dataset.voiceDuration = seconds;
+      singer.dataset.voiceLoaded = !!voice;
+      voiceMotion = gsap.to(clock, { t: seconds, duration: seconds, ease: 'none', onUpdate: () => {
+        const elapsed = Math.min(seconds, Math.max(0, audioClock.currentTime - started));
+        const rms = envelope[Math.min(envelope.length - 1, Math.floor(elapsed / binSeconds))] || 0;
+        const level = voice ? rms / peak : (elapsed > 0.2 && elapsed < 4 ? 0.55 + 0.2 * Math.sin(elapsed * 5) : 0);
+        const active = level > 0.08;
+        const frame = active ? (level > 0.68 ? 2 : 1) : elapsed < 0.3 ? 0 : 3;
+        poseFrame(singer, frame); singer.dataset.metalMassPhase = active ? 'singing' : elapsed < 0.3 ? 'breath' : 'bow';
+        poseFrame(priest, elapsed < 0.2 ? 0 : active ? (Math.floor(elapsed / 0.28) % 2 ? 2 : 1) : 3);
+        priest.dataset.metalMassPhase = active ? 'riff' : elapsed < 0.2 ? 'ready' : 'grin';
+        // Move the complete drawn poses; hands and mouth remain attached to the body.
+        gsap.set(singer.body, { rotation: active ? Math.sin(elapsed * 3.2) * 2 : 0, y: 14 - level * 3 });
+        gsap.set(priest.body, { rotation: active ? Math.sin(elapsed * 11) * 3 : 0 });
+        gsap.set(amp.body, { scaleX: 0.65 + (active ? level * 0.04 : 0) });
+      } });
+      tweens.push(voiceMotion);
+      const duetChord = async (i, delay) => {
+        await wait(delay);
+        MB.audio.sfx('guitar', { vol: 0.38, len: 0.9 });
+        const gold = make('pristo-chord', `<svg viewBox="0 0 100 100" width="100" height="100" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round">
+          <path d="M30 18 Q5 50 30 82 M70 18 Q95 50 70 82"/><path d="M50 35 V65 M38 45 H62" stroke="#fff8d6"/>
+        </svg>`, P, 'gold-flight', 'pristo');
+        gold.body.style.setProperty('--c', c);
+        const note = make('metal-mass-note', '🎵', J, 'ice-flight', 'julia');
+        await Promise.all([
+          path(gold, k => ({ ...arc(P, Q, hA, hQ, 20)(k), s: 0.65 }), 0.42, 'sine.inOut'),
+          path(note, k => ({ ...arc(J, Q, hA + 25, hQ, 28)(k), s: 0.8, r: Math.sin(k * Math.PI) * 14 }), 0.42, 'sine.inOut'),
+        ]);
+        gold.remove(); note.remove();
+        const chord = make('metal-mass-chord', `<svg viewBox="0 0 140 140" width="140" height="140" fill="none" stroke-linecap="round">
+          <path d="M35 22 Q2 70 35 118 M105 22 Q138 70 105 118" stroke="${c}" stroke-width="6"/>
+          <path d="M48 34 Q23 70 48 106 M92 34 Q117 70 92 106" stroke="${ice}" stroke-width="4"/>
+          <path d="M70 42 V98 M48 60 H92" stroke="${ice}" stroke-width="9"/>
+          <path d="M70 42 V98 M48 60 H92" stroke="#fff" stroke-width="3"/>
+        </svg>`, Q, 'merge');
+        gsap.set(chord.body, { y: -hQ, scale: 0.7 });
+        await wait(0.12);
+        chord.dataset.metalMassPhase = 'combined-flight';
+        await path(chord, k => ({ ...arc(Q, T, hQ, hT, 18)(k), s: 0.7 + k * 0.12 }), 0.38, 'power1.in');
+        chord.dataset.metalMassPhase = 'contact';
+        land(i); MB.audio.sfx('frost', { vol: 0.22, len: 0.6 });
+        flash(V, T, hT, ice, 130); ring(V, T, c, 1.5, 0.4);
+        burst(V, T, ice, 7, { h: hT, spread: 55, shape: 'shard' });
+        await gsap.to(chord.body, { opacity: 0, scale: 1.1, duration: 0.24 });
+        chord.remove();
+      };
+      const results = await Promise.allSettled([voiceMotion, ...[0.35, 1.45, 2.7].map((delay, i) => duetChord(i, delay))]);
+      const failed = results.find(result => result.status === 'rejected'); if (failed) throw failed.reason;
+      poseFrame(priest, 3); poseFrame(singer, 3);
+      priest.dataset.metalMassPhase = 'grin'; singer.dataset.metalMassPhase = 'bow';
+      pop(V, A, V.heightOf(a) + 55, 'Julia: A-amen… ♪', 'float-text shield', 0.9);
+      await wait(0.2);
+      await Promise.all([
+        gsap.to([priest.body, singer.body, amp.body], { opacity: 0, duration: 0.25 }),
+        gsap.to(v.figure, { opacity: 1, duration: 0.25 }),
+      ]);
+    } finally {
+      if (stopVoice) stopVoice();
+      tweens.forEach(tween => tween.kill());
+      nodes.forEach(node => { gsap.killTweensOf(node); gsap.killTweensOf(node.body); node.remove(); });
+      gsap.set(v.figure, { opacity: 1 }); gsap.set(parts, { opacity: 1 }); resetDuo(v);
+    }
   };
 
   // Pepita: panics, spins the dough up over her head, the toppings land on it, and the whole pizza flies like a
@@ -10161,14 +10702,14 @@
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
-    hora: 'void', riff: 'storm', yandere: 'blood', piano: 'night', siren: 'ocean', mercy: 'dream', rainbow: 'sunny', stainedglass: 'holy',
+    hora: 'void', riff: 'storm', lightriff: 'holy', metalmass: 'holy', yandere: 'blood', piano: 'night', siren: 'ocean', mercy: 'dream', rainbow: 'sunny', stainedglass: 'holy',
     tear: 'void', multiverse: 'space', justmonika: 'space', inkbound: 'void', pentagram: 'inferno', queenshadow: 'void', ghoststory: 'night',
     poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
     chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset', hologram: 'night',
     manaseal: 'holy', lastcall: 'void', divinemark: 'holy', splice: 'matrix', glitchblade: 'night', mothdust: 'dream', bloodwind: 'blood', metamorph: 'night', fourthwall: 'matrix',
     skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
   // the other duo styles; any single style works for a duo too
-  const DUO_STYLES = ['combo', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
+  const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
     'poemduet', 'latebell', 'ritualfire', 'saintsinner', 'homestead', 'hailmary', 'redstreak', 'spookpunch',
     'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme',

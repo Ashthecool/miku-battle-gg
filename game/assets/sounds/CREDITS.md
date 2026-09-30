@@ -8,6 +8,7 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 
 | sound | file | original | author | source |
 |---|---|---|---|---|
+| dolphin | dolphin-456151.mp3 | Dolphin Noise-.wav (human dolphin imitation, CC0; HQ preview) | jfournier18 | https://freesound.org/people/jfournier18/sounds/456151/ |
 | boing | boing-540788.mp3 | Boing 1 | magnuswaker | https://freesound.org/people/magnuswaker/sounds/540788/ |
 | bonk | bonk-467788.mp3 | bonk.wav | SGAK | https://freesound.org/people/SGAK/sounds/467788/ |
 | punch | punch-563356.mp3 | CartoonPunch.wav | nicholasdaryl | https://freesound.org/people/nicholasdaryl/sounds/563356/ |
@@ -125,3 +126,7 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | chain | chain-536737.mp3 | Chain.ogg | egomassive | https://freesound.org/people/egomassive/sounds/536737/ |
 | karate | karate-443535.mp3 | _karate_.wav | juliandmc4 | https://freesound.org/people/juliandmc4/sounds/443535/ |
 | riserhit | riserhit-511874.mp3 | Riser Hit sfx 031.wav | AudioPapkin | https://freesound.org/people/AudioPapkin/sounds/511874/ |
+
+## User-supplied audio
+
+`singing.flac` was supplied by the user for Julia Aquacrucis's singing in the Church of Dalmavilla duo attack. Original recording retained without conversion or pitch changes.

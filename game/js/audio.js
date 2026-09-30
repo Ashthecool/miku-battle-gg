@@ -34,6 +34,7 @@
     frost: { file: 'frost-709888.mp3', vol: 0.6, max: 1.6 },
     shatter: { file: 'shatter-422633.mp3', vol: 0.5, vary: 0.06 },
     splash: { file: 'splash-829676.mp3', vol: 0.6, vary: 0.08 },
+    dolphin: { file: 'dolphin-456151.mp3', vol: 0.75, max: 1.15 },
     wave: { file: 'wave-398039.mp3', vol: 0.7 },
     holy: { file: 'holy-608892.mp3', vol: 0.5, max: 2.2 },
     heal: { file: 'heal-562292.mp3', vol: 0.5 },
@@ -50,6 +51,7 @@
     boom: { file: 'boom-792520.mp3', vol: 0.7 },
     // attacks
     choir: { file: 'choir.wav', vol: 0.6 },
+    singing: { file: 'singing.flac', vol: 0.65 },
     laugh: { file: 'laughter.wav', vol: 0.7 },
     incoming: { file: 'incoming-506313.mp3', vol: 0.5, max: 1.4 },
     tornado: { file: 'tornado-349698.mp3', vol: 0.8 },
@@ -146,16 +148,27 @@
     riserhit: { file: 'riserhit-511874.mp3', vol: 0.55 },
   };
   const buffers = {};
+  const sampleLoads = {};
+
+  function loadSample(name) {
+    if (buffers[name]) return Promise.resolve(buffers[name]);
+    if (sampleLoads[name]) return sampleLoads[name];
+    const s = SAMPLES[name];
+    if (!s) return Promise.resolve(null);
+    const c = ac();
+    // ac() starts the background loads on its first call; reuse that promise.
+    return sampleLoads[name] || (sampleLoads[name] = fetch('assets/sounds/' + s.file)
+      .then((r) => r.ok ? r.arrayBuffer() : Promise.reject(new Error('Sound unavailable')))
+      .then((data) => c.decodeAudioData(data))
+      .then((buffer) => (buffers[name] = buffer))
+      .catch(() => { delete sampleLoads[name]; return null; }));
+  }
 
   function ac() {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       master = ctx.createGain(); master.gain.value = settings.sfx; master.connect(ctx.destination);
-      Object.entries(SAMPLES).forEach(([name, s]) => fetch('assets/sounds/' + s.file)
-        .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject()))
-        .then((b) => ctx.decodeAudioData(b))
-        .then((buf) => { buffers[name] = buf; })
-        .catch(() => { /* missing or undecodable: the synth version plays */ }));
+      Object.keys(SAMPLES).forEach(loadSample);
     }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
@@ -173,8 +186,9 @@
     const at = o.end != null ? Math.max(0, buf.duration - o.end * rate) : o.at ?? s.at ?? 0;
     const max = o.len ?? s.max;
     g.gain.value = vol;
-    if (max) { g.gain.setValueAtTime(vol, t + max * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + max); src.stop(t + max + 0.05); }
+    if (max) { g.gain.setValueAtTime(vol, t + max * 0.7); g.gain.linearRampToValueAtTime(0.0001, t + max); }
     src.connect(g); g.connect(master); src.start(t, at);
+    if (max) src.stop(t + max + 0.05); // WebAudio requires start() before stop().
     return () => { try { g.gain.setTargetAtTime(0, c.currentTime, 0.04); src.stop(c.currentTime + 0.25); } catch (e) { /* already over */ } };
   }
 
@@ -229,6 +243,7 @@
     death: () => { noise({ dur: 0.8, vol: 0.2, f: 2000, sweep: 300 }); tone({ type: 'triangle', f0: 440, f1: 110, dur: 0.7, vol: 0.12 }); },
     slam: () => { noise({ dur: 0.6, vol: 0.55, f: 300, sweep: 40, type: 'lowpass' }); tone({ type: 'sine', f0: 90, f1: 30, dur: 0.6, vol: 0.4 }); },
     splash: () => noise({ dur: 0.6, vol: 0.3, f: 1500, sweep: 400, q: 0.7 }),
+    dolphin: () => [0, 0.12, 0.27].forEach((delay) => tone({ f0: 1900, f1: 3200, dur: 0.16, vol: 0.1, delay, vib: { rate: 35, depth: 250, end: 50 } })),
     turn: () => [440, 554, 659, 880].forEach((f, i) => tone({ type: 'triangle', f0: f, dur: 0.18, vol: 0.12, delay: i * 0.06 })),
     // relationship fusion: a rising chord, longer and brighter for stronger bonds
     bond: (tier = 1) => {
@@ -406,5 +421,5 @@
     if (kind === 'sfx' && master) master.gain.value = v;
   }
 
-  MB.audio = { sfx, music, setVolume, settings, unlock: ac, retry: () => { if (blocked && !currentId) { const id = blocked; blocked = null; music(id); } } };
+  MB.audio = { sfx, music, setVolume, settings, unlock: ac, prepare: (...names) => Promise.all(names.flat().map(loadSample)), retry: () => { if (blocked && !currentId) { const id = blocked; blocked = null; music(id); } } };
 })();

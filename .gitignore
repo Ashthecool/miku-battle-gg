@@ -9,6 +9,9 @@ Desktop.ini
 __pycache__/
 *.pyc
 
+# Generated browser-check screenshots and reports
+/output/
+
 # miku.gg exports and chat history: local input for tools/fetch_assets.py, not published
 novels/
 
