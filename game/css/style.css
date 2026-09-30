@@ -1133,6 +1133,9 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 
 #loading { position: fixed; inset: 0; z-index: 100; background: #0b0816; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font: 800 22px 'Segoe UI'; }
 #loading .bar { width: 400px; height: 10px; background: #ffffff22; border-radius: 10px; overflow: hidden; }
+#loading .ld-sprites { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 6px; width: 1000px; height: 190px; overflow: hidden; }
+#loading .ld-sprites:empty { display: none; }
+#loading .ld-sprites img { width: 56px; height: 56px; object-fit: contain; object-position: center top; border-radius: 10px; background: #ffffff10; }
 #loading .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ff6fae, #ffd84a); }
 #banner, .hint, #log, #enemy-hand, #preview { pointer-events: none !important; }
 #hand .card.playable.r-legendary { animation: none; }

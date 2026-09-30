@@ -37,7 +37,7 @@
         p = img.decode().then(() => img, () => { images.delete(u); }); // a failed one is tried again next time
         images.set(u, p);
       }
-      return p.then(() => { done++; if (onProgress) onProgress(done / list.length); });
+      return p.then((img) => { done++; if (onProgress) onProgress(done / list.length, img, done, list.length); });
     }));
   };
 
@@ -81,7 +81,18 @@
     first.forEach((id) => urls.push(...MB.charImages(id)));
     MB.bootImages = urls; // battles wait for any of these still loading when the timeout below started the game
     const bar = document.querySelector('#loading i');
-    const all = MB.preloadImages(urls, (f) => { bar.style.width = f * 100 + '%'; });
+    const label = document.querySelector('#loading').firstElementChild, shown = document.querySelector('#loading .ld-sprites');
+    // each image pops into the strip as it arrives (newest first, the oldest scroll off the end)
+    const all = MB.preloadImages(urls, (f, img, n, total) => {
+      bar.style.width = f * 100 + '%';
+      label.textContent = `Loading sprites… ${n}/${total}`;
+      if (!img) return;
+      const t = document.createElement('img');
+      t.src = img.src; t.alt = '';
+      shown.prepend(t);
+      while (shown.children.length > 60) shown.lastChild.remove();
+      gsap.from(t, { scale: 0, opacity: 0, duration: 0.3, ease: 'back.out(2)' });
+    });
     const rest = [];
     MB.manifest.characters.forEach((c) => { if (!first.has(c.id)) rest.push(...MB.charImages(c.id)); });
     // images come from the bucket over the network: a stalled request mustn't keep the game from starting
@@ -115,6 +126,6 @@
     MB.audio.unlock();
     if (MB.Maker) MB.Maker.start(); else MB.UI.start();
     // kept for the battle loading screen (ui.js)
-    gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
+    gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.querySelector('.ld-sprites').innerHTML = ''; load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
   });
 })();
