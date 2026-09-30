@@ -4324,13 +4324,15 @@
     await wait(0.45);
     MB.audio.sfx('whoosh');
     await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.3, ease: 'power2.in', onUpdate: () => ghost(V, v, red) });
-    const axe = V.billboard('thrown axe', `<span style="display:inline-block;transform:scaleX(${-sg})">🪓</span>`, C.x, C.y);
-    gsap.set(axe.body, { y: -H * 0.95, rotation: -sg * 20, scale: 0, transformOrigin: '50% 90%' });
-    await gsap.to(axe.body, { scale: 1.6, rotation: -sg * 120, duration: 0.3, ease: 'back.out(2)' });
+    // the illustrated axe has its grip lower-left and its edge facing right: mirror it only to swing leftwards,
+    // and pivot on the grip so the edge comes down onto the target's middle
+    const axe = V.billboard('thrown axe', `<span style="display:inline-block;transform:scaleX(${sg})">🪓</span>`, C.x, C.y);
+    gsap.set(axe.body, { y: -H * 0.95, rotation: -sg * 20, scale: 0, transformOrigin: `${sg > 0 ? 15 : 85}% 88%` });
+    await gsap.to(axe.body, { scale: 1.6, rotation: -sg * 60, duration: 0.3, ease: 'back.out(2)' });
     await wait(0.15);
     MB.audio.sfx('swish');
-    gsap.to(axe.body, { rotation: sg * 60, duration: 0.16, ease: EASE.lunge });
-    await gsap.to(axe, { x: T.x - d.x * 20, y: T.y - d.y * 20, duration: 0.14, ease: 'power4.in' });
+    gsap.to(axe.body, { rotation: sg * 80, y: -hT - 100, duration: 0.16, ease: EASE.lunge });
+    await gsap.to(axe, { x: T.x - d.x * 20, y: T.y - d.y * 20, duration: 0.16, ease: 'power4.in' });
     slashArc(V, T, -hT, red, sg * 60);
     impact(); hit(V, t, red, true); MB.audio.sfx('axe'); V.shake(20); V.hitStop();
     cracks(V, T, '#2b0010', { n: 6, len: 130, w: 6, glow: red, hold: 0.8 });
