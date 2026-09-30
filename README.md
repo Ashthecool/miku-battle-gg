@@ -14,6 +14,14 @@ Open `game/index.html` directly, or serve the `game/` folder to get offline supp
 npx serve game
 ```
 
+## Card Maker
+
+`game/maker.html` (https://ashthecool.github.io/miku-battle-gg/maker.html) makes cards from any miku.gg novel export: drop in
+the `.json`, and it lists the novel's characters with a first draft of each card. Tune stats, keywords, the attack animation,
+entrance and quote, build relationships with their close-up scene and duo attack, and play them all live on the game's own
+board (it runs `index.html?maker` in a frame, driven by `js/maker-bridge.js`). The Export tab writes the result as
+`game/js/data.js` entries; work is kept per novel in the browser and can be saved to a file.
+
 ## Layout
 
 | Path | What |

@@ -46,6 +46,8 @@
   // profile picture. Other costumes load when first shown; each battle adds its background and close-ups (ui.js)
   function preload() {
     const urls = [...MB.AttackArt.urls];
+    // the Card Maker only shows the characters it brings (js/maker-bridge.js) and loads those itself
+    if (MB.Maker) return MB.preloadImages(MB.bootImages = urls);
     const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
     const costume = (c, id) => id && c && c.costumes.find((o) => o.id === id);
     MB.manifest.characters.forEach((c) => {
@@ -74,13 +76,14 @@
     fit();
     await preload();
     // the offline copy of everything else downloads after the sprites, so the two don't share the bandwidth
-    sw.then((reg) => reg && reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES, nsfw: MB.NSFW }));
+    if (!MB.Maker) sw.then((reg) => reg && reg.active.postMessage({ precache: true, small: MB.SMALL_SPRITES, nsfw: MB.NSFW }));
     MB.view = new MB.View();
     MB.UI.bind();
     // browsers only allow music after a user gesture, so the title waits for one click/key
     const load = document.getElementById('loading'), label = load.firstElementChild;
     label.textContent = 'Click anywhere to start';
     load.classList.add('ready');
+    if (MB.Maker) MB.Maker.waiting();
     const pulse = gsap.to(label, { opacity: 0.35, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut' });
     await new Promise((res) => {
       const go = () => { window.removeEventListener('keydown', go); load.removeEventListener('pointerdown', go); res(); };
@@ -89,7 +92,7 @@
     });
     pulse.kill();
     MB.audio.unlock();
-    MB.UI.start();
+    if (MB.Maker) MB.Maker.start(); else MB.UI.start();
     // kept for the battle loading screen (ui.js)
     gsap.to(load, { opacity: 0, duration: 0.5, onComplete: () => { load.classList.add('hidden'); load.classList.remove('ready'); gsap.set(label, { opacity: 1 }); } });
   });

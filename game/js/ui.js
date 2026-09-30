@@ -1991,5 +1991,7 @@
     leaderSelect, storyIntro: intro, lesson, setBg, bgByName, persist, hideBattle,
     craft, makeShiny, levelUp, myDef, levelBadge, renderCollection: () => { if ($('#screen-deck').classList.contains('active')) renderDeck(); if ($('#screen-shop').classList.contains('active')) renderShop(); },
     refreshProfileBits,
-    avatarById: (id) => avatarById.get(id) };
+    avatarById: (id) => avatarById.get(id),
+    // the Card Maker (js/maker-bridge.js) drives the Attack Gallery
+    gallery: { open: gallery, pick: galPick, bond: galBond, attack: galAttack, unit: () => gal && gal.unit, busy: () => !!(gal && gal.busy) } };
 })();

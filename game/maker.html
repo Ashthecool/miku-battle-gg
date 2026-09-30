@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card Maker — Miku Battle</title>
+<meta name="theme-color" content="#0b0816">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<style>
+:root {
+  --bg: #0b0816; --panel: #140f2a; --panel2: #1c1538; --line: #ffffff1f; --line2: #ffffff33;
+  --text: #f4f0ff; --dim: #b3a9d6; --faint: #7d74a3;
+  --pink: #ff6fae; --violet: #b35cff; --gold: #ffc93c; --ok: #5fd68a; --warn: #ffb347; --bad: #ff5a6a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font: 14px/1.4 'Segoe UI', 'Trebuchet MS', system-ui, sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--pink); }
+[hidden] { display: none !important; }
+
+/* layout: editor on the left, the live stage on the right */
+#app { display: grid; grid-template-columns: minmax(380px, 470px) 1fr; grid-template-rows: auto 1fr; height: 100vh; }
+header { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line);
+  background: linear-gradient(90deg, #1a1036, #0b0816 70%); flex-wrap: wrap; }
+header h1 { margin: 0; font-size: 20px; letter-spacing: .5px; white-space: nowrap; }
+header h1 b { background: linear-gradient(90deg, var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+header .grow { flex: 1; }
+#side { overflow-y: auto; border-right: 1px solid var(--line); padding: 14px 16px 40px; scrollbar-color: var(--pink) #ffffff10; }
+#stage-wrap { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 14px; gap: 10px; }
+#stage-box { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center;
+  background: #06040d; border-radius: 14px; border: 1px solid var(--line); overflow: hidden; }
+#stage { width: 100%; height: 100%; border: 0; display: block; }
+#stage-hint { position: absolute; left: 50%; top: 16px; transform: translateX(-50%); background: #000c; border: 1px solid var(--pink);
+  padding: 8px 14px; border-radius: 999px; pointer-events: none; font-weight: 600; box-shadow: 0 0 24px #ff6fae55; }
+#stage-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+#stage-bar .who { font-weight: 700; margin-right: 6px; }
+#status { color: var(--dim); font-size: 13px; margin-left: auto; }
+#status.err { color: var(--bad); }
+
+/* controls */
+.btn { background: var(--panel2); border: 1px solid var(--line2); border-radius: 10px; padding: 7px 12px; cursor: pointer; white-space: nowrap; }
+.btn:hover { border-color: var(--pink); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.primary { background: linear-gradient(135deg, var(--pink), var(--violet)); border-color: transparent; font-weight: 700; color: #fff; }
+.btn.small { padding: 4px 9px; font-size: 12.5px; border-radius: 8px; }
+.btn.danger:hover { border-color: var(--bad); color: var(--bad); }
+input[type=text], input[type=number], select, textarea { background: #0e0a1f; border: 1px solid var(--line2); border-radius: 8px; padding: 6px 8px; width: 100%; min-width: 0; }
+input:focus, select:focus, textarea:focus { outline: 2px solid #ff6fae88; outline-offset: 0; border-color: var(--pink); }
+textarea { resize: vertical; min-height: 56px; }
+input[type=color] { width: 40px; height: 32px; padding: 0 2px; border: 1px solid var(--line2); border-radius: 8px; background: #0e0a1f; flex: none; }
+label.check { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+header select { width: auto; max-width: 220px; }
+
+/* drop zone */
+#drop { border: 2px dashed var(--line2); border-radius: 16px; padding: 26px 18px; text-align: center; cursor: pointer; transition: .15s; }
+#drop:hover, #drop.over { border-color: var(--pink); background: #ff6fae10; }
+#drop .big { font-size: 34px; }
+#drop p { margin: 6px 0; color: var(--dim); }
+#drop.compact { padding: 10px; display: flex; align-items: center; gap: 10px; text-align: left; }
+#drop.compact .big { font-size: 22px; }
+#drop.compact p { margin: 0; }
+#drop.compact .more { display: none; }
+
+#novel { margin: 14px 0 6px; }
+#novel h2 { margin: 0 0 2px; font-size: 18px; }
+#novel .meta { color: var(--dim); font-size: 13px; }
+.count { display: inline-block; margin-top: 8px; padding: 6px 12px; border-radius: 999px; background: #ff6fae1c; border: 1px solid #ff6fae66; font-weight: 700; }
+details.skipped { margin-top: 6px; color: var(--faint); font-size: 12.5px; }
+
+/* tabs */
+.tabs { display: flex; gap: 4px; margin: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.tabs button { background: none; border: 0; padding: 8px 12px; cursor: pointer; color: var(--dim); border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 600; }
+.tabs button.on { color: var(--text); border-bottom-color: var(--pink); }
+
+/* character grid */
+#char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.tile { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 7px; cursor: pointer; text-align: center; }
+.tile:hover { border-color: var(--line2); }
+.tile.on { border-color: var(--pink); box-shadow: 0 0 0 1px var(--pink), 0 0 18px #ff6fae44; }
+.tile img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; border-radius: 8px; background: #0e0a1f; display: block; }
+.tile .nm { font-size: 12.5px; font-weight: 600; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile .made { position: absolute; top: 4px; right: 4px; background: var(--ok); color: #06240f; border-radius: 999px; font-size: 11px; font-weight: 800; padding: 1px 6px; }
+.tile .r18 { position: absolute; top: 4px; left: 4px; background: var(--bad); color: #fff; border-radius: 999px; font-size: 10px; font-weight: 800; padding: 1px 5px; }
+
+/* editor */
+.editor { margin-top: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.ed-head { display: flex; gap: 12px; align-items: flex-start; }
+.ed-head img { width: 76px; height: 96px; object-fit: cover; object-position: top; border-radius: 10px; background: #0e0a1f; flex: none; }
+.ed-head h3 { margin: 0 0 4px; font-size: 18px; }
+.ed-head .short { color: var(--dim); font-size: 13px; }
+.traits { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.traits span { font-size: 11.5px; padding: 1px 7px; border-radius: 999px; background: #ffffff12; color: var(--dim); }
+fieldset { border: 1px solid var(--line); border-radius: 12px; margin: 14px 0 0; padding: 10px 12px 12px; min-width: 0; }
+legend { padding: 0 6px; font-weight: 700; color: var(--pink); }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-top: 8px; }
+.row.two { grid-template-columns: 1fr 1fr; }
+.row.one { grid-template-columns: 1fr; }
+.f { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.f > span { font-size: 12px; color: var(--dim); }
+.f .inl { display: flex; gap: 6px; align-items: center; }
+.hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
+.seg { display: inline-flex; border: 1px solid var(--line2); border-radius: 9px; overflow: hidden; }
+.seg button { background: none; border: 0; padding: 5px 12px; cursor: pointer; color: var(--dim); }
+.seg button.on { background: var(--pink); color: #fff; font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.chip { font-size: 12.5px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line2); background: none; cursor: pointer; color: var(--dim); }
+.chip.on { background: #ff6fae2a; border-color: var(--pink); color: var(--text); }
+.budget { margin-top: 8px; font-size: 13px; padding: 6px 10px; border-radius: 8px; background: #ffffff0a; }
+.budget.over { color: var(--warn); } .budget.good { color: var(--ok); }
+.warns { margin-top: 10px; }
+.warns div { font-size: 12.5px; color: var(--warn); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.desc { margin-top: 10px; font-size: 12.5px; color: var(--dim); white-space: pre-wrap; max-height: 180px; overflow-y: auto; background: #0e0a1f; border-radius: 8px; padding: 8px 10px; }
+details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
+
+/* relationships */
+.bond-row { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; cursor: pointer; margin-bottom: 8px; }
+.bond-row.on { border-color: var(--pink); box-shadow: 0 0 0 1px var(--pink); }
+.bond-row .pics { display: flex; flex: none; }
+.bond-row .pics img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--panel); background: #0e0a1f; }
+.bond-row .pics img + img { margin-left: -12px; }
+.bond-row b { display: block; }
+.bond-row small { color: var(--dim); }
+.suggest { background: #ffc93c10; border: 1px solid #ffc93c44; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; }
+.suggest h4 { margin: 0 0 6px; font-size: 13px; color: var(--gold); }
+.suggest .s { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 3px 0; }
+.suggest .s span { flex: 1; }
+.empty { color: var(--faint); text-align: center; padding: 18px 10px; }
+
+/* export */
+#code { width: 100%; min-height: 380px; font: 12px/1.45 Consolas, 'Cascadia Mono', monospace; white-space: pre; }
+
+#toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); background: #1c1538; border: 1px solid var(--pink); padding: 9px 16px;
+  border-radius: 999px; box-shadow: 0 8px 30px #0008; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+#toast.show { opacity: 1; }
+
+@media (max-width: 900px) {
+  #app { grid-template-columns: 1fr; grid-template-rows: auto 56vw auto; height: auto; }
+  #stage-wrap { grid-row: 2; }
+  #side { grid-row: 3; border-right: 0; overflow: visible; }
+  html, body { height: auto; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>🎴 <b>Card Maker</b></h1>
+    <span class="grow"></span>
+    <label class="check" title="Show outfits, characters and backgrounds the export marks as adult"><input type="checkbox" id="nsfw"> Show 18+ outfits</label>
+    <select id="bg-pick" title="Stage background"><option value="">🏫 Gallery gym</option></select>
+    <select id="music-pick" title="Stage music"><option value="theme">♪ Gallery theme</option><option value="">🔇 No music</option></select>
+    <button class="btn small" id="save-work" title="Download your cards and relationships as a file">💾 Save work</button>
+    <button class="btn small" id="load-work" title="Load a file saved with Save work">📂 Load work</button>
+    <a class="btn small" href="./" style="text-decoration:none">← Game</a>
+  </header>
+
+  <aside id="side">
+    <div id="drop" tabindex="0" role="button" aria-label="Load a miku.gg novel export">
+      <div class="big">📥</div>
+      <div><p><b>Drop a miku.gg novel export here</b> <span class="more">(.json)</span></p>
+        <p class="more">or click to choose one: a history export or a .novel file, like the ones in the <code>novels/</code> folder.</p></div>
+    </div>
+    <input type="file" id="file" accept=".json,.novel,application/json" hidden>
+    <input type="file" id="work-file" accept=".json" hidden>
+
+    <div id="novel" hidden></div>
+
+    <div id="tabs-wrap" hidden>
+      <nav class="tabs">
+        <button data-tab="chars" class="on">🎴 Characters</button>
+        <button data-tab="bonds">💞 Relationships</button>
+        <button data-tab="export">📤 Export</button>
+      </nav>
+      <section id="tab-chars">
+        <div id="char-grid"></div>
+        <div id="char-editor"></div>
+      </section>
+      <section id="tab-bonds" hidden>
+        <div id="bond-suggest"></div>
+        <div id="bond-list"></div>
+        <button class="btn" id="bond-new">＋ New relationship</button>
+        <div id="bond-editor"></div>
+      </section>
+      <section id="tab-export" hidden>
+        <p class="hint" style="margin-top:0">Data for <code>game/js/data.js</code>: cards, relationships and their scenes, one section per table.
+          Ids and costume ids are the ones <code>tools/fetch_assets.py</code> gives when the novel is imported (the add-novel steps),
+          so check them against <code>game/assets/manifest.json</code>. Every character still needs a leader power (<code>MB.POWERS</code>).</p>
+        <div class="actions" style="margin:8px 0">
+          <button class="btn primary" id="copy-code">📋 Copy</button>
+          <button class="btn" id="dl-code">⬇ Download .js</button>
+        </div>
+        <textarea id="code" readonly spellcheck="false"></textarea>
+      </section>
+    </div>
+  </aside>
+
+  <section id="stage-wrap">
+    <div id="stage-box">
+      <iframe id="stage" title="Miku Battle stage"></iframe>
+      <div id="stage-hint">Loading the stage…</div>
+    </div>
+    <div id="stage-bar">
+      <span class="who" id="stage-who">Load a novel to start</span>
+      <button class="btn primary" id="play-a" disabled>⚔ Attack</button>
+      <button class="btn" id="play-b" disabled>✨ Close-up</button>
+      <span id="status"></span>
+    </div>
+  </section>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const slug = (s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const toast = (msg) => { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2200); };
+  const emojiList = (s) => String(s || '').trim().split(/[\s,]+/).filter(Boolean);
+  const wordList = (s) => String(s || '').split(',').map((w) => w.trim()).filter(Boolean);
+
+  // ------------------------------------------------------------------ miku.gg exports (as tools/fetch_assets.py reads them)
+  const CDN = 'https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/', OLD_CDN = 'https://assets.miku.services/';
+  // sprites and backgrounds come in 1080p, profile pictures in 256p; older exports keep IPFS-style names
+  const imgUrl = (src, size = '1080p') => !src ? '' : /^(https?:|data:|blob:)/.test(src) ? src : src.startsWith('optimized/') ? `${CDN}${size}/${src}` : OLD_CDN + src;
+  const audioUrl = (src) => !src ? '' : /^https?:/.test(src) ? src : src.startsWith('optimized/') ? CDN + src : OLD_CDN + src;
+  const SKIP_NAMES = new Set(['narrator', 'narrador']);
+  const NSFW_NAME = /\b(nude|topless|naked|nsfw|sex|masturbat\w*|dildo|penetration|tentacles?|lewd|lingerie)\b/i;
+  const ADULT_EMOTIONS = new Set(['arousal', 'ecstasy', 'release', 'submission', 'humiliation']);
+  // the battle's sprite roles, first emotion found wins
+  const ROLES = {
+    idle: ['neutral'], play: ['happy', 'excited', 'confident'], attack: ['angry', 'rage', 'frustrated', 'intensity'],
+    special: ['rage', 'angry', 'intensity'], hurt: ['scared', 'shocked', 'surprised', 'worried'], lose: ['sad', 'disappointed', 'worried'],
+    win: ['excited', 'proud', 'happy', 'confident'], taunt: ['proud', 'amused', 'teasing', 'confident', 'happy'],
+  };
+
+  function parseNovel(raw) {
+    const n = raw && (raw.novel || raw);
+    if (!n || !Array.isArray(n.characters)) throw new Error("This file isn't a miku.gg novel export (it has no characters).");
+    const title = String(n.title || 'Untitled novel').trim();
+    const byKey = new Map(), skipped = [];
+    for (const c of n.characters) {
+      let name = String(c.name || '').trim();
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      const data = (c.card && c.card.data) || {};
+      const ext = (data.extensions && data.extensions.mikugg_v2) || {};
+      const outfits = (ext.outfits || []).filter((o) => o.emotions && o.emotions.length && !/\bcg\b/i.test(o.name || '')).map((o) => ({
+        id: slug(o.name || 'outfit') || 'outfit', name: String(o.name || 'Outfit').trim(), desc: o.description || '',
+        nsfw: !!o.nsfw || NSFW_NAME.test(o.name || '') || o.emotions.some((e) => ADULT_EMOTIONS.has(e.id)),
+        emotions: Object.fromEntries(o.emotions.filter((e) => e.sources && e.sources.png).map((e) => [e.id, e.sources.png])),
+      })).filter((o) => Object.keys(o.emotions).length);
+      if (!name || SKIP_NAMES.has(name.toLowerCase())) { skipped.push([name || '(no name)', 'narrator']); continue; }
+      if (!String(data.description || '').trim()) { skipped.push([name, 'no description (placeholder)']); continue; }
+      if (!outfits.length) { skipped.push([name, 'no sprites']); continue; }
+      const fill = (s) => String(s || '').replace(/\{\{user\}\}/gi, 'you').replace(/\{\{char\}\}/gi, name);
+      const desc = fill(data.description);
+      const m = desc.match(/Personality:\s*\[?([^\]\n{}]+)/i);
+      const entry = {
+        key: slug(name), name, desc, short: fill(c.short_description || ext.short_description || ''),
+        traits: m ? m[1].split(',').map((t) => t.trim().replace(/^["'.]+|["'.]+$/g, '')).filter((t) => t && t.split(/\s+/).length <= 3).slice(0, 8) : [],
+        talk: fill([data.first_mes, data.mes_example].join('\n')), profile: c.profile_pic && c.profile_pic !== 'empty_char.png' ? c.profile_pic : '',
+        outfits,
+      };
+      const prev = byKey.get(entry.key);
+      if (!prev) { byKey.set(entry.key, entry); continue; }
+      // the same person twice (another route or universe): keep the one with more outfits, add the others' outfits
+      const [keep, extra] = entry.outfits.length > prev.outfits.length ? [entry, prev] : [prev, entry];
+      keep.outfits = keep.outfits.concat(extra.outfits);
+      byKey.set(entry.key, keep);
+      skipped.push([name, 'merged with the other ' + name]);
+    }
+    const chars = [...byKey.values()];
+    chars.forEach((ch) => {
+      const seen = new Set();
+      ch.outfits = ch.outfits.filter((o) => !seen.has(o.id) && seen.add(o.id)).sort((a, b) => a.nsfw - b.nsfw);
+      ch.nsfwOnly = ch.outfits.every((o) => o.nsfw);
+    });
+    return {
+      title, author: n.author || '', total: n.characters.length, chars, skipped,
+      backgrounds: (n.backgrounds || []).filter((b) => b.source && b.source.jpg).map((b) => ({ name: String(b.name || 'Background').trim(), url: imgUrl(b.source.jpg), nsfw: NSFW_NAME.test(b.name || '') })),
+      songs: (n.songs || []).filter((s) => s.source).map((s) => ({ name: String(s.name || 'Song').trim(), url: audioUrl(s.source) })),
+    };
+  }
+  function roleSprites(o) {
+    const em = o.emotions, first = em.neutral || Object.values(em)[0];
+    return Object.fromEntries(Object.entries(ROLES).map(([role, list]) => [role, imgUrl(em[list.find((e) => em[e])] || first)]));
+  }
+  const thumbOf = (ch) => ch.profile ? imgUrl(ch.profile, '256p') : roleSprites(ch.outfits[0]).idle;
+  const idleOf = (ch, outfitId) => roleSprites(outfitOf(ch, outfitId)).idle;
+  const outfitOf = (ch, id) => ch.outfits.find((o) => o.id === id) || safeOutfits(ch)[0] || ch.outfits[0];
+  const safeOutfits = (ch) => ch.outfits.filter((o) => showNsfw || !o.nsfw);
+
+  // ------------------------------------------------------------------ suggestions from the write-ups
+  // a first draft of each card, so a novel is playable right after loading; everything can be changed
+  const STYLE_HINTS = [
+    [/\b(chef|cook|baker|bakery|pastry|pizza)/i, { style: 'pizza', name: 'Hot Delivery' }],
+    [/\b(doctor|nurse|medic|surgeon|hospital)/i, { style: 'syringe', name: 'Doctor\'s Orders' }],
+    [/\b(scien|chemi|lab\b|laborator|alchem)/i, { style: 'flask', name: 'Lab Accident' }],
+    [/\b(guitar|rock|band|metal)/i, { style: 'riff', name: 'Power Chord' }],
+    [/\b(piano|pianist)/i, { style: 'piano', name: 'Crescendo' }],
+    [/\b(singer|idol|sing|music)/i, { style: 'melody', name: 'Encore', emoji: '🎵' }],
+    [/\b(lifeguard|shark)/i, { style: 'jaws', name: 'Big Bite' }],
+    [/\b(swim|surf|ocean|beach|mermaid|dolphin)/i, { style: 'surf', name: 'Wave Rider' }],
+    [/\b(samurai|katana)/i, { style: 'katana', name: 'Iaido Flash' }],
+    [/\b(sword|knight|blade|fencer)/i, { style: 'slash', name: 'Triple Cut' }],
+    [/\b(ninja|assassin|thief|rogue)/i, { style: 'ninja', name: 'Shadow Step' }],
+    [/\b(demon|devil|succubus|hell|infernal)/i, { style: 'hellfire', name: 'Hellfire' }],
+    [/\b(angel|nun|priest|holy|church)/i, { style: 'halo', name: 'Holy Light' }],
+    [/\b(witch|mage|magic|sorcer|wizard|spell)/i, { style: 'runes', name: 'Arcane Circle' }],
+    [/\b(vampire|goth|gothic)/i, { style: 'bolt', name: 'Night Curse' }],
+    [/\b(dragon)/i, { style: 'dragon', name: 'Dragon Breath' }],
+    [/\b(cheerleader|cheer)/i, { style: 'pompom', name: 'Go Team!', shout: 'GO!' }],
+    [/\b(basketball)/i, { style: 'hoops', name: 'Slam Dunk' }],
+    [/\b(artist|paint|draw)/i, { style: 'paint', name: 'Splash of Color' }],
+    [/\b(book|librar|writer|poet|novel|study|nerd)/i, { style: 'pages', name: 'Book Blizzard' }],
+    [/\b(coffee|barista|caf[eé])/i, { style: 'latte', name: 'Extra Shot' }],
+    [/\b(rich|wealthy|heiress|millionaire|billionaire)/i, { style: 'coins', name: 'Make It Rain' }],
+    [/\b(model|fashion|celebrity|star\b|famous)/i, { style: 'redcarpet', name: 'Red Carpet' }],
+    [/\b(tsundere)/i, { style: 'heartbreak', name: 'N-Not For You!' }],
+    [/\b(sleepy|lazy|nap|tired)/i, { style: 'yawn', name: 'Big Yawn' }],
+    [/\b(hacker|programmer|gamer|tech|robot|android|cyber)/i, { style: 'hack', name: 'System Crash', emoji: '💻' }],
+    [/\b(police|cop|detective|officer)/i, { style: 'redcard', name: 'You\'re Under Arrest' }],
+    [/\b(teacher|professor|principal)/i, { style: 'stamp', name: 'Detention', mark: 'F-' }],
+    [/\b(drunk|alcohol|bartender)/i, { style: 'stumble', name: 'Last Call' }],
+    [/\b(wrestl|athlet|gym|muscle|strong|fighter|boxer)/i, { style: 'suplex', name: 'Body Slam' }],
+    [/\b(karate|martial)/i, { style: 'uppercut', name: 'Rising Fist' }],
+    [/\b(cat|neko|feline)/i, { move: 'pounce', fx: 'slashes', name: 'Cat Scratch', scatter: '🐾' }],
+    [/\b(wolf|dog|canine|fox)/i, { move: 'pounce', fx: 'hit', name: 'Pounce', scatter: '🐾' }],
+    [/\b(deer|bunny|rabbit|cute|small|tiny)/i, { style: 'bounce', name: 'Hop Attack' }],
+    [/\b(shy|gentle|kind|sweet|caring)/i, { style: 'orb', name: 'Gentle Bloom', emoji: '🌸' }],
+    [/\b(loud|bossy|confident|arrogant)/i, { style: 'shout', name: 'Hear Me!', shout: 'HEY!' }],
+  ];
+  const KW_HINTS = [[/\b(protective|guardian|loyal|bodyguard)/i, 'guardian'], [/\b(strong|tough|stubborn|tank)/i, 'taunt'], [/\b(fast|energetic|hyper|quick|athletic)/i, 'haste'],
+    [/\b(shy|sneaky|quiet|mysterious|introvert)/i, 'stealth'], [/\b(drunk|clumsy|airhead|ditzy)/i, 'tipsy'], [/\b(rebel|delinquent|punk|wild)/i, 'rebel'],
+    [/\b(cold|icy|stoic|aloof)/i, 'freeze'], [/\b(hot[- ]?headed|fiery|temper|passionate)/i, 'burn'], [/\b(archer|sniper|gunner|shooter)/i, 'ranged'],
+    [/\b(sadist|toxic|venom|poison|cruel)/i, 'poison'], [/\b(nurse|healer|caring|motherly|nurturing)/i, 'lifesteal']];
+  const COLORS = [[/pink/i, '#ff6fae'], [/red|crimson|scarlet/i, '#ff4a4a'], [/blue|azure|navy/i, '#4aa3ff'], [/teal|cyan|aqua|turquoise/i, '#3fd6c8'],
+    [/green|emerald/i, '#4caf6a'], [/purple|violet|lavender/i, '#b35cff'], [/blond|gold|yellow/i, '#ffc93c'], [/orange|ginger/i, '#ff9d2e'],
+    [/silver|white|platinum|grey|gray/i, '#d8dcf0'], [/brown|chestnut|auburn/i, '#c0844a'], [/black|dark/i, '#8a7fc8']];
+  const RARITY_STATS = { common: [2, 2, 3], rare: [3, 3, 4], epic: [4, 4, 5], legendary: [5, 5, 6] };
+
+  function suggestCard(ch) {
+    const text = [ch.traits.join(', '), ch.short, ch.desc].join('\n');
+    // what they are (traits, one-liner) counts before what the long write-up merely mentions
+    const fits = (t) => STYLE_HINTS.find(([re, s]) => re.test(t) && (!s.style || !meta || meta.styles.includes(s.style)));
+    const hit = fits([ch.traits.join(', '), ch.short].join('\n')) || fits(ch.desc);
+    const h = hit ? hit[1] : { style: 'dash', name: 'Rush' };
+    const hair = (text.match(/(\w+)[- ]hair/i) || [])[1] || (outfitOf(ch).desc || '') + ' ' + text;
+    const color = (COLORS.find(([re]) => re.test(hair)) || [0, '#ff6fae'])[1];
+    // the more the write-ups revolve around them, the rarer the card
+    const mentions = state.novel.chars.filter((o) => o !== ch && mentionsOf(o, ch)).length;
+    const rarity = mentions >= 4 ? 'legendary' : mentions >= 2 ? 'epic' : mentions >= 1 ? 'rare' : 'common';
+    const [cost, atk, hp] = RARITY_STATS[rarity];
+    const kw = rarity === 'common' ? [] : [...new Set(KW_HINTS.filter(([re]) => re.test(text)).map(([, k]) => k))].slice(0, rarity === 'legendary' ? 2 : 1);
+    const said = (ch.talk.match(/"([^"\n{}]{6,30})"/) || [])[1] || '';
+    return {
+      outfit: safeOutfits(ch)[0] ? safeOutfits(ch)[0].id : ch.outfits[0].id, cost, atk, hp: Math.max(1, hp - kw.length), rarity, kw,
+      attack: { mode: h.style ? 'style' : 'recipe', style: h.style || 'dash', emoji: h.emoji || '', shout: h.shout || '', words: '', mark: h.mark || '',
+        move: h.move || 'dash', fx: h.fx || 'hit', prop: '', hits: 3, floor: '', scatter: h.scatter || '', big: false,
+        name: h.name, color, cry: '', finish: '', sfx: '', sky: '' },
+      intro: { mode: 'default', style: '', move: 'pop', fx: 'spray', emoji: '', sfx: '' },
+      quote: said, extra: '',
+    };
+  }
+  // does a's write-up name b (by first name)?
+  function mentionsOf(a, b) {
+    const first = b.name.split(/\s+/)[0];
+    if (first.length < 3) return false;
+    return new RegExp(`\\b${first.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(a.desc);
+  }
+  const KIND_HINTS = [[/\b(wife|husband|girlfriend|boyfriend|lover|married|fianc|spouse|dating|crush on)/i, 'lovers'],
+    [/\b(mother|father|mom|dad|sister|brother|daughter|son|aunt|uncle|cousin|niece|nephew|grand|twin|sibling|parent|adopt)/i, 'family'],
+    [/\b(rival|enemy|enemies|nemesis|hates?|vengeful|revenge|grudge|feud)\b/i, 'rivals'], [/\b(teacher|student|classmate|club|school)/i, 'school'],
+    [/\b(boss|mentor|master|apprentice|coworker|colleague|partner)/i, 'mentor'], [/\b(friend|bestie|buddy|roommate)/i, 'friends']];
+  function suggestBonds() {
+    const cs = visibleChars(), out = [], seen = new Set(state.bonds.map((b) => b.pair.slice().sort().join('|')));
+    for (const a of cs) for (const b of cs) {
+      if (a === b || !mentionsOf(a, b)) continue;
+      const key = [a.key, b.key].sort().join('|');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const first = b.name.split(/\s+/)[0];
+      const around = (a.desc.match(new RegExp(`[^.\\n]*\\b${first.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b[^.\\n]*`, 'i')) || [''])[0];
+      const kind = (KIND_HINTS.find(([re]) => re.test(around)) || [0, 'friends'])[1];
+      out.push({ a, b, kind, around: around.trim().slice(0, 140) });
+    }
+    return out.slice(0, 12);
+  }
+
+  // ------------------------------------------------------------------ state (autosaved per novel)
+  const state = { novel: null, cards: {}, bonds: [], sel: null, bondSel: null, tab: 'chars' };
+  let meta = null, showNsfw = false, stageReady = false;
+  const storeKey = () => 'mb-maker:' + state.novel.title;
+  function persist() {
+    if (!state.novel) return;
+    try { localStorage.setItem(storeKey(), JSON.stringify({ v: 1, cards: state.cards, bonds: state.bonds })); } catch (e) { /* not kept */ }
+  }
+  function restore() {
+    try {
+      const s = JSON.parse(localStorage.getItem(storeKey()) || 'null');
+      if (s) { state.cards = s.cards || {}; state.bonds = s.bonds || []; }
+    } catch (e) { /* start fresh */ }
+  }
+  const charByKey = (k) => state.novel && state.novel.chars.find((c) => c.key === k);
+  const visibleChars = () => state.novel ? state.novel.chars.filter((c) => showNsfw || !c.nsfwOnly) : [];
+  const cardOf = (ch) => state.cards[ch.key] || (state.cards[ch.key] = suggestCard(ch));
+  const get = (o, path) => path.split('.').reduce((x, k) => (x == null ? x : x[k]), o);
+  const set = (o, path, v) => { const ks = path.split('.'), last = ks.pop(); ks.reduce((x, k) => (x[k] ??= {}), o)[last] = v; };
+
+  // ------------------------------------------------------------------ loading a novel
+  function loadFile(file) {
+    const r = new FileReader();
+    r.onload = () => {
+      try { openNovel(parseNovel(JSON.parse(r.result))); } catch (e) { toast('⚠ ' + e.message); console.error(e); }
+    };
+    r.readAsText(file);
+  }
+  function openNovel(novel) {
+    state.novel = novel; state.cards = {}; state.bonds = []; state.sel = null; state.bondSel = null;
+    restore();
+    $('#drop').classList.add('compact');
+    $('#drop p b').textContent = 'Load another novel';
+    const shown = visibleChars().length, hidden = novel.chars.length - shown;
+    $('#novel').hidden = false;
+    $('#novel').innerHTML = `<h2>${esc(novel.title)}</h2>
+      <div class="meta">${novel.author ? 'by ' + esc(novel.author) + ' · ' : ''}${novel.backgrounds.length} backgrounds · ${novel.songs.length} songs</div>
+      <div class="count">👥 ${novel.total} character${novel.total === 1 ? '' : 's'} in this novel · ${novel.chars.length} can be made into cards</div>
+      ${hidden ? `<div class="hint">${hidden} only ha${hidden === 1 ? 's' : 've'} 18+ outfits (shown with “Show 18+ outfits”).</div>` : ''}
+      ${novel.skipped.length ? `<details class="skipped"><summary>${novel.skipped.length} left out</summary>${novel.skipped.map(([n, why]) => `${esc(n)} — ${esc(why)}`).join('<br>')}</details>` : ''}`;
+    $('#tabs-wrap').hidden = false;
+    fillStagePickers();
+    const first = visibleChars()[0];
+    tab('chars');
+    if (first) selectChar(first.key); else renderChars();
+    toast(`Loaded “${novel.title}”: ${novel.chars.length} characters`);
+  }
+  function fillStagePickers() {
+    const n = state.novel;
+    $('#bg-pick').innerHTML = '<option value="">🏫 Gallery gym</option>' + n.backgrounds.filter((b) => showNsfw || !b.nsfw)
+      .map((b) => `<option value="${esc(b.url)}">🖼 ${esc(b.name)}</option>`).join('');
+    $('#music-pick').innerHTML = '<option value="theme">♪ Gallery theme</option><option value="">🔇 No music</option>'
+      + n.songs.map((s) => `<option value="${esc(s.url)}">♪ ${esc(s.name)}</option>`).join('');
+  }
+
+  // ------------------------------------------------------------------ tabs
+  function tab(name) {
+    state.tab = name;
+    $$('.tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === name));
+    ['chars', 'bonds', 'export'].forEach((t) => { $('#tab-' + t).hidden = t !== name; });
+    if (name === 'bonds') renderBonds();
+    if (name === 'export') $('#code').value = exportCode();
+    updateStageBar();
+  }
+
+  // ------------------------------------------------------------------ characters
+  function renderChars() {
+    $('#char-grid').innerHTML = visibleChars().map((ch) => `
+      <div class="tile${state.sel === ch.key ? ' on' : ''}" data-key="${esc(ch.key)}" title="${esc(ch.short)}">
+        <img src="${esc(thumbOf(ch))}" alt="" loading="lazy" data-fallback="${esc(roleSprites(ch.outfits[0]).idle)}">
+        <div class="nm">${esc(ch.name)}</div>
+        ${state.cards[ch.key] ? '<span class="made">✓</span>' : ''}${ch.nsfwOnly ? '<span class="r18">18+</span>' : ''}
+      </div>`).join('') || '<div class="empty">No characters to show.</div>';
+    fallbackImgs($('#char-grid'));
+  }
+  // a missing profile picture falls back to the idle sprite
+  function fallbackImgs(root) {
+    $$('img[data-fallback]', root).forEach((im) => im.addEventListener('error', () => {
+      if (im.dataset.fallback && im.src !== im.dataset.fallback) { im.src = im.dataset.fallback; im.dataset.fallback = ''; }
+    }, { once: false }));
+  }
+  function selectChar(key) {
+    state.sel = key;
+    const ch = charByKey(key);
+    cardOf(ch);
+    persist();
+    renderChars();
+    renderCharEditor();
+    updateStageBar();
+    send('show', { id: 'mk-' + key });
+  }
+
+  const opt = (list, cur, label = (x) => x) => list.map((v) => `<option value="${esc(v)}"${String(v) === String(cur) ? ' selected' : ''}>${esc(label(v))}</option>`).join('');
+  const field = (label, html, cls = '') => `<label class="f ${cls}"><span>${label}</span>${html}</label>`;
+  const txt = (k, v, ph = '', max = '') => `<input type="text" data-k="${k}" value="${esc(v)}" placeholder="${esc(ph)}"${max ? ` maxlength="${max}"` : ''}>`;
+  const num = (k, v, min, max) => `<input type="number" data-k="${k}" data-t="num" value="${esc(v)}" min="${min}" max="${max}">`;
+  const sel = (k, list, cur, label, extra = '') => `<select data-k="${k}"${extra}>${opt(list, cur, label)}</select>`;
+  const color = (k, v) => `<div class="inl"><input type="color" data-k="${k}" value="${esc(v)}"><input type="text" data-k="${k}" value="${esc(v)}" maxlength="7"></div>`;
+  const SFX = ['', 'sparkle', 'slam', 'zap', 'splash', 'heal', 'coin', 'whoosh', 'hit', 'buff', 'beam', 'boing', 'bonk', 'pow', 'pop', 'squeak', 'zip', 'honk',
+    'wobble', 'tweet', 'splat', 'twang', 'chomp', 'ding', 'whistle', 'bubble', 'punch', 'fire', 'burn', 'frost', 'shatter', 'wave', 'holy', 'thunder', 'dark',
+    'wind', 'boom', 'choir', 'laugh', 'incoming', 'tornado', 'vortex', 'missile', 'vines', 'rune', 'shuriken', 'melody', 'poof', 'gunshot', 'lava', 'kiss',
+    'swish', 'clang', 'glitch', 'camera', 'stab', 'cheer', 'scythe', 'surf', 'guitar', 'piano', 'axe', 'glass', 'flutter', 'stomp', 'gong', 'applause',
+    'hypno', 'warp', 'unsheathe', 'siren', 'heartbeat', 'glint'];
+  const INTRO_FX = ['spray', 'fling', 'swirl', 'rain', 'confetti', 'column', 'flash', 'smoke'];
+
+  function renderCharEditor() {
+    const box = $('#char-editor');
+    const ch = charByKey(state.sel);
+    if (!ch) { box.innerHTML = ''; return; }
+    if (!meta) { box.innerHTML = '<div class="editor empty">Waiting for the stage to load its attack list…</div>'; return; }
+    const c = cardOf(ch), a = c.attack, it = c.intro;
+    const outfits = safeOutfits(ch).length ? safeOutfits(ch) : ch.outfits;
+    const styleNeeds = { shout: ['shout', 'pompom'], words: ['lingo', 'hyper'], mark: ['stamp'] };
+    box.innerHTML = `<div class="editor" data-scope="card">
+      <div class="ed-head">
+        <img src="${esc(idleOf(ch, c.outfit))}" alt="">
+        <div><h3>${esc(ch.name)}</h3><div class="short">${esc(ch.short)}</div>
+          <div class="traits">${ch.traits.map((t) => `<span>${esc(t)}</span>`).join('')}</div></div>
+      </div>
+      <details><summary>Read the write-up</summary><div class="desc">${esc(ch.desc)}</div></details>
+
+      <fieldset><legend>Card</legend>
+        <div class="row">
+          ${field('Outfit', sel('outfit', outfits.map((o) => o.id), c.outfit, (id) => { const o = ch.outfits.find((x) => x.id === id); return o.name + (o.nsfw ? ' (18+)' : ''); }, ' data-re="1"'), 'span2')}
+          ${field('Rarity', sel('rarity', meta.rarities, c.rarity, (r) => r[0].toUpperCase() + r.slice(1), ' data-re="1"'))}
+        </div>
+        <div class="row">
+          ${field('💰 Cost', num('cost', c.cost, 0, 10))}${field('⚔ ATK', num('atk', c.atk, 0, 20))}${field('❤ HP', num('hp', c.hp, 1, 30))}
+        </div>
+        <div class="f" style="margin-top:8px"><span>Keywords</span><div class="chips">${Object.entries(meta.keywords).map(([k, d]) =>
+          `<button type="button" class="chip${c.kw.includes(k) ? ' on' : ''}" data-kw="${k}" title="${esc(d.text)}">${d.icon} ${esc(d.name)}</button>`).join('')}</div></div>
+        <div class="budget" id="budget"></div>
+      </fieldset>
+
+      <fieldset><legend>Attack animation</legend>
+        <div class="seg" role="tablist"><button type="button" data-set="attack.mode=style" class="${a.mode === 'style' ? 'on' : ''}">Ready-made style</button><button type="button" data-set="attack.mode=recipe" class="${a.mode === 'recipe' ? 'on' : ''}">Build from parts</button></div>
+        ${a.mode === 'style' ? `
+          <div class="row two">
+            ${field('Style', sel('attack.style', meta.styles, a.style, undefined, ' data-re="1"'))}
+            ${field('Prop emoji', txt('attack.emoji', a.emoji, 'e.g. 🍳 (props styles)'))}
+          </div>
+          ${styleNeeds.shout.includes(a.style) ? `<div class="row one">${field('Shout (the words that fly)', txt('attack.shout', a.shout, 'GO!', 30))}</div>` : ''}
+          ${styleNeeds.words.includes(a.style) ? `<div class="row one">${field('Words (comma separated)', txt('attack.words', a.words, 'Hola!, Bonjour!, Ciao!'))}</div>` : ''}
+          ${styleNeeds.mark.includes(a.style) ? `<div class="row one">${field('Stamp mark', txt('attack.mark', a.mark, 'DENIED', 14))}</div>` : ''}
+        ` : `
+          <div class="row two">
+            ${field('Move (how they get there)', sel('attack.move', meta.moves, a.move))}
+            ${field('Effect (what hits)', sel('attack.fx', meta.fx, a.fx))}
+          </div>
+          <div class="row">
+            ${field('Props', txt('attack.prop', a.prop, '🍓 🍰'))}${field('Hits', num('attack.hits', a.hits, 1, 20))}
+            ${field('Floor mark', sel('attack.floor', ['', ...meta.floors], a.floor, (f) => f || '—'))}
+          </div>
+          <div class="row two">
+            ${field('Scatter on impact', txt('attack.scatter', a.scatter, '🐾 ✨'))}
+            <label class="check" style="align-self:end;padding-bottom:6px"><input type="checkbox" data-k="attack.big" data-t="bool"${a.big ? ' checked' : ''}> Big hit + shake</label>
+          </div>`}
+        <div class="row two">
+          ${field('Attack name', txt('attack.name', a.name, 'Wild Vault', 28))}
+          ${field('Color', color('attack.color', a.color))}
+        </div>
+        <div class="row two">
+          ${field('Wind-up line', txt('attack.cry', a.cry, 'Watch this!', 30))}
+          ${field('Finish line', txt('attack.finish', a.finish, 'Nailed it!', 30))}
+        </div>
+        <div class="row two">
+          ${field('Impact sound', sel('attack.sfx', SFX, a.sfx, (s) => s || '(the style’s own)'))}
+          ${field('Sky', sel('attack.sky', ['', ...meta.skies], a.sky, (s) => s || '(none)'))}
+        </div>
+        <div class="actions"><button type="button" class="btn primary" data-play="attack">⚔ Play attack</button></div>
+      </fieldset>
+
+      <fieldset><legend>Entrance &amp; quote (close-up)</legend>
+        <div class="seg"><button type="button" data-set="intro.mode=default" class="${it.mode === 'default' ? 'on' : ''}">From the attack</button><button type="button" data-set="intro.mode=style" class="${it.mode === 'style' ? 'on' : ''}">Another style’s</button><button type="button" data-set="intro.mode=recipe" class="${it.mode === 'recipe' ? 'on' : ''}">Custom</button></div>
+        ${it.mode === 'style' ? `<div class="row one">${field('Entrance of', sel('intro.style', meta.intros, it.style || meta.intros[0]))}</div>` : ''}
+        ${it.mode === 'recipe' ? `<div class="row two">${field('Move', sel('intro.move', meta.introMoves, it.move))}${field('Effect', sel('intro.fx', INTRO_FX, it.fx))}</div>
+          <div class="row two">${field('Emoji', txt('intro.emoji', it.emoji, '🔨 ⚙️'))}${field('Sound', sel('intro.sfx', SFX, it.sfx, (s) => s || '(default)'))}</div>` : ''}
+        <div class="row one">${field('Quote (≤ 30)', txt('quote', c.quote, 'Try and stop me!', 30))}</div>
+        <div class="actions"><button type="button" class="btn" data-play="closeup">✨ Play close-up</button></div>
+      </fieldset>
+
+      <details style="margin-top:12px"><summary>Abilities (advanced)</summary>
+        <p class="hint">Effect specs as JSON, merged into the card: <code>{"onPlay": {"do": "damage", "n": 2, "to": "randomEnemy"}}</code>. See <code>.claude/skills/add-novel/effects.md</code>.</p>
+        <textarea data-k="extra" rows="4" spellcheck="false" placeholder='{"onPlay": { ... }}'>${esc(c.extra)}</textarea>
+      </details>
+      <div class="warns" id="warns"></div>
+      <div class="actions">
+        <button type="button" class="btn small" data-act="suggest">🎲 Redo the first draft</button>
+        <button type="button" class="btn small danger" data-act="reset">✕ Remove this card</button>
+      </div>
+    </div>`;
+    bindEditor(box, c, () => { updateCardInfo(ch, c); renderChars(); }, (k, v) => {
+      if (k !== 'rarity') return false;
+      const [cost, atk, hp] = RARITY_STATS[v];
+      Object.assign(c, { cost, atk, hp });
+      renderCharEditor();
+      return true;
+    });
+    updateCardInfo(ch, c);
+  }
+  function updateCardInfo(ch, c) {
+    const budget = 2 * c.cost + 1, used = +c.atk + +c.hp + c.kw.length + (parseExtra(c.extra).ok && Object.keys(parseExtra(c.extra).v).length ? 2 : 0);
+    const b = $('#budget');
+    if (b) {
+      b.className = 'budget ' + (used > budget + 1 ? 'over' : used >= budget - 1 ? 'good' : '');
+      b.textContent = `Stat budget ${budget} (2 × cost + 1) · this card uses ${used} (ATK + HP, 1 per keyword, 2 for abilities)`
+        + (used > budget + 1 ? ' — strong for its cost' : used < budget - 1 ? ' — weak for its cost' : ' — balanced');
+    }
+    const w = [];
+    const a = c.attack;
+    [['Wind-up line', a.cry], ['Finish line', a.finish]].forEach(([n, s]) => { if (s && s.length > 30) w.push(`${n} is over 30 characters.`); });
+    if (a.mode === 'recipe' && a.fx === 'hit' && ['stay', 'float'].includes(a.move)) w.push('“hit” with “stay”/“float” punches thin air: pick a move that goes to the target.');
+    if (!a.name.trim()) w.push('The attack needs a name.');
+    const x = parseExtra(c.extra);
+    if (!x.ok) w.push('Abilities: ' + x.err);
+    const wb = $('#warns');
+    if (wb) wb.innerHTML = w.map((s) => `<div>⚠ ${esc(s)}</div>`).join('');
+    const img = $('.ed-head img');
+    if (img) img.src = idleOf(ch, c.outfit);
+  }
+  function parseExtra(s) {
+    if (!String(s || '').trim()) return { ok: true, v: {} };
+    try { const v = JSON.parse(s); return v && typeof v === 'object' && !Array.isArray(v) ? { ok: true, v } : { ok: false, err: 'needs a JSON object { ... }' }; }
+    catch (e) { return { ok: false, err: e.message }; }
+  }
+
+  // every editor input writes straight into the model it shows; data-re re-renders (the fields shown depend on it).
+  // The container's listeners are added once; each render hands it the current model, what to refresh on a change
+  // (onChange) and what to adjust after a field changes (after: returns true when it re-rendered)
+  function bindEditor(box, model, onChange, after = () => false) {
+    box._ed = { model, onChange, after };
+    if (box._bound) return;
+    box._bound = true;
+    const rerender = () => (box.id === 'char-editor' ? renderCharEditor() : renderBondEditor());
+    box.addEventListener('input', (e) => {
+      const k = e.target.dataset.k, { model, onChange, after } = box._ed;
+      if (!k) return;
+      let v = e.target.value;
+      if (e.target.dataset.t === 'num') v = e.target.value === '' ? 0 : +e.target.value;
+      if (e.target.dataset.t === 'bool') v = e.target.checked;
+      if (e.target.type === 'color' || (k.endsWith('color') && /^#[0-9a-f]{6}$/i.test(v))) $$(`[data-k="${k}"]`, box).forEach((x) => { if (x !== e.target) x.value = v; });
+      else if (k.endsWith('color')) return;
+      set(model, k, v);
+      persist();
+      if (after(k, v)) return;
+      if (e.target.dataset.re) rerender(); else onChange();
+    });
+    box.addEventListener('click', (e) => {
+      const t = e.target.closest('button'), { model, onChange } = box._ed;
+      if (!t) return;
+      if (t.dataset.kw) {
+        const kw = model.kw, i = kw.indexOf(t.dataset.kw);
+        if (i >= 0) kw.splice(i, 1); else kw.push(t.dataset.kw);
+        t.classList.toggle('on', i < 0);
+        persist(); onChange();
+      } else if (t.dataset.set) {
+        const [k, v] = t.dataset.set.split('=');
+        set(model, k, v); persist(); rerender();
+      } else if (t.dataset.list) {
+        const [k, v] = t.dataset.list.split('=');
+        const list = get(model, k), i = list.indexOf(v);
+        if (i >= 0) list.splice(i, 1); else list.push(v);
+        t.classList.toggle('on', i < 0);
+        persist(); onChange();
+      } else if (t.dataset.play) play(t.dataset.play);
+      else if (t.dataset.act) editorAction(t.dataset.act);
+    });
+  }
+  function editorAction(act) {
+    if (act === 'suggest') {
+      const ch = charByKey(state.sel);
+      state.cards[ch.key] = suggestCard(ch);
+      persist(); renderCharEditor(); renderChars();
+    } else if (act === 'reset') {
+      if (!confirm('Remove this card? Relationships that use it are kept but can’t play until it has a card again.')) return;
+      delete state.cards[state.sel];
+      persist(); state.sel = null; renderChars(); renderCharEditor(); updateStageBar();
+    } else if (act === 'bond-delete') {
+      if (!confirm('Delete this relationship?')) return;
+      state.bonds = state.bonds.filter((b) => b.id !== state.bondSel);
+      state.bondSel = null; persist(); renderBonds(); updateStageBar();
+    }
+  }
+
+  // ------------------------------------------------------------------ relationships
+  const TIER_BONUS = { 1: [0, 1], 2: [1, 2], 3: [2, 2] };
+  const KIND_HELP = { lovers: 'cuddle and hearts', family: 'family time (pick a variant: a meal, a movie, a laugh…)', rivals: 'argue and clash',
+    friends: 'a high-five', school: 'a lesson or a club project', crush: 'a love letter / a chalkboard proof', partners: 'back to back', mentor: 'the mentor powers up the student' };
+  const VARIANT_HELP = {
+    meal: 'Food: 3 emoji on the table.', strict: 'A parent drills the kid: More options → paper, score, order, drill [4 words], praise.',
+    class: 'More options → board: the chalkboard text.', club: 'More options → props [2 emoji], bits [[..],[..]], result, cheer.',
+    mirror: 'A mirror between them; they copy each other until one doesn’t.', duel: 'Face-off, a leaf falls, they dash past each other. More options → winner 0/1.',
+    tug: 'Tug of war; Emoji: the first one is tied in the middle.', hypnosis: 'More options → hypnotist 0/1.', photoshoot: 'Red carpet, poses, a magazine cover. More options → caption.',
+    bearhug: 'More options → hugger 0/1.', bar: 'Food: 2 drinks that slide down the counter.', concert: 'Emoji: the notes.', cook: 'Food: ingredients; Result: the dish.',
+    etiquette: 'Book on the head. More options → teacher 0/1, order.', harvest: 'Food rains into a tub; Result: the bottle.', dressup: 'Emoji: the clothes. More options → model 0/1.',
+    interview: 'More options → jobs (emoji), mentor 0/1, stamp.', standup: 'A mic, rimshots and tomatoes.', flair: 'Food: bottles juggled; Result: the drink.',
+    patrol: 'Use the night backdrop; Emoji: what sneaks in.', confession: 'Emoji: the sins. More options → sinner 0/1, meter, alarm.',
+    shrine: 'More options → face, caption.', solve: 'More options → steps, flex, fluster, answer.', boxing: 'Emoji: [a’s, b’s] blows.',
+    scheme: 'Emoji: chess pieces; Result: the crown. More options → laughs [a, b].', bakeoff: 'Food: [a’s perfect one, b’s that explodes]. More options → scores.',
+    rescue: 'More options → swimmer 0/1, grin.', nap: 'More options → throw (an emoji).', poker: 'More options → gambler 0/1, allin, hand, brag.',
+    auction: 'Result: the prize. More options → bids, gavel, winner 0/1.', reading: 'Food: the books; Emoji: the ghost. More options → boo.',
+  };
+  function newBond(a, b, kind = 'friends') {
+    const A = charByKey(a), B = charByKey(b);
+    const id = slug(`${A.name.split(/\s+/)[0]}-and-${B.name.split(/\s+/)[0]}`);
+    let uid = id, n = 2;
+    while (state.bonds.some((x) => x.id === uid)) uid = `${id}-${n++}`;
+    const tier = kind === 'lovers' ? 3 : kind === 'family' || kind === 'rivals' ? 2 : 1;
+    const bond = {
+      id: uid, pair: [a, b], costumes: ['', ''], tier, name: `${A.name.split(/\s+/)[0]} & ${B.name.split(/\s+/)[0]}`, short: A.name.split(/\s+/)[0].slice(0, 10),
+      relation: { lovers: 'In love', family: 'Family', rivals: 'Rivals', friends: 'Friends', school: 'Classmates', mentor: 'Mentor & student', crush: 'A crush', partners: 'Partners' }[kind],
+      bonus: TIER_BONUS[tier].slice(), kw: tier > 1 ? ['taunt'] : [],
+      attack: { style: 'combo', name: 'Team-up', color: cardOf(A).attack.color, emoji: '💞' },
+      scene: { kind, scene: '', lines: `${A.name.split(/\s+/)[0]}! Together?\nAlways.`, backdrop: [], food: '', emoji: '', result: '', extra: '' },
+    };
+    cardOf(A); cardOf(B);
+    state.bonds.push(bond);
+    state.bondSel = bond.id;
+    persist();
+    return bond;
+  }
+  function renderBonds() {
+    if (!state.novel) return;
+    const sug = suggestBonds();
+    $('#bond-suggest').innerHTML = sug.length ? `<div class="suggest"><h4>💡 Found in the write-ups</h4>${sug.map((s, i) =>
+      `<div class="s"><span><b>${esc(s.a.name)}</b> → <b>${esc(s.b.name)}</b> <small>(${s.kind})</small><br><small style="color:var(--faint)">${esc(s.around)}</small></span>
+        <button class="btn small" data-sug="${i}">＋ Add</button></div>`).join('')}</div>` : '';
+    $$('[data-sug]').forEach((b) => b.onclick = () => { const s = sug[+b.dataset.sug]; newBond(s.a.key, s.b.key, s.kind); renderBonds(); selectBond(state.bondSel); });
+    $('#bond-list').innerHTML = state.bonds.map((b) => {
+      const [A, B] = b.pair.map(charByKey);
+      return `<div class="bond-row${state.bondSel === b.id ? ' on' : ''}" data-bond="${esc(b.id)}">
+        <div class="pics">${[A, B].map((c) => c ? `<img src="${esc(thumbOf(c))}" alt="" data-fallback="${esc(roleSprites(c.outfits[0]).idle)}">` : '').join('')}</div>
+        <div><b>${'♥'.repeat(b.tier)} ${esc(b.name)}</b><small>${esc(b.relation)} · ${esc(b.scene.kind)}${b.scene.scene ? ' / ' + esc(b.scene.scene) : ''}</small></div></div>`;
+    }).join('') || '<div class="empty">No relationships yet. Add one from the suggestions or with ＋ New relationship.</div>';
+    fallbackImgs($('#bond-list'));
+    $$('.bond-row').forEach((r) => r.onclick = () => selectBond(r.dataset.bond));
+    renderBondEditor();
+  }
+  function selectBond(id) {
+    state.bondSel = id;
+    $$('.bond-row').forEach((r) => r.classList.toggle('on', r.dataset.bond === id));
+    renderBondEditor();
+    updateStageBar();
+    if (bondPlayable(bondById(id))) send('bond', { id: 'mk-' + id, mode: 'fuse' });
+  }
+  const bondById = (id) => state.bonds.find((b) => b.id === id);
+  const bondPlayable = (b) => b && b.pair.every((k) => charByKey(k)) && b.pair[0] !== b.pair[1];
+
+  function renderBondEditor() {
+    const box = $('#bond-editor'), b = bondById(state.bondSel);
+    if (!b) { box.innerHTML = ''; return; }
+    if (!meta) { box.innerHTML = '<div class="editor empty">Waiting for the stage…</div>'; return; }
+    const cs = visibleChars(), sc = b.scene;
+    const variants = meta.variants[sc.kind] || [];
+    const outfitSel = (i) => { const ch = charByKey(b.pair[i]); return ch ? sel(`costumes.${i}`, ['', ...safeOutfits(ch).map((o) => o.id)], b.costumes[i], (id) => id ? ch.outfits.find((o) => o.id === id).name : '(their card’s outfit)') : ''; };
+    const lines = String(sc.lines || '').split('\n').filter((l) => l.trim());
+    box.innerHTML = `<div class="editor" data-scope="bond">
+      <fieldset style="margin-top:0"><legend>Partners</legend>
+        <div class="row two">
+          ${field('Partner 1', sel('pair.0', cs.map((c) => c.key), b.pair[0], (k) => charByKey(k).name, ' data-re="1"'))}
+          ${field('Partner 2', sel('pair.1', cs.map((c) => c.key), b.pair[1], (k) => charByKey(k).name, ' data-re="1"'))}
+        </div>
+        <div class="row two">${field('Outfit 1', outfitSel(0))}${field('Outfit 2', outfitSel(1))}</div>
+        <p class="hint">Both partners on the board fuse into one card. Costumes should be safe outfits.</p>
+      </fieldset>
+
+      <fieldset><legend>Relationship card</legend>
+        <div class="row two">${field('Name', txt('name', b.name, 'Birk & Son', 28))}${field('Badge (≤ 10)', txt('short', b.short, 'Birks', 10))}</div>
+        <div class="row two">
+          ${field('What they are', txt('relation', b.relation, 'Father & Son', 30))}
+          ${field('Tier', sel('tier', [1, 2, 3], b.tier, (t) => `${meta.tiers[t].hearts} ${meta.tiers[t].name}`, ' data-re="1"'))}
+        </div>
+        <div class="row two">${field('Bonus ATK', num('bonus.0', b.bonus[0], 0, 5))}${field('Bonus HP', num('bonus.1', b.bonus[1], 0, 5))}</div>
+        <div class="f" style="margin-top:8px"><span>Keywords</span><div class="chips">${Object.entries(meta.keywords).map(([k, d]) =>
+          `<button type="button" class="chip${b.kw.includes(k) ? ' on' : ''}" data-kw="${k}" title="${esc(d.text)}">${d.icon} ${esc(d.name)}</button>`).join('')}</div></div>
+        <p class="hint">Tier 1: bonus [0-1, 1], one keyword. Tier 2: about [1, 2], two keywords. Tier 3 (the central couple or family): [2, 2].</p>
+      </fieldset>
+
+      <fieldset><legend>Relationship scene (close-up)</legend>
+        <div class="row two">
+          ${field('Kind', sel('scene.kind', Object.keys(meta.variants), sc.kind, (k) => k, ' data-re="1"'))}
+          ${field('Scene', sel('scene.scene', ['', ...variants], sc.scene, (v) => v || `(default: ${variants[0] || sc.kind})`, ' data-re="1"'))}
+        </div>
+        <p class="hint">${esc(KIND_HELP[sc.kind] || '')}${sc.scene && VARIANT_HELP[sc.scene] ? ' · ' + esc(VARIANT_HELP[sc.scene]) : ''}</p>
+        <div class="row one">${field('Lines — one per line, they take turns (start a line with “1:” or “2:” to pick the speaker; ≤ 30 characters)',
+          `<textarea data-k="scene.lines" rows="4">${esc(sc.lines)}</textarea>`)}</div>
+        ${lines.some((l) => l.replace(/^[12]:\s*/, '').length > 30) ? '<div class="warns"><div>⚠ A line is over 30 characters.</div></div>' : ''}
+        <div class="f" style="margin-top:8px"><span>Backdrop</span><div class="chips">${meta.backdrops.map((d) =>
+          `<button type="button" class="chip${sc.backdrop.includes(d) ? ' on' : ''}" data-list="scene.backdrop=${d}">${esc(d)}</button>`).join('')}</div></div>
+        <div class="row">
+          ${field('Food', txt('scene.food', sc.food, '🍗 🥧 🎂'))}${field('Emoji', txt('scene.emoji', sc.emoji, '🖤 💜'))}${field('Result', txt('scene.result', sc.result, '🍷'))}
+        </div>
+        <details style="margin-top:8px"><summary>More options (JSON)</summary>
+          <textarea data-k="scene.extra" rows="3" spellcheck="false" placeholder='{"winner": 1, "caption": "Power couple"}'>${esc(sc.extra)}</textarea>
+        </details>
+        <div class="actions"><button type="button" class="btn primary" data-play="scene">💞 Play scene</button></div>
+      </fieldset>
+
+      <fieldset><legend>Duo attack</legend>
+        <div class="row two">
+          ${field('Style', `<select data-k="attack.style"><optgroup label="Duo styles">${opt(meta.duoStyles, b.attack.style)}</optgroup><optgroup label="Solo styles">${opt(meta.styles, b.attack.style)}</optgroup></select>`)}
+          ${field('Prop emoji', txt('attack.emoji', b.attack.emoji, '💞'))}
+        </div>
+        <div class="row two">${field('Attack name', txt('attack.name', b.attack.name, 'Clearance Sale', 28))}${field('Color', color('attack.color', b.attack.color))}</div>
+        <div class="actions"><button type="button" class="btn primary" data-play="duo">⚔ Play duo attack</button></div>
+      </fieldset>
+      <div class="warns" id="bond-warns"></div>
+      <div class="actions"><button type="button" class="btn small danger" data-act="bond-delete">✕ Delete relationship</button></div>
+    </div>`;
+    bindEditor(box, b, () => {
+      $$('.bond-row').forEach((r) => {
+        if (r.dataset.bond !== b.id) return;
+        r.querySelector('b').textContent = '♥'.repeat(b.tier) + ' ' + b.name;
+      });
+      const x = parseExtra(sc.extra);
+      $('#bond-warns').innerHTML = x.ok ? '' : `<div>⚠ More options: ${esc(x.err)}</div>`;
+    }, (k) => {
+      // pair / tier / kind changes: keep the fields that depend on them sensible
+      if (k === 'tier') b.bonus = TIER_BONUS[b.tier = +b.tier].slice();
+      else if (k === 'pair.0' || k === 'pair.1') { b.costumes = ['', '']; b.pair.forEach((p) => cardOf(charByKey(p))); persist(); renderBonds(); return true; }
+      else if (k === 'scene.kind') sc.scene = '';
+      else return false;
+      persist(); renderBondEditor();
+      return true;
+    });
+  }
+
+  // ------------------------------------------------------------------ specs (shared by the stage and the export)
+  const one = (list) => (list.length === 1 ? list[0] : list);
+  function attackSpec(a) {
+    const out = a.mode === 'recipe'
+      ? { name: a.name, color: a.color, move: a.move, fx: a.fx, prop: emojiList(a.prop).length ? one(emojiList(a.prop)) : undefined,
+        hits: a.hits && +a.hits !== 3 ? +a.hits : undefined, floor: a.floor || undefined, scatter: emojiList(a.scatter).length ? emojiList(a.scatter) : undefined, big: a.big || undefined }
+      : { style: a.style, name: a.name, color: a.color, emoji: emojiList(a.emoji)[0] || undefined,
+        shout: ['shout', 'pompom'].includes(a.style) && a.shout ? a.shout : undefined,
+        words: ['lingo', 'hyper'].includes(a.style) && wordList(a.words).length ? wordList(a.words) : undefined,
+        mark: a.style === 'stamp' && a.mark ? a.mark : undefined };
+    Object.assign(out, { cry: a.cry || undefined, finish: a.finish || undefined, sfx: a.sfx || undefined, sky: a.sky || undefined });
+    return clean(out);
+  }
+  function cardSpec(c) {
+    const out = { cost: +c.cost, atk: +c.atk, hp: +c.hp, rarity: c.rarity, kw: c.kw.slice() };
+    out.attack = attackSpec(c.attack);
+    const it = c.intro;
+    if (it.mode === 'style' && it.style) out.intro = it.style;
+    if (it.mode === 'recipe') out.intro = clean({ move: it.move, fx: it.fx, emoji: emojiList(it.emoji).length ? emojiList(it.emoji) : undefined, sfx: it.sfx || undefined });
+    if (c.quote) out.quote = c.quote;
+    const x = parseExtra(c.extra);
+    if (x.ok) Object.assign(out, x.v);
+    return out;
+  }
+  function bondSpec(b, idOf) {
+    return clean({
+      id: idOf(b.id), pair: b.pair.map(idOf), costumes: b.costumes.map((c) => c || null), tier: +b.tier, name: b.name, short: b.short, relation: b.relation,
+      bonus: b.bonus.map(Number), kw: b.kw.slice(),
+      attack: clean({ style: b.attack.style, name: b.attack.name, color: b.attack.color, emoji: emojiList(b.attack.emoji)[0] || undefined }),
+    });
+  }
+  function sceneSpec(sc) {
+    const lines = String(sc.lines || '').split('\n').map((l) => l.trim()).filter(Boolean);
+    const forced = lines.some((l) => /^[12]:/.test(l));
+    const out = { kind: sc.kind, scene: sc.scene || undefined,
+      lines: forced ? lines.map((l, i) => { const m = l.match(/^([12]):\s*(.*)$/); return m ? { by: +m[1] - 1, text: m[2] } : { by: i % 2, text: l }; }) : lines,
+      backdrop: sc.backdrop.length ? one(sc.backdrop) : undefined,
+      food: emojiList(sc.food).length ? emojiList(sc.food) : undefined, emoji: emojiList(sc.emoji).length ? emojiList(sc.emoji) : undefined,
+      result: sc.result || undefined };
+    const x = parseExtra(sc.extra);
+    if (x.ok) Object.assign(out, x.v);
+    return clean(out);
+  }
+  const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== ''));
+
+  // what the stage needs: every made card as a character with sprite URLs, plus the relationships
+  function stageData() {
+    const chars = [], cards = {}, bonds = [], scenes = {};
+    const made = (k) => state.cards[k] && charByKey(k);
+    Object.keys(state.cards).filter(made).forEach((k) => {
+      const ch = charByKey(k), c = state.cards[k], base = outfitOf(ch, c.outfit);
+      chars.push({ id: 'mk-' + k, name: ch.name, short: ch.short, traits: ch.traits, outfit: base.name, portrait: null, novel: state.novel.title,
+        sprites: roleSprites(base), costumes: safeOutfits(ch).filter((o) => o !== base).map((o) => ({ id: o.id, name: o.name, sprites: roleSprites(o) })) });
+      cards['mk-' + k] = cardSpec(c);
+    });
+    state.bonds.filter((b) => bondPlayable(b) && b.pair.every(made)).forEach((b) => {
+      bonds.push(bondSpec(b, (id) => 'mk-' + id));
+      scenes['mk-' + b.id] = sceneSpec(b.scene);
+    });
+    return { chars, cards, bonds, scenes };
+  }
+
+  // ------------------------------------------------------------------ export
+  const q = (s) => "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n') + "'";
+  function lit(v) {
+    if (Array.isArray(v)) return '[' + v.map(lit).join(', ') + ']';
+    if (v && typeof v === 'object') return '{ ' + Object.entries(v).map(([k, x]) => (/^[A-Za-z_$][\w$]*$/.test(k) ? k : q(k)) + ': ' + lit(x)).join(', ') + ' }';
+    if (typeof v === 'string') return q(v);
+    return String(v);
+  }
+  function exportCode() {
+    if (!state.novel) return '';
+    const t = state.novel.title, keys = state.novel.chars.map((c) => c.key).filter((k) => state.cards[k]);
+    const out = [`// ${t} — made with the Card Maker (game/maker.html)`, '', `// ---- MB.CARDS (inside MB.CARDS = { ... })`, `  // ${t}`];
+    keys.forEach((k) => out.push(`  ${q(k)}: ${lit(cardSpec(state.cards[k]))},`));
+    const bonds = state.bonds.filter(bondPlayable);
+    if (bonds.length) {
+      out.push('', '// ---- MB.BONDS (inside MB.BONDS = [ ... ])', `  // ${t}`);
+      bonds.forEach((b) => out.push(`  ${lit(bondSpec(b, (id) => id))},`));
+      out.push('', '// ---- MB.BOND_SCENES (inside MB.BOND_SCENES = { ... })', `  // ${t}`);
+      bonds.forEach((b) => out.push(`  ${q(b.id)}: ${lit(sceneSpec(b.scene))},`));
+      const missing = bonds.filter((b) => b.pair.some((k) => !state.cards[k]));
+      if (missing.length) out.push('', `// ⚠ ${missing.map((b) => b.name).join(', ')}: a partner has no card yet`);
+    }
+    return out.join('\n') + '\n';
+  }
+
+  // ------------------------------------------------------------------ the stage (index.html?maker, js/maker-bridge.js)
+  const frame = $('#stage');
+  let seq = 0;
+  function send(type, data = {}) {
+    if (!meta || !frame.contentWindow) return false;
+    if (['show', 'attack', 'closeup', 'bond'].includes(type)) {
+      if (!stageReady) { if (type !== 'show' && data.mode !== 'fuse') toast('Click the stage once to start it'); return false; }
+      frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'load', ...stageData() }, '*');
+    }
+    frame.contentWindow.postMessage({ mb: 'maker-cmd', type, seq: ++seq, ...data }, '*');
+    if (type !== 'show' && data.mode !== 'fuse') status('Playing…');
+    return true;
+  }
+  function status(s, err) { const e = $('#status'); e.textContent = s; e.classList.toggle('err', !!err); }
+  window.addEventListener('message', (e) => {
+    if (e.source !== frame.contentWindow || !e.data || e.data.mb !== 'maker') return;
+    const m = e.data;
+    if (m.type === 'meta') {
+      meta = m.meta;
+      if (state.novel) { renderCharEditor(); renderBondEditor(); }
+    } else if (m.type === 'waiting') {
+      $('#stage-hint').textContent = '👆 Click the stage to start it (turns on sound)';
+    } else if (m.type === 'ready') {
+      meta = m.meta; stageReady = true;
+      $('#stage-hint').hidden = true;
+      status('Stage ready');
+      frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'music', url: $('#music-pick').value }, '*');
+      if ($('#bg-pick').value) frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'bg', url: $('#bg-pick').value }, '*');
+      updateStageBar();
+      if (state.tab === 'bonds' && bondPlayable(bondById(state.bondSel))) send('bond', { id: 'mk-' + state.bondSel, mode: 'fuse' });
+      else if (state.sel) send('show', { id: 'mk-' + state.sel });
+    } else if (m.type === 'done') { if (m.seq === seq) status('Done — play it again or change something'); }
+    else if (m.type === 'error') status('⚠ ' + m.message, true);
+  });
+
+  // the buttons under the stage act on what's selected
+  function updateStageBar() {
+    const who = $('#stage-who'), a = $('#play-a'), b = $('#play-b');
+    const bond = state.tab === 'bonds' && bondById(state.bondSel), ch = state.tab !== 'bonds' && charByKey(state.sel);
+    if (bond) { who.textContent = '💞 ' + bond.name; a.textContent = '⚔ Duo attack'; b.textContent = '💞 Scene'; }
+    else if (ch) { who.textContent = '🎴 ' + ch.name; a.textContent = '⚔ Attack'; b.textContent = '✨ Close-up'; }
+    else who.textContent = state.novel ? 'Pick a character' : 'Load a novel to start';
+    a.disabled = b.disabled = !(bond ? bondPlayable(bond) : ch);
+  }
+  function play(what) {
+    const bond = bondById(state.bondSel);
+    if (what === 'attack') send('attack', { id: 'mk-' + state.sel });
+    else if (what === 'closeup') send('closeup', { id: 'mk-' + state.sel });
+    else if (what === 'scene' || what === 'duo') {
+      if (!bondPlayable(bond)) return toast('Pick two different partners first');
+      send('bond', { id: 'mk-' + bond.id, mode: what === 'scene' ? 'scene' : 'attack' });
+    }
+  }
+  $('#play-a').onclick = () => play(state.tab === 'bonds' ? 'duo' : 'attack');
+  $('#play-b').onclick = () => play(state.tab === 'bonds' ? 'scene' : 'closeup');
+
+  // ------------------------------------------------------------------ page wiring
+  const drop = $('#drop'), file = $('#file');
+  drop.onclick = () => file.click();
+  drop.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); file.click(); } };
+  file.onchange = () => { if (file.files[0]) loadFile(file.files[0]); file.value = ''; };
+  ['dragenter', 'dragover'].forEach((ev) => document.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => document.addEventListener(ev, (e) => { e.preventDefault(); if (ev === 'drop' || e.target === drop) drop.classList.remove('over'); }));
+  document.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if (f) loadFile(f); });
+  $$('.tabs button').forEach((b) => b.onclick = () => tab(b.dataset.tab));
+  $('#char-grid').addEventListener('click', (e) => { const t = e.target.closest('.tile'); if (t) selectChar(t.dataset.key); });
+  $('#bond-new').onclick = () => {
+    const cs = visibleChars();
+    if (cs.length < 2) return toast('This novel needs two characters for a relationship');
+    const a = state.cards[state.sel] ? state.sel : cs[0].key, b = cs.find((c) => c.key !== a).key;
+    newBond(a, b); renderBonds(); selectBond(state.bondSel);
+  };
+  $('#nsfw').onchange = (e) => {
+    if (e.target.checked && !confirm('Show outfits and backgrounds marked as adult content (18+)?')) { e.target.checked = false; return; }
+    showNsfw = e.target.checked;
+    if (!state.novel) return;
+    fillStagePickers(); renderChars(); renderCharEditor(); if (state.tab === 'bonds') renderBonds();
+  };
+  $('#bg-pick').onchange = (e) => stageReady && frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'bg', url: e.target.value }, '*');
+  $('#music-pick').onchange = (e) => stageReady && frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'music', url: e.target.value }, '*');
+  const download = (name, text, type) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type }));
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  $('#copy-code').onclick = () => navigator.clipboard.writeText($('#code').value).then(() => toast('Copied'), () => { $('#code').select(); toast('Press Ctrl+C to copy'); });
+  $('#dl-code').onclick = () => state.novel && download(slug(state.novel.title) + '-cards.js', $('#code').value, 'text/javascript');
+  $('#save-work').onclick = () => {
+    if (!state.novel) return toast('Load a novel first');
+    download(slug(state.novel.title) + '.maker.json', JSON.stringify({ maker: 1, novel: state.novel.title, cards: state.cards, bonds: state.bonds }, null, 1), 'application/json');
+  };
+  $('#load-work').onclick = () => { if (!state.novel) return toast('Load the novel first, then its saved work'); $('#work-file').click(); };
+  $('#work-file').onchange = (e) => {
+    const f = e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    f.text().then((t) => {
+      const w = JSON.parse(t);
+      if (!w.maker) throw new Error('Not a Card Maker save');
+      if (w.novel !== state.novel.title && !confirm(`This work is for “${w.novel}”, not “${state.novel.title}”. Load it anyway?`)) return;
+      state.cards = w.cards || {}; state.bonds = w.bonds || [];
+      persist(); renderChars(); renderCharEditor(); renderBonds(); toast('Work loaded');
+    }).catch((err) => toast('⚠ ' + err.message));
+  };
+
+  // the stage frame starts after the listener above is in place
+  frame.src = 'index.html?maker';
+})();
+</script>
+</body>
+</html>
