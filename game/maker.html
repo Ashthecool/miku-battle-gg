@@ -213,6 +213,26 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
 .bub > span { font-size: 12px; color: var(--dim); }
 .bub input { background: #fff !important; color: #1a1030 !important; border-radius: 14px !important; font-weight: 700; padding: 8px 10px !important; }
 .bub small { position: absolute; right: 9px; bottom: 9px; font-size: 10px; color: #8a80a8; }
+.faces { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); gap: 5px; max-height: 196px; overflow-y: auto; padding: 2px 4px 2px 2px; }
+.face { display: flex; flex-direction: column; align-items: center; gap: 2px; background: #0e0a1f; border: 1px solid var(--line); border-radius: 10px; padding: 4px 2px 3px; cursor: pointer; min-width: 0; }
+.face:hover { border-color: var(--line2); }
+.face.on { border-color: var(--pink); background: #ff6fae22; box-shadow: 0 0 0 1px var(--pink); }
+/* the face crop: sprites are standing figures, so zoom in on the top of the image */
+.fimg { width: 52px; height: 52px; border-radius: 8px; background: #1a1433 no-repeat 50% 6% / 230% auto; display: block; }
+.face small { font-size: 10.5px; color: var(--dim); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.face.on small { color: var(--text); }
+.roles { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 4px; }
+.face.sm { padding: 3px 1px; }
+.face.sm .fimg { width: 42px; height: 42px; }
+.tl { margin-top: 4px; }
+.tl-bar { position: relative; height: 46px; margin: 0 20px; border-radius: 999px; background: linear-gradient(90deg, #ff6fae33, #b35cff33); border: 1px solid var(--line2); }
+.tl-mark { position: absolute; top: 50%; width: 38px; height: 38px; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid #fff;
+  background: #1a1433 no-repeat 50% 6% / 230% auto; box-shadow: 0 2px 10px #0008; }
+.tl-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); margin: 3px 4px 0; }
+.cue { margin-top: 10px; padding: 8px 10px; background: #0e0a1f; border: 1px solid var(--line); border-radius: 10px; }
+.cue-h { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+.cue-h input[type=range] { flex: 1; accent-color: var(--pink); min-width: 0; }
+.cue-t { font-variant-numeric: tabular-nums; min-width: 52px; text-align: right; font-weight: 700; }
 .ab-more { margin-top: 10px; }
 .ab-more summary { padding: 6px 0; }
 .ab-more .chips { max-height: 170px; overflow-y: auto; }
@@ -367,10 +387,14 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       songs: (n.songs || []).filter((s) => s.source).map((s) => ({ name: String(s.name || 'Song').trim(), url: audioUrl(s.source) })),
     };
   }
-  function roleSprites(o) {
-    const em = o.emotions, first = em.neutral || Object.values(em)[0];
-    return Object.fromEntries(Object.entries(ROLES).map(([role, list]) => [role, imgUrl(em[list.find((e) => em[e])] || first)]));
+  // the miku.gg expression each battle role shows; `face` picks the attack one (tools/attack_emotions.py does the same)
+  function roleEmotions(o, face) {
+    const em = o.emotions, first = em.neutral ? 'neutral' : Object.keys(em)[0];
+    const out = Object.fromEntries(Object.entries(ROLES).map(([role, list]) => [role, list.find((e) => em[e]) || first]));
+    if (face && em[face]) out.attack = face;
+    return out;
   }
+  const roleSprites = (o, face) => Object.fromEntries(Object.entries(roleEmotions(o, face)).map(([role, e]) => [role, imgUrl(o.emotions[e])]));
   const thumbOf = (ch) => ch.profile ? imgUrl(ch.profile, '256p') : roleSprites(ch.outfits[0]).idle;
   const idleOf = (ch, outfitId) => roleSprites(outfitOf(ch, outfitId)).idle;
   const outfitOf = (ch, id) => ch.outfits.find((o) => o.id === id) || safeOutfits(ch)[0] || ch.outfits[0];
@@ -868,6 +892,53 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     if (!list.includes(emoji)) list.push(emoji);
     set(model, k, list.slice(-6).join(' '));
   }
+  // ---- expressions: the face it attacks with, and changes mid-attack (attack.emotions, like Nala's nervous-then-panicked)
+  const ROLE_LABEL = { attack: 'Attack', play: 'Happy', taunt: 'Taunt', win: 'Win', special: 'Special', hurt: 'Hurt', lose: 'Sad', idle: 'Calm' };
+  const ROLE_ORDER = Object.keys(ROLE_LABEL);
+  const live = { playStart: 0, playingAttack: false }; // the attack playing now, for "change it now"
+  // adult expressions only show with Show 18+ outfits
+  const ADULT_FACES = /^(arousal|aroused|ecstasy|release|submission|humiliation|lustful|lust|pleasure|horny|orgasm|ahegao|seductive)$/i;
+  const faceBg = (url) => `background-image:url('${String(url).replace(/'/g, '%27')}')`;
+  const durOf = (a) => a.dur || 3;
+  function timelineMarks(ch, c) {
+    const a = c.attack, o = outfitOf(ch, c.outfit), roles = roleEmotions(o, a.face), dur = durOf(a);
+    return [{ at: 0, role: a.start || 'attack' }, ...(a.cues || [])].map((q) => `<i class="tl-mark" style="left:${Math.min(100, q.at / dur * 100)}%;${faceBg(imgUrl(o.emotions[roles[q.role] || roles.attack]))}"
+      title="${esc(ROLE_LABEL[q.role] || q.role)} at ${(+q.at).toFixed(2)} s"></i>`).join('');
+  }
+  function facesStep(ch, c) {
+    const a = c.attack, o = outfitOf(ch, c.outfit), roles = roleEmotions(o, a.face), dur = durOf(a), cues = a.cues || [];
+    const roleRow = (k, cur) => `<div class="roles">${ROLE_ORDER.map((r) => `<button type="button" class="face sm${r === cur ? ' on' : ''}" data-set="${k}=${r}"
+      title="${ROLE_LABEL[r]}: ${esc(roles[r])}"><span class="fimg" style="${faceBg(imgUrl(o.emotions[roles[r]]))}"></span><small>${ROLE_LABEL[r]}</small></button>`).join('')}</div>`;
+    return `<div class="ab-step" id="ab-faces"><h4>😊 Expressions</h4>
+      <div class="f"><span>Attack face: the look it attacks with <b>(${esc(roles.attack)})</b></span>
+        <div class="faces">${Object.keys(o.emotions).filter((e) => showNsfw || !ADULT_FACES.test(e) || e === roles.attack).map((e) => `<button type="button" class="face${e === roles.attack ? ' on' : ''}" data-set="attack.face=${esc(e)}" title="${esc(e)}">
+          <span class="fimg" style="${faceBg(imgUrl(o.emotions[e]))}"></span><small>${esc(e)}</small></button>`).join('')}</div></div>
+      <div class="f" style="margin-top:10px"><span>Timeline: ${dur.toFixed(1)} s${a.dur ? '' : ' (play it once to measure the attack)'}</span>
+        <div class="tl"><div class="tl-bar" id="tl-bar">${timelineMarks(ch, c)}</div>
+          <div class="tl-scale"><span>0 s</span><span>${(dur / 2).toFixed(1)} s</span><span>${dur.toFixed(1)} s</span></div></div></div>
+      <div class="cue"><div class="cue-h"><b>Starts as</b></div>${roleRow('attack.start', a.start || 'attack')}</div>
+      ${cues.map((q, i) => `<div class="cue"><div class="cue-h"><b>Then at</b>
+          <input type="range" min="0.05" max="${Math.max(dur, q.at).toFixed(2)}" step="0.05" data-k="attack.cues.${i}.at" data-t="num" value="${esc(q.at)}">
+          <span class="cue-t" data-cuet="${i}">${(+q.at).toFixed(2)} s</span>
+          <button type="button" class="btn small danger" data-cue-rm="${i}" title="Remove this change">✕</button></div>
+        ${roleRow(`attack.cues.${i}.role`, q.role)}</div>`).join('')}
+      <div class="actions">
+        <button type="button" class="btn small" data-cue-add>＋ Change the expression later</button>
+        <button type="button" class="btn small" id="cue-now" data-cue-now${live.playingAttack ? '' : ' disabled'} title="Adds a change at this moment of the playing attack">📍 Change it now (while it plays)</button>
+      </div>
+      <p class="hint">Like Nala: she starts happy, then panics (Hurt) at 1.84 s. The faces come from the card's outfit; the attack face goes to
+        <code>tools/attack_emotions.py</code> in the export.</p>
+    </div>`;
+  }
+  // add an expression change: at a given time, or a third of the way after the last one
+  function addCue(a, at) {
+    const cues = a.cues || (a.cues = []), last = cues.length ? cues[cues.length - 1] : { at: 0, role: a.start || 'attack' };
+    const t = at != null ? at : Math.min(durOf(a) - 0.1, last.at + durOf(a) / 3);
+    const used = new Set([a.start || 'attack', ...cues.map((q) => q.role)]);
+    cues.push({ at: Math.max(0.05, Math.round(t * 20) / 20), role: ['hurt', 'win', 'taunt', 'play', 'special', 'lose'].find((r) => !used.has(r)) || 'hurt' });
+    cues.sort((x, y) => x.at - y.at);
+  }
+
   function storyboard(a) {
     const [sIcon] = styleInfo(a.style), recipe = a.mode === 'recipe';
     const props = emojiList(recipe ? a.prop : a.emoji).join('');
@@ -881,6 +952,7 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
         : ['ab-look', props || '🎬', 'Props', props ? 'yours' : 'its own'],
       [recipe ? 'ab-extra' : 'ab-sound', impact.length ? '💥' : '✦', 'Impact', impact.join(' · ') || 'default'],
       ['ab-lines', '💬', 'Finish', a.finish ? `“${a.finish}”` : 'no line'],
+      ['ab-faces', '😊', 'Faces', [a.start && a.start !== 'attack' ? ROLE_LABEL[a.start] : a.face || 'attack', ...(a.cues || []).map((q) => ROLE_LABEL[q.role] || q.role)].join(' → ')],
     ];
     return frames.map(([id, ic, t, d], i) => `${i ? '<i class="sb-arrow">›</i>' : ''}<button type="button" class="sb-frame" data-jump="${id}" style="--c:${esc(a.color)}">
       <span class="sb-ic">${esc(ic)}</span><b>${t}</b><small>${esc(d)}</small></button>`).join('');
@@ -946,6 +1018,8 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
         ${['lingo', 'hyper'].includes(a.style) ? `<div class="row one">${field('Words (comma separated)', txt('attack.words', a.words, 'Hola!, Bonjour!, Ciao!'))}</div>` : ''}
         ${a.style === 'stamp' ? `<div class="row one">${field('Stamp mark', txt('attack.mark', a.mark, 'DENIED', 14))}</div>` : ''}
       </div>`}
+
+      ${facesStep(ch, { attack: a, outfit: cardOf(ch).outfit })}
 
       <div class="ab-step" id="ab-lines"><h4>🏷️ Name, color &amp; lines</h4>
         <div class="row one">${field('Attack name', txt('attack.name', a.name, 'Wild Vault', 28))}</div>
@@ -1054,6 +1128,8 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       // the parts of the attack builder that follow typing and sliders
       $('#ab-story').innerHTML = storyboard(c.attack);
       if ($('#hits-v')) $('#hits-v').textContent = c.attack.hits;
+      if ($('#tl-bar')) $('#tl-bar').innerHTML = timelineMarks(ch, c);
+      $$('[data-cuet]', box).forEach((s) => { const q = c.attack.cues[+s.dataset.cuet]; if (q) s.textContent = `${(+q.at).toFixed(2)} s`; });
       $$('.bub', box).forEach((b) => { const i = b.querySelector('input'); b.querySelector('small').textContent = `${i.value.length}/30`; });
     }, (k, v) => {
       if (k !== 'rarity') return false;
@@ -1141,7 +1217,12 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     box.addEventListener('click', (e) => {
       const t = e.target.closest('button'), { model, onChange } = box._ed;
       if (!t) return;
-      if (t.dataset.sgroup) {
+      if ('cueAdd' in t.dataset || 'cueNow' in t.dataset || t.dataset.cueRm != null) {
+        const a = model.attack;
+        if (t.dataset.cueRm != null) a.cues.splice(+t.dataset.cueRm, 1);
+        else addCue(a, 'cueNow' in t.dataset ? (performance.now() - live.playStart) / 1000 : null);
+        persist(); edited('attack.cues'); rerender();
+      } else if (t.dataset.sgroup) {
         ui.styleGroup = t.dataset.sgroup;
         $$('[data-sgroup]', box).forEach((b) => b.classList.toggle('on', b === t));
         filterStyles();
@@ -1363,6 +1444,11 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
         shout: ['shout', 'pompom'].includes(a.style) && a.shout ? a.shout : undefined,
         words: ['lingo', 'hyper'].includes(a.style) && wordList(a.words).length ? wordList(a.words) : undefined,
         mark: a.style === 'stamp' && a.mark ? a.mark : undefined };
+    // expression changes: the face it starts with, then role switches at set times (seconds from the attack's start)
+    const cues = (a.cues || []).filter((q) => +q.at > 0).sort((x, y) => x.at - y.at);
+    if (cues.length || (a.start && a.start !== 'attack')) {
+      out.emotions = [{ at: 0, emotion: a.start || 'attack' }, ...cues.map((q) => ({ at: Math.round(q.at * 100) / 100, emotion: q.role }))];
+    }
     Object.assign(out, { cry: a.cry || undefined, finish: a.finish || undefined, sfx: a.sfx || undefined, sky: a.sky || undefined });
     return clean(out);
   }
@@ -1405,7 +1491,7 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     Object.keys(state.cards).filter(made).forEach((k) => {
       const ch = charByKey(k), c = state.cards[k], base = outfitOf(ch, c.outfit);
       chars.push({ id: 'mk-' + k, name: ch.name, short: ch.short, traits: ch.traits, outfit: base.name, portrait: null, novel: state.novel.title,
-        sprites: roleSprites(base), costumes: safeOutfits(ch).filter((o) => o !== base).map((o) => ({ id: o.id, name: o.name, sprites: roleSprites(o) })) });
+        sprites: roleSprites(base, c.attack.face), costumes: safeOutfits(ch).filter((o) => o !== base).map((o) => ({ id: o.id, name: o.name, sprites: roleSprites(o) })) });
       cards['mk-' + k] = cardSpec(c);
     });
     state.bonds.filter((b) => bondPlayable(b) && b.pair.every(made)).forEach((b) => {
@@ -1428,6 +1514,9 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     const t = state.novel.title, keys = state.novel.chars.map((c) => c.key).filter((k) => state.cards[k]);
     const out = [`// ${t} — made with the Card Maker (game/maker.html)`, '', `// ---- MB.CARDS (inside MB.CARDS = { ... })`, `  // ${t}`];
     keys.forEach((k) => out.push(`  ${q(k)}: ${lit(cardSpec(state.cards[k]))},`));
+    // the attack sprite is picked at import time, per character
+    out.push('', '# ---- tools/attack_emotions.py (lines inside CHOICES: the attack face of each character)');
+    keys.forEach((k) => { const c = state.cards[k]; out.push(`${k} ${roleEmotions(outfitOf(charByKey(k), c.outfit), c.attack.face).attack}`); });
     const bonds = state.bonds.filter(bondPlayable);
     if (bonds.length) {
       out.push('', '// ---- MB.BONDS (inside MB.BONDS = [ ... ])', `  // ${t}`);
@@ -1456,6 +1545,7 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     frame.contentWindow.postMessage({ mb: 'maker-cmd', type, seq: ++seq, ...data }, '*');
     if (anim) {
       playing = seq;
+      live.key = type === 'attack' ? data.id.slice(3) : null; // whose attack, to keep its length
       status('Playing…');
       clearTimeout(stuckT);
       stuckT = setTimeout(finished, 25000); // never wait forever on a reply
@@ -1464,6 +1554,8 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
   }
   function finished() {
     playing = 0;
+    live.playingAttack = false;
+    if ($('#cue-now')) $('#cue-now').disabled = true;
     clearTimeout(stuckT);
     if (queued) { const [t, d] = queued; queued = null; send(t, d); }
   }
@@ -1493,8 +1585,25 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       updateStageBar();
       if (state.tab === 'bonds' && bondPlayable(bondById(state.bondSel))) send('bond', { id: 'mk-' + state.bondSel, mode: 'fuse' });
       else if (state.sel) send('show', { id: 'mk-' + state.sel });
+    } else if (m.type === 'started') {
+      // the attack itself begins now: "change it now" measures from here
+      if (m.seq === playing) {
+        live.playStart = performance.now(); live.playingAttack = true;
+        if ($('#cue-now')) $('#cue-now').disabled = false;
+      }
     } else if (m.type === 'done') {
-      if (m.seq === playing) finished();
+      if (m.seq === playing) {
+        // remember how long the attack runs, for the expression timeline
+        const c = m.ms && live.key && state.cards[live.key], dur = m.ms && Math.round(m.ms / 100) / 10;
+        if (c && Math.abs((c.attack.dur || 0) - dur) >= 0.2) {
+          c.attack.dur = dur;
+          persist();
+          const box = $('#char-editor');
+          const f = document.activeElement; // not while typing or dragging in the editor
+          if (state.sel === live.key && !(box.contains(f) && /^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName))) renderCharEditor();
+        }
+        finished();
+      }
       if (m.seq === seq) status('Done — play it again or change something');
     } else if (m.type === 'error') {
       if (m.seq === playing) finished();

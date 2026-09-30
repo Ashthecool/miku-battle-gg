@@ -81,9 +81,13 @@
       await G().pick(id, null);
       if (G().unit()) G().unit().makerLook = look;
     },
-    async attack({ id }) {
+    // tells the maker when the attack starts and how long it ran, for its expression timeline
+    async attack({ id, seq }) {
       await commands.show({ id });
+      post({ type: 'started', seq });
+      const t0 = performance.now();
       await G().attack();
+      return { ms: Math.round(performance.now() - t0) };
     },
     // the card close-up: its entrance, quote and card
     async closeup({ id }) {
@@ -140,8 +144,8 @@
     if (!m || m.mb !== 'maker-cmd' || !commands[m.type]) return;
     try {
       if (['show', 'attack', 'closeup', 'bond'].includes(m.type)) await MB.Cards.close();
-      await commands[m.type](m);
-      post({ type: 'done', cmd: m.type, seq: m.seq });
+      const out = await commands[m.type](m);
+      post({ type: 'done', cmd: m.type, seq: m.seq, ...(out && typeof out === 'object' ? out : {}) });
     } catch (err) {
       console.error(err);
       post({ type: 'error', cmd: m.type, seq: m.seq, message: String(err && err.message || err) });
