@@ -9586,6 +9586,46 @@
     await wait(0.3);
   };
 
+  // Ryu: a law student with a fan club who treats him like a celebrity. Stars rain down over the target like a fan-club
+  // flower shower, he throws his hand up, OBJECTION! slams down, and the stars are his evidence: they fly in one by one
+  S.objection = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a);
+    pop(V, A, H + 95, own(a, 'cry', 'Order in the court!'), 'float-text cute', 1);
+    scatter(V, A, H * 0.6, ['💜', '📣', '✨'], 6, 90); // the fan club goes wild
+    MB.audio.sfx('ding');
+    const stars = [];
+    for (let i = 0; i < 9; i++) {
+      const P = { x: T.x + rnd(-110, 110), y: T.y + rnd(-40, 40) }, h = hT + rnd(40, 110);
+      const b = V.billboard('thrown', '⭐', P.x, P.y);
+      b.body.style.fontSize = '40px';
+      gsap.set(b.body, { y: -(h + 260), opacity: 0 });
+      gsap.to(b.body, { y: -h, opacity: 1, duration: 0.45, ease: 'power2.in' });
+      gsap.to(b.body, { rotation: rnd(-40, 40), duration: 0.45 });
+      stars.push({ b, P, h });
+      if (i % 2 === 0) MB.audio.sfx('tink');
+      await wait(0.08);
+    }
+    await wait(0.35);
+    await gsap.to(v.figure, { y: -45, duration: 0.14, ease: 'power2.out' }); // finger up
+    gsap.to(v.figure, { y: 0, duration: 0.2, ease: 'power2.in' });
+    pop(V, T, hT * 0.6, 'OBJECTION!', 'float-text dmg', 1.1);
+    MB.audio.sfx('stomp'); V.shake(8);
+    await wait(0.4);
+    const last = stars.length - 1;
+    for (let i = 0; i <= last; i++) {
+      const { b, P, h } = stars[i], strike = path(b, arc(P, T, h, hT, 50), 0.28, 'power2.in').then(() => {
+        if (i === last) { impact(); hit(V, t, c, true); MB.audio.sfx('punch'); V.shake(14); V.hitStop(); squash(tv, 0.6); }
+        else { hit(V, t, '#ffe27a', false); MB.audio.sfx('tink'); }
+        b.remove();
+      });
+      if (i === last) await strike;
+      else await wait(0.09);
+    }
+    scatter(V, T, hT, ['⭐', '⚖️', '✨'], 10, 160);
+    pop(V, T, hT + 150, own(a, 'finish', 'Sustained. ...Next case.'), 'float-text cute', 1.1);
+    await wait(0.3);
+  };
+
   // Finn: a ballet student and a perfectionist. Fouetté turns across the board in a trail of feathers, then a grand
   // jeté over the target and down onto it, landing in an arabesque
   S.swanlake = async (V, a, t, impact) => {
@@ -10709,7 +10749,7 @@
     poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
     chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset', hologram: 'night',
     manaseal: 'holy', lastcall: 'void', divinemark: 'holy', splice: 'matrix', glitchblade: 'night', mothdust: 'dream', bloodwind: 'blood', metamorph: 'night', fourthwall: 'matrix',
-    skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
+    skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', objection: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',

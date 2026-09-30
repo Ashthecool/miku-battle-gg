@@ -690,6 +690,7 @@
     fireworks: { move: 'drop', fx: 'confetti', sfx: 'boom' }, kamaitachi: { move: 'fade', fx: 'swirl', emoji: ['📖', '🍃', '🌪️'], sfx: 'wind' },
     foxfire: { move: 'fade', fx: 'swirl', emoji: ['🔥', '🦊', '💙'], sfx: 'poof' }, ropes: { move: 'slide', fx: 'fling', emoji: ['🥊', '🔔', '💥'], sfx: 'ding' },
     piping: { move: 'hop', fx: 'fling', emoji: ['🧁', '🍓', '🍰'], sfx: 'ding' }, swanlake: { move: 'spin', fx: 'swirl', emoji: ['🪶', '🦢', '✨'], sfx: 'piano' },
+    objection: { move: 'pop', fx: 'rain', emoji: ['⭐', '⚖️', '📜'], sfx: 'ding' },
     candelabra: { move: 'fade', fx: 'swirl', emoji: ['🕯️', '🦇', '🍷'], sfx: 'flutter' }, redstring: { move: 'fade', fx: 'rain', emoji: ['💘', '💗', '🔔'], sfx: 'flutter' },
     purikura: { move: 'pop', fx: 'flash', sfx: 'camera' }, rhythm: { move: 'zoom', fx: 'rain', emoji: ['⬅️', '⬇️', '➡️'], sfx: 'melody' },
     flurry: { move: 'slide', fx: 'flash', sfx: 'punch' }, cyclone: { move: 'spin', fx: 'swirl', emoji: ['💨', '✨'] },
