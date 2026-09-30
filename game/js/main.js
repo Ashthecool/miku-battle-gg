@@ -79,19 +79,30 @@
     urls.push(MB.avatarUrl(save.avatar));
     const first = new Set([save.leader, 'hayley-kate', 'm-chan', ...save.leaders, ...save.deck]);
     first.forEach((id) => urls.push(...MB.charImages(id)));
+    // everyone's portrait too: it fills the loading screen's wall of faces
+    const faces = new Map(MB.manifest.characters.map((c) => [MB.spriteSrc(c.sprites.idle), c.id]));
+    faces.forEach((id, u) => urls.push(u));
     MB.bootImages = urls; // battles wait for any of these still loading when the timeout below started the game
     const bar = document.querySelector('#loading i');
-    const label = document.querySelector('#loading').firstElementChild, shown = document.querySelector('#loading .ld-sprites');
-    // each image pops into the strip as it arrives (newest first, the oldest scroll off the end)
+    const label = document.querySelector('#loading').firstElementChild, wall = document.querySelector('#loading .ld-sprites');
+    // the wall of faces: a grid of square tiles, each portrait popping into a free spot (random order) as it arrives;
+    // once the wall is full, new arrivals replace tiles
+    const cols = 16, tw = window.innerWidth / cols, rows = Math.ceil(window.innerHeight / tw), spots = cols * rows;
+    const tiles = [], fill = ['#3a1f6e', '#5a1f4e', '#1f3a6e', '#1f5a4e'];
+    let shownN = 0;
     const all = MB.preloadImages(urls, (f, img, n, total) => {
       bar.style.width = f * 100 + '%';
       label.textContent = `Loading sprites… ${n}/${total}`;
-      if (!img) return;
-      const t = document.createElement('img');
-      t.src = img.src; t.alt = '';
-      shown.prepend(t);
-      while (shown.children.length > 60) shown.lastChild.remove();
-      gsap.from(t, { scale: 0, opacity: 0, duration: 0.3, ease: 'back.out(2)' });
+      if (!img || !faces.has(img.getAttribute('src'))) return;
+      const i = (shownN++ * 67) % spots;
+      let t = tiles[i];
+      if (!t) {
+        t = tiles[i] = document.createElement('div');
+        Object.assign(t.style, { left: (i % cols) * tw + 'px', top: Math.floor(i / cols) * tw + 'px', width: tw - 4 + 'px', height: tw - 4 + 'px', backgroundColor: fill[i % 4] });
+        wall.appendChild(t);
+      }
+      t.style.backgroundImage = `url("${img.src}")`;
+      gsap.fromTo(t, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(2)' });
     });
     const rest = [];
     MB.manifest.characters.forEach((c) => { if (!first.has(c.id)) rest.push(...MB.charImages(c.id)); });
