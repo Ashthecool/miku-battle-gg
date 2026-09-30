@@ -472,7 +472,11 @@
     $('#dev-mode').checked = dev;
   }
 
+  // the first quest's practice battle is over but the story hasn't gone on yet (its after-scene completes the quest):
+  // leaving its result screen any other way (Open Packs, Main Menu) carries on with the story instead of dropping it
+  let lessonResume = null;
   function title() {
+    if (lessonResume) { const go = lessonResume; lessonResume = null; return go(); }
     hideBattle();
     show('screen-title');
     MB.audio.music(MB.MUSIC.title);
@@ -678,11 +682,12 @@
     });
   }
 
-  // the board sprites were loaded at boot (main.js; listed again in case that timed out); a battle also needs its background, the full-size
+  // the first screens' images were loaded at boot (main.js; listed again in case that timed out) and the battle's characters are added here; a battle also needs its background, the full-size
   // fusion cut-ins, and later shows close-ups of the decks' cards and the result screen
   function battleImages(cfg, bgSrc, decks) {
     const need = [...MB.bootImages, MB.asset(bgSrc)], later = [];
     const ids = new Set([cfg.leader, cfg.foe, ...decks.flat()]);
+    ids.forEach((id) => need.push(...MB.charImages(id)));
     // only the relationships that can form in this battle
     MB.BONDS.filter((bd) => bd.pair.every((id) => ids.has(id))).forEach((bd) => bd.pair.forEach((id, i) => {
       need.push(MB.bigSpriteUrl(id, 'play', bd.costumes[i]));
@@ -837,7 +842,8 @@
     $('#result-packs').classList.toggle('hidden', !packCount());
     $('#result-packs').textContent = `🎁 Open Packs (${packCount()})`;
     $('#result-missions').classList.toggle('hidden', !MB.Missions.claimable(save));
-    $('#result-again').onclick = () => { MB.audio.sfx('click'); cfg.lesson ? cfg.lesson() : cfg.arena ? arena('deathpick') : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
+    lessonResume = cfg.lesson || null;
+    $('#result-again').onclick = () => { MB.audio.sfx('click'); lessonResume = null; cfg.lesson ? cfg.lesson() : cfg.arena ? arena('deathpick') : cfg.story != null ? MB.StoryMap.next() : startBattle({ ...cfg, foe: cfg.foe }); };
     $('#result-again').textContent = cfg.lesson ? '▶ Continue' : cfg.arena ? '🏟 Arena' : cfg.story != null ? (MB.StoryMap.hasAfter() ? '▶ Continue' : '🗺 Story Map') : 'Rematch';
   }
 

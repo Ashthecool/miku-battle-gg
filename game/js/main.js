@@ -41,30 +41,51 @@
     }));
   };
 
-  // every character's sprites in the size the board uses, in the outfit they wear (the usual one, or the
-  // wardrobe's pick) and in their relationship costumes so fusions don't pop in; item icons, pack art and the
-  // profile picture. Other costumes load when first shown; each battle adds its background and close-ups (ui.js)
+  // same, a few at a time and in order: the rest of the roster trickles in behind the game without starving what a
+  // screen asks for right now (those go straight through preloadImages, which shares the same decoded images)
+  MB.preloadBackground = (urls, pool = 6) => {
+    const list = [...new Set(urls)].filter(Boolean);
+    let next = 0;
+    return Promise.all(Array.from({ length: pool }, async () => {
+      while (next < list.length) await MB.preloadImages([list[next++]]);
+    }));
+  };
+
+  // one character's sprites in the size the board uses, in the outfit they wear (the usual one, or the wardrobe's
+  // pick) and in their relationship costumes so fusions don't pop in
+  const costume = (c, id) => id && c && c.costumes.find((o) => o.id === id);
+  MB.charImages = (id) => {
+    const c = MB.charById(id), urls = [];
+    if (!c) return urls;
+    const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
+    sprites(c.sprites);
+    const worn = costume(c, MB.UI.save.costumes[id]);
+    if (worn) sprites(worn.sprites);
+    MB.BONDS.forEach((bd) => bd.pair.forEach((p, i) => { if (p === id) { const o = costume(c, bd.costumes[i]); if (o) sprites(o.sprites); } }));
+    MB.COMBOS.forEach((cb) => { if (cb.char === id) { const o = costume(c, cb.costume); if (o) sprites(o.sprites); } });
+    return urls;
+  };
+
+  // The loading screen waits for what the first screens show: item icons, pack art, the profile picture and the
+  // sprites of the leaders, your deck and the two guides. Every other character loads behind the game (a battle
+  // waits for the ones it uses, ui.js); other costumes load when first shown, each battle adds its background and close-ups
   function preload() {
     const urls = [...MB.AttackArt.urls];
     // the Card Maker only shows the characters it brings (js/maker-bridge.js) and loads those itself
     if (MB.Maker) return MB.preloadImages(MB.bootImages = urls);
-    const sprites = (set) => Object.values(set).forEach((s) => urls.push(MB.spriteSrc(s)));
-    const costume = (c, id) => id && c && c.costumes.find((o) => o.id === id);
-    MB.manifest.characters.forEach((c) => {
-      sprites(c.sprites);
-      const worn = costume(c, MB.UI.save.costumes[c.id]);
-      if (worn) sprites(worn.sprites);
-    });
-    MB.BONDS.forEach((bd) => bd.pair.forEach((id, i) => { const o = costume(MB.charById(id), bd.costumes[i]); if (o) sprites(o.sprites); }));
-    MB.COMBOS.forEach((c) => { const o = costume(MB.charById(c.char), c.costume); if (o) sprites(o.sprites); });
+    const save = MB.UI.save;
     MB.manifest.items.forEach((i) => urls.push(MB.asset(i.icon)));
     Object.keys(MB.PACKS).forEach((t) => urls.push(MB.packArt(t)));
-    urls.push(MB.avatarUrl(MB.UI.save.avatar));
+    urls.push(MB.avatarUrl(save.avatar));
+    const first = new Set([save.leader, 'hayley-kate', 'm-chan', ...save.leaders, ...save.deck]);
+    first.forEach((id) => urls.push(...MB.charImages(id)));
     MB.bootImages = urls; // battles wait for any of these still loading when the timeout below started the game
     const bar = document.querySelector('#loading i');
     const all = MB.preloadImages(urls, (f) => { bar.style.width = f * 100 + '%'; });
+    const rest = [];
+    MB.manifest.characters.forEach((c) => { if (!first.has(c.id)) rest.push(...MB.charImages(c.id)); });
     // images come from the bucket over the network: a stalled request mustn't keep the game from starting
-    return Promise.race([all, new Promise((res) => setTimeout(res, 30000))]);
+    return Promise.race([all, new Promise((res) => setTimeout(res, 30000))]).then(() => { MB.preloadBackground(rest); });
   }
 
   // offline support; service workers don't run from file://, so opening index.html directly still works without it
