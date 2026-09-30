@@ -13,12 +13,18 @@
   // what the editor's pickers offer, read from the running game so they always match it
   function meta() {
     const styles = Object.keys(MB.FX.styles).sort();
+    // who already attacks with each style (names from the manifest: MB.charById isn't set up yet)
+    const names = new Map(window.MIKU_MANIFEST.characters.map((c) => [c.id, c.name]));
+    const owners = {};
+    Object.entries(MB.CARDS).forEach(([id, c]) => {
+      if (c.attack && c.attack.style && names.has(id)) (owners[c.attack.style] = owners[c.attack.style] || []).push(names.get(id));
+    });
     return {
       styles: styles.filter((s) => !MB.FX.duoStyles.includes(s)), duoStyles: MB.FX.duoStyles.slice().sort(),
       skies: MB.FX.skies, moves: Object.keys(MB.FX.recipe.moves), fx: Object.keys(MB.FX.recipe.fx), floors: Object.keys(MB.FX.recipe.floors),
       keywords: MB.KEYWORDS, rarities: Object.keys(MB.RARITY).filter((r) => MB.RARITY[r].weight), tiers: MB.BOND_TIERS,
       variants: MB.Cards.sceneVariants, backdrops: MB.Cards.backdrops, introMoves: Object.keys(MB.Cards.moves),
-      intros: [...new Set([...Object.keys(MB.Cards.intros), ...Object.keys(MB.Cards.styleIntros)])].sort(),
+      intros: [...new Set([...Object.keys(MB.Cards.intros), ...Object.keys(MB.Cards.styleIntros)])].sort(), owners,
     };
   }
 
@@ -114,6 +120,9 @@
       else if (mode === 'attack') await G().attack();
     },
     close() { return MB.Cards.close(); },
+    // previews from the attack builder: an impact sound, a quick look at a sky
+    sfx({ name }) { MB.audio.sfx(name); },
+    sky({ name }) { gsap.delayedCall(1.4, MB.FX.sky(name)); },
     // a song from the novel (streamed from the miku.gg CDN), the gallery's own ('theme') or none
     music({ url }) {
       if (url === 'theme') return MB.audio.music(MB.MUSIC.gallery);

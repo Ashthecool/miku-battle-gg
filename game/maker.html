@@ -20,7 +20,8 @@ a { color: var(--pink); }
 [hidden] { display: none !important; }
 
 /* layout: editor on the left, the live stage on the right */
-#app { display: grid; grid-template-columns: minmax(380px, 470px) 1fr; grid-template-rows: auto 1fr; height: 100vh; }
+#app > * { min-width: 0; }
+#app { display: grid; grid-template-columns: minmax(400px, 540px) 1fr; grid-template-rows: auto 1fr; height: 100vh; }
 header { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line);
   background: linear-gradient(90deg, #1a1036, #0b0816 70%); flex-wrap: wrap; }
 header h1 { margin: 0; font-size: 20px; letter-spacing: .5px; white-space: nowrap; }
@@ -45,7 +46,7 @@ header .grow { flex: 1; }
 .btn.primary { background: linear-gradient(135deg, var(--pink), var(--violet)); border-color: transparent; font-weight: 700; color: #fff; }
 .btn.small { padding: 4px 9px; font-size: 12.5px; border-radius: 8px; }
 .btn.danger:hover { border-color: var(--bad); color: var(--bad); }
-input[type=text], input[type=number], select, textarea { background: #0e0a1f; border: 1px solid var(--line2); border-radius: 8px; padding: 6px 8px; width: 100%; min-width: 0; }
+input[type=text], input[type=search], input[type=number], select, textarea { background: #0e0a1f; border: 1px solid var(--line2); border-radius: 8px; padding: 6px 8px; width: 100%; min-width: 0; }
 input:focus, select:focus, textarea:focus { outline: 2px solid #ff6fae88; outline-offset: 0; border-color: var(--pink); }
 textarea { resize: vertical; min-height: 56px; }
 input[type=color] { width: 40px; height: 32px; padding: 0 2px; border: 1px solid var(--line2); border-radius: 8px; background: #0e0a1f; flex: none; }
@@ -135,8 +136,89 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
   border-radius: 999px; box-shadow: 0 8px 30px #0008; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
 #toast.show { opacity: 1; }
 
+/* ---- attack builder */
+.ab-head, .ab-play { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ab-head .grow { flex: 1; }
+.ab-play { margin-top: 10px; }
+.sb { display: flex; align-items: stretch; gap: 2px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; }
+.sb-frame { flex: 1 1 0; min-width: 70px; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 8px 4px 7px; cursor: pointer;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 22%, #0e0a1f), #0e0a1f); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); border-radius: 10px; }
+.sb-frame:hover { border-color: var(--c); }
+.sb-ic { font-size: 22px; line-height: 1.1; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sb-frame b { font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--dim); }
+.sb-frame small { font-size: 11.5px; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sb-arrow { align-self: center; color: var(--faint); font-style: normal; font-size: 18px; }
+.ab-step { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); border-radius: 8px; transition: background .4s; }
+.ab-step.flash { animation: flash 1.2s ease-out; }
+@keyframes flash { 0%, 30% { background: #ff6fae33; } 100% { background: transparent; } }
+.ab-step h4 { margin: 0 0 8px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.ab-step h4 .n { width: 22px; height: 22px; border-radius: 50%; background: var(--pink); color: #fff; display: inline-grid; place-items: center; font-size: 12px; }
+.ab-search { margin-bottom: 8px; }
+.ab-groups { margin: 0 0 8px; }
+.ab-sugg { font-size: 12.5px; color: var(--gold); margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.ab-sugg .chip { color: var(--text); border-color: #ffc93c66; }
+.ab-grid { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; max-height: 330px; overflow-y: auto;
+  padding: 2px 4px 2px 2px; scrollbar-color: var(--pink) #ffffff10; }
+.st-tile { display: flex; gap: 8px; align-items: flex-start; text-align: left; background: #0e0a1f; border: 1px solid var(--line); border-radius: 10px; padding: 7px 8px; cursor: pointer; }
+.st-tile:hover { border-color: var(--line2); background: #171031; }
+.st-tile.on { border-color: var(--pink); background: #ff6fae1c; box-shadow: 0 0 0 1px var(--pink); }
+.st-ic { font-size: 24px; line-height: 1; flex: none; width: 30px; text-align: center; }
+.st-tx { min-width: 0; }
+.st-tx b { display: block; font-size: 13px; }
+.st-tx small { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 11.5px; color: var(--dim); line-height: 1.3; }
+.st-tx em { display: block; font-size: 10.5px; color: var(--gold); font-style: normal; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ab-empty { color: var(--faint); padding: 14px; text-align: center; }
+.ab-pickd { display: flex; gap: 12px; align-items: center; background: #ff6fae12; border: 1px solid #ff6fae44; border-radius: 12px; padding: 10px 12px; }
+.ab-pickd .big { font-size: 40px; line-height: 1; }
+.ab-pickd b { font-size: 16px; }
+.ab-pickd small { display: block; color: var(--gold); margin-top: 3px; font-size: 11.5px; }
+.mt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
+.mt { display: flex; flex-direction: column; align-items: center; gap: 1px; background: #0e0a1f; border: 1px solid var(--line); border-radius: 10px; padding: 7px 4px; cursor: pointer; text-align: center; }
+.mt:hover { border-color: var(--line2); }
+.mt.on { border-color: var(--pink); background: #ff6fae1c; box-shadow: 0 0 0 1px var(--pink); }
+.mt span { font-size: 22px; line-height: 1.1; }
+.mt b { font-size: 12.5px; }
+.mt small { font-size: 10.5px; color: var(--dim); line-height: 1.25; }
+.ef { margin-top: 10px; }
+.ef-top { display: flex; align-items: center; gap: 8px; }
+.ef-label { font-size: 12.5px; color: var(--dim); white-space: nowrap; }
+.ef-picked { flex: 1; display: flex; flex-wrap: wrap; gap: 4px; min-height: 34px; align-items: center; background: #0e0a1f; border: 1px solid var(--line2); border-radius: 8px; padding: 3px 6px; }
+.ef-none { color: var(--faint); font-size: 12px; }
+.ef-chip { font-size: 20px; background: #ffffff0d; border: 1px solid transparent; border-radius: 7px; padding: 0 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 2px; }
+.ef-chip i { font-style: normal; font-size: 11px; color: var(--faint); }
+.ef-chip:hover { border-color: var(--bad); } .ef-chip:hover i { color: var(--bad); }
+.ef-pal { margin-top: 6px; background: #0e0a1f; border: 1px solid var(--pink); border-radius: 10px; padding: 8px; }
+.ef-tabs { display: flex; gap: 3px; align-items: center; flex-wrap: wrap; }
+.ef-tabs button { font-size: 17px; background: none; border: 1px solid transparent; border-radius: 7px; padding: 2px 6px; cursor: pointer; }
+.ef-tabs button.on { border-color: var(--pink); background: #ff6fae22; }
+.ef-own { flex: 1; min-width: 120px !important; width: auto !important; font-size: 12.5px; padding: 4px 8px !important; }
+.ef-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 3px; margin-top: 6px; }
+.ef-grid button { font-size: 22px; background: none; border: 1px solid transparent; border-radius: 8px; padding: 3px 0; cursor: pointer; }
+.ef-grid button:hover { background: #ffffff14; border-color: var(--line2); transform: scale(1.12); }
+.range { margin-top: 10px; }
+.range input { width: 100%; accent-color: var(--pink); }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; margin-top: 10px; }
+.ab-play .switch { margin-top: 0; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch span { width: 36px; height: 20px; border-radius: 999px; background: #ffffff22; position: relative; transition: .2s; flex: none; }
+.switch span::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: .2s; }
+.switch input:checked + span { background: var(--pink); }
+.switch input:checked + span::after { left: 19px; }
+.switch input:focus-visible + span { outline: 2px solid var(--pink); outline-offset: 2px; }
+.swatches { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.sw { width: 26px; height: 26px; border-radius: 50%; background: var(--c); border: 2px solid #ffffff33; cursor: pointer; padding: 0; }
+.sw.on { border-color: #fff; box-shadow: 0 0 0 2px var(--c); }
+.bubbles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.bub { position: relative; display: flex; flex-direction: column; gap: 3px; }
+.bub > span { font-size: 12px; color: var(--dim); }
+.bub input { background: #fff !important; color: #1a1030 !important; border-radius: 14px !important; font-weight: 700; padding: 8px 10px !important; }
+.bub small { position: absolute; right: 9px; bottom: 9px; font-size: 10px; color: #8a80a8; }
+.ab-more { margin-top: 10px; }
+.ab-more summary { padding: 6px 0; }
+.ab-more .chips { max-height: 170px; overflow-y: auto; }
 @media (max-width: 900px) {
-  #app { grid-template-columns: 1fr; grid-template-rows: auto 56vw auto; height: auto; }
+  #app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 56vw auto; height: auto; }
+  header select { max-width: 100%; }
   #stage-wrap { grid-row: 2; }
   #side { grid-row: 3; border-right: 0; overflow: visible; }
   html, body { height: auto; }
@@ -496,14 +578,434 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     'hypno', 'warp', 'unsheathe', 'siren', 'heartbeat', 'glint'];
   const INTRO_FX = ['spray', 'fling', 'swirl', 'rain', 'confetti', 'column', 'flash', 'smoke'];
 
+  // ------------------------------------------------------------------ the attack builder's catalog
+  // every solo attack style: [icon, group, what it looks like]
+  const STYLE_INFO = {
+    armory: ['🛡️', 'signature', 'A whirl of polearms: three cuts in three styles'],
+    barrage: ['🎯', 'basic', 'A volley of projectiles (uses your prop emoji)'],
+    barslide: ['🍺', 'props', 'A mug slides down a bar counter and smashes'],
+    beam: ['🔆', 'magic', 'Charges up and fires a beam (cool, tech)'],
+    bigl: ['🇱', 'signature', 'A spotlight, then a giant “L” lands. LOSER!'],
+    blackhole: ['🕳️', 'magic', 'A black hole swallows the target'],
+    blades: ['🔪', 'fight', 'A storm of blades'],
+    bolt: ['⚡', 'magic', 'A hex cloud gathers and lightning strikes (dark, moody)'],
+    boomerang: ['🪃', 'props', 'Throws your prop; it hits and comes back'],
+    boulder: ['🪨', 'props', 'A boulder rolls over it'],
+    bounce: ['🐇', 'basic', 'Hops over and bounces on the target (small, cute)'],
+    bouncer: ['🚪', 'fight', 'Flips the sign to CLOSED and throws it out'],
+    boxingroo: ['🥊', 'signature', 'Bounces in on her tail: jab, jab, jab, double kick'],
+    bribe: ['💸', 'signature', 'Pays the target off, then hits it anyway'],
+    bubble: ['🫧', 'magic', 'Bubbles trap the target and pop'],
+    camellia: ['🏹', 'signature', 'Draws a longbow; one arrow and a camellia blooms'],
+    camera: ['📸', 'props', 'Flashbulbs, then the photo lands'],
+    candelabra: ['🕯️', 'signature', 'Candles light, bats pour out, a bite at the neck'],
+    cart: ['🛒', 'props', 'Charges in behind a shopping cart'],
+    cartwheel: ['🤸', 'fight', 'Cartwheels in'],
+    checkmate: ['♟️', 'signature', 'A chessboard under the target, the queen slides in'],
+    choice: ['🗳️', 'signature', 'A choice box pops up; the cursor picks the attack'],
+    cleaver: ['🔪', 'signature', 'A cutting board and a blur of cleaver chops'],
+    clones: ['👥', 'fight', 'Clones strike from every side'],
+    coffee: ['☕', 'fun', 'Chugs a coffee, jitters, fires a curse'],
+    coinflip: ['🪙', 'fun', 'Heads: flips itself on the target, tails: the coin'],
+    coins: ['🪙', 'props', 'Makes it rain coins (rich)'],
+    comet: ['☄️', 'magic', 'Arcs up and dives down like a comet'],
+    confetti: ['🎉', 'fun', 'Shouts “HA!” and blasts confetti (jokers)'],
+    crescent: ['🌙', 'fight', 'A big crescent of light'],
+    critique: ['💢', 'signature', 'A comment pops up, a vein throbs, a harsh review'],
+    crush: ['🪨', 'props', 'A shadow, then a huge prop drops'],
+    cyclone: ['🌀', 'fight', 'Circles the target, then a flurry'],
+    darkflame: ['🌑', 'magic', 'Magic circle, then marching dark flame pillars'],
+    dash: ['💨', 'basic', 'Rushes in and lands a quick flurry of jabs'],
+    devtail: ['😈', 'signature', 'A wink, a blown kiss, then her tail coils and squeezes'],
+    diagnostic: ['🔧', 'props', 'Scans the target, then fixes it with a wrench'],
+    divinemark: ['✋', 'signature', 'The glove comes off; a holy mark blazes'],
+    dolphin: ['🐬', 'magic', 'Dolphins leap and splash'],
+    dragon: ['🐉', 'magic', 'A dragon sweeps over and breathes fire'],
+    enlargo: ['🦖', 'fun', 'Grows giant, two stomps and a crater'],
+    evaluation: ['📋', 'signature', 'A clipboard of red X’s, a big F, clipboard frisbee'],
+    express: ['📦', 'signature', 'A countdown, a scooter rush, pizza to the face'],
+    extracredit: ['📝', 'signature', 'A pop quiz on a chalkboard; the answer is a fireball'],
+    fakecry: ['😭', 'signature', 'Fake compliments, fake tears, a detention slip'],
+    finishline: ['🏁', 'signature', 'On your marks… BANG, speed lines and the finish tape'],
+    fireworks: ['🎆', 'signature', 'Plants three rockets and the show goes off on it'],
+    fissure: ['⚡', 'magic', 'A crack, and light erupts in a line'],
+    flambe: ['🍸', 'signature', 'Juggled bottles, a flaming cocktail, a blue fire breath'],
+    flask: ['🧪', 'props', 'Two flasks react in colored smoke'],
+    flurry: ['👊', 'fight', 'Dashes in and throws a flurry of punches'],
+    formo: ['🎭', 'fun', 'Turns into the target’s double and hits it'],
+    foxfire: ['🦊', 'signature', 'Blue foxfire wisps drift over and pop'],
+    friendcount: ['🤖', 'signature', 'A friend counter ticks up… and stops. “Not a friend.”'],
+    frost: ['❄️', 'magic', 'Throws your prop and everything frosts over'],
+    gavel: ['⚖️', 'signature', 'Three gavel bangs, ballots fly, a giant gavel drops'],
+    ghoststory: ['👻', 'signature', 'A flashlight under the chin, a story, a ghost rises'],
+    glitchblade: ['👾', 'signature', 'A glitching proverb, one red-blade cut, a delayed slash'],
+    glomp: ['🤗', 'signature', 'Sprints in trailing hearts and hugs way too hard'],
+    gravity: ['🪐', 'magic', 'Gravity crushes the target down'],
+    gymfail: ['🏋️', 'signature', 'Shows off a lift, drops the weight on the target'],
+    hack: ['💻', 'props', 'A glitchy hack; your props pop out'],
+    haiku: ['🖋️', 'signature', 'A haiku in the air; its words dive like shuriken'],
+    halo: ['😇', 'magic', 'Holy light comes down'],
+    hammer: ['🔨', 'fight', 'A giant hammer comes down'],
+    harp: ['🪕', 'signature', 'A golden harp glissando and a fun fact'],
+    heartbreak: ['💔', 'fun', 'A tsundere heart that breaks on the target'],
+    helix: ['🧬', 'magic', 'Props corkscrew over'],
+    hellfire: ['🔥', 'magic', 'Pillars of hellfire burst up'],
+    hoops: ['🏀', 'props', 'A jump shot and the hoop drops on it'],
+    hora: ['🌀', 'fight', 'Hypno spiral, then a flurry of fists'],
+    hyper: ['⚡', 'fun', 'Zig-zags at full speed shouting (your words)'],
+    ibeam: ['🏗️', 'signature', 'Blueprints, a crane, an I-beam; the cable snaps'],
+    icecross: ['✝️', 'magic', 'An ice cross forms and drops'],
+    inkbound: ['🖋️', 'signature', 'A book opens, an eye appears, ink tendrils climb'],
+    jaws: ['🦈', 'fight', 'Dives in, circles as a fin, then CHOMP'],
+    jinx: ['🐈‍⬛', 'signature', 'A black cat walks past and bad luck falls on it'],
+    jukebox: ['📻', 'signature', 'A jukebox beat, a wheelie, then a bike crash'],
+    justmonika: ['💚', 'signature', 'A terminal opens: del target.chr'],
+    kamaitachi: ['🌬️', 'signature', 'Three sickle-weasels ride the wind: knock, cut, heal'],
+    karatecombo: ['🥋', 'signature', 'A formal bow for one second, then a karate combo'],
+    katana: ['🗡️', 'fight', 'Iaido: blinks through, three thrusts land at once'],
+    kendo: ['🥋', 'signature', 'Men, kote, do! Three called kendo strikes'],
+    kickflip: ['🛹', 'signature', 'Grinds a rail in sparks and kickflips onto it'],
+    kindness: ['💝', 'signature', 'Compliments circle, daisies pop up, niceness lands'],
+    kiss: ['💋', 'fun', 'A blown kiss that hits hard'],
+    laserweb: ['🔴', 'magic', 'Lasers stab down from the sky'],
+    lasso: ['🤠', 'props', 'Ropes the target and yanks it'],
+    lastcall: ['🍷', 'signature', 'A swig, two hiccups, a ring of spells goes off'],
+    latte: ['☕', 'props', 'A latte flies over and splashes'],
+    leftonread: ['📱', 'signature', 'Typing dots forever, then “k.” lands like a brick'],
+    lightriff: ['🎸', 'signature', 'A holy-looking guitar riff with a vampire bite'],
+    likestorm: ['👍', 'signature', 'A ring light, “Chat, get ’em!”, a river of likes'],
+    lingo: ['🗣️', 'fun', '“Hello” in many languages (your words)'],
+    livestream: ['🎥', 'signature', 'Goes live: chat floods in, emotes rain, a flip and claws'],
+    lockdown: ['🚨', 'signature', 'Flashlight, alarm, caution tape, access denied'],
+    lunchrush: ['🍱', 'signature', 'A wobbling tower of lunch trays topples onto it'],
+    mail: ['✉️', 'props', 'A flurry of letters, then a big parcel'],
+    mamabear: ['🐻', 'signature', 'A spirit bear roars and swipes (protective parents)'],
+    manaseal: ['🔒', 'signature', 'A seal cracks open and holy light erupts'],
+    mangapanel: ['📖', 'signature', 'A comic panel slams down; three manga smacks'],
+    marketstall: ['🍎', 'props', 'A market stall, a fruit barrage, NO REFUNDS'],
+    melody: ['🎵', 'magic', 'A spotlight; notes ride a wave into hearts'],
+    mercy: ['🕊️', 'magic', 'Doves circle, feathers fall, soft light'],
+    meteor: ['☄️', 'magic', 'Meteors of your prop rain down'],
+    micdrop: ['🎤', 'signature', 'A boombox beat, bars spat, then the mic drop'],
+    missiles: ['🚀', 'props', 'Homing missiles of your prop'],
+    mothdust: ['🦋', 'signature', 'Huge moth wings, dreamy dust, a silk thread'],
+    multiverse: ['🌀', 'signature', 'Portals open and a copy from each world attacks'],
+    musclefive: ['🙌', 'signature', 'Push-ups, a sprint, a high-five it didn’t want'],
+    nat20: ['🎲', 'signature', 'A giant d20 rolls… NAT 20! A fireball'],
+    nekopunch: ['🐱', 'fun', 'Apologetic pats, then a panicked broom windmill'],
+    ninja: ['🥷', 'fight', 'Smoke bomb, throwing stars, strike from behind'],
+    nuhuh: ['💅', 'signature', 'Checks her nails, then a giant finger wags: NUH UH'],
+    oilrig: ['🛢️', 'signature', 'Swipes the black card; an oil rig strikes oil on it'],
+    orb: ['🔮', 'magic', 'A spinning orb and petals float over (gentle, magic)'],
+    overshoot: ['🏎️', 'fun', 'Zips through the target and can’t brake'],
+    pages: ['📚', 'props', 'A blizzard of book pages'],
+    paint: ['🎨', 'props', 'A big paint splash'],
+    paintspike: ['🖌️', 'signature', 'Paints a spike on a canvas; a real one appears'],
+    parkour: ['🤸', 'fight', 'Vaults over with a flip and lands a kick'],
+    pentagram: ['⛧', 'signature', 'A glare; a pentagram burns and its points ignite'],
+    piano: ['🎹', 'props', 'A light keyboard, a run of notes, the chord'],
+    piping: ['🎂', 'signature', 'Cream piped round, a strawberry, the cake drops'],
+    pizza: ['🍕', 'props', 'Dough spun overhead, toppings, pizza frisbee'],
+    pompom: ['📣', 'fun', 'Cheer letters fly over (your shout), pom-poms'],
+    pounce: ['🐾', 'fight', 'A flip-jump and claws'],
+    present: ['🎁', 'signature', 'A present ties itself up, rattles and explodes'],
+    pronk: ['🦌', 'signature', 'Stiff-legged fawn bounces leaving hoofprints'],
+    pulse: ['📡', 'magic', 'Force rings shake the target'],
+    purikura: ['📷', 'signature', 'A photo-booth frame, FLASH, stickers on the print'],
+    queenshadow: ['👑', 'signature', 'She prays; her shadow rises as a demon queen'],
+    quill: ['🪶', 'signature', 'A giant quill writes “The End”; the full stop drops'],
+    rainbow: ['🌈', 'signature', 'Throws a rainbow and slides down it onto the target'],
+    redcard: ['🟥', 'props', 'Whistle, then a red card slap'],
+    redcarpet: ['💃', 'fun', 'Red carpet, flashbulbs, a strut and a hair flip'],
+    redstring: ['🧵', 'signature', 'A heart arrow and the red string of fate'],
+    rhythm: ['🎧', 'signature', 'Rhythm-game arrows scroll down; FULL COMBO'],
+    ribbon: ['🎀', 'magic', 'Props stream over, weaving'],
+    ricochet: ['🎱', 'props', 'Props skip along the floor'],
+    riff: ['🎸', 'props', 'Amp and power chord; sound waves and lightning'],
+    rift: ['🌌', 'signature', 'Equations, a rift spits lightning… then backfires'],
+    ropes: ['🤼', 'signature', 'Runs into ring ropes, flung into a dropkick'],
+    runes: ['🔯', 'magic', 'Runes circle and flare'],
+    scar: ['✖️', 'fight', 'Two quick cuts in an X'],
+    scythe: ['🌪️', 'fight', 'Tail whip three times, then a bandage'],
+    shhh: ['🤫', 'fun', 'Shushes, then the library falls on it'],
+    shockwave: ['💥', 'magic', 'Rings race over and the floor splits'],
+    shout: ['📢', 'fun', 'Shouts your words; they fly over and burst'],
+    shower: ['🌧️', 'basic', 'A shower of your prop emoji rains down'],
+    siren: ['🧜', 'magic', 'Notes lure the target in; the sea closes over it'],
+    skatekick: ['🛹', 'signature', 'Barely lifts a foot; the runaway board does the rest'],
+    skilift: ['🚡', 'signature', 'Snow, a cable, a creaking ski-lift chair drops'],
+    skydive: ['🪂', 'fight', 'Drops from the sky, pulses'],
+    slam: ['🦶', 'basic', 'Leaps high and body-slams the target (big, tough types)'],
+    slash: ['⚔️', 'fight', 'Teleports in and cuts three times (swords, claws)'],
+    slingshot: ['🎯', 'fight', 'Stretches back and fires itself'],
+    snipe: ['🎯', 'fight', 'A scope locks on, one shot'],
+    spikes: ['🗻', 'magic', 'Spikes burst up from the floor'],
+    spin: ['🌀', 'basic', 'Spins in on a curve (agile)'],
+    splice: ['🧬', 'signature', 'A DNA helix unrolls and gets edited'],
+    squeak: ['📣', 'signature', 'A tiny “eep”… then a megaphone blast'],
+    stainedglass: ['⛪', 'signature', 'A stained-glass window forms and shatters on it'],
+    stalker: ['👤', 'fight', 'Creeps up half-faded, then an X cut'],
+    stamp: ['🟥', 'props', 'Paperwork, then a big stamp (your mark)'],
+    stare: ['👁️', 'fun', 'A shadow, two cold eyes, the target freezes'],
+    strays: ['🐈', 'signature', 'A whistle, and every stray animal bowls it over'],
+    stumble: ['🥴', 'fun', 'A drunken wobble that somehow connects'],
+    sugarrush: ['🍬', 'signature', 'One candy, a sugar high, pinballs round the target'],
+    suplex: ['🤼', 'fight', 'Grabs the target and suplexes it'],
+    surf: ['🏄', 'magic', 'Surfs in on a wave'],
+    swanlake: ['🩰', 'signature', 'Fouetté turns in feathers, then a grand jeté'],
+    syringe: ['💉', 'props', 'One giant syringe jab'],
+    tantrum: ['😤', 'signature', 'Steam from the ears, three stomps, a cartoon fight cloud'],
+    targetlock: ['🎯', 'signature', 'Red brackets lock on; a shoulder cannon fires'],
+    tear: ['🕳️', 'signature', 'A tear in space-time rips open over it'],
+    teaspill: ['🍵', 'fun', 'Trips with the tea, then a cursed blade opens its eye'],
+    tennisserve: ['🎾', 'signature', 'A gentle serve that comes off way too hard'],
+    timber: ['🌲', 'signature', 'A tree shoots up, three chops, TIMBER!'],
+    timecard: ['⏰', 'signature', 'Punch the timecard, stamp it, back to work'],
+    timestop: ['⏱️', 'magic', '“Time, stop!” Cuts hang in the air, then land'],
+    toastdash: ['🍞', 'signature', 'Toast in mouth, late for the bell, trips into it'],
+    tornado: ['🌪️', 'magic', 'A tornado carries your props over'],
+    touchdown: ['🏈', 'signature', 'The field rolls out; runs through it for a touchdown'],
+    trashfire: ['🗑️', 'fun', 'Kicked trash bin + flicked cigarette = fire'],
+    uppercut: ['👊', 'fight', 'A rising punch'],
+    vines: ['🌿', 'magic', 'Vines grow and wrap the target'],
+    volcano: ['🌋', 'magic', 'A volcano erupts under the target'],
+    warfan: ['🪭', 'fight', 'Banners rise, a fan gale sweeps through'],
+    warmap: ['🗺️', 'signature', 'A battle map, red arrows, toy soldiers march'],
+    wave: ['🌊', 'magic', 'A water wave rolls over the target'],
+    whale: ['🐋', 'magic', 'A huge shadow, then a whale breaches out'],
+    whip: ['〰️', 'fight', 'A light whip lashes out'],
+    wires: ['🕸️', 'fight', 'Strings razor wire round it and pulls it tight'],
+    xslash: ['❌', 'fight', 'Blinks in and cuts an X'],
+    yandere: ['🪓', 'fun', 'A stamped form, a red glare, an axe'],
+    yarn: ['🧶', 'signature', 'A ball of yarn winds it into a cozy cocoon'],
+    yawn: ['🥱', 'fun', 'A long yawn; a sleepy cloud drifts over'],
+  };
+  // what people search for → the styles that fit, beyond the words in their descriptions
+  const SEARCH_TAGS = {
+    'sword blade cut': 'katana slash scar xslash kendo glitchblade armory blades crescent kamaitachi warfan',
+    'fire flame burn hot': 'hellfire darkflame dragon volcano flambe fireworks trashfire pentagram foxfire comet meteor',
+    'ice cold snow freeze': 'frost icecross stare skilift',
+    'water sea ocean swim': 'wave surf whale dolphin siren jaws bubble',
+    'music song sing': 'melody riff piano harp lightriff rhythm jukebox micdrop siren squeak',
+    'food cook drink': 'pizza latte coffee barslide lunchrush piping flambe marketstall cleaver toastdash lastcall',
+    'love heart romance': 'kiss heartbreak glomp redstring mercy devtail',
+    'cute small shy': 'bounce pronk squeak glomp orb yarn kindness',
+    'tech robot computer phone': 'beam hack targetlock splice glitchblade friendcount justmonika laserweb leftonread likestorm livestream',
+    'holy angel light church': 'halo mercy icecross divinemark manaseal stainedglass queenshadow',
+    'dark evil demon curse': 'bolt darkflame blackhole stare inkbound queenshadow candelabra pentagram jinx yandere devtail',
+    'animal beast': 'jaws whale dolphin pounce boxingroo mamabear pronk strays foxfire kamaitachi mothdust scythe',
+    'sport ball gym': 'hoops tennisserve touchdown kickflip skatekick finishline ropes suplex boxingroo musclefive gymfail',
+    'punch kick fist martial': 'dash uppercut flurry hora karatecombo parkour ropes boxingroo cyclone',
+    'rich money': 'coins oilrig bribe coinflip',
+  };
+  const tagsOf = (s) => Object.entries(SEARCH_TAGS).filter(([, list]) => list.split(' ').includes(s)).map(([t]) => t).join(' ');
+  const STYLE_GROUPS = [['all', '✨ All'], ['basic', '🎯 Basics'], ['fight', '⚔️ Fighting'], ['magic', '🔮 Magic'], ['props', '🧰 Props'],
+    ['fun', '🤪 Funny'], ['signature', '⭐ Signatures']];
+  // styles that throw your prop emoji (attack.emoji)
+  const PROP_STYLES = new Set(['barrage', 'orb', 'boomerang', 'frost', 'shower', 'meteor', 'tornado', 'blackhole', 'missiles', 'vines', 'runes',
+    'bubble', 'clones', 'snipe', 'volcano', 'kiss', 'blades', 'hack', 'camera', 'gravity', 'spikes', 'melody', 'ninja', 'timestop', 'flurry',
+    'cyclone', 'pounce', 'crescent', 'xslash', 'stalker', 'cartwheel', 'shockwave', 'fissure', 'helix', 'ricochet', 'whip', 'crush', 'comet',
+    'ribbon', 'skydive', 'slingshot', 'pulse', 'boulder', 'laserweb']);
+  // build-from-parts: how the attacker gets there, and what hits
+  const MOVE_INFO = {
+    stay: ['🧍', 'Winds up at home'], float: ['🎈', 'Rises, glowing'], dash: ['💨', 'Rushes over'], leap: ['🦘', 'Jumps over and lands'],
+    blink: ['✨', 'Vanishes, appears beside it'], spin: ['🌀', 'Spins over'], hop: ['🐇', 'Hops over'], zigzag: ['⚡', 'Zig-zags over'],
+    fly: ['🕊️', 'Flies over'], dive: ['🫧', 'Sinks into the floor, pops up'], charge: ['🐂', 'Charges head first'], slide: ['🛝', 'Slides in'],
+    portal: ['🚪', 'Steps through a portal'], pounce: ['🐾', 'A flip-jump'], cartwheel: ['🤸', 'Cartwheels over'],
+    skydrop: ['🪂', 'Up out of sight, drops on it'], stalk: ['👤', 'Creeps up half-faded'], circle: ['⭕', 'One lap round it'],
+    slingshot: ['🎯', 'Stretches back, fires itself'],
+  };
+  const FX_INFO = {
+    hit: ['👊', 'Melee jabs'], throw: ['🤾', 'Props arc over'], volley: ['🎯', 'Many glowing props'], rain: ['🌧️', 'Props fall on it'],
+    orbit: ['🪐', 'Props circle in'], slashes: ['⚔️', 'Slashes'], pillar: ['🏛️', 'Light columns'], beam: ['🔆', 'A beam'], bolt: ['⚡', 'Lightning'],
+    stamp: ['🟥', 'A stamp (your mark)'], words: ['💬', 'Words fly over'], quake: ['〰️', 'Shockwaves on the floor'], meteor: ['☄️', 'Meteors'],
+    tornado: ['🌪️', 'A tornado'], vortex: ['🌀', 'A vortex'], missiles: ['🚀', 'Missiles'], vines: ['🌿', 'Vines'], runes: ['🔯', 'Runes'],
+    shuriken: ['🥷', 'Throwing stars'], notes: ['🎵', 'Music notes'], bubble: ['🫧', 'Bubbles'], clones: ['👥', 'Clones'], snipe: ['🔭', 'A sniper shot'],
+    lava: ['🌋', 'Lava'], kiss: ['💋', 'A kiss'], blades: ['🔪', 'Blades'], hack: ['💻', 'A hack'], camera: ['📸', 'Flashbulbs'],
+    gravity: ['🪐', 'Gravity'], spikes: ['🗻', 'Floor spikes'], explode: ['💥', 'An explosion'], chomp: ['🦈', 'A chomp'], claws: ['🐾', 'Claws'],
+    geyser: ['⛲', 'A geyser'], flurry: ['👊', 'Rapid punches + comic words'], crescent: ['🌙', 'A crescent of light'], cross: ['❌', 'An X slash'],
+    shockwave: ['💥', 'Rings race over, floor splits'], fissure: ['⚡', 'A crack, light erupts'], helix: ['🧬', 'Props corkscrew over'],
+    ricochet: ['🎱', 'Props skip along the floor'], whip: ['〰️', 'A light whip'], crush: ['🪨', 'A huge prop drops'], comet: ['☄️', 'Arcs up and dives'],
+    ribbon: ['🎀', 'Props stream over, weaving'], pulse: ['📡', 'Force rings'], roll: ['🪨', 'A boulder rolls over it'], lasers: ['🔴', 'Lasers from the sky'],
+  };
+  const FLOOR_INFO = { splat: '🎨', frost: '❄️', sigil: '🔯', whirlpool: '🌀', ring: '⭕', crater: '🕳️', lava: '🌋', gloom: '🌫️', dark: '🌑', runes: '🔮' };
+  const SKY_INFO = { night: '🌃', storm: '⛈️', blood: '🩸', holy: '✨', void: '🕳️', inferno: '🔥', dream: '💭', ocean: '🌊', sunset: '🌇',
+    matrix: '💚', space: '🪐', sakura: '🌸', sunny: '☀️' };
+  const SWATCHES = ['#ff6fae', '#ff4a4a', '#ff9d2e', '#ffc93c', '#b6e35a', '#5fd68a', '#3fd6c8', '#4aa3ff', '#6a6cff', '#b35cff', '#d8dcf0', '#8a7fc8', '#c0844a', '#222233'];
+  const EMOJI = [
+    ['⚔️', 'Weapons', '⚔️ 🗡️ 🔪 🏹 🔨 🪓 💣 🔫 🛡️ 🪃 ⛓️ 🥊 🔧 🧹'],
+    ['✨', 'Magic', '✨ 🔮 🪄 ⭐ 🌟 💫 ☄️ 🌙 🔯 👻 💀 🦇 🧿 📿'],
+    ['🔥', 'Elements', '🔥 ❄️ ⚡ 💧 🌊 🌪️ 🍃 🌸 🌹 🌿 🪨 ☀️ 🌈 🫧'],
+    ['❤️', 'Love', '❤️ 💖 💘 💕 💔 💋 💌 🎀 💐 😘 🥰 💍 🖤 💜'],
+    ['🍰', 'Food', '🍳 🍕 🍰 🍩 🍓 🍦 🍙 🍡 ☕ 🍺 🍷 🧁 🍔 🥐'],
+    ['🎵', 'Fun', '🎵 🎸 🎤 📚 🎨 📸 🎈 🎉 🎲 🏀 ⚽ 🎮 🧸 📱'],
+    ['🐾', 'Critters', '🐾 🦈 🐬 🐱 🐺 🦊 🐰 🦌 🐉 🐝 🦋 🐸 🐙 🐧'],
+    ['💥', 'Comic', '💥 💢 💦 💤 ❗ ❓ 💯 👊 👀 💸 🪙 📦 🗯️ 💨'],
+  ];
+  // the builder's own view state (not saved with the card)
+  const ui = { styleGroup: 'all', styleQuery: '', picker: null, emojiTab: 0, sfxOpen: false, skyOpen: false, auto: true };
+  try { ui.auto = localStorage.getItem('mb-maker-auto') !== '0'; } catch (e) { /* default on */ }
+
+  // ------------------------------------------------------------------ the attack builder
+  // The attack reads as a storyboard (wind-up → move → hit → impact → finish); each frame jumps to its controls.
+  // Two ways to make one: pick a ready-made style from a gallery, or build it from parts in three steps.
+  // Every click replays it on the stage (Auto-replay).
+  const styleInfo = (s) => STYLE_INFO[s] || ['✨', 'signature', ''];
+  const ownersOf = (s) => (meta && meta.owners && meta.owners[s]) || [];
+  function emojiField(k, value, label, { multi = true, hint = 'none yet' } = {}) {
+    const list = emojiList(value), open = ui.picker === k;
+    return `<div class="ef" data-ef="${k}">
+      <div class="ef-top"><span class="ef-label">${label}</span>
+        <div class="ef-picked">${list.map((e, i) => `<button type="button" class="ef-chip" data-erm="${k}|${i}" title="Remove ${esc(e)}">${esc(e)}<i>×</i></button>`).join('') || `<span class="ef-none">${esc(hint)}</span>`}</div>
+        <button type="button" class="btn small${open ? ' primary' : ''}" data-epick="${k}">${open ? '✓ Done' : '＋ Pick'}</button></div>
+      ${open ? `<div class="ef-pal"><div class="ef-tabs">${EMOJI.map((g, i) => `<button type="button" class="${i === ui.emojiTab ? 'on' : ''}" data-etab="${i}" title="${g[1]}">${g[0]}</button>`).join('')}
+          <input type="text" class="ef-own" data-eown="${k}${multi ? '' : '|1'}" placeholder="or paste one + Enter" maxlength="12"></div>
+        <div class="ef-grid">${EMOJI[ui.emojiTab][2].split(' ').map((e) => `<button type="button" data-eadd="${k}|${e}${multi ? '' : '|1'}">${e}</button>`).join('')}</div></div>` : ''}
+    </div>`;
+  }
+  function addEmoji(model, k, emoji, single) {
+    const list = single ? [] : emojiList(get(model, k));
+    if (!list.includes(emoji)) list.push(emoji);
+    set(model, k, list.slice(-6).join(' '));
+  }
+  function storyboard(a) {
+    const [sIcon] = styleInfo(a.style), recipe = a.mode === 'recipe';
+    const props = emojiList(recipe ? a.prop : a.emoji).join('');
+    // floor, scatter and big hit only belong to attacks built from parts
+    const impact = [...(recipe ? [a.big ? '💥 big' : '', a.floor ? `${FLOOR_INFO[a.floor] || ''} ${a.floor}` : '', emojiList(a.scatter).join('')] : []),
+      a.sfx ? '🔊 ' + a.sfx : '', a.sky ? `${SKY_INFO[a.sky] || '🌌'} ${a.sky}` : ''].filter(Boolean);
+    const frames = [
+      ['ab-lines', '🗣️', 'Wind-up', a.cry ? `“${a.cry}”` : 'no line'],
+      recipe ? ['ab-move', (MOVE_INFO[a.move] || ['🏃'])[0], 'Move', a.move] : ['ab-look', sIcon, 'Style', a.style],
+      recipe ? ['ab-fx', (FX_INFO[a.fx] || ['👊'])[0], 'Hit', `${a.fx} ×${a.hits || 3}${props ? ' ' + props : ''}`]
+        : ['ab-look', props || '🎬', 'Props', props ? 'yours' : 'its own'],
+      [recipe ? 'ab-extra' : 'ab-sound', impact.length ? '💥' : '✦', 'Impact', impact.join(' · ') || 'default'],
+      ['ab-lines', '💬', 'Finish', a.finish ? `“${a.finish}”` : 'no line'],
+    ];
+    return frames.map(([id, ic, t, d], i) => `${i ? '<i class="sb-arrow">›</i>' : ''}<button type="button" class="sb-frame" data-jump="${id}" style="--c:${esc(a.color)}">
+      <span class="sb-ic">${esc(ic)}</span><b>${t}</b><small>${esc(d)}</small></button>`).join('');
+  }
+  // styles whose write-up hints fit this character
+  function suggestedStyles(ch) {
+    const text = [ch.traits.join(', '), ch.short, ch.desc].join('\n');
+    return [...new Set(STYLE_HINTS.filter(([re, s]) => s.style && re.test(text) && meta.styles.includes(s.style)).map(([, s]) => s.style))].slice(0, 6);
+  }
+  function attackBuilder(ch, a) {
+    const recipe = a.mode === 'recipe';
+    const [icon, group, desc] = styleInfo(a.style), owners = ownersOf(a.style);
+    const tile = (s) => {
+      const [ic, g, d] = styleInfo(s), who = ownersOf(s);
+      return `<button type="button" class="st-tile${s === a.style ? ' on' : ''}" data-set="attack.style=${s}" data-group="${g}"
+        data-search="${esc([s, d, tagsOf(s), ...who].join(' ').toLowerCase())}" title="${esc(d)}"><span class="st-ic">${esc(ic)}</span>
+        <span class="st-tx"><b>${s}</b><small>${esc(d)}</small>${who.length ? `<em>★ ${esc(who.slice(0, 2).join(', '))}</em>` : ''}</span></button>`;
+    };
+    const mini = (k, name, info, on) => `<button type="button" class="mt${on ? ' on' : ''}" data-set="${k}=${name}" title="${esc(info[1])}">
+      <span>${esc(info[0])}</span><b>${name}</b><small>${esc(info[1])}</small></button>`;
+    const sugg = suggestedStyles(ch).filter((s) => s !== a.style);
+    return `<fieldset class="ab"><legend>Attack animation</legend>
+      <div class="ab-head">
+        <div class="seg"><button type="button" data-set="attack.mode=style" class="${recipe ? '' : 'on'}">🎬 Pick a style</button><button type="button" data-set="attack.mode=recipe" class="${recipe ? 'on' : ''}">🧩 Build from parts</button></div>
+        <span class="grow"></span>
+        <button type="button" class="btn small" data-act="surprise" title="A random attack to start from">🎲 Surprise me</button>
+      </div>
+      <div class="sb" id="ab-story">${storyboard(a)}</div>
+      <div class="ab-play">
+        <button type="button" class="btn primary" data-play="attack">▶ Play attack</button>
+        <label class="switch" title="Replay on the stage after every change"><input type="checkbox" data-ui="auto"${ui.auto ? ' checked' : ''}><span></span> Auto-replay</label>
+      </div>
+
+      ${recipe ? `
+      <div class="ab-step" id="ab-move"><h4><span class="n">1</span> How do they get there?</h4>
+        <div class="mt-grid">${meta.moves.map((m) => mini('attack.move', m, MOVE_INFO[m] || ['🏃', m], m === a.move)).join('')}</div></div>
+      <div class="ab-step" id="ab-fx"><h4><span class="n">2</span> What hits the target?</h4>
+        <div class="mt-grid">${meta.fx.map((f) => mini('attack.fx', f, FX_INFO[f] || ['✨', f], f === a.fx)).join('')}</div>
+        ${a.fx === 'hit' && ['stay', 'float'].includes(a.move) ? '<div class="warns"><div>⚠ Melee jabs from home punch thin air: pick a move that goes to the target.</div></div>' : ''}
+        ${a.fx === 'words' ? `<div class="row one">${field('Words that fly (comma separated)', txt('attack.words', a.words, 'Hola!, Bonjour!, Ciao!'))}</div>` : ''}
+        ${a.fx === 'stamp' ? `<div class="row one">${field('Stamp mark', txt('attack.mark', a.mark, 'DENIED', 14))}</div>` : ''}</div>
+      <div class="ab-step" id="ab-extra"><h4><span class="n">3</span> Props &amp; impact</h4>
+        ${emojiField('attack.prop', a.prop, '🎁 Props', { hint: 'none (glowing orbs)' })}
+        <label class="f range"><span>Hits: <b id="hits-v">${esc(a.hits || 3)}</b></span><input type="range" min="1" max="20" data-k="attack.hits" data-t="num" value="${esc(a.hits || 3)}"></label>
+        <div class="f"><span>Floor mark</span><div class="chips">
+          <button type="button" class="chip${a.floor ? '' : ' on'}" data-set="attack.floor=">none</button>
+          ${meta.floors.map((f) => `<button type="button" class="chip${a.floor === f ? ' on' : ''}" data-set="attack.floor=${f}">${FLOOR_INFO[f] || ''} ${f}</button>`).join('')}</div></div>
+        ${emojiField('attack.scatter', a.scatter, '✨ Flung out on impact')}
+        <label class="switch"><input type="checkbox" data-k="attack.big" data-t="bool"${a.big ? ' checked' : ''}><span></span> 💥 Big hit + screen shake</label>
+      </div>` : `
+      <div class="ab-step" id="ab-gallery">
+        <input type="search" class="ab-search" placeholder="Search ${meta.styles.length} styles: sword, magic, food, Rirarra…" value="${esc(ui.styleQuery)}">
+        <div class="chips ab-groups">${STYLE_GROUPS.map(([g, l]) => `<button type="button" class="chip${ui.styleGroup === g ? ' on' : ''}" data-sgroup="${g}">${l}</button>`).join('')}</div>
+        ${sugg.length ? `<div class="ab-sugg">💡 Fits ${esc(ch.name.split(/\s+/)[0])}: ${sugg.map((s) => `<button type="button" class="chip" data-set="attack.style=${s}">${esc(styleInfo(s)[0])} ${s}</button>`).join('')}</div>` : ''}
+        <div class="ab-grid" id="ab-grid">${meta.styles.map(tile).join('')}</div>
+        <div class="ab-empty" hidden>No style matches. Try another word.</div>
+      </div>
+      <div class="ab-step ab-look" id="ab-look">
+        <div class="ab-pickd"><span class="big">${esc(icon)}</span><div><b>${esc(a.style)}</b><div>${esc(desc)}</div>
+          ${group === 'signature' || owners.length ? `<small>${owners.length ? `★ Used by ${esc(owners.join(', '))}. ` : ''}${group === 'signature' ? 'Written for one character: reuse it if yours fits the gag.' : ''}</small>` : ''}</div></div>
+        ${PROP_STYLES.has(a.style) ? emojiField('attack.emoji', a.emoji, '🎁 Prop', { multi: false, hint: 'the style’s default' }) : ''}
+        ${['shout', 'pompom'].includes(a.style) ? `<div class="row one">${field('Shout (the words that fly)', txt('attack.shout', a.shout, 'GO!', 30))}</div>` : ''}
+        ${['lingo', 'hyper'].includes(a.style) ? `<div class="row one">${field('Words (comma separated)', txt('attack.words', a.words, 'Hola!, Bonjour!, Ciao!'))}</div>` : ''}
+        ${a.style === 'stamp' ? `<div class="row one">${field('Stamp mark', txt('attack.mark', a.mark, 'DENIED', 14))}</div>` : ''}
+      </div>`}
+
+      <div class="ab-step" id="ab-lines"><h4>🏷️ Name, color &amp; lines</h4>
+        <div class="row one">${field('Attack name', txt('attack.name', a.name, 'Wild Vault', 28))}</div>
+        <div class="f"><span>Color</span><div class="swatches">${SWATCHES.map((c) => `<button type="button" class="sw${c.toLowerCase() === String(a.color).toLowerCase() ? ' on' : ''}" data-set="attack.color=${c}" style="--c:${c}" title="${c}"></button>`).join('')}
+          <input type="color" data-k="attack.color" value="${esc(a.color)}" title="Any color"></div></div>
+        <div class="bubbles">
+          <label class="bub"><span>🗣️ Says as it winds up</span><input type="text" data-k="attack.cry" value="${esc(a.cry)}" placeholder="Watch this!" maxlength="30"><small>${(a.cry || '').length}/30</small></label>
+          <label class="bub"><span>💬 Says after the hit</span><input type="text" data-k="attack.finish" value="${esc(a.finish)}" placeholder="Nailed it!" maxlength="30"><small>${(a.finish || '').length}/30</small></label>
+        </div>
+      </div>
+      <details class="ab-more" id="ab-sound" data-open="sfxOpen"${ui.sfxOpen ? ' open' : ''}><summary>🔊 Impact sound: <b>${esc(a.sfx || 'the style’s own')}</b> <small>(click one to hear it)</small></summary>
+        <div class="chips">${SFX.map((s) => `<button type="button" class="chip${s === a.sfx ? ' on' : ''}" data-sfx="${s}">${s ? '▶ ' + s : 'the style’s own'}</button>`).join('')}</div></details>
+      <details class="ab-more" data-open="skyOpen"${ui.skyOpen ? ' open' : ''}><summary>🌌 Sky: <b>${esc(a.sky || 'none')}</b> <small>(click one for a peek)</small></summary>
+        <div class="chips">${['', ...meta.skies].map((s) => `<button type="button" class="chip${s === a.sky ? ' on' : ''}" data-sky="${s}">${s ? `${SKY_INFO[s] || '🌌'} ${s}` : 'none'}</button>`).join('')}</div></details>
+    </fieldset>`;
+  }
+  // the gallery's search and group filter, without re-rendering
+  function filterStyles() {
+    const grid = $('#ab-grid');
+    if (!grid) return;
+    const terms = ui.styleQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    $$('.st-tile', grid).forEach((t) => {
+      const ok = (ui.styleGroup === 'all' || t.dataset.group === ui.styleGroup) && terms.every((w) => t.dataset.search.includes(w));
+      t.hidden = !ok;
+      if (ok) shown++;
+    });
+    $('.ab-empty').hidden = shown > 0;
+  }
+  // a random attack to start from: a style (not a signature one) or a set of parts, and a color
+  function surprise(a) {
+    const pick = (l) => l[Math.random() * l.length | 0];
+    const pal = () => EMOJI[Math.random() * EMOJI.length | 0][2].split(' ');
+    if (Math.random() < 0.5) {
+      a.mode = 'style';
+      a.style = pick(meta.styles.filter((s) => styleInfo(s)[1] !== 'signature'));
+      a.emoji = PROP_STYLES.has(a.style) ? pick(pal()) : '';
+    } else {
+      a.mode = 'recipe';
+      a.move = pick(meta.moves.filter((m) => !['stay', 'float'].includes(m)));
+      a.fx = pick(meta.fx.filter((f) => !['words', 'stamp'].includes(f)));
+      const p = pal();
+      a.prop = [pick(p), pick(p)].filter((x, i, l) => l.indexOf(x) === i).join(' ');
+      a.scatter = pick(pal());
+      a.hits = 1 + (Math.random() * 6 | 0);
+      a.floor = Math.random() < 0.5 ? pick(meta.floors) : '';
+      a.big = Math.random() < 0.3;
+    }
+    a.color = pick(SWATCHES.slice(0, 12));
+  }
+
   function renderCharEditor() {
     const box = $('#char-editor');
+    const keep = renderCharEditor.for === state.sel && $('#ab-grid') ? $('#ab-grid').scrollTop : null;
+    renderCharEditor.for = state.sel;
     const ch = charByKey(state.sel);
     if (!ch) { box.innerHTML = ''; return; }
     if (!meta) { box.innerHTML = '<div class="editor empty">Waiting for the stage to load its attack list…</div>'; return; }
     const c = cardOf(ch), a = c.attack, it = c.intro;
     const outfits = safeOutfits(ch).length ? safeOutfits(ch) : ch.outfits;
-    const styleNeeds = { shout: ['shout', 'pompom'], words: ['lingo', 'hyper'], mark: ['stamp'] };
     box.innerHTML = `<div class="editor" data-scope="card">
       <div class="ed-head">
         <img src="${esc(idleOf(ch, c.outfit))}" alt="">
@@ -525,43 +1027,7 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
         <div class="budget" id="budget"></div>
       </fieldset>
 
-      <fieldset><legend>Attack animation</legend>
-        <div class="seg" role="tablist"><button type="button" data-set="attack.mode=style" class="${a.mode === 'style' ? 'on' : ''}">Ready-made style</button><button type="button" data-set="attack.mode=recipe" class="${a.mode === 'recipe' ? 'on' : ''}">Build from parts</button></div>
-        ${a.mode === 'style' ? `
-          <div class="row two">
-            ${field('Style', sel('attack.style', meta.styles, a.style, undefined, ' data-re="1"'))}
-            ${field('Prop emoji', txt('attack.emoji', a.emoji, 'e.g. 🍳 (props styles)'))}
-          </div>
-          ${styleNeeds.shout.includes(a.style) ? `<div class="row one">${field('Shout (the words that fly)', txt('attack.shout', a.shout, 'GO!', 30))}</div>` : ''}
-          ${styleNeeds.words.includes(a.style) ? `<div class="row one">${field('Words (comma separated)', txt('attack.words', a.words, 'Hola!, Bonjour!, Ciao!'))}</div>` : ''}
-          ${styleNeeds.mark.includes(a.style) ? `<div class="row one">${field('Stamp mark', txt('attack.mark', a.mark, 'DENIED', 14))}</div>` : ''}
-        ` : `
-          <div class="row two">
-            ${field('Move (how they get there)', sel('attack.move', meta.moves, a.move))}
-            ${field('Effect (what hits)', sel('attack.fx', meta.fx, a.fx))}
-          </div>
-          <div class="row">
-            ${field('Props', txt('attack.prop', a.prop, '🍓 🍰'))}${field('Hits', num('attack.hits', a.hits, 1, 20))}
-            ${field('Floor mark', sel('attack.floor', ['', ...meta.floors], a.floor, (f) => f || '—'))}
-          </div>
-          <div class="row two">
-            ${field('Scatter on impact', txt('attack.scatter', a.scatter, '🐾 ✨'))}
-            <label class="check" style="align-self:end;padding-bottom:6px"><input type="checkbox" data-k="attack.big" data-t="bool"${a.big ? ' checked' : ''}> Big hit + shake</label>
-          </div>`}
-        <div class="row two">
-          ${field('Attack name', txt('attack.name', a.name, 'Wild Vault', 28))}
-          ${field('Color', color('attack.color', a.color))}
-        </div>
-        <div class="row two">
-          ${field('Wind-up line', txt('attack.cry', a.cry, 'Watch this!', 30))}
-          ${field('Finish line', txt('attack.finish', a.finish, 'Nailed it!', 30))}
-        </div>
-        <div class="row two">
-          ${field('Impact sound', sel('attack.sfx', SFX, a.sfx, (s) => s || '(the style’s own)'))}
-          ${field('Sky', sel('attack.sky', ['', ...meta.skies], a.sky, (s) => s || '(none)'))}
-        </div>
-        <div class="actions"><button type="button" class="btn primary" data-play="attack">⚔ Play attack</button></div>
-      </fieldset>
+      ${attackBuilder(ch, a)}
 
       <fieldset><legend>Entrance &amp; quote (close-up)</legend>
         <div class="seg"><button type="button" data-set="intro.mode=default" class="${it.mode === 'default' ? 'on' : ''}">From the attack</button><button type="button" data-set="intro.mode=style" class="${it.mode === 'style' ? 'on' : ''}">Another style’s</button><button type="button" data-set="intro.mode=recipe" class="${it.mode === 'recipe' ? 'on' : ''}">Custom</button></div>
@@ -582,7 +1048,14 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
         <button type="button" class="btn small danger" data-act="reset">✕ Remove this card</button>
       </div>
     </div>`;
-    bindEditor(box, c, () => { updateCardInfo(ch, c); renderChars(); }, (k, v) => {
+    bindEditor(box, c, () => {
+      updateCardInfo(ch, c);
+      renderChars();
+      // the parts of the attack builder that follow typing and sliders
+      $('#ab-story').innerHTML = storyboard(c.attack);
+      if ($('#hits-v')) $('#hits-v').textContent = c.attack.hits;
+      $$('.bub', box).forEach((b) => { const i = b.querySelector('input'); b.querySelector('small').textContent = `${i.value.length}/30`; });
+    }, (k, v) => {
       if (k !== 'rarity') return false;
       const [cost, atk, hp] = RARITY_STATS[v];
       Object.assign(c, { cost, atk, hp });
@@ -590,6 +1063,14 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       return true;
     });
     updateCardInfo(ch, c);
+    filterStyles();
+    if ($('#ab-grid')) {
+      const grid = $('#ab-grid'), on = $('.st-tile.on', grid);
+      // keep the gallery where it was; on first show, scroll the chosen style into view
+      if (keep != null) grid.scrollTop = keep;
+      const top = on && on.offsetTop; // the grid is the tiles' offsetParent (position: relative)
+      if (on && !on.hidden && (top < grid.scrollTop || top + on.offsetHeight > grid.scrollTop + grid.clientHeight)) grid.scrollTop = top - 8;
+    }
   }
   function updateCardInfo(ch, c) {
     const budget = 2 * c.cost + 1, used = +c.atk + +c.hp + c.kw.length + (parseExtra(c.extra).ok && Object.keys(parseExtra(c.extra).v).length ? 2 : 0);
@@ -625,8 +1106,16 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     if (box._bound) return;
     box._bound = true;
     const rerender = () => (box.id === 'char-editor' ? renderCharEditor() : renderBondEditor());
+    // a changed attack replays on the stage: soon after a click, once typing pauses
+    const edited = (k, typing) => { if (box.id === 'char-editor' && k.startsWith('attack.')) autoPlay(typing ? 1100 : 250); };
     box.addEventListener('input', (e) => {
       const k = e.target.dataset.k, { model, onChange, after } = box._ed;
+      if (e.target.dataset.ui === 'auto') {
+        ui.auto = e.target.checked;
+        try { localStorage.setItem('mb-maker-auto', ui.auto ? '1' : '0'); } catch (err) { /* per session */ }
+        return;
+      }
+      if (e.target.classList.contains('ab-search')) { ui.styleQuery = e.target.value; filterStyles(); return; }
       if (!k) return;
       let v = e.target.value;
       if (e.target.dataset.t === 'num') v = e.target.value === '' ? 0 : +e.target.value;
@@ -635,20 +1124,63 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       else if (k.endsWith('color')) return;
       set(model, k, v);
       persist();
+      edited(k, e.target.type === 'text' || e.target.type === 'range' || e.target.type === 'color');
       if (after(k, v)) return;
       if (e.target.dataset.re) rerender(); else onChange();
     });
+    // an emoji typed or pasted into a picker
+    box.addEventListener('change', (e) => {
+      const own = e.target.dataset.eown;
+      if (!own || !e.target.value.trim()) return;
+      const [k, single] = own.split('|');
+      addEmoji(box._ed.model, k, e.target.value.trim(), !!single);
+      edited(k); rerender();
+    });
+    // which collapsible sections are open survives re-rendering
+    box.addEventListener('toggle', (e) => { if (e.target.dataset && e.target.dataset.open) ui[e.target.dataset.open] = e.target.open; }, true);
     box.addEventListener('click', (e) => {
       const t = e.target.closest('button'), { model, onChange } = box._ed;
       if (!t) return;
-      if (t.dataset.kw) {
+      if (t.dataset.sgroup) {
+        ui.styleGroup = t.dataset.sgroup;
+        $$('[data-sgroup]', box).forEach((b) => b.classList.toggle('on', b === t));
+        filterStyles();
+      } else if (t.dataset.epick) { ui.picker = ui.picker === t.dataset.epick ? null : t.dataset.epick; rerender(); }
+      else if (t.dataset.etab) { ui.emojiTab = +t.dataset.etab; rerender(); }
+      else if (t.dataset.eadd) {
+        const [k, emoji, single] = t.dataset.eadd.split('|');
+        addEmoji(model, k, emoji, !!single);
+        persist(); edited(k); rerender();
+      } else if (t.dataset.erm) {
+        const [k, i] = t.dataset.erm.split('|'), list = emojiList(get(model, k));
+        list.splice(+i, 1);
+        set(model, k, list.join(' '));
+        persist(); edited(k); rerender();
+      } else if (t.dataset.sfx != null) {
+        model.attack.sfx = t.dataset.sfx;
+        persist();
+        $$('[data-sfx]', box).forEach((b) => b.classList.toggle('on', b === t));
+        t.closest('details').querySelector('summary b').textContent = t.dataset.sfx || 'the style’s own';
+        if (t.dataset.sfx) stageCmd('sfx', { name: t.dataset.sfx });
+        onChange();
+      } else if (t.dataset.sky != null) {
+        model.attack.sky = t.dataset.sky;
+        persist();
+        $$('[data-sky]', box).forEach((b) => b.classList.toggle('on', b === t));
+        t.closest('details').querySelector('summary b').textContent = t.dataset.sky || 'none';
+        if (t.dataset.sky) stageCmd('sky', { name: t.dataset.sky });
+        onChange();
+      } else if (t.dataset.jump) {
+        const s = document.getElementById(t.dataset.jump);
+        if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); }
+      } else if (t.dataset.kw) {
         const kw = model.kw, i = kw.indexOf(t.dataset.kw);
         if (i >= 0) kw.splice(i, 1); else kw.push(t.dataset.kw);
         t.classList.toggle('on', i < 0);
         persist(); onChange();
       } else if (t.dataset.set) {
         const [k, v] = t.dataset.set.split('=');
-        set(model, k, v); persist(); rerender();
+        set(model, k, v); persist(); edited(k); rerender();
       } else if (t.dataset.list) {
         const [k, v] = t.dataset.list.split('=');
         const list = get(model, k), i = list.indexOf(v);
@@ -660,7 +1192,10 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
     });
   }
   function editorAction(act) {
-    if (act === 'suggest') {
+    if (act === 'surprise') {
+      surprise(cardOf(charByKey(state.sel)).attack);
+      persist(); renderCharEditor(); autoPlay(150);
+    } else if (act === 'suggest') {
       const ch = charByKey(state.sel);
       state.cards[ch.key] = suggestCard(ch);
       persist(); renderCharEditor(); renderChars();
@@ -908,16 +1443,38 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
   // ------------------------------------------------------------------ the stage (index.html?maker, js/maker-bridge.js)
   const frame = $('#stage');
   let seq = 0;
+  // one animation at a time: a play asked for while one runs waits, and only the latest one waits
+  let playing = 0, queued = null, autoT = 0, stuckT = 0;
   function send(type, data = {}) {
     if (!meta || !frame.contentWindow) return false;
+    const anim = type !== 'show' && data.mode !== 'fuse';
     if (['show', 'attack', 'closeup', 'bond'].includes(type)) {
-      if (!stageReady) { if (type !== 'show' && data.mode !== 'fuse') toast('Click the stage once to start it'); return false; }
+      if (!stageReady) { if (anim) toast('Click the stage once to start it'); return false; }
+      if (anim && playing) { queued = [type, data]; return true; }
       frame.contentWindow.postMessage({ mb: 'maker-cmd', type: 'load', ...stageData() }, '*');
     }
     frame.contentWindow.postMessage({ mb: 'maker-cmd', type, seq: ++seq, ...data }, '*');
-    if (type !== 'show' && data.mode !== 'fuse') status('Playing…');
+    if (anim) {
+      playing = seq;
+      status('Playing…');
+      clearTimeout(stuckT);
+      stuckT = setTimeout(finished, 25000); // never wait forever on a reply
+    }
     return true;
   }
+  function finished() {
+    playing = 0;
+    clearTimeout(stuckT);
+    if (queued) { const [t, d] = queued; queued = null; send(t, d); }
+  }
+  // Auto-replay: the character's attack after a change in the builder
+  function autoPlay(delay) {
+    if (!ui.auto || !stageReady || state.tab !== 'chars' || !state.sel) return;
+    clearTimeout(autoT);
+    autoT = setTimeout(() => send('attack', { id: 'mk-' + state.sel }), delay);
+  }
+  // small stage requests that don't touch the board (a sound, a sky peek, music, the backdrop)
+  const stageCmd = (type, data = {}) => stageReady && frame.contentWindow.postMessage({ mb: 'maker-cmd', type, ...data }, '*');
   function status(s, err) { const e = $('#status'); e.textContent = s; e.classList.toggle('err', !!err); }
   window.addEventListener('message', (e) => {
     if (e.source !== frame.contentWindow || !e.data || e.data.mb !== 'maker') return;
@@ -936,8 +1493,13 @@ details summary { cursor: pointer; color: var(--dim); font-size: 13px; }
       updateStageBar();
       if (state.tab === 'bonds' && bondPlayable(bondById(state.bondSel))) send('bond', { id: 'mk-' + state.bondSel, mode: 'fuse' });
       else if (state.sel) send('show', { id: 'mk-' + state.sel });
-    } else if (m.type === 'done') { if (m.seq === seq) status('Done — play it again or change something'); }
-    else if (m.type === 'error') status('⚠ ' + m.message, true);
+    } else if (m.type === 'done') {
+      if (m.seq === playing) finished();
+      if (m.seq === seq) status('Done — play it again or change something');
+    } else if (m.type === 'error') {
+      if (m.seq === playing) finished();
+      status('⚠ ' + m.message, true);
+    }
   });
 
   // the buttons under the stage act on what's selected
