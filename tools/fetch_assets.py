@@ -26,6 +26,8 @@ SKIP_CHARACTERS = {"narrator", "narrador"}
 SKIP_OUTFIT = re.compile(r"\bcg\b", re.I)
 # blank or placeholder art: "character-id/outfit-id"
 SKIP_OUTFITS = {
+    # Siren's Cove Resort: empty [Transparent] / "I'm not here" images
+    "lysander-nielsen/transparent", "nova-starr/transparent", "cassian-daly/transparent", "jace-leoni/i-m-not-here",
     "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
     "beatrice-avalistos/new-outfit", "curtis-vongravis/new-outfit", "flora-aquila/new-outfit",
     # Doki Doki Literature Club: the [Transparent] outfits are empty images; Flaming, Lust, and Pain: the spoiler character too
@@ -56,6 +58,7 @@ SKIP_OUTFITS = {
 NSFW_NAME = re.compile(r"\b(nude|topless|naked|nsfw|sex|masturbat\w*|dildo|penetration|tentacles?)\b", re.I)
 ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
 NSFW_OUTFITS = {
+    "ember-renzo/shirtless",
     # underwear, towels and the like
     "quinta/quinta-5", "doe/doe-3", "cheetor/cheetor-4", "jill/jill-2", "maria/maria-2", "quistis/quistis-4",
     "rirarra-charca/the-equality-beach",

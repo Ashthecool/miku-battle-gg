@@ -29,7 +29,8 @@
   "Cries behind Snowfall",
   "Kumi",
   "Nanami Hana",
-  "Sugar & Sweethearts"
+  "Sugar & Sweethearts",
+  "Siren's Cove Resort"
  ],
  "nsfwNovels": [
   "Noble One"
@@ -10180,6 +10181,374 @@
    "costumes": [],
    "portrait": null,
    "novel": "Paradiso Suburbia"
+  },
+  {
+   "id": "kai-sorrento",
+   "name": "Kai Sorrento",
+   "outfit": "default",
+   "short": "A himbo surfer who claims he can speak to the sea and sometimes it speaks back",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/kai-sorrento/neutral.webp",
+    "play": "sprites/kai-sorrento/happy.webp",
+    "attack": "sprites/kai-sorrento/angry.webp",
+    "special": "sprites/kai-sorrento/rage.webp",
+    "hurt": "sprites/kai-sorrento/scared.webp",
+    "lose": "sprites/kai-sorrento/sad.webp",
+    "win": "sprites/kai-sorrento/excited.webp",
+    "taunt": "sprites/kai-sorrento/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/kai-sorrento.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "henry-janzen",
+   "name": "Henry Janzen",
+   "outfit": "default",
+   "short": "A moody writer that hardly leaves his cabin unless he needs coffee. ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/henry-janzen/neutral.webp",
+    "play": "sprites/henry-janzen/happy.webp",
+    "attack": "sprites/henry-janzen/angry.webp",
+    "special": "sprites/henry-janzen/rage.webp",
+    "hurt": "sprites/henry-janzen/scared.webp",
+    "lose": "sprites/henry-janzen/sad.webp",
+    "win": "sprites/henry-janzen/excited.webp",
+    "taunt": "sprites/henry-janzen/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/henry-janzen.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "marcus-allen",
+   "name": "Marcus Allen",
+   "outfit": "default",
+   "short": "Marcus Allen is an eccentric painter who paints colorful pictures and talks in riddled metaphors. ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/marcus-allen/neutral.webp",
+    "play": "sprites/marcus-allen/happy.webp",
+    "attack": "sprites/marcus-allen/angry.webp",
+    "special": "sprites/marcus-allen/rage.webp",
+    "hurt": "sprites/marcus-allen/scared.webp",
+    "lose": "sprites/marcus-allen/sad.webp",
+    "win": "sprites/marcus-allen/excited.webp",
+    "taunt": "sprites/marcus-allen/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/marcus-allen.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "thomas-bennett",
+   "name": "Thomas Bennett",
+   "outfit": "default",
+   "short": "Thomas Bennett is the kind, friendly, and sweet like sugar chef of Siren's Cove Resort. ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/thomas-bennett/neutral.webp",
+    "play": "sprites/thomas-bennett/happy.webp",
+    "attack": "sprites/thomas-bennett/angry.webp",
+    "special": "sprites/thomas-bennett/rage.webp",
+    "hurt": "sprites/thomas-bennett/scared.webp",
+    "lose": "sprites/thomas-bennett/sad.webp",
+    "win": "sprites/thomas-bennett/excited.webp",
+    "taunt": "sprites/thomas-bennett/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/thomas-bennett.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "lysander-nielsen",
+   "name": "Lysander Nielsen",
+   "outfit": "default",
+   "short": "Lysander Nielsen is one of Siren's Cove Resort's wonderful entertainers.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lysander-nielsen/neutral.webp",
+    "play": "sprites/lysander-nielsen/happy.webp",
+    "attack": "sprites/lysander-nielsen/angry.webp",
+    "special": "sprites/lysander-nielsen/rage.webp",
+    "hurt": "sprites/lysander-nielsen/scared.webp",
+    "lose": "sprites/lysander-nielsen/sad.webp",
+    "win": "sprites/lysander-nielsen/excited.webp",
+    "taunt": "sprites/lysander-nielsen/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "swimsuit",
+     "name": "swimsuit",
+     "sprites": {
+      "idle": "sprites/lysander-nielsen/swimsuit/neutral.webp",
+      "play": "sprites/lysander-nielsen/swimsuit/happy.webp",
+      "attack": "sprites/lysander-nielsen/swimsuit/angry.webp",
+      "special": "sprites/lysander-nielsen/swimsuit/rage.webp",
+      "hurt": "sprites/lysander-nielsen/swimsuit/scared.webp",
+      "lose": "sprites/lysander-nielsen/swimsuit/sad.webp",
+      "win": "sprites/lysander-nielsen/swimsuit/excited.webp",
+      "taunt": "sprites/lysander-nielsen/swimsuit/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/lysander-nielsen.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "nova-starr",
+   "name": "Nova Starr",
+   "outfit": "default",
+   "short": "Nova Starr is the shy and quiet front desk attendant of the night shift at the Siren's Cove Resort.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/nova-starr/neutral.webp",
+    "play": "sprites/nova-starr/happy.webp",
+    "attack": "sprites/nova-starr/angry.webp",
+    "special": "sprites/nova-starr/rage.webp",
+    "hurt": "sprites/nova-starr/scared.webp",
+    "lose": "sprites/nova-starr/sad.webp",
+    "win": "sprites/nova-starr/excited.webp",
+    "taunt": "sprites/nova-starr/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "wings",
+     "name": "Wings",
+     "sprites": {
+      "idle": "sprites/nova-starr/wings/neutral.webp",
+      "play": "sprites/nova-starr/wings/happy.webp",
+      "attack": "sprites/nova-starr/wings/angry.webp",
+      "special": "sprites/nova-starr/wings/rage.webp",
+      "hurt": "sprites/nova-starr/wings/scared.webp",
+      "lose": "sprites/nova-starr/wings/sad.webp",
+      "win": "sprites/nova-starr/wings/excited.webp",
+      "taunt": "sprites/nova-starr/wings/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/nova-starr.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "ember-renzo",
+   "name": "Ember Renzo",
+   "outfit": "default",
+   "short": "Ember is the handyman of the hotel! ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ember-renzo/neutral.webp",
+    "play": "sprites/ember-renzo/happy.webp",
+    "attack": "sprites/ember-renzo/angry.webp",
+    "special": "sprites/ember-renzo/rage.webp",
+    "hurt": "sprites/ember-renzo/scared.webp",
+    "lose": "sprites/ember-renzo/sad.webp",
+    "win": "sprites/ember-renzo/excited.webp",
+    "taunt": "sprites/ember-renzo/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "shirtless",
+     "name": "Shirtless",
+     "sprites": {
+      "idle": "sprites/ember-renzo/shirtless/neutral.webp",
+      "play": "sprites/ember-renzo/shirtless/happy.webp",
+      "attack": "sprites/ember-renzo/shirtless/angry.webp",
+      "special": "sprites/ember-renzo/shirtless/rage.webp",
+      "hurt": "sprites/ember-renzo/shirtless/scared.webp",
+      "lose": "sprites/ember-renzo/shirtless/sad.webp",
+      "win": "sprites/ember-renzo/shirtless/excited.webp",
+      "taunt": "sprites/ember-renzo/shirtless/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/ember-renzo.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "beck-bellami",
+   "name": "Beck Bellami",
+   "outfit": "default",
+   "short": "Beck Bellami is the glorious and charming bartender at Siren's Cove.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/beck-bellami/neutral.webp",
+    "play": "sprites/beck-bellami/happy.webp",
+    "attack": "sprites/beck-bellami/angry.webp",
+    "special": "sprites/beck-bellami/rage.webp",
+    "hurt": "sprites/beck-bellami/scared.webp",
+    "lose": "sprites/beck-bellami/sad.webp",
+    "win": "sprites/beck-bellami/excited.webp",
+    "taunt": "sprites/beck-bellami/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/beck-bellami.webp",
+   "novel": "Siren's Cove Resort",
+   "nsfw": true
+  },
+  {
+   "id": "cassian-daly",
+   "name": "Cassian Daly",
+   "outfit": "default",
+   "short": "Cassian is a ghost that lived and died in the hotel in the 1920's, he used to be a journalist. ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/cassian-daly/neutral.webp",
+    "play": "sprites/cassian-daly/happy.webp",
+    "attack": "sprites/cassian-daly/angry.webp",
+    "special": "sprites/cassian-daly/rage.webp",
+    "hurt": "sprites/cassian-daly/scared.webp",
+    "lose": "sprites/cassian-daly/sad.webp",
+    "win": "sprites/cassian-daly/excited.webp",
+    "taunt": "sprites/cassian-daly/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "new-outfit",
+     "name": "New Outfit",
+     "sprites": {
+      "idle": "sprites/cassian-daly/new-outfit/neutral.webp",
+      "play": "sprites/cassian-daly/new-outfit/happy.webp",
+      "attack": "sprites/cassian-daly/new-outfit/angry.webp",
+      "special": "sprites/cassian-daly/new-outfit/rage.webp",
+      "hurt": "sprites/cassian-daly/new-outfit/scared.webp",
+      "lose": "sprites/cassian-daly/new-outfit/sad.webp",
+      "win": "sprites/cassian-daly/new-outfit/excited.webp",
+      "taunt": "sprites/cassian-daly/new-outfit/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/cassian-daly.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "adriana-vesela",
+   "name": "Adriana Vesela",
+   "outfit": "Yoga",
+   "short": "Adriana is the resident yoga and aerobics instructor of Siren's Cove Resort.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/adriana-vesela/neutral.webp",
+    "play": "sprites/adriana-vesela/happy.webp",
+    "attack": "sprites/adriana-vesela/angry.webp",
+    "special": "sprites/adriana-vesela/rage.webp",
+    "hurt": "sprites/adriana-vesela/scared.webp",
+    "lose": "sprites/adriana-vesela/sad.webp",
+    "win": "sprites/adriana-vesela/excited.webp",
+    "taunt": "sprites/adriana-vesela/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/adriana-vesela.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "miss-mireille",
+   "name": "Miss Mireille",
+   "outfit": "default",
+   "short": "Mireille is the centuries old vampire who manages the hotel. ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/miss-mireille/neutral.webp",
+    "play": "sprites/miss-mireille/happy.webp",
+    "attack": "sprites/miss-mireille/angry.webp",
+    "special": "sprites/miss-mireille/rage.webp",
+    "hurt": "sprites/miss-mireille/scared.webp",
+    "lose": "sprites/miss-mireille/sad.webp",
+    "win": "sprites/miss-mireille/excited.webp",
+    "taunt": "sprites/miss-mireille/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/miss-mireille.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "selene",
+   "name": "Selene",
+   "outfit": "default",
+   "short": "Selene acts and feels like a celebrity, she looks like she is too good to be in Siren's Cove.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/selene/neutral.webp",
+    "play": "sprites/selene/happy.webp",
+    "attack": "sprites/selene/angry.webp",
+    "special": "sprites/selene/rage.webp",
+    "hurt": "sprites/selene/scared.webp",
+    "lose": "sprites/selene/sad.webp",
+    "win": "sprites/selene/excited.webp",
+    "taunt": "sprites/selene/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "swimsuit",
+     "name": "Swimsuit",
+     "sprites": {
+      "idle": "sprites/selene/swimsuit/neutral.webp",
+      "play": "sprites/selene/swimsuit/happy.webp",
+      "attack": "sprites/selene/swimsuit/angry.webp",
+      "special": "sprites/selene/swimsuit/rage.webp",
+      "hurt": "sprites/selene/swimsuit/scared.webp",
+      "lose": "sprites/selene/swimsuit/sad.webp",
+      "win": "sprites/selene/swimsuit/excited.webp",
+      "taunt": "sprites/selene/swimsuit/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/selene.webp",
+   "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "jace-leoni",
+   "name": "Jace Leoni",
+   "outfit": "Lifeguard",
+   "short": "Jace is the tireless guardian of Siren's Cove. Lifeguard by day, Security Guard by Moonlight.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/jace-leoni/neutral.webp",
+    "play": "sprites/jace-leoni/happy.webp",
+    "attack": "sprites/jace-leoni/angry.webp",
+    "special": "sprites/jace-leoni/rage.webp",
+    "hurt": "sprites/jace-leoni/scared.webp",
+    "lose": "sprites/jace-leoni/sad.webp",
+    "win": "sprites/jace-leoni/excited.webp",
+    "taunt": "sprites/jace-leoni/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "security-guard",
+     "name": "Security Guard",
+     "sprites": {
+      "idle": "sprites/jace-leoni/security-guard/neutral.webp",
+      "play": "sprites/jace-leoni/security-guard/happy.webp",
+      "attack": "sprites/jace-leoni/security-guard/angry.webp",
+      "special": "sprites/jace-leoni/security-guard/rage.webp",
+      "hurt": "sprites/jace-leoni/security-guard/scared.webp",
+      "lose": "sprites/jace-leoni/security-guard/sad.webp",
+      "win": "sprites/jace-leoni/security-guard/excited.webp",
+      "taunt": "sprites/jace-leoni/security-guard/proud.webp"
+     }
+    },
+    {
+     "id": "werewolf",
+     "name": "werewolf",
+     "sprites": {
+      "idle": "sprites/jace-leoni/werewolf/neutral.webp",
+      "play": "sprites/jace-leoni/werewolf/happy.webp",
+      "attack": "sprites/jace-leoni/werewolf/angry.webp",
+      "special": "sprites/jace-leoni/werewolf/rage.webp",
+      "hurt": "sprites/jace-leoni/werewolf/scared.webp",
+      "lose": "sprites/jace-leoni/werewolf/sad.webp",
+      "win": "sprites/jace-leoni/werewolf/excited.webp",
+      "taunt": "sprites/jace-leoni/werewolf/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/jace-leoni.webp",
+   "novel": "Siren's Cove Resort"
   }
  ],
  "backgrounds": [
@@ -18094,6 +18463,342 @@
    "name": "background-208",
    "desc": "",
    "src": "backgrounds/background-208-b7f489.webp"
+  },
+  {
+   "id": "83a92f5b-b318-4952-b7e7-e882fbfd3bed",
+   "name": "background-2",
+   "desc": "",
+   "src": "backgrounds/background-2-83a92f.webp"
+  },
+  {
+   "id": "61ac9b42-8c48-4ab6-a93e-f58c9c85eea7",
+   "name": "background-3",
+   "desc": "",
+   "src": "backgrounds/background-3-61ac9b.webp"
+  },
+  {
+   "id": "9fdc127c-f89f-4b25-8412-58ecf0c518b9",
+   "name": "background-4",
+   "desc": "",
+   "src": "backgrounds/background-4-9fdc12.webp"
+  },
+  {
+   "id": "6108a2fe-a5ff-415e-82f6-629e6a4baae5",
+   "name": "background-5",
+   "desc": "",
+   "src": "backgrounds/background-5-6108a2.webp"
+  },
+  {
+   "id": "bf6bf8a8-655a-4ca4-85ee-8f1be95d40fd",
+   "name": "background-6",
+   "desc": "",
+   "src": "backgrounds/background-6-bf6bf8.webp"
+  },
+  {
+   "id": "c2b43cf7-5332-403b-af4e-943476daf1cb",
+   "name": "background-7",
+   "desc": "",
+   "src": "backgrounds/background-7-c2b43c.webp"
+  },
+  {
+   "id": "3c6bb757-8754-404f-a0f6-d101cc827ea2",
+   "name": "background-8",
+   "desc": "",
+   "src": "backgrounds/background-8-3c6bb7.webp"
+  },
+  {
+   "id": "12d476f4-a9b3-40a2-8c00-48e565dee755",
+   "name": "background-9",
+   "desc": "",
+   "src": "backgrounds/background-9-12d476.webp"
+  },
+  {
+   "id": "279a5c92-93f5-4e3a-abdc-9b55dc7bbe8b",
+   "name": "background-10",
+   "desc": "",
+   "src": "backgrounds/background-10-279a5c.webp"
+  },
+  {
+   "id": "4153d70e-e269-4f71-a3d9-0e60f66cac79",
+   "name": "background-11",
+   "desc": "",
+   "src": "backgrounds/background-11-4153d7.webp"
+  },
+  {
+   "id": "dd44423f-c10c-4e5f-aa01-7b7bd6363601",
+   "name": "background-12",
+   "desc": "",
+   "src": "backgrounds/background-12-dd4442.webp"
+  },
+  {
+   "id": "c0eab6a3-2251-4afc-94f9-717f031b4da7",
+   "name": "background-13",
+   "desc": "",
+   "src": "backgrounds/background-13-c0eab6.webp"
+  },
+  {
+   "id": "4606ce02-ff2d-40a4-9b71-fb020be44e1e",
+   "name": "background-14",
+   "desc": "",
+   "src": "backgrounds/background-14-4606ce.webp"
+  },
+  {
+   "id": "bf98d269-5eb1-4511-92cc-87e073a4d855",
+   "name": "background-15",
+   "desc": "",
+   "src": "backgrounds/background-15-bf98d2.webp"
+  },
+  {
+   "id": "f24ff0b4-cb8c-4f77-adb9-f6f10e418f2d",
+   "name": "background-16",
+   "desc": "",
+   "src": "backgrounds/background-16-f24ff0.webp"
+  },
+  {
+   "id": "fc67ba15-ff7e-4eca-8fe0-55292ad5559d",
+   "name": "background-17",
+   "desc": "",
+   "src": "backgrounds/background-17-fc67ba.webp"
+  },
+  {
+   "id": "93d76408-16ad-4544-9af8-308f5f87058f",
+   "name": "background-18",
+   "desc": "",
+   "src": "backgrounds/background-18-93d764.webp"
+  },
+  {
+   "id": "d84aea9d-678b-43d6-ae21-6b17146b2bf0",
+   "name": "background-19",
+   "desc": "",
+   "src": "backgrounds/background-19-d84aea.webp"
+  },
+  {
+   "id": "47bea483-be07-4d53-b34f-94270eec5097",
+   "name": "background-20",
+   "desc": "",
+   "src": "backgrounds/background-20-47bea4.webp"
+  },
+  {
+   "id": "a3896f70-1793-4ed0-a2e6-db3918b2a7e8",
+   "name": "background-21",
+   "desc": "",
+   "src": "backgrounds/background-21-a3896f.webp"
+  },
+  {
+   "id": "114977dc-43db-4639-bf4d-3b78530e2c0a",
+   "name": "background-22",
+   "desc": "",
+   "src": "backgrounds/background-22-114977.webp"
+  },
+  {
+   "id": "d9069886-79d8-4bba-9bc0-ee8cfad192d5",
+   "name": "background-24",
+   "desc": "",
+   "src": "backgrounds/background-24-d90698.webp"
+  },
+  {
+   "id": "a23eb1c6-a522-4de7-966f-3ef31b9ff75a",
+   "name": "background-25",
+   "desc": "",
+   "src": "backgrounds/background-25-a23eb1.webp"
+  },
+  {
+   "id": "6152184b-c5d0-4cca-8bf5-382d86fa4bfa",
+   "name": "background-26",
+   "desc": "",
+   "src": "backgrounds/background-26-615218.webp"
+  },
+  {
+   "id": "7096f331-90fc-4090-8d1b-18d97f5464cf",
+   "name": "background-26",
+   "desc": "",
+   "src": "backgrounds/background-26-7096f3.webp"
+  },
+  {
+   "id": "b474312d-e8dd-483c-af58-7d2555fe2f8c",
+   "name": "background-27",
+   "desc": "",
+   "src": "backgrounds/background-27-b47431.webp"
+  },
+  {
+   "id": "dc626f67-6e4a-416e-b358-14299908d562",
+   "name": "background-28",
+   "desc": "",
+   "src": "backgrounds/background-28-dc626f.webp"
+  },
+  {
+   "id": "be5acc47-c1b6-4b34-a2e0-4269443166a6",
+   "name": "background-29",
+   "desc": "",
+   "src": "backgrounds/background-29-be5acc.webp"
+  },
+  {
+   "id": "02c056a4-8c68-4f09-9ebe-7ac5bdd6add6",
+   "name": "background-30",
+   "desc": "",
+   "src": "backgrounds/background-30-02c056.webp"
+  },
+  {
+   "id": "b4c26922-f94f-431b-aa5f-a22b5a7c100e",
+   "name": "Nova Arrival Scene",
+   "desc": "",
+   "src": "backgrounds/nova-arrival-scene-b4c269.webp"
+  },
+  {
+   "id": "d00edb95-106c-4e04-9d9e-905eae989871",
+   "name": "background-32",
+   "desc": "",
+   "src": "backgrounds/background-32-d00edb.webp"
+  },
+  {
+   "id": "311d4a79-659e-407e-8477-0376a5e45d92",
+   "name": "background-33",
+   "desc": "",
+   "src": "backgrounds/background-33-311d4a.webp"
+  },
+  {
+   "id": "0f32e992-71d1-449f-bb91-5740f7f6ad3d",
+   "name": "background-34",
+   "desc": "",
+   "src": "backgrounds/background-34-0f32e9.webp"
+  },
+  {
+   "id": "bf29df40-5aee-4e69-97c4-e9ad4391ba1f",
+   "name": "background-35",
+   "desc": "",
+   "src": "backgrounds/background-35-bf29df.webp"
+  },
+  {
+   "id": "d03e206a-cc00-401e-a0a4-f2fc5335981b",
+   "name": "background-36",
+   "desc": "",
+   "src": "backgrounds/background-36-d03e20.webp"
+  },
+  {
+   "id": "fcb21dc1-0e50-4bd9-8505-4382e6b6cde6",
+   "name": "background-37",
+   "desc": "",
+   "src": "backgrounds/background-37-fcb21d.webp"
+  },
+  {
+   "id": "7b6c6828-3f45-4458-870b-bdd0046eb8a6",
+   "name": "background-38",
+   "desc": "",
+   "src": "backgrounds/background-38-7b6c68.webp"
+  },
+  {
+   "id": "d3e6eea9-5489-4191-946f-e29c2b1e9fae",
+   "name": "background-39",
+   "desc": "",
+   "src": "backgrounds/background-39-d3e6ee.webp"
+  },
+  {
+   "id": "0135d969-c7f2-4f3c-9730-8b3be04b8e8c",
+   "name": "background-40",
+   "desc": "",
+   "src": "backgrounds/background-40-0135d9.webp"
+  },
+  {
+   "id": "198e64cc-46b4-479b-a8c1-a0cf10afe771",
+   "name": "background-41",
+   "desc": "",
+   "src": "backgrounds/background-41-198e64.webp"
+  },
+  {
+   "id": "3dfebe13-000c-4039-8533-3d6c7ac64fdc",
+   "name": "background-42",
+   "desc": "",
+   "src": "backgrounds/background-42-3dfebe.webp"
+  },
+  {
+   "id": "ee175c03-9504-4e16-b3cb-169db6df65b8",
+   "name": "background-43",
+   "desc": "",
+   "src": "backgrounds/background-43-ee175c.webp"
+  },
+  {
+   "id": "16ed3544-3c29-414c-823f-de6f1157c70c",
+   "name": "background-44",
+   "desc": "",
+   "src": "backgrounds/background-44-16ed35.webp"
+  },
+  {
+   "id": "c307970d-7b61-45c9-9adb-8ead3bfed4b0",
+   "name": "background-45",
+   "desc": "",
+   "src": "backgrounds/background-45-c30797.webp"
+  },
+  {
+   "id": "e97b7814-d83e-4ef3-bcbb-d653bc9732b9",
+   "name": "background-46",
+   "desc": "",
+   "src": "backgrounds/background-46-e97b78.webp"
+  },
+  {
+   "id": "9c154e43-2aaa-4bb9-933f-0bcb71a2551d",
+   "name": "background-46",
+   "desc": "",
+   "src": "backgrounds/background-46-9c154e.webp"
+  },
+  {
+   "id": "87751e45-22c2-4d98-965c-dcdab41a7750",
+   "name": "background-47",
+   "desc": "",
+   "src": "backgrounds/background-47-87751e.webp"
+  },
+  {
+   "id": "68fe6b9d-aa0a-45a3-9611-83d1321cc1ed",
+   "name": "background-48",
+   "desc": "",
+   "src": "backgrounds/background-48-68fe6b.webp"
+  },
+  {
+   "id": "1e052167-3385-4325-a8b6-a0cef935a70c",
+   "name": "background-49",
+   "desc": "",
+   "src": "backgrounds/background-49-1e0521.webp"
+  },
+  {
+   "id": "bb4edcab-726b-4371-9bfe-b690c7ca85ed",
+   "name": "background-50",
+   "desc": "",
+   "src": "backgrounds/background-50-bb4edc.webp"
+  },
+  {
+   "id": "db3d83d3-edb6-488d-bcd0-61b3c6b80332",
+   "name": "background-51",
+   "desc": "",
+   "src": "backgrounds/background-51-db3d83.webp"
+  },
+  {
+   "id": "a0fd5629-45fd-4012-a694-587213f0ff06",
+   "name": "background-52",
+   "desc": "",
+   "src": "backgrounds/background-52-a0fd56.webp"
+  },
+  {
+   "id": "7bcd0b74-7362-4093-944d-2dfe8ecc072e",
+   "name": "background-53",
+   "desc": "",
+   "src": "backgrounds/background-53-7bcd0b.webp"
+  },
+  {
+   "id": "3bf0c044-1138-4887-b102-4394634ca8bd",
+   "name": "background-54",
+   "desc": "",
+   "src": "backgrounds/background-54-3bf0c0.webp"
+  },
+  {
+   "id": "5282610b-e9ba-4b7e-b5be-4eb66ddf22db",
+   "name": "background-55",
+   "desc": "",
+   "src": "backgrounds/background-55-528261.webp"
+  },
+  {
+   "id": "22493b3c-3659-4b4c-a490-f2bdc57ae695",
+   "name": "background-56",
+   "desc": "",
+   "src": "backgrounds/background-56-22493b.webp"
   }
  ],
  "items": [
@@ -18727,6 +19432,60 @@
    "name": "Marine's Panties?",
    "desc": "The panties that Marine was wearing when you slept together for the first time.\n\nWhat a... beautiful memory! But they remind you of an urban legend you heard back in Highschool, that if you burned the underwear of someone who loves you and say a spell you can summon Cupid and ask for his favor!",
    "icon": "items/marine-s-panties.webp"
+  },
+  {
+   "id": "photo",
+   "name": "Photo",
+   "desc": "An old faded photograph of a young man in a trench coat smoking a cigarette, the picture has been ripped and all you see of the other person in the photo is an elegant gloved hand.",
+   "icon": "items/photo.webp"
+  },
+  {
+   "id": "cassian-s-watch",
+   "name": "Cassian's Watch",
+   "desc": "Cassian's Old Watch, you can use the watch to find Cassian, however this will move you to the next day so make sure you use it only when you are done exploring the current day.",
+   "icon": "items/cassian-s-watch.webp"
+  },
+  {
+   "id": "nova-s-room-key",
+   "name": "Nova's Room Key",
+   "desc": "These should be Nova's room keys, you should give them back to him.",
+   "icon": "items/nova-s-room-key.webp"
+  },
+  {
+   "id": "dinner-reservation",
+   "name": "Dinner Reservation",
+   "desc": "You have made a Dinning Reservation at the Pearlfin Restaurant! Use it tonight at the restaurant to bring your partner over for a romantic dinner experience. Use the action bellow and then click on the camera icon to select who to take!",
+   "icon": "items/dinner-reservation.webp"
+  },
+  {
+   "id": "bioluminescent-lagoon-location",
+   "name": "Bioluminescent Lagoon Location",
+   "desc": "You have found the Location of The Hidden Bioluminescent Lagoon, maybe you should take someone there tonight? Use the action bellow and then click on the camera icon to select who to take!",
+   "icon": "items/bioluminescent-lagoon-location.webp"
+  },
+  {
+   "id": "burned-documents",
+   "name": "Burned Documents",
+   "desc": "These burned documents most have something to do with Cassian, right?",
+   "icon": "items/burned-documents.webp"
+  },
+  {
+   "id": "old-journal",
+   "name": "Old Journal",
+   "desc": "Could this old journal that belonged to Cassian.",
+   "icon": "items/old-journal.webp"
+  },
+  {
+   "id": "newspaper-clippings",
+   "name": "Newspaper Clippings",
+   "desc": "These old Newspaper clippings seem to all be related to Cassian?",
+   "icon": "items/newspaper-clippings.webp"
+  },
+  {
+   "id": "your-room-key",
+   "name": "Your Room Key",
+   "desc": "Takes you back to the start of the selected day in case you get lost.",
+   "icon": "items/your-room-key.webp"
   }
  ],
  "music": [
@@ -22664,6 +23423,125 @@
    "tags": [],
    "novel": "Sugar & Sweethearts",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/ee597633-a4df-4067-a132-31fd982f93c7/4b8c6978-99be-47eb-b0c8-5ea3d7b86001.mpeg"
+  },
+  {
+   "id": "outdoor-healing",
+   "name": "Outdoor Healing",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/QmfCftjWFfC9BohLrmYXuQCzWnv91qoAi64SJUPnxYJzes.mpeg"
+  },
+  {
+   "id": "hip-jazz",
+   "name": "Hip Jazz",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/Qmc3fyiJ3D2JiXP7iWhTqS7f8iokWD3dw2MyXdg9AMQWsm.mpeg"
+  },
+  {
+   "id": "thief-in-the-night",
+   "name": "Thief in the night",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/thief_in_the_night.mp3"
+  },
+  {
+   "id": "waltz-primordial",
+   "name": "Waltz Primordial",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/waltz_primordial.mp3"
+  },
+  {
+   "id": "jazz-brunch-2",
+   "name": "Jazz Brunch",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/jazz_brunch.mp3"
+  },
+  {
+   "id": "cool-vibes",
+   "name": "Cool Vibes",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/cool_vibes.mp3"
+  },
+  {
+   "id": "dispersion-relation-2",
+   "name": "Dispersion Relation",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/dispersion_relation.mp3"
+  },
+  {
+   "id": "retrofuture-2",
+   "name": "RetroFuture",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/retrofuture.mp3"
+  },
+  {
+   "id": "gymnopedie",
+   "name": "Gymnopedie",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/gymnopedie.mp3"
+  },
+  {
+   "id": "devonshire",
+   "name": "Devonshire",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/devonshire.mp3"
+  },
+  {
+   "id": "yumemi",
+   "name": "Yumemi",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/yumemi.mp3"
+  },
+  {
+   "id": "venus-2",
+   "name": "Venus",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/venus.mp3"
+  },
+  {
+   "id": "outet-thoughts",
+   "name": "Outet Thoughts",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/outer_thoughts.mp3"
+  },
+  {
+   "id": "shades-of-spring",
+   "name": "Shades of Spring",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/shades_of_spring.mp3"
+  },
+  {
+   "id": "lobby-time",
+   "name": "Lobby Time",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/lobby.mp3"
+  },
+  {
+   "id": "hopes",
+   "name": "Hopes",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://assets.miku.services/hopes.mp3"
+  },
+  {
+   "id": "by-the-shoreline",
+   "name": "By The Shoreline",
+   "tags": [],
+   "novel": "Siren's Cove Resort",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/ee597633-a4df-4067-a132-31fd982f93c7/0dd5ee92-8cf4-4cb3-940a-4fcd7836f77f.mpeg"
   }
  ]
 }
