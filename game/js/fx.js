@@ -10097,6 +10097,177 @@
     await goHome(v, A);
   };
 
+  // ---------------------------------------------------------------- Siren's Cove Resort: duo attacks
+  // an svg drawing standing on the board (lines are class "d" so draw() can trace them)
+  const svgBoard = (V, P, h, w, hgt, inner) => {
+    const b = V.billboard('', `<svg viewBox="0 0 ${w} ${hgt}" width="${w}" height="${hgt}" fill="none" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`, P.x, P.y);
+    gsap.set(b.body, { y: -h });
+    return b;
+  };
+
+  // Nova & Selene: the fairy sent to watch the moon goddess. Nova scatters stardust over the target and it joins up
+  // into a constellation (a five-point star, drawn line by line), then Selene drops the moon into the middle of it
+  S.starcrossed = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t), N = sideOf(A, 0);
+    pop(V, A, H + 40, own(a, 'cry', 'Moon Queen orders!'), 'float-text buff', 1.2);
+    gsap.to(L, { y: -16, duration: 0.2, yoyo: true, repeat: 3 });
+    MB.audio.sfx('sparkle');
+    for (let i = 0; i < 14; i++) {
+      const s = V.billboard('petal', MB.pick(['✨', '⭐', '✨']), N.x, A.y);
+      s.body.style.fontSize = '30px';
+      path(s, arc(N, { x: T.x + rnd(-130, 130), y: T.y + rnd(-30, 30) }, H * 0.6, hT + rnd(-60, 90), 80), 0.55, 'power1.out').then(() => fadeOut(s, 0.4, 0.3));
+      await wait(0.05);
+    }
+    const pts = [0, 1, 2, 3, 4].map((k) => { const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5; return [160 + Math.cos(an) * 140, 100 + Math.sin(an) * 80]; });
+    const d = [0, 2, 4, 1, 3, 0].map((k, i) => (i ? 'L' : 'M') + pts[k][0].toFixed(0) + ',' + pts[k][1].toFixed(0)).join(' ');
+    const dots = pts.map(([x, y]) => `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="8" fill="#fff" stroke="${c}" stroke-width="3"/>`).join('');
+    const board = svgBoard(V, T, hT, 320, 200, `<path class="d" d="${d}" stroke="${c}" stroke-width="5"/>${dots}`);
+    gsap.from(board.body, { scale: 0.3, opacity: 0, duration: 0.3 });
+    MB.audio.sfx('melody');
+    draw(board.body.querySelectorAll('.d'), { duration: 0.8, ease: 'power1.inOut' });
+    await wait(0.9);
+    gsap.to(R, { y: -16, duration: 0.2, yoyo: true, repeat: 3 });
+    pop(V, sideOf(A, 1), H + 40, '🌙', 'float-text cute', 0.8);
+    MB.audio.sfx('holy');
+    flash(V, T, hT, '#cfe0ff', 300);
+    const moon = V.billboard('thrown', '🌕', T.x, T.y);
+    moon.body.style.fontSize = '130px';
+    gsap.set(moon.body, { y: -(hT + 400) });
+    MB.audio.sfx('incoming');
+    await gsap.to(moon.body, { y: -hT * 0.8, duration: 0.4, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); V.shake(16); V.hitStop();
+    squash(tv, 0.6);
+    gsap.to(board.body, { scale: 0.2, opacity: 0, duration: 0.4, ease: 'power3.in', onComplete: () => board.remove() });
+    scatter(V, T, hT, ['⭐', '🌙', '💗', '✨'], 14, 170);
+    ring(V, T, '#cfe0ff', 2.4, 0.8);
+    fadeOut(moon, 0.3, 0.4);
+    pop(V, T, hT + 150, own(a, 'finish', 'Written in the stars.'), 'float-text cute', 1.2);
+    await wait(0.6);
+    resetDuo(v);
+  };
+
+  // Kai & Lysander: the surfer who talks to the sea and the siren who came from it. Kai asks the sea to listen, Lysander
+  // sings, a wall of waves rises round the target, the sea's friends leap in one by one, and a whale breaches under it
+  S.seasong = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, sideOf(A, 0), H + 50, own(a, 'cry', 'Hey, sea. Listen.'), 'float-text cute', 1.2);
+    gsap.to(L, { y: 8, duration: 0.3 });
+    await wait(0.5);
+    gsap.to(R, { y: -14, duration: 0.15, yoyo: true, repeat: 7 });
+    MB.audio.sfx('melody');
+    for (let i = 0; i < 3; i++) {
+      const w = soundwave(V, { x: sideOf(A, 1).x + sg * (60 + i * 40), y: A.y }, c, sg);
+      gsap.set(w.body, { y: -H * 0.6 });
+      fadeOut(w, 0.35, 0.3);
+      scatter(V, sideOf(A, 1), H * 0.7, ['🎵', '🎶'], 2, 80);
+      await wait(0.14);
+    }
+    MB.audio.sfx('wave');
+    for (let i = 0; i < 5; i++) fadeOut(propAt(V, { x: T.x + (i - 2) * 45, y: T.y + 10 }, 20, '🌊', 70), 1.6, 0.3);
+    await wait(0.5);
+    const crew = ['🐬', '🐢', '🦀', '🐟', '🦦'];
+    for (let i = 0; i < crew.length; i++) {
+      const b = V.billboard('thrown', crew[i], A.x, A.y), P = { x: T.x + rnd(-30, 30), y: T.y + rnd(-10, 10) };
+      b.body.style.fontSize = '58px';
+      path(b, (k) => ({ ...arc(sideOf(A, i % 2), P, H * 0.5, hT, 120)(k), r: k * 360 }), 0.45, 'power1.in').then(() => { b.remove(); hit(V, t, '#6ac0ff', false); MB.audio.sfx('splash'); });
+      await wait(0.18);
+    }
+    await wait(0.3);
+    const whale = V.billboard('thrown', '🐋', T.x, T.y);
+    whale.body.style.fontSize = '170px';
+    gsap.set(whale.body, { y: -5, scale: 0.3 });
+    MB.audio.sfx('splash');
+    await gsap.to(whale.body, { y: -hT * 0.9, scale: 1, duration: 0.4, ease: 'power2.out' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(18); V.hitStop();
+    squash(tv, 0.55);
+    scatter(V, T, hT, ['💦', '🐚', '🐟', '🎵'], 14, 180);
+    ring(V, T, '#6ac0ff', 2.6, 0.8);
+    gsap.to(whale.body, { y: -4, scale: 0.4, opacity: 0, duration: 0.5, delay: 0.3, ease: 'power2.in', onComplete: () => whale.remove() });
+    pop(V, T, hT + 160, own(a, 'finish', 'The sea sends its regards.'), 'float-text cute', 1.2);
+    await wait(0.8);
+    resetDuo(v);
+  };
+
+  // Cassian & Henry: a ghost journalist and a mystery author solve the case. A magnifying glass sweeps over the target,
+  // clues (a clipping, a draft, an old watch) pin themselves round it, red string joins them up, and GUILTY is stamped
+  S.whodunit = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'The culprit is...'), 'float-text cute', 1.2);
+    gsap.to(L, { opacity: 0.5, duration: 0.3 });
+    const lens = V.billboard('thrown', '🔍', T.x - 120, T.y);
+    lens.body.style.fontSize = '72px';
+    MB.audio.sfx('whoosh');
+    await path(lens, (k) => ({ x: lerp(T.x - 120, T.x + 120, k), y: T.y, h: hT + Math.sin(k * Math.PI * 3) * 30, r: Math.sin(k * Math.PI * 2) * 10 }), 0.9, 'sine.inOut');
+    fadeOut(lens, 0, 0.2);
+    gsap.to(L, { opacity: 1, duration: 0.3 });
+    const pins = [['📰', 30, 160], ['📄', 160, 20], ['🕰️', 290, 160]], board = svgBoard(V, T, hT, 320, 200, '<path class="d" d="M30,160 L160,20 L290,160 Z" stroke="#d02a3a" stroke-width="5"/>');
+    for (let i = 0; i < 3; i++) {
+      const [ch, x, y] = pins[i], P = { x: T.x + (x - 160) * 0.8, y: T.y + 4 };
+      const b = V.billboard('thrown', ch, A.x, A.y);
+      b.body.style.fontSize = '46px';
+      path(b, (k) => ({ ...arc(sideOf(A, i % 2), P, H * 0.5, hT * 2 - y * 0.6 + 30, 60)(k), r: k * 360 }), 0.5, 'power1.out').then(() => { MB.audio.sfx('tink'); fadeOut(b, 1.6, 0.3); });
+      await wait(0.2);
+    }
+    await wait(0.4);
+    MB.audio.sfx('draw');
+    draw(board.body.querySelectorAll('.d'), { duration: 0.7, ease: 'power1.inOut' });
+    fadeOut(board, 1.2, 0.3);
+    await wait(0.8);
+    pop(V, sideOf(A, 1), H + 50, '💡', 'float-text buff', 0.8);
+    MB.audio.sfx('ding');
+    await wait(0.3);
+    await slamStamp(V, T, hT, 'GUILTY', '#d02a3a');
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(16); V.hitStop();
+    squash(tv, 0.6);
+    scatter(V, T, hT, ['📰', '📄', '🔍', '✨'], 12, 160);
+    pop(V, T, hT + 160, own(a, 'finish', 'Case closed. ...Where was I?'), 'float-text cute', 1.2);
+    await wait(0.8);
+    resetDuo(v);
+  };
+
+  // Ember & Adriana: an Ifrit handyman and a nymph who hates fire. Ember flicks a tiny spark, Adriana yells NO FIRE and
+  // grows a vine in front of it as a barrier... which carries the spark straight to the target and blooms in flames
+  S.fireflower = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Just a tiny spark...'), 'float-text burn', 1.1);
+    const spark = propAt(V, sideOf(A, 0), H * 0.6, '🔥', 36);
+    MB.audio.sfx('fire');
+    await wait(0.5);
+    pop(V, sideOf(A, 1), H + 60, 'NO FIRE!!', 'float-text dmg', 0.8);
+    gsap.to(R, { rotation: 6, duration: 0.06, yoyo: true, repeat: 7 });
+    MB.audio.sfx('vines');
+    await wait(0.4);
+    for (let j = 1; j <= 8; j++) {
+      const vn = propAt(V, { x: lerp(A.x, T.x, j / 9), y: lerp(A.y, T.y, j / 9) }, 18, '🌿', 46);
+      fadeOut(vn, 1.2, 0.3);
+      await wait(0.06);
+    }
+    pop(V, sideOf(A, 1), H + 60, 'Oh no...', 'float-text cute', 0.8);
+    gsap.to(spark.body, { y: -18, duration: 0.2 });
+    await wait(0.3);
+    fadeOut(spark, 0, 0.1);
+    MB.audio.sfx('sizzle');
+    for (let j = 1; j <= 8; j++) {
+      fadeOut(propAt(V, { x: lerp(A.x, T.x, j / 9), y: lerp(A.y, T.y, j / 9) }, 18, '🔥', 52), 0.2, 0.3);
+      await wait(0.07);
+    }
+    for (let i = 0; i < 6; i++) {
+      const bl = V.billboard('thrown', i % 2 ? '🔥' : '🌺', T.x + rnd(-50, 50), T.y + rnd(-8, 8));
+      bl.body.style.fontSize = '70px';
+      gsap.fromTo(bl.body, { y: -10, scale: 0.2 }, { y: -(hT * 0.6 + rnd(-20, 50)), scale: 1, duration: 0.3, delay: i * 0.04, ease: 'back.out(2)' });
+      fadeOut(bl, 0.9, 0.3);
+    }
+    await wait(0.4);
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); V.shake(16); V.hitStop();
+    tint(tv, 'brightness(1.7) sepia(1) hue-rotate(-25deg)', 1.2);
+    squash(tv, 0.6);
+    scatter(V, T, hT, ['🌺', '🔥', '🌸', '✨'], 14, 170);
+    pop(V, sideOf(A, 0), H + 40, 'Sorry!!', 'float-text cute', 0.9);
+    pop(V, T, hT + 160, own(a, 'finish', 'Ember! ...It is pretty, though.'), 'float-text cute', 1.2);
+    await wait(0.8);
+    resetDuo(v);
+  };
+
   // Finn: a ballet student and a perfectionist. Fouetté turns across the board in a trail of feathers, then a grand
   // jeté over the target and down onto it, landing in an arabesque
   S.swanlake = async (V, a, t, impact) => {
@@ -11220,7 +11391,7 @@
     poemduet: 'sakura', ritualfire: 'blood', saintsinner: 'dream', homestead: 'sunset', spookpunch: 'night',
     chillchapter: 'night', masterplan: 'void', churchbell: 'holy', penance: 'holy', reenact: 'sunset', hologram: 'night',
     manaseal: 'holy', lastcall: 'void', divinemark: 'holy', splice: 'matrix', glitchblade: 'night', mothdust: 'dream', bloodwind: 'blood', metamorph: 'night', fourthwall: 'matrix',
-    stormsong: 'ocean', daydream: 'night', moonfall: 'night', fullmoon: 'night', sorrowshot: 'night', extra: 'night', skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', objection: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
+    starcrossed: 'night', seasong: 'ocean', whodunit: 'night', fireflower: 'inferno', stormsong: 'ocean', daydream: 'night', moonfall: 'night', fullmoon: 'night', sorrowshot: 'night', extra: 'night', skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', objection: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -11228,7 +11399,7 @@
     'doubleshift', 'irishcoffee', 'penance', 'musclemath', 'ovenmitt', 'lifebuoy', 'snooze', 'allin', 'biddingwar', 'chillchapter', 'masterplan', 'defib', 'churchbell', 'reenact', 'viral', 'bakaslap', 'pricewar', 'airheads', 'spotme',
     'spotless', 'hologram', 'keynote', 'makeover', 'busking',
     'shieldvault', 'bloodwind', 'runaway', 'metamorph', 'enforcers', 'stickerbomb', 'bikergang', 'fourthwall',
-    'oninight', 'pursuit', 'croquembouche'];
+    'oninight', 'pursuit', 'croquembouche', 'starcrossed', 'seasong', 'whodunit', 'fireflower'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
