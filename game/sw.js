@@ -2,12 +2,12 @@
 // you're online; R2 images and imported local character sprites are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v32';
+const SHELL = 'mb-shell-v33';
 const ASSETS = 'mb-assets-v5';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
   'lib/MotionPathPlugin.min.js', 'lib/supabase.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
-  'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/net.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/scenefx.js', 'js/storymap.js', 'js/tutorial.js', 'js/result.js', 'js/cards.js', 'js/menutips.js', 'js/howto.js', 'js/maker-bridge.js', 'js/main.js',
+  'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/net.js', 'js/effects.js', 'js/audio.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/view.js', 'js/ui.js', 'js/scenefx.js', 'js/storymap.js', 'js/tutorial.js', 'js/result.js', 'js/cards.js', 'js/menutips.js', 'js/howto.js', 'js/credits.js', 'js/maker-bridge.js', 'js/main.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
   'js/attack-art.js', 'assets/attacks/magic.png', 'assets/attacks/props.png', 'assets/attacks/everyday.png',
   'assets/attacks/yumi/dolphin-rise.png', 'assets/attacks/yumi/yumi-ride.png', 'assets/attacks/yumi/yumi-fall.png',

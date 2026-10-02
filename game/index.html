@@ -109,6 +109,7 @@
         <button id="btn-gallery" class="menu-btn"><i>✦</i><span>Attack Gallery</span></button>
       </div>
     </div>
+    <button id="btn-credits" title="The novels and their creators"><i>♥</i>Credits</button>
   </div>
 
   <div id="screen-packs" class="screen">
@@ -316,6 +317,37 @@
     </div>
     <div id="save-status"></div>
   </div>
+
+  <!-- Credits (js/credits.js): the novels' creators, linked to their miku.gg pages -->
+  <div id="credits" class="hidden" role="dialog" aria-modal="true" aria-labelledby="cr-title">
+    <div class="cr-backdrop"></div>
+    <div class="cr-panel">
+      <button class="cr-close" title="Close (Esc)" aria-label="Close">✕</button>
+      <header class="cr-head">
+        <div class="cr-kicker">✦ Miku Battle · miku.gg All-Stars ✦</div>
+        <h2 id="cr-title">Credits</h2>
+        <p>Every character, sprite, background and song comes from these miku.gg novels. All credit to their creators: go play them!</p>
+        <div id="cr-count"></div>
+      </header>
+      <div id="cr-body" class="scroll-y">
+        <div id="cr-grid"></div>
+        <div class="cr-extra">
+          <section>
+            <h3>🔊 Sound effects</h3>
+            <p>From <a href="https://freesound.org" target="_blank" rel="noopener noreferrer">Freesound</a> (CC0), with thanks to:</p>
+            <div id="cr-sounds"></div>
+            <p class="cr-small">Cartoon explosion and blinking from <a href="https://pixabay.com" target="_blank" rel="noopener noreferrer">Pixabay</a>.</p>
+          </section>
+          <section>
+            <h3>🛠 Made with</h3>
+            <p>Game by <a href="https://miku.gg/author/14daff14-6a3e-4e1a-ad1d-adb592052f78" target="_blank" rel="noopener noreferrer">Ash12</a>, animated with <a href="https://gsap.com" target="_blank" rel="noopener noreferrer">GSAP</a>.</p>
+            <p>Built on <a href="https://miku.gg" target="_blank" rel="noopener noreferrer">miku.gg</a>, the platform for AI visual novels.</p>
+            <p class="cr-small">Miku Battle is an unofficial, free fan game made out of love for the miku.gg community. It isn't made or endorsed by the miku.gg team. Every character belongs to their original creator; Doki Doki Literature Club characters © Team Salvato.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="loading"><div>Loading sprites…</div><div class="bar"><i></i></div><div class="ld-sprites"></div></div>
@@ -351,6 +383,7 @@
 <script src="js/cards.js"></script>
 <script src="js/menutips.js"></script>
 <script src="js/howto.js"></script>
+<script src="js/credits.js"></script>
 <script src="js/maker-bridge.js"></script>
 <script src="js/main.js"></script>
 </body>
