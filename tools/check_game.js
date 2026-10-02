@@ -12,13 +12,13 @@ const noop = () => {};
 const sandbox = {
   console, Math, JSON, Promise, Set, Map, Object, Array, String, Number, Boolean, Error, performance: { now: () => Date.now() },
   setTimeout: (fn) => setImmediate(fn), clearTimeout: noop,
-  document: { addEventListener: noop, querySelector: () => null, getElementById: () => null, createElement: () => ({ style: {} }) },
+  document: { readyState: 'loading', addEventListener: noop, querySelector: () => null, getElementById: () => null, createElement: () => ({ style: {} }) },
   gsap: new Proxy({}, { get: () => noop }),
   addEventListener: noop,
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js', 'js/credits.js']) {
   if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }
@@ -382,6 +382,23 @@ MB.SONGS.forEach((s) => {
   (s.foes || []).forEach((id) => { if (!chars.has(id) && !SFW) err(`${at}: unknown foe ${id}`); });
 });
 (MB.SONGS.flatMap((s) => s.foes || [])).forEach((id, i, all) => { if (all.indexOf(id) !== i) warn(`${id} has more than one theme song; the first one plays`); });
+
+// ---------------------------------------------------------------- credits (js/credits.js): every novel's creator
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const credited = new Map();
+MB.CREDITS.forEach((c) => {
+  const at = `credits ${c.name}`;
+  if (!UUID.test(c.id || '')) err(`${at}: needs their miku.gg author id`);
+  if (!/^#[0-9a-f]{6}$/i.test(c.color || '')) err(`${at}: needs a color (#rrggbb)`);
+  if (MB.CREDITS.filter((x) => x.id === c.id).length > 1) err(`${at}: credited twice; list all their novels under one entry`);
+  c.novels.forEach((n) => {
+    if (!M.novels.includes(n.novel)) err(`${at}: "${n.novel}" isn't a novel in the manifest`);
+    if (!UUID.test(n.id || '')) err(`${at}: "${n.novel}" needs its miku.gg novel id`);
+    if (credited.has(n.novel)) err(`${at}: "${n.novel}" is already credited to ${credited.get(n.novel)}`);
+    credited.set(n.novel, c.name);
+  });
+});
+M.novels.forEach((n) => { if (!credited.has(n)) err(`novel "${n}" isn't in the credits (MB.CREDITS in js/credits.js)`); });
 
 // ---------------------------------------------------------------- item novels, rival decks
 Object.entries(MB.ITEM_NOVELS).forEach(([n, ids]) => {

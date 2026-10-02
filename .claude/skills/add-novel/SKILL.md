@@ -1,6 +1,6 @@
 ---
 name: add-novel
-description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to the R2 bucket. Covers checking outfits, uploading assets, and writing cards, powers, bonds, chapters and story quests as data (no engine code).
+description: Add miku.gg novels to Miku Battle. Use when new novel exports appear in novels/ or the user asks to add a novel, its characters, cards, relationships or story chapter to the game, or to upload its images to the R2 bucket. Covers checking outfits, uploading assets, writing cards, powers, bonds, chapters and story quests as data (no engine code), and crediting the novel's creator in the Credits modal.
 ---
 
 # Add a novel to Miku Battle
@@ -125,7 +125,28 @@ Design rules:
 - Bonds only between relationships the write-ups actually describe.
 - Keep text short: the card box fits about 110 characters.
 
-## 7. Check
+## 7. Credit the creator
+
+Every novel in the manifest must be credited in `MB.CREDITS` (`game/js/credits.js`, the ♥ Credits modal on the title
+screen); `check_game.js` fails until it is. Look the novel and its creator up on miku.gg's public API (no key needed);
+the export's `author` is often not their miku.gg username:
+
+```sh
+curl -s "https://api.miku.gg/bots?take=12&search=<title>"   # pick the EN entry: id = novel id, author.{id,username}
+curl -s "https://api.miku.gg/users/search?username=<username>"   # profilePic
+```
+
+- **Creator already credited** (same `author.id`): add `{ novel, id }` to their `novels`.
+- **New creator**: add an entry `{ name, aka?, id, color, pic?, novels: [{ novel, title?, id }] }`. `name` is their miku.gg
+  username, `aka` the name in the export when it differs, `color` a #rrggbb accent not already used by another
+  creator, `pic` the `profilePic` path as the API gives it (leave it out when it's null: their initials show).
+  Order the list by how many novels they have in the game.
+- `novel` is the title exactly as in `manifest.json` → `novels` (it picks the faces, counts the cast and hides NSFW
+  novels); `title` is a cleaner name to show when the manifest's has version numbers or tags.
+- Not on miku.gg's search (unlisted)? Ask the user for the novel's or creator's miku.gg link; the ids are in the URLs
+  (`miku.gg/novel-preview/<novel id>`, `miku.gg/author/<author id>`).
+
+## 8. Check
 
 ```sh
 node tools/check_game.js          # validates every reference, then 300 AI-vs-AI battles
@@ -136,7 +157,7 @@ node tools/check_game.js --sfw     # the same with NSFW mode off
 Fix every ERROR. Read the texts: if one reads badly, simplify the spec or give the card a `text`.
 Then open the game (serve `game/`, e.g. `npx serve game`) if you can, and look at a few new close-ups.
 
-## 8. Finish
+## 9. Finish
 
 - README: add the novel titles to the intro line.
 - `game/sw.js`: bump `ASSETS` only if images at *existing* paths changed (new files need nothing).
