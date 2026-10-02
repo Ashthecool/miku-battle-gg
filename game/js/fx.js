@@ -10076,7 +10076,22 @@
     gsap.fromTo(v.figure, { x: -6 }, { x: 6, duration: 0.05, yoyo: true, repeat: 9 });
     await wait(0.6);
     gsap.set(v.figure, { x: 0 });
-    gsap.to(v.figure, { scale: 1.25, duration: 0.3, ease: 'back.out(3)' });
+    // the moonlight hits: he doubles over, bones crack, and for a moment he is the werewolf (the costume is only there in
+    // NSFW mode, so without it the transformation is all effects)
+    const chr = MB.charById(a.card.id), wolf = !!(chr && chr.costumes.some((o) => o.id === 'werewolf')), look = a.costume;
+    flash(V, A, H * 0.6, '#cfe0ff', 320);
+    ring(V, A, '#cfe0ff', 2, 0.7);
+    MB.audio.sfx('holy');
+    await gsap.to(v.figure, { y: 14, scaleY: 0.85, duration: 0.2 });
+    pop(V, A, H * 0.6, 'CRACK!', 'float-text dmg', 0.6);
+    MB.audio.sfx('crunch');
+    gsap.fromTo(v.figure, { x: -8 }, { x: 8, duration: 0.04, yoyo: true, repeat: 9 });
+    await wait(0.4);
+    if (wolf) { a.costume = 'werewolf'; V.setSprite(v, 'attack'); }
+    flash(V, A, H * 0.5, '#ffffff', 360);
+    scatter(V, A, H * 0.5, ['🐺', '🐾', '💨'], 10, 130);
+    gsap.set(v.figure, { x: 0 });
+    gsap.to(v.figure, { y: 0, scale: 1.25, scaleY: 1.25, duration: 0.3, ease: 'back.out(3)' });
     pop(V, A, H + 80, 'AWOOOOO!', 'float-text dmg', 1.1);
     MB.audio.sfx('whoosh');
     await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.3, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
@@ -10091,9 +10106,14 @@
     fadeOut(moon, 0, 0.3);
     scatter(V, T, hT, ['🐾', '🐺', '💢'], 8, 140);
     await wait(0.3);
-    gsap.to(v.figure, { scale: 1, duration: 0.3 });
+    // back to normal, sheepishly
+    puff(V, here(v), '#8a8a9a', 6, H * 0.5);
+    a.costume = look;
+    V.setSprite(v, 'lose');
+    gsap.to(v.figure, { scale: 1, scaleY: 1, duration: 0.3 });
     pop(V, T, hT + 140, own(a, 'finish', '...Please don\'t tell anyone.'), 'float-text cute', 1.3);
-    await wait(0.4);
+    await wait(0.6);
+    V.setSprite(v, 'idle');
     await goHome(v, A);
   };
 
