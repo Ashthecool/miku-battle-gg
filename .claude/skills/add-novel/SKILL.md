@@ -49,6 +49,8 @@ explicit goes into `NSFW_NOVELS` (all its characters, backgrounds, items and mus
 and chapter are only playable in NSFW mode; keep their texts non-explicit anyway. Bond costumes must be safe
 outfits (the checker warns), and story backgrounds must not share a name with an explicit one (`bgByName`
 takes the first match).
+When the creator flagged every outfit of a character's novel (`outfit.nsfw = 1` on the maid and the casual dress too), respect it: put the novel in `NSFW_NOVELS`
+(a one-character novel, so its card, bonds and chapter only exist in NSFW mode) rather than overriding the flag.
 
 ## 4. Upload the images
 
@@ -60,7 +62,9 @@ R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... py tools/fetch_a
 ```
 
 It skips files already in the bucket and rewrites `game/assets/manifest.{json,js}` at the end (ids, costumes,
-songs, backgrounds). A novel adds ~15-30 MB per 10 characters; R2's free tier holds 10 GB. Check the log for
+songs, backgrounds). A novel adds ~15-30 MB per 10 characters; R2's free tier holds 10 GB. Check with `curl -I <MB.ASSET_BASE>sprites/<id>/neutral.webp` (and `sm/sprites/...`) that the files are really public before pushing: a manifest pointing at missing
+bucket files breaks the live game. Without keys, `--local` writes the images to `game/assets/` (gitignored) so the game can be played locally with the browser harness's R2 routing.
+Check the log for
 `FAIL` lines (failed images are left out of the manifest automatically). Characters whose name exists in an
 earlier novel get a suffix (`keiko-atarashi`); same-named characters inside one novel are merged.
 

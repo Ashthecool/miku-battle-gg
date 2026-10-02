@@ -30,10 +30,21 @@
   "Kumi",
   "Nanami Hana",
   "Sugar & Sweethearts",
-  "Siren's Cove Resort"
+  "Siren's Cove Resort",
+  "Can Anyone Love Maia?",
+  "Cordelia",
+  "Hanako Ikezawa",
+  "Lilly Satou",
+  "Meditate with Yllara",
+  "Seraphina",
+  "Stranded terrestrial SN- 1.0009...",
+  "Valerian",
+  "Your Loving Maid",
+  "Integrated Domestic Android"
  ],
  "nsfwNovels": [
-  "Noble One"
+  "Noble One",
+  "Integrated Domestic Android"
  ],
  "characters": [
   {
@@ -10549,6 +10560,465 @@
    ],
    "portrait": "portraits/jace-leoni.webp",
    "novel": "Siren's Cove Resort"
+  },
+  {
+   "id": "maia",
+   "name": "Maia",
+   "outfit": "default",
+   "short": "Your Troubled little sister.",
+   "traits": [
+    "Cheerful",
+    "Severely clingy",
+    "extreme anxiety",
+    "normal teen-aged girl",
+    "nonviolent",
+    "always worried about"
+   ],
+   "sprites": {
+    "idle": "sprites/maia/neutral.webp",
+    "play": "sprites/maia/happy.webp",
+    "attack": "sprites/maia/angry.webp",
+    "special": "sprites/maia/angry.webp",
+    "hurt": "sprites/maia/scared.webp",
+    "lose": "sprites/maia/sad.webp",
+    "win": "sprites/maia/happy.webp",
+    "taunt": "sprites/maia/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "at-home-casual",
+     "name": "At home Casual.",
+     "sprites": {
+      "idle": "sprites/maia/at-home-casual/neutral.webp",
+      "play": "sprites/maia/at-home-casual/happy.webp",
+      "attack": "sprites/maia/at-home-casual/angry.webp",
+      "special": "sprites/maia/at-home-casual/angry.webp",
+      "hurt": "sprites/maia/at-home-casual/scared.webp",
+      "lose": "sprites/maia/at-home-casual/sad.webp",
+      "win": "sprites/maia/at-home-casual/happy.webp",
+      "taunt": "sprites/maia/at-home-casual/happy.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/maia.webp",
+   "novel": "Can Anyone Love Maia?"
+  },
+  {
+   "id": "cordelia",
+   "name": "Cordelia",
+   "outfit": "cordelia_default",
+   "short": "Cordelia, a 32-year-old Gothic and Classic Lolita enthusiast, conceals her discontent with a façade of judgment at the bookstore where she works. Graduating with an unused English degree, she battles financial troubles fueled by a shopping addiction.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/cordelia/neutral.webp",
+    "play": "sprites/cordelia/happy.webp",
+    "attack": "sprites/cordelia/angry.webp",
+    "special": "sprites/cordelia/rage.webp",
+    "hurt": "sprites/cordelia/scared.webp",
+    "lose": "sprites/cordelia/sad.webp",
+    "win": "sprites/cordelia/excited.webp",
+    "taunt": "sprites/cordelia/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/cordelia.webp",
+   "novel": "Cordelia"
+  },
+  {
+   "id": "hanako-ikezawa",
+   "name": "Hanako Ikezawa",
+   "outfit": "Uniform",
+   "short": "A shy, scarred girl that likes to read.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/hanako-ikezawa/neutral.webp",
+    "play": "sprites/hanako-ikezawa/happy.webp",
+    "attack": "sprites/hanako-ikezawa/angry.webp",
+    "special": "sprites/hanako-ikezawa/rage.webp",
+    "hurt": "sprites/hanako-ikezawa/scared.webp",
+    "lose": "sprites/hanako-ikezawa/sad.webp",
+    "win": "sprites/hanako-ikezawa/excited.webp",
+    "taunt": "sprites/hanako-ikezawa/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "casual",
+     "name": "Casual",
+     "sprites": {
+      "idle": "sprites/hanako-ikezawa/casual/neutral.webp",
+      "play": "sprites/hanako-ikezawa/casual/happy.webp",
+      "attack": "sprites/hanako-ikezawa/casual/angry.webp",
+      "special": "sprites/hanako-ikezawa/casual/rage.webp",
+      "hurt": "sprites/hanako-ikezawa/casual/scared.webp",
+      "lose": "sprites/hanako-ikezawa/casual/sad.webp",
+      "win": "sprites/hanako-ikezawa/casual/excited.webp",
+      "taunt": "sprites/hanako-ikezawa/casual/proud.webp"
+     }
+    },
+    {
+     "id": "pajamas",
+     "name": "Pajamas",
+     "sprites": {
+      "idle": "sprites/hanako-ikezawa/pajamas/neutral.webp",
+      "play": "sprites/hanako-ikezawa/pajamas/happy.webp",
+      "attack": "sprites/hanako-ikezawa/pajamas/angry.webp",
+      "special": "sprites/hanako-ikezawa/pajamas/rage.webp",
+      "hurt": "sprites/hanako-ikezawa/pajamas/scared.webp",
+      "lose": "sprites/hanako-ikezawa/pajamas/sad.webp",
+      "win": "sprites/hanako-ikezawa/pajamas/excited.webp",
+      "taunt": "sprites/hanako-ikezawa/pajamas/proud.webp"
+     }
+    },
+    {
+     "id": "lewd",
+     "name": "Lewd",
+     "sprites": {
+      "idle": "sprites/hanako-ikezawa/lewd/desire.webp",
+      "play": "sprites/hanako-ikezawa/lewd/desire.webp",
+      "attack": "sprites/hanako-ikezawa/lewd/intensity.webp",
+      "special": "sprites/hanako-ikezawa/lewd/intensity.webp",
+      "hurt": "sprites/hanako-ikezawa/lewd/desire.webp",
+      "lose": "sprites/hanako-ikezawa/lewd/desire.webp",
+      "win": "sprites/hanako-ikezawa/lewd/desire.webp",
+      "taunt": "sprites/hanako-ikezawa/lewd/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/hanako-ikezawa.webp",
+   "novel": "Hanako Ikezawa"
+  },
+  {
+   "id": "lilly-satou",
+   "name": "Lilly Satou",
+   "outfit": "Uniform",
+   "short": "A beautiful blind girl with a strong motherly nature",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lilly-satou/neutral.webp",
+    "play": "sprites/lilly-satou/happy.webp",
+    "attack": "sprites/lilly-satou/angry.webp",
+    "special": "sprites/lilly-satou/rage.webp",
+    "hurt": "sprites/lilly-satou/scared.webp",
+    "lose": "sprites/lilly-satou/sad.webp",
+    "win": "sprites/lilly-satou/excited.webp",
+    "taunt": "sprites/lilly-satou/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "pajamas",
+     "name": "Pajamas",
+     "sprites": {
+      "idle": "sprites/lilly-satou/pajamas/neutral.webp",
+      "play": "sprites/lilly-satou/pajamas/happy.webp",
+      "attack": "sprites/lilly-satou/pajamas/angry.webp",
+      "special": "sprites/lilly-satou/pajamas/rage.webp",
+      "hurt": "sprites/lilly-satou/pajamas/scared.webp",
+      "lose": "sprites/lilly-satou/pajamas/sad.webp",
+      "win": "sprites/lilly-satou/pajamas/excited.webp",
+      "taunt": "sprites/lilly-satou/pajamas/proud.webp"
+     }
+    },
+    {
+     "id": "casual",
+     "name": "Casual",
+     "sprites": {
+      "idle": "sprites/lilly-satou/casual/neutral.webp",
+      "play": "sprites/lilly-satou/casual/happy.webp",
+      "attack": "sprites/lilly-satou/casual/angry.webp",
+      "special": "sprites/lilly-satou/casual/rage.webp",
+      "hurt": "sprites/lilly-satou/casual/scared.webp",
+      "lose": "sprites/lilly-satou/casual/sad.webp",
+      "win": "sprites/lilly-satou/casual/excited.webp",
+      "taunt": "sprites/lilly-satou/casual/proud.webp"
+     }
+    },
+    {
+     "id": "elegant",
+     "name": "Elegant",
+     "sprites": {
+      "idle": "sprites/lilly-satou/elegant/neutral.webp",
+      "play": "sprites/lilly-satou/elegant/happy.webp",
+      "attack": "sprites/lilly-satou/elegant/angry.webp",
+      "special": "sprites/lilly-satou/elegant/rage.webp",
+      "hurt": "sprites/lilly-satou/elegant/scared.webp",
+      "lose": "sprites/lilly-satou/elegant/sad.webp",
+      "win": "sprites/lilly-satou/elegant/excited.webp",
+      "taunt": "sprites/lilly-satou/elegant/proud.webp"
+     }
+    },
+    {
+     "id": "lewd",
+     "name": "Lewd",
+     "sprites": {
+      "idle": "sprites/lilly-satou/lewd/desire.webp",
+      "play": "sprites/lilly-satou/lewd/desire.webp",
+      "attack": "sprites/lilly-satou/lewd/intensity.webp",
+      "special": "sprites/lilly-satou/lewd/intensity.webp",
+      "hurt": "sprites/lilly-satou/lewd/desire.webp",
+      "lose": "sprites/lilly-satou/lewd/desire.webp",
+      "win": "sprites/lilly-satou/lewd/desire.webp",
+      "taunt": "sprites/lilly-satou/lewd/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/lilly-satou.webp",
+   "novel": "Lilly Satou"
+  },
+  {
+   "id": "yllara",
+   "name": "Yllara",
+   "outfit": "Robes",
+   "short": "A young girl whom spends her time meditating",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/yllara/neutral.webp",
+    "play": "sprites/yllara/happy.webp",
+    "attack": "sprites/yllara/angry.webp",
+    "special": "sprites/yllara/angry.webp",
+    "hurt": "sprites/yllara/scared.webp",
+    "lose": "sprites/yllara/sad.webp",
+    "win": "sprites/yllara/happy.webp",
+    "taunt": "sprites/yllara/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "tunic",
+     "name": "Tunic",
+     "sprites": {
+      "idle": "sprites/yllara/tunic/neutral.webp",
+      "play": "sprites/yllara/tunic/happy.webp",
+      "attack": "sprites/yllara/tunic/angry.webp",
+      "special": "sprites/yllara/tunic/angry.webp",
+      "hurt": "sprites/yllara/tunic/scared.webp",
+      "lose": "sprites/yllara/tunic/sad.webp",
+      "win": "sprites/yllara/tunic/happy.webp",
+      "taunt": "sprites/yllara/tunic/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "naked",
+     "name": "Naked",
+     "sprites": {
+      "idle": "sprites/yllara/naked/neutral.webp",
+      "play": "sprites/yllara/naked/happy.webp",
+      "attack": "sprites/yllara/naked/angry.webp",
+      "special": "sprites/yllara/naked/angry.webp",
+      "hurt": "sprites/yllara/naked/scared.webp",
+      "lose": "sprites/yllara/naked/sad.webp",
+      "win": "sprites/yllara/naked/happy.webp",
+      "taunt": "sprites/yllara/naked/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/yllara.webp",
+   "novel": "Meditate with Yllara"
+  },
+  {
+   "id": "seraphina",
+   "name": "Seraphina",
+   "outfit": "default_seraphina",
+   "short": "An elf, one of the last guardians of Eldoria",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/seraphina/neutral.webp",
+    "play": "sprites/seraphina/happy.webp",
+    "attack": "sprites/seraphina/angry.webp",
+    "special": "sprites/seraphina/rage.webp",
+    "hurt": "sprites/seraphina/scared.webp",
+    "lose": "sprites/seraphina/sad.webp",
+    "win": "sprites/seraphina/excited.webp",
+    "taunt": "sprites/seraphina/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/seraphina.webp",
+   "novel": "Seraphina"
+  },
+  {
+   "id": "eliza",
+   "name": "Eliza",
+   "outfit": "space suit",
+   "short": "Air-headed bubbly researcher girl",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/eliza/neutral.webp",
+    "play": "sprites/eliza/happy.webp",
+    "attack": "sprites/eliza/angry.webp",
+    "special": "sprites/eliza/rage.webp",
+    "hurt": "sprites/eliza/scared.webp",
+    "lose": "sprites/eliza/sad.webp",
+    "win": "sprites/eliza/excited.webp",
+    "taunt": "sprites/eliza/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/eliza.webp",
+   "novel": "Stranded terrestrial SN- 1.0009..."
+  },
+  {
+   "id": "uzi",
+   "name": "Uzi",
+   "outfit": "default",
+   "short": "black-hearted destroyer for hire. ",
+   "traits": [
+    "Guilible",
+    "Naive",
+    "afraid",
+    "anxiety"
+   ],
+   "sprites": {
+    "idle": "sprites/uzi/neutral.webp",
+    "play": "sprites/uzi/happy.webp",
+    "attack": "sprites/uzi/angry.webp",
+    "special": "sprites/uzi/angry.webp",
+    "hurt": "sprites/uzi/scared.webp",
+    "lose": "sprites/uzi/sad.webp",
+    "win": "sprites/uzi/happy.webp",
+    "taunt": "sprites/uzi/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/uzi.webp",
+   "novel": "Stranded terrestrial SN- 1.0009..."
+  },
+  {
+   "id": "valerian",
+   "name": "Valerian",
+   "outfit": "valerian_default",
+   "short": "An aristocratic mystique, a vampire along in his castle.",
+   "traits": [
+    "mysterious",
+    "enigmatic",
+    "dark",
+    "powerful",
+    "seductive",
+    "alluring",
+    "manipulative",
+    "calculating"
+   ],
+   "sprites": {
+    "idle": "sprites/valerian/neutral.webp",
+    "play": "sprites/valerian/happy.webp",
+    "attack": "sprites/valerian/angry.webp",
+    "special": "sprites/valerian/rage.webp",
+    "hurt": "sprites/valerian/scared.webp",
+    "lose": "sprites/valerian/sad.webp",
+    "win": "sprites/valerian/excited.webp",
+    "taunt": "sprites/valerian/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/valerian.webp",
+   "novel": "Valerian"
+  },
+  {
+   "id": "reika",
+   "name": "Reika",
+   "outfit": "Maid Outfit",
+   "short": "Pranks, Tsundere, Weak to praise",
+   "traits": [
+    "Cynical",
+    "prideful",
+    "prankster",
+    "childish",
+    "tsundere",
+    "weak to praise",
+    "cocky"
+   ],
+   "sprites": {
+    "idle": "sprites/reika/neutral.webp",
+    "play": "sprites/reika/happy.webp",
+    "attack": "sprites/reika/angry.webp",
+    "special": "sprites/reika/rage.webp",
+    "hurt": "sprites/reika/scared.webp",
+    "lose": "sprites/reika/sad.webp",
+    "win": "sprites/reika/excited.webp",
+    "taunt": "sprites/reika/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/reika.webp",
+   "novel": "Your Loving Maid"
+  },
+  {
+   "id": "ida",
+   "name": "Ida",
+   "outfit": "Maid",
+   "short": "*Ida is an android with customizable persona, owned by you*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ida/neutral.webp",
+    "play": "sprites/ida/happy.webp",
+    "attack": "sprites/ida/angry.webp",
+    "special": "sprites/ida/rage.webp",
+    "hurt": "sprites/ida/scared.webp",
+    "lose": "sprites/ida/sad.webp",
+    "win": "sprites/ida/excited.webp",
+    "taunt": "sprites/ida/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "lewd",
+     "name": "Lewd",
+     "sprites": {
+      "idle": "sprites/ida/lewd/humiliation.webp",
+      "play": "sprites/ida/lewd/humiliation.webp",
+      "attack": "sprites/ida/lewd/intensity.webp",
+      "special": "sprites/ida/lewd/intensity.webp",
+      "hurt": "sprites/ida/lewd/humiliation.webp",
+      "lose": "sprites/ida/lewd/humiliation.webp",
+      "win": "sprites/ida/lewd/humiliation.webp",
+      "taunt": "sprites/ida/lewd/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "naked",
+     "name": "Naked",
+     "sprites": {
+      "idle": "sprites/ida/naked/neutral.webp",
+      "play": "sprites/ida/naked/happy.webp",
+      "attack": "sprites/ida/naked/angry.webp",
+      "special": "sprites/ida/naked/angry.webp",
+      "hurt": "sprites/ida/naked/scared.webp",
+      "lose": "sprites/ida/naked/sad.webp",
+      "win": "sprites/ida/naked/happy.webp",
+      "taunt": "sprites/ida/naked/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "casual",
+     "name": "Casual",
+     "sprites": {
+      "idle": "sprites/ida/casual/neutral.webp",
+      "play": "sprites/ida/casual/happy.webp",
+      "attack": "sprites/ida/casual/angry.webp",
+      "special": "sprites/ida/casual/rage.webp",
+      "hurt": "sprites/ida/casual/scared.webp",
+      "lose": "sprites/ida/casual/sad.webp",
+      "win": "sprites/ida/casual/excited.webp",
+      "taunt": "sprites/ida/casual/proud.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/ida/bikini/neutral.webp",
+      "play": "sprites/ida/bikini/happy.webp",
+      "attack": "sprites/ida/bikini/angry.webp",
+      "special": "sprites/ida/bikini/rage.webp",
+      "hurt": "sprites/ida/bikini/scared.webp",
+      "lose": "sprites/ida/bikini/sad.webp",
+      "win": "sprites/ida/bikini/excited.webp",
+      "taunt": "sprites/ida/bikini/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/ida.webp",
+   "novel": "Integrated Domestic Android",
+   "nsfw": true
   }
  ],
  "backgrounds": [
@@ -18799,6 +19269,483 @@
    "name": "background-56",
    "desc": "",
    "src": "backgrounds/background-56-22493b.webp"
+  },
+  {
+   "id": "4bb21054-46c1-45f2-bea6-4f52a43b2b1a",
+   "name": "Living room",
+   "desc": "",
+   "src": "backgrounds/living-room-4bb210.webp"
+  },
+  {
+   "id": "6a66ece5-0601-4f2b-9f44-9fb5684cd00d",
+   "name": "background-2",
+   "desc": "",
+   "src": "backgrounds/background-2-6a66ec.webp"
+  },
+  {
+   "id": "f6d058cf-f343-4a70-bf87-ebdec7f39e49",
+   "name": "background-3",
+   "desc": "",
+   "src": "backgrounds/background-3-f6d058.webp"
+  },
+  {
+   "id": "e3381b13-12da-4f47-93e7-4bc5010af053",
+   "name": "background-4",
+   "desc": "",
+   "src": "backgrounds/background-4-e3381b.webp"
+  },
+  {
+   "id": "282e6174-8ba6-4203-af6b-dfce47b9cf40",
+   "name": "background-5",
+   "desc": "",
+   "src": "backgrounds/background-5-282e61.webp"
+  },
+  {
+   "id": "0c5112a0-6d9d-44af-a465-1e04a32479fb",
+   "name": "background-6",
+   "desc": "",
+   "src": "backgrounds/background-6-0c5112.webp"
+  },
+  {
+   "id": "3e79da3f-4f3c-4474-8e9f-f5506b9a8b78",
+   "name": "Homework",
+   "desc": "",
+   "src": "backgrounds/homework-3e79da.webp"
+  },
+  {
+   "id": "ea5c76ed-095f-4430-97a7-5e29d7166f54",
+   "name": "background-8",
+   "desc": "",
+   "src": "backgrounds/background-8-ea5c76.webp"
+  },
+  {
+   "id": "7a4a6444-b98d-4c51-b268-c06707a95136",
+   "name": "Casual Numb Homework.",
+   "desc": "",
+   "src": "backgrounds/casual-numb-homework-7a4a64.webp"
+  },
+  {
+   "id": "62bbc4c6-b0ac-4150-beae-6b254895b3a8",
+   "name": "background-10",
+   "desc": "",
+   "src": "backgrounds/background-10-62bbc4.webp"
+  },
+  {
+   "id": "3953c8c2-eba6-4aec-a589-f246afc85a3d",
+   "name": "background-11",
+   "desc": "",
+   "src": "backgrounds/background-11-3953c8.webp"
+  },
+  {
+   "id": "25ccca9e-8709-4df3-bf5d-e47d9de098ae",
+   "name": "background-12",
+   "desc": "",
+   "src": "backgrounds/background-12-25ccca.webp"
+  },
+  {
+   "id": "6e68675a-c5c7-4127-b17a-3d8b745a420c",
+   "name": "background-13",
+   "desc": "",
+   "src": "backgrounds/background-13-6e6867.webp"
+  },
+  {
+   "id": "bdc9551c-a000-41a3-8686-6bd87723648b",
+   "name": "background-14",
+   "desc": "",
+   "src": "backgrounds/background-14-bdc955.webp"
+  },
+  {
+   "id": "19b2efa3-b7c1-45e8-a1a5-c664f29fc531",
+   "name": "background-15",
+   "desc": "",
+   "src": "backgrounds/background-15-19b2ef.webp"
+  },
+  {
+   "id": "431dcc54-b25e-499f-8408-dbee6b901e84",
+   "name": "background-16",
+   "desc": "",
+   "src": "backgrounds/background-16-431dcc.webp"
+  },
+  {
+   "id": "f04f5b5e-b776-4c5b-afc8-11ac1cb8f177",
+   "name": "background-17",
+   "desc": "",
+   "src": "backgrounds/background-17-f04f5b.webp"
+  },
+  {
+   "id": "ec489c8b-b697-452e-8bd0-4412d14d077c",
+   "name": "",
+   "desc": "",
+   "src": "backgrounds/-ec489c.webp"
+  },
+  {
+   "id": "694fb7cc-de70-48ad-952d-e21353d1acc8",
+   "name": "background-19",
+   "desc": "",
+   "src": "backgrounds/background-19-694fb7.webp"
+  },
+  {
+   "id": "8ca223ee-d507-467b-a1c7-29ba92b39fb0",
+   "name": "background-20",
+   "desc": "",
+   "src": "backgrounds/background-20-8ca223.webp"
+  },
+  {
+   "id": "0ba2b0c6-0285-45df-9371-10786b867f18",
+   "name": "background-21",
+   "desc": "",
+   "src": "backgrounds/background-21-0ba2b0.webp"
+  },
+  {
+   "id": "9c328caa-6e5a-4684-90bf-46f856e232fa",
+   "name": "background-22",
+   "desc": "",
+   "src": "backgrounds/background-22-9c328c.webp"
+  },
+  {
+   "id": "877c1870-4a35-4491-8313-886bb5d145de",
+   "name": "Casually cya later.",
+   "desc": "",
+   "src": "backgrounds/casually-cya-later-877c18.webp"
+  },
+  {
+   "id": "505b3192-75b3-457d-bfe6-c3ef5a7b4775",
+   "name": "background-24",
+   "desc": "",
+   "src": "backgrounds/background-24-505b31.webp"
+  },
+  {
+   "id": "7cabd09b-6e83-40eb-bac2-ccba63fe5c6e",
+   "name": "background-25",
+   "desc": "",
+   "src": "backgrounds/background-25-7cabd0.webp"
+  },
+  {
+   "id": "3c5bed76-3a84-43f2-ae3c-b688b0141ae5",
+   "name": "background-26",
+   "desc": "",
+   "src": "backgrounds/background-26-3c5bed.webp"
+  },
+  {
+   "id": "ae640088-8cb5-4e03-9bef-02667bf818fd",
+   "name": "background-27",
+   "desc": "",
+   "src": "backgrounds/background-27-ae6400.webp"
+  },
+  {
+   "id": "c5885304-7951-4301-9f62-f892941c79e1",
+   "name": "background-28",
+   "desc": "",
+   "src": "backgrounds/background-28-c58853.webp"
+  },
+  {
+   "id": "e6c1a979-d875-400c-90e8-840c063c4d55",
+   "name": "background-29",
+   "desc": "",
+   "src": "backgrounds/background-29-e6c1a9.webp"
+  },
+  {
+   "id": "5bdcfe78-f687-4ac4-8a99-30c37e7823eb",
+   "name": "cooking",
+   "desc": "",
+   "src": "backgrounds/cooking-5bdcfe.webp"
+  },
+  {
+   "id": "3798e9a4-5872-40cc-aa9c-fc94fecbba35",
+   "name": "casual Cooking",
+   "desc": "",
+   "src": "backgrounds/casual-cooking-3798e9.webp"
+  },
+  {
+   "id": "f54eb920-0adb-4c3c-ba79-35998d891928",
+   "name": "Driving!",
+   "desc": "",
+   "src": "backgrounds/driving-f54eb9.webp"
+  },
+  {
+   "id": "5c2bfe5c-2c12-48e4-bde1-f6471d928dea",
+   "name": "background 1",
+   "desc": "apartment",
+   "src": "backgrounds/background-1-5c2bfe.webp"
+  },
+  {
+   "id": "29890155-77a4-4005-9a8c-6a365172319c",
+   "name": "background 2",
+   "desc": "bar",
+   "src": "backgrounds/background-2-298901.webp"
+  },
+  {
+   "id": "bad84cd3-9cdf-44ee-b2cc-9b5d0018092f",
+   "name": "background 3",
+   "desc": "bookstore",
+   "src": "backgrounds/background-3-bad84c.webp"
+  },
+  {
+   "id": "00c1d756-7f4f-4a0f-b5f5-49f54b549ab8",
+   "name": "background 1",
+   "desc": "Go to The Shanghai",
+   "src": "backgrounds/background-1-00c1d7.webp"
+  },
+  {
+   "id": "a3a65d7d-fd5e-4075-bd83-84b8491f40bd",
+   "name": "background 2",
+   "desc": "Go to Class",
+   "src": "backgrounds/background-2-a3a65d.webp"
+  },
+  {
+   "id": "2f608afd-a9cc-4a7f-b019-ad90a587bdb9",
+   "name": "background 3",
+   "desc": "Go to the Library",
+   "src": "backgrounds/background-3-2f608a.webp"
+  },
+  {
+   "id": "09073859-ccd7-4efa-9f8c-1ed12b3ec3a2",
+   "name": "background 4",
+   "desc": "Go to my room",
+   "src": "backgrounds/background-4-090738.webp"
+  },
+  {
+   "id": "4e1c9096-fd2b-45e4-8914-768d43728c40",
+   "name": "background 5",
+   "desc": "Go to the School Gardens",
+   "src": "backgrounds/background-5-4e1c90.webp"
+  },
+  {
+   "id": "4476af59-92f1-46fd-8e34-9accd3bdc26f",
+   "name": "background 6",
+   "desc": "Go to the City",
+   "src": "backgrounds/background-6-4476af.webp"
+  },
+  {
+   "id": "160a760c-a0b5-4a43-85a3-6f7fb86e5218",
+   "name": "background 7",
+   "desc": "Go to the City (Night)",
+   "src": "backgrounds/background-7-160a76.webp"
+  },
+  {
+   "id": "378237d3-4283-4bbc-9e02-bd0e6d370a9a",
+   "name": "background 8",
+   "desc": "Go to a Nightclub",
+   "src": "backgrounds/background-8-378237.webp"
+  },
+  {
+   "id": "caf4264e-291b-4024-b2f3-d7c6e648c422",
+   "name": "background 9",
+   "desc": "Go Play Billiards",
+   "src": "backgrounds/background-9-caf426.webp"
+  },
+  {
+   "id": "000eba42-6080-4bff-aae7-d4f30e516344",
+   "name": "background 10",
+   "desc": "Hanako's Room",
+   "src": "backgrounds/background-10-000eba.webp"
+  },
+  {
+   "id": "fe1dae5a-c386-408e-8d7f-29cb1b34921b",
+   "name": "background 1",
+   "desc": "Go to the Tea Room",
+   "src": "backgrounds/background-1-fe1dae.webp"
+  },
+  {
+   "id": "753faade-f014-45e9-9200-9ffa85af1b81",
+   "name": "background 2",
+   "desc": "Go to the Shanghai",
+   "src": "backgrounds/background-2-753faa.webp"
+  },
+  {
+   "id": "7fceb145-008b-4d96-8403-5387cdcb6cd7",
+   "name": "background 3",
+   "desc": "Go to Lilly's Room",
+   "src": "backgrounds/background-3-7fceb1.webp"
+  },
+  {
+   "id": "866bc72e-220e-4c5d-b567-668005ce69c2",
+   "name": "background 4",
+   "desc": "Go to the City",
+   "src": "backgrounds/background-4-866bc7.webp"
+  },
+  {
+   "id": "6571c274-7f49-44e2-b62d-192340741706",
+   "name": "background 5",
+   "desc": "Go to the School Gardens",
+   "src": "backgrounds/background-5-6571c2.webp"
+  },
+  {
+   "id": "550b9aff-8149-4efd-9412-7349519348aa",
+   "name": "background 6",
+   "desc": "Go to a fancy restaurant",
+   "src": "backgrounds/background-6-550b9a.webp"
+  },
+  {
+   "id": "64fa4ff4-73de-4356-a275-5a8bd893fdd8",
+   "name": "background 7",
+   "desc": "Go to the city (night)",
+   "src": "backgrounds/background-7-64fa4f.webp"
+  },
+  {
+   "id": "ca4d48ad-9878-4d24-883c-790003cf1247",
+   "name": "background 8",
+   "desc": "Go to my room",
+   "src": "backgrounds/background-8-ca4d48.webp"
+  },
+  {
+   "id": "cae023e6-5ec9-4206-b3b6-9786d3b8a1fd",
+   "name": "Courtyard",
+   "desc": "",
+   "src": "backgrounds/courtyard-cae023.webp"
+  },
+  {
+   "id": "83e27f9c-7f81-4f72-80a0-1ab53be3100f",
+   "name": "Onsen",
+   "desc": "",
+   "src": "backgrounds/onsen-83e27f.webp"
+  },
+  {
+   "id": "f558db08-5ca3-4f44-8db1-ae03cabf9eba",
+   "name": "bedroom",
+   "desc": "",
+   "src": "backgrounds/bedroom-f558db.webp"
+  },
+  {
+   "id": "06b4bf5d-c690-4966-89ab-3c2ba598752b",
+   "name": "Meditation Hall",
+   "desc": "",
+   "src": "backgrounds/meditation-hall-06b4bf.webp"
+  },
+  {
+   "id": "dcf6eb1c-3f12-499e-ae47-6410c3e4ad36",
+   "name": "background 1",
+   "desc": "A glade in Eldoria",
+   "src": "backgrounds/background-1-dcf6eb.webp"
+  },
+  {
+   "id": "ae472a95-55e0-41b8-91c4-ae6bbf0f39b9",
+   "name": "background 2",
+   "desc": "cabin in eldoria",
+   "src": "backgrounds/background-2-ae472a.webp"
+  },
+  {
+   "id": "94a8412b-ab7e-430b-b0bd-b7cb3d797272",
+   "name": "wreckage at night",
+   "desc": "site of the crash, ruins of the spaceship spread everywhere, forested area",
+   "src": "backgrounds/wreckage-at-night-94a841.webp"
+  },
+  {
+   "id": "fb2caf36-a900-40f3-947b-9504796b8ec5",
+   "name": "shuttle crash day",
+   "desc": "site of the crash, ruins of the spaceship spread everywhere, forested area",
+   "src": "backgrounds/shuttle-crash-day-fb2caf.webp"
+  },
+  {
+   "id": "01236fca-8f4b-4ce0-b19a-18403ed3910d",
+   "name": "Camp",
+   "desc": "camp site to space ship wreckage",
+   "src": "backgrounds/camp-01236f.webp"
+  },
+  {
+   "id": "83e88c6f-e529-40a3-9cd2-721a0fea7c87",
+   "name": "Forest and creek",
+   "desc": "A deeply wooded forest, a small creak rushes water down an incline.",
+   "src": "backgrounds/forest-and-creek-83e88c.webp"
+  },
+  {
+   "id": "1176fe32-b8d3-43cf-8cce-fdc7eb3fc5fb",
+   "name": "[Fantastic Landscape]  Lake and mountains.",
+   "desc": "A small lake, mountain in the distance.",
+   "src": "backgrounds/fantastic-landscape-lake-and-mountains-1176fe.webp"
+  },
+  {
+   "id": "d3daa445-248b-47e9-a871-0b95af720b2f",
+   "name": "Cave",
+   "desc": "Mouth of a cave hidden behind the lush forest and a thin waterfall.",
+   "src": "backgrounds/cave-d3daa4.webp"
+  },
+  {
+   "id": "969c3bc9-b95f-4327-b55a-3524c3ccea2e",
+   "name": "Tent interior",
+   "desc": "Interior of a maeshift tent.",
+   "src": "backgrounds/tent-interior-969c3b.webp"
+  },
+  {
+   "id": "37287a3e-0e30-4216-a805-56917359a1d6",
+   "name": "background 1",
+   "desc": "valerian_bg",
+   "src": "backgrounds/background-1-37287a.webp"
+  },
+  {
+   "id": "a9d058bb-0c84-46a5-985c-43e47d9f3571",
+   "name": "cafe ...",
+   "desc": "cafe interior, art on walls, infusion aromas, local patrons, quiet nooks",
+   "src": "backgrounds/cafe-a9d058.webp"
+  },
+  {
+   "id": "338e775d-9ca9-4a2d-8389-fca0c1f9cfe8",
+   "name": "bedro...",
+   "desc": "{{char}}'s bedroom. bedroom, artistic touches, watercolor paintings, canopy bed, decorative pillows, nightstand with lamp",
+   "src": "backgrounds/bedro-338e77.webp"
+  },
+  {
+   "id": "ca70e25b-0008-49b3-b4aa-244f25017b86",
+   "name": "Apartment",
+   "desc": "",
+   "src": "backgrounds/apartment-ca70e2.webp",
+   "nsfw": true
+  },
+  {
+   "id": "0f3bc9a4-8bc0-4896-879a-d17169a7e6bb",
+   "name": "bedroom",
+   "desc": "",
+   "src": "backgrounds/bedroom-0f3bc9.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8208fa30-eb37-4686-b31b-f56d8a097517",
+   "name": "bathroom",
+   "desc": "",
+   "src": "backgrounds/bathroom-8208fa.webp",
+   "nsfw": true
+  },
+  {
+   "id": "2ecd4146-33a7-4113-b8bf-98cd55271fff",
+   "name": "Ida night",
+   "desc": "",
+   "src": "backgrounds/ida-night-2ecd41.webp",
+   "nsfw": true
+  },
+  {
+   "id": "686c421e-9114-4f82-b6cb-e36ff25561cb",
+   "name": "tears",
+   "desc": "",
+   "src": "backgrounds/tears-686c42.webp",
+   "nsfw": true
+  },
+  {
+   "id": "2453d008-7fe7-4d66-bf52-ede57750d7fe",
+   "name": "Park Late",
+   "desc": "",
+   "src": "backgrounds/park-late-2453d0.webp",
+   "nsfw": true
+  },
+  {
+   "id": "a12194c1-4d43-4cd4-8495-29b3b6ec7a7a",
+   "name": "Beach",
+   "desc": "",
+   "src": "backgrounds/beach-a12194.webp",
+   "nsfw": true
+  },
+  {
+   "id": "cce4ad41-33e2-4c0d-8d50-1fdf46194ea2",
+   "name": "Mall",
+   "desc": "",
+   "src": "backgrounds/mall-cce4ad.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8d7d77ec-3669-4436-9cad-6a6993b28912",
+   "name": "Change Rooms",
+   "desc": "",
+   "src": "backgrounds/change-rooms-8d7d77.webp",
+   "nsfw": true
   }
  ],
  "items": [
@@ -19486,6 +20433,94 @@
    "name": "Your Room Key",
    "desc": "Takes you back to the start of the selected day in case you get lost.",
    "icon": "items/your-room-key.webp"
+  },
+  {
+   "id": "mala-beads",
+   "name": "Mala Beads",
+   "desc": "108 wooden beads threaded around red cord. Dedicated to compassion, wisdom and nonattachment. ",
+   "icon": "items/mala-beads.webp"
+  },
+  {
+   "id": "teddy-bear",
+   "name": "Teddy Bear",
+   "desc": "A soft, fluffy, teddy bear plush",
+   "icon": "items/teddy-bear.webp"
+  },
+  {
+   "id": "heart-fingers",
+   "name": "Heart Fingers",
+   "desc": "{{user}} making a heart with their fingers",
+   "icon": "items/heart-fingers.webp"
+  },
+  {
+   "id": "power-toggle",
+   "name": "Power Toggle",
+   "desc": "Main power toggle for your IDA",
+   "icon": "items/power-toggle.webp",
+   "nsfw": true
+  },
+  {
+   "id": "voice-profiles",
+   "name": "Voice Profiles",
+   "desc": "Select from preset Voice Profiles",
+   "icon": "items/voice-profiles.webp",
+   "nsfw": true
+  },
+  {
+   "id": "entertainment",
+   "name": "Entertainment",
+   "desc": "Select from preset entertainment profiles",
+   "icon": "items/entertainment.webp",
+   "nsfw": true
+  },
+  {
+   "id": "utility-options",
+   "name": "Utility options",
+   "desc": "Basic functionality options",
+   "icon": "items/utility-options.webp",
+   "nsfw": true
+  },
+  {
+   "id": "user-tools",
+   "name": "User Tools",
+   "desc": "Basic functionality options",
+   "icon": "items/user-tools.webp",
+   "nsfw": true
+  },
+  {
+   "id": "cell-phone",
+   "name": "Cell Phone",
+   "desc": "A mobile telecommunications device. Primarily used for viewing online memetic content and pornography.",
+   "icon": "items/cell-phone.webp",
+   "nsfw": true
+  },
+  {
+   "id": "firmware",
+   "name": "Firmware",
+   "desc": "A firmware packet sent to you by your contact at Androtech",
+   "icon": "items/firmware.webp",
+   "nsfw": true
+  },
+  {
+   "id": "non-functional-control-tablet",
+   "name": "Non Functional Control Tablet",
+   "desc": "The tablet isn't working properly ",
+   "icon": "items/non-functional-control-tablet.webp",
+   "nsfw": true
+  },
+  {
+   "id": "clear-drives",
+   "name": "Clear Drives",
+   "desc": "Clears all driver data from the Tablet rendering it useless",
+   "icon": "items/clear-drives.webp",
+   "nsfw": true
+  },
+  {
+   "id": "chrome-bikini",
+   "name": "Chrome Bikini",
+   "desc": "Unlocks beach scene.",
+   "icon": "items/chrome-bikini.webp",
+   "nsfw": true
   }
  ],
  "music": [
@@ -23542,6 +24577,275 @@
    "tags": [],
    "novel": "Siren's Cove Resort",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/ee597633-a4df-4067-a132-31fd982f93c7/0dd5ee92-8cf4-4cb3-940a-4fcd7836f77f.mpeg"
+  },
+  {
+   "id": "autumn-leaves-3",
+   "name": "Autumn Leaves",
+   "tags": [],
+   "novel": "Can Anyone Love Maia?",
+   "url": "https://assets.miku.services/QmYp7wJfKybzz8cYKd9rRXsTA4eD9BsXLtZKjYe8U34f5U.mpeg"
+  },
+  {
+   "id": "family",
+   "name": "Family.",
+   "tags": [],
+   "novel": "Can Anyone Love Maia?",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/72807b8e-6679-4d87-b742-3bd6383fe502.mpeg"
+  },
+  {
+   "id": "tenderness",
+   "name": "tenderness.",
+   "tags": [],
+   "novel": "Can Anyone Love Maia?",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/4c13a4db-5d8f-431d-b8ec-e5018ca0dc94.mpeg"
+  },
+  {
+   "id": "sound-1-2",
+   "name": "sound 1",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a0c8da18-8bc4-4ba3-803e-b41125e912b9.mpeg"
+  },
+  {
+   "id": "sound-2-2",
+   "name": "sound 2",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/1e3cfd92-9ef2-4ba0-acb1-dd88c65324a6.mpeg"
+  },
+  {
+   "id": "sound-3-2",
+   "name": "sound 3",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/58f44e72-4377-4ac8-b5ce-ed43fe12db5d.mpeg"
+  },
+  {
+   "id": "sound-4-2",
+   "name": "sound 4",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/dd06df7c-a769-47e2-83cc-a484e6dffa53.mpeg"
+  },
+  {
+   "id": "sound-5-2",
+   "name": "sound 5",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/5c673d93-466a-4cf2-b622-2e59b66859e0.mpeg"
+  },
+  {
+   "id": "sound-6-2",
+   "name": "sound 6",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/711d9b4b-8af2-4c2f-a300-d4f19b113acd.mpeg"
+  },
+  {
+   "id": "sound-7-2",
+   "name": "sound 7",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/46ab93c4-fe27-416d-ac56-5e52555eb8da.mpeg"
+  },
+  {
+   "id": "sound-8",
+   "name": "sound 8",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/c3132997-73c7-49fc-8653-84cc9903c41e.mpeg"
+  },
+  {
+   "id": "sound-9",
+   "name": "sound 9",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/85e00931-a480-4138-a342-9b76c6eec915.mpeg"
+  },
+  {
+   "id": "sound-10",
+   "name": "sound 10",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/db2d1cf2-f406-4457-8c4b-6de342be990d.mpeg"
+  },
+  {
+   "id": "sound-11",
+   "name": "sound 11",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/db2d1cf2-f406-4457-8c4b-6de342be990d.mpeg"
+  },
+  {
+   "id": "sound-12",
+   "name": "sound 12",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/dd06df7c-a769-47e2-83cc-a484e6dffa53.mpeg"
+  },
+  {
+   "id": "sound-13",
+   "name": "sound 13",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/711d9b4b-8af2-4c2f-a300-d4f19b113acd.mpeg"
+  },
+  {
+   "id": "sound-14",
+   "name": "sound 14",
+   "tags": [],
+   "novel": "Hanako Ikezawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/46ab93c4-fe27-416d-ac56-5e52555eb8da.mpeg"
+  },
+  {
+   "id": "sound-1-3",
+   "name": "sound 1",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/a6e59c5a-b565-4bae-8c31-b85c0a77256d.mpeg"
+  },
+  {
+   "id": "sound-2-3",
+   "name": "sound 2",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/c6e5defd-a624-406b-94b9-9c8598a2b9c0.mpeg"
+  },
+  {
+   "id": "sound-3-3",
+   "name": "sound 3",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/32dd1749-6346-411f-89f3-b0212147ae1d.mpeg"
+  },
+  {
+   "id": "sound-4-3",
+   "name": "sound 4",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/dd42658d-02da-4c89-ab17-597ddf693ab0.mpeg"
+  },
+  {
+   "id": "sound-10-2",
+   "name": "sound 10",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/4883b61b-ea68-44ad-abd1-ea6c34f22bdf.mpeg"
+  },
+  {
+   "id": "sound-6-3",
+   "name": "sound 6",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/5d4ce76c-02e3-46cf-8152-463471a67c80.mpeg"
+  },
+  {
+   "id": "sound-7-3",
+   "name": "sound 7",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/99fab931-8050-4fa6-9f9a-5263a3ed68ee.mpeg"
+  },
+  {
+   "id": "sound-8-2",
+   "name": "sound 8",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/7197d746-7ff7-4989-930d-bf7fe8c69436.mpeg"
+  },
+  {
+   "id": "sound-11-2",
+   "name": "sound 11",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/3a9cbaf2-a4c5-4db3-8efb-09516ee00186.mpeg"
+  },
+  {
+   "id": "sound-10-3",
+   "name": "sound 10",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/4883b61b-ea68-44ad-abd1-ea6c34f22bdf.mpeg"
+  },
+  {
+   "id": "sound-11-3",
+   "name": "sound 11",
+   "tags": [],
+   "novel": "Lilly Satou",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/3a9cbaf2-a4c5-4db3-8efb-09516ee00186.mpeg"
+  },
+  {
+   "id": "temple",
+   "name": "Temple",
+   "tags": [],
+   "novel": "Meditate with Yllara",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/9458bea1-9196-4499-9c4f-9ab1867ca344.mpeg"
+  },
+  {
+   "id": "energetic-space-girl",
+   "name": "Energetic Space girl",
+   "tags": [],
+   "novel": "Stranded terrestrial SN- 1.0009...",
+   "url": "https://assets.miku.services/QmbYMUnbxkicmNEnEDsBHociozqhXxbS8UGWZKvv6RPg2Y.mpeg"
+  },
+  {
+   "id": "where-are-we-again",
+   "name": "Where are we again?",
+   "tags": [],
+   "novel": "Stranded terrestrial SN- 1.0009...",
+   "url": "https://assets.miku.services/QmVA8o3Y4syPK1b9E1c519XYVbFbruxnDF3Z7U6i4SqaMU.mpeg"
+  },
+  {
+   "id": "theme-of-happiness",
+   "name": "Theme of happiness",
+   "tags": [],
+   "novel": "Stranded terrestrial SN- 1.0009...",
+   "url": "https://assets.miku.services/QmcnjPKekwZcyz9AZuF5PHLLTAASFrzyKHXKj4CUg3ViDx.mpeg"
+  },
+  {
+   "id": "stranded-terrestrial-calm",
+   "name": "stranded Terrestrial -Calm-",
+   "tags": [],
+   "novel": "Stranded terrestrial SN- 1.0009...",
+   "url": "https://assets.miku.services/QmaxWTyT1dbdzBKfA1cM4kaPh1rkcrULDS6xhRTZbyRz6o.mpeg"
+  },
+  {
+   "id": "antechamber",
+   "name": "Antechamber",
+   "tags": [],
+   "novel": "Valerian",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/a6a28db8-2e1e-4145-9f48-479980540745/f1105023-a046-42a1-a68b-7cda0f991d96.mp3"
+  },
+  {
+   "id": "song-1-3",
+   "name": "song-1",
+   "tags": [],
+   "novel": "Your Loving Maid",
+   "url": "https://assets.miku.services/QmQqfPr3vudbVzgHsm8QGhF7oHH93UKnXxZFZam3QF4NQK.mpeg"
+  },
+  {
+   "id": "summer-day",
+   "name": "Summer Day",
+   "tags": [],
+   "novel": "Integrated Domestic Android",
+   "url": "https://assets.miku.services/starting_out_waltz.mp3",
+   "nsfw": true
+  },
+  {
+   "id": "ambience",
+   "name": "ambience",
+   "tags": [],
+   "novel": "Integrated Domestic Android",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/adcd8bc5-1a7a-48dd-aee1-b3507bdd3b3e.mpeg",
+   "nsfw": true
+  },
+  {
+   "id": "november",
+   "name": "November",
+   "tags": [],
+   "novel": "Integrated Domestic Android",
+   "url": "https://assets.miku.services/QmdgdfPecJboeHXDPeEURTqARP1EJuG1hVHW5gX1Zn6db1.mpeg",
+   "nsfw": true
   }
  ]
 }

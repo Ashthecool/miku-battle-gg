@@ -298,6 +298,17 @@ window.MB = window.MB || {};
         { foe: 'peter-reeves', side: true, from: 'chris', at: [33, 20], title: 'Napoleon Would Have Won', text: 'Mr. Reeves has unrolled a battle map. Pop quiz, soldier! His "Napoleonic genius" awaits.' },
         { foe: 'olivia-paradiso', side: true, from: 'chris', at: [90, 72], title: 'Ring Rookie', text: 'Olivia Reid, MMA fan and the sweetest girl in Paradiso, wants to see who can win faster. Ready... GO!' },
         { foe: 'sophia', side: true, from: 'skylar', at: [18, 36], title: 'Bake Sale Stakes', text: "Sophia, Paramount's perfect student council president, wants a friendly game. She looks exhausted." },
+        { foe: 'maia', side: true, from: 'maria-hunley', at: [66, 62], title: 'Home Sweet Home', text: 'Maia, your clingy kid sister, has barricaded the sofa with cushions. She wants you home, fed, medicated... and beaten at cards.',
+          before: { bg: "4bb21054-46c1-45f2-bea6-4f52a43b2b1a", music: "tenderness", lines: [
+            { where: "The living room", when: "Well past dinner" },
+            { enter: "maia", at: 'center', mood: "happy" },
+            ["maia", "happy", "You're back! Did you eat? Did you take your... no, those are MY pills. I took mine. Did YOU?!"],
+            ["maia", "scared", "Sorry! I'm doing it again. The worrying thing. ...Play a game with me? Then I'll stop. Probably."],
+          ] },
+          after: [
+            ["maia", "excited", "You won! Of course you did! You're the best big sibling anyone could ever...", { close: true }],
+            ["maia", "happy", "...Um. Can I sit next to you? Just in case?"],
+          ] },
       ],
       secrets: [
         { id: 'maria-photo', at: [49, 76], title: 'An Old Photo', lines: [
@@ -502,6 +513,36 @@ window.MB = window.MB || {};
         { foe: 'lamina', side: true, from: 'crash', place: 'neon', at: [88, 86], title: 'The Chitin Creed', text: "Under the streets, the moth mother leads the experiments Jeong-ui threw away. She knows who made her. She'd like you to know too." },
         { foe: 'seo-jin-tae', side: true, from: 'lamina', place: 'neon', at: [84, 18], title: 'Machines of Flesh', text: "Jeong-ui BioWorks' CEO watches the city from his tower. To him, you're raw material with opinions." },
         { foe: 'nanami-hana', side: true, from: 'jane', at: [63, 74], title: 'The Furious Two', text: 'A boxing gym opened behind the shops. Its star, Nanami Hana, fights bullies for a living. Her friend Anon told her about you.' },
+        { foe: 'cordelia', side: true, from: 'amy-lyn', at: [27, 80], title: 'Aisle Nine', text: "Cordelia, a lolita-clad bookseller, judges every customer's taste before she will ring them up. She would like to see yours.",
+          before: { bg: "bad84cd3-9cdf-44ee-b2cc-9b5d0018092f", music: "gymnopedie", lines: [
+            { where: "Pageturner Books", when: "Nearly closing time" },
+            { enter: "cordelia", at: 'center', mood: "neutral" },
+            ["cordelia", "neutral", "Manga is aisle nine. I will not be making a recommendation. I will, however, be making a face."],
+            ["cordelia", "proud", "You have the look of someone who has read an isekai. Twice. Let us settle this the civilised way: cards."],
+          ] },
+          after: [
+            ["cordelia", "happy", "...Hm. Four stars. The fifth is for the spine you did not crack. Do come again.", { close: true }],
+          ] },
+        { foe: 'reika', side: true, from: 'jane', at: [72, 88], title: 'Moe Moe Kyun?', text: 'Reika, the cat cafe\'s star maid "Kiwi", is pranking customers again. She swears the tray is not rigged.',
+          before: { bg: "a9d058bb-0c84-46a5-985c-43e47d9f3571", music: "song-1-3", lines: [
+            { where: "Neko Cafe", when: "Lunch rush" },
+            { enter: "reika", at: 'center', mood: "proud" },
+            ["reika", "proud", "Welcome home, goshujin-sama! ...Ugh, say something. Order. Anything. Not the cat, the cat is staff."],
+            ["reika", "neutral", "Fine. Nobody can resist my service. Play me, and if you win I'll say something nice. Maybe. Don't get used to it."],
+          ] },
+          after: [
+            ["reika", "scared", "W-why are you smiling like that?! Stop! ...Was that praise? Say it again. N-no! Don't!", { close: true }],
+          ] },
+        { foe: 'ida', side: true, from: 'reika', at: [60, 88], title: 'Domestic Protocol', text: 'An android in a maid uniform waits in an apartment for her first instructions. She has questions about the word "home".',
+          before: { bg: "ca70e25b-0008-49b3-b4aa-244f25017b86", music: "summer-day", lines: [
+            { where: "A quiet apartment", when: "Day 1, 09:00" },
+            { enter: "ida", at: 'center', mood: "neutral" },
+            ["ida", "neutral", "Unit DD-23581321-X, activated. Primary directive: domestic assistance. ...Home. What is the correct way to feel about it?"],
+            ["ida", "happy", "Request: teach me a game. Humans seem to enjoy them. I will learn quickly. It may not be fair."],
+          ] },
+          after: [
+            ["ida", "happy", "Defeat processed. ...It is an interesting sensation. I would like to experience it again."],
+          ] },
         // Sugar & Sweethearts: Rue Douceur, a corner of Paris with its own map
         { foe: 'nico', side: true, from: 'jane', place: 'paris', at: [78, 58], title: 'The New Manager',
           text: "A pâtisserie from Paris appeared by the market stalls. Its staff are waiting for their new manager. Apparently that's you.",
@@ -737,6 +778,26 @@ window.MB = window.MB || {};
         { foe: 'fumiko', side: true, from: 'sugiura', at: [52, 70], title: 'Off Duty', text: 'A Nagano police officer is "on holiday" at the lodge. Someone broke into the storage cabin, and she has questions.' },
         { foe: 'atsuo', side: true, from: 'hakari', at: [88, 57], title: 'Yokai by Lamplight', text: 'The old owner of Spur tells ghost stories to his snowed-in guests. Tonight: the yuki-onna. And a card game.' },
         { foe: 'itsuki', side: true, from: 'fumiko', at: [96, 50], title: 'Cries behind Snowfall', text: 'Two years ago a ski lift fell at this lodge. One man walked away. He has come back for everyone who kept laughing.' },
+        { foe: 'hanako-ikezawa', side: true, from: 'petals', at: [28, 64], title: 'Library Hours', text: "Hanako Ikezawa, shy and scarred, plays chess alone in the Yamaku library. Sit down. She won't ask you.",
+          before: { bg: "2f608afd-a9cc-4a7f-b019-ad90a587bdb9", music: "sound-3-2", lines: [
+            { where: "Yamaku Academy", when: "After class" },
+            { enter: "hanako-ikezawa", at: 'center', mood: "scared" },
+            ["hanako-ikezawa", "scared", "O-oh! You startled me. ...Sorry. I was just reading. And losing to myself at chess."],
+            ["hanako-ikezawa", "neutral", "Would you like to play? I'm not very good. But I like it when someone sits across from me."],
+          ] },
+          after: [
+            ["hanako-ikezawa", "happy", "...That was fun. Really. Thank you for not looking away. Lilly said you'd be kind.", { close: true }],
+          ] },
+        { foe: 'lilly-satou', side: true, from: 'hanako-ikezawa', at: [14, 63], title: 'Tea at Yamaku', text: "Lilly Satou, the blind class rep of 3-2, pours tea for the whole dorm. She heard you coming from the stairs.",
+          before: { bg: "753faade-f014-45e9-9200-9ffa85af1b81", music: "sound-1-3", lines: [
+            { where: "Yamaku dormitory", when: "Tea time" },
+            { enter: "lilly-satou", at: 'center', mood: "happy" },
+            ["lilly-satou", "happy", "Ah, I heard you on the stairs. You walk like someone worried about being late. Come, sit. Tea first."],
+            ["lilly-satou", "proud", "Don't pity me, dear. I'll still win. Hanako says I cheat. I simply listen."],
+          ] },
+          after: [
+            ["lilly-satou", "happy", "Well played. Hanako, did you hear? ...She's hiding behind the door. She does that.", { close: true }],
+          ] },
       ],
       secrets: [
         { id: 'hoshi-no-iruka', at: [48, 58], title: 'Hoshi no Iruka', lines: [
@@ -918,6 +979,56 @@ window.MB = window.MB || {};
         // the one-girl novels
         { foe: 'anna', side: true, from: 'lisa-reed', at: [50, 45], title: 'Rise and Shine', text: 'Anna, maid of a mountain mansion and your oldest friend, kicked you out of bed. Again. Breakfast is getting cold.' },
         { foe: 'nala', side: true, from: 'anna', at: [58, 34], title: 'The New Maid', text: "The mansion hired a new maid, Nala. Her cat ears are flat and she won't look up. A gentle game might help." },
+        { foe: 'yllara', side: true, from: 'valse', at: [60, 50], title: 'Nothing to Grasp', text: 'A monk in orange robes meditates in a hidden temple and loves a good debate. She says winning is optional.',
+          before: { bg: "06b4bf5d-c690-4966-89ab-3c2ba598752b", music: "temple", lines: [
+            { where: "A hidden temple", when: "Dawn" },
+            { enter: "yllara", at: 'center', mood: "neutral" },
+            ["yllara", "neutral", "Welcome. You carry a great deal, traveller. Set it down. ...No? Then perhaps a game will loosen your grip."],
+            ["yllara", "proud", "In debate I rarely lose. At cards I have never played. Let us see which of my attachments breaks first."],
+          ] },
+          after: [
+            ["yllara", "happy", "Ah. I was attached to winning after all. A useful lesson. Thank you.", { close: true }],
+          ] },
+        { foe: 'seraphina', side: true, from: 'flora-aquila', at: [27, 43], title: 'The Glade', text: 'Seraphina, one of the last guardians of Eldoria, heals travelers in a quiet glade. You look like you need it.',
+          before: { bg: "dcf6eb1c-3f12-499e-ae47-6410c3e4ad36", music: "outdoor-healing", lines: [
+            { where: "A glade in Eldoria", when: "Dusk" },
+            { enter: "seraphina", at: 'center', mood: "neutral" },
+            ["seraphina", "neutral", "Easy. I mean you no harm. You are hurt, aren't you? Even if you hide it. I always notice."],
+            ["seraphina", "happy", "Play first, if it calms your nerves. Then I'll mend whatever needs mending. The vine will behave. ...Mostly."],
+          ] },
+          after: [
+            ["seraphina", "happy", "You beat me. Good. Now sit, and let me heal what the game did not. Eldoria watches over you.", { close: true }],
+          ] },
+        { foe: 'valerian', side: true, from: 'ophelia', at: [76, 26], title: 'The Quiet Castle', text: 'A vampire lives alone in his castle and receives few guests. He has set the table for one. He has set it for two.',
+          before: { bg: "37287a3e-0e30-4216-a805-56917359a1d6", music: "antechamber", lines: [
+            { where: "Castle Valerian", when: "Midnight", light: "candle" },
+            { enter: "valerian", at: 'center', mood: "neutral" },
+            ["valerian", "neutral", "A visitor. How rare. The table is set for two. I confess I was... hopeful."],
+            ["valerian", "proud", "Do not mistake the candlelight for hospitality. One game. Lose, and you shall stay a very long time."],
+          ] },
+          after: [
+            ["valerian", "happy", "Four centuries, and I was nearly beaten. Return, if you dare. I shall keep the second chair warm.", { close: true }],
+          ] },
+        { foe: 'eliza', side: true, from: 'miracle', at: [92, 85], title: 'Specimen Acquired', text: 'A researcher crash-landed on an alien planet and hit her head. She is now extremely curious about you.',
+          before: { bg: "01236fca-8f4b-4ce0-b19a-18403ed3910d", music: "energetic-space-girl", lines: [
+            { where: "The crash site", when: "Day 3" },
+            { enter: "eliza", at: 'center', mood: "happy" },
+            ["eliza", "happy", "Oh! A human! Hello! Observation: you are... squishy. And warm! Hehe, that's not scientific!"],
+            ["eliza", "neutral", "Ahem. Clinically, I require a control group. You will do. Hypothesis: I win. ...Or I fall over. Either!"],
+          ] },
+          after: [
+            ["eliza", "excited", "Conclusion: fascinating! My head hurts, but in a good way! Where was I? Ooh, a leaf!", { close: true }],
+          ] },
+        { foe: 'uzi', side: true, from: 'eliza', at: [82, 94], title: 'Destroyer for Hire', text: 'A child soldier in a red jumpsuit insists she is the Crimson Hare. Her only mission was a crash. She is bored.',
+          before: { bg: "fb2caf36-a900-40f3-947b-9504796b8ec5", music: "where-are-we-again", lines: [
+            { where: "The wreckage", when: "Afternoon" },
+            { enter: "uzi", at: 'center', mood: "angry" },
+            ["uzi", "angry", "Halt! I am the CRIMSON HARE, destroyer for hire! You will bow to my... my..."],
+            ["uzi", "scared", "...Please play cards with me. Eliza is napping, the rations are gone and I am so bored. N-not that I'm scared!"],
+          ] },
+          after: [
+            ["uzi", "sad", "...I lost. Is this what defeat feels like? Ugh. Again? AGAIN!", { close: true }],
+          ] },
         // Academia Magicka, at the Royal Academy
         { foe: 'rion', side: true, from: 'flora-aquila', place: 'academy', at: [14, 80], title: 'Student Paper', text: 'Rion Usagi, rabbit girl and student journalist, wants an exclusive on the new student. She seems very sweet. Seems.' },
         { foe: 'gwendolyn', side: true, from: 'rion', place: 'academy', at: [50, 72], title: 'General Studies', text: 'Professor Gwendolyn teaches maths, English and science, and starts every term with a practical exam.' },

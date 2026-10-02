@@ -1,0 +1,828 @@
+[
+  {
+    "id": "cordelia",
+    "file": "cordelia/attack-poses.png",
+    "size": [
+      1112,
+      1415
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 36,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          558,
+          710
+        ],
+        "alphaBounds": [
+          0,
+          0,
+          558,
+          710
+        ],
+        "dividerPixels": 9
+      },
+      {
+        "rect": [
+          558,
+          0,
+          554,
+          710
+        ],
+        "alphaBounds": [
+          558,
+          12,
+          1112,
+          710
+        ],
+        "dividerPixels": 9
+      },
+      {
+        "rect": [
+          0,
+          710,
+          614,
+          705
+        ],
+        "alphaBounds": [
+          0,
+          710,
+          614,
+          1415
+        ],
+        "dividerPixels": 121
+      },
+      {
+        "rect": [
+          614,
+          710,
+          498,
+          705
+        ],
+        "alphaBounds": [
+          614,
+          710,
+          1103,
+          1399
+        ],
+        "dividerPixels": 121
+      }
+    ]
+  },
+  {
+    "id": "eliza",
+    "file": "eliza/attack-poses.png",
+    "size": [
+      1213,
+      1297
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          512,
+          647
+        ],
+        "alphaBounds": [
+          23,
+          13,
+          512,
+          647
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          512,
+          0,
+          701,
+          647
+        ],
+        "alphaBounds": [
+          512,
+          0,
+          1167,
+          647
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          647,
+          602,
+          650
+        ],
+        "alphaBounds": [
+          0,
+          647,
+          602,
+          1267
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          602,
+          647,
+          611,
+          650
+        ],
+        "alphaBounds": [
+          602,
+          647,
+          1191,
+          1271
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "hanako-ikezawa",
+    "file": "hanako-ikezawa/attack-poses.png",
+    "size": [
+      1199,
+      1312
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          479,
+          655
+        ],
+        "alphaBounds": [
+          31,
+          0,
+          478,
+          655
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          479,
+          0,
+          720,
+          655
+        ],
+        "alphaBounds": [
+          479,
+          0,
+          1169,
+          655
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          655,
+          677,
+          657
+        ],
+        "alphaBounds": [
+          31,
+          655,
+          677,
+          1296
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          677,
+          655,
+          522,
+          657
+        ],
+        "alphaBounds": [
+          677,
+          655,
+          1193,
+          1299
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "ida",
+    "file": "ida/attack-poses.png",
+    "size": [
+      1246,
+      1262
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 18,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          498,
+          678
+        ],
+        "alphaBounds": [
+          114,
+          0,
+          498,
+          678
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          498,
+          0,
+          748,
+          678
+        ],
+        "alphaBounds": [
+          499,
+          0,
+          1228,
+          678
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          678,
+          746,
+          584
+        ],
+        "alphaBounds": [
+          0,
+          678,
+          746,
+          1262
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          746,
+          678,
+          500,
+          584
+        ],
+        "alphaBounds": [
+          746,
+          678,
+          1210,
+          1262
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "lilly-satou",
+    "file": "lilly-satou/attack-poses.png",
+    "size": [
+      1159,
+      1358
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          463,
+          673
+        ],
+        "alphaBounds": [
+          79,
+          0,
+          447,
+          673
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          463,
+          0,
+          696,
+          673
+        ],
+        "alphaBounds": [
+          550,
+          0,
+          1141,
+          673
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          673,
+          639,
+          685
+        ],
+        "alphaBounds": [
+          0,
+          673,
+          639,
+          1358
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          639,
+          673,
+          520,
+          685
+        ],
+        "alphaBounds": [
+          639,
+          673,
+          1145,
+          1345
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "maia",
+    "file": "maia/attack-poses.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          527,
+          622
+        ],
+        "alphaBounds": [
+          111,
+          1,
+          527,
+          622
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          527,
+          0,
+          727,
+          622
+        ],
+        "alphaBounds": [
+          527,
+          0,
+          1230,
+          622
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          622,
+          699,
+          632
+        ],
+        "alphaBounds": [
+          0,
+          622,
+          699,
+          1254
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          699,
+          622,
+          555,
+          632
+        ],
+        "alphaBounds": [
+          699,
+          622,
+          1202,
+          1254
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "reika",
+    "file": "reika/attack-poses.png",
+    "size": [
+      1199,
+      1312
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 106,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          520,
+          693
+        ],
+        "alphaBounds": [
+          0,
+          0,
+          520,
+          693
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          520,
+          0,
+          679,
+          693
+        ],
+        "alphaBounds": [
+          520,
+          14,
+          1184,
+          693
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          693,
+          585,
+          619
+        ],
+        "alphaBounds": [
+          0,
+          693,
+          585,
+          1312
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          585,
+          693,
+          614,
+          619
+        ],
+        "alphaBounds": [
+          585,
+          693,
+          1189,
+          1312
+        ],
+        "dividerPixels": 0
+      }
+    ],
+    "revision": "Third pose redrawn with upright torso, planted feet, hand on hip, natural tray-supporting arm"
+  },
+  {
+    "id": "seraphina",
+    "file": "seraphina/attack-poses.png",
+    "size": [
+      1312,
+      1199
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          578,
+          596
+        ],
+        "alphaBounds": [
+          0,
+          0,
+          578,
+          596
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          578,
+          0,
+          734,
+          596
+        ],
+        "alphaBounds": [
+          578,
+          0,
+          1282,
+          596
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          596,
+          754,
+          603
+        ],
+        "alphaBounds": [
+          30,
+          596,
+          754,
+          1183
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          754,
+          596,
+          558,
+          603
+        ],
+        "alphaBounds": [
+          754,
+          596,
+          1312,
+          1199
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "uzi",
+    "file": "uzi/attack-poses.png",
+    "size": [
+      1312,
+      1199
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          587,
+          612
+        ],
+        "alphaBounds": [
+          103,
+          0,
+          587,
+          612
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          587,
+          0,
+          725,
+          612
+        ],
+        "alphaBounds": [
+          587,
+          0,
+          1258,
+          612
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          612,
+          731,
+          587
+        ],
+        "alphaBounds": [
+          17,
+          612,
+          731,
+          1199
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          731,
+          612,
+          581,
+          587
+        ],
+        "alphaBounds": [
+          731,
+          612,
+          1256,
+          1199
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "valerian",
+    "file": "valerian/attack-poses.png",
+    "size": [
+      1312,
+      1199
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 45,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          561,
+          601
+        ],
+        "alphaBounds": [
+          25,
+          0,
+          561,
+          601
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          561,
+          0,
+          751,
+          601
+        ],
+        "alphaBounds": [
+          561,
+          0,
+          1280,
+          601
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          601,
+          789,
+          598
+        ],
+        "alphaBounds": [
+          0,
+          601,
+          789,
+          1199
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          789,
+          601,
+          523,
+          598
+        ],
+        "alphaBounds": [
+          789,
+          601,
+          1296,
+          1199
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  },
+  {
+    "id": "yllara",
+    "file": "yllara/attack-poses.png",
+    "size": [
+      1240,
+      1268
+    ],
+    "alphaRange": [
+      0,
+      255
+    ],
+    "rowDividerPixels": 0,
+    "frames": [
+      {
+        "rect": [
+          0,
+          0,
+          496,
+          628
+        ],
+        "alphaBounds": [
+          41,
+          0,
+          496,
+          628
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          496,
+          0,
+          744,
+          628
+        ],
+        "alphaBounds": [
+          496,
+          15,
+          1222,
+          626
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          0,
+          628,
+          799,
+          640
+        ],
+        "alphaBounds": [
+          0,
+          628,
+          799,
+          1268
+        ],
+        "dividerPixels": 0
+      },
+      {
+        "rect": [
+          799,
+          628,
+          441,
+          640
+        ],
+        "alphaBounds": [
+          799,
+          635,
+          1222,
+          1254
+        ],
+        "dividerPixels": 0
+      }
+    ]
+  }
+]

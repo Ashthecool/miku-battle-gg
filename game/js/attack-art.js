@@ -34,6 +34,9 @@
   const metalMass = { julia: 'assets/attacks/metal-mass/julia-singing-poses.png',
     width: 1270, height: 1239, x: [0, 650, 1270], y: [0, 610, 1239] };
   urls.push(metalMass.julia);
+  // drawn 2x2 attack pose sheets (js/poses.js, tools/pose_sheets.py): one per character with a posed signature attack
+  const poses = MB.POSES || {};
+  urls.push(...Object.values(poses).map((p) => p.src));
   const entries = [
     ['sparkle', '✨ ✦ ✧'], ['star', '⭐ 🌟 💫 ★'], ['heart', '💗 💖 💕 💞 💘 ❤️ ❤ ♥'], ['broken-heart', '💔'],
     ['feather', '🪶'], ['blossom', '🌸 💮'], ['note', '🎵 🎶 ♪ ♫'], ['kiss', '💋'],
@@ -110,5 +113,5 @@
   }
 
   function setText(root, text) { root.textContent = text; return decorate(root); }
-  MB.AttackArt = { urls, yumi, eri, jay, artBooks, pristo, metalMass, sprite, decorate, setText };
+  MB.AttackArt = { urls, yumi, eri, jay, artBooks, pristo, metalMass, poses, sprite, decorate, setText };
 })();

@@ -2674,3 +2674,36 @@ body.dev .dev-only { display: flex !important; }
 .cr-extra .cr-small { font-size: 12px; opacity: .65; }
 #cr-sounds { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
 #cr-sounds span { padding: 2px 8px; border-radius: 8px; font-size: 11px; background: #ffffff10; color: #ffffffcc; }
+
+/* Drawn pose attacks (js/poses.js, fx.js "drawn pose attacks"): the actor is a crop of a 2x2 sheet, the props are small
+   HTML/SVG billboards styled here. */
+.pose-actor { background-repeat: no-repeat; filter: drop-shadow(0 10px 6px rgba(0,0,0,.35)); }
+.cord-tag { font: 900 24px/1 'Segoe UI', sans-serif; letter-spacing: 1px; color: #3a1f4a; background: #f6efd9; border: 3px solid #6b2e8a;
+  border-radius: 4px; padding: 7px 12px; box-shadow: 3px 4px 0 rgba(30,10,45,.55), 0 0 14px #9b4dff; }
+.flat.chess-board { height: 150px; border: 5px solid #4a3a7a; border-radius: 6px; box-shadow: 0 0 22px var(--c);
+  background: repeating-conic-gradient(rgba(40,30,70,.82) 0 25%, rgba(236,228,255,.85) 0 50%) 0 0 / 56px 56px; }
+.chess-knight { font-size: 76px; line-height: 1; color: #2a2142; text-shadow: 0 0 6px #fff, 0 0 16px var(--c); filter: drop-shadow(0 0 10px var(--c)); }
+.ida-holo { min-width: 190px; padding: 8px 14px 10px; border: 2px solid #5dffa0; border-radius: 8px; color: #b8ffd8; text-align: left;
+  font: 700 17px/1.5 'Consolas', 'Courier New', monospace; background: rgba(8, 40, 24, .72); box-shadow: 0 0 18px #5dffa0, inset 0 0 14px rgba(93,255,160,.3); }
+.ida-holo b { display: block; color: #fff; letter-spacing: 2px; border-bottom: 1px solid #5dffa0; margin-bottom: 3px; font-size: 15px; }
+.ida-holo i { display: block; font-style: normal; padding: 0 6px; border-radius: 3px; }
+.ida-holo i.sel { background: #5dffa0; color: #04230f; }
+.ida-holo u { display: block; height: 9px; margin-top: 6px; border: 1px solid #5dffa0; text-decoration: none; }
+.ida-holo u s { display: block; height: 100%; width: 0; background: #5dffa0; }
+.ida-read { min-width: 150px; text-align: center; }
+.ida-drone svg { display: block; overflow: visible; filter: drop-shadow(0 6px 5px rgba(0,0,0,.4)); }
+.ida-scan { width: 190px; height: 8px; border-radius: 4px; background: #5dffa0; box-shadow: 0 0 18px 6px #5dffa0; }
+.flat.lotus-floor svg, .thrown.lotus svg { display: block; overflow: visible; }
+.flat.lotus-floor { filter: drop-shadow(0 0 16px #f5c242); }
+.thrown.lotus { filter: drop-shadow(0 0 16px #f5c242); }
+.flat.vine-strip svg, .vine-coil svg { display: block; overflow: visible; }
+.vine-coil { filter: drop-shadow(0 4px 4px rgba(0,0,0,.4)); }
+.eliza-reticle svg { display: block; overflow: visible; filter: drop-shadow(0 0 8px #4fe8ff); }
+.eliza-read { padding: 7px 12px; border: 2px solid #4fe8ff; border-radius: 6px; background: rgba(5, 40, 56, .78); color: #c8f7ff; text-align: left;
+  font: 700 17px/1.45 'Consolas', 'Courier New', monospace; box-shadow: 0 0 14px #4fe8ff; }
+.eliza-read b { display: block; color: #fff; letter-spacing: 1px; }
+.eliza-read i { display: block; font-style: normal; }
+.hare-shadow { opacity: .6; filter: drop-shadow(0 0 22px #ff2a3a); pointer-events: none; }
+.hare-shadow svg, .rabbit-bot svg, .bat-flock svg { display: block; overflow: visible; }
+.rabbit-bot { filter: drop-shadow(0 5px 5px rgba(0,0,0,.45)); }
+.bat-flock { filter: drop-shadow(0 0 8px var(--c)); }

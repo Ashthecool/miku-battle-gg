@@ -50,6 +50,8 @@ SKIP_OUTFITS = {
     "momo/transparent", "haruka/transparent", "nico/transparent", "ryu/transparent", "finn/transparent",
     "zero/transparent", "dante/transparent", "velour/transparent", "cupid/transparent", "dani/transparent",
     "marine/transparent",
+    # Integrated Domestic Android: Ida's default outfit is an empty image
+    "ida/blank",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -73,9 +75,11 @@ NSFW_OUTFITS = {
     "ryu/lewd-set", "ryu/training-lewd", "finn/lewd", "finn/training-lewd", "zero/lewd-set", "zero/pink-lingerie",
     "dante/lewd-set", "dante/lewd-apron", "velour/lewd-set", "velour/shibari", "cupid/classic-outfit",
     "cupid/lewd-outfit", "dani/lewd", "marine/lewd",
+    # the ten single-character novels (Hanako, Ida, Lilly, Yllara)
+    "hanako-ikezawa/lewd", "ida/lewd", "lilly-satou/lewd",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
-NSFW_NOVELS = {"Noble One"}
+NSFW_NOVELS = {"Noble One", "Integrated Domestic Android"}
 # single backgrounds marked by eye: "novel title/background name", or the background's id when the novel names them
 # all alike ("background-47", some of them twice)
 NSFW_BACKGROUNDS = {
@@ -109,6 +113,8 @@ NSFW_BACKGROUNDS = {
     "f715e6fa-f15d-4d93-bab1-fadfb6b0c82c", "583d3eed-0896-4be7-919f-54216944bc80", "ebad6d04-1e58-4dfe-966e-2b49aaf7c14c",
     "f6da9eee-3c00-4dc7-a66b-6a05ddff3170", "78fa6b51-3747-4c5b-aaca-484e60c37f0a", "d14f71da-efcd-46f6-8770-f24e3ea8ddd9",
     "cfbb001f-60c5-4af0-91a8-69d083f88376", "4456c04a-843d-4136-8074-7c6bef7ea538", "cdf7861f-4368-4ca0-9eaf-a87fca72b05b",
+    # Integrated Domestic Android: the dark "Ida night" CG and the "tears" CG
+    "2ecd4146-33a7-4113-b8bf-98cd55271fff", "686c421e-9114-4f82-b6cb-e36ff25561cb",
 }
 
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids

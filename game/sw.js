@@ -2,7 +2,7 @@
 // you're online; R2 images and imported local character sprites are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v33';
+const SHELL = 'mb-shell-v34';
 const ASSETS = 'mb-assets-v5';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
@@ -20,6 +20,7 @@ const SHELL_FILES = [
   'assets/attacks/pristo/guitar-poses.png',
   'assets/attacks/metal-mass/julia-singing-poses.png', 'assets/sounds/singing.flac',
   'assets/sounds/dolphin-456151.mp3',
+  'js/poses.js', 'assets/attacks/poses/cordelia.webp', 'assets/attacks/poses/eliza.webp', 'assets/attacks/poses/hanako-ikezawa.webp', 'assets/attacks/poses/ida.webp', 'assets/attacks/poses/lilly-satou.webp', 'assets/attacks/poses/maia.webp', 'assets/attacks/poses/reika.webp', 'assets/attacks/poses/seraphina.webp', 'assets/attacks/poses/uzi.webp', 'assets/attacks/poses/valerian.webp', 'assets/attacks/poses/yllara.webp',
 ];
 
 // these scripts assign to window.MB / window.MIKU_MANIFEST

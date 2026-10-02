@@ -25,3 +25,20 @@ Use this for new character attacks and for reports that an attack misses, clips,
 - Use the Attack Gallery for visual playback with the character and the style; test both available dummies and repeat enough to cover randomized targets. Inspect left and right edge slots and an enemy leader in a controlled battle or development fixture when the animation uses large props, sideways staging, or camera movement. Repeat for each affected character.
 - While the animation plays, confirm the prop stays visible, ends on the target, damage appears at contact, text remains readable, and the attacker returns to its slot. The gallery is not proof by itself when only its center dummies were tested.
 - Run `node tools/check_game.js 30` for data and battle consistency, plus the relevant browser playback. Fix any error, and record any visibility condition that could not be observed. A passing simulation does not establish visual placement.
+
+## Drawn pose-sheet attacks
+
+A character with a 2x2 pose sheet (frame 0 stance, 1 wind-up, 2 release, 3 recover; transparent PNG in `game/assets/attacks/<set>/<id>/attack-poses.png`
+plus `sheet-inventory.json` with each frame's rect) plays its attack from the drawn frames instead of its sprite:
+
+- `py tools/pose_sheets.py` measures every frame's bounds and foot point, writes the sheets as WebP to `game/assets/attacks/poses/` and the numbers to `game/js/poses.js`
+  (`MB.POSES`). It preloads with the attack art; add new files to `game/sw.js` `SHELL_FILES` (the script prints nothing about that).
+- In `fx.js` ("drawn pose attacks") `posed(V, a, t, impact, id | [ids], async (k) => {...})` swaps the sprite for `poseActor`s, restores everything in a
+  `finally`, and hands the script a kit: `k.actor.set(frame)`, `k.hand(i, frame, heightFraction)` (where the drawn hand reaches), `k.make(cls, html, P, h)`
+  (a prop that is removed at the end), `k.land(i)` (the first call deals the damage), `k.shiver`, `k.fade`, `k.loop`. A duo passes both ids in `members` order and
+  uses `k.home(i)`, `k.actors[i]`. The poses face right and are mirrored about the feet when the target is on the left.
+- Style the script after the character (their sheet's four beats are the beat sheet), put props' CSS at the end of `style.css`, and register the style in `STYLE_SKY`
+  (and `DUO_STYLES` for a duo).
+- `NODE_PATH=<playwright> node tools/check_pose_attacks.js [id ...] [--shots] [--slow=0.3]` plays each in the gallery at the centre, both edges, against an enemy leader and from
+  the other side; it fails on a missing/doubled hit, a missing frame, a leftover actor, an unrestored sprite or an actor off screen, and lists props that leave the screen.
+  `--shots` saves a screenshot strip to `output/pose-check/` for a look (`--slow` slows the animation clock to catch more frames).

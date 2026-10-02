@@ -1,6 +1,6 @@
 # Miku Battle — miku.gg All-Stars
 
-A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG*, *Legend of You*, *Doki Doki Literature Club*, *Flaming, Lust, and Pain.*, *Paradiso Suburbia*, and *Siren's Cove Resort*, and the one-girl novels *Anna*, *Everythin' with Amy Lyn*, *Hina*, *Nala*, *Saya* and *Sweet Garlic*, plus *Noble One* in NSFW mode.
+A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG*, *Legend of You*, *Doki Doki Literature Club*, *Flaming, Lust, and Pain.*, *Paradiso Suburbia*, and *Siren's Cove Resort*, and the one-girl novels *Anna*, *Everythin' with Amy Lyn*, *Hina*, *Nala*, *Saya*, *Sweet Garlic*, *Can Anyone Love Maia?*, *Cordelia*, *Hanako Ikezawa*, *Lilly Satou*, *Meditate with Yllara*, *Seraphina*, *Stranded terrestrial*, *Valerian* and *Your Loving Maid*, plus *Noble One* and *Integrated Domestic Android* in NSFW mode.
 
 **Play:** https://ashthecool.github.io/miku-battle-gg/
 

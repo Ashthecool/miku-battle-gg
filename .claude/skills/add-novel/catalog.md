@@ -77,6 +77,12 @@ Signature scenes, each written for one character (reuse the name only if the cha
 it with a wrench) · `nekopunch` (Nala: apologetic pats, then a panicked broom windmill) · `overshoot` (Jet: zips through the target, can't brake) ·
 `shhh` (Mizuha: shushes, then the library falls) · `marketstall` (Borcolls: a stall, a fruit barrage, a NO REFUNDS receipt) · `bouncer` (Dante: flips
 the sign to CLOSED and throws the target out the door).
+Drawn pose attacks (the character has a 2x2 pose sheet, see the attack-animation skill; each is written for one character): `heartguard`
+(Maia: pages and hearts spiral in round the target) · `onestar` (Cordelia: verdict tags stick to you, a one-star stamp) · `knightmove`
+(Hanako: a chess knight hops the L-shaped way) · `override` (Ida: holo menu, helper drones sanitize) · `rebuff` (Lilly: cane-tap echoes, then
+tea) · `lotuspalm` (Yllara: mala beads, a golden lotus) · `vineward` (Seraphina: a vine crawls, coils and blooms) · `fieldnotes` (Eliza: the scan
+pulse flies wide, then boomerangs) · `harebluff` (Uzi: a giant bluff hare, decoys that go off far too big) · `batcommand` (Valerian: a sigil,
+a bat swarm, KNEEL) · `maidprank` (Reika: tea flicked at you, the cup lands on your head, cafe cats pounce).
 
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
 the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
@@ -127,6 +133,10 @@ hymn notes, bell drops and tolls 3×, doves · `reenact` battle map, date, arrow
 `hologram` 0's laptop projects a singing hologram of 1 over the target, it glitches, 1 throws the mic · `keynote` chart
 screen, 0 clicks three slides, 1 stamps APPROVED, the arrow comes down · `makeover` outfits thrown on the target, garlic
 necklace, 1 panics, green cloud · `busking` 1 puts a hat down, 0 sings, tips rain in, 1 trips, hat slammed on.
+Pose-sheet duos (both partners drawn from their sheets; they fall back to a single partner's attack if a partner is missing): `teachess` (Hanako &
+Lilly: tea runs over the knight, which hops in) · `fieldbluff` (Eliza & Uzi: the scanner marks three spots, the decoys blow up on them) ·
+`maidshift` (Reika & Ida: flicked teacups caught by drone trays and served, SERVED!) · `nightmass` (Valerian & Pristo: amp, chords and bats merge,
+a crimson solo, AMEN).
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)
