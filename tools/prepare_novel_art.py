@@ -76,7 +76,7 @@ def main():
             remote = r2.download(key)
             if hashlib.sha256(remote).digest() != hashlib.sha256(data).digest():
                 raise RuntimeError(f'Existing object differs; left untouched: {key}')
-            with urllib.request.urlopen(base + key, timeout=60) as response:
+            with urllib.request.urlopen(urllib.request.Request(base + key, headers={'User-Agent': 'Mozilla/5.0'}), timeout=60) as response:  # r2.dev refuses urllib's default agent
                 if response.status != 200:
                     raise RuntimeError(f'Public URL unavailable: {key}')
             report.append({'key': key, 'status': status, 'url': base + key, 'bytes': len(data)})
