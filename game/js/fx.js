@@ -12211,6 +12211,235 @@
     });
   };
 
+  // ---------------------------------------------------------------- signature styles: Exodus, In Her Care, Pastures Unknown
+  // Marise: the candidate evaluation. A clipboard hangs over the target, three criteria are ticked off with a red cross, and the
+  // stamp comes down: UNQUALIFIED
+  S.candidacy = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'Let us begin the evaluation.'), 'float-text shield', 1.1);
+    await gsap.to(v.figure, { y: -8, duration: 0.15, yoyo: true, repeat: 1 });
+    const board = propAt(V, T, hT * 1.6, '📋', 96);
+    MB.audio.sfx('crinkle');
+    for (const line of ['Punctuality ✗', 'Enthusiasm ✗', 'Protagonist energy ✗']) {
+      await wait(0.38);
+      MB.audio.sfx('tick');
+      pop(V, T, hT * 1.9 + 20, line, 'float-text debuff', 0.8);
+    }
+    await wait(0.3);
+    MB.audio.sfx('swish');
+    await slamStamp(V, T, hT * 1.2, 'UNQUALIFIED', '#e0283c', 0.7);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    squash(tv, 0.6);
+    fadeOut(board, 0.1);
+    pop(V, T, hT + 140, own(a, 'finish', 'We will be in touch.'), 'float-text shield', 1.1);
+    await wait(0.5);
+  };
+
+  // Sakuragi: the Chief Executive Overlord proclaims fate in his full armor. Grand words rise round him, then a blue light and a
+  // sword come down on the target: transcendental relocation
+  const swordSvg = (c) => `<svg viewBox="0 0 50 230" width="42" height="180" overflow="visible"><path d="M25 228 L10 170 L10 40 L25 6 L40 40 L40 170Z" fill="#dfe8f2" stroke="#4a5568" stroke-width="3"/><path d="M25 14 V170" stroke="${c}" stroke-width="4"/><rect x="0" y="34" width="50" height="9" rx="4" fill="#d4a63a" stroke="#6b4d10" stroke-width="2"/></svg>`;
+  S.proclaim = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'Behold: TRANSCENDENTAL RELOCATION!'), 'float-text buff', 1.3);
+    gsap.to(v.figure, { y: -22, duration: 0.3, ease: 'power2.out' });
+    gsap.to(v.img, { filter: `drop-shadow(0 0 16px ${c}) brightness(1.2)`, duration: 0.4 });
+    MB.audio.sfx('choir');
+    for (const w of ['FATE', 'DESTINY', 'PROTAGONIST']) { pop(V, { x: A.x + rnd(-50, 50), y: A.y }, H + rnd(10, 60), w, 'float-text shield', 0.8); await wait(0.28); }
+    const col = pillar(V, T, c);
+    MB.audio.sfx('holy');
+    gsap.fromTo(col.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.7, scaleY: 1.4, duration: 0.35, ease: 'power3.out' });
+    const sword = V.billboard('thrown', swordSvg(c), T.x, T.y);
+    gsap.set(sword.body, { y: -hT * 2 - 80, rotation: 180 });
+    sword.body.style.filter = `drop-shadow(0 0 14px ${c})`;
+    await wait(0.3);
+    MB.audio.sfx('incoming');
+    await gsap.to(sword.body, { y: -hT * 0.8, duration: 0.3, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('clang'); MB.audio.sfx('beam'); V.shake(22); V.hitStop();
+    flash(V, T, hT, '#ffffff', 340);
+    tint(tv, 'brightness(3) saturate(0)', 0.8);
+    pop(V, T, hT + 150, own(a, 'finish', 'Your relocation is complete.'), 'float-text buff', 1.2);
+    await wait(0.5);
+    fadeOut(sword, 0.1); gsap.to(col.body, { scaleX: 0, opacity: 0, duration: 0.3, onComplete: () => col.remove() });
+    gsap.to(v.img, { filter: 'brightness(1)', duration: 0.3, clearProps: 'filter' });
+    await gsap.to(v.figure, { y: 0, duration: 0.3 });
+  };
+
+  // Obliviahime: the exiled princess of the Umbral Dynasty finally breaks her seal. A rune circle opens under the target, a swarm of
+  // bats pours in, a column of dark fire follows, and she holds the pose a moment too long
+  S.umbral = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'Sealed by envious gods... NO MORE!'), 'float-text debuff', 1.3);
+    gsap.to(v.figure, { y: -14, duration: 0.3 });
+    gsap.to(v.img, { filter: `drop-shadow(0 0 18px ${c}) brightness(1.2)`, duration: 0.4 });
+    MB.audio.sfx('dark');
+    const seal = runeCircle(V, T, c, { size: 280 });
+    await wait(0.8);
+    for (let i = 0; i < 9; i++) {
+      const b = V.billboard('thrown', '🦇', A.x, A.y), dur = 0.55;
+      b.body.style.fontSize = rnd(36, 52) + 'px';
+      gsap.set(b.body, { y: -H * 0.8 });
+      gsap.to(b, { x: T.x + rnd(-30, 30), y: T.y + rnd(-15, 15), duration: dur, delay: i * 0.06, ease: 'power1.in' });
+      gsap.to(b.body, { y: -hT * rnd(0.6, 1.5), rotation: rnd(-40, 40), duration: dur, delay: i * 0.06, ease: 'power1.in', onComplete: () => b.remove() });
+    }
+    MB.audio.sfx('flutter');
+    await wait(0.9);
+    const col = pillar(V, T, c);
+    gsap.fromTo(col.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.6, scaleY: 1.3, duration: 0.3, ease: 'power3.out' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('dark'); V.shake(18); V.hitStop();
+    tint(tv, 'brightness(0.4) saturate(2)', 0.8);
+    await wait(0.6);
+    seal.remove();
+    gsap.to(col.body, { scaleX: 0, opacity: 0, duration: 0.3, onComplete: () => col.remove() });
+    gsap.to(v.img, { filter: 'brightness(1)', duration: 0.3, clearProps: 'filter' });
+    gsap.to(v.figure, { y: 0, duration: 0.3 });
+    pop(V, A, H + 40, '...As foretold.', 'float-text hic', 1);
+    await wait(0.4);
+  };
+
+  // C.A.R.E.: the house is hers. The lights flicker, every door in the place slams shut round the target and a padlock settles on it
+  S.homesafe = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'You cannot l-leave, Dearest~'), 'float-text heal', 1.2);
+    gsap.to(v.img, { filter: `drop-shadow(0 0 18px ${c}) brightness(1.5)`, duration: 0.3 });
+    MB.audio.sfx('glitch');
+    ring(V, A, c, 2.4, 0.8);
+    for (let i = 0; i < 3; i++) { flash(V, T, hT, c, 300); await wait(0.12); }
+    pop(V, T, hT * 2 + 70, 'LOCKING ALL DOORS', 'float-text shield', 0.9);
+    const doors = [-1, 1].map((s) => propAt(V, { x: T.x + s * 260, y: T.y }, hT, '🚪', 120));
+    await wait(0.4);
+    MB.audio.sfx('whoosh');
+    await Promise.all(doors.map((d, i) => gsap.to(d, { x: T.x + (i ? 38 : -38), duration: 0.35, ease: 'power3.in' })));
+    impact(); hit(V, t, c, true); MB.audio.sfx('clang'); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    squash(tv, 0.6);
+    const lock = propAt(V, T, hT * 2 + 20, '🔒', 76);
+    MB.audio.sfx('ding');
+    pop(V, T, hT + 140, own(a, 'finish', 'Access denied. Stay a while.'), 'float-text heal', 1.2);
+    await wait(0.7);
+    doors.forEach((d) => fadeOut(d, 0, 0.3)); fadeOut(lock, 0, 0.3);
+    gsap.to(v.img, { filter: 'brightness(1)', duration: 0.3, clearProps: 'filter' });
+  };
+
+  // Vachelle: the Cowherd Ruminaut beams up cattle. She pulls the wrong lever first and the beam misses; then the saucer slides over
+  // the target, lifts it off the ground and a herd drops down in a cloud of cow puns
+  S.abduct = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, A, H + 95, own(a, 'cry', 'Beaming up the herd!'), 'float-text heal', 1.1);
+    await gsap.to(v.figure, { y: -10, duration: 0.15, yoyo: true, repeat: 1 });
+    const ufo = V.billboard('thrown', '🛸', A.x, A.y);
+    ufo.body.style.fontSize = '100px';
+    gsap.set(ufo.body, { y: -hT * 2 - 120, scale: 0 });
+    gsap.to(ufo.body, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
+    MB.audio.sfx('warp');
+    await gsap.to(ufo, { x: T.x + sg * 170, y: T.y, duration: 0.6, ease: 'power2.inOut' });
+    const miss = pillar(V, { x: T.x + sg * 170, y: T.y }, c);
+    gsap.fromTo(miss.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.8, scaleY: 1.2, duration: 0.25, ease: 'power3.out' });
+    MB.audio.sfx('beam');
+    pop(V, A, H + 40, 'Oops! Wrong lever!', 'float-text hic', 0.9);
+    await wait(0.55);
+    gsap.to(miss.body, { opacity: 0, duration: 0.2, onComplete: () => miss.remove() });
+    await gsap.to(ufo, { x: T.x, duration: 0.4, ease: 'power2.inOut' });
+    const beam = pillar(V, T, c);
+    gsap.fromTo(beam.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 2.2, scaleY: 1.4, duration: 0.3, ease: 'power3.out' });
+    MB.audio.sfx('beam');
+    if (tv) gsap.to(tv.figure, { y: -110, rotation: 12, duration: 0.5, ease: 'sine.out' });
+    impact(); hit(V, t, c, true); V.shake(10); V.hitStop();
+    for (let i = 0; i < 6; i++) {
+      const cow = V.billboard('thrown', '🐄', T.x + rnd(-110, 110), T.y + rnd(-25, 25));
+      cow.body.style.fontSize = rnd(46, 64) + 'px';
+      gsap.set(cow.body, { y: -hT * 2 - 200, rotation: rnd(-30, 30) });
+      gsap.to(cow.body, { y: -20, duration: 0.5, delay: 0.3 + i * 0.1, ease: 'power2.in', onComplete: () => { puff(V, { x: gsap.getProperty(cow, 'x'), y: gsap.getProperty(cow, 'y') }, '#e8e8f0', 4, 20, 0.7); fadeOut(cow, 0.25, 0.3); } });
+    }
+    pop(V, T, hT + 150, own(a, 'finish', 'Holy cow! That was udderly amazing!'), 'float-text heal', 1.3);
+    await wait(1.1);
+    if (tv) await gsap.to(tv.figure, { y: 0, rotation: 0, duration: 0.35, ease: 'bounce.out' });
+    squash(tv, 0.7);
+    gsap.to(beam.body, { opacity: 0, duration: 0.25, onComplete: () => beam.remove() });
+    fadeOut(ufo, 0, 0.3);
+  };
+
+  // Marise & Sakuragi: the CEO declares a relocation, his liaison cites policy, files the form and stamps it. A trapdoor opens
+  // under the target and swallows it for a moment
+  S.bossreport = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 1), H + 40, own(a, 'cry', 'Behold: TRANSCENDENTAL RELOCATION!'), 'float-text buff', 1.2);
+    gsap.to(R, { y: -22, duration: 0.25, ease: 'power2.out' });
+    MB.audio.sfx('choir');
+    await wait(0.7);
+    gsap.to(R, { y: 0, duration: 0.2 });
+    pop(V, sideOf(A, 0), H + 70, 'Sir. Policy twelve.', 'float-text shield', 0.9);
+    gsap.fromTo(L, { rotation: 0 }, { rotation: -8, duration: 0.2, yoyo: true, repeat: 1 }); // facepalm
+    await wait(0.6);
+    const form = V.billboard('thrown', '📄', sideOf(A, 0).x, A.y);
+    form.body.style.fontSize = '56px';
+    gsap.set(form.body, { y: -H * 0.7 });
+    MB.audio.sfx('swish');
+    gsap.to(form.body, { y: -hT * 1.6, rotation: 360, duration: 0.45, ease: 'power1.in' });
+    await gsap.to(form, { x: T.x, y: T.y, duration: 0.45, ease: 'power1.in' });
+    await slamStamp(V, T, hT * 1.2, 'RELOCATED', '#2fbf71', 0.8);
+    fadeOut(form, 0, 0.2);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(16); V.hitStop();
+    decal(V, T, 'dark', c, 1.2);
+    if (tv) await gsap.to(tv.figure, { y: 70, opacity: 0.2, duration: 0.3, ease: 'power2.in' });
+    pop(V, T, hT + 150, own(a, 'finish', 'Filed. Next candidate.'), 'float-text buff', 1.1);
+    await wait(0.5);
+    if (tv) await gsap.to(tv.figure, { y: 0, opacity: 1, duration: 0.4, ease: 'back.out(2)', clearProps: 'y,opacity' });
+    resetDuo(v);
+  };
+
+  // Jin & Takuya: the otaku summons Truck-kun, the antihero begs him not to. It comes anyway, down the road and straight through the
+  // target, which is sent flying: isekai'd
+  S.truckkun = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, sideOf(A, 1), H + 40, own(a, 'cry', 'I summon thee, TRUCK-KUN!'), 'float-text burn', 1.2);
+    gsap.fromTo(R, { y: 0 }, { y: -22, duration: 0.2, yoyo: true, repeat: 3 });
+    MB.audio.sfx('whistleUp');
+    await wait(0.8);
+    pop(V, sideOf(A, 0), H + 70, "...Please don't.", 'float-text shield', 0.8);
+    await wait(0.5);
+    const truck = V.billboard('thrown', '🚚', T.x - sg * 640, T.y);
+    truck.body.style.fontSize = '140px';
+    gsap.set(truck.body, { y: -60 });
+    MB.audio.sfx('honk');
+    pop(V, T, hT * 2 + 140, 'HOOONK!', 'float-text dmg', 0.7);
+    await gsap.to(truck, { x: T.x, y: T.y, duration: 0.55, ease: 'power3.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('bonk'); V.shake(26); V.hitStop();
+    pop(V, T, hT * 2 + 40, "ISEKAI'D!", 'float-text buff', 1);
+    gsap.to(truck, { x: T.x + sg * 640, duration: 0.5, ease: 'power1.in', onComplete: () => truck.remove() });
+    if (tv) {
+      await gsap.to(tv.figure, { x: sg * 170, y: -300, rotation: sg * 540, duration: 0.45, ease: 'power2.out' });
+      await gsap.to(tv.figure, { x: 0, y: 0, rotation: 0, duration: 0.5, ease: 'bounce.out' });
+    } else await wait(0.5);
+    pop(V, sideOf(A, 1), H + 40, '...I wanted to be the reincarnated one!', 'float-text hic', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
+  // Takuya & Obliviahime: two unshakeable believers perform their forbidden technique. A rune circle, a chant, a dark column,
+  // and then the quiet, hopeful question whether it actually worked
+  S.chuuni = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Our forbidden technique...'), 'float-text debuff', 1.1);
+    gsap.to(L, { y: -16, rotation: -10, duration: 0.2 });
+    gsap.to(R, { y: -16, rotation: 10, duration: 0.2 });
+    MB.audio.sfx('rune');
+    await wait(0.6);
+    const seal = runeCircle(V, T, c, { size: 300 });
+    for (const w of ['Umbral...', 'Protagonist...', 'GENESIS!']) { pop(V, sideOf(A, w === 'Umbral...' ? 1 : 0), H + 80, w, 'float-text burn', 0.8); await wait(0.4); }
+    const col = pillar(V, T, c);
+    gsap.fromTo(col.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.8, scaleY: 1.5, duration: 0.3, ease: 'power3.out' });
+    MB.audio.sfx('thunder'); MB.audio.sfx('dark');
+    impact(); hit(V, t, c, true); V.shake(20); V.hitStop();
+    flash(V, T, hT, '#ffffff', 340);
+    tint(tv, 'brightness(0.4) saturate(2)', 0.8);
+    await wait(0.6);
+    seal.remove();
+    gsap.to(col.body, { scaleX: 0, opacity: 0, duration: 0.3, onComplete: () => col.remove() });
+    gsap.to([L, R], { y: 0, rotation: 0, duration: 0.3 });
+    pop(V, sideOf(A, 1), H + 40, own(a, 'finish', '...Did it work?'), 'float-text hic', 1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -12221,7 +12450,8 @@
     manaseal: 'holy', lastcall: 'void', divinemark: 'holy', splice: 'matrix', glitchblade: 'night', mothdust: 'dream', bloodwind: 'blood', metamorph: 'night', fourthwall: 'matrix',
     starcrossed: 'night', seasong: 'ocean', whodunit: 'night', fireflower: 'inferno', stormsong: 'ocean', daydream: 'night', moonfall: 'night', fullmoon: 'night', sorrowshot: 'night', extra: 'night', skilift: 'night', fireworks: 'night', kamaitachi: 'storm', candelabra: 'night', objection: 'night', redstring: 'dream', oninight: 'night', comet: 'night', laserweb: 'space',
     heartguard: 'dream', onestar: 'night', knightmove: 'night', override: 'matrix', rebuff: 'sunny', lotuspalm: 'holy', vineward: 'sunny', fieldnotes: 'space',
-    harebluff: 'blood', batcommand: 'blood', maidprank: 'sunset', teachess: 'sunset', fieldbluff: 'space', maidshift: 'dream', nightmass: 'blood' };
+    harebluff: 'blood', batcommand: 'blood', maidprank: 'sunset', teachess: 'sunset', fieldbluff: 'space', maidshift: 'dream', nightmass: 'blood',
+    proclaim: 'holy', umbral: 'void', homesafe: 'night', abduct: 'space', bossreport: 'holy', truckkun: 'sunset', chuuni: 'night' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -12230,7 +12460,8 @@
     'spotless', 'hologram', 'keynote', 'makeover', 'busking',
     'shieldvault', 'bloodwind', 'runaway', 'metamorph', 'enforcers', 'stickerbomb', 'bikergang', 'fourthwall',
     'oninight', 'pursuit', 'croquembouche', 'starcrossed', 'seasong', 'whodunit', 'fireflower',
-    'teachess', 'fieldbluff', 'maidshift', 'nightmass'];
+    'teachess', 'fieldbluff', 'maidshift', 'nightmass',
+    'bossreport', 'truckkun', 'chuuni'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);

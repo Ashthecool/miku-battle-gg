@@ -84,6 +84,10 @@ tea) · `lotuspalm` (Yllara: mala beads, a golden lotus) · `vineward` (Seraphin
 pulse flies wide, then boomerangs) · `harebluff` (Uzi: a giant bluff hare, decoys that go off far too big) · `batcommand` (Valerian: a sigil,
 a bat swarm, KNEEL) · `maidprank` (Reika: tea flicked at you, the cup lands on your head, cafe cats pounce).
 
+Signature scenes for Exodus, In Her Care and Pastures Unknown (sprite-based, no pose sheet): `candidacy` (Marise: clipboard, three criteria crossed off, UNQUALIFIED stamp) ·
+`proclaim` (Sakuragi: FATE / DESTINY / PROTAGONIST, a blue light and a sword drop) · `umbral` (Obliviahime: rune seal, bat swarm, dark column, "...As foretold.") ·
+`homesafe` (Care: lights flicker, every door slams shut round the target, a padlock) · `abduct` (Vachelle: wrong lever, then a saucer, a beam and a herd of cows).
+
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
 the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
 `shout`/`pompom` a `shout`. Keep lines ≤ 30 chars.
@@ -137,6 +141,8 @@ Pose-sheet duos (both partners drawn from their sheets; they fall back to a sing
 Lilly: tea runs over the knight, which hops in) · `fieldbluff` (Eliza & Uzi: the scanner marks three spots, the decoys blow up on them) ·
 `maidshift` (Reika & Ida: flicked teacups caught by drone trays and served, SERVED!) · `nightmass` (Valerian & Pristo: amp, chords and bats merge,
 a crimson solo, AMEN).
+Exodus duos: `bossreport` (Marise & Sakuragi: policy cited, form stamped RELOCATED, a trapdoor opens) · `truckkun` (Jin & Takuya: the summoned truck
+hits the target and isekais it) · `chuuni` (Takuya & Obliviahime: rune circle, chanted technique, dark column, "...Did it work?").
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)

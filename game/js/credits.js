@@ -94,6 +94,12 @@
     { name: 'someone199912', id: 'a79c5031-57fc-4e22-afb2-dca77526d162', color: '#ffb3c7', novels: [
         { novel: 'Nanami Hana', id: '53c1a6f1-12cd-43d2-9381-5116ea787aca' },
       ] },
+    { name: 'mahorfeus', id: 'ab80f9cd-f6c0-4acb-9ab5-16f4eb4a62c7', color: '#8fa4ff',
+      pic: 'optimized/ab80f9cd-f6c0-4acb-9ab5-16f4eb4a62c7/db2bbb60-d3ed-4472-aee4-665b809f7008.webp', novels: [
+        { novel: 'Exodus: Bound for Beyond', id: '661d54b6-4c6d-460a-ab9c-4e0c2bfdfbe2' },
+        { novel: 'In Her Care', id: '66e873ef-1f38-48a9-aa93-009c6c65b291' },
+        { novel: 'Pastures Unknown: Repasteurized', id: '3f5117c2-a829-4872-b107-2d095af7e95f' },
+      ] },
     { name: 'Miistiiy', id: 'd5c4dd20-edef-445f-a8f0-b543e4f8c3c8', color: '#ff7a9a',
       pic: 'optimized/d5c4dd20-edef-445f-a8f0-b543e4f8c3c8/1cd40fc6-2490-45c0-ac89-c296ff144f7e.webp', novels: [
         { novel: 'Your Loving Maid', id: 'cb140588-be2e-4726-91dd-a71b0454d434' },

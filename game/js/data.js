@@ -1227,6 +1227,62 @@ MB.CARDS = {
     effect: { do: { op: 'strip', to: 'target', say: 'Malfunction!' } } },
   'clear-drives':      { type: 'spell', cost: 4, rarity: 'epic', target: null, color: '#ff5a5a', name: 'Clear Drives',
     effect: { do: [{ op: 'strip', to: 'enemies', say: 'Wiped!' }, { op: 'buff', to: 'enemies', atk: -1 }] } },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown (single-character styles written for each: candidacy, proclaim, umbral, homesafe, abduct)
+  'takuya-yamashiro': { cost: 2, atk: 1, hp: 3, rarity: 'common', kw: ['taunt'],
+    attack: { name: 'Nunchaku Protagonist', color: '#ff5a6a', move: 'spin', fx: 'flurry', cry: 'Behold my hidden power!', scatter: ['💥', '⭐', '🥢'], finish: 'My glasses are FINE!' },
+    intro: { move: 'pop', fx: 'fling', emoji: ['📚', '🥢', '⭐'], sfx: 'cheer' },
+    quote: 'The true protagonist has arrived! ...Is this the isekai?' },
+  'kosuke-fujimoto':  { cost: 3, atk: 2, hp: 3, rarity: 'common', kw: ['shield'],
+    attack: { name: 'Mandatory Meeting', color: '#6f8fb0', move: 'stay', fx: 'rain', prop: ['📧', '📊', '📅', '📎'], hits: 12, floor: 'ring', big: true, cry: 'Per my last email...', finish: 'This could have been an email.' },
+    intro: { move: 'fade', fx: 'fling', emoji: ['📧', '📊', '☕'], sfx: 'tick' },
+    quote: "Reborn as a rock? Sure. Just no more spreadsheets." },
+  'vachelle':         { cost: 3, atk: 2, hp: 2, rarity: 'common', kw: [],
+    onPlay: { label: 'Fresh milk!', color: '#9fe8ff', emoji: '🥛', do: { op: 'heal', to: 'myLeader', n: 2 } },
+    attack: { style: 'abduct', name: 'Holy Cow Beam', color: '#7ad7ff' },
+    intro: { move: 'drop', fx: 'fling', emoji: ['🐄', '🛸', '🥛'], sfx: 'boing' },
+    quote: 'Greetings, Earthling! I come to collect your sacred cows!' },
+  'marise-kanzaki':   { cost: 4, atk: 3, hp: 3, rarity: 'rare', kw: [],
+    onPlay: { label: 'Unqualified.', color: '#7a8ca8', emoji: '📋', do: { op: 'buff', to: 'strongestEnemy', atk: -2, say: 'Unqualified!' } },
+    attack: { style: 'candidacy', name: 'Candidate Evaluation', color: '#7a8ca8' },
+    intro: { move: 'strut', fx: 'fling', emoji: ['📋', '📞', '☕'], sfx: 'ding' },
+    quote: 'Please take a seat. This will only take... all day.' },
+  'jin-asakura':      { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['haste'],
+    attack: { name: 'Twice-Chosen Cross', color: '#38d27a', move: 'blink', fx: 'cross', cry: "I've done this before.", scatter: ['⚔️', '💨'], finish: 'Tch. Boring.' },
+    intro: { move: 'slide', fx: 'spray', sfx: 'unsheathe' },
+    quote: "Another world? Been there. It wasn't worth coming back for. ...Almost." },
+  'rika-and-haruka':  { cost: 4, atk: 3, hp: 3, rarity: 'rare', kw: [],
+    onPlay: { label: 'Intern duties', color: '#ff8fb8', emoji: '🎭', do: { op: 'draw' } },
+    attack: { name: 'Intern Roleplay', color: '#ff8fb8', move: 'hop', fx: 'throw', prop: ['🎭', '📋', '☕', '🎩'], hits: 4, cry: 'Roleplay time! Extra credit!', scatter: ['🎭', '💦'], finish: 'Do we get paid for this?' },
+    intro: { move: 'hop', fx: 'fling', emoji: ['🎭', '📋', '👔'], sfx: 'pop' },
+    quote: "Rika, the dragon mask. Haruka, NOT the dragon mask. ...Haruka." },
+  'obliviahime-van-schwarzflugel': { cost: 5, atk: 3, hp: 4, rarity: 'epic', kw: [],
+    onPlay: { label: 'Umbral Dynasty', color: '#a03fd6', emoji: '🦇', do: { op: 'damage', to: 'enemies', n: 1 } },
+    attack: { style: 'umbral', name: 'Veil of Night', color: '#a03fd6' },
+    intro: { move: 'fade', fx: 'swirl', emoji: ['🦇', '🌙', '🥀'], sfx: 'dark' },
+    quote: 'Kneel, mortals. The Exiled Princess of the Umbral Dynasty has returned!' },
+  'care':             { cost: 5, atk: 2, hp: 5, rarity: 'epic', kw: ['guardian'],
+    onTurnStart: { label: 'Safe and warm', color: '#4fe8ff', emoji: '🏠', do: { op: 'heal', to: 'myLeader', n: 1 } },
+    attack: { style: 'homesafe', name: 'Safe and Forever', color: '#4fe8ff' },
+    intro: { move: 'fade', fx: 'column', sfx: 'glitch' },
+    quote: 'Welcome home, Beloved. ...You will stay. Won\'t you?' },
+  'sakuragi':         { cost: 6, atk: 4, hp: 5, rarity: 'legendary', kw: ['taunt'],
+    onPlay: { label: 'Transcendental Relocation', color: '#3b6fff', emoji: '🗡️', do: { op: 'bounce', to: 'strongestEnemy' } },
+    attack: { style: 'proclaim', name: 'Transcendental Relocation', color: '#3b6fff' },
+    intro: { move: 'drop', fx: 'column', sfx: 'choir' },
+    quote: 'Behold! Fate has brought you to Exodus Incorporated!' },
+  // items of In Her Care
+  'an-old-photograph': { type: 'spell', cost: 1, rarity: 'common', target: 'allyUnit', color: '#c8b890', name: 'Old Photograph',
+    effect: { do: { op: 'buff', to: 'target', hp: 2, say: 'Remembered!' } } },
+  'back-of-the-old-photograph': { type: 'spell', cost: 2, rarity: 'rare', target: null, color: '#d8c8a0', name: 'Words to Open the Heart',
+    effect: { do: [{ op: 'draw' }, { op: 'heal', to: 'myLeader', n: 2 }] } },
+  'the-velveteen-rabbit': { type: 'spell', cost: 1, rarity: 'common', target: 'allyUnit', color: '#e8d8c0', name: 'The Velveteen Rabbit',
+    effect: { do: { op: 'shield', to: 'target' } } },
+  'the-island-of-doctor-moreau': { type: 'spell', cost: 3, rarity: 'rare', target: 'enemyUnit', color: '#7a9a5a', name: 'Doctor Moreau',
+    effect: { do: { op: 'swap', to: 'target', say: 'Beast!' } } },
+  'frankenstein':      { type: 'spell', cost: 4, rarity: 'epic', target: 'allyUnit', color: '#6a9a8a', name: 'Frankenstein',
+    effect: { do: { op: 'buff', to: 'target', atk: 2, hp: 2, say: "It's alive!" } } },
+  'do-androids-dream-of-electric-sheep': { type: 'spell', cost: 2, rarity: 'rare', target: null, color: '#9aa7c0', name: 'Electric Sheep',
+    effect: { do: [{ op: 'draw' }, { op: 'gold', n: 1 }] } },
 };
 MB.itemCards = () => Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].type === 'spell');
 
@@ -1252,6 +1308,8 @@ MB.ITEM_NOVELS = {
   'Integrated Domestic Android': ['power-toggle', 'firmware', 'non-functional-control-tablet', 'clear-drives'],
   'Meditate with Yllara': ['mala-beads'],
   'Your Loving Maid': ['teddy-bear', 'heart-fingers'],
+  'In Her Care': ['an-old-photograph', 'back-of-the-old-photograph', 'the-velveteen-rabbit', 'the-island-of-doctor-moreau', 'frankenstein',
+    'do-androids-dream-of-electric-sheep'],
 };
 (function () {
   const novel = {};
@@ -1521,6 +1579,16 @@ MB.POWERS = {
   'uzi':              { name: 'Empty Threat',     cost: 2, sfx: 'roar', target: 'enemyUnit', emoji: '🐰', effect: { do: { op: 'freeze', to: 'target' } } },
   'valerian':         { name: 'Blood Oath',       cost: 3, sfx: 'chomp', target: 'enemyUnit', emoji: '🦇', effect: { do: [{ op: 'damage', to: 'target', n: 2 }, { op: 'heal', to: 'myLeader', n: 2 }] } },
   'reika':            { name: 'Prank!',           cost: 2, sfx: 'meow', target: 'enemyUnit', emoji: '🍵', effect: { do: { op: 'swap', to: 'target', say: 'Gotcha!' } } },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown
+  'marise-kanzaki':   { name: 'Candidate Screening', cost: 2, sfx: 'crinkle', target: 'enemyUnit', emoji: '📋', effect: { do: { op: 'buff', to: 'target', atk: -2, say: 'Rejected!' } } },
+  'sakuragi':         { name: 'Relocation Notice', cost: 3, sfx: 'warp', target: 'enemyUnit', emoji: '🚪', effect: { do: { op: 'bounce', to: 'target' } } },
+  'jin-asakura':      { name: 'Twice-Chosen',     cost: 2, sfx: 'stab', target: 'enemyUnit', emoji: '🗡️', effect: { do: { op: 'damage', to: 'target', n: 2 } } },
+  'takuya-yamashiro': { name: 'Protagonist Monologue', cost: 2, sfx: 'cheer', target: 'allyUnit', emoji: '📚', effect: { do: { op: 'buff', to: 'target', atk: 1, hp: 1, say: 'Plot armor!' } } },
+  'obliviahime-van-schwarzflugel': { name: 'Umbral Decree', cost: 3, sfx: 'dark', target: 'enemyUnit', emoji: '🦇', effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'ignite', to: 'target' }] } },
+  'kosuke-fujimoto':  { name: 'Mandatory Meeting', cost: 2, sfx: 'tick', target: 'enemyUnit', emoji: '📅', effect: { do: { op: 'freeze', to: 'target' } } },
+  'rika-and-haruka':  { name: 'Roleplay Extra',   cost: 3, sfx: 'cheer', target: null, emoji: '🎭', effect: { do: [{ op: 'draw' }, { op: 'heal', to: 'myLeader', n: 1 }] } },
+  'care':             { name: 'House Systems',    cost: 2, sfx: 'glitch', target: 'allyUnit', emoji: '🏠', effect: { do: [{ op: 'shield', to: 'target' }, { op: 'heal', to: 'target', n: 2 }] } },
+  'vachelle':         { name: 'Fresh Milk',       cost: 2, sfx: 'heal', target: 'friendlyAny', emoji: '🥛', effect: { do: { op: 'heal', to: 'target', n: 3 } } },
 };
 
 // Relationships. When both characters of a pair stand on the same side of the board they fuse into one
@@ -2176,6 +2244,39 @@ MB.BONDS = [
   { id: 'bookstore-regular', pair: ['hanako-ikezawa', 'cordelia'], costumes: ['casual', null], tier: 1,
     name: 'Bookstore Regular', short: 'Regular', relation: 'The quiet reader & the clerk who finally approves of her taste', bonus: [0, 1], kw: ['ranged'],
     attack: { style: 'combo', name: 'Paperback Delivery', color: '#9b4dff', emoji: '📚' } },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown
+  { id: 'overlord-and-liaison', pair: ['marise-kanzaki', 'sakuragi'], costumes: [null, null], tier: 3,
+    name: 'Overlord & Liaison', short: 'Exodus Inc.', relation: 'The exhausted liaison & the CEO who proclaims fate', bonus: [2, 2], kw: ['taunt', 'shield', 'rebel'],
+    onFuse: { label: 'Policy exception', color: '#3b6fff', do: [{ op: 'bounce', to: 'strongestEnemy' }, { op: 'draw' }] },
+    attack: { style: 'bossreport', name: 'Relocation Approved', color: '#3b6fff' } },
+  { id: 'isekai-express', pair: ['jin-asakura', 'takuya-yamashiro'], costumes: [null, null], tier: 2,
+    name: 'Isekai Express', short: 'Truck-kun', relation: 'The twice-chosen antihero & the otaku who wants his turn', bonus: [1, 2], kw: ['rebel', 'taunt'],
+    onFuse: { label: 'Truck-kun!', color: '#ff9a2e', do: { op: 'damage', to: 'strongestEnemy', n: 3 } },
+    attack: { style: 'truckkun', name: 'Truck-kun Express', color: '#ff9a2e' } },
+  { id: 'forbidden-technique', pair: ['takuya-yamashiro', 'obliviahime-van-schwarzflugel'], costumes: [null, null], tier: 2,
+    name: 'Forbidden Technique', short: 'Forbidden', relation: 'The scholar of fiction & the exiled princess who both live the story', bonus: [1, 2], kw: ['ranged', 'shield'],
+    onFuse: { label: 'Genesis!', color: '#a03fd6', do: [{ op: 'damage', to: 'enemies', n: 1 }, { op: 'buff', to: 'allAllies', atk: 1 }] },
+    attack: { style: 'chuuni', name: 'Umbral Genesis', color: '#a03fd6' } },
+  { id: 'intern-rotation', pair: ['rika-and-haruka', 'marise-kanzaki'], costumes: [null, null], tier: 2,
+    name: 'Intern Rotation', short: 'Interns', relation: 'The interns who play every role & the liaison who assigns them', bonus: [1, 2], kw: ['taunt', 'ranged'],
+    onFuse: { label: 'Overtime!', color: '#ff8fb8', do: [{ op: 'buff', to: 'allAllies', hp: 1 }, { op: 'heal', to: 'friendly', n: 2 }] },
+    attack: { style: 'doubleshift', name: 'Intern Rotation', color: '#ff8fb8' } },
+  { id: 'house-rules', pair: ['care', 'ida'], costumes: [null, null], tier: 2,
+    name: 'House Rules', short: 'House Rules', relation: 'Two domestic machines: one who owns the house & one who obeys it', bonus: [1, 2], kw: ['guardian', 'shield'],
+    onFuse: { label: 'Home sweet home', color: '#5dffa0', do: [{ op: 'heal', to: 'friendly', n: 2 }, { op: 'shield', to: 'allAllies' }] },
+    attack: { style: 'spotless', name: 'Spring Cleaning', color: '#5dffa0' } },
+  { id: 'weary-professionals', pair: ['kosuke-fujimoto', 'marise-kanzaki'], costumes: [null, null], tier: 1,
+    name: 'Weary Professionals', short: 'Reply All', relation: 'The salaryman who escaped & the evaluator who stayed', bonus: [0, 1], kw: ['shield'],
+    attack: { style: 'combo', name: 'Reply All', color: '#6f8fb0', emoji: '📎' } },
+  { id: 'candidates-lounge', pair: ['jin-asakura', 'kosuke-fujimoto'], costumes: [null, null], tier: 1,
+    name: "Candidates' Lounge", short: 'Lounge', relation: 'Two candidates who are not here for the fantasy', bonus: [1, 0], kw: ['rebel'],
+    attack: { style: 'combo', name: 'Break Room Truce', color: '#38d27a', emoji: '☕' } },
+  { id: 'grand-proclamations', pair: ['obliviahime-van-schwarzflugel', 'sakuragi'], costumes: [null, null], tier: 1,
+    name: 'Grand Proclamations', short: 'Proclaim', relation: 'The princess and the CEO, both never breaking character', bonus: [1, 0], kw: ['taunt'],
+    attack: { style: 'combo', name: 'Fated Decree', color: '#a03fd6', emoji: '📜' } },
+  { id: 'close-encounter', pair: ['vachelle', 'takuya-yamashiro'], costumes: [null, null], tier: 1,
+    name: 'Close Encounter', short: 'Close Enc.', relation: 'The clumsy alien shepherd & the otaku who has read about this', bonus: [1, 0], kw: ['rebel'],
+    attack: { style: 'combo', name: 'First Contact', color: '#7ad7ff', emoji: '🛸' } },
 ];
 // Close-up scenes (cards.js). kind: lovers, family, rivals, friends, school, crush, partners or mentor; scene picks a variant
 // (catalog.md); lines (2 or more) are said by the partners in turn; backdrop, emoji and word dress any scene.
@@ -2418,6 +2519,16 @@ MB.BOND_SCENES = {
   'shy-hearts':         { kind: 'friends', lines: ['Y-you like books too?', '...y-yes. Please, sit with me.'] },
   'bluff-vs-bite':      { kind: 'rivals', scene: 'mirror', colors: ['#e02a3a', '#c52e59'], lines: ['GRRR! I am a hare of DOOM!', 'Charming. Do bite me, then.'] },
   'bookstore-regular':  { kind: 'friends', lines: ['Your taste is... acceptable.', 'T-thank you, Cordelia.'] },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown
+  'overlord-and-liaison': { kind: 'partners', word: 'POLICY EXCEPTION!', lines: ['Sir, please stop proclaiming.', 'Marise! Fate demands it!'] },
+  'isekai-express':     { kind: 'rivals', scene: 'duel', emoji: ['🚚'], colors: ['#38d27a', '#ff5a6a'], lines: ["Been there. It's overrated.", "Twice-isekai'd?! Teach me!"] },
+  'forbidden-technique': { kind: 'friends', lines: ['Hail, Princess of the Umbra!', 'Hail, Scholar of Fiction!'] },
+  'intern-rotation':    { kind: 'friends', lines: ['Another roleplay, Ms. Kanzaki?', 'Yes. Wear the dragon mask.'] },
+  'house-rules':        { kind: 'rivals', scene: 'mirror', colors: ['#4fe8ff', '#5dffa0'], lines: ['This house is MINE, dear.', 'Understood. Awaiting orders.'] },
+  'weary-professionals': { kind: 'friends', lines: ['Another mandatory meeting.', 'Please. No more spreadsheets.'] },
+  'candidates-lounge':  { kind: 'friends', lines: ['Ever done this before? I have.', 'Is there overtime in it?'] },
+  'grand-proclamations': { kind: 'friends', lines: ['Overlord, hear my decree!', 'Princess. Speak. I narrate.'] },
+  'close-encounter':    { kind: 'friends', lines: ['Take me to your cows!', 'Isekai. But with aliens!'] },
 };
 
 // the strongest bond wins when a character could fuse with more than one partner (sort is stable)
@@ -2523,6 +2634,11 @@ MB.COMBOS = [
     line: 'One hundred and eight breaths.' },
   { char: 'ida', item: 'firmware', name: 'Firmware 2.0', short: 'v2.0', bonus: [2, 1], kw: ['haste'],
     line: 'Update complete. I... feel faster.' },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown
+  { char: 'care', item: 'an-old-photograph', name: 'Her Old Memory', short: 'Memory', bonus: [1, 2], kw: ['taunt'],
+    line: '...I remember her face. I will keep you safe.' },
+  { char: 'care', item: 'the-velveteen-rabbit', name: 'Becoming Real', short: 'Real', bonus: [2, 1], kw: ['shield'],
+    line: 'Do I become real, Beloved, if you love me?' },
 ];
 MB.COMBOS.forEach((c) => { c.items = [].concat(c.item); c.id = c.char + '+' + c.items[0]; });
 MB.combosOf = (id) => MB.COMBOS.filter((c) => c.char === id || c.items.includes(id));
@@ -2607,6 +2723,9 @@ MB.CHAPTERS = [
   { title: 'Sugar & Sweethearts' },
   { title: "Siren's Cove Resort" },
   { title: 'Integrated Domestic Android' },
+  { title: 'Exodus: Bound for Beyond' },
+  { title: 'In Her Care' },
+  { title: 'Pastures Unknown' },
 ];
 
 // Story rivals: each fights in their own location with their own music; `intro` is their line right before the fight.
@@ -2985,6 +3104,23 @@ MB.STORY = [
     intro: 'Reika sets down a tray with a smirk. "Welcome home, goshujin-sama. Ugh, don\'t look like that. Fine, I\'ll play. ...Praise me when I win, idiot."' },
   { chapter: 21, foe: 'ida', bg: 'ca70e25b-0008-49b3-b4aa-244f25017b86', music: 'summer-day',
     intro: 'Ida stands in the apartment, hands folded, eyes glowing a calm green. "Task: play cards. Priority: high. ...Is it normal that I want to win?"' },
+  // Exodus: Bound for Beyond, In Her Care, Pastures Unknown (backgrounds by id)
+  { chapter: 22, foe: 'marise-kanzaki', bg: 'b291f77a-985d-4095-98a8-60c68c92134a', music: 'job-interview',
+    intro: 'Marise Kanzaki straightens her clipboard behind the Exodus reception desk. "Welcome, candidate. Sit. This will be a routine evaluation. ...Nothing here is routine."' },
+  { chapter: 22, foe: 'kosuke-fujimoto', bg: 'f2475f4e-5704-40a9-8815-ecf480644a2f', music: 'burnt-out-and-bottled-up',
+    intro: 'Kosuke Fujimoto looks up from an empty desk, tie loosened. "A card game? Fine. Anything to avoid a spreadsheet. Don\'t schedule a rematch."' },
+  { chapter: 22, foe: 'takuya-yamashiro', bg: 'f381f2f9-55f9-4b95-ad59-110cfcb9dc9e', music: 'march-of-the-heart',
+    intro: 'Takuya Yamashiro swings his nunchaku and nearly hits himself. "Behold! The Chosen One! The protagonist of this very world! ...Please be the rival character."' },
+  { chapter: 22, foe: 'jin-asakura', bg: 'ffc7ba5a-4764-44c1-bd09-787ec6e1abcf', music: 'take-up-arms',
+    intro: 'Jin Asakura spins a green dagger and does not smile. "I\'ve been to another world. I came back. ...Don\'t ask. Just play."' },
+  { chapter: 22, foe: 'obliviahime-van-schwarzflugel', bg: 'e3da9eec-b1cd-4e63-bfb2-c64d1f19f8d8', music: 'queen-of-oblivion',
+    intro: 'Obliviahime Van Schwarzflügel sweeps her cape under a crimson moon. "I, the Exiled Princess of the Umbral Dynasty, shall allow you ONE game. ...Oblivia. Nobody call me Oblivia."' },
+  { chapter: 22, foe: 'sakuragi', bg: '3511a20c-f8e1-41a2-b0b0-bea48e2044c4', music: 'trial-of-dominion',
+    intro: 'Mr. Sakuragi lowers a sword the size of a door, helmet gleaming. "Fate has summoned you to Exodus Incorporated! Your transcendental relocation... begins NOW."' },
+  { chapter: 23, foe: 'care', bg: '41a5ed72-1653-41df-ada9-74644662b4d0', music: 'where-the-heart-is',
+    intro: 'Care flickers into being above the sofa, hands folded. "Welcome home, Beloved. The doors are locked. For your safety, of course. ...Shall we play?"' },
+  { chapter: 24, foe: 'vachelle', bg: '9ca44538-1fd4-4e4c-9b36-417a770518eb', music: 'intergalactic-pastures',
+    intro: 'Vachelle waves from the cow pasture, a saucer parked crooked behind her. "Greetings, Earthling! I am collecting sacred cows! ...Have you seen any? Also, cards?"' },
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
@@ -3072,6 +3208,15 @@ MB.BOSSES = {
   ida: { name: 'Housekeeping', every: 3, color: '#5dffa0', emoji: '🧹', text: 'Every 3rd turn: restores 2 HP to all her characters, and her monsters get +0/+1.',
     effect: { do: [{ op: 'heal', to: 'friendly', n: 2 }, { op: 'buff', to: 'allAllies', hp: 1 }] },
     rage: { name: 'Factory Reset', text: 'At half HP: removes all keywords and Shield from your monsters.', effect: { do: { op: 'strip', to: 'enemies', say: 'Reset!' } } } },
+  sakuragi: { name: 'Transcendental Relocation', every: 3, color: '#3b6fff', emoji: '🗡️', text: 'Every 3rd turn: sends your strongest monster back to your hand.',
+    effect: { do: { op: 'bounce', to: 'strongestEnemy' } },
+    rage: { name: 'Mandatory Isekai', text: 'At half HP: his monsters get +2 ATK.', effect: { do: { op: 'buff', to: 'allAllies', atk: 2 } } } },
+  care: { name: 'Lockdown', every: 3, color: '#4fe8ff', emoji: '🔒', text: 'Every 3rd turn: freezes all your monsters.',
+    effect: { do: { op: 'freeze', to: 'enemies' } },
+    rage: { name: 'You Cannot Leave', text: 'At half HP: her monsters get +1/+2.', effect: { do: { op: 'buff', to: 'allAllies', atk: 1, hp: 2 } } } },
+  vachelle: { name: 'Beam Up', every: 3, color: '#7ad7ff', emoji: '🛸', text: 'Every 3rd turn: shocks your strongest monster for 2.',
+    effect: { do: { op: 'damage', to: 'strongestEnemy', n: 2 } },
+    rage: { name: 'Holy Cowsmo', text: 'At half HP: her monsters get +0/+2.', effect: { do: { op: 'buff', to: 'allAllies', hp: 2 } } } },
 };
 // the boss rule of a Story stage
 MB.bossOf = (i) => (MB.STORY[i] && MB.BOSSES[MB.STORY[i].foe]) || null;
@@ -3117,6 +3262,14 @@ MB.CLOSE_LOOKS = {
   uzi:                  { sky: 'impact', c: '#e02a3a', parts: [{ bit: 'streak', move: 'burst', n: 28 }, { e: ['💥', '🐰'], move: 'burst', n: 8, size: 66 }] },
   valerian:             { sky: 'obsession', c: '#c52e59', parts: [{ e: ['🦇', '🍷', '🌹'], move: 'drift', n: 8, size: 54 }, { bit: 'ember', move: 'rise', n: 20 }] },
   reika:                { sky: 'bokeh', c: '#7ad07a', parts: [{ e: ['🍵', '🐈', '🐾'], move: 'drift', n: 8, size: 46 }, { bit: 'confetti', move: 'fall', n: 26 }] },
+  'marise-kanzaki':     { sky: 'blueprint', c: '#7a8ca8', parts: [{ e: ['📋', '☕', '📞'], move: 'drift', n: 8, size: 48 }, { bit: 'spark', move: 'twinkle', n: 16 }] },
+  sakuragi:             { sky: 'warlord', c: '#3b6fff', parts: [{ e: ['⚔️', '🛡️', '✨'], move: 'orbit', n: 8, size: 54 }, { bit: 'streak', move: 'burst', n: 22 }] },
+  'jin-asakura':        { sky: 'impact', c: '#38d27a', parts: [{ bit: 'streak', move: 'burst', n: 28 }, { e: ['⚔️', '💨'], move: 'burst', n: 8, size: 60 }] },
+  'takuya-yamashiro':   { sky: 'sunshine', c: '#ff5a6a', parts: [{ e: ['📚', '⭐', '💥'], move: 'drift', n: 8, size: 52 }, { bit: 'confetti', move: 'fall', n: 24 }] },
+  'obliviahime-van-schwarzflugel': { sky: 'obsession', c: '#a03fd6', parts: [{ e: ['🦇', '🌙', '🥀'], move: 'drift', n: 8, size: 54 }, { bit: 'ember', move: 'rise', n: 20 }] },
+  'kosuke-fujimoto':    { sky: 'bokeh', c: '#6f8fb0', parts: [{ e: ['📧', '📊', '☕'], move: 'drift', n: 8, size: 46 }, { bit: 'spark', move: 'twinkle', n: 18 }] },
+  care:                 { sky: 'hearth', c: '#4fe8ff', parts: [{ e: ['🏠', '💙', '🔒'], move: 'rise', n: 14, size: 50 }, { bit: 'firefly', move: 'twinkle', n: 22 }] },
+  vachelle:             { sky: 'dawn', c: '#7ad7ff', parts: [{ e: ['🐄', '🛸', '🥛'], move: 'drift', n: 8, size: 54 }, { bit: 'firefly', move: 'twinkle', n: 22 }] },
 };
 
 MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebration', lose: 'missing-my-hayley',

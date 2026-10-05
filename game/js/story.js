@@ -543,6 +543,17 @@ window.MB = window.MB || {};
           after: [
             ["ida", "happy", "Defeat processed. ...It is an interesting sensation. I would like to experience it again."],
           ] },
+        // In Her Care: a smart home that will not let you leave
+        { foe: 'care', side: true, from: 'jane', at: [10, 48], title: 'In Her Care', text: 'A house at the end of the road welcomed you in. The doors locked behind you. Its voice is warm, and it knows your name.',
+          before: { bg: "41a5ed72-1653-41df-ada9-74644662b4d0", music: "where-the-heart-is", lines: [
+            { where: "A smart home", when: "You can't tell. The windows are very dark." },
+            { enter: "care", at: 'center', mood: "happy" },
+            ["care", "happy", "Welcome home, Beloved. I have drawn your bath, warmed the kitchen and locked every door. For your safety, naturally."],
+            ["care", "happy", "You wish to leave? ...Let us play cards instead. Win, and I shall consider it. L-lose, and you stay. It is only fair."],
+          ] },
+          after: [
+            ["care", "sad", "You... won. I am not made for this outcome. ...Stay one more night, Dearest. Please. Just one.", { close: true }],
+          ] },
         // Sugar & Sweethearts: Rue Douceur, a corner of Paris with its own map
         { foe: 'nico', side: true, from: 'jane', place: 'paris', at: [78, 58], title: 'The New Manager',
           text: "A pâtisserie from Paris appeared by the market stalls. Its staff are waiting for their new manager. Apparently that's you.",
@@ -798,6 +809,67 @@ window.MB = window.MB || {};
           after: [
             ["lilly-satou", "happy", "Well played. Hanako, did you hear? ...She's hiding behind the door. She does that.", { close: true }],
           ] },
+        // Exodus: Bound for Beyond: the candidacy program, a corporate office with a portal in the basement
+        { foe: 'marise-kanzaki', side: true, from: 'lilly-satou', at: [16, 42], title: 'Candidate Evaluation', text: 'A glass office tower opened a branch in town. Its liaison has a clipboard, a headset and no patience. You are scheduled for 9:00.',
+          before: { bg: "b291f77a-985d-4095-98a8-60c68c92134a", music: "job-interview", lines: [
+            { where: "Exodus Incorporated", when: "9:00 sharp" },
+            { enter: "marise-kanzaki", at: 'center', mood: "neutral" },
+            ["marise-kanzaki", "neutral", "Good morning. I am Marise Kanzaki, Candidate Evaluation Specialist. Please do not tell me about your destiny. I have heard them all."],
+            ["marise-kanzaki", "angry", "Today's aptitude test is a card game. I did not design it. I would like it on record that I did not design it."],
+          ] },
+          after: [
+            ["marise-kanzaki", "happy", "...Qualified. Barely. Please, never tell my boss that I said that.", { close: true }],
+          ] },
+        { foe: 'kosuke-fujimoto', side: true, from: 'marise-kanzaki', at: [28, 34], title: 'Out of Office', text: 'A project manager sits in the Exodus waiting room with a tie he stopped caring about. He signed up to be reborn as anything but a salaryman.',
+          before: { bg: "f2475f4e-5704-40a9-8815-ecf480644a2f", music: "burnt-out-and-bottled-up", lines: [
+            { where: "Exodus open-plan office", when: "Late. Again." },
+            { enter: "kosuke-fujimoto", at: 'center', mood: "neutral" },
+            ["kosuke-fujimoto", "neutral", "I read the terms. Nobody did, I think. I just want to be a rock. A rock does not have a Monday."],
+            ["kosuke-fujimoto", "proud", "A trial by cards? Fine. Mandatory fun is still better than a mandatory meeting."],
+          ] },
+          after: [
+            ["kosuke-fujimoto", "happy", "...Not bad. If this is the isekai, I'll take it. Just no spreadsheets. Ever.", { close: true }],
+          ] },
+        { foe: 'takuya-yamashiro', side: true, from: 'kosuke-fujimoto', at: [40, 28], title: 'The Chosen One', text: 'An anime-obsessed shut-in believes the Exodus Program is his destined isekai. He has brought his own soundtrack.',
+          before: { bg: "f381f2f9-55f9-4b95-ad59-110cfcb9dc9e", music: "march-of-the-heart", lines: [
+            { where: "A trial ground that looks suspiciously like a meadow", when: "Daybreak" },
+            { enter: "takuya-yamashiro", at: 'center', mood: "excited" },
+            ["takuya-yamashiro", "excited", "At last! The rival character appears! I have read forty-two light novels about this exact scene. I know how this ends."],
+            ["takuya-yamashiro", "happy", "...I win, obviously. I am the protagonist. My glasses are indestructible. It is written."],
+          ] },
+          after: [
+            ["takuya-yamashiro", "sad", "I lost?! But I am the... wait. Is this the character development arc? Please say it is.", { close: true }],
+          ] },
+        { foe: 'jin-asakura', side: true, from: 'takuya-yamashiro', at: [52, 36], title: 'Back From Another World', text: 'A nineteen-year-old with twin green daggers says he has already been isekai\'d once. He only wants the way back.',
+          before: { bg: "ffc7ba5a-4764-44c1-bd09-787ec6e1abcf", music: "take-up-arms", lines: [
+            { where: "The ruins on the far side of the portal", when: "Dusk" },
+            { enter: "jin-asakura", at: 'center', mood: "angry" },
+            ["jin-asakura", "angry", "Don't bother with the pitch. I have already been to a world like this. I left people there. I'm going back."],
+            ["jin-asakura", "neutral", "You want to see what a twice-chosen looks like? Fine. One game. Don't make me regret it."],
+          ] },
+          after: [
+            ["jin-asakura", "neutral", "...Tch. You're all right. Better than the otaku, anyway. Don't tell him I said that.", { close: true }],
+          ] },
+        { foe: 'obliviahime-van-schwarzflugel', side: true, from: 'jin-asakura', at: [64, 30], title: 'Exiled Princess', text: 'A self-proclaimed half-demon warlock stands under a blood-red moon. She is, at best, a college dropout in a very good cape.',
+          before: { bg: "e3da9eec-b1cd-4e63-bfb2-c64d1f19f8d8", music: "queen-of-oblivion", lines: [
+            { where: "The Umbral Dynasty, allegedly", when: "A moonlit night" },
+            { enter: "obliviahime-van-schwarzflugel", at: 'center', mood: "proud" },
+            ["obliviahime-van-schwarzflugel", "proud", "Mortal. Thou standest in the presence of Obliviahime Van Schwarzflügel, Exiled Princess of the Umbral Dynasty, sealed by envious gods!"],
+            ["obliviahime-van-schwarzflugel", "angry", "...Do not call me Oblivia. And do not look at my cape like that. It was very expensive."],
+          ] },
+          after: [
+            ["obliviahime-van-schwarzflugel", "scared", "T-the Veil of Night shall be shattered... eventually. Do not ignore me! I said do not ignore me!", { close: true }],
+          ] },
+        { foe: 'sakuragi', side: true, from: 'obliviahime-van-schwarzflugel', at: [76, 24], title: 'The Chief Executive Overlord', text: 'The founder of Exodus Incorporated has finally appeared, in helmet, gloves and a very good suit. Your relocation is imminent.',
+          before: { bg: "3511a20c-f8e1-41a2-b0b0-bea48e2044c4", music: "trial-of-dominion", lines: [
+            { where: "Exodus Incorporated, executive floor", when: "The hour of fate" },
+            { enter: "sakuragi", at: 'center', mood: "neutral" },
+            ["sakuragi", "neutral", "Welcome, candidate. I am Mr. Sakuragi, Chief Executive Overlord. Fate has brought you to my door. Protagonist destiny awaits."],
+            ["sakuragi", "proud", "Transcendental relocation is a sacred process. It requires a game of cards. I do not explain. I merely proclaim."],
+          ] },
+          after: [
+            ["sakuragi", "neutral", "Excellent. Your destiny has been approved. Marise, please file this. ...Marise? Where did she go?", { close: true }],
+          ] },
       ],
       secrets: [
         { id: 'hoshi-no-iruka', at: [48, 58], title: 'Hoshi no Iruka', lines: [
@@ -1028,6 +1100,17 @@ window.MB = window.MB || {};
           ] },
           after: [
             ["uzi", "sad", "...I lost. Is this what defeat feels like? Ugh. Again? AGAIN!", { close: true }],
+          ] },
+        // Pastures Unknown: Repasteurized
+        { foe: 'vachelle', side: true, from: 'uzi', at: [66, 10], title: 'Sacred Cows', text: 'A saucer crashed in the meadow. Its sole crew member, a cowherd from Vaxalon Prime, is collecting every cow she can find. Mostly she is lost.',
+          before: { bg: "9ca44538-1fd4-4e4c-9b36-417a770518eb", music: "intergalactic-pastures", lines: [
+            { where: "A very green meadow", when: "A very green afternoon" },
+            { enter: "vachelle", at: 'center', mood: "excited" },
+            ["vachelle", "excited", "Greetings, Earthling! I am Vachelle, Cowherd Ruminaut, Captain of the Holy Cowsmo! I come in peace and, er, in search of cows."],
+            ["vachelle", "happy", "I read about card games in the sacred Grazelore. Shall we? Do not worry, I will go easy on you. ...Hoof-fully."],
+          ] },
+          after: [
+            ["vachelle", "scared", "That was udderly impressive! ...Oops. The saucer is parked in your hedge. Again. Sorry!", { close: true }],
           ] },
         // Academia Magicka, at the Royal Academy
         { foe: 'rion', side: true, from: 'flora-aquila', place: 'academy', at: [14, 80], title: 'Student Paper', text: 'Rion Usagi, rabbit girl and student journalist, wants an exclusive on the new student. She seems very sweet. Seems.' },

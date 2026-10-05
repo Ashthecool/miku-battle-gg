@@ -26,6 +26,10 @@ SKIP_CHARACTERS = {"narrator", "narrador"}
 SKIP_OUTFIT = re.compile(r"\bcg\b", re.I)
 # blank or placeholder art: "character-id/outfit-id"
 SKIP_OUTFITS = {
+    # Exodus, In Her Care, Pastures Unknown: empty placeholder images
+    "marise-kanzaki/intercom", "sakuragi/disembodied-voice", "jin-asakura/co-op", "takuya-yamashiro/co-op",
+    "obliviahime-van-schwarzflugel/co-op", "kosuke-fujimoto/co-op", "rika-and-haruka/dragon", "care/transparent",
+    "vachelle/transparent",
     # Siren's Cove Resort: empty [Transparent] / "I'm not here" images
     "lysander-nielsen/transparent", "nova-starr/transparent", "cassian-daly/transparent", "jace-leoni/i-m-not-here",
     "misaki/new-outfit", "misaki-au/new-outfit", "haruka-hijikata/new-outfit",
@@ -60,6 +64,7 @@ SKIP_OUTFITS = {
 NSFW_NAME = re.compile(r"\b(nude|topless|naked|nsfw|sex|masturbat\w*|dildo|penetration|tentacles?)\b", re.I)
 ADULT_EMOTIONS = {"arousal", "ecstasy", "release", "submission", "humiliation"}
 NSFW_OUTFITS = {
+    "rika-and-haruka/harem",
     "ember-renzo/shirtless",
     # underwear, towels and the like
     "quinta/quinta-5", "doe/doe-3", "cheetor/cheetor-4", "jill/jill-2", "maria/maria-2", "quistis/quistis-4",
@@ -119,6 +124,8 @@ NSFW_BACKGROUNDS = {
 
 # Novels with a big cast only bring their core characters (about 12): novel title -> character ids
 ONLY_CHARACTERS = {
+    # without Erica, whose art is a blank placeholder
+    "Pastures Unknown: Repasteurized": {"vachelle"},
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
                   "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew",
                   "queen", "noelle", "shenzi"},
