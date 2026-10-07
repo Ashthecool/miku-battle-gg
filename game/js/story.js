@@ -309,6 +309,21 @@ window.MB = window.MB || {};
             ["maia", "excited", "You won! Of course you did! You're the best big sibling anyone could ever...", { close: true }],
             ["maia", "happy", "...Um. Can I sit next to you? Just in case?"],
           ] },
+        // WTF STEP BRO (NSFW): the Peters household, a very loud family home
+        { foe: 'ashton-peters', side: true, from: 'maria-hunley', at: [60, 92], title: 'The Shy Cousin', text: 'A shy cousin in a Hinata hoodie is hiding behind the sofa. He has a fox ninja build, a Naruto headband and absolutely no confidence.' },
+        { foe: 'kayla-peters', side: true, from: 'ashton-peters', at: [76, 90], title: 'The Locked Room', text: "A goth stepsister hasn't left her room in days. She is playing a boss fight. The door has a sign: DO NOT KNOCK. You knocked." },
+        { foe: 'samantha-peters', side: true, from: 'ashton-peters', at: [88, 78], title: 'Motorcycle Mechanic', text: 'A short, loud army mechanic is rebuilding a chopper in the driveway. She protects her little brother and tolerates everyone else.' },
+        { foe: 'melony-peters', side: true, from: 'kayla-peters', at: [8, 82], title: 'Cheer Captain', text: 'A cheerleader stepsister is practising in front of the mirror. She wants an audience. She also wants you gone.' },
+        { foe: 'jillian-peters', side: true, from: 'melony-peters', at: [4, 62], title: 'Welcome Home', text: 'Your new stepmother runs the house and the garden with a loving iron grip. Dinner is at six. A card game first, darling.',
+          before: { bg: "cf08c7ec-8120-45e6-bd76-29f0f10de3ac", music: "summer-day-2", lines: [
+            { where: "The Peters garden", when: "Late afternoon" },
+            { enter: "jillian-peters", at: 'center', mood: "happy" },
+            ["jillian-peters", "happy", "There you are, sweetie! Come here, let me look at you. Have you eaten? You look thin."],
+            ["jillian-peters", "proud", "A card game with Mom before dinner? Of course. I will not go easy, but I will make cookies after."],
+          ] },
+          after: [
+            ["jillian-peters", "happy", "Well played, sweetie. Now wash your hands. Dinner is at six and I made your favourite.", { close: true }],
+          ] },
       ],
       secrets: [
         { id: 'maria-photo', at: [49, 76], title: 'An Old Photo', lines: [
@@ -644,6 +659,27 @@ window.MB = window.MB || {};
           ] },
           after: [
             ['miss-mireille', 'happy', 'Hm. Not bad at all. Welcome to Siren\'s Cove, dear. Do mind the rules.', { close: true }],
+          ] },
+        // Katya, Cranky Roommate: a Russian exchange student and a very annoyed roommate
+        { foe: 'katya', side: true, from: 'jane', at: [14, 30], title: 'Exchange Student', text: 'A tall Russian student in a tracksuit waits outside the campus gym. She has opinions on your posture, your haircut and your life choices.',
+          before: { bg: "32f0a6b0-a74b-455a-9f98-b2dc53c061d3", music: "skate-o-polis", lines: [
+            { where: "The streets of New Haven", when: "Early afternoon" },
+            { enter: "katya", at: 'center', mood: "happy" },
+            ["katya", "happy", "Hey, small one. I am Katya. I am from Voronezh. You look lost. Is cute."],
+            ["katya", "proud", "You play cards? Da, I play too. Sometimes with men who do not like to lose. They lose."],
+          ] },
+          after: [
+            ["katya", "happy", "Not bad. Not bad at all. You win, I buy you pirozhki. If you lose, you carry my gym bag. Da?", { close: true }],
+          ] },
+        { foe: 'cranky-roommate', side: true, from: 'katya', at: [6, 40], title: 'The Toothpaste Incident', text: 'A very tired roommate is waving an empty tube at everyone in the dormitory. Somebody used his toothpaste. The label said it was his.',
+          before: { bg: "313170af-00ea-4fd4-a3e6-5184ebac385b", music: "sound-1-2", lines: [
+            { where: "The campus dormitory", when: "Morning, unfortunately" },
+            { enter: "cranky-roommate", at: 'center', mood: "angry" },
+            ["cranky-roommate", "angry", "Was it you? It was you. I know it was you. My toothpaste. It is half empty."],
+            ["cranky-roommate", "neutral", "...Play me. If I win, you buy a new tube. If you win, I will stop sulking. For a day."],
+          ] },
+          after: [
+            ["cranky-roommate", "sad", "Fine. Fine! I will buy my own toothpaste. ...Sorry I shouted. I did not sleep.", { close: true }],
           ] },
       ],
       secrets: [
@@ -1122,6 +1158,31 @@ window.MB = window.MB || {};
         { foe: 'hailey', side: true, from: 'charlotte-academia', place: 'academy', at: [88, 58], title: 'Practical Studies', text: 'Hailey Grail, ex-soldier, teaches practical studies with a spear, a scythe and a halberd. Do not call her old.' },
         { foe: 'elyssa', side: true, from: 'hailey', place: 'academy', at: [70, 90], title: 'The Mark of the God', text: 'A timid healer hides her left hand in a lace glove. Whatever is under it, the whole academy whispers about it.' },
         { foe: 'irene', side: true, from: 'elyssa', place: 'academy', at: [50, 42], title: 'The Chancellor', text: 'Madam Chancellor Irene knows every spell ever written and only works blackout drunk. Your real entrance exam.' },
+        // Reincarnation Colosseum (NSFW): a blood-soaked arena where the Priestess Zayd's Holy Four rule
+        { foe: 'koko', side: true, from: 'vachelle', at: [4, 50], title: 'Live from the Colosseum', text: 'A cat-eared announcer hangs over a commentary desk, narrating a fight that has not started yet. You are the main event.' },
+        { foe: 'zulu', side: true, from: 'koko', at: [20, 8], title: 'The Captive', text: 'A girl behind the Colosseum bars offers you a knife and a deal: win the matches, overthrow the Priestess. She does not mention the price.' },
+        { foe: 'chris-ena', side: true, from: 'zulu', at: [54, 6], title: 'The Healer Nun', text: 'A trembling nun was drafted to patch up gladiators. The more scared she is, the stronger her barriers. She is very, very scared.' },
+        { foe: 'mary', side: true, from: 'zulu', at: [96, 22], title: 'Torture Mary', text: 'Once an honourable fire knight, now one of the Holy Four. She gets very cross when anyone says she is still single.',
+          before: { bg: "03eb4432-5ed3-412b-8a75-51bfe218642b", music: "fate-calamity-of-curse", lines: [
+            { where: "The Colosseum arena", when: "Match three" },
+            { enter: "mary", at: 'center', mood: "proud" },
+            ["mary", "proud", "A fresh challenger. How delightful. I do hope you burn well."],
+            ["mary", "angry", "And before you ask: no, I do NOT have a husband. I was too strong for the candidates. That is all."],
+          ] },
+          after: [
+            ["mary", "sad", "...Marl will hear of this. Please do not tell her I lost. Please.", { close: true }],
+          ] },
+        { foe: 'fine-catastrophe', side: true, from: 'mary', at: [94, 70], title: 'A Dirty Cheater', text: 'Fine Catastrophe steals skills for fun. She will happily steal yours, and then thank you for them.' },
+        { foe: 'marl', side: true, from: 'fine-catastrophe', at: [60, 96], title: 'The Undefeated', text: 'The top fighter of the Colosseum has not lost in years. She enjoys it a little too much.',
+          before: { bg: "03eb4432-5ed3-412b-8a75-51bfe218642b", music: "fate-lostbelt-grand-battle-3", lines: [
+            { where: "The Colosseum arena", when: "Main event" },
+            { enter: "marl", at: 'center', mood: "angry" },
+            ["marl", "angry", "So you beat Mary AND the cheater? Good. Maybe you will last two whole rounds."],
+            ["marl", "proud", "Weaklings break so beautifully. Show me you are not one."],
+          ] },
+          after: [
+            ["marl", "neutral", "...Hm. I did not break you. That is... new. Come back when you are stronger. I want to fight you again.", { close: true }],
+          ] },
       ],
       secrets: [
         { id: 'ruby-compass', at: [92, 84], title: "Ruby's Wares", lines: [

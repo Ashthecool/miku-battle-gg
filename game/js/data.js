@@ -1283,6 +1283,88 @@ MB.CARDS = {
     effect: { do: { op: 'buff', to: 'target', atk: 2, hp: 2, say: "It's alive!" } } },
   'do-androids-dream-of-electric-sheep': { type: 'spell', cost: 2, rarity: 'rare', target: null, color: '#9aa7c0', name: 'Electric Sheep',
     effect: { do: [{ op: 'draw' }, { op: 'gold', n: 1 }] } },
+  // Katya, Cranky Roommate (solo stories), Reincarnation Colosseum, WTF STEP BRO (NSFW novels: their cards only exist in NSFW mode)
+  'katya':            { cost: 5, atk: 4, hp: 5, rarity: 'epic', kw: [],
+    onPlay: { label: 'Mocked!', color: '#9fd0ff', emoji: '😏', do: { op: 'buff', to: 'strongestEnemy', atk: -2, say: 'Mocked!' } },
+    attack: { name: 'Gopnik Squat Kick', color: '#9fd0ff', move: 'slide', fx: 'flurry', cry: 'Cyka! Watch this!', scatter: ['🍺', '💥', '🥾'], finish: 'Easy, no?' },
+    intro: { move: 'strut', fx: 'fling', emoji: ['🌻', '🥤', '🏋️'], sfx: 'whistle' },
+    quote: "In Russia, we do this before breakfast. You look tired already." },
+  'cranky-roommate': { cost: 2, atk: 2, hp: 2, rarity: 'common', kw: ['taunt'],
+    attack: { style: 'boomerang', name: 'My Toothpaste!', color: '#4aa8ff', emoji: '🪥' },
+    intro: { move: 'pop', fx: 'fling', emoji: ['🪥', '🧴', '😠'], sfx: 'bonk' },
+    quote: 'Who used my toothpaste?! It has a LABEL on it!' },
+  // Reincarnation Colosseum
+  'receptionist':     { cost: 1, atk: 1, hp: 2, rarity: 'common', kw: [],
+    attack: { style: 'stamp', name: 'Please Take a Number', color: '#8a6ab8', mark: 'NEXT!' },
+    intro: { move: 'fade', fx: 'spray', sfx: 'ding' },
+    quote: 'Next, please. Take a number.' },
+  'koko':             { cost: 2, atk: 2, hp: 3, rarity: 'common', kw: [],
+    attack: { style: 'shout', name: 'Hype Commentary', color: '#7ee06a', shout: 'AND HE GOES DOWN!' },
+    intro: { move: 'pop', fx: 'confetti', sfx: 'cheer' },
+    quote: 'Welcome to the Colosseum, folks! Somebody is about to get HURT!' },
+  'zulu':             { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['haste'],
+    attack: { name: 'Dirty Trick', color: '#ffd84a', move: 'blink', fx: 'slashes', hits: 2, cry: 'Win first. Ethics later.', scatter: ['🔪', '✨'], finish: 'Villains win, remember?' },
+    intro: { move: 'sneak', fx: 'spray', sfx: 'stab' },
+    quote: "Rules are for the Priestess. Let's cheat." },
+  'chris-ena':        { cost: 4, atk: 2, hp: 5, rarity: 'rare', kw: ['shield'],
+    attack: { style: 'halo', name: 'Terrified Barrier', color: '#cfd8ff' },
+    intro: { move: 'fade', fx: 'column', sfx: 'holy' },
+    quote: 'P-please, nobody hit me! ...I mean, us!' },
+  'mary':             { cost: 5, atk: 4, hp: 4, rarity: 'epic', kw: [],
+    onPlay: { label: 'Torture Flames', color: '#ff4a1c', emoji: '🔥', do: { op: 'ignite', to: 'strongestEnemy' } },
+    attack: { style: 'hellfire', name: 'Torture Flames', color: '#ff4a1c' },
+    intro: { move: 'rise', fx: 'column', sfx: 'fire' },
+    quote: "I am NOT a spinster! I am... selective." },
+  'fine-catastrophe': { cost: 5, atk: 4, hp: 4, rarity: 'epic', kw: [],
+    onPlay: { label: 'Skill stolen!', color: '#7ad0ff', emoji: '🃏', do: { op: 'copy', to: 'strongestEnemy' } },
+    attack: { style: 'formo', name: 'Stolen Skill', color: '#7ad0ff' },
+    quote: 'Cheating? I prefer "borrowing". Permanently.' },
+  'marl':             { cost: 6, atk: 5, hp: 5, rarity: 'legendary', kw: ['frenzy'],
+    attack: { style: 'suplex', name: 'Holy Four Suplex', color: '#ff8a2a' },
+    intro: { move: 'drop', fx: 'spray', sfx: 'slam' },
+    quote: 'Weaklings crack so easily. Come on, squeak for me!' },
+  // items of Reincarnation Colosseum
+  'zulu-s-knife':     { type: 'spell', cost: 1, rarity: 'common', target: 'enemyUnit', color: '#c8c8d8', name: "Zulu's Knife",
+    effect: { do: { op: 'damage', to: 'target', n: 2 } } },
+  'aphrodisiac':      { type: 'spell', cost: 3, rarity: 'rare', target: 'enemyUnit', color: '#ff7ab0', name: 'Love Potion',
+    effect: { do: [{ op: 'freeze', to: 'target' }, { op: 'buff', to: 'target', atk: -1, say: 'Smitten!' }] } },
+  // WTF STEP BRO
+  'ashton-peters':    { cost: 2, atk: 2, hp: 3, rarity: 'common', kw: [],
+    attack: { style: 'ninja', name: 'Fox Ninja Dash', color: '#ff9a4a', emoji: '🍥' },
+    intro: { move: 'sneak', fx: 'spray', sfx: 'poof' },
+    quote: "U-um... believe it? ...It's a Naruto thing. Sorry." },
+  'kayla-peters':     { cost: 3, atk: 3, hp: 2, rarity: 'rare', kw: ['stealth'],
+    attack: { name: 'Tarot Reading', color: '#a03fd6', move: 'float', fx: 'rain', prop: ['🃏', '🔮', '🌙'], hits: 8, floor: 'sigil', cry: 'The cards say... no.', scatter: ['🃏', '✨'], finish: 'Told you.' },
+    intro: { move: 'fade', fx: 'smoke', sfx: 'dark' },
+    quote: '...Can you not? I was sleeping.' },
+  'samantha-peters':  { cost: 4, atk: 4, hp: 4, rarity: 'rare', kw: [],
+    attack: { style: 'beam', name: 'Kame-Wrench-Ha', color: '#ffe14a' },
+    intro: { move: 'drop', fx: 'smoke', sfx: 'stomp' },
+    quote: 'Who are you calling short?! I will wrench you!' },
+  'melony-peters':    { cost: 4, atk: 4, hp: 3, rarity: 'epic', kw: ['taunt'],
+    attack: { style: 'pompom', name: 'Cheer Routine', color: '#ff4a5a', shout: 'GO MEL GO!' },
+    intro: { move: 'strut', fx: 'confetti', sfx: 'cheer' },
+    quote: 'Everyone look at me. ...Not you, Kayla.' },
+  'jillian-peters':   { cost: 6, atk: 4, hp: 7, rarity: 'legendary', kw: [],
+    onPlay: { label: 'Fresh cookies!', color: '#e8b068', emoji: '🍪', do: { op: 'heal', to: 'friendly', n: 3 } },
+    attack: { name: 'Garden Party', color: '#7ad06a', move: 'stay', fx: 'rain', prop: ['🌻', '🌷', '🌱'], hits: 10, floor: 'splat', cry: 'Dinner is at six, dear!', scatter: ['🌸', '🍪'], finish: 'Eat your vegetables.' },
+    intro: { move: 'rise', fx: 'fling', emoji: ['🌻', '🍪', '🧺'], sfx: 'heal' },
+    quote: "Welcome home, sweetie! The cookies are in the oven." },
+  // items of WTF STEP BRO
+  'camera':           { type: 'spell', cost: 2, rarity: 'common', target: null, color: '#9aa7b0', name: 'Candid Shot',
+    effect: { do: [{ op: 'draw' }] } },
+  'foam-dagger':      { type: 'spell', cost: 1, rarity: 'common', target: 'enemyAny', color: '#e8a050', name: 'Foam Dagger',
+    effect: { do: { op: 'damage', to: 'target', n: 1 } } },
+  'vr-headset':       { type: 'spell', cost: 2, rarity: 'rare', target: 'allyUnit', color: '#6fd0ff', name: 'VR Headset',
+    effect: { do: { op: 'shield', to: 'target' } } },
+  'shadow-scroll':    { type: 'spell', cost: 2, rarity: 'rare', target: 'allyUnit', color: '#5a4a8a', name: 'Shadow Scroll',
+    effect: { do: { op: 'keyword', to: 'target', kw: 'stealth', say: 'Vanished!' } } },
+  'creepy-old-book':  { type: 'spell', cost: 3, rarity: 'rare', target: 'enemyUnit', color: '#7a3a5a', name: 'Creepy Old Book',
+    effect: { do: [{ op: 'damage', to: 'target', n: 2 }, { op: 'ignite', to: 'target' }] } },
+  'idol-crown':       { type: 'spell', cost: 3, rarity: 'epic', target: 'allyUnit', color: '#ffd84a', name: 'Idol Crown',
+    effect: { do: [{ op: 'buff', to: 'target', atk: 1, hp: 2, say: 'Adored!' }, { op: 'keyword', to: 'target', kw: 'taunt' }] } },
+  'seal-of-meridiana': { type: 'spell', cost: 5, rarity: 'epic', target: null, color: '#c0182a', name: 'Seal of Meridiana',
+    effect: { do: [{ op: 'damage', to: 'enemies', n: 2 }, { op: 'heal', to: 'myLeader', n: 3 }] } },
 };
 MB.itemCards = () => Object.keys(MB.CARDS).filter((id) => MB.CARDS[id].type === 'spell');
 
@@ -1310,6 +1392,8 @@ MB.ITEM_NOVELS = {
   'Your Loving Maid': ['teddy-bear', 'heart-fingers'],
   'In Her Care': ['an-old-photograph', 'back-of-the-old-photograph', 'the-velveteen-rabbit', 'the-island-of-doctor-moreau', 'frankenstein',
     'do-androids-dream-of-electric-sheep'],
+  'Reincarnation Colosseum': ['zulu-s-knife', 'aphrodisiac'],
+  'WTF STEP BRO': ['camera', 'foam-dagger', 'vr-headset', 'shadow-scroll', 'creepy-old-book', 'idol-crown', 'seal-of-meridiana'],
 };
 (function () {
   const novel = {};
@@ -1589,6 +1673,21 @@ MB.POWERS = {
   'rika-and-haruka':  { name: 'Roleplay Extra',   cost: 3, sfx: 'cheer', target: null, emoji: '🎭', effect: { do: [{ op: 'draw' }, { op: 'heal', to: 'myLeader', n: 1 }] } },
   'care':             { name: 'House Systems',    cost: 2, sfx: 'glitch', target: 'allyUnit', emoji: '🏠', effect: { do: [{ op: 'shield', to: 'target' }, { op: 'heal', to: 'target', n: 2 }] } },
   'vachelle':         { name: 'Fresh Milk',       cost: 2, sfx: 'heal', target: 'friendlyAny', emoji: '🥛', effect: { do: { op: 'heal', to: 'target', n: 3 } } },
+  // Katya, Cranky Roommate, Reincarnation Colosseum, WTF STEP BRO
+  'katya':            { name: 'Da, Mock',          cost: 2, sfx: 'laugh', target: 'enemyUnit', emoji: '😏', effect: { do: { op: 'buff', to: 'target', atk: -2, say: 'Mocked!' } } },
+  'cranky-roommate':  { name: 'Silent Treatment',  cost: 2, sfx: 'bonk', target: 'enemyUnit', emoji: '🪥', effect: { do: { op: 'freeze', to: 'target' } } },
+  'marl':             { name: 'Break Bones',       cost: 3, sfx: 'punch', target: 'enemyUnit', emoji: '👊', effect: { do: { op: 'damage', to: 'target', n: 3 } } },
+  'zulu':             { name: 'Dirty Trick',       cost: 2, sfx: 'stab', target: 'enemyUnit', emoji: '🔪', effect: { do: { op: 'strip', to: 'target', say: 'Disarmed!' } } },
+  'mary':             { name: 'Torture Flames',    cost: 3, sfx: 'fire', target: 'enemyUnit', emoji: '🔥', effect: { do: [{ op: 'damage', to: 'target', n: 1 }, { op: 'ignite', to: 'target' }] } },
+  'fine-catastrophe': { name: 'Skill Theft',       cost: 3, sfx: 'glitch', target: 'enemyUnit', emoji: '🃏', effect: { do: { op: 'copy', to: 'target' } } },
+  'chris-ena':        { name: 'Fear Barrier',      cost: 2, sfx: 'holy', target: 'allyUnit', emoji: '🛡️', effect: { do: { op: 'shield', to: 'target' } } },
+  'koko':             { name: 'Hype Up',           cost: 2, sfx: 'cheer', target: 'allyUnit', emoji: '🎤', effect: { do: { op: 'buff', to: 'target', atk: 1, say: 'HYPE!' } } },
+  'receptionist':     { name: 'Please Hold',       cost: 2, sfx: 'ding', target: 'enemyUnit', emoji: '📞', effect: { do: { op: 'freeze', to: 'target' } } },
+  'jillian-peters':   { name: 'Homemade Cookies',  cost: 3, sfx: 'heal', target: null, emoji: '🍪', effect: { do: [{ op: 'heal', to: 'friendly', n: 2 }, { op: 'draw' }] } },
+  'melony-peters':    { name: 'Glam Up',           cost: 2, sfx: 'cheer', target: 'allyUnit', emoji: '💄', effect: { do: { op: 'buff', to: 'target', atk: 1, hp: 1, say: 'Glam!' } } },
+  'kayla-peters':     { name: 'Draw a Card',       cost: 3, sfx: 'dark', target: null, emoji: '🃏', effect: { do: [{ op: 'draw' }, { op: 'damage', to: 'randomEnemyAny', n: 1 }] } },
+  'ashton-peters':    { name: 'Shadow Clone',      cost: 2, sfx: 'poof', target: 'allyUnit', emoji: '🍥', effect: { do: { op: 'shield', to: 'target' } } },
+  'samantha-peters':  { name: 'Rev It Up',         cost: 2, sfx: 'boom', target: 'allyUnit', filter: 'spent', emoji: '🏍️', effect: { do: [{ op: 'buff', to: 'target', atk: 1 }, { op: 'ready', to: 'target' }] } },
 };
 
 // Relationships. When both characters of a pair stand on the same side of the board they fuse into one
@@ -2277,6 +2376,39 @@ MB.BONDS = [
   { id: 'close-encounter', pair: ['vachelle', 'takuya-yamashiro'], costumes: [null, null], tier: 1,
     name: 'Close Encounter', short: 'Close Enc.', relation: 'The clumsy alien shepherd & the otaku who has read about this', bonus: [1, 0], kw: ['rebel'],
     attack: { style: 'combo', name: 'First Contact', color: '#7ad7ff', emoji: '🛸' } },
+  // Reincarnation Colosseum
+  { id: 'brutal-besties', pair: ['marl', 'mary'], costumes: [null, null], tier: 2,
+    name: 'Brutal Besties', short: 'Besties', relation: 'Holy Four best friends who break and burn things together', bonus: [1, 2], kw: ['frenzy', 'burn'],
+    onFuse: { label: 'Holy Four!', color: '#ff6a2a', do: [{ op: 'damage', to: 'enemies', n: 1 }, { op: 'ignite', to: 'randomEnemy' }] },
+    attack: { style: 'dojo', name: 'Fire & Fists', color: '#ff6a2a' } },
+  { id: 'colosseum-staff', pair: ['koko', 'receptionist'], costumes: [null, null], tier: 1,
+    name: 'Colosseum Staff', short: 'Staff', relation: 'The announcer & the receptionist who keep the Colosseum running', bonus: [0, 1], kw: ['shield'],
+    attack: { style: 'combo', name: 'Next Contestant!', color: '#7ee06a', emoji: '🎤' } },
+  { id: 'patch-her-up', pair: ['chris-ena', 'marl'], costumes: [null, null], tier: 1,
+    name: 'Patch Her Up', short: 'Patched', relation: 'The undefeated gladiator & the frightened healer assigned to her', bonus: [1, 0], kw: ['taunt'],
+    attack: { style: 'combo', name: 'Healing Barrier', color: '#cfd8ff', emoji: '🩹' } },
+  // WTF STEP BRO
+  { id: 'peters-household', pair: ['jillian-peters', 'melony-peters'], costumes: [null, null], tier: 3,
+    name: 'The Peters Household', short: 'Peters', relation: 'The loving mom & her cheerleader daughter', bonus: [2, 2], kw: ['taunt', 'lifesteal'],
+    onFuse: { label: 'Family dinner!', color: '#ffb060', do: [{ op: 'heal', to: 'friendly', n: 3 }, { op: 'buff', to: 'allAllies', atk: 1, hp: 1 }] },
+    attack: { style: 'breakfast', name: 'Family Breakfast', color: '#ffb060' } },
+  { id: 'goth-and-glam', pair: ['melony-peters', 'kayla-peters'], costumes: [null, null], tier: 2,
+    name: 'Goth & Glam', short: 'Sisters', relation: 'Sisters who agree on nothing', bonus: [1, 2], kw: ['rebel', 'ranged'],
+    onFuse: { label: 'Sibling rivalry!', color: '#c040a0', do: [{ op: 'damage', to: 'randomEnemy', n: 2 }, { op: 'buff', to: 'allAllies', atk: 1 }] },
+    attack: { style: 'twinstar', name: 'Sun & Gloom', color: '#c040a0' } },
+  { id: 'big-sis-little-bro', pair: ['ashton-peters', 'samantha-peters'], costumes: [null, null], tier: 2,
+    name: 'Big Sis, Little Bro', short: 'Siblings', relation: 'The tough tomboy & her shy little brother she protects', bonus: [1, 2], kw: ['taunt', 'shield'],
+    onFuse: { label: 'Back off!', color: '#ffa040', do: [{ op: 'shield', to: 'allAllies' }, { op: 'buff', to: 'allAllies', hp: 1 }] },
+    attack: { style: 'sleepover', name: 'Pillow Fight', color: '#ffa040' } },
+  { id: 'mom-and-goth', pair: ['jillian-peters', 'kayla-peters'], costumes: [null, null], tier: 1,
+    name: 'Worried Mom', short: 'Mom', relation: 'The mother who keeps knocking & the daughter who keeps the door shut', bonus: [0, 1], kw: ['shield'],
+    attack: { style: 'combo', name: 'Knock, Knock', color: '#a03fd6', emoji: '🍪' } },
+  { id: 'fox-and-goth', pair: ['ashton-peters', 'kayla-peters'], costumes: [null, null], tier: 1,
+    name: 'Gamer Cousins', short: 'Co-op', relation: 'The shy fox ninja & the cousin he admires', bonus: [1, 0], kw: ['rebel'],
+    attack: { style: 'combo', name: 'Co-op Raid', color: '#ff9a4a', emoji: '🎮' } },
+  { id: 'aunt-and-niece', pair: ['jillian-peters', 'samantha-peters'], costumes: [null, null], tier: 1,
+    name: 'Aunt & Niece', short: 'Family', relation: 'The nurturing aunt & the niece who fixes her car', bonus: [1, 0], kw: ['taunt'],
+    attack: { style: 'combo', name: 'Sunday Roast', color: '#7ad06a', emoji: '🍗' } },
 ];
 // Close-up scenes (cards.js). kind: lovers, family, rivals, friends, school, crush, partners or mentor; scene picks a variant
 // (catalog.md); lines (2 or more) are said by the partners in turn; backdrop, emoji and word dress any scene.
@@ -2529,6 +2661,17 @@ MB.BOND_SCENES = {
   'candidates-lounge':  { kind: 'friends', lines: ['Ever done this before? I have.', 'Is there overtime in it?'] },
   'grand-proclamations': { kind: 'friends', lines: ['Overlord, hear my decree!', 'Princess. Speak. I narrate.'] },
   'close-encounter':    { kind: 'friends', lines: ['Take me to your cows!', 'Isekai. But with aliens!'] },
+  // Reincarnation Colosseum
+  'brutal-besties':     { kind: 'friends', lines: ['Mary! Who did you roast today?', 'Marl! Who did you crack today?'] },
+  'colosseum-staff':    { kind: 'friends', lines: ['Receptionist! Next contestant!', 'Take a number, Koko.'] },
+  'patch-her-up':       { kind: 'friends', lines: ['Y-you are bleeding on the floor!', "It's fine. Just fix it. Quickly."] },
+  // WTF STEP BRO
+  'peters-household':   { kind: 'family', scene: 'meal', food: ['🥞', '🍳', '🍓'], lines: ['Eat up, sweetie! Big day!', 'Mom! I am NOT eating that.'] },
+  'goth-and-glam':      { kind: 'rivals', scene: 'mirror', colors: ['#ff4a5a', '#a03fd6'], lines: ['Kayla, your room smells.', 'Melony, your brain does.'] },
+  'big-sis-little-bro': { kind: 'family', scene: 'bearhug', hugger: 1, lines: ['Come here, squirt!', 'S-Sam! I c-can not breathe!'] },
+  'mom-and-goth':       { kind: 'family', scene: 'movie', lines: ['Kayla, dear, dinner!', 'Mom. I am in the middle of a boss.'] },
+  'fox-and-goth':       { kind: 'friends', lines: ['K-Kayla, want to raid together?', '...Fine. Do not die, Ash.'] },
+  'aunt-and-niece':     { kind: 'family', scene: 'meal', food: ['🍗', '🥔', '🥕'], lines: ['Sam, sweetheart, more gravy?', 'Aunt Jil, you are the best.'] },
 };
 
 // the strongest bond wins when a character could fuse with more than one partner (sort is stable)
@@ -2639,6 +2782,15 @@ MB.COMBOS = [
     line: '...I remember her face. I will keep you safe.' },
   { char: 'care', item: 'the-velveteen-rabbit', name: 'Becoming Real', short: 'Real', bonus: [2, 1], kw: ['shield'],
     line: 'Do I become real, Beloved, if you love me?' },
+  // Reincarnation Colosseum, WTF STEP BRO
+  { char: 'zulu', item: 'zulu-s-knife', name: 'First Fight Gift', short: 'Gift Knife', bonus: [2, 1], kw: ['haste'],
+    line: "Take it. Don't ask where I got it." },
+  { char: 'ashton-peters', item: 'vr-headset', costume: 'ninja-attire', name: 'Iron Shroud Fox', short: 'Iron Shroud', bonus: [1, 2], kw: ['shield'],
+    line: 'In-game I am f-fearless. Honest!' },
+  { char: 'kayla-peters', item: 'creepy-old-book', name: 'Occult Scholar', short: 'Occult', bonus: [2, 1], kw: ['shield'],
+    line: 'Hm. My initial is in the cover...' },
+  { char: 'melony-peters', item: 'idol-crown', costume: 'dress', name: 'Idol Queen', short: 'Idol', bonus: [1, 2],
+    onCombo: { label: 'Adored!', emoji: '👑', do: { op: 'buff', to: 'allAllies', atk: 1 } }, line: 'Finally. A crown that fits my ego.' },
 ];
 MB.COMBOS.forEach((c) => { c.items = [].concat(c.item); c.id = c.char + '+' + c.items[0]; });
 MB.combosOf = (id) => MB.COMBOS.filter((c) => c.char === id || c.items.includes(id));
@@ -2726,6 +2878,8 @@ MB.CHAPTERS = [
   { title: 'Exodus: Bound for Beyond' },
   { title: 'In Her Care' },
   { title: 'Pastures Unknown' },
+  { title: 'Reincarnation Colosseum' },
+  { title: 'WTF STEP BRO' },
 ];
 
 // Story rivals: each fights in their own location with their own music; `intro` is their line right before the fight.
@@ -3121,6 +3275,35 @@ MB.STORY = [
     intro: 'Care flickers into being above the sofa, hands folded. "Welcome home, Beloved. The doors are locked. For your safety, of course. ...Shall we play?"' },
   { chapter: 24, foe: 'vachelle', bg: '9ca44538-1fd4-4e4c-9b36-417a770518eb', music: 'intergalactic-pastures',
     intro: 'Vachelle waves from the cow pasture, a saucer parked crooked behind her. "Greetings, Earthling! I am collecting sacred cows! ...Have you seen any? Also, cards?"' },
+  // Katya, Cranky Roommate: Solo Stories (backgrounds by id)
+  { chapter: 15, foe: 'katya', bg: '32f0a6b0-a74b-455a-9f98-b2dc53c061d3', music: 'skate-o-polis',
+    intro: 'Katya leans on a lamppost in her tracksuit, eating a pirozhok. "You are the new one? Hm. Small. Cute. ...Do not worry, I only mock the ones I like. Cards?"' },
+  { chapter: 15, foe: 'cranky-roommate', bg: '313170af-00ea-4fd4-a3e6-5184ebac385b', music: 'sound-1-2',
+    intro: 'Noah stands in the doorway of the dorm room, holding an empty tube. "My toothpaste. It had a LABEL on it. ...Fine, one game. Loser buys a new tube."' },
+  // Reincarnation Colosseum (NSFW)
+  { chapter: 25, foe: 'koko', bg: '116465a9-458e-41e8-824b-c08d2d112d00', music: 'fate-the-golden-capital',
+    intro: 'Koko leans over the announcer desk, mic in hand, ears twitching. "FOLKS! Fresh meat in the sand! Will it last one round? Place your bets!"' },
+  { chapter: 25, foe: 'zulu', bg: '3fcc7608-f59e-4956-af44-24589f13bffe', music: 'ai-velvet-static',
+    intro: 'Zulu spins a knife behind the cell bars, unbothered. "Win first, ethics later. Play with me, and I will show you the first rule: there are none."' },
+  { chapter: 25, foe: 'chris-ena', bg: 'e21a7d8e-eda2-4b8f-b9ef-486477708618', music: 'humanity-s-vow',
+    intro: 'Chris Ena clasps her hands in the dim quarters, shaking. "I-I really do not want to fight! ...But if I lose, they will make me heal more gladiators. Please be gentle?"' },
+  { chapter: 25, foe: 'mary', bg: '03eb4432-5ed3-412b-8a75-51bfe218642b', music: 'fate-calamity-of-curse',
+    intro: 'Mary strikes a match on the arena wall and smiles. "Torture Mary, at your service. Do not call me a spinster. Do not call me old. ...Do not call me at all. Fight."' },
+  { chapter: 25, foe: 'fine-catastrophe', bg: '9ed05161-e533-4c3e-b3de-18202ff22750', music: 'stronghold-castle-jam',
+    intro: 'Fine Catastrophe flips a card between her fingers at the pub table. "A challenge? Oh, I love those. I will steal every trick you have. Do try to have good ones."' },
+  { chapter: 25, foe: 'marl', bg: '03eb4432-5ed3-412b-8a75-51bfe218642b', music: 'fate-lostbelt-grand-battle-3',
+    intro: 'Marl cracks her knuckles at the center of the arena, a thousand cheering. "Undefeated for years. You will be a nice warm-up. Try not to break too early."' },
+  // WTF STEP BRO (NSFW)
+  { chapter: 26, foe: 'ashton-peters', bg: 'ef1c3f02-24d7-4455-8ca4-7ad77fad6da4', music: 'iron-shroud-bgm',
+    intro: 'Ashton peeks around the sofa in a Hinata hoodie. "U-um, hi. Do you want to play? I am a fox ninja. In-game. B-but I am OK at this too, I think."' },
+  { chapter: 26, foe: 'kayla-peters', bg: '5ff84437-965d-466c-83da-f4b9032e9ca0', music: 'avesatanis',
+    intro: 'Kayla looks up from the glow of her monitor, tarot cards spread out. "...You knocked. Nobody knocks. Fine. One game. Then you leave."' },
+  { chapter: 26, foe: 'samantha-peters', bg: 'fb6a42b3-2271-485b-9f2e-3b51be6f264c', music: 'march-on',
+    intro: 'Samantha wipes grease off her hands next to her chopper. "You are the cousin? SMALL! ...Shut up, I am not short. Play me, I play loud."' },
+  { chapter: 26, foe: 'melony-peters', bg: '6f9f4c27-1824-4cd6-8cc3-66af7606c616', music: 'dance',
+    intro: 'Melony twirls a pom-pom in front of the mirror. "Ugh, you again? Fine. Watch me. Everyone does. ...Do not tell Mom I skipped practice."' },
+  { chapter: 26, foe: 'jillian-peters', bg: 'cf08c7ec-8120-45e6-bd76-29f0f10de3ac', music: 'summer-day-2',
+    intro: 'Jillian waves from the garden, a basket of tomatoes on her hip. "Welcome home, sweetie! Dinner at six. ...A little card game first? Mom always wins, you know."' },
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
@@ -3217,6 +3400,12 @@ MB.BOSSES = {
   vachelle: { name: 'Beam Up', every: 3, color: '#7ad7ff', emoji: '🛸', text: 'Every 3rd turn: shocks your strongest monster for 2.',
     effect: { do: { op: 'damage', to: 'strongestEnemy', n: 2 } },
     rage: { name: 'Holy Cowsmo', text: 'At half HP: her monsters get +0/+2.', effect: { do: { op: 'buff', to: 'allAllies', hp: 2 } } } },
+  marl: { name: 'Undefeated Streak', every: 3, color: '#ff8a2a', emoji: '👊', text: 'Every 3rd turn: 2 damage to your strongest monster.',
+    effect: { do: { op: 'damage', to: 'strongestEnemy', n: 2 } },
+    rage: { name: 'Bone Breaker', text: 'At half HP: her monsters get +2 ATK.', effect: { do: { op: 'buff', to: 'allAllies', atk: 2 } } } },
+  'jillian-peters': { name: 'Family Dinner', every: 3, color: '#ffb060', emoji: '🍽️', text: 'Every 3rd turn: restores 2 HP to all her characters, and her monsters get +0/+1.',
+    effect: { do: [{ op: 'heal', to: 'friendly', n: 2 }, { op: 'buff', to: 'allAllies', hp: 1 }] },
+    rage: { name: 'Mama Bear', text: 'At half HP: her monsters get +1/+2.', effect: { do: { op: 'buff', to: 'allAllies', atk: 1, hp: 2 } } } },
 };
 // the boss rule of a Story stage
 MB.bossOf = (i) => (MB.STORY[i] && MB.BOSSES[MB.STORY[i].foe]) || null;
@@ -3270,6 +3459,11 @@ MB.CLOSE_LOOKS = {
   'kosuke-fujimoto':    { sky: 'bokeh', c: '#6f8fb0', parts: [{ e: ['📧', '📊', '☕'], move: 'drift', n: 8, size: 46 }, { bit: 'spark', move: 'twinkle', n: 18 }] },
   care:                 { sky: 'hearth', c: '#4fe8ff', parts: [{ e: ['🏠', '💙', '🔒'], move: 'rise', n: 14, size: 50 }, { bit: 'firefly', move: 'twinkle', n: 22 }] },
   vachelle:             { sky: 'dawn', c: '#7ad7ff', parts: [{ e: ['🐄', '🛸', '🥛'], move: 'drift', n: 8, size: 54 }, { bit: 'firefly', move: 'twinkle', n: 22 }] },
+  katya:                { sky: 'bokeh', c: '#9fd0ff', parts: [{ e: ['🌻', '🥤', '🏋️'], move: 'drift', n: 8, size: 50 }, { bit: 'spark', move: 'twinkle', n: 18 }] },
+  'cranky-roommate':    { sky: 'impact', c: '#4aa8ff', parts: [{ bit: 'streak', move: 'burst', n: 24 }, { e: ['🪥', '😠', '💢'], move: 'burst', n: 8, size: 60 }] },
+  mary:                 { sky: 'hell', c: '#ff4a1c', parts: [{ bit: 'ember', move: 'rise', n: 36 }, { e: ['🔥', '🗡️'], move: 'rise', n: 8, size: 58 }] },
+  marl:                 { sky: 'warlord', c: '#ff8a2a', parts: [{ e: ['👊', '💥', '🔥'], move: 'burst', n: 10, size: 62 }, { bit: 'ember', move: 'rise', n: 24 }] },
+  'jillian-peters':     { sky: 'hearth', c: '#ffb060', parts: [{ e: ['🌻', '🍪', '💗'], move: 'rise', n: 16, size: 52 }, { bit: 'petal', move: 'fall', n: 24 }] },
 };
 
 MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebration', lose: 'missing-my-hayley',

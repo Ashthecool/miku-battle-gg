@@ -56,6 +56,10 @@ SKIP_OUTFITS = {
     "marine/transparent",
     # Integrated Domestic Android: Ida's default outfit is an empty image
     "ida/blank",
+    # WTF STEP BRO: blank outfits, and Ashton's explicit art (a childlike drawing, so never in the game);
+    # Reincarnation Colosseum: Koko's speech-bubble image
+    "jillian-peters/clear", "melony-peters/blank", "kayla-peters/clear", "ashton-peters/blank",
+    "ashton-peters/naked", "ashton-peters/lewd", "koko/new-outfit",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -84,7 +88,7 @@ NSFW_OUTFITS = {
     "hanako-ikezawa/lewd", "ida/lewd", "lilly-satou/lewd",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
-NSFW_NOVELS = {"Noble One", "Integrated Domestic Android"}
+NSFW_NOVELS = {"Noble One", "Integrated Domestic Android", "WTF STEP BRO", "Reincarnation Colosseum"}
 # single backgrounds marked by eye: "novel title/background name", or the background's id when the novel names them
 # all alike ("background-47", some of them twice)
 NSFW_BACKGROUNDS = {

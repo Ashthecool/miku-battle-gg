@@ -48,6 +48,8 @@
         { novel: 'Cordelia', id: 'aade70fe-0329-4aba-8279-dda48af6fcb1' },
         { novel: 'Seraphina', id: 'b41f2610-5356-43f9-b9ac-eebc77bdb389' },
         { novel: 'Valerian', id: 'efe0a08f-4d1f-4249-9616-f8310448baa7' },
+        { novel: 'Katya', id: '478097cd-66e0-4099-b047-503ce7b86dbb' },
+        { novel: 'Cranky Roommate', id: 'd7332a18-ece8-4c63-bf02-fa60ec33febc' },
       ] },
     { name: 'piedarling', id: 'ee597633-a4df-4067-a132-31fd982f93c7', color: '#ff9d6b',
       pic: 'optimized/ee597633-a4df-4067-a132-31fd982f93c7/072c3c96-909e-4181-b0d8-209e68cb2728.webp', novels: [
@@ -63,6 +65,7 @@
       pic: 'optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/c2765e09-9fbb-4ec3-ae2c-5b78d3325023.webp', novels: [
         { novel: 'Integrated Domestic Android', id: '0f4481d3-e4a2-4292-bbc0-c2d01a5b8453' },
         { novel: 'Meditate with Yllara', id: 'a4d06e92-5a7d-4755-a168-fd8ffb42ea40' },
+        { novel: 'WTF STEP BRO', id: '32d79bcc-6e60-42be-a6f4-23bbb906e6db' },
       ] },
     { name: 'Richard Wily', id: '18e1c3d3-84ac-4981-9446-e829829de9c1', color: '#6bb6ff',
       pic: 'optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/af2e8c4a-189c-42c4-9a26-30f8504f7599.webp', novels: [
@@ -79,6 +82,7 @@
     { name: 'MC_Ride (Gazs)', id: '1192eca9-cf3d-497d-b54e-ef6bcf73d1a7', color: '#3dffb0',
       pic: 'optimized/1192eca9-cf3d-497d-b54e-ef6bcf73d1a7/894c09ca-5106-4aee-a77b-eee9b3b1baf5.webp', novels: [
         { novel: 'Cyber Delivery', title: 'Cyber//Delivery - Pizza Runner', id: '074f645b-4083-4b37-b24d-665c1d8940bf' },
+        { novel: 'Reincarnation Colosseum', id: 'db027486-aeb7-4236-a4ff-245ea61afca5' },
       ] },
     { name: 'Orion', id: 'ab30ad39-6d74-49cd-a2dc-8f7e155017b2', color: '#7cdb5a', novels: [
         { novel: 'Paradiso Suburbia', id: 'c99bd6b9-60c5-4c71-aed1-2f8410078767' },
