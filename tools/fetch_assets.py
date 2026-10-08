@@ -133,10 +133,11 @@ ONLY_CHARACTERS = {
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
                   "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew",
                   "queen", "noelle", "shenzi"},
-    # without the nameless binary entity and Hil Kuntnovi
+    # "" is the binary entity "???", whose name makes no id (the manifest keeps it as binary-entity)
     "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)": {
         "beatrice-avalistos", "julia-aquacrucis", "priest-pristo", "hed", "curtis-vongravis", "pepita-pazzarella",
-        "mimi-hanetsu", "kuku-hanetsu", "brutio-bruscos", "brulliant-bruscos", "borcolls-carple", "flora-aquila"},
+        "mimi-hanetsu", "kuku-hanetsu", "brutio-bruscos", "brulliant-bruscos", "borcolls-carple", "flora-aquila",
+        "hil-kuntnovi", ""},
     # without the alternate-universe copies of Misaki and Arisa
     "Atarashī gakkō; Secret Garden!": {"yumi", "eri", "arisa", "misaki", "helga", "suzu", "shiina", "ai",
                                        "evil-villainess-chan", "mariko", "keiko"},
