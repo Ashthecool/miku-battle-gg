@@ -1,6 +1,8 @@
 """Import one existing miku.gg character's safe default outfit from a novel export.
 
-Usage: py tools/import_character_sprites.py "Paradiso Suburbia" "Asher"
+Usage: py tools/import_character_sprites.py "Paradiso Suburbia" "Asher" [id]
+
+`id` names a character whose name makes no id of its own (a "???" gets "binary-entity").
 
 The exported sprite database supplies the images. This writes game-local WebP files and
 appends one character to manifest.json/js; no R2 credentials or bucket writes are needed.
@@ -14,7 +16,7 @@ import sys
 import fetch_assets as assets
 
 
-def main(title, name):
+def main(title, name, cid=None):
     paths = glob.glob(os.path.join(assets.ROOT, "novels", "*.json"))
     novel = None
     for path in paths:
@@ -43,7 +45,9 @@ def main(title, name):
     existing = next((c for c in manifest["characters"] if c["novel"] == title and c["name"] == entry["name"]), None)
     if existing:
         raise SystemExit(f"Already in the manifest as {existing['id']}")
-    cid = assets.slug(entry["name"])
+    cid = cid or assets.slug(entry["name"])
+    if not cid:
+        raise SystemExit(f"{name} makes no id; pass one")
     if any(c["id"] == cid for c in manifest["characters"]):
         cid += "-" + assets.slug(title).split("-")[0]
 
@@ -87,6 +91,6 @@ def main(title, name):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) not in (3, 4):
         raise SystemExit(__doc__)
-    main(sys.argv[1], sys.argv[2])
+    main(*sys.argv[1:])

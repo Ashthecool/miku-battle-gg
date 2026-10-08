@@ -406,6 +406,18 @@ MB.CARDS = {
     attack: { style: 'vines', emoji: ['🌸', '🌼', '🌿'], name: 'Vine Whip Justice', color: '#6fcf3f',
       cry: 'PREPARE THYSELF!', finish: 'Go touch some grass!' },
     intro: { move: 'rise', fx: 'rain', emoji: ['🌸', '🌿', '🌼'] }, quote: 'Disagree? Go touch some grass!' },
+  // Superior Knight, dad joker, and invulnerable for as long as he yells RESISTO
+  'hil-kuntnovi':       { cost: 6, atk: 4, hp: 5, rarity: 'epic', kw: ['taunt', 'shield'],
+    onPlay: { label: 'Dad Joke!', color: '#f2c94c', emoji: '😂', do: { op: 'buff', to: 'enemies', atk: -1, say: 'Groan...' } },
+    attack: { move: 'charge', fx: 'crescent', big: true, name: 'Superior Knight Cleave', color: '#e8c25a', scatter: ['⚔️', '😂', '✨'],
+      cry: 'HAHAHA! Hold still, kid!', finish: 'Get it? KNIGHT-time! HAHA!' },
+    intro: { move: 'strut', fx: 'confetti', sfx: 'laugh' }, quote: 'HAHAHA! Why the long face, Lieutenant?' },
+  // the dark entity: silent, or repeating "beware of the unthinkable present and future" in binary
+  'binary-entity':      { cost: 4, atk: 3, hp: 3, rarity: 'epic', kw: ['stealth'],
+    onTurnStart: { label: '01100010...', color: '#d0102a', emoji: '👁️', do: { op: 'damage', to: 'randomEnemyAny', n: 1 } },
+    attack: { move: 'float', fx: 'words', words: ['01100010', '01100101', '01110111', '01100001', '01110010', '01100101'], sky: 'void',
+      name: 'The Unthinkable Present', color: '#d0102a', cry: '. . .', finish: '...' },
+    intro: { move: 'fade', fx: 'smoke', sfx: 'glitch' }, quote: '01100010 01100101 01110111 01100001 01110010 01100101' },
   'beatrice-avalistos': { cost: 7, atk: 5, hp: 6, rarity: 'legendary', kw: ['lifesteal'],
     onPlay: { label: 'FERMO! CEDERE!', color: '#8e44ad', emoji: '👁️', do: [{ op: 'freeze', to: 'enemies' }, { op: 'buff', to: 'enemies', atk: -1, say: 'Kneel!' }] },
     attack: { style: 'hora', name: 'HORA-HORA-HORA!', color: '#8e44ad', scatter: ['💜', '👑'], cry: 'Look into my eyes~ Fufu.', finish: 'Exquisite.' },
@@ -1518,6 +1530,10 @@ MB.POWERS = {
   'brulliant-bruscos':  { name: 'Sigma Scheme',    cost: 3, target: null,        effect: { do: { op: 'draw', pick: 'priciest' } } },
   'curtis-vongravis':   { name: 'Royal Escort',    cost: 2, target: 'allyUnit',  effect: { do: { op: 'shield', to: 'target' } } },
   'flora-aquila':       { name: 'Sprout Golem',    cost: 2, target: null,        effect: { do: { op: 'summon', card: 'plant-golem' } } },
+  'hil-kuntnovi':       { name: 'RESISTO!',        cost: 3, sfx: 'shield', target: 'allyUnit', emoji: '🛡️',
+    effect: { do: [{ op: 'shield', to: 'target' }, { op: 'keyword', to: 'target', kw: 'taunt', say: 'RESISTO!' }] } },
+  'binary-entity':      { name: 'Unthinkable Silence', cost: 2, sfx: 'glitch', target: 'enemyUnit', filter: 'hasKw', emoji: '👁️',
+    effect: { do: { op: 'strip', to: 'target', say: '...' } } },
   'beatrice-avalistos': { name: 'CEDERE',          cost: 3, target: 'enemyUnit', effect: { do: [{ op: 'freeze', to: 'target' }, { op: 'buff', to: 'target', atk: -1, say: 'Kneel!' }] } },
   'priest-pristo':      { name: 'Time Stop',       cost: 3, sfx: 'gong', target: 'allyUnit', filter: 'spent', text: 'An ally that already attacked can attack again.',
     effect: { do: { op: 'ready', to: 'target', say: 'Again!' } } },
@@ -1988,6 +2004,13 @@ MB.BONDS = [
   { id: 'pizza-night', pair: ['pepita-pazzarella', 'beatrice-avalistos'], costumes: [null, null], tier: 1,
     name: 'Royal Pizza Night', short: 'Pizza', relation: 'Chef & Princess', bonus: [1, 1], kw: ['taunt'],
     attack: { style: 'combo', name: 'Extra Cheese Edict', color: '#e84a3a', emoji: '🍕' } },
+  { id: 'knights-of-dalmavilla', pair: ['hil-kuntnovi', 'curtis-vongravis'], costumes: [null, null], tier: 2,
+    name: 'Knights of Dalmavilla', short: 'Knights', relation: 'Superior Knight & Lieutenant', bonus: [1, 2], kw: ['taunt', 'guardian'],
+    onFuse: { label: 'RESISTO! AHULA!', color: '#e8c25a', do: [{ op: 'buff', to: 'enemies', atk: -1, say: 'Outclassed!' }, { op: 'shield', to: 'allAllies' }] },
+    attack: { style: 'dojo', name: 'Knightly Drill', color: '#e8c25a' } },
+  { id: 'royal-sparring', pair: ['hil-kuntnovi', 'beatrice-avalistos'], costumes: [null, null], tier: 1,
+    name: 'Sparring Partners', short: 'Sparring', relation: 'Knight & Princess', bonus: [1, 1], kw: ['rebel'],
+    attack: { style: 'combo', name: 'Annoy the Princess', color: '#b36ad8', emoji: '⚔️' } },
   // Legend Of You
   { id: 'cursed-katanas', pair: ['shirayukihime', 'ororahime'], costumes: [null, null], tier: 1,
     name: 'Cursed Katanas', short: 'Katanas', relation: 'Cursed-blade princesses', bonus: [1, 1], kw: ['frenzy'],
@@ -2546,6 +2569,8 @@ MB.BOND_SCENES = {
   'church-of-dalmavilla': { kind: 'mentor', scene: 'concert', mentor: 1, word: 'AMEN! \\m/', emoji: ['🎸', '🤘', '✝️'], lines: ['F-father, the choir...', 'Turn it up to eleven, kid.'] },
   'hero-and-thug':     { kind: 'rivals', scene: 'tug', emoji: ['🌼'], lines: ['PREPARE THYSELF, thug!', 'NOT ZE FUR! NOT ZE FUR!'], colors: ['#6fcf3f', '#7b4fa8'] },
   'pizza-night':       { kind: 'friends', scene: 'cook', lines: ['P-pizza, Your Highness?', 'Exquisite. More.'], food: ['🍅', '🧀', '🌿'], result: '🍕', word: 'Buon appetito!' },
+  'knights-of-dalmavilla': { kind: 'mentor', scene: 'duel', winner: 0, emoji: ['🍂', '🍃'], lines: ['Too slow, Lieutenant! HAHA!', 'Again. ...Sir.'] },
+  'royal-sparring':    { kind: 'rivals', scene: 'boxing', emoji: [['⚔️', '😂'], ['👁️', '💜']], lines: ['Annoyed yet, Princess? HAHA!', 'I will END you, Kuntnovi.'], colors: ['#e8c25a', '#8e44ad'] },
   // Legend Of You
   'cursed-katanas':    { kind: 'rivals', scene: 'duel', winner: 0, backdrop: 'sunset', emoji: ['🌸', '🍂', '🍃'], lines: ['This Fox craves a duel!', 'P-please, no swords!'], colors: ['#b0182c', '#8f86b8'] },
   'burnstraight-church': { kind: 'mentor', mentor: 0, lesson: 'Pray for the lambs~', word: 'AMEN~', lines: ['Such a good little lamb~', 'I-is this... normal?'] },
@@ -3348,6 +3373,11 @@ MB.STORY = [
     intro: 'Melony twirls a pom-pom in front of the mirror. "Ugh, you again? Fine. Watch me. Everyone does. ...Do not tell Mom I skipped practice."' },
   { chapter: 26, foe: 'jillian-peters', bg: 'cf08c7ec-8120-45e6-bd76-29f0f10de3ac', music: 'summer-day-2',
     intro: 'Jillian waves from the garden, a basket of tomatoes on her hip. "Welcome home, sweetie! Dinner at six. ...A little card game first? Mom always wins, you know."' },
+  // DUMB SUPER FANTASY RPG, two more of its cast
+  { chapter: 9, foe: 'hil-kuntnovi',       bg: "Dalmavilla's Castle (Fight)",  music: 'military-tango',
+    intro: 'A huge knight in spiked armour laughs until the walls shake. "HAHAHA! So YOU beat my little Lieutenant? Show me! And if you lose... I\'ll tell you a joke."' },
+  { chapter: 9, foe: 'binary-entity',      bg: 'BADASS DARK CASTLE',           music: 'shattered-glass',
+    intro: 'Something tall and black stands where the shadows meet. Red eyes. "01100010 01100101 01110111 01100001 01110010 01100101." ...Then nothing at all.' },
 ];
 MB.STORY.forEach((s) => { s.chapter = s.chapter || 0; });
 
