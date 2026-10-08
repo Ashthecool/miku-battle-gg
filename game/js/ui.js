@@ -11,9 +11,10 @@
   const DECK_SLOTS = 3;
   // scales each fight's own AI skill (0..1) and enemy leader HP
   const DIFFICULTY = {
-    easy:   { name: 'Easy',   ai: (a) => a * 0.5,               hp: 0.8 },
-    normal: { name: 'Normal', ai: (a) => a,                     hp: 1 },
-    hard:   { name: 'Hard',   ai: (a) => Math.min(1, a + 0.25), hp: 1.25 },
+    // lv: added to a Story rival's card level
+    easy:   { name: 'Easy',   ai: (a) => a * 0.5,               hp: 0.8,  lv: -1 },
+    normal: { name: 'Normal', ai: (a) => a,                     hp: 1,    lv: 0 },
+    hard:   { name: 'Hard',   ai: (a) => Math.min(1, a + 0.25), hp: 1.25, lv: 1 },
   };
   const MIGRATIONS = [
     (s) => {
@@ -407,7 +408,7 @@
       if (ent.frozen) notes.push('❄️ Frozen — skips its next attack.');
       if (ent.burning) notes.push('♨️ Burning — takes 1 damage each turn until healed.');
       if (ent.shield) notes.push('🔰 Shielded.');
-      if (ent.sick && ent.attacksLeft === 0) notes.push('💤 Just arrived — can attack next turn.');
+      if (ent.sick && !ent.kw.has('haste')) notes.push('🆕 Just arrived — can fight enemy monsters now, the enemy leader next turn.');
       if (ent.card.fused) notes.push(`💞 <b>${ent.card.members.map((m) => MB.charById(m.id).name).join(' & ')}</b> — ${ent.card.bond.relation}`);
       if (ent.card.combo) notes.push(`🔗 <b>Item combo</b>: ${ent.card.combo.text}`);
       [...ent.kw].forEach((k) => notes.push(`${MB.KEYWORDS[k].icon} <b>${MB.KEYWORDS[k].name}</b>: ${MB.KEYWORDS[k].text}`));
@@ -602,6 +603,15 @@
   // ★★☆ for a stage's star bits; `fresh` bits get the .new class (the result screen animates them)
   const starRow = (have, fresh = 0) => [0, 1, 2].map((k) => `<i class="${have & (1 << k) ? 'on' : ''}${fresh & (1 << k) ? ' new' : ''}">${have & (1 << k) ? '★' : '☆'}</i>`).join('');
 
+  // a Story rival's card level: the story's level for that fight (MB.STORY cardLv), but never above your deck's
+  // average level (rounded down), then one up on Hard and one down on Easy
+  function storyFoeLv(cardLv, deck, diff) {
+    if (!cardLv) return 1;
+    const lvs = deck.filter((id) => MB.Collection.levels(id)).map((id) => MB.Collection.level(save, id) || 1);
+    const yours = lvs.length ? Math.floor(lvs.reduce((a, b) => a + b, 0) / lvs.length) : 1;
+    return Math.max(1, Math.min(MB.LEVELS.max, Math.min(cardLv, yours) + diff.lv));
+  }
+
   // visual-novel style intro before each story battle
   function intro(i, leaderId) {
     const st = MB.STORY[i], ch = MB.charById(st.foe);
@@ -623,6 +633,8 @@
     const have = save.stars[i] | 0;
     const stars = el('div', 'intro-stars', MB.Stars.starsOf(i).map((s, k) => `<span class="${have & (1 << k) ? 'on' : ''}">${have & (1 << k) ? '★' : '☆'} ${s.text}</span>`).join('')
       + (save.difficulty === 'easy' ? '<em>Stars need Normal or Hard</em>' : ''));
+    const foeLv = storyFoeLv(st.cardLv, save.deck, DIFFICULTY[save.difficulty]);
+    if (foeLv > 1) stars.appendChild(el('em', 'intro-lv', `🃏 ${ch.name.split(' ')[0]}'s cards are Lv ${foeLv}`));
     $('#intro-text').after(stars);
     gsap.fromTo(stars, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.4 + text.length * 0.03 });
     if (boss) {
@@ -636,7 +648,7 @@
     $('#intro-go').classList.remove('hidden'); // (PvP's face-off hides it)
     $('#intro-go').onclick = () => {
       MB.audio.sfx('click');
-      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, level: st.level, bg: st.bg, music, story: i, boss });
+      startBattle({ leader: leaderId, foe: st.foe, foeHp: st.hp, ai: st.ai, level: st.level, cardLv: st.cardLv, bg: st.bg, music, story: i, boss });
     };
   }
 
@@ -742,6 +754,7 @@
     // PvP (cfg.pvp): the other player's deck and levels, the match's seed, and their moves arrive through MB.Net
     const b = new MB.Battle({ view: MB.view, playerLeader: cfg.leader, enemyLeader: cfg.foe, enemyHp: cfg.pvp ? null : Math.round(cfg.foeHp * diff.hp),
       playerDeck, enemyDeck, boss: cfg.boss, first: cfg.lesson ? 0 : null, playerLevels: cfg.arena ? null : { ...save.levels },
+      enemyLevels: MB.AI.levels(enemyDeck, storyFoeLv(cfg.cardLv, playerDeck, diff)),
       ...(cfg.pvp ? { seed: cfg.pvp.seed, flip: cfg.pvp.flip, control: ['local', 'remote'], enemyLevels: cfg.pvp.peer.levels } : {}) });
     if (cfg.pvp) b.names = [save.name, cfg.pvp.peer.name];
     b.aiSkill = diff.ai(cfg.ai);

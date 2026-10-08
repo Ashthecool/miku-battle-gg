@@ -180,9 +180,9 @@ window.MB = window.MB || {};
   const CHALLENGES = {
     noItems:  { text: 'Win without playing an item card', ok: (r) => !r.tally.items },
     noPower:  { text: 'Win without using your leader power', ok: (r) => !r.tally.powers },
-    fast:     { text: 'Win within 9 of your turns', ok: (r) => (r.tally.turns || 0) <= 9 },
-    kills:    { text: 'Win and destroy 9 enemy monsters', ok: (r) => (r.tally.kills || 0) >= 9 },
-    flawless: { text: 'Win losing 3 monsters or fewer', ok: (r) => (r.tally.lost || 0) <= 3 },
+    fast:     { text: 'Win within 11 of your turns', ok: (r) => (r.tally.turns || 0) <= 11 },
+    kills:    { text: 'Win and destroy 10 enemy monsters', ok: (r) => (r.tally.kills || 0) >= 10 },
+    flawless: { text: 'Win losing 6 monsters or fewer', ok: (r) => (r.tally.lost || 0) <= 6 },
     bond:     { text: 'Win and fuse a relationship', ok: (r) => (r.tally.bonds || 0) > 0 },
   };
   const CH_KEYS = Object.keys(CHALLENGES);

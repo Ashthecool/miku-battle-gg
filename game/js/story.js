@@ -1225,7 +1225,8 @@ window.MB = window.MB || {};
 
   // a line's mood -> the sprite role showing it (the manifest names them by battle role)
   const MOODS = { neutral: 'idle', happy: 'play', angry: 'attack', rage: 'special', scared: 'hurt', sad: 'lose', excited: 'win', proud: 'taunt' };
-  const LEVEL = { hp: [15, 44], ai: [0.05, 1] };
+  // rivals grow along the story: leader HP, AI skill and the level of their cards (Lv 1 .. MB.LEVELS.max, like yours)
+  const LEVEL = { hp: [15, 36], ai: [0.05, 1], cards: [1, MB.LEVELS.max] };
   const EASE_IN = 1.4;         // difficulty climbs slowly at first: the opening rivals face a starter deck
   const BOSS_HP = 2;           // a boss rival's extra HP
   const SECRET_GLITTER = 20;   // a secret found for the first time
@@ -1323,6 +1324,7 @@ window.MB = window.MB || {};
     st.level = t;   // also limits the Epics and Legendaries in the rival's deck (MB.AI.deck)
     st.hp = Math.round(LEVEL.hp[0] + (LEVEL.hp[1] - LEVEL.hp[0]) * e) + (MB.BOSSES[st.foe] ? BOSS_HP : 0) + (q.side ? 1 : 0);
     st.ai = Math.min(1, Math.round((LEVEL.ai[0] + (LEVEL.ai[1] - LEVEL.ai[0]) * e + (q.side ? 0.05 : 0)) * 100) / 100);
+    st.cardLv = Math.round(LEVEL.cards[0] + (LEVEL.cards[1] - LEVEL.cards[0]) * e);
   });
 
   // a scene as { bg, music, lines }; bg/music default to the quest's fight, then the act

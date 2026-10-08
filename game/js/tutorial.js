@@ -29,7 +29,7 @@ window.MB = window.MB || {};
         { who: 'hayley-kate', mood: 'happy', point: '#hand', if: playable, until: 'play',
           text: 'The number in a card\'s corner is what it costs. Glowing cards are ones you can afford. <b>Drag one onto the board!</b>' },
         { who: 'maria-hunley', mood: 'proud', if: (b) => b.units(0).length > 0, point: (b) => b.units(0)[0],
-          text: (b) => `Lovely! Monsters need a turn to settle in before they can attack${b.units(0)[0].kw.has('haste') ? `... except ones with ${KW('haste')}, like that one. It can go right away!` : '.'} Hover over anything to read what it does.` },
+          text: (b) => `Lovely! A new monster can fight my monsters straight away, but it needs a turn to settle in before it can go for a leader${b.units(0)[0].kw.has('haste') ? `... except ones with ${KW('haste')}, like that one. It can go right away!` : '.'} Hover over anything to read what it does.` },
         { who: 'hayley-kate', mood: 'neutral', point: '#end-turn', until: 'endTurn', text: 'Done? Press <b>END TURN</b> (or <b>E</b>). Then it\'s MY go. Hehe.' },
       ],
       [ // turn 2: attacking, trading, taunt

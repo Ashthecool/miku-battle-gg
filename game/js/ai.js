@@ -119,17 +119,22 @@
     const targets = b.attackTargets(u);
     const face = targets.find((t) => t.isLeader);
     const foeLeader = b.foe(u.side).leader;
-    // lethal check: total ready attack
-    const readyAtk = b.units(u.side).filter((x) => b.canAttack(x)).reduce((s, x) => s + x.atk * x.attacksLeft, 0);
+    // lethal check: total ready attack of the monsters that can reach the leader
+    const readyAtk = b.units(u.side).filter((x) => b.canAttack(x) && b.attackTargets(x).includes(foeLeader)).reduce((s, x) => s + x.atk * x.attacksLeft, 0);
     if (face && readyAtk >= foeLeader.hp) return face;
+    // under pressure (the other side's board could hit hard next turn), clear its monsters instead of racing:
+    // 0 when safe, up to 2 when that board is lethal
+    const myLeader = b.me(u.side).leader;
+    const threat = b.units(1 - u.side).filter((e) => !e.frozen).reduce((s, e) => s + e.atk * (e.kw.has('frenzy') ? 2 : 1), 0);
+    const danger = skill * Math.min(2, (threat * 2) / Math.max(1, myLeader.hp));
     let best = null, bestScore = -Infinity;
     for (const t of targets) {
       let s;
-      if (t.isLeader) s = 2 + u.atk * 0.6;
+      if (t.isLeader) s = 2 + u.atk * 0.6 - danger * 3;
       else {
         const kills = t.shield ? false : (t.hp <= u.atk || u.kw.has('poison'));
         const survives = u.kw.has('ranged') || u.shield || t.atk < u.hp;
-        s = (kills ? value(t) + 2 : -1) + (survives ? 3 : -value(u) * 0.8) + (t.kw.has('taunt') ? 1 : 0);
+        s = (kills ? value(t) + 2 + t.atk * danger : -1) + (survives ? 3 : -value(u) * 0.8 * (1 - danger / 3)) + (t.kw.has('taunt') ? 1 : 0);
         if (t.shield) s += 1.5; // popping shields with small units is fine
       }
       s += (Math.random() - 0.5) * (1 - skill) * 8;
@@ -219,5 +224,8 @@
     return out;
   }
 
-  MB.AI = { takeTurn, deck };
+  // a rival's card levels for MB.Battle's enemyLevels: every card of the deck at Lv lv (null at Lv 1)
+  const levels = (deck, lv) => (lv > 1 ? Object.fromEntries(deck.map((id) => [id, Math.min(lv, MB.LEVELS.max)])) : null);
+
+  MB.AI = { takeTurn, deck, levels };
 })();

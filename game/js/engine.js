@@ -142,7 +142,7 @@
       this.count(side, 'turns');
       p.maxGold = Math.min(R.maxGold, p.maxGold + 1); p.gold = p.maxGold; p.powerUsed = false;
       for (const u of this.units(side)) {
-        u.sick = false;
+        u.sick = false; u.attacked = false;
         if (u.frozen) { u.attacksLeft = 0; u.thaw = true; }
         else u.attacksLeft = u.kw.has('frenzy') ? 2 : 1;
       }
@@ -151,12 +151,21 @@
       if (burning.length) { await this.view.burnFx(burning, () => burning.forEach((u) => this.deal(u, 1, null))); await this.resolveDeaths(); }
       if (this.over) return;
       await this.draw(side);
+      if (R.underdog && this.units(1 - side).length - this.units(side).length >= R.underdog.behind) await this.underdog(side);
       if (side === 1 && this.boss && !this.over && ++this.bossTurns % this.boss.every === 0) await this.bossRule(this.boss);
       if (this.over) return;
       for (const u of this.units(side)) if (u.onTurnStart && u.hp > 0) await this.trigger(u.onTurnStart, u);
       await this.resolveDeaths();
       this.view.refresh();
       if (!this.over && this.control[side] === 'ai') await MB.AI.takeTurn(this, side);
+    }
+
+    // comeback help (MB.RULES.underdog): a side starting its turn outnumbered on the board gets extra gold for that turn
+    async underdog(side) {
+      const p = this.me(side);
+      p.gold += R.underdog.gold;
+      this.view.log(`${side ? 'Enemy is' : "You're"} outnumbered: +${R.underdog.gold} gold this turn.`);
+      this.view.react({ type: 'buff', ent: p.leader, atk: 0, hp: 0, label: `Underdog! +${R.underdog.gold} 🪙` });
     }
 
     async endTurn() {
@@ -220,7 +229,7 @@
         case 'friendlyAny': t = [...ally, this.me(side).leader]; break;
       }
       if (filter === 'lowAtk') t = t.filter((u) => u.atk <= 2);
-      if (filter === 'sick') t = t.filter((u) => u.sick && !u.frozen && u.attacksLeft === 0);
+      if (filter === 'sick') t = t.filter((u) => this.fresh(u) && !u.frozen && !u.attacked);
       if (filter === 'guarded') t = t.filter((u) => u.kw.has('taunt') || u.shield);
       if (filter === 'hasKw') t = t.filter((u) => u.kw.size || u.shield);
       if (filter === 'noRebel') t = t.filter((u) => !u.kw.has('rebel'));
@@ -228,13 +237,19 @@
       return t;
     }
 
-    canAttack(u) { return !this.over && u && !u.isLeader && u.side === this.active && u.attacksLeft > 0 && !u.frozen && u.atk > 0; }
+    // played this turn without Haste: it can already fight monsters (MB.RULES.rush), but not the leader yet
+    fresh(u) { return !!u.sick && !u.kw.has('haste'); }
+
+    canAttack(u) {
+      return !this.over && !!u && !u.isLeader && u.side === this.active && u.attacksLeft > 0 && !u.frozen && u.atk > 0
+        && this.attackTargets(u).length > 0;
+    }
 
     attackTargets(u) {
       const enemy = this.units(1 - u.side).filter((e) => !e.kw.has('stealth'));
       const taunts = enemy.filter((e) => e.kw.has('taunt'));
       if (taunts.length && !u.kw.has('tipsy') && !u.kw.has('rebel')) return taunts;
-      return [...enemy, this.foe(u.side).leader];
+      return this.fresh(u) ? enemy : [...enemy, this.foe(u.side).leader];
     }
 
     // ---------- actions ----------
@@ -310,7 +325,7 @@
       if (!this.canAttack(attacker)) return false;
       if (!this.attackTargets(attacker).some((t) => t.uid === target.uid)) return false;
       this.record(attacker.side, { t: 'attack', src: attacker.uid, target: target.uid });
-      attacker.attacksLeft--;
+      attacker.attacksLeft--; attacker.attacked = true;
       this.count(attacker.side, 'attacks');
       const tipsy = attacker.kw.has('tipsy');
       if (tipsy) target = this.pick(this.attackTargets(attacker));
@@ -347,7 +362,8 @@
         sick: true, attacksLeft: 0, onTurnStart: card.onTurnStart, onDeath: card.onDeath,
         onHurt: card.onHurt, onAllyDeath: card.onAllyDeath, onAttack: card.onAttack, onKill: card.onKill, onTurnEnd: card.onTurnEnd,
       };
-      if (u.kw.has('haste')) { u.attacksLeft = u.kw.has('frenzy') ? 2 : 1; }
+      // on its owner's turn a new monster can fight right away: anything with Haste, only monsters without it (rush)
+      if (u.kw.has('haste') || (R.rush && this.active === side)) u.attacksLeft = u.kw.has('frenzy') ? 2 : 1;
       p.board[slot] = u;
       return this.view.summon(u).then(() => u);
     }
@@ -467,7 +483,7 @@
       if (up.costume !== undefined) u.costume = up.costume;
       u.atk += atk; u.maxHp += hp; u.hp += hp;
       (up.kw || []).forEach((k) => { if (k === 'shield') u.shield = true; else u.kw.add(k); });
-      if (u.kw.has('haste') && u.sick && !u.frozen) u.attacksLeft = Math.max(u.attacksLeft, 1);
+      if (u.kw.has('haste') && u.sick && !u.frozen && !u.attacked) u.attacksLeft = Math.max(u.attacksLeft, 1);
       await this.view.upgrade(u, up);
       if (up.onUpgrade) await this.trigger(up.onUpgrade, u);
       else { await this.resolveDeaths(); this.view.refresh(); }
@@ -529,6 +545,8 @@
 
     giveKeyword(u, k, label) {
       u.kw.add(k);
+      // Haste on a monster that arrived this turn and hasn't attacked yet: it can go now
+      if (k === 'haste' && u.sick && !u.frozen && !u.attacked && u.side === this.active) u.attacksLeft = Math.max(u.attacksLeft, u.kw.has('frenzy') ? 2 : 1);
       this.view.react({ type: 'buff', ent: u, atk: 0, hp: 0, label });
     }
 
@@ -846,7 +864,7 @@
         case 'bribe': t.hp = 0; this.view.react({ type: 'poison', ent: t }); break;
         case 'freezeOne': this.freeze(t); break;
         case 'tideAll': [...this.units(side), me.leader].forEach((u) => this.heal(u, 2)); break;
-        case 'overtime': t.attacksLeft = t.kw.has('frenzy') ? 2 : 1; this.view.react({ type: 'buff', ent: t, atk: 0, hp: 0, label: 'Overtime!' }); break;
+        case 'overtime': t.attacksLeft = t.kw.has('frenzy') ? 2 : 1; t.sick = false; this.view.react({ type: 'buff', ent: t, atk: 0, hp: 0, label: 'Overtime!' }); break;
         case 'ignite': this.ignite(t); break;
         case 'bless': this.heal(t, t.maxHp); break;
         case 'drill': this.buff(t, 1, 1); break;

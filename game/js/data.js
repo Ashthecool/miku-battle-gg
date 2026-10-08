@@ -10,11 +10,13 @@ MB.RULES = {
   maxHand: 8,       // cards drawn past this burn
   openingHand: 4,   // cards each side starts with (the one going second draws one more)
   deckSize: 20,
+  rush: true,       // a monster can fight enemy monsters the turn it's played; only Haste lets it hit the leader that turn
+  underdog: { behind: 2, gold: 2 }, // starting your turn 2+ monsters behind gives +2 gold for that turn
 };
 
 MB.KEYWORDS = {
   taunt:     { name: 'Taunt',     icon: '🛡️', text: 'Enemies must attack this first.' },
-  haste:     { name: 'Haste',     icon: '⚡', text: 'Can attack the turn it is played.' },
+  haste:     { name: 'Haste',     icon: '⚡', text: 'Can attack the enemy leader the turn it is played.' },
   ranged:    { name: 'Ranged',    icon: '🏹', text: 'Takes no counter-damage when attacking.' },
   shield:    { name: 'Shield',    icon: '🔰', text: 'Blocks the first damage it takes.' },
   lifesteal: { name: 'Lifesteal', icon: '💗', text: 'Damage it deals heals your leader.' },

@@ -214,7 +214,7 @@
       }
       v.status.innerHTML = (e.shield ? '<div class="bubble"></div>' : '') + (e.frozen ? '<div class="ice"></div>' : '') +
         (e.burning ? '<div class="flames"><i></i><i></i><i></i></div>' : '') +
-        (!e.isLeader && e.sick && e.attacksLeft === 0 && !e.frozen && this.b && e.side === this.b.active ? '<div class="zzz">z<span>z</span><span>z</span></div>' : '');
+        (!e.isLeader && e.sick && !e.attacked && !e.frozen && this.b && e.side === this.b.active && !this.b.canAttack(e) ? '<div class="zzz">z<span>z</span><span>z</span></div>' : '');
       v.el.classList.toggle('stealthed', !e.isLeader && e.kw.has('stealth'));
       const low = e.hp > 0 && e.hp / e.maxHp < 0.4;
       if (low !== v.low) { v.low = low; if (v.emotion === 'idle' || v.emotion === 'hurt') this.setSprite(v, low ? 'hurt' : 'idle'); }
@@ -587,7 +587,8 @@
 
     goldHtml(p) {
       let s = '';
-      for (let i = 0; i < p.maxGold; i++) s += `<i class="${i < p.gold ? 'full' : ''}"></i>`;
+      // gold past the cap (Underdog, coupons) shows as extra gems for the turn
+      for (let i = 0; i < Math.max(p.maxGold, p.gold); i++) s += `<i class="${i < p.gold ? 'full' : ''}"></i>`;
       return `<span class="gold-num">${p.gold}/${p.maxGold}</span><span class="gems">${s}</span>`;
     }
 

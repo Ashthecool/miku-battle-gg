@@ -594,7 +594,7 @@ const LV = MB.LEVELS;
     const list = S.starsOf(i);
     if (list.length !== 3 || list.some((x) => !x || !x.text || typeof x.ok !== 'function')) err(`stage ${i}: needs three stars with text and ok()`);
   });
-  const perfect = { won: true, hp: 30, difficulty: 'normal', tally: { items: 0, powers: 0, turns: 5, kills: 9, lost: 0, bonds: 1 } };
+  const perfect = { won: true, hp: 30, difficulty: 'normal', tally: { items: 0, powers: 0, turns: 5, kills: 15, lost: 0, bonds: 1 } };
   if (S.starsWon(0, { ...perfect, difficulty: 'easy' }) !== 0 || S.starsWon(0, { ...perfect, won: false }) !== 0) err('stars: Easy or a loss gives stars');
   const ch0 = MB.STORY.map((st, i) => i).filter((i) => MB.STORY[i].chapter === 0);
   ch0.forEach((i) => S.awardStars(s, i, perfect));

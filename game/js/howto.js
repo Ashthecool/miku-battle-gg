@@ -191,8 +191,8 @@
       coins.set(1, '<');
       const zz = K.add('ht-zzz', 'z<span>z</span>', TILE_X[1] + 26, ROW_Y[0] - 120);
       tl.fromTo(zz, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      K.cap('It can attack <b>next turn</b>…');
-      K.wait(1.2);
+      K.cap('It can fight enemy monsters <b>right away</b>, the leader <b>next turn</b>…');
+      K.wait(1.6);
       K.cap('…unless it has <b>⚡ Haste</b>');
       const t2 = { x: TILE_X[2], y: ROW_Y[0] - 40 };
       K.drag(h2, t2);
@@ -620,8 +620,8 @@
   const RC = (r) => `<b style="color:${MB.RARITY[r].color}">${MB.RARITY[r].name}</b>`;
   const TOPICS = [
     { group: 'Battle' },
-    { id: 'goal', icon: '🏆', title: 'Goal & Gold', text: () => `<p>Knock the enemy leader's HP to <b>0</b>. You gain <b>1 more gold</b> every turn (max ${MB.RULES.maxGold}), and cards cost gold to play (the number in the corner).</p>` },
-    { id: 'summon', icon: '🃏', title: 'Summoning', text: () => `<p><b>Drag a character card</b> onto one of your 4 tiles to summon it. It can attack <b>next turn</b> (unless it has ⚡ Haste).</p>` },
+    { id: 'goal', icon: '🏆', title: 'Goal & Gold', text: () => `<p>Knock the enemy leader's HP to <b>0</b>. You gain <b>1 more gold</b> every turn (max ${MB.RULES.maxGold}), and cards cost gold to play (the number in the corner).</p><p>🐾 <b>Underdog</b>: start your turn with ${MB.RULES.underdog.behind}+ fewer monsters than the enemy and you get <b>+${MB.RULES.underdog.gold} gold</b> for that turn to fight back.</p>` },
+    { id: 'summon', icon: '🃏', title: 'Summoning', text: () => `<p><b>Drag a character card</b> onto one of your 4 tiles to summon it. It can fight <b>enemy monsters right away</b>, and the enemy leader from <b>next turn</b> (unless it has ⚡ Haste).</p>` },
     { id: 'attack', icon: '⚔️', title: 'Attacking', text: () => `<p><b>Drag from a glowing character</b> to an enemy to attack. Both deal their ATK to each other — unless the attacker is 🏹 Ranged. Hitting the leader is free.</p><p>Every character has their own <b>attack style</b>.</p>` },
     { id: 'items', icon: '🎒', title: 'Items', text: () => `<p><b>Item cards</b> come from the novel's inventory: drag them onto a target (or anywhere, if they have no target).</p>` },
     { id: 'power', icon: '✨', title: 'Leader Power', text: () => `<p>Your <b>Leader Power</b> (bottom-left button) can be used once per turn. Each leader has their own.</p>` },
