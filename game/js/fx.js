@@ -13077,6 +13077,178 @@
     resetDuo(v);
   };
 
+  // ---------------------------------------------------------------- more signatures: the rest of Reincarnation Colosseum and the Peters family
+  // Zulu: she wins first and worries about ethics later. A smoke bomb, a blink behind the target and a knife flick; a "villain" stamp lands after
+  S.backstab = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, A, H + 95, own(a, 'cry', 'Win first. Ethics later.'), 'float-text burn', 1.1);
+    MB.audio.sfx('poof');
+    puff(V, A, '#3a3a48', 10, 40, 1.2);
+    await gsap.to(v.figure, { opacity: 0, duration: 0.15 });
+    const bomb = lobProp(V, A, H * 0.6, T, hT, '💣', 54, 0.4, 0, 360);
+    await bomb.done;
+    fadeOut(bomb.b, 0, 0.05);
+    puff(V, T, '#3a3a48', 14, hT, 1.6); MB.audio.sfx('boom');
+    await wait(0.4);
+    for (let i = 0; i < 3; i++) {
+      const k = lobProp(V, { x: T.x + sg * rnd(50, 90), y: T.y + rnd(-15, 15) }, hT * rnd(0.6, 1.4), { x: T.x - sg * rnd(0, 30), y: T.y }, hT * rnd(0.6, 1.2), '🔪', 60, 0.18, i * 0.12, -sg * 180);
+      gsap.delayedCall(0.18 + i * 0.12, () => { hit(V, t, c, false); MB.audio.sfx('stab'); fadeOut(k.b, 0, 0.15); });
+    }
+    await wait(0.65);
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    squash(tv, 0.6);
+    slamStamp(V, T, hT * 1.3, 'VILLAIN', '#ffd84a', 0.7);
+    await gsap.to(v.figure, { opacity: 1, duration: 0.2 });
+    pop(V, T, hT + 150, own(a, 'finish', 'Villains win, remember?'), 'float-text burn', 1.1);
+    await wait(0.5);
+  };
+
+  // Chris Ena: terrified, so the barrier is enormous. She kneels, a bubble swells round her and rolls over the target in panic
+  S.barrierpray = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'P-please, please, please...'), 'float-text shield', 1.1);
+    gsap.to(v.figure, { scaleY: 0.85, y: 6, duration: 0.2 });
+    MB.audio.sfx('holy');
+    const bub = propAt(V, A, H * 0.5, '🫧', 120);
+    gsap.to(bub.body, { scale: 3.2, duration: 0.7, ease: 'power2.out' });
+    ring(V, A, c, 2.6, 0.8);
+    await wait(0.8);
+    pop(V, A, H + 50, 'EEEEK!', 'float-text debuff', 0.7);
+    gsap.to(v.figure, { scaleY: 1, y: 0, duration: 0.2, clearProps: 'scaleY,y' });
+    MB.audio.sfx('whoosh');
+    await gsap.to(bub, { x: T.x, y: T.y, duration: 0.55, ease: 'power2.in' });
+    gsap.to(bub.body, { y: -hT, duration: 0.55 });
+    impact(); hit(V, t, c, true); MB.audio.sfx('clang'); V.shake(16); V.hitStop();
+    flash(V, T, hT, '#ffffff', 300);
+    squash(tv, 0.6);
+    pop(V, T, hT + 150, own(a, 'finish', "I'M SO SORRY!"), 'float-text shield', 1.1);
+    await wait(0.4);
+    fadeOut(bub, 0, 0.3);
+  };
+
+  // Mary: a match is struck, a flame ring closes round the target and a whip of fire cracks across it. She hates being called anything but "selective"
+  S.torturefire = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', 'Selective. The word is SELECTIVE.'), 'float-text burn', 1.1);
+    const match = propAt(V, A, H * 0.8, '🔥', 60);
+    MB.audio.sfx('sizzle');
+    await wait(0.6);
+    const flames = [];
+    for (let i = 0; i < 8; i++) {
+      const ang = (i / 8) * Math.PI * 2;
+      const f = pillar(V, { x: T.x + Math.cos(ang) * 130, y: T.y + Math.sin(ang) * 40 }, c, 'pillar small');
+      gsap.fromTo(f.body, { scaleY: 0 }, { scaleY: rnd(0.8, 1.2), duration: 0.25, delay: i * 0.07, ease: 'power2.out' });
+      flames.push(f);
+    }
+    MB.audio.sfx('fire');
+    await wait(0.8);
+    pop(V, T, hT * 2 + 60, 'CRACK!', 'float-text burn', 0.7);
+    MB.audio.sfx('whip');
+    const col = pillar(V, T, c);
+    gsap.fromTo(col.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.8, scaleY: 1.4, duration: 0.25, ease: 'power3.out' });
+    impact(); hit(V, t, c, true); V.shake(18); V.hitStop();
+    tint(tv, 'brightness(0.5) saturate(2.5)', 0.8);
+    pop(V, T, hT + 150, own(a, 'finish', 'Burn, burn, burn~'), 'float-text burn', 1.1);
+    await wait(0.6);
+    flames.forEach((f) => gsap.to(f.body, { opacity: 0, duration: 0.3, onComplete: () => f.remove() }));
+    gsap.to(col.body, { scaleX: 0, opacity: 0, duration: 0.3, onComplete: () => col.remove() });
+    fadeOut(match, 0, 0.2);
+  };
+
+  // Fine Catastrophe: she has stolen better skills than yours. Three skill cards are pulled out of the target, flipped over and played back at it
+  S.skillsteal = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 95, own(a, 'cry', "Ooh, what's THAT skill?"), 'float-text burn', 1.1);
+    MB.audio.sfx('glitch');
+    const cards = [];
+    for (let i = 0; i < 3; i++) {
+      const cd = propAt(V, { x: T.x + (i - 1) * 70, y: T.y }, hT * 1.7, '🃏', 70);
+      cards.push(cd);
+      flash(V, T, hT, c, 160);
+      MB.audio.sfx('swipe');
+      await wait(0.3);
+    }
+    pop(V, T, hT * 2.2 + 50, 'SKILL STOLEN x3', 'float-text debuff', 0.9);
+    await wait(0.4);
+    for (const cd of cards) await gsap.to(cd, { x: A.x, y: A.y, duration: 0.3, ease: 'power2.in' });
+    pop(V, A, H + 60, "Mine now!", 'float-text burn', 0.7);
+    gsap.to(v.img, { filter: `drop-shadow(0 0 16px ${c}) brightness(1.4)`, duration: 0.2 });
+    await wait(0.4);
+    MB.audio.sfx('whoosh');
+    await Promise.all(cards.map((cd, i) => gsap.to(cd, { x: T.x + rnd(-20, 20), y: T.y, duration: 0.3, delay: i * 0.1, ease: 'power3.in' })));
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); V.shake(14); V.hitStop();
+    cards.forEach((cd) => fadeOut(cd, 0, 0.15));
+    squash(tv, 0.6);
+    gsap.to(v.img, { filter: 'brightness(1)', duration: 0.3, clearProps: 'filter' });
+    pop(V, T, hT + 150, own(a, 'finish', 'Thanks for the skills~'), 'float-text burn', 1.1);
+    await wait(0.5);
+  };
+
+  // Marl: she cracks her knuckles so loud the floor splits, then breaks something. A rib-X flashes over the target before the suplex
+  S.bonebreaker = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, A, H + 95, own(a, 'cry', 'Squeak for me!'), 'float-text burn', 1.1);
+    for (let i = 0; i < 3; i++) { MB.audio.sfx('clang'); pop(V, { x: A.x + rnd(-40, 40), y: A.y }, H * 0.6, 'CRACK', 'float-text dmg', 0.5); gsap.fromTo(v.figure, { y: 0 }, { y: -8, duration: 0.08, yoyo: true, repeat: 1 }); await wait(0.25); }
+    ring(V, A, c, 3, 0.8);
+    gsap.to(v.figure, { x: sg * (T.x - A.x) * 0.75, duration: 0.3, ease: 'power3.in' });
+    MB.audio.sfx('whoosh');
+    await wait(0.3);
+    pop(V, T, hT * 2 + 70, '🦴 CRACK! 🦴', 'float-text dmg', 0.8);
+    flash(V, T, hT, '#ffffff', 280);
+    V.shake(10);
+    await wait(0.35);
+    if (tv) await gsap.to(tv.figure, { y: -hT * 1.2, rotation: sg * 180, duration: 0.3, ease: 'power2.out' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('punch'); V.shake(26); V.hitStop();
+    decal(V, T, 'dark', c, 1.2);
+    debris(V, T, c, 12, { chars: ['🦴', '💥'], h: hT });
+    if (tv) await gsap.to(tv.figure, { y: 0, rotation: 0, duration: 0.3, ease: 'bounce.out' });
+    pop(V, T, hT + 150, own(a, 'finish', 'Was that all?'), 'float-text burn', 1.1);
+    await gsap.to(v.figure, { x: 0, duration: 0.4, ease: 'power2.inOut' });
+  };
+
+  // Jillian & Melony: the family dinner. The table is laid, every dish flies to the target, mother serves and daughter critiques
+  S.familydinner = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Dinner, sweetie! Everybody sit!'), 'float-text heal', 1);
+    const table = propAt(V, { x: T.x, y: T.y + 30 }, 20, '🍽️', 130);
+    await wait(0.6);
+    pop(V, sideOf(A, 1), H + 70, 'Mom. I am NOT eating that.', 'float-text burn', 0.9);
+    await wait(0.5);
+    MB.audio.sfx('sizzle');
+    for (let i = 0; i < 8; i++) {
+      const d = lobProp(V, sideOf(A, i % 2), H * 0.8, { x: T.x + rnd(-60, 60), y: T.y + rnd(-15, 15) }, hT * rnd(0.4, 1.4), pickOne(['🥞', '🍳', '🥓', '🍓', '🍗', '🥧']), rnd(46, 64), 0.5, i * 0.08, rnd(180, 540));
+      gsap.delayedCall(0.5 + i * 0.08, () => { hit(V, t, c, false); MB.audio.sfx('splat'); fadeOut(d.b, 0, 0.25); });
+    }
+    await wait(1.3);
+    duoBlow(V, t, c, impact, tv, 16);
+    fadeOut(table, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', 'Dessert is for the clean plates!'), 'float-text heal', 1.1);
+    await wait(0.6);
+    resetDuo(v);
+  };
+
+  // Samantha & Ashton: the big sister bear hug. Sam scoops her brother up, he squeaks, and she throws him at the target like a very small, very embarrassed ninja
+  S.bigsishug = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 1), H + 40, own(a, 'cry', 'Come here, squirt!'), 'float-text burn', 1);
+    gsap.to(R, { y: -20, scaleY: 1.1, duration: 0.2 });
+    MB.audio.sfx('squeak');
+    await wait(0.5);
+    pop(V, sideOf(A, 0), H + 70, 'S-Sam! I c-can not breathe!', 'float-text hic', 0.9);
+    gsap.fromTo(L, { rotation: 0 }, { rotation: 10, duration: 0.1, yoyo: true, repeat: 5 });
+    await wait(0.8);
+    pop(V, sideOf(A, 1), H + 100, "You're a ninja. NINJA.", 'float-text burn', 0.8);
+    gsap.to(R, { y: 0, scaleY: 1, duration: 0.2 });
+    MB.audio.sfx('whoosh');
+    const fox = lobProp(V, sideOf(A, 0), H * 0.8, T, hT, '🦊', 100, 0.5, 0, 720);
+    await fox.done;
+    duoBlow(V, t, c, impact, tv, 20);
+    fadeOut(fox.b, 0, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', "I'm SO sorry! I'm SO sorry!"), 'float-text hic', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -13091,7 +13263,8 @@
     proclaim: 'holy', umbral: 'void', homesafe: 'night', abduct: 'space', bossreport: 'holy', truckkun: 'sunset', chuuni: 'night',
     toothpaste: 'sunny', gopnik: 'sunset', commentary: 'holy', numberup: 'dream', tarot: 'night', selfie: 'dream', chopper: 'sunset', shadowclones: 'night', gardenparty: 'sunny',
     firefists: 'inferno', siblingfeud: 'night',
-    dormfight: 'sunny', riggeddeck: 'night', armwrestle: 'sunset', legday: 'sunny', sacredflame: 'holy', darkhymn: 'night', cosplaypair: 'dream', roarcrowd: 'dream', healinghands: 'sunny', nextcontestant: 'holy', patchup: 'holy', knockknock: 'night', coopraid: 'night', sundayroast: 'sunset' };
+    dormfight: 'sunny', riggeddeck: 'night', armwrestle: 'sunset', legday: 'sunny', sacredflame: 'holy', darkhymn: 'night', cosplaypair: 'dream', roarcrowd: 'dream', healinghands: 'sunny', nextcontestant: 'holy', patchup: 'holy', knockknock: 'night', coopraid: 'night', sundayroast: 'sunset',
+    backstab: 'night', barrierpray: 'holy', torturefire: 'inferno', skillsteal: 'matrix', bonebreaker: 'blood', familydinner: 'sunny', bigsishug: 'sunset' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -13102,7 +13275,7 @@
     'oninight', 'pursuit', 'croquembouche', 'starcrossed', 'seasong', 'whodunit', 'fireflower',
     'teachess', 'fieldbluff', 'maidshift', 'nightmass',
     'bossreport', 'truckkun', 'chuuni', 'firefists', 'siblingfeud',
-    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast'];
+    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
