@@ -17,7 +17,7 @@ window.MB = window.MB || {};
   const attacker = (b) => b.units(0).find((u) => b.canAttack(u));
 
   MB.TUTORIAL = {
-    foe: 'hayley-kate', leader: 'maria-hunley', foeHp: 12, ai: 0.1,
+    foe: 'hayley-kate', leader: 'maria-hunley', foeHp: 8, ai: 0,
     bg: 'Street to school', music: 'hello-hayley',
     // Hayley plays the starter deck too; yours is stacked so the first draws are cheap: [cost, type] in draw order
     opening: [[1, 'unit'], [2, 'unit'], [1, 'spell'], [3, 'unit'], [2, 'unit']],

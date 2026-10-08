@@ -725,7 +725,8 @@
     // cfg.deck: the Arena's drafted deck instead of yours; the Arena sets its own foe HP and skill, so no difficulty
     if (!cfg.deck && save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
     if (starting) return;
-    const diff = cfg.arena || cfg.pvp ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
+    // the practice lesson is the same easy fight whatever difficulty is set
+    const diff = cfg.arena || cfg.pvp || cfg.lesson ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
     const bgSrc = cfg.bgSrc || bgByName(cfg.bg).src;
     const playerDeck = (cfg.deck || save.deck).slice(), enemyDeck = cfg.foeDeck ? cfg.foeDeck.slice() : MB.AI.deck(cfg.foe, cfg.level);
     const imgs = battleImages(cfg, bgSrc, [playerDeck, enemyDeck]);

@@ -79,6 +79,9 @@
     urls.push(MB.avatarUrl(save.avatar));
     const first = new Set([save.leader, 'hayley-kate', 'm-chan', ...save.leaders, ...save.deck]);
     first.forEach((id) => urls.push(...MB.charImages(id)));
+    // M-chan's intro and the Story-button guide show her full-size, so those must be ready before the first screen
+    const mchan = MB.charById('m-chan');
+    if (mchan) Object.keys(mchan.sprites).forEach((role) => urls.push(MB.bigSpriteUrl('m-chan', role, null)));
     // everyone's portrait too: it fills the loading screen's wall of faces
     const faces = new Map(MB.manifest.characters.map((c) => [MB.spriteSrc(c.sprites.idle), c.id]));
     faces.forEach((id, u) => urls.push(u));
