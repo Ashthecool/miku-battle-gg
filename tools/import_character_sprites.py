@@ -115,7 +115,7 @@ def upload(ids):
             for key in (rel, "sm/" + rel):
                 with open(os.path.join(assets.OUT, "local", *key.split("/")), "rb") as fh:
                     r2.upload(key, fh.read())
-                with urllib.request.urlopen(urllib.request.Request(base + key, method="HEAD"), timeout=30) as res:
+                with urllib.request.urlopen(urllib.request.Request(base + key, method="HEAD", headers={"User-Agent": "Mozilla/5.0"}), timeout=30) as res:
                     if res.status != 200:
                         raise SystemExit(f"{base + key} is not public ({res.status})")
             print(f"{cid}: uploaded {rel}", flush=True)

@@ -12288,14 +12288,14 @@
     "energetic"
    ],
    "sprites": {
-    "idle": "local/sprites/hil-kuntnovi/neutral.webp",
-    "play": "local/sprites/hil-kuntnovi/happy.webp",
-    "attack": "local/sprites/hil-kuntnovi/angry.webp",
-    "special": "local/sprites/hil-kuntnovi/angry.webp",
-    "hurt": "local/sprites/hil-kuntnovi/scared.webp",
-    "lose": "local/sprites/hil-kuntnovi/sad.webp",
-    "win": "local/sprites/hil-kuntnovi/happy.webp",
-    "taunt": "local/sprites/hil-kuntnovi/amused.webp"
+    "idle": "sprites/hil-kuntnovi/neutral.webp",
+    "play": "sprites/hil-kuntnovi/happy.webp",
+    "attack": "sprites/hil-kuntnovi/angry.webp",
+    "special": "sprites/hil-kuntnovi/angry.webp",
+    "hurt": "sprites/hil-kuntnovi/scared.webp",
+    "lose": "sprites/hil-kuntnovi/sad.webp",
+    "win": "sprites/hil-kuntnovi/happy.webp",
+    "taunt": "sprites/hil-kuntnovi/amused.webp"
    },
    "costumes": [],
    "portrait": null,
@@ -12308,14 +12308,14 @@
    "short": "a dark entity, talks in binary code repeating beware of the unthinkable present and future, or will just not talk remain silent \"...\"",
    "traits": [],
    "sprites": {
-    "idle": "local/sprites/binary-entity/neutral.webp",
-    "play": "local/sprites/binary-entity/happy.webp",
-    "attack": "local/sprites/binary-entity/angry.webp",
-    "special": "local/sprites/binary-entity/angry.webp",
-    "hurt": "local/sprites/binary-entity/scared.webp",
-    "lose": "local/sprites/binary-entity/sad.webp",
-    "win": "local/sprites/binary-entity/happy.webp",
-    "taunt": "local/sprites/binary-entity/amused.webp"
+    "idle": "sprites/binary-entity/neutral.webp",
+    "play": "sprites/binary-entity/happy.webp",
+    "attack": "sprites/binary-entity/angry.webp",
+    "special": "sprites/binary-entity/angry.webp",
+    "hurt": "sprites/binary-entity/scared.webp",
+    "lose": "sprites/binary-entity/sad.webp",
+    "win": "sprites/binary-entity/happy.webp",
+    "taunt": "sprites/binary-entity/amused.webp"
    },
    "costumes": [],
    "portrait": null,
