@@ -3391,7 +3391,7 @@ MB.STORY = [
   // DUMB SUPER FANTASY RPG, two more of its cast
   { chapter: 9, foe: 'hil-kuntnovi',       bg: "Dalmavilla's Castle (Fight)",  music: 'military-tango',
     intro: 'A huge knight in spiked armour laughs until the walls shake. "HAHAHA! So YOU beat my little Lieutenant? Show me! And if you lose... I\'ll tell you a joke."' },
-  { chapter: 9, foe: 'binary-entity',      bg: 'BADASS DARK CASTLE',           music: 'shattered-glass',
+  { chapter: 9, foe: 'binary-entity',      bg: 'BADASS DARK CASTLE',           music: 'tension',
     intro: 'Something tall and black stands where the shadows meet. Red eyes. "01100010 01100101 01110111 01100001 01110010 01100101." ...Then nothing at all.' },
   // New Haven: Earth 4's Daphne Bullen
   { chapter: 8, foe: 'daphne-bullen',      bg: 'Earth 4 Lab A-1',              music: 'connecticut-institute',
@@ -3567,6 +3567,7 @@ MB.MUSIC = { title: 'main-theme', quick: 'skate-o-polis', win: 'm-club-celebrati
 // Battle. Checked by tools/check_game.js.
 MB.SONGS = [
   // { id: 'julie-theme', name: "Julie's Theme", file: 'julie-theme.mp3', foes: ['julie-hunley'] },
+  { id: 'mama-la-la', name: 'Mama La La', file: 'mama-la-la.mp3', foes: ['jillian-peters'] },
 ];
 MB.SONGS.forEach((s) => window.MIKU_MANIFEST.music.push({ id: s.id, name: s.name, tags: ['Miku Battle'], url: 'assets/music/' + s.file }));
 MB.themeOf = (foeId) => (MB.SONGS.find((s) => (s.foes || []).includes(foeId)) || {}).id;
