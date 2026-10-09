@@ -509,6 +509,7 @@ window.MB = window.MB || {};
         { foe: 'rinco-typus', side: true, from: 'rirarra-charca', place: 'cove', at: [58, 80], title: 'Gentle Giant', text: 'Rinco, the lifeguards\' nine-foot leader, is feeding the birds by the shore. She would like to play... gently.' },
         { foe: 'joseph', side: true, from: 'aria', at: [48, 34], title: 'Lunch Rush', text: 'Joseph, the kangaroo who serves in the Institute cafeteria, has a crush on Diana and sees you as competition. One game before lunch goes cold.' },
         { foe: 'natalie', side: true, from: 'aria', at: [22, 38], title: 'Oh Deer', text: "Natalie is an elk. NOT a deer. She's also Aria's daughter, and her Christmas puns are sleigh-ing." },
+        { foe: 'daphne-bullen', side: true, from: 'diana', at: [10, 48], title: 'Earth 4', text: "A rift in Lab A-3 opens on Lab A-1, Earth 4: an underground institute where Daphne Bullen, a human Diana, builds synthetic anthros to dig. She calls them tools." },
         { foe: 'quinta', side: true, from: 'diana', at: [20, 28], title: 'Stream Challenger', text: "Quinta, Diana's best friend since preschool, streams her lab work. Chat wants a card battle." },
         // the one-girl novels
         { foe: 'amy-lyn', side: true, from: 'jane', at: [22, 63], title: "Everythin' with Amy Lyn", text: 'A blonde girl with a ":3" smile waits outside the arcade in a school uniform. She says she can be anything. Mid-game.' },

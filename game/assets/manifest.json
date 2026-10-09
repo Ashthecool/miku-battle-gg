@@ -8867,6 +8867,48 @@
    "novel": "New Haven"
   },
   {
+   "id": "daphne-bullen",
+   "name": "Daphne",
+   "outfit": "Daphne 1",
+   "short": "Daphne Bullen, Senior Researcher of Lab A-1 of the Connecticut Institute on Earth 4.",
+   "traits": [
+    "excitable",
+    "loyal",
+    "charismatic",
+    "protective",
+    "determined",
+    "playful"
+   ],
+   "sprites": {
+    "idle": "sprites/daphne-bullen/neutral.webp",
+    "play": "sprites/daphne-bullen/happy.webp",
+    "attack": "sprites/daphne-bullen/angry.webp",
+    "special": "sprites/daphne-bullen/angry.webp",
+    "hurt": "sprites/daphne-bullen/scared.webp",
+    "lose": "sprites/daphne-bullen/sad.webp",
+    "win": "sprites/daphne-bullen/happy.webp",
+    "taunt": "sprites/daphne-bullen/amused.webp"
+   },
+   "costumes": [
+    {
+     "id": "daphne",
+     "name": "Daphne",
+     "sprites": {
+      "idle": "sprites/daphne-bullen/daphne/neutral.webp",
+      "play": "sprites/daphne-bullen/daphne/happy.webp",
+      "attack": "sprites/daphne-bullen/daphne/angry.webp",
+      "special": "sprites/daphne-bullen/daphne/angry.webp",
+      "hurt": "sprites/daphne-bullen/daphne/scared.webp",
+      "lose": "sprites/daphne-bullen/daphne/sad.webp",
+      "win": "sprites/daphne-bullen/daphne/happy.webp",
+      "taunt": "sprites/daphne-bullen/daphne/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/daphne-bullen.webp",
+   "novel": "New Haven"
+  },
+  {
    "id": "bucky",
    "name": "Bucky",
    "outfit": "Bucky 1",

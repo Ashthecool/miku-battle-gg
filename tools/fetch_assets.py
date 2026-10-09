@@ -132,7 +132,7 @@ ONLY_CHARACTERS = {
     "Pastures Unknown: Repasteurized": {"vachelle"},
     "New Haven": {"diana", "marija", "jane", "quinta", "clara", "cheetor", "juliana", "joseph", "natalie", "aria",
                   "asuka", "saria", "doe", "juniper", "susan", "john", "louis", "bucky", "delphine", "andrew",
-                  "queen", "noelle", "shenzi"},
+                  "queen", "noelle", "shenzi", "daphne"},
     # "" is the binary entity "???", whose name makes no id (the manifest keeps it as binary-entity)
     "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)": {
         "beatrice-avalistos", "julia-aquacrucis", "priest-pristo", "hed", "curtis-vongravis", "pepita-pazzarella",

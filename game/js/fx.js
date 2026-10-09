@@ -13397,6 +13397,100 @@
     resetDuo(v);
   };
 
+  // ---------------------------------------------------------------- Daphne Bullen (New Haven, Earth 4)
+  // she sees the synthetic anthros as tools for digging. Her synth cat Kerfus dives into the floor, tunnels across, and bursts
+  // up under the target with a pickaxe
+  S.synthdig = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t), sg = T.x >= A.x ? 1 : -1;
+    pop(V, A, H + 95, own(a, 'cry', 'Kerfus! Dig, dig, DIG!'), 'float-text heal', 1.1);
+    gsap.to(v.figure, { y: -10, duration: 0.1, yoyo: true, repeat: 1 });
+    const P = { x: A.x + sg * 70, y: A.y };
+    const cat = propAt(V, P, 40, '🐈', 70);
+    MB.audio.sfx('meow');
+    pop(V, P, 120, 'Meow!', 'float-text buff', 0.7);
+    await wait(0.55);
+    // under the floor she goes
+    MB.audio.sfx('rumble');
+    puff(V, P, '#b08a5a', 8, 10);
+    await gsap.to(cat.body, { y: 20, scaleY: 0, duration: 0.2, ease: 'power2.in' });
+    const n = 7;
+    for (let i = 1; i <= n; i++) {
+      const Q = { x: lerp(P.x, T.x, i / n), y: lerp(P.y, T.y, i / n) };
+      puff(V, Q, '#b08a5a', 4, 6, 0.8);
+      if (i % 2) debris(V, Q, '#8a6a42', 3, { h: 4 });
+      await wait(0.07);
+    }
+    // up through the floor under the target
+    decal(V, T, 'crater', '#8a6a42', 1);
+    gsap.set(cat, { x: T.x, y: T.y });
+    gsap.set(cat.body, { scaleY: 1, y: 0 });
+    const pick = propAt(V, { x: T.x + sg * 30, y: T.y }, 0, '⛏️', 80);
+    MB.audio.sfx('crunch');
+    await Promise.all([gsap.to(cat.body, { y: -hT * 1.1, duration: 0.18, ease: 'back.out(2)' }), gsap.to(pick.body, { y: -hT * 1.3, rotation: -sg * 120, duration: 0.18, ease: 'power3.out' })]);
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); V.shake(18); V.hitStop();
+    debris(V, T, '#8a6a42', 12, { chars: ['🪨', '⚙️'], h: hT * 0.3 });
+    if (tv) gsap.timeline().to(tv.figure, { y: -70, duration: 0.2, ease: 'power2.out' }).to(tv.figure, { y: 0, duration: 0.35, ease: 'bounce.out' });
+    pop(V, T, hT + 150, own(a, 'finish', 'Good girl. ...Good TOOL.'), 'float-text heal', 1.2);
+    await wait(0.45);
+    fadeOut(cat, 0, 0.3); fadeOut(pick, 0, 0.3);
+    await wait(0.2);
+  };
+
+  // Diana & Daphne: the same scientist on two Earths, one a deer, one a human, arguing about anthros. A rift opens over the target and
+  // both throw in their science: Diana's flask, Daphne's synth. It reacts.
+  S.parallellab = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', "They're PEOPLE, Daphne!"), 'float-text heal', 1);
+    gsap.to(L, { y: -10, duration: 0.1, yoyo: true, repeat: 1 });
+    await wait(0.6);
+    pop(V, sideOf(A, 1), H + 75, "They're TOOLS, Diana.", 'float-text buff', 0.9);
+    gsap.to(R, { y: -10, duration: 0.1, yoyo: true, repeat: 1 });
+    await wait(0.5);
+    const close = portal(V, { x: T.x, y: T.y }, '#9b6dff', t.isLeader ? hT * 1.5 : hT * 2.2);
+    pop(V, T, hT * 2 + 40, 'EARTH 1 + EARTH 4', 'float-text shield', 0.9);
+    await wait(0.45);
+    MB.audio.sfx('whoosh');
+    const flask = lobProp(V, sideOf(A, 0), H * 0.6, T, hT * 1.1, '🧪', 64, 0.5, 0, 540);
+    const synth = lobProp(V, sideOf(A, 1), H * 0.6, T, hT * 0.9, '🐈', 64, 0.5, 0.1, -360);
+    await synth.done;
+    MB.audio.sfx('bubble');
+    puff(V, T, '#7cff9a', 10, hT, 1.3); puff(V, T, '#9b6dff', 8, hT, 1.1);
+    pop(V, T, hT * 2 + 20, '¡Eureka!', 'float-text heal', 0.8);
+    duoBlow(V, t, c, impact, tv, 18);
+    flash(V, T, hT, '#ffffff', 300);
+    fadeOut(flask.b, 0, 0.15); fadeOut(synth.b, 0, 0.15);
+    pop(V, T, hT + 150, own(a, 'finish', '...Fine. EUREKA.'), 'float-text heal', 1.1);
+    await wait(0.4);
+    close();
+    resetDuo(v);
+  };
+
+  // Marija & Daphne: the Director of one Earth's institute and the daughter of another's. Marija's clipboard reviews the target, Daphne's
+  // synth digs it up, and the Director stamps the result
+  S.overseer = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L, R] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'In my institute, we work hard.'), 'float-text buff', 1);
+    const board = propAt(V, T, t.isLeader ? hT * 1.1 : hT * 2 + 30, '📋', 70);
+    MB.audio.sfx('click');
+    await wait(0.6);
+    pop(V, sideOf(A, 1), H + 75, 'You sound just like Mom.', 'float-text heal', 0.9);
+    gsap.to(R, { y: -10, duration: 0.1, yoyo: true, repeat: 1 });
+    await wait(0.5);
+    MB.audio.sfx('meow');
+    const cat = lobProp(V, sideOf(A, 1), H * 0.5, T, hT * 0.6, '🐈', 66, 0.45, 0, -360);
+    await cat.done;
+    MB.audio.sfx('crunch');
+    debris(V, T, '#8a6a42', 8, { chars: ['🪨'], h: hT * 0.3 });
+    await wait(0.15);
+    gsap.to(L, { y: -16, duration: 0.1, yoyo: true, repeat: 1 });
+    await slamStamp(V, T, hT * 1.3, 'APPROVED', '#6b3e26', 0.7);
+    duoBlow(V, t, c, impact, tv, 16);
+    fadeOut(cat.b, 0, 0.2); fadeOut(board, 0, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', '...Acceptable work, mija.'), 'float-text buff', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -13413,7 +13507,7 @@
     firefists: 'inferno', siblingfeud: 'night',
     dormfight: 'sunny', riggeddeck: 'night', armwrestle: 'sunset', legday: 'sunny', sacredflame: 'holy', darkhymn: 'night', cosplaypair: 'dream', roarcrowd: 'dream', healinghands: 'sunny', nextcontestant: 'holy', patchup: 'holy', knockknock: 'night', coopraid: 'night', sundayroast: 'sunset',
     backstab: 'night', barrierpray: 'holy', torturefire: 'inferno', skillsteal: 'matrix', bonebreaker: 'blood', familydinner: 'sunny', bigsishug: 'sunset',
-    resisto: 'holy', unthinkable: 'void', knightdrill: 'sunset', royalspar: 'blood' };
+    resisto: 'holy', unthinkable: 'void', knightdrill: 'sunset', royalspar: 'blood', synthdig: 'sunset', parallellab: 'space', overseer: 'holy' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -13424,7 +13518,7 @@
     'oninight', 'pursuit', 'croquembouche', 'starcrossed', 'seasong', 'whodunit', 'fireflower',
     'teachess', 'fieldbluff', 'maidshift', 'nightmass',
     'bossreport', 'truckkun', 'chuuni', 'firefists', 'siblingfeud',
-    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug', 'knightdrill', 'royalspar'];
+    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug', 'knightdrill', 'royalspar', 'parallellab', 'overseer'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);

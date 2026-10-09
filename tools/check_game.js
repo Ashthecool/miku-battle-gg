@@ -363,7 +363,7 @@ MB.STORY.forEach((st, i) => {
   // an old save (cleared stages counted per chapter) keeps its cleared rivals as done quests
   const old = { progress: MB.CHAPTERS.map((c, i) => (i === 0 ? 3 : i === 8 ? 10 : 0)) };
   St.migrate(old);
-  const want = [...MB.STORY.slice(0, 3).map((st) => st.foe), ...MB.STORY.filter((st) => st.chapter === 8).map((st) => st.foe)];
+  const want = [...MB.STORY.slice(0, 3).map((st) => st.foe), ...MB.STORY.filter((st) => st.chapter === 8).slice(0, 10).map((st) => st.foe)];
   if (old.progress || !want.every((id) => old.quests.includes(id)) || old.quests.length !== want.length) err(`story: migrating an old save gave ${JSON.stringify(old.quests)}`);
 }
 MB.STARTER_DECK.forEach((id) => { if (!MB.CARDS[id]) err(`starter deck: unknown card ${id}`); });
