@@ -13249,6 +13249,154 @@
     resetDuo(v);
   };
 
+  // ---------------------------------------------------------------- more signatures: Dalmavilla's Hil Kuntnovi and ???
+  // Hil Kuntnovi: the jolliest, strongest knight. He laughs, yells RESISTO! (a golden dome: nothing can touch him), strolls up
+  // inside it, raises a sword as tall as he is and brings it down on the target. Then the dad joke
+  S.resisto = async (V, a, t, impact) => {
+    const { v, A, T, C, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    const M = { x: lerp(A.x, C.x, 0.5), y: lerp(A.y, C.y, 0.5) }; // halfway: close enough to swing, the target still in view
+    pop(V, A, H + 95, own(a, 'cry', 'HAHAHA! Hold still, kid!'), 'float-text buff', 1.1);
+    MB.audio.sfx('laugh');
+    await gsap.to(v.figure, { y: -14, duration: 0.12, yoyo: true, repeat: 3 });
+    pop(V, A, H + 40, 'RESISTO!', 'float-text shield', 0.9);
+    MB.audio.sfx('shield');
+    const dome = propAt(V, A, H * 0.5, '🛡️', 70);
+    gsap.to(dome.body, { scale: 3.4, opacity: 0.55, duration: 0.35, ease: 'back.out(2)' });
+    ring(V, A, c, 2.8, 0.7);
+    await glowUp(v, c, 0);
+    await wait(0.25);
+    // the stroll: dome and all
+    MB.audio.sfx('stomp');
+    await Promise.all([gsap.to(v.el, { x: M.x, y: M.y, duration: 0.55, ease: 'power2.inOut' }), gsap.to(dome, { x: M.x, y: M.y, duration: 0.55, ease: 'power2.inOut' })]);
+    fadeOut(dome, 0, 0.2);
+    // the sword goes up over the target, flashes, and comes down
+    const up = t.isLeader ? hT * 0.9 : hT * 1.3 + 30; // high, but still on screen over the top row
+    const sword = propAt(V, T, up, '🗡️', 170);
+    gsap.set(sword.body, { rotation: 135 });
+    MB.audio.sfx('unsheathe');
+    flash(V, T, up, '#ffffff', 140);
+    await wait(0.35);
+    await gsap.to(sword.body, { y: -hT * 0.7, duration: 0.14, ease: 'power4.in' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('slam'); MB.audio.sfx('clang'); V.shake(22); V.hitStop();
+    decal(V, T, 'crater', c, 1);
+    debris(V, T, c, 10, { h: hT * 0.4 });
+    squash(tv, 0.55);
+    fadeOut(sword, 0.25, 0.25);
+    pop(V, T, hT + 150, own(a, 'finish', 'Get it? KNIGHT-time! HAHA!'), 'float-text buff', 1.2);
+    await wait(0.35);
+    await Promise.all([goHome(v, A, 0.5), glowDown(v)]);
+  };
+
+  // ???: it never speaks, or only in binary. Red eyes open over the target, ones and zeroes stream out of the dark and ring it,
+  // they read BEWARE, and the dark closes over it
+  S.unthinkable = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, A, H + 80, own(a, 'cry', '. . .'), 'float-text debuff', 1.2);
+    await glowUp(v, c, -16);
+    const eyes = propAt(V, T, t.isLeader ? hT * 1.2 : hT * 1.6 + 40, '👁️👁️', 64);
+    gsap.fromTo(eyes.body, { scaleY: 0 }, { scaleY: 1, duration: 0.35, ease: 'power2.out' });
+    MB.audio.sfx('heartbeat');
+    await wait(0.5);
+    // the binary pours out of it and circles the target
+    MB.audio.sfx('glitch');
+    const word = ['01100010', '01100101', '01110111', '01100001', '01110010', '01100101'];
+    const bits = word.map((w, i) => {
+      const b = V.billboard('float-text code', w, A.x, A.y);
+      b.body.style.color = i % 2 ? '#ffffff' : c;
+      gsap.set(b.body, { y: -H * 0.6 });
+      const ang = (i / word.length) * Math.PI * 2;
+      gsap.to(b, { x: T.x + Math.cos(ang) * 120, y: T.y + Math.sin(ang) * 36, duration: 0.5, delay: i * 0.08, ease: 'power2.out' });
+      gsap.to(b.body, { y: -hT - 20 - Math.sin(ang) * 30, duration: 0.5, delay: i * 0.08, ease: 'power2.out' });
+      return b;
+    });
+    await wait(0.5 + word.length * 0.08);
+    MB.audio.sfx('click');
+    bits.forEach((b) => gsap.to(b.body, { scale: 1.2, opacity: 0.4, duration: 0.15, yoyo: true, repeat: 1 }));
+    await wait(0.35);
+    const beware = pop(V, T, hT + 90, 'BEWARE', 'float-text dmg', 1.1);
+    if (beware) beware.body.style.color = c;
+    MB.audio.sfx('dark');
+    await wait(0.3);
+    // the ring closes in and the dark swallows it
+    await Promise.all(bits.map((b) => Promise.all([gsap.to(b, { x: T.x, y: T.y, duration: 0.2, ease: 'power3.in' }), gsap.to(b.body, { y: -hT, opacity: 0, duration: 0.2 })])));
+    bits.forEach((b) => b.remove());
+    const col = pillar(V, T, '#2a0010');
+    gsap.fromTo(col.body, { scaleX: 0.2, scaleY: 0 }, { scaleX: 1.4, scaleY: t.isLeader ? 0.55 : 0.85, duration: 0.2, ease: 'power3.out' });
+    impact(); hit(V, t, c, true); MB.audio.sfx('boom'); V.shake(16); V.hitStop();
+    tint(tv, 'brightness(0.25) saturate(0)', 0.9);
+    decal(V, T, 'dark', c, 0.9);
+    gsap.to(eyes.body, { scaleY: 0, duration: 0.2, delay: 0.5, onComplete: () => eyes.remove() });
+    pop(V, T, hT + 150, own(a, 'finish', '...'), 'float-text debuff', 1.1);
+    await wait(0.4);
+    gsap.to(col.body, { scaleX: 0, opacity: 0, duration: 0.3, onComplete: () => col.remove() });
+    await glowDown(v);
+  };
+
+  // Hil & Curtis: knight drill. Curtis finds the weak spot (AHULA!), Hil throws RESISTO! over both of them, and the two swords come in
+  // from either side into an X
+  S.knightdrill = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 0), H + 40, own(a, 'cry', 'Drill time, Lieutenant! HAHA!'), 'float-text buff', 1);
+    gsap.to(L, { y: -12, duration: 0.12, yoyo: true, repeat: 3 });
+    MB.audio.sfx('laugh');
+    await wait(0.6);
+    pop(V, sideOf(A, 1), H + 75, '...Yes, sir. AHULA!', 'float-text shield', 0.9);
+    const mark = propAt(V, T, hT * 2 + 40, '🎯', 70);
+    MB.audio.sfx('scope');
+    await wait(0.5);
+    pop(V, sideOf(A, 0), H + 105, 'RESISTO!', 'float-text shield', 0.8);
+    MB.audio.sfx('shield');
+    const dome = propAt(V, A, H * 0.5, '🛡️', 70);
+    gsap.to(dome.body, { scale: 3.8, opacity: 0.5, duration: 0.35, ease: 'back.out(2)' });
+    ring(V, A, c, 3, 0.7);
+    await wait(0.45);
+    MB.audio.sfx('unsheathe');
+    const sw = [0, 1].map((i) => lobProp(V, sideOf(A, i), H * 0.6, { x: T.x + (i ? 30 : -30), y: T.y }, hT, i ? '🗡️' : '⚔️', 90, 0.45, i * 0.08, i ? -540 : 540));
+    await sw[1].done;
+    MB.audio.sfx('clang');
+    slashArc(V, T, -hT, c, -50); slashArc(V, T, -hT, '#ffffff', 50);
+    duoBlow(V, t, c, impact, tv, 20);
+    sw.forEach((s) => fadeOut(s.b, 0.1, 0.2));
+    fadeOut(mark, 0, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', 'Dismissed. ...HAHAHA!'), 'float-text buff', 1.1);
+    await wait(0.4);
+    fadeOut(dome, 0, 0.3);
+    resetDuo(v);
+  };
+
+  // Hil & Beatrice: sparring. She tries her hypno spiral on him, he laughs it off with RESISTO! and it bounces into the target;
+  // annoyed, she follows it with a flurry of fists and he with his sword
+  S.royalspar = async (V, a, t, impact) => {
+    const { v, A, T, hT, c } = ctx(V, a, t), [L] = duo(v), H = V.heightOf(a), tv = victim(V, t);
+    pop(V, sideOf(A, 1), H + 40, own(a, 'cry', 'Look into my eyes, Kuntnovi~'), 'float-text debuff', 1);
+    const sp = spiral(V, sideOf(A, 0), H * 0.75, '#8e44ad', 150);
+    MB.audio.sfx('hypno');
+    await wait(0.7);
+    pop(V, sideOf(A, 0), H + 80, 'HAHAHA! RESISTO!', 'float-text shield', 0.9);
+    MB.audio.sfx('shield');
+    ring(V, sideOf(A, 0), c, 2, 0.5);
+    gsap.to(L, { y: -10, duration: 0.1, yoyo: true, repeat: 3 });
+    MB.audio.sfx('boing');
+    await Promise.all([gsap.to(sp.s, { x: T.x, y: T.y, duration: 0.4, ease: 'power2.in' }), gsap.to(sp.s.body, { y: -hT * 1.4, duration: 0.4 })]);
+    const sway = tv && gsap.to(tv.figure, { rotation: 7, duration: 1, ease: WIGGLE });
+    pop(V, sideOf(A, 1), H + 105, 'Tch. HORA-HORA!', 'float-text debuff', 0.8);
+    for (let i = 0; i < 6; i++) {
+      const f = lobProp(V, sideOf(A, 1), H * 0.55, { x: T.x + rnd(-40, 40), y: T.y + rnd(-10, 10) }, hT * rnd(0.6, 1.4), T.x >= A.x ? '🤜' : '🤛', 54, 0.25, i * 0.07);
+      gsap.delayedCall(0.25 + i * 0.07, () => { hit(V, t, c, false); MB.audio.sfx('punch'); fadeOut(f.b, 0, 0.12); });
+    }
+    await wait(0.75);
+    sp.remove();
+    const sword = lobProp(V, sideOf(A, 0), H * 0.7, T, hT, '🗡️', 100, 0.4, 0, 450);
+    await sword.done;
+    if (sway) sway.kill();
+    duoBlow(V, t, c, impact, tv, 18);
+    if (tv) gsap.to(tv.figure, { rotation: 0, duration: 0.3 });
+    fadeOut(sword.b, 0, 0.2);
+    pop(V, T, hT + 150, own(a, 'finish', 'Annoyed yet, Princess? HAHA!'), 'float-text buff', 1.1);
+    await wait(0.5);
+    resetDuo(v);
+  };
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -13264,7 +13412,8 @@
     toothpaste: 'sunny', gopnik: 'sunset', commentary: 'holy', numberup: 'dream', tarot: 'night', selfie: 'dream', chopper: 'sunset', shadowclones: 'night', gardenparty: 'sunny',
     firefists: 'inferno', siblingfeud: 'night',
     dormfight: 'sunny', riggeddeck: 'night', armwrestle: 'sunset', legday: 'sunny', sacredflame: 'holy', darkhymn: 'night', cosplaypair: 'dream', roarcrowd: 'dream', healinghands: 'sunny', nextcontestant: 'holy', patchup: 'holy', knockknock: 'night', coopraid: 'night', sundayroast: 'sunset',
-    backstab: 'night', barrierpray: 'holy', torturefire: 'inferno', skillsteal: 'matrix', bonebreaker: 'blood', familydinner: 'sunny', bigsishug: 'sunset' };
+    backstab: 'night', barrierpray: 'holy', torturefire: 'inferno', skillsteal: 'matrix', bonebreaker: 'blood', familydinner: 'sunny', bigsishug: 'sunset',
+    resisto: 'holy', unthinkable: 'void', knightdrill: 'sunset', royalspar: 'blood' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -13275,7 +13424,7 @@
     'oninight', 'pursuit', 'croquembouche', 'starcrossed', 'seasong', 'whodunit', 'fireflower',
     'teachess', 'fieldbluff', 'maidshift', 'nightmass',
     'bossreport', 'truckkun', 'chuuni', 'firefists', 'siblingfeud',
-    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug'];
+    'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug', 'knightdrill', 'royalspar'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
