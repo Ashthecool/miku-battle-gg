@@ -271,7 +271,7 @@ def add_novel(novel, manifest):
 
     # a character re-added from its export keeps the id it had (cards, saves and bonds use it); a new one never
     # takes an id already in use, whatever order the novels are re-added in
-    taken = {ch["id"] for ch in manifest["characters"]} | set(manifest["_old_ids"].values())
+    taken = {ch["id"] for ch in manifest["characters"]} | set(manifest["_old_ids"].values()) | manifest.get("_bucket_ids", set())
     for entry in characters(novel):
         c, outfits = entry["src"], entry["outfits"]
         cid = manifest["_old_ids"].get((novel["title"], entry["name"]))
@@ -347,7 +347,22 @@ def main():
         old = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8"))
     except FileNotFoundError:
         old = None
+    if local:
+        def store(rel, data):
+            path = os.path.join(OUT, *rel.split("/"))
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as f:
+                f.write(data)
+        uploaded = {os.path.relpath(os.path.join(d, n), OUT).replace(os.sep, "/") for d, _, ns in os.walk(OUT) for n in ns}
+    else:
+        def store(rel, data):
+            r2.upload(rel, data)
+        uploaded = set(r2.list_objects())
+
     manifest["_old_ids"] = {(c["novel"], c["name"]): c["id"] for c in old["characters"]} if old else {}
+    # sprite folders already in the bucket (a cut character's art is kept there): a new character never takes one,
+    # or it would show that character's images (Legend Of You's Daphne showed New Haven's)
+    manifest["_bucket_ids"] = {p.split("/")[1] for p in uploaded if p.startswith("sprites/")}
     if old:
         manifest["novels"] = [t for t in old["novels"] if t not in given]
         manifest["nsfwNovels"] = [t for t in old["nsfwNovels"] if t not in given]
@@ -361,24 +376,12 @@ def main():
         if novel["title"] in NSFW_NOVELS:
             manifest["nsfwNovels"].append(novel["title"])
         jobs += add_novel(novel, manifest)
-    del manifest["_old_ids"]
+    del manifest["_old_ids"], manifest["_bucket_ids"]
     # characters and songs an export no longer has (an older export of the novel had them) stay as they were
     if old:
         for k in ("characters", "music"):
             ids = {e["id"] for e in manifest[k]}
             manifest[k] += [e for e in old[k] if e["novel"] in given and e["id"] not in ids]
-
-    if local:
-        def store(rel, data):
-            path = os.path.join(OUT, *rel.split("/"))
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "wb") as f:
-                f.write(data)
-        uploaded = {os.path.relpath(os.path.join(d, n), OUT).replace(os.sep, "/") for d, _, ns in os.walk(OUT) for n in ns}
-    else:
-        def store(rel, data):
-            r2.upload(rel, data)
-        uploaded = set(r2.list_objects())
 
     # sprites also get a half-size copy under sm/, which the game uses for cards and the board
     def run(job):

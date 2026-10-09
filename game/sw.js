@@ -3,7 +3,7 @@
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
 const SHELL = 'mb-shell-v34';
-const ASSETS = 'mb-assets-v6';
+const ASSETS = 'mb-assets-v7';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
   'lib/MotionPathPlugin.min.js', 'lib/supabase.min.js', 'js/config.js', 'assets/manifest.js', 'js/avatars.js',
