@@ -862,8 +862,12 @@
   }
 
   // ---------------------------------------------------------------- deck & collection
-  // the filters stay as they were when you come back; a chip set with nothing on doesn't filter
-  const filt = { text: '', type: new Set(), rarity: new Set(), cost: new Set(), show: 'all', novel: '' };
+  // the filters stay as they were when you come back; a chip set with nothing on doesn't filter. The sort and the card
+  // size are remembered between visits too
+  const prefs = (() => { try { return JSON.parse(localStorage.getItem('mb-coll-view')) || {}; } catch (_) { return {}; } })();
+  const filt = { text: '', type: new Set(), rarity: new Set(), cost: new Set(), show: 'all', novel: '',
+    sort: prefs.sort || 'default', size: prefs.size === 'small' ? 'small' : 'big' };
+  const keepView = () => { try { localStorage.setItem('mb-coll-view', JSON.stringify({ sort: filt.sort, size: filt.size })); } catch (_) { /* private mode */ } };
   const COLL_RARITIES = ['common', 'rare', 'epic', 'legendary'];
   function deck() {
     hideBattle();
@@ -882,34 +886,80 @@
   const rarityRank = (id) => MB.RARITY[MB.CARDS[id].rarity].stars;
   // an owned character with enough banked fragments for its next level
   const canLevel = (id) => { const c = MB.Collection.upCost(save, id); return c > 0 && shardsOf(id) >= c; };
+  const lvOf = (id) => MB.Collection.level(save, id);
   // 0 owned, 1 collecting its fragments, 2 not started
   const ownState = (id) => (isUnlocked(id) ? 0 : shardsOf(id) ? 1 : 2);
   const shake = (n) => gsap.fromTo(n, { x: -8 }, { x: 0, duration: 0.4, ease: 'elastic.out(1,0.25)' });
 
+  // the ownership tabs, each with how many cards the other filters leave in it
+  const SHOWS = [['all', 'All', 'Every card'], ['owned', '✔ Owned', 'Cards you own'], ['collecting', '🧩 Collecting', 'Cards you have some fragments of'],
+    ['locked', '🔒 Not owned', "Cards you don't own yet"], ['levelup', '⬆ Level up', 'Characters with the fragments for their next level'],
+    ['deck', '🂠 In deck', 'Cards in this deck']];
+  const shows = {
+    all: () => true, owned: (id) => ownState(id) === 0, collecting: (id) => ownState(id) === 1, locked: (id) => ownState(id) > 0,
+    levelup: canLevel, deck: (id) => save.deck.includes(id),
+  };
+  // every filter but the ownership tab; each word of the search has to match somewhere
   function passes(id) {
     const d = MB.cardDef(id);
     if (filt.text) {
-      const hay = [d.name, d.text, d.type === 'unit' && d.attack.name, ...(d.kw || []).map((k) => MB.KEYWORDS[k].name)].filter(Boolean).join(' ').toLowerCase();
-      if (!hay.includes(filt.text.toLowerCase())) return false;
+      const hay = [d.name, d.text, d.type === 'unit' && d.attack.name, MB.novelOf(id), ...(d.kw || []).map((k) => MB.KEYWORDS[k].name)].filter(Boolean).join(' ').toLowerCase();
+      if (!filt.text.toLowerCase().split(/\s+/).every((w) => hay.includes(w))) return false;
     }
     if (filt.type.size && !filt.type.has(d.type)) return false;
     if (filt.rarity.size && !filt.rarity.has(d.rarity)) return false;
     if (filt.cost.size && !filt.cost.has(Math.min(7, d.cost))) return false;
-    if (filt.novel && MB.novelOf(id) !== filt.novel) return false;
-    const st = ownState(id);
-    return filt.show === 'owned' ? st === 0 : filt.show === 'collecting' ? st === 1 : filt.show === 'locked' ? st > 0
-      : filt.show === 'deck' ? save.deck.includes(id) : filt.show === 'levelup' ? canLevel(id) : true;
+    return !filt.novel || MB.novelOf(id) === filt.novel;
   }
+  const activeFilters = () => (filt.text ? 1 : 0) + filt.type.size + filt.rarity.size + filt.cost.size + (filt.novel ? 1 : 0) + (filt.show !== 'all' ? 1 : 0);
+
+  // how the cards are ordered, and the headed groups they fall into (group: [order, label])
+  const byDefault = (a, b) => ownState(a) - ownState(b)
+    || (ownState(a) === 1 && shardsOf(b) / MB.Collection.need(b) - shardsOf(a) / MB.Collection.need(a))
+    || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b) || MB.cardDef(a).name.localeCompare(MB.cardDef(b).name);
+  const OWN_GROUPS = ['✔ Owned', '🧩 Collecting', '🔒 Not owned yet'];
+  const levelGroup = (high) => (id) => {
+    if (!isUnlocked(id)) return [1e4, '🔒 Not owned yet'];
+    if (!MB.Collection.levels(id)) return [9999, '🎒 Items'];
+    const lv = lvOf(id);
+    return [high ? -lv : lv, `★ Lv ${lv}${MB.Collection.maxed(save, id) ? ' · MAX' : ''}`];
+  };
+  const initial = (id) => { const l = MB.cardDef(id).name.normalize('NFKD')[0].toUpperCase(); return /[A-Z]/.test(l) ? l : '#'; };
+  const SORTS = {
+    default:  { name: '✦ Recommended', group: (id) => [ownState(id), OWN_GROUPS[ownState(id)]] },
+    level:    { name: '★ Level: high → low', group: levelGroup(true) },
+    levelLow: { name: '★ Level: low → high', group: levelGroup(false) },
+    cost:     { name: '🪙 Cost', group: (id) => { const c = Math.min(7, MB.CARDS[id].cost); return [c, c === 7 ? '🪙 7+ gold' : `🪙 ${c} gold`]; } },
+    rarity:   { name: '💎 Rarity', group: (id) => [-rarityRank(id), MB.RARITY[MB.CARDS[id].rarity].name] },
+    name:     { name: '🔤 Name', group: (id) => [initial(id), initial(id)], by: (a, b) => MB.cardDef(a).name.localeCompare(MB.cardDef(b).name) },
+    novel:    { name: '📚 Novel', group: (id) => { const n = MB.novelOf(id); return [n ? n.toLowerCase() : '~', n || 'Other cards']; } },
+  };
+  if (!SORTS[filt.sort]) filt.sort = 'default';
+  const cmpKey = (a, b) => (typeof a === 'number' ? a - b : a < b ? -1 : a > b ? 1 : 0);
 
   function collTools() {
     const bar = $('#coll-tools');
     bar.innerHTML = '';
+    const top = el('div', 'ct-row'), low = el('div', 'ct-row');
+    const find = el('label', 'ct-search', '<i>🔍</i>');
     const search = el('input');
-    Object.assign(search, { id: 'coll-search', type: 'search', placeholder: '🔍 Name, text, keyword…', value: filt.text, spellcheck: false });
+    Object.assign(search, { id: 'coll-search', type: 'search', placeholder: 'Search name, ability, keyword, novel…  (press /)', value: filt.text, spellcheck: false });
     search.oninput = () => { filt.text = search.value.trim(); renderCollection(); };
+    search.onkeydown = (e) => { if (e.key === 'Escape' && search.value) { e.stopPropagation(); search.value = ''; filt.text = ''; renderCollection(); } };
+    find.appendChild(search);
+    const tabs = el('div', 'ct-tabs');
+    SHOWS.forEach(([val, label, title]) => {
+      const b = el('button', filt.show === val ? 'on' : '', `${label} <small></small>`);
+      b.dataset.show = val;
+      b.title = title;
+      b.onclick = () => { MB.audio.sfx('click'); filt.show = val; renderCollection(); };
+      tabs.appendChild(b);
+    });
+    top.append(find, tabs, el('div', 'ct-count'));
     // chips toggle on and off; several can be on at once
-    const chips = (key, items) => {
+    const chips = (key, items, label) => {
       const seg = el('div', 'chips');
+      seg.title = label;
       items.forEach(([val, html, title, color]) => {
         const b = el('button', filt[key].has(val) ? 'on' : '', html);
         b.title = title;
@@ -924,13 +974,25 @@
       });
       return seg;
     };
-    const sel = (key, options) => {
-      const s = el('select');
+    const sel = (key, options, cls, title) => {
+      const s = el('select', cls);
+      s.title = title;
       options.forEach(([v, t]) => s.appendChild(new Option(t, v, false, filt[key] === v)));
-      s.onchange = () => { MB.audio.sfx('click'); filt[key] = s.value; renderCollection(); };
+      s.onchange = () => { MB.audio.sfx('click'); filt[key] = s.value; keepView(); renderCollection(); s.blur(); };
       return s;
     };
-    const reset = el('button', 'chip-reset', '✕');
+    const size = el('div', 'chips ct-size');
+    [['big', '▣ Big', 'Big cards'], ['small', '▦ Small', 'Small cards: more on screen']].forEach(([val, icon, title]) => {
+      const b = el('button', filt.size === val ? 'on' : '', icon);
+      b.title = title;
+      b.onclick = () => {
+        MB.audio.sfx('click'); filt.size = val; keepView();
+        size.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+        renderCollection();
+      };
+      size.appendChild(b);
+    });
+    const reset = el('button', 'chip-reset', '✕ Clear <b></b>');
     reset.title = 'Clear the filters';
     reset.onclick = () => {
       MB.audio.sfx('click');
@@ -938,14 +1000,22 @@
       ['type', 'rarity', 'cost'].forEach((k) => filt[k].clear());
       collTools(); renderCollection();
     };
-    bar.append(search,
-      chips('type', [['unit', '👤', 'Characters'], ['spell', '🎒', 'Items']]),
-      chips('rarity', COLL_RARITIES.map((r) => [r, '<i class="gem"></i>', MB.RARITY[r].name, MB.RARITY[r].color])),
-      chips('cost', [0, 1, 2, 3, 4, 5, 6, 7].map((n) => [n, n === 7 ? '7+' : n, `Costs ${n === 7 ? '7 or more' : n} gold`])),
-      sel('show', [['all', 'All cards'], ['owned', '✔ Owned'], ['collecting', '🧩 Collecting'], ['locked', '🔒 Not owned'], ['levelup', '⬆ Can level up'], ['deck', '🂠 In this deck']]),
-      sel('novel', [['', 'All novels'], ...MB.manifest.novels.map((n) => [n, n])]),
-      reset);
+    low.append(
+      chips('type', [['unit', '👤', 'Characters'], ['spell', '🎒', 'Items']], 'Card type'),
+      chips('rarity', COLL_RARITIES.map((r) => [r, '<i class="gem"></i>', MB.RARITY[r].name, MB.RARITY[r].color]), 'Rarity'),
+      chips('cost', [0, 1, 2, 3, 4, 5, 6, 7].map((n) => [n, n === 7 ? '7+' : n, `Costs ${n === 7 ? '7 or more' : n} gold`]), 'Cost'),
+      sel('novel', [['', '📚 All novels'], ...MB.manifest.novels.map((n) => [n, n])], 'ct-novel', 'Only cards from this novel'),
+      el('span', 'ct-sep'),
+      sel('sort', Object.entries(SORTS).map(([k, s]) => [k, s.name]), 'ct-sort', 'Sort and group the cards'),
+      size, reset);
+    bar.append(top, low);
   }
+  // "/" jumps to the search while the collection is open
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '/' || !$('#screen-deck').classList.contains('active') || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    e.preventDefault();
+    $('#coll-search').focus();
+  });
 
   function renderDeckTabs() {
     const tabs = $('#deck-tabs');
@@ -989,12 +1059,33 @@
   function renderCollection() {
     const col = $('#collection');
     col.innerHTML = '';
+    col.classList.toggle('small', filt.size === 'small');
     renderCollHead();
-    const ids = deckCards().filter(passes).sort((a, b) => ownState(a) - ownState(b)
-      || (ownState(a) === 1 && shardsOf(b) / MB.Collection.need(b) - shardsOf(a) / MB.Collection.need(a))
-      || MB.CARDS[a].cost - MB.CARDS[b].cost || rarityRank(a) - rarityRank(b));
-    if (!ids.length) col.appendChild(el('div', 'coll-empty', 'No cards match these filters.'));
+    // the tab counts and the clear button follow the filters
+    const base = deckCards().filter(passes);
+    document.querySelectorAll('#coll-tools .ct-tabs button').forEach((b) => {
+      b.classList.toggle('on', b.dataset.show === filt.show);
+      b.querySelector('small').textContent = base.filter(shows[b.dataset.show]).length;
+    });
+    const n = activeFilters(), reset = $('#coll-tools .chip-reset');
+    reset.classList.toggle('on', n > 0);
+    reset.querySelector('b').textContent = n || '';
+    const sort = SORTS[filt.sort], group = new Map();
+    const ids = base.filter(shows[filt.show]);
+    ids.forEach((id) => group.set(id, sort.group(id)));
+    ids.sort((a, b) => cmpKey(group.get(a)[0], group.get(b)[0]) || (sort.by && sort.by(a, b)) || byDefault(a, b));
+    $('#coll-tools .ct-count').innerHTML = `<b>${ids.length}</b> card${ids.length === 1 ? '' : 's'}`;
+    if (!ids.length) col.appendChild(el('div', 'coll-empty', n ? 'No cards match these filters.<br><small>Try clearing some of them (✕ Clear).</small>' : 'No cards here yet.'));
+    const sizes = {};
+    ids.forEach((id) => { const g = group.get(id)[1]; sizes[g] = (sizes[g] || 0) + 1; });
+    let last = null;
     ids.forEach((id) => {
+      const g = group.get(id)[1];
+      if (g !== last) {
+        last = g;
+        const h = col.appendChild(el('div', 'coll-group', `<span></span><small>${sizes[g]}</small>`));
+        h.querySelector('span').textContent = g;
+      }
       const c = cardEl(id);
       c.classList.add('collect');
       col.appendChild(c);
