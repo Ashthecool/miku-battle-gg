@@ -111,6 +111,8 @@ button { font-family: inherit; }
 #fx-layer { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
 .bb { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; pointer-events: none; }
 .bb-stand { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-origin: 0 0; transform: rotateX(calc(-1 * var(--tilt))); transform-style: preserve-3d; }
+/* effects stand 75px toward the viewer: over the target and a melee attacker 85 board px in front of it, still behind the next row */
+.bb-stand.lift { transform: rotateX(calc(-1 * var(--tilt))) translateZ(75px); }
 .bb-body { position: absolute; left: 0; top: 0; white-space: nowrap; }
 .yumi-dolphin-art > img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .pristo-guitar-pose { width: 280px; height: 280px; background-repeat: no-repeat; background-size: 200% 200%; }
@@ -2785,3 +2787,56 @@ body.dev .dev-only { display: flex !important; }
 .flat.dfx.warm-ring { filter: drop-shadow(0 0 10px #ffd88a) drop-shadow(0 0 22px #ffb347); }
 .dfx.jaw { filter: drop-shadow(0 4px 4px #0008); }
 .dfx.gum { filter: drop-shadow(0 2px 3px #0005); }
+
+/* drawn effects of Phantom Dream */
+.dfx.dream-bubble { filter: drop-shadow(0 4px 6px #0006); }
+.dfx.butterfly { filter: drop-shadow(0 0 6px #b88aff); }
+.dfx.barcode { filter: drop-shadow(0 3px 4px #0006); }
+.dfx.scanline { width: 6px; height: 120px; border-radius: 3px; background: #ff2a2a; box-shadow: 0 0 10px #ff2a2a, 0 0 24px #ff2a2a; }
+.dfx.price-tag { filter: drop-shadow(0 4px 4px #0007); }
+.dfx.sticky { filter: drop-shadow(0 3px 3px #0006); }
+.dfx.line-dot { box-shadow: 0 0 4px #fff; }
+.dfx.stream-frame { filter: drop-shadow(0 0 6px #e8283c); }
+.dfx.chat-bubble { background: var(--c); color: #fff; font: 800 18px 'Segoe UI', sans-serif; padding: 5px 12px; border-radius: 14px 14px 14px 3px;
+  box-shadow: 0 3px 6px #0006; }
+.dfx.chat-bubble b { font-weight: 800; }
+.dfx.observer-eye { filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 0 22px var(--c)); }
+.dfx.causal-ring { filter: drop-shadow(0 0 8px var(--c)); }
+.dfx.evidence, .dfx.case-folder { filter: drop-shadow(0 4px 4px #0007); }
+.dfx.flash-cone { mix-blend-mode: screen; }
+.dfx.heart-circle, .dfx.beam-heart { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 0 18px var(--c)); }
+.dfx.focus-lines { mix-blend-mode: multiply; }
+.dfx.deadpan b { font: 900 34px 'Segoe UI', sans-serif; color: #fff; -webkit-text-stroke: 2px #222; letter-spacing: 2px; }
+.dfx.cut-line { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #8ab0ff); }
+.dfx.phone-feed { width: 120px; height: 180px; overflow: hidden; border: 6px solid #222; border-radius: 16px; background: #f4f4f8; box-shadow: 0 6px 10px #0007; }
+.dfx.phone-feed .screen { display: flex; flex-direction: column; gap: 8px; padding: 10px 6px; }
+.dfx.phone-feed i { display: block; font: 900 13px 'Segoe UI', sans-serif; font-style: normal; color: #c8202c; background: #fff; border: 2px solid #ddd;
+  border-radius: 6px; padding: 8px 4px; text-align: center; white-space: normal; }
+.dfx.flat-earth { filter: drop-shadow(0 4px 6px #0007); }
+.dfx.bobber { filter: drop-shadow(0 2px 2px #0006); }
+.flat.dfx.spot-pool { width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(#fff6d0cc, #fff6d000 70%); mix-blend-mode: screen; }
+.dfx.waveform { filter: drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 14px var(--c)); }
+.dfx.mask { filter: drop-shadow(0 3px 4px #0007); }
+
+/* drawn effects II (fx.js "drawn effects II") */
+.dfx.icicle, .dfx.flake { filter: drop-shadow(0 0 6px #bff0ff) drop-shadow(0 0 14px #7ad8ff); }
+.dfx.bolt-d { filter: drop-shadow(0 0 8px #fff36a) drop-shadow(0 0 22px #ffe94a); }
+.dfx.storm-cloud, .dfx.anvil, .dfx.cage, .dfx.mallet, .dfx.glove, .dfx.pie, .dfx.cream, .dfx.die, .dfx.card-d, .dfx.crane, .dfx.letter,
+.dfx.hourglass, .dfx.clockface, .dfx.drill, .dfx.fan, .dfx.great-wave, .dfx.stalag, .dfx.gear, .dfx.yinyang, .dfx.half-heart, .dfx.padlock,
+.dfx.harpoon, .dfx.arrow-d, .dfx.sword-d, .dfx.ink-splat, .dfx.thornwrap, .dfx.mummy, .dfx.tentacle, .dfx.lasso, .dfx.chain-link, .dfx.chain-wrap { filter: drop-shadow(0 5px 5px #0007); }
+.flat.dfx.fall-shadow { width: 170px; height: 100px; border-radius: 50%; background: radial-gradient(#000c, #0000 70%); }
+.dfx.sigil, .dfx.reticle, .dfx.staff, .dfx.iaido, .dfx.zaps, .dfx.pincer-x, .dfx.gust, .dfx.fan-gust { filter: drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 14px var(--c)); }
+.dfx.eclipse { filter: drop-shadow(0 0 20px #ffb347); }
+.dfx.sun, .dfx.sunbeam { filter: drop-shadow(0 0 16px #ffcf3f); }
+.dfx.bulb.lit { filter: drop-shadow(0 0 14px #fff36a) drop-shadow(0 0 30px #ffd84a); }
+.dfx.lantern { filter: drop-shadow(0 0 12px #ffb347) drop-shadow(0 0 26px #ff7a2a); }
+.dfx.flame-d { filter: drop-shadow(0 0 8px #ff7a2a); }
+.dfx.pincer-bolt, .dfx.pincer-trail, .dfx.bead { filter: drop-shadow(0 0 6px var(--c)); }
+.dfx.rainbow, .dfx.star-d, .dfx.rose, .dfx.love-heart { filter: drop-shadow(0 0 6px #fff8) drop-shadow(0 0 14px var(--c)); }
+.dfx.spot-cone { filter: blur(1px); }
+.dfx.mirror { filter: drop-shadow(0 0 10px #d8a830); }
+.dfx.soap { opacity: .95; }
+.dfx.grind { filter: drop-shadow(0 0 6px #ffd84a); }
+.flat.dfx.portal { filter: drop-shadow(0 0 16px #b05ae8); }
+.flat.dfx.whirl { opacity: .9; }
+.flat.dfx.floor-ring { filter: drop-shadow(0 0 6px var(--c)); }

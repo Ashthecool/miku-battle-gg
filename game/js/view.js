@@ -4,6 +4,8 @@
   const SLOT_X = [215, 465, 715, 965];
   const LEADER_POS = [{ x: 60, y: 700 }, { x: 1120, y: 60 }];
   const UNIT_H = 235, LEADER_H = 290;
+  // billboards that are characters (afterimages, stand-ins, pose actors), or effects marked 'behind', keep their true depth
+  const ACTOR_BB = /(^|\s)(ghost|clone|ghost-rise|pose-actor|art-books-pose|behind)(\s|$)/;
 
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -64,9 +66,11 @@
     heightOf(ent) { return ent.isLeader ? LEADER_H : UNIT_H; }
     setTilt(deg) { this.tilt = deg; this.board.style.setProperty('--tilt', deg + 'deg'); }
 
-    // billboard element standing on the board at (x,y); its .bb-body can be lifted with gsap y (negative = up)
+    // billboard element standing on the board at (x,y); its .bb-body can be lifted with gsap y (negative = up).
+    // An effect stands a little toward the viewer (.lift), so what lands on a target is drawn over its sprite and over a
+    // melee attacker standing just in front of it, instead of sharing the target's plane and vanishing behind it.
     billboard(cls, html, x, y) {
-      const w = el('div', 'bb'), s = el('div', 'bb-stand'), b = el('div', 'bb-body ' + (cls || ''), html);
+      const w = el('div', 'bb'), s = el('div', ACTOR_BB.test(cls || '') ? 'bb-stand' : 'bb-stand lift'), b = el('div', 'bb-body ' + (cls || ''), html);
       if (html) MB.AttackArt.decorate(b);
       s.appendChild(b); w.appendChild(s); this.fxLayer.appendChild(w);
       gsap.set(w, { x, y }); gsap.set(b, { xPercent: -50, yPercent: -50 });

@@ -3,7 +3,8 @@
 // an attacker not back in its slot (moved, hidden, rotated, a duo half left faded), a drawn actor left behind or off screen, or a pose
 // frame never shown. It warns when nothing visibly touches the target at the hit (no prop, actor or the attacker within reach of the
 // target's sprite) and when props leave the screen; --strict makes those failures too.
-// Usage: node tools/check_attacks.js [card id | bond id | style name ...] [--new[=rev]] [--all] [--strict] [--shots] [--slow=0.3] [--cases=center,leader] [--jobs=3]
+// fx:<name>[:<move>][@<card or bond id>] plays a recipe effect (attack.fx) on that card or duo (default berry / stay), e.g. fx:pincer:dash@lottie-lexi.
+// Usage: node tools/check_attacks.js [card id | bond id | style name | fx:... ...] [--new[=rev]] [--all] [--strict] [--shots] [--slow=0.3] [--cases=center,leader] [--jobs=3]
 //   by default 3 cases (centre, an edge, the enemy leader) at 4x animation speed in 3 parallel pages; --all plays all 6, --speed=1 real time
 //   --new        everything whose attack differs from HEAD (or rev) in data.js, plus every user of a style changed in fx.js
 //   --shots      a screenshot strip of each case to output/attack-check/<id>/ (--slow slows the animation clock to catch more frames)
@@ -26,8 +27,15 @@ const pick = opt('--cases', null), QUICK = ['center', 'edge-right-to-left', 'ene
 const cases = pick ? CASES.filter((c) => pick.split(',').some((p) => c.name.includes(p))) : flag('--all') ? CASES : CASES.filter((c) => QUICK.includes(c.name));
 
 function targets() {
-  const MB = data.load(), ids = new Set();
+  const MB = data.load(), ids = new Set(), fx = [];
   for (const w of words()) {
+    const m = /^fx:(\w+)(?::(\w+))?(?:@(.+))?$/.exec(w);
+    if (m) {
+      const base = m[3] || 'berry', duo = MB.BONDS.some((b) => b.id === base);
+      if (!duo && !MB.CARDS[base]) throw new Error(`${base} is not a card or a bond`);
+      fx.push({ id: base, duo, fx: m[1], move: m[2] || 'stay', label: `fx-${m[1]}${m[2] ? '-' + m[2] : ''}${duo ? '-duo' : ''}` });
+      continue;
+    }
     if (MB.CARDS[w] || MB.BONDS.some((b) => b.id === w)) ids.add(w);
     else {
       const users = data.usersOfStyles(MB, [w]);
@@ -42,8 +50,8 @@ function targets() {
     if (styles.length) console.log(`styles changed in fx.js: ${styles.join(', ')}`);
   }
   const bondIds = new Set(MB.BONDS.map((b) => b.id));
-  return [...ids].filter((id) => bondIds.has(id) || (MB.CARDS[id] && MB.CARDS[id].type !== 'spell' && MB.CARDS[id].attack))
-    .map((id) => ({ id, duo: bondIds.has(id) }));
+  return [...fx, ...[...ids].filter((id) => bondIds.has(id) || (MB.CARDS[id] && MB.CARDS[id].type !== 'spell' && MB.CARDS[id].attack))
+    .map((id) => ({ id, duo: bondIds.has(id) }))];
 }
 
 // runs in the page: plays one case and measures it
@@ -117,20 +125,21 @@ async function worker(url, queue, fails, warns, reports, missing) {
   const g = await openGame({ url, gallery: true }), page = g.page;
   try {
     for (let job; (job = queue.shift());) {
-      const { id, duo } = job;
+      const { id, duo } = job, name = job.label || id;
       await page.evaluate(async ({ id, duo }) => {
         while (MB.UI.gallery.busy()) await new Promise((r) => setTimeout(r, 50));
         if (duo) await MB.UI.gallery.bond(MB.BONDS.find((b) => b.id === id), null); else await MB.UI.gallery.pick(id, null);
       }, { id, duo });
       await page.waitForFunction(() => MB.UI.gallery.unit() && !MB.UI.gallery.busy());
       await page.waitForTimeout(300);
+      if (job.fx) await page.evaluate(({ fx, move }) => { const a = MB.UI.gallery.unit().card; a.attack = { ...a.attack, style: undefined, fx, move }; }, job);
       for (const c of cases) {
-        const label = `${id} / ${c.name}`, errs = g.errors.length;
+        const label = `${name} / ${c.name}`, errs = g.errors.length;
         await page.evaluate((s) => { gsap.globalTimeline.timeScale(s); }, speed);
         await page.evaluate(({ c, src }) => { window.__case = (0, eval)(`(${src})`)(c); window.__done = false; window.__case.finally(() => { window.__done = true; }); },
           { c: { ...c, duo }, src: playCase.toString() });
         if (shots) {
-          const dir = path.join(out, id); fs.mkdirSync(dir, { recursive: true });
+          const dir = path.join(out, name); fs.mkdirSync(dir, { recursive: true });
           for (let shot = 0, t0 = Date.now(); !(await page.evaluate(() => window.__done)) && Date.now() - t0 < 40000 && shot < 40; shot++)
             await page.screenshot({ path: path.join(dir, `${c.name}-${String(shot).padStart(2, '0')}.jpg`), type: 'jpeg', quality: 70, clip: { x: 0, y: 100, width: 1240, height: 700 } });
         }
@@ -165,7 +174,7 @@ async function worker(url, queue, fails, warns, reports, missing) {
 (async () => {
   const list = targets();
   if (!list.length) { console.log('Nothing to check: name card, bond or style ids, or --new.'); return; }
-  console.log(`checking ${list.length}: ${list.map((x) => x.id).join(', ')}`);
+  console.log(`checking ${list.length}: ${list.map((x) => x.label || x.id).join(', ')}`);
   fs.mkdirSync(out, { recursive: true });
   const server = opt('--url', null) ? null : await serve(), url = opt('--url', null) || server.url + '?dev';
   const fails = [], warns = [], reports = [], missing = [], queue = [...list];

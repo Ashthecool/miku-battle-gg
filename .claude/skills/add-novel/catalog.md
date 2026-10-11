@@ -133,8 +133,31 @@ attack: { name: 'Cat Scratch Combo', color: '#ff9a3c', move: 'blink', fx: 'slash
   `heartfire` (a heart outline fills and catches fire) · `skip` (a stone skips in, ripples; `prop`) · `viewfinder` (camera brackets, REC, the
   shutter) · `bale` (a hay bale rolls over it) · `toll` (a bell swings, sound arcs strike; `bell`, `waves`) · `warmth` (a golden glow rolls over
   and hugs it; `glow`) · `jaws` (drawn jaws snap shut; `jawSize`)
+- Drawn effects II: `icicles` (a row of icicles drops one by one; `hits`) · `thornwrap` (thorny vine winds up and squeezes; `vine`) · `thunderbolt`
+  (storm cloud, forked bolts; `hits` ≤3) · `funnel` (a twister crosses the board and spins it; `wind`) · `anvil` (shadow, anvil, CLANG) · `cage`
+  (a birdcage drops over it) · `lasso` (twirled, thrown, pulled tight; `rope`) · `harpoon` (fired in on a rope, yanked) · `arrows` (an arrow volley
+  rains in; `hits`) · `iaido` (one invisible cut, a beat, then it lands; `edge`) · `eclipse` (the moon covers a sun, the dark disc falls) · `solar`
+  (a smiling sun drops a sunbeam) · `sigil` (a magic circle drawn before it, blasts; `rune`) · `rosebloom` (petals spiral in, a rose blooms; `petal`)
+  · `soap` (bubbles drift over and pop; `hits`) · `inksplat` (ink glob splats and drips; `ink`) · `brushstroke` (a painted X, two strokes; `paint`)
+  · `crane` (an origami crane dives in and unfolds; `paper`) · `deal` (a fanned hand of cards flicked in; `hits`) · `dice` (two dice tumble in,
+  sixes) · `clockstop` (clock face, hands race, time stops, glass cracks; `face`) · `hourglass` (runs out, flips, comes down; `sand`) · `mirror`
+  (a gilt mirror, a sheen, it cracks) · `snowflake` (a great flake settles and freezes; `ice`) · `stalagmites` (rock spikes erupt round it; `rock`)
+  · `starfall` (a stream of stars, the last one big; `colors`) · `rainbow` (a rainbow drawn to it, a star slides down) · `greatwave` (a curling
+  wave rolls over it; `water`) · `blaze` (flames leap up round it) · `gust` (wind curls and leaves; `wind`) · `mallet` (giant squeaky mallet; `head`)
+  · `springglove` (boxing glove on a spring arm; `glove`) · `pie` (cream pie in the face) · `bulb` (an idea! lit bulb thrown, zap) · `loveletter`
+  (an envelope opens, its heart drops) · `staff` (a music staff, notes, a chord; `ink`) · `reticle` (crosshair hunts, locks, shots; `laser`, `hits`)
+  · `mummy` (bandages wrap it; `cloth`) · `swordring` (a ring of swords plunges, a great sword in the middle) · `drill` (bores in and grinds; `bit`)
+  · `fan` (a folding fan throws crescents of wind; `silk`) · `lantern` (a paper lantern drifts over and bursts into flame; `paper`) · `tentacles`
+  (a portal, tentacles rise and squeeze; `flesh`) · `whirlpool` (drawn on the floor, spins it down; `water`).
+  Duo-made (from the lead and the other partner at once, `from2`): `chains` (two chains, a loop cinched; `metal`) · `spotlights` (two spots find it;
+  `lights`) · `pincer` (two bolts curve in from both sides, an X; `colors`) · `heartlock` (two half hearts lock with a padlock; `colors`) ·
+  `yinyang` (the halves curl in and spin down; `colors`) · `gears` (two gears mesh and grind it; `colors`)
 - `prop`: emoji or list for throw/volley/rain/orbit · `hits`: how many (1-20) · `floor`: `splat` `frost` `sigil`
   `whirlpool` `ring` decal · `scatter`: emoji flung out on impact · `big`: bigger hit + shake · `shake`: strength
+- `cam` (any attack, any style): `zoom` (the camera closes in on the target) · `wide` (pulls back to show the board) · `punch` (jolts in at the hit)
+- On a duo (a bond's attack with no `style`) the partners move separately: the lead (`lead: 0|1`, default 0) takes `move` to the target and the
+  other follows a beat later with `move2` (default: a dash brings the partner swinging round to the target's side, a leap a second leap, a
+  hop hops, `stay` → the other rises). The fx comes from the lead; duo-made fx use the other partner as their second source.
 - Defaults: fx `hit` → move `dash`; other fx → move `stay`; move only → `hit` (melee) or `throw` (stay/float).
   `hit` with `stay`/`float` punches thin air (the checker warns).
 - Without an `intro` the card enters the way it moves (`leap` → drop, `blink` → zoom...), flinging its props.
@@ -165,6 +188,14 @@ Lilly: tea runs over the knight, which hops in) · `fieldbluff` (Eliza & Uzi: th
 a crimson solo, AMEN).
 Exodus duos: `bossreport` (Marise & Sakuragi: policy cited, form stamped RELOCATED, a trapdoor opens) · `truckkun` (Jin & Takuya: the summoned truck
 hits the target and isekais it) · `chuuni` (Takuya & Obliviahime: rune circle, chanted technique, dark column, "...Did it work?").
+Partners-on-the-move duos (each partner moves on its own, partner 0 = pair[0]; good models for new 1-heart duos instead of `combo`):
+`pancakeflip` (1 hops over with a plate, 0 flips a pancake onto it, syrup splat) · `spoonsmack` (1 rushes ahead, 0 leaps in with a giant
+spoon-mallet) · `passit` (they fan out passing a ball, 0 leaps for the slam dunk) · `rescuesurf` (0 rides a great wave in, 1 sprints and
+throws a lifebuoy lasso) · `phasers` (both dive to cover, crossing beams) · `soulblades` (they flank it, two iaido cuts, a soul pulled out) ·
+`twiniaido` (1 rises and calls a ring of swords, 0 rushes in for the draw) · `startalisman` (0 sends a planet spiralling in, 1 hops up with
+ofuda) · `brimstone` (both rise, yin-yang of fire and sin, flames) · `puppetstrings` (1 laps the target leaving mouse prints, 0 webs it and
+pulls the strings) · `firstcontact` (0 hovers, two tractor-beam spotlights, 1 runs in for the photo) · `teddytag` (they hop to either side,
+heart halves lock) · `grapestomp` (they leap in either side, grape juice, alternating stomps).
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)

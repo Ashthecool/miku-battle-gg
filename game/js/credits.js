@@ -34,6 +34,7 @@
         { novel: 'Can Anyone Love Maia?', id: '3e403fd5-5776-4853-891e-81da3617ef65' },
         { novel: 'Stranded terrestrial SN- 1.0009...', title: 'Stranded terrestrial', id: '92ad7487-bde9-4d7c-ad14-df5772485582' },
         { novel: 'Phantastic Experiments [with] Ayame Kadokawa', id: '32f5057c-0796-4d12-8378-bdf12bcffb6f' },
+        { novel: 'Phantom Dream [Preview]', title: 'Phantom Dream', id: '99a2279e-4391-47b2-8c76-04b886961a69' },
       ] },
     { name: 'mikudev', aka: 'the miku.gg team', id: '5a967b4b-b773-46b9-94f4-4c0214a2ea0f', color: '#39d5c9',
       pic: 'optimized/5a967b4b-b773-46b9-94f4-4c0214a2ea0f/7a141c32-c421-48b8-88c7-669ca98992af.webp', novels: [

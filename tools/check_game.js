@@ -35,14 +35,8 @@ const E = MB.Effects, STYLES = MB.FX.styles, INTRO = MB.Cards.intros, MOVES = MB
 const TARGETS = ['enemyUnit', 'allyUnit', 'anyUnit', 'enemyAny', 'friendlyAny'];
 const FILTERS = [undefined, 'lowAtk', 'sick', 'guarded', 'hasKw', 'noRebel', 'spent'];
 const INTRO_FX = ['spray', 'fling', 'swirl', 'rain', 'confetti', 'column', 'flash', 'smoke'];
-const SFX = ['sparkle', 'slam', 'zap', 'splash', 'heal', 'coin', 'whoosh', 'hit', 'buff', 'beam', 'click', 'draw', 'freeze', 'shield', 'debuff',
-  'boing', 'bonk', 'pow', 'whistleUp', 'whistleDown', 'pop', 'squeak', 'zip', 'honk', 'wobble', 'tweet', 'splat', 'twang', 'chomp', 'ding', 'whistle', 'bubble', 'blink', 'punch',
-  'fire', 'burn', 'frost', 'shatter', 'wave', 'holy', 'fusion', 'thunder', 'dark', 'wind', 'boom',
-  'choir', 'laugh', 'incoming', 'tornado', 'vortex', 'missile', 'vines', 'rune', 'shuriken', 'melody', 'poof', 'gunshot', 'scope', 'lava', 'kiss', 'swish', 'clang', 'glitch', 'camera', 'tick', 'stab', 'cheer', 'scythe', 'surf',
-  'guitar', 'piano', 'axe', 'flip', 'slide', 'glass', 'flutter', 'stomp', 'grow', 'trash', 'drumroll', 'gong', 'sizzle', 'applause', 'hypno', 'warp', 'unsheathe', 'stretch', 'siren',
-  'crinkle', 'foil', 'rip', 'tear', 'cardflip', 'deal', 'riser', 'loot', 'gem', 'fanfare', 'fragment', 'tink', 'unlock', 'thud', 'swipe', 'heartbeat', 'glint',
-  'laser', 'whipcrack', 'slash', 'charge', 'ricochet', 'whack', 'roar', 'rocks', 'gasp', 'powerup', 'meow', 'pulse', 'rumble', 'crunch', 'collision', 'shockwave', 'boulder', 'blast',
-  'hiss', 'sonicboom', 'chain', 'karate', 'riserhit'];
+// every sound audio.js can play (its SFX table)
+const SFX = (() => { const a = fs.readFileSync(path.join(GAME, 'js/audio.js'), 'utf8'), k = a.indexOf('const SFX = {'); return [...a.slice(k, a.indexOf('\n  };', k)).matchAll(/^ {4}(\w+):/gm)].map((m) => m[1]); })();
 const cardExists = (id) => id === 'randomItem' || id === 'randomUnit' || !!MB.CARDS[id];
 
 function checkSpec(where, spec, { trigger, target }) {

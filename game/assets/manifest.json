@@ -50,7 +50,8 @@
   "Noble One",
   "Grove Keeper",
   "Nupta Daemoni",
-  "Phantastic Experiments [with] Ayame Kadokawa"
+  "Phantastic Experiments [with] Ayame Kadokawa",
+  "Phantom Dream [Preview]"
  ],
  "nsfwNovels": [
   "Integrated Domestic Android",
@@ -13076,6 +13077,226 @@
    "costumes": [],
    "portrait": "portraits/rui.webp",
    "novel": "Phantastic Experiments [with] Ayame Kadokawa"
+  },
+  {
+   "id": "delphie",
+   "name": "Delphie",
+   "outfit": "Mysterious girl EX",
+   "short": "Mysterious free-loader",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/delphie/neutral.webp",
+    "play": "sprites/delphie/happy.webp",
+    "attack": "sprites/delphie/angry.webp",
+    "special": "sprites/delphie/angry.webp",
+    "hurt": "sprites/delphie/scared.webp",
+    "lose": "sprites/delphie/sad.webp",
+    "win": "sprites/delphie/happy.webp",
+    "taunt": "sprites/delphie/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/delphie.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "erika",
+   "name": "Erika",
+   "outfit": "Casual Out 'n about.",
+   "short": "Classical Tsundere, Evolved.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/erika/neutral.webp",
+    "play": "sprites/erika/happy.webp",
+    "attack": "sprites/erika/angry.webp",
+    "special": "sprites/erika/angry.webp",
+    "hurt": "sprites/erika/scared.webp",
+    "lose": "sprites/erika/sad.webp",
+    "win": "sprites/erika/happy.webp",
+    "taunt": "sprites/erika/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/erika.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "maya",
+   "name": "Maya",
+   "outfit": "Casual out 'n about",
+   "short": "Someone's Little sister.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/maya/neutral.webp",
+    "play": "sprites/maya/happy.webp",
+    "attack": "sprites/maya/angry.webp",
+    "special": "sprites/maya/angry.webp",
+    "hurt": "sprites/maya/scared.webp",
+    "lose": "sprites/maya/sad.webp",
+    "win": "sprites/maya/happy.webp",
+    "taunt": "sprites/maya/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/maya.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "henry",
+   "name": "Henry",
+   "outfit": "Casual out'n about",
+   "short": "American Transfer student.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/henry/neutral.webp",
+    "play": "sprites/henry/happy.webp",
+    "attack": "sprites/henry/angry.webp",
+    "special": "sprites/henry/angry.webp",
+    "hurt": "sprites/henry/scared.webp",
+    "lose": "sprites/henry/sad.webp",
+    "win": "sprites/henry/happy.webp",
+    "taunt": "sprites/henry/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/henry.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "ayame-phantom",
+   "name": "Ayame",
+   "outfit": "Work uniform",
+   "short": "Bum-ass scientist.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ayame-phantom/neutral.webp",
+    "play": "sprites/ayame-phantom/happy.webp",
+    "attack": "sprites/ayame-phantom/angry.webp",
+    "special": "sprites/ayame-phantom/angry.webp",
+    "hurt": "sprites/ayame-phantom/scared.webp",
+    "lose": "sprites/ayame-phantom/sad.webp",
+    "win": "sprites/ayame-phantom/happy.webp",
+    "taunt": "sprites/ayame-phantom/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ayame-phantom.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "daisuke",
+   "name": "Daisuke",
+   "outfit": "default",
+   "short": "Serious guy",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/daisuke/neutral.webp",
+    "play": "sprites/daisuke/happy.webp",
+    "attack": "sprites/daisuke/angry.webp",
+    "special": "sprites/daisuke/angry.webp",
+    "hurt": "sprites/daisuke/scared.webp",
+    "lose": "sprites/daisuke/sad.webp",
+    "win": "sprites/daisuke/happy.webp",
+    "taunt": "sprites/daisuke/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/daisuke.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "reiko",
+   "name": "Reiko",
+   "outfit": "default",
+   "short": "Part time investigator girl.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/reiko/neutral.webp",
+    "play": "sprites/reiko/happy.webp",
+    "attack": "sprites/reiko/angry.webp",
+    "special": "sprites/reiko/angry.webp",
+    "hurt": "sprites/reiko/scared.webp",
+    "lose": "sprites/reiko/sad.webp",
+    "win": "sprites/reiko/happy.webp",
+    "taunt": "sprites/reiko/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/reiko.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "ai-phantom",
+   "name": "Ai",
+   "outfit": "default",
+   "short": "No nonsense College girl",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ai-phantom/neutral.webp",
+    "play": "sprites/ai-phantom/happy.webp",
+    "attack": "sprites/ai-phantom/angry.webp",
+    "special": "sprites/ai-phantom/angry.webp",
+    "hurt": "sprites/ai-phantom/scared.webp",
+    "lose": "sprites/ai-phantom/sad.webp",
+    "win": "sprites/ai-phantom/happy.webp",
+    "taunt": "sprites/ai-phantom/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ai-phantom.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "satsuki",
+   "name": "Satsuki",
+   "outfit": "School uniform",
+   "short": "Nervous highschool girl.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/satsuki/neutral.webp",
+    "play": "sprites/satsuki/happy.webp",
+    "attack": "sprites/satsuki/angry.webp",
+    "special": "sprites/satsuki/angry.webp",
+    "hurt": "sprites/satsuki/scared.webp",
+    "lose": "sprites/satsuki/sad.webp",
+    "win": "sprites/satsuki/happy.webp",
+    "taunt": "sprites/satsuki/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/satsuki.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "kouji",
+   "name": "Kouji",
+   "outfit": "work clothes.",
+   "short": "your teacher.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/kouji/neutral.webp",
+    "play": "sprites/kouji/happy.webp",
+    "attack": "sprites/kouji/angry.webp",
+    "special": "sprites/kouji/angry.webp",
+    "hurt": "sprites/kouji/scared.webp",
+    "lose": "sprites/kouji/sad.webp",
+    "win": "sprites/kouji/happy.webp",
+    "taunt": "sprites/kouji/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/kouji.webp",
+   "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "binon",
+   "name": "Binon",
+   "outfit": "Cute dress",
+   "short": "Ultra Famous actress.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/binon/neutral.webp",
+    "play": "sprites/binon/happy.webp",
+    "attack": "sprites/binon/angry.webp",
+    "special": "sprites/binon/angry.webp",
+    "hurt": "sprites/binon/scared.webp",
+    "lose": "sprites/binon/sad.webp",
+    "win": "sprites/binon/happy.webp",
+    "taunt": "sprites/binon/amused.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/binon.webp",
+   "novel": "Phantom Dream [Preview]"
   }
  ],
  "backgrounds": [
@@ -24430,6 +24651,180 @@
    "name": "Rui Jumpscare",
    "desc": "",
    "src": "backgrounds/rui-jumpscare-398327.webp"
+  },
+  {
+   "id": "b2089caa-5044-4222-8658-1ab8c29f9057",
+   "name": "school hallway",
+   "desc": "",
+   "src": "backgrounds/school-hallway-b2089c.webp"
+  },
+  {
+   "id": "66d98e3a-2c0e-48b5-821e-3b17bc4877c4",
+   "name": "cafeteria",
+   "desc": "",
+   "src": "backgrounds/cafeteria-66d98e.webp"
+  },
+  {
+   "id": "4411bba1-a6e7-4e00-ba4f-5dec586c0b45",
+   "name": "college [day]",
+   "desc": "",
+   "src": "backgrounds/college-day-4411bb.webp"
+  },
+  {
+   "id": "36d57a3a-f1d3-4014-b89d-6cf0e67e60b9",
+   "name": "background-5",
+   "desc": "",
+   "src": "backgrounds/background-5-36d57a.webp"
+  },
+  {
+   "id": "30aa3871-e44a-4abd-a46f-b40a6cc0aaef",
+   "name": "Neighborhood street [day]",
+   "desc": "",
+   "src": "backgrounds/neighborhood-street-day-30aa38.webp"
+  },
+  {
+   "id": "fe510737-f285-4f53-9fb2-5fcdaa7d41fb",
+   "name": "Neighborhood Street [night]",
+   "desc": "",
+   "src": "backgrounds/neighborhood-street-night-fe5107.webp"
+  },
+  {
+   "id": "b70728df-6480-459c-b57f-bb12d4666158",
+   "name": "Lecture hall.",
+   "desc": "",
+   "src": "backgrounds/lecture-hall-b70728.webp"
+  },
+  {
+   "id": "c76ec27b-1dbf-4efc-b60a-a492dc43e328",
+   "name": "your bedroom.",
+   "desc": "",
+   "src": "backgrounds/your-bedroom-c76ec2.webp"
+  },
+  {
+   "id": "6bc045af-d66d-4550-aba5-83275c710e4c",
+   "name": "college [night]",
+   "desc": "",
+   "src": "backgrounds/college-night-6bc045.webp"
+  },
+  {
+   "id": "02d5f639-4116-421e-a1d5-b6764b394bc2",
+   "name": "Your room [Night]",
+   "desc": "",
+   "src": "backgrounds/your-room-night-02d5f6.webp"
+  },
+  {
+   "id": "f6befc91-5fec-4678-8739-4a8de872bce3",
+   "name": "Street.",
+   "desc": "",
+   "src": "backgrounds/street-f6befc.webp"
+  },
+  {
+   "id": "9793c390-54a2-4b9a-a9e4-04e7a3a7091b",
+   "name": "Sitting next to maya.",
+   "desc": "",
+   "src": "backgrounds/sitting-next-to-maya-9793c3.webp"
+  },
+  {
+   "id": "838b5dca-8e93-4503-8879-2ae3fb8ebf4f",
+   "name": "Candid Erika",
+   "desc": "",
+   "src": "backgrounds/candid-erika-838b5d.webp"
+  },
+  {
+   "id": "9f93130b-cf28-4a81-b630-17a606b1b5c1",
+   "name": "Confused shopper",
+   "desc": "",
+   "src": "backgrounds/confused-shopper-9f9313.webp"
+  },
+  {
+   "id": "1b3e1569-35af-47a5-be5d-87b224e93e9c",
+   "name": "Embarrased shopper",
+   "desc": "",
+   "src": "backgrounds/embarrased-shopper-1b3e15.webp"
+  },
+  {
+   "id": "f2245415-876c-4465-85a1-83b7025915e4",
+   "name": "Supramarketto",
+   "desc": "",
+   "src": "backgrounds/supramarketto-f22454.webp"
+  },
+  {
+   "id": "2d1ad714-76a0-4e41-80e5-4b4d3a18ca24",
+   "name": "Dramatic black background.",
+   "desc": "",
+   "src": "backgrounds/dramatic-black-background-2d1ad7.webp"
+  },
+  {
+   "id": "35319ca5-4bd3-4c9c-8b5e-3e87310c5317",
+   "name": "Sleeping girl",
+   "desc": "",
+   "src": "backgrounds/sleeping-girl-35319c.webp"
+  },
+  {
+   "id": "8f0685da-470a-473e-a660-a98a9743a53a",
+   "name": "Delphie the Freeloader.",
+   "desc": "",
+   "src": "backgrounds/delphie-the-freeloader-8f0685.webp"
+  },
+  {
+   "id": "5f8d585c-55bb-468c-9c4e-c424fb2a1b18",
+   "name": "Contract.",
+   "desc": "",
+   "src": "backgrounds/contract-5f8d58.webp"
+  },
+  {
+   "id": "cf2d2c09-82e6-4372-b7e7-ab883b4be3f3",
+   "name": "Sleeping beauty.",
+   "desc": "",
+   "src": "backgrounds/sleeping-beauty-cf2d2c.webp"
+  },
+  {
+   "id": "4b92b4c8-cb0e-46f8-bc88-323cc8a48c63",
+   "name": "your living room",
+   "desc": "",
+   "src": "backgrounds/your-living-room-4b92b4.webp"
+  },
+  {
+   "id": "71abee04-a18a-4927-be0b-cf58b751ae8c",
+   "name": "Back alley",
+   "desc": "",
+   "src": "backgrounds/back-alley-71abee.webp"
+  },
+  {
+   "id": "37580b19-791c-4b2c-958c-91fc530f08c7",
+   "name": "Magical girl",
+   "desc": "",
+   "src": "backgrounds/magical-girl-37580b.webp"
+  },
+  {
+   "id": "6c620a71-3e66-4984-aab6-13a31dbc21b7",
+   "name": "Event board, Featuring Binon",
+   "desc": "",
+   "src": "backgrounds/event-board-featuring-binon-6c620a.webp"
+  },
+  {
+   "id": "92cf72e4-4bde-48a0-8e44-bf5166202c61",
+   "name": "Zoom in on Binon",
+   "desc": "",
+   "src": "backgrounds/zoom-in-on-binon-92cf72.webp"
+  },
+  {
+   "id": "c8e1ebeb-f958-4b03-9617-ce552334f302",
+   "name": "background-27",
+   "desc": "",
+   "src": "backgrounds/background-27-c8e1eb.webp"
+  },
+  {
+   "id": "e5bf2f49-aaa0-4281-afd3-b75d6b925fc2",
+   "name": "Running for his life.",
+   "desc": "",
+   "src": "backgrounds/running-for-his-life-e5bf2f.webp"
+  },
+  {
+   "id": "8c7b2e60-f5ac-44f9-9b46-46c4e3267e74",
+   "name": "background-29",
+   "desc": "",
+   "src": "backgrounds/background-29-8c7b2e.webp"
   }
  ],
  "items": [
@@ -25627,6 +26022,12 @@
    "name": "Festival Event",
    "desc": "Use item to start the Summer Harvest Festival Event",
    "icon": "items/festival-event.webp"
+  },
+  {
+   "id": "binon-miyamoto-signed-mp3-player",
+   "name": "Binon Miyamoto signed MP3 player.",
+   "desc": "An MP3 player with a Binon Decal.",
+   "icon": "items/binon-miyamoto-signed-mp3-player.webp"
   }
  ],
  "music": [
@@ -30952,6 +31353,83 @@
    "tags": [],
    "novel": "Phantastic Experiments [with] Ayame Kadokawa",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/365e52df-9191-4c60-8e9b-f514ef0db78e.mpeg"
+  },
+  {
+   "id": "autumn-leaves-4",
+   "name": "Autumn Leaves",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://assets.miku.services/QmYp7wJfKybzz8cYKd9rRXsTA4eD9BsXLtZKjYe8U34f5U.mpeg"
+  },
+  {
+   "id": "ayame-s-theme-2",
+   "name": "Ayame's Theme.",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/13e733bc-039e-487f-b5d8-e749c806b907.mpeg"
+  },
+  {
+   "id": "butterfly-effect",
+   "name": "Butterfly effect.",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/db69d303-1576-439a-8bc6-718019f814fd.mpeg"
+  },
+  {
+   "id": "meetings-and-partings",
+   "name": "Meetings and partings.",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/cd25cc7b-c433-4b5b-a001-ac0d5c083155.mpeg"
+  },
+  {
+   "id": "small-phantom",
+   "name": "Small phantom",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/b9b72984-8475-4604-b798-069948432297.mpeg"
+  },
+  {
+   "id": "izakaya",
+   "name": "Izakaya",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/27a1b7a7-0bec-4ccf-916e-21ab03cc71b2.mpeg"
+  },
+  {
+   "id": "mid",
+   "name": "MID",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/c9027175-6b19-4b93-b708-ccd576b7e816.mpeg"
+  },
+  {
+   "id": "weird-comedy",
+   "name": "Weird comedy",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/10e8a544-f8f6-4bb8-a817-ed196c7f7bcf.mpeg"
+  },
+  {
+   "id": "theme-of-the-american-character",
+   "name": "Theme of the American Character.",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/ebc19409-1175-48c0-9916-e72bdf5bf559.mpeg"
+  },
+  {
+   "id": "meloncholy-girl-erika-s-theme",
+   "name": "Meloncholy Girl - Erika's theme",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/2a487912-4c4e-4bbe-abbd-e5bf147f8cd9.mpeg"
+  },
+  {
+   "id": "tenderness-maya-s-theme",
+   "name": "Tenderness -Maya's theme",
+   "tags": [],
+   "novel": "Phantom Dream [Preview]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/abe30b53-e74a-46b9-a16b-476e2959f1ee.mpeg"
   }
  ]
 }

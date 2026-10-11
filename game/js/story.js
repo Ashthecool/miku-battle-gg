@@ -845,6 +845,22 @@ window.MB = window.MB || {};
           after: [
             ['ayame', 'sad', "...The results are inconclusive. That means we do it again tomorrow! Same time! You're a member now!", { close: true }],
           ] },
+        // Phantom Dream: years later, in a college town, Ayame investigates anomalies, and one has moved into your dorm
+        { foe: 'erika', side: true, from: 'ayame', at: [24, 24], title: 'The Konbini Clerk', text: 'A classmate who shares her notes works the night shift at the konbini. She is very annoyed to see you. She is also a little glad.' },
+        { foe: 'henry', side: true, from: 'erika', at: [12, 30], title: 'Live from the Cafeteria', text: 'An American exchange student streams everything. Right now, that means you.' },
+        { foe: 'maya', side: true, from: 'erika', at: [16, 16], title: 'The Girl in the Next Seat', text: "She has sat next to you all term. You never noticed her. She has noticed everything about you." },
+        { foe: 'reiko', side: true, from: 'maya', at: [30, 10], title: 'Rouge Mignon', text: 'You turn a corner and walk straight into a magical girl mid-transformation. She is twenty. She would like you to forget this.' },
+        { foe: 'ayame-phantom', side: true, from: 'reiko', at: [44, 12], title: 'The Anomaly Investigator', text: "A silver-haired woman from the Mystery Investigation Department says you are 'interesting'. Whatever she expects, happens." },
+        { foe: 'delphie', side: true, from: 'ayame-phantom', at: [6, 10], title: 'The Freeloader', text: 'An amnesiac girl in a frilly black dress has moved into your dorm. She remembers only her name, and that you are her servant.',
+          before: { bg: 'Delphie the Freeloader.', music: 'small-phantom', lines: [
+            { where: 'Your dorm room', when: 'Day 2' },
+            { enter: 'delphie', at: 'center', mood: 'proud' },
+            ['delphie', 'proud', "Ohohoho! You're back, servant. I ate your pudding. It was adequate."],
+            ['delphie', 'angry', "Don't look at me like I'm a child! I am... I am... *headache* ...Ugh. Just play with me."],
+          ] },
+          after: [
+            ['delphie', 'sad', "...Hmph. Fine. You may stay in your own room. For now. Tell me your dreams tonight.", { close: true }],
+          ] },
         { foe: 'hanako-ikezawa', side: true, from: 'petals', at: [28, 64], title: 'Library Hours', text: "Hanako Ikezawa, shy and scarred, plays chess alone in the Yamaku library. Sit down. She won't ask you.",
           before: { bg: "2f608afd-a9cc-4a7f-b019-ad90a587bdb9", music: "sound-3-2", lines: [
             { where: "Yamaku Academy", when: "After class" },

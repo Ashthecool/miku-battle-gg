@@ -32,8 +32,24 @@ rain). For every novel:
 
 The drawn effects so far (Grove Keeper, Nupta Daemoni, Phantastic Experiments): `web`, `soulpull`, `splash`, `paw`, `trample`, `prism`, `firework`,
 `kaboom`, `ofuda`, `chalk`, `planet`, `heartfire`, `skip`, `viewfinder`, `bale`, `toll`, `warmth`, `jaws`; helpers `tracks` (hoof, paw, bunny,
-mouse, shoe prints), `speedLines`, `impactStar`, `chalkboard`, `soundArcs`, `scentLines`, `shards`. Reuse one for a later character only when it
-truly fits; otherwise draw a new one.
+mouse, shoe prints), `speedLines`, `impactStar`, `chalkboard`, `soundArcs`, `scentLines`, `shards`. "Drawn effects II" adds fifty (listed in
+`add-novel/catalog.md`), six of them duo-made (`chains`, `spotlights`, `pincer`, `heartlock`, `yinyang`, `gears`: they come from `F` and `o.from2`),
+and helpers `floorRing`, `beadLine` (a rope or chain of light between two spots), `span` (one SVG drawn from one spot to another: a rainbow, a
+spring arm, a light cone), `grind`, `overhead(t, r, extra, half)` (how high a prop may hang over the target and stay on screen; the enemy row and
+leader are near the top). Reuse one for a later character only when it truly fits; otherwise draw a new one.
+
+## Layering, duo partners and the camera
+
+- Effect billboards stand 75px toward the viewer (`.bb-stand.lift`, view.js), so whatever lands on a target is drawn over its sprite and over a melee
+  attacker standing just in front of it. Character copies (`ghost`, `clone`, `ghost-rise`, `pose-actor`) keep their true depth; give an effect the
+  class `behind` when it really must stand behind the target.
+- A duo never slides about as one block: `const p = partners(V, a)` moves each partner by itself (`p.rush(i, Q)`, `p.leap(i, Q, peak)`, `p.hop`,
+  `p.swing(i, Q, side)`, `p.orbit(i, C)`, `p.rise`/`p.settle`, `p.to`), or both at once (`p.charge(T, lead)`: the lead rushes in, the other swings
+  round to the target's side; `p.flank(T, gap)`: from both sides). `p.pos(i)` is where a partner stands, for props it throws. Finish with
+  `await p.home()` (it clears the partners' transforms and offsets) instead of `resetDuo(v); goHome(v, A)`. Animating `L`/`R` (lean, spin, flex)
+  still works on top of the moves. Recipe attacks on duos do this by themselves (`lead`, `move2`).
+- `CAM.zoom(V, P, k)`, `CAM.wide(V, k)`, `CAM.punch(V, P, k)` move the camera; `attack()` restores it after every attack. `attack.cam` asks for one
+  without a style. Keep `k` small (0.06-0.2) so the target stays in frame.
 
 ## Geometry and hit timing
 
@@ -46,7 +62,8 @@ truly fits; otherwise draw a new one.
 
 - Use the Attack Gallery for visual playback with the character and the style; test both available dummies and repeat enough to cover randomized targets. Inspect left and right edge slots and an enemy leader in a controlled battle or development fixture when the animation uses large props, sideways staging, or camera movement. Repeat for each affected character.
 - While the animation plays, confirm the prop stays visible, ends on the target, damage appears at contact, text remains readable, and the attacker returns to its slot. The gallery is not proof by itself when only its center dummies were tested.
-- `node tools/check_attacks.js <card|bond|style ...>` (or `--new` for everything changed since HEAD, including users of styles edited in fx.js) plays each attack in a real browser at the centre, an edge and the enemy leader (`--all` for six cases), 4x speed, 3 pages in parallel. It fails on a missing/doubled hit, a page error or an attacker not restored, and warns when nothing touches the target at the hit, props leave the screen or nodes stay in the fx layer. `--shots` saves screenshot strips to `output/attack-check/<id>/` to look at. It serves `game/` itself and finds Playwright in npx's cache, so no server or NODE_PATH is needed.
+- `node tools/check_attacks.js <card|bond|style ...>` (or `--new` for everything changed since HEAD, including users of styles edited in fx.js) plays each attack in a real browser at the centre, an edge and the enemy leader (`--all` for six cases), 4x speed, 3 pages in parallel. It fails on a missing/doubled hit, a page error or an attacker not restored, and warns when nothing touches the target at the hit, props leave the screen or nodes stay in the fx layer. `--shots` saves screenshot strips to `output/attack-check/<id>/` to look at. It serves `game/` itself and finds Playwright in npx's cache, so no server or NODE_PATH is needed. `fx:<name>[:<move>][@<card or bond>]` plays one
+  recipe effect on a card or a duo (e.g. `fx:pincer:dash@infernal-harmony`), for checking a drawn effect before any character uses it.
 - Run `node tools/check_game.js 30` for data and battle consistency, plus the relevant browser playback. Fix any error, and record any visibility condition that could not be observed. A passing simulation does not establish visual placement.
 
 ## Drawn pose-sheet attacks
