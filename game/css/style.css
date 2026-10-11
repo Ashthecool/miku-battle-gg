@@ -2057,18 +2057,23 @@ body:has(#screen-title.active) #title-shade { opacity: 1; }
 .chip-reset:hover { border-color: #ff6fae; color: #ff9cc9; }
 .chip-reset b { padding: 0 6px; border-radius: 8px; background: #ff6fae; color: #2a0a1a; font-size: 11px; line-height: 16px; }
 .chip-reset b:empty { display: none; }
-#collection { flex: 1; min-height: 0; display: grid; align-content: start; grid-template-columns: repeat(6, 160px); gap: 18px 16px; padding: 0 8px 14px 14px;
-  border-radius: 18px; background: rgba(12,9,30,.88); border: 2px solid #ffffff14; }
-.coll-empty { grid-column: 1 / -1; text-align: center; font-size: 20px; opacity: .7; padding: 80px 0; }
+/* one page of 2 rows of 4 cards, a little bigger than in battle; nothing scrolls */
+#collection { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 192px); grid-template-rows: repeat(2, 264px); justify-content: space-evenly;
+  align-content: space-evenly; padding: 0 20px; overflow: hidden; border-radius: 18px; background: rgba(12,9,30,.88); border: 2px solid #ffffff14; }
+#collection .card.collect { zoom: 1.2; }
+.coll-empty { grid-column: 1 / -1; grid-row: 1 / -1; align-self: center; text-align: center; font-size: 20px; opacity: .7; }
 .coll-empty small { font-size: 14px; opacity: .8; }
-/* a sorted group's heading stays at the top while its cards scroll by */
-.coll-group { grid-column: 1 / -1; position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 10px; margin: 0 -8px -6px -14px; padding: 10px 16px 8px;
-  background: linear-gradient(#0e0b24 70%, #0e0b2400); font: 900 16px 'Segoe UI'; letter-spacing: .3px; color: #ffe9a8; text-shadow: 0 2px 6px #000; }
-.coll-group::after { content: ''; flex: 1; height: 2px; border-radius: 1px; background: linear-gradient(90deg, #ffe9a866, transparent); }
-.coll-group small { padding: 1px 8px; border-radius: 9px; background: #ffffff18; color: #fff; font: 800 12px 'Segoe UI'; text-shadow: none; }
-#collection.small { grid-template-columns: repeat(8, 120px); gap: 12px 12px; }
-#collection.small .card.collect { zoom: .75; }
-#collection.small .coll-group { font-size: 15px; }
+/* the sort group a card starts, written above it */
+.coll-tag { position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, -6px); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding: 1px 10px; border-radius: 8px; background: #000c; border: 1px solid #ffe9a855; color: #ffe9a8; font: 900 11px 'Segoe UI'; letter-spacing: .3px; pointer-events: none; }
+#coll-pager { display: flex; align-items: center; justify-content: center; gap: 12px; height: 46px; padding: 0 10px; border-radius: 16px; background: rgba(14,10,34,.97); border: 2px solid #ffffff22; }
+#coll-pager .cp-jump { width: 240px; height: 32px; margin-right: auto; padding: 0 6px; border-radius: 10px; border: 2px solid #ffd36a66; background: #2a1f3f; color: #fff; font: 600 13px 'Segoe UI'; cursor: pointer; }
+#coll-pager button { width: 52px; height: 34px; border-radius: 10px; border: 2px solid #ffffff33; background: linear-gradient(#3d6fd8, #23408f); color: #fff; font-size: 15px; cursor: pointer; }
+#coll-pager button:hover:not(:disabled) { filter: brightness(1.25); }
+#coll-pager button:disabled { opacity: .3; cursor: default; }
+#coll-pager .cp-page { min-width: 110px; text-align: center; font-size: 15px; }
+#coll-pager .cp-page b { color: #ffe680; font-size: 18px; }
+#coll-pager::after { content: ''; width: 240px; margin-left: auto; }
 .card.collect { cursor: pointer; transition: transform .15s; }
 .card.collect:hover { transform: translateY(-5px) scale(1.04); z-index: 1; }
 .card.collect.maxed { filter: brightness(.55); }

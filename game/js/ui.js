@@ -862,12 +862,13 @@
   }
 
   // ---------------------------------------------------------------- deck & collection
-  // the filters stay as they were when you come back; a chip set with nothing on doesn't filter. The sort and the card
-  // size are remembered between visits too
+  // the filters stay as they were when you come back; a chip set with nothing on doesn't filter. The sort is remembered
+  // between visits too. The cards show a page at a time (no scrolling: only those 8 are ever built)
   const prefs = (() => { try { return JSON.parse(localStorage.getItem('mb-coll-view')) || {}; } catch (_) { return {}; } })();
   const filt = { text: '', type: new Set(), rarity: new Set(), cost: new Set(), show: 'all', novel: '',
-    sort: prefs.sort || 'default', size: prefs.size === 'small' ? 'small' : 'big' };
-  const keepView = () => { try { localStorage.setItem('mb-coll-view', JSON.stringify({ sort: filt.sort, size: filt.size })); } catch (_) { /* private mode */ } };
+    sort: prefs.sort || 'default', page: 0 };
+  const PAGE = 8;
+  const keepView = () => { try { localStorage.setItem('mb-coll-view', JSON.stringify({ sort: filt.sort })); } catch (_) { /* private mode */ } };
   const COLL_RARITIES = ['common', 'rare', 'epic', 'legendary'];
   function deck() {
     hideBattle();
@@ -981,17 +982,6 @@
       s.onchange = () => { MB.audio.sfx('click'); filt[key] = s.value; keepView(); renderCollection(); s.blur(); };
       return s;
     };
-    const size = el('div', 'chips ct-size');
-    [['big', '▣ Big', 'Big cards'], ['small', '▦ Small', 'Small cards: more on screen']].forEach(([val, icon, title]) => {
-      const b = el('button', filt.size === val ? 'on' : '', icon);
-      b.title = title;
-      b.onclick = () => {
-        MB.audio.sfx('click'); filt.size = val; keepView();
-        size.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
-        renderCollection();
-      };
-      size.appendChild(b);
-    });
     const reset = el('button', 'chip-reset', '✕ Clear <b></b>');
     reset.title = 'Clear the filters';
     reset.onclick = () => {
@@ -1007,14 +997,39 @@
       sel('novel', [['', '📚 All novels'], ...MB.manifest.novels.map((n) => [n, n])], 'ct-novel', 'Only cards from this novel'),
       el('span', 'ct-sep'),
       sel('sort', Object.entries(SORTS).map(([k, s]) => [k, s.name]), 'ct-sort', 'Sort and group the cards'),
-      size, reset);
+      reset);
     bar.append(top, low);
+    // the pager under the cards: a jump to any group of the sort, and the page arrows
+    const pager = $('#coll-pager');
+    pager.innerHTML = '<select class="cp-jump" title="Jump to a group"></select><button class="cp-prev" title="Previous page (←)">◀</button>'
+      + '<div class="cp-page"></div><button class="cp-next" title="Next page (→)">▶</button>';
+    pager.querySelector('.cp-prev').onclick = () => turnPage(-1);
+    pager.querySelector('.cp-next').onclick = () => turnPage(1);
+    const jump = pager.querySelector('.cp-jump');
+    jump.onchange = () => { MB.audio.sfx('click'); filt.page = +jump.value; renderCollection(); jump.blur(); };
+    // the mouse wheel turns the pages too
+    let wheelAt = 0;
+    $('#collection').onwheel = (e) => {
+      e.preventDefault();
+      if (Math.abs(e.deltaY) < 4 || performance.now() - wheelAt < 280) return;
+      wheelAt = performance.now();
+      turnPage(e.deltaY > 0 ? 1 : -1);
+    };
   }
-  // "/" jumps to the search while the collection is open
+  let pages = 1;
+  function turnPage(d) {
+    const to = Math.max(0, Math.min(pages - 1, filt.page + d));
+    if (to === filt.page) return;
+    MB.audio.sfx('click');
+    filt.page = to;
+    renderCollection();
+    gsap.fromTo('#collection .card', { opacity: 0, x: d * 40 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.02, ease: 'power2.out', clearProps: 'transform,opacity' });
+  }
+  // while the collection is open: "/" jumps to the search, ← and → turn the pages
   document.addEventListener('keydown', (e) => {
-    if (e.key !== '/' || !$('#screen-deck').classList.contains('active') || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
-    e.preventDefault();
-    $('#coll-search').focus();
+    if (!$('#screen-deck').classList.contains('active') || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    if (e.key === '/') { e.preventDefault(); $('#coll-search').focus(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); turnPage(e.key === 'ArrowLeft' ? -1 : 1); }
   });
 
   function renderDeckTabs() {
@@ -1056,10 +1071,10 @@
       <div class="ccollect glit" title="Glitter: right-click a card to craft its fragments or make it Shiny">✨ <b>${save.glitter}</b></div>`;
   }
 
+  let lastView = null;
   function renderCollection() {
     const col = $('#collection');
     col.innerHTML = '';
-    col.classList.toggle('small', filt.size === 'small');
     renderCollHead();
     // the tab counts and the clear button follow the filters
     const base = deckCards().filter(passes);
@@ -1076,17 +1091,27 @@
     ids.sort((a, b) => cmpKey(group.get(a)[0], group.get(b)[0]) || (sort.by && sort.by(a, b)) || byDefault(a, b));
     $('#coll-tools .ct-count').innerHTML = `<b>${ids.length}</b> card${ids.length === 1 ? '' : 's'}`;
     if (!ids.length) col.appendChild(el('div', 'coll-empty', n ? 'No cards match these filters.<br><small>Try clearing some of them (✕ Clear).</small>' : 'No cards here yet.'));
-    const sizes = {};
-    ids.forEach((id) => { const g = group.get(id)[1]; sizes[g] = (sizes[g] || 0) + 1; });
-    let last = null;
-    ids.forEach((id) => {
-      const g = group.get(id)[1];
-      if (g !== last) {
-        last = g;
-        const h = col.appendChild(el('div', 'coll-group', `<span></span><small>${sizes[g]}</small>`));
-        h.querySelector('span').textContent = g;
-      }
+    // back to the first page when the filters or the sort change (not when a card goes into the deck)
+    const view = JSON.stringify([filt.text, [...filt.type], [...filt.rarity], [...filt.cost], filt.show, filt.novel, filt.sort]);
+    if (view !== lastView) { lastView = view; filt.page = 0; }
+    pages = Math.max(1, Math.ceil(ids.length / PAGE));
+    filt.page = Math.min(filt.page, pages - 1);
+    const shown = ids.slice(filt.page * PAGE, filt.page * PAGE + PAGE);
+    // the pager: page n of m, the groups on this page, and where each group starts
+    const starts = new Map();
+    ids.forEach((id, i) => { const g = group.get(id)[1]; if (!starts.has(g)) starts.set(g, [i, 0]); starts.get(g)[1]++; });
+    const pager = $('#coll-pager'), here = group.get(shown[0]);
+    pager.querySelector('.cp-page').innerHTML = `Page <b>${filt.page + 1}</b> / ${pages}`;
+    pager.querySelector('.cp-prev').disabled = filt.page === 0;
+    pager.querySelector('.cp-next').disabled = filt.page >= pages - 1;
+    const jump = pager.querySelector('.cp-jump');
+    jump.innerHTML = '';
+    starts.forEach(([i, count], g) => jump.appendChild(new Option(`${g}  (${count})`, Math.floor(i / PAGE), false, here && g === here[1])));
+    jump.disabled = !ids.length;
+    shown.forEach((id) => {
       const c = cardEl(id);
+      const g = group.get(id)[1];
+      if (shown.length && (id === shown[0] || g !== group.get(shown[shown.indexOf(id) - 1])[1])) c.appendChild(el('div', 'coll-tag', '')).textContent = g;
       c.classList.add('collect');
       col.appendChild(c);
       if (!isUnlocked(id)) {
