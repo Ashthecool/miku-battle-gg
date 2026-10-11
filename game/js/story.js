@@ -298,6 +298,11 @@ window.MB = window.MB || {};
         { foe: 'peter-reeves', side: true, from: 'chris', at: [33, 20], title: 'Napoleon Would Have Won', text: 'Mr. Reeves has unrolled a battle map. Pop quiz, soldier! His "Napoleonic genius" awaits.' },
         { foe: 'olivia-paradiso', side: true, from: 'chris', at: [90, 72], title: 'Ring Rookie', text: 'Olivia Reid, MMA fan and the sweetest girl in Paradiso, wants to see who can win faster. Ready... GO!' },
         { foe: 'sophia', side: true, from: 'skylar', at: [18, 36], title: 'Bake Sale Stakes', text: "Sophia, Paramount's perfect student council president, wants a friendly game. She looks exhausted." },
+        // Nupta Daemoni: a succubus who came to eat you and stayed to marry you
+        { foe: 'azrael', side: true, from: 'maria-hunley', at: [56, 30], title: 'Married to a Demon', text: 'A horned woman waves from a porch across town, apron on, soap opera paused. She says she is your wife. She has said so for years, apparently.',
+          after: [
+            ['azrael', 'happy', "You played so well, darling~ ...You don't mind that I'm a demon, right? Good. Dinner's at seven.", { close: true }],
+          ] },
         { foe: 'maia', side: true, from: 'maria-hunley', at: [66, 62], title: 'Home Sweet Home', text: 'Maia, your clingy kid sister, has barricaded the sofa with cushions. She wants you home, fed, medicated... and beaten at cards.',
           before: { bg: "4bb21054-46c1-45f2-bea6-4f52a43b2b1a", music: "tenderness", lines: [
             { where: "The living room", when: "Well past dinner" },
@@ -826,6 +831,20 @@ window.MB = window.MB || {};
         { foe: 'fumiko', side: true, from: 'sugiura', at: [52, 70], title: 'Off Duty', text: 'A Nagano police officer is "on holiday" at the lodge. Someone broke into the storage cabin, and she has questions.' },
         { foe: 'atsuo', side: true, from: 'hakari', at: [88, 57], title: 'Yokai by Lamplight', text: 'The old owner of Spur tells ghost stories to his snowed-in guests. Tonight: the yuki-onna. And a card game.' },
         { foe: 'itsuki', side: true, from: 'fumiko', at: [96, 50], title: 'Cries behind Snowfall', text: 'Two years ago a ski lift fell at this lodge. One man walked away. He has come back for everyone who kept laughing.' },
+        // Phantastic Experiments: a science club with one clueless member, reviving itself one explosion at a time
+        { foe: 'ken', side: true, from: 'yumi', at: [32, 48], title: 'The Reluctant Recruit', text: 'A boy with his hands in his pockets refuses to join the science club. He is very cool about it. He also has a rock in his bag.' },
+        { foe: 'natsumi', side: true, from: 'ken', at: [40, 42], title: 'Gyaru Field Study', text: "A gyaru joined the science club to study its president 'in her natural habitat'. She pretends to be bad at maths. She isn't." },
+        { foe: 'rui', side: true, from: 'ken', at: [48, 46], title: 'The Shrine Idol', text: "The school idol is sure a yokai is haunting the science club, and she has brought enough talismans for everyone." },
+        { foe: 'ayame', side: true, from: 'natsumi', at: [60, 44], title: 'Phantastic Experiments', text: 'The president of the science club has a new experiment. She has no idea what it does. That is what makes it science.',
+          before: { bg: 'club', music: 'ayame-s-theme', lines: [
+            { where: 'The science club room', when: 'After school' },
+            { enter: 'ayame', at: 'center', mood: 'excited' },
+            ['ayame', 'excited', "{name}-kun! You came! Today's experiment will change the WORLD! Probably! Hold this beaker!"],
+            ['ayame', 'proud', 'Hypothesis: if I beat you at cards, the club gets new members! Science says so! I think!'],
+          ] },
+          after: [
+            ['ayame', 'sad', "...The results are inconclusive. That means we do it again tomorrow! Same time! You're a member now!", { close: true }],
+          ] },
         { foe: 'hanako-ikezawa', side: true, from: 'petals', at: [28, 64], title: 'Library Hours', text: "Hanako Ikezawa, shy and scarred, plays chess alone in the Yamaku library. Sit down. She won't ask you.",
           before: { bg: "2f608afd-a9cc-4a7f-b019-ad90a587bdb9", music: "sound-3-2", lines: [
             { where: "Yamaku Academy", when: "After class" },
@@ -1161,6 +1180,23 @@ window.MB = window.MB || {};
         { foe: 'hailey', side: true, from: 'charlotte-academia', place: 'academy', at: [88, 58], title: 'Practical Studies', text: 'Hailey Grail, ex-soldier, teaches practical studies with a spear, a scythe and a halberd. Do not call her old.' },
         { foe: 'elyssa', side: true, from: 'hailey', place: 'academy', at: [70, 90], title: 'The Mark of the God', text: 'A timid healer hides her left hand in a lace glove. Whatever is under it, the whole academy whispers about it.' },
         { foe: 'irene', side: true, from: 'elyssa', place: 'academy', at: [50, 42], title: 'The Chancellor', text: 'Madam Chancellor Irene knows every spell ever written and only works blackout drunk. Your real entrance exam.' },
+        // Grove Keeper: Wenshir, a town of beast folk deep in the forest under the Peaks
+        { foe: 'berry', side: true, from: 'deiste-junko', at: [36, 66], title: 'The Wenshir Inn', text: 'A forest town of beast folk sits below the trail. At its inn, a bunny waitress is very excited to have a customer. Her momma is watching.' },
+        { foe: 'spruce', side: true, from: 'berry', at: [24, 78], title: 'A Jealous Buck', text: 'A buck with big antlers thinks you looked at his wife. You did say hello. To him, that counts.' },
+        { foe: 'ember', side: true, from: 'berry', at: [44, 80], title: 'Sparks in Wenshir', text: 'A squirrel prankster just found out she can make fire. Nobody in Wenshir is safe, least of all her grumpy father.' },
+        { foe: 'kiera', side: true, from: 'ember', at: [32, 92], title: 'The Hidden Lab', text: 'A doberman psychologist with a camera has been following you through the woods. She works for someone underground.' },
+        { foe: 'dr-volde', side: true, from: 'kiera', at: [4, 82], title: 'The Gnome Under the Forest', text: 'A tiny mad scientist is building a weapon out of a stolen spirit crystal. He hates fairies. He hates magic. He mostly hates fairies.' },
+        { foe: 'nephila', side: true, from: 'dr-volde', at: [12, 92], title: 'The Cursed Woods', text: 'A mouse went missing in Wenshir. His sister is still looking. In the cursed woods, a spider-woman giggles at voices only she can hear.',
+          before: { bg: 'Cursed Woods', music: 'spider', lines: [
+            { where: 'The Cursed Woods', when: 'Midnight' },
+            { weather: 'none' }, { light: 'dark' },
+            { enter: 'nephila', at: 'center', mood: 'proud' },
+            ['nephila', 'happy', 'Ehehe~ Shh, shh, I see it. A new one wandered into my web. The voices like this one.'],
+            ['nephila', 'proud', "Little Milo was such a good boy. You'll make a good puppet too~"],
+          ] },
+          after: [
+            ['nephila', 'scared', "...No, no, NO. It smells like the goddess. The voices are screaming. Go AWAY!", { close: true }],
+          ] },
         // Reincarnation Colosseum (NSFW): a blood-soaked arena where the Priestess Zayd's Holy Four rule
         { foe: 'koko', side: true, from: 'vachelle', at: [4, 50], title: 'Live from the Colosseum', text: 'A cat-eared announcer hangs over a commentary desk, narrating a fight that has not started yet. You are the main event.' },
         { foe: 'zulu', side: true, from: 'koko', at: [20, 8], title: 'The Captive', text: 'A girl behind the Colosseum bars offers you a knife and a deal: win the matches, overthrow the Priestess. She does not mention the price.' },

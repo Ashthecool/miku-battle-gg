@@ -47,7 +47,10 @@
   "Valerian",
   "WTF STEP BRO",
   "Your Loving Maid",
-  "Noble One"
+  "Noble One",
+  "Grove Keeper",
+  "Nupta Daemoni",
+  "Phantastic Experiments [with] Ayame Kadokawa"
  ],
  "nsfwNovels": [
   "Integrated Domestic Android",
@@ -12362,6 +12365,717 @@
    "costumes": [],
    "portrait": null,
    "novel": "DUMB SUPER FANTASY RPG (1st Part Dalmavilla Kingdom and Banitas Accademy)"
+  },
+  {
+   "id": "berry",
+   "name": "Berry",
+   "outfit": "tavern",
+   "short": "a dynamic young bunny and waitress at Wenhsir Inn",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/berry/neutral.webp",
+    "play": "sprites/berry/happy.webp",
+    "attack": "sprites/berry/angry.webp",
+    "special": "sprites/berry/angry.webp",
+    "hurt": "sprites/berry/scared.webp",
+    "lose": "sprites/berry/sad.webp",
+    "win": "sprites/berry/happy.webp",
+    "taunt": "sprites/berry/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/berry/bikini/neutral.webp",
+      "play": "sprites/berry/bikini/happy.webp",
+      "attack": "sprites/berry/bikini/angry.webp",
+      "special": "sprites/berry/bikini/angry.webp",
+      "hurt": "sprites/berry/bikini/scared.webp",
+      "lose": "sprites/berry/bikini/sad.webp",
+      "win": "sprites/berry/bikini/happy.webp",
+      "taunt": "sprites/berry/bikini/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/berry/nude/desire.webp",
+      "play": "sprites/berry/nude/desire.webp",
+      "attack": "sprites/berry/nude/intensity.webp",
+      "special": "sprites/berry/nude/intensity.webp",
+      "hurt": "sprites/berry/nude/desire.webp",
+      "lose": "sprites/berry/nude/desire.webp",
+      "win": "sprites/berry/nude/desire.webp",
+      "taunt": "sprites/berry/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/berry.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "holly",
+   "name": "Holly",
+   "outfit": "Dress",
+   "short": "Holly is a doe, hipster socialite",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/holly/neutral.webp",
+    "play": "sprites/holly/happy.webp",
+    "attack": "sprites/holly/angry.webp",
+    "special": "sprites/holly/angry.webp",
+    "hurt": "sprites/holly/scared.webp",
+    "lose": "sprites/holly/sad.webp",
+    "win": "sprites/holly/happy.webp",
+    "taunt": "sprites/holly/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/holly/bikini/neutral.webp",
+      "play": "sprites/holly/bikini/happy.webp",
+      "attack": "sprites/holly/bikini/angry.webp",
+      "special": "sprites/holly/bikini/angry.webp",
+      "hurt": "sprites/holly/bikini/scared.webp",
+      "lose": "sprites/holly/bikini/sad.webp",
+      "win": "sprites/holly/bikini/happy.webp",
+      "taunt": "sprites/holly/bikini/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/holly/nude/desire.webp",
+      "play": "sprites/holly/nude/desire.webp",
+      "attack": "sprites/holly/nude/intensity.webp",
+      "special": "sprites/holly/nude/intensity.webp",
+      "hurt": "sprites/holly/nude/desire.webp",
+      "lose": "sprites/holly/nude/desire.webp",
+      "win": "sprites/holly/nude/desire.webp",
+      "taunt": "sprites/holly/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/holly.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "spruce",
+   "name": "Spruce",
+   "outfit": "clothes",
+   "short": "*A deer male, *",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/spruce/neutral.webp",
+    "play": "sprites/spruce/happy.webp",
+    "attack": "sprites/spruce/angry.webp",
+    "special": "sprites/spruce/angry.webp",
+    "hurt": "sprites/spruce/scared.webp",
+    "lose": "sprites/spruce/sad.webp",
+    "win": "sprites/spruce/happy.webp",
+    "taunt": "sprites/spruce/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/spruce/nude/desire.webp",
+      "play": "sprites/spruce/nude/desire.webp",
+      "attack": "sprites/spruce/nude/intensity.webp",
+      "special": "sprites/spruce/nude/intensity.webp",
+      "hurt": "sprites/spruce/nude/desire.webp",
+      "lose": "sprites/spruce/nude/desire.webp",
+      "win": "sprites/spruce/nude/desire.webp",
+      "taunt": "sprites/spruce/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/spruce.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "paloma",
+   "name": "Paloma",
+   "outfit": "dress",
+   "short": "*A momma bear that owns an inn*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/paloma/neutral.webp",
+    "play": "sprites/paloma/happy.webp",
+    "attack": "sprites/paloma/angry.webp",
+    "special": "sprites/paloma/angry.webp",
+    "hurt": "sprites/paloma/scared.webp",
+    "lose": "sprites/paloma/sad.webp",
+    "win": "sprites/paloma/happy.webp",
+    "taunt": "sprites/paloma/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/paloma/nude/desire.webp",
+      "play": "sprites/paloma/nude/desire.webp",
+      "attack": "sprites/paloma/nude/intensity.webp",
+      "special": "sprites/paloma/nude/intensity.webp",
+      "hurt": "sprites/paloma/nude/desire.webp",
+      "lose": "sprites/paloma/nude/desire.webp",
+      "win": "sprites/paloma/nude/desire.webp",
+      "taunt": "sprites/paloma/nude/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "underwear",
+     "name": "Underwear",
+     "sprites": {
+      "idle": "sprites/paloma/underwear/neutral.webp",
+      "play": "sprites/paloma/underwear/happy.webp",
+      "attack": "sprites/paloma/underwear/angry.webp",
+      "special": "sprites/paloma/underwear/angry.webp",
+      "hurt": "sprites/paloma/underwear/scared.webp",
+      "lose": "sprites/paloma/underwear/sad.webp",
+      "win": "sprites/paloma/underwear/happy.webp",
+      "taunt": "sprites/paloma/underwear/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/paloma.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "ember",
+   "name": "Ember",
+   "outfit": "Clothes",
+   "short": "a naive and rebellious teenage squirrel",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ember/neutral.webp",
+    "play": "sprites/ember/happy.webp",
+    "attack": "sprites/ember/angry.webp",
+    "special": "sprites/ember/angry.webp",
+    "hurt": "sprites/ember/scared.webp",
+    "lose": "sprites/ember/sad.webp",
+    "win": "sprites/ember/happy.webp",
+    "taunt": "sprites/ember/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "mage",
+     "name": "Mage",
+     "sprites": {
+      "idle": "sprites/ember/mage/neutral.webp",
+      "play": "sprites/ember/mage/happy.webp",
+      "attack": "sprites/ember/mage/angry.webp",
+      "special": "sprites/ember/mage/angry.webp",
+      "hurt": "sprites/ember/mage/scared.webp",
+      "lose": "sprites/ember/mage/sad.webp",
+      "win": "sprites/ember/mage/happy.webp",
+      "taunt": "sprites/ember/mage/amused.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "nude",
+     "sprites": {
+      "idle": "sprites/ember/nude/arousal.webp",
+      "play": "sprites/ember/nude/arousal.webp",
+      "attack": "sprites/ember/nude/intensity.webp",
+      "special": "sprites/ember/nude/intensity.webp",
+      "hurt": "sprites/ember/nude/arousal.webp",
+      "lose": "sprites/ember/nude/arousal.webp",
+      "win": "sprites/ember/nude/arousal.webp",
+      "taunt": "sprites/ember/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/ember.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "rusty",
+   "name": "Rusty",
+   "outfit": "Clothes",
+   "short": "*A squirrel man, grumpy, jaded old war veteran*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rusty/neutral.webp",
+    "play": "sprites/rusty/happy.webp",
+    "attack": "sprites/rusty/angry.webp",
+    "special": "sprites/rusty/angry.webp",
+    "hurt": "sprites/rusty/scared.webp",
+    "lose": "sprites/rusty/sad.webp",
+    "win": "sprites/rusty/happy.webp",
+    "taunt": "sprites/rusty/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/rusty.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "lumin",
+   "name": "Lumin",
+   "outfit": "shirt",
+   "short": "*Lumin is an anxious mouse girl*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lumin/neutral.webp",
+    "play": "sprites/lumin/happy.webp",
+    "attack": "sprites/lumin/angry.webp",
+    "special": "sprites/lumin/angry.webp",
+    "hurt": "sprites/lumin/scared.webp",
+    "lose": "sprites/lumin/sad.webp",
+    "win": "sprites/lumin/happy.webp",
+    "taunt": "sprites/lumin/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "nude",
+     "sprites": {
+      "idle": "sprites/lumin/nude/desire.webp",
+      "play": "sprites/lumin/nude/desire.webp",
+      "attack": "sprites/lumin/nude/intensity.webp",
+      "special": "sprites/lumin/nude/intensity.webp",
+      "hurt": "sprites/lumin/nude/desire.webp",
+      "lose": "sprites/lumin/nude/desire.webp",
+      "win": "sprites/lumin/nude/desire.webp",
+      "taunt": "sprites/lumin/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/lumin.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "elsie-mae",
+   "name": "Elsie mae",
+   "outfit": "Clothes",
+   "short": "*Elsie mae is a cow that lives and works at River side Farmstead* ",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/elsie-mae/neutral.webp",
+    "play": "sprites/elsie-mae/happy.webp",
+    "attack": "sprites/elsie-mae/angry.webp",
+    "special": "sprites/elsie-mae/angry.webp",
+    "hurt": "sprites/elsie-mae/scared.webp",
+    "lose": "sprites/elsie-mae/sad.webp",
+    "win": "sprites/elsie-mae/happy.webp",
+    "taunt": "sprites/elsie-mae/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/elsie-mae/nude/desire.webp",
+      "play": "sprites/elsie-mae/nude/desire.webp",
+      "attack": "sprites/elsie-mae/nude/intensity.webp",
+      "special": "sprites/elsie-mae/nude/intensity.webp",
+      "hurt": "sprites/elsie-mae/nude/desire.webp",
+      "lose": "sprites/elsie-mae/nude/desire.webp",
+      "win": "sprites/elsie-mae/nude/desire.webp",
+      "taunt": "sprites/elsie-mae/nude/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/elsie-mae/bikini/neutral.webp",
+      "play": "sprites/elsie-mae/bikini/happy.webp",
+      "attack": "sprites/elsie-mae/bikini/angry.webp",
+      "special": "sprites/elsie-mae/bikini/angry.webp",
+      "hurt": "sprites/elsie-mae/bikini/scared.webp",
+      "lose": "sprites/elsie-mae/bikini/sad.webp",
+      "win": "sprites/elsie-mae/bikini/happy.webp",
+      "taunt": "sprites/elsie-mae/bikini/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/elsie-mae.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "pippa",
+   "name": "Pippa",
+   "outfit": "Dres",
+   "short": "*Pippa is a dog girl and manager of the riverside farm*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/pippa/neutral.webp",
+    "play": "sprites/pippa/happy.webp",
+    "attack": "sprites/pippa/angry.webp",
+    "special": "sprites/pippa/angry.webp",
+    "hurt": "sprites/pippa/scared.webp",
+    "lose": "sprites/pippa/sad.webp",
+    "win": "sprites/pippa/happy.webp",
+    "taunt": "sprites/pippa/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/pippa/nude/desire.webp",
+      "play": "sprites/pippa/nude/desire.webp",
+      "attack": "sprites/pippa/nude/intensity.webp",
+      "special": "sprites/pippa/nude/intensity.webp",
+      "hurt": "sprites/pippa/nude/desire.webp",
+      "lose": "sprites/pippa/nude/desire.webp",
+      "win": "sprites/pippa/nude/desire.webp",
+      "taunt": "sprites/pippa/nude/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/pippa.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "dr-volde",
+   "name": "Dr Volde",
+   "outfit": "Gnome",
+   "short": "*A gnome, mad scientist*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/dr-volde/neutral.webp",
+    "play": "sprites/dr-volde/happy.webp",
+    "attack": "sprites/dr-volde/angry.webp",
+    "special": "sprites/dr-volde/angry.webp",
+    "hurt": "sprites/dr-volde/scared.webp",
+    "lose": "sprites/dr-volde/sad.webp",
+    "win": "sprites/dr-volde/happy.webp",
+    "taunt": "sprites/dr-volde/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/dr-volde.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "kiera",
+   "name": "Kiera",
+   "outfit": "Mountaineer",
+   "short": "*Kiera is a doberman girl and behavioral psycholgist*",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/kiera/neutral.webp",
+    "play": "sprites/kiera/happy.webp",
+    "attack": "sprites/kiera/angry.webp",
+    "special": "sprites/kiera/angry.webp",
+    "hurt": "sprites/kiera/scared.webp",
+    "lose": "sprites/kiera/sad.webp",
+    "win": "sprites/kiera/happy.webp",
+    "taunt": "sprites/kiera/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "clothes",
+     "name": "Clothes",
+     "sprites": {
+      "idle": "sprites/kiera/clothes/neutral.webp",
+      "play": "sprites/kiera/clothes/happy.webp",
+      "attack": "sprites/kiera/clothes/angry.webp",
+      "special": "sprites/kiera/clothes/angry.webp",
+      "hurt": "sprites/kiera/clothes/scared.webp",
+      "lose": "sprites/kiera/clothes/sad.webp",
+      "win": "sprites/kiera/clothes/happy.webp",
+      "taunt": "sprites/kiera/clothes/amused.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "lewd",
+     "name": "Lewd",
+     "sprites": {
+      "idle": "sprites/kiera/lewd/desire.webp",
+      "play": "sprites/kiera/lewd/desire.webp",
+      "attack": "sprites/kiera/lewd/intensity.webp",
+      "special": "sprites/kiera/lewd/intensity.webp",
+      "hurt": "sprites/kiera/lewd/desire.webp",
+      "lose": "sprites/kiera/lewd/desire.webp",
+      "win": "sprites/kiera/lewd/desire.webp",
+      "taunt": "sprites/kiera/lewd/teasing.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/kiera/bikini/neutral.webp",
+      "play": "sprites/kiera/bikini/happy.webp",
+      "attack": "sprites/kiera/bikini/angry.webp",
+      "special": "sprites/kiera/bikini/angry.webp",
+      "hurt": "sprites/kiera/bikini/scared.webp",
+      "lose": "sprites/kiera/bikini/sad.webp",
+      "win": "sprites/kiera/bikini/happy.webp",
+      "taunt": "sprites/kiera/bikini/happy.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "dress",
+     "name": "Dress",
+     "sprites": {
+      "idle": "sprites/kiera/dress/neutral.webp",
+      "play": "sprites/kiera/dress/happy.webp",
+      "attack": "sprites/kiera/dress/angry.webp",
+      "special": "sprites/kiera/dress/angry.webp",
+      "hurt": "sprites/kiera/dress/scared.webp",
+      "lose": "sprites/kiera/dress/sad.webp",
+      "win": "sprites/kiera/dress/happy.webp",
+      "taunt": "sprites/kiera/dress/happy.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/kiera.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "nephila",
+   "name": "Nephila",
+   "outfit": "Nephila",
+   "short": "A half spider woman, a jorogumo, necromnacer",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/nephila/neutral.webp",
+    "play": "sprites/nephila/happy.webp",
+    "attack": "sprites/nephila/angry.webp",
+    "special": "sprites/nephila/angry.webp",
+    "hurt": "sprites/nephila/scared.webp",
+    "lose": "sprites/nephila/sad.webp",
+    "win": "sprites/nephila/happy.webp",
+    "taunt": "sprites/nephila/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "lewd",
+     "name": "Lewd",
+     "sprites": {
+      "idle": "sprites/nephila/lewd/desire.webp",
+      "play": "sprites/nephila/lewd/desire.webp",
+      "attack": "sprites/nephila/lewd/intensity.webp",
+      "special": "sprites/nephila/lewd/intensity.webp",
+      "hurt": "sprites/nephila/lewd/desire.webp",
+      "lose": "sprites/nephila/lewd/desire.webp",
+      "win": "sprites/nephila/lewd/desire.webp",
+      "taunt": "sprites/nephila/lewd/teasing.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/nephila.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "milo",
+   "name": "Milo",
+   "outfit": "clothes",
+   "short": "A zombie mouse",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/milo/neutral.webp",
+    "play": "sprites/milo/happy.webp",
+    "attack": "sprites/milo/angry.webp",
+    "special": "sprites/milo/angry.webp",
+    "hurt": "sprites/milo/scared.webp",
+    "lose": "sprites/milo/sad.webp",
+    "win": "sprites/milo/happy.webp",
+    "taunt": "sprites/milo/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/milo.webp",
+   "novel": "Grove Keeper"
+  },
+  {
+   "id": "azrael",
+   "name": "Azrael",
+   "outfit": "Normal",
+   "short": "Azrael is a tall, busty, skinny yet thick woman. She is kind, nurturing, yet pretty lustful. She has fair skin, long luscious brown hair, and horns that transition from red to black. She is a succubus and married to you.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/azrael/neutral.webp",
+    "play": "sprites/azrael/happy.webp",
+    "attack": "sprites/azrael/angry.webp",
+    "special": "sprites/azrael/rage.webp",
+    "hurt": "sprites/azrael/scared.webp",
+    "lose": "sprites/azrael/sad.webp",
+    "win": "sprites/azrael/excited.webp",
+    "taunt": "sprites/azrael/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "bikini",
+     "name": "Bikini",
+     "sprites": {
+      "idle": "sprites/azrael/bikini/neutral.webp",
+      "play": "sprites/azrael/bikini/happy.webp",
+      "attack": "sprites/azrael/bikini/angry.webp",
+      "special": "sprites/azrael/bikini/rage.webp",
+      "hurt": "sprites/azrael/bikini/scared.webp",
+      "lose": "sprites/azrael/bikini/sad.webp",
+      "win": "sprites/azrael/bikini/excited.webp",
+      "taunt": "sprites/azrael/bikini/proud.webp"
+     }
+    },
+    {
+     "id": "sweater",
+     "name": "Sweater",
+     "sprites": {
+      "idle": "sprites/azrael/sweater/neutral.webp",
+      "play": "sprites/azrael/sweater/happy.webp",
+      "attack": "sprites/azrael/sweater/angry.webp",
+      "special": "sprites/azrael/sweater/angry.webp",
+      "hurt": "sprites/azrael/sweater/scared.webp",
+      "lose": "sprites/azrael/sweater/sad.webp",
+      "win": "sprites/azrael/sweater/happy.webp",
+      "taunt": "sprites/azrael/sweater/happy.webp"
+     }
+    },
+    {
+     "id": "nude",
+     "name": "Nude",
+     "sprites": {
+      "idle": "sprites/azrael/nude/neutral.webp",
+      "play": "sprites/azrael/nude/happy.webp",
+      "attack": "sprites/azrael/nude/angry.webp",
+      "special": "sprites/azrael/nude/rage.webp",
+      "hurt": "sprites/azrael/nude/scared.webp",
+      "lose": "sprites/azrael/nude/sad.webp",
+      "win": "sprites/azrael/nude/excited.webp",
+      "taunt": "sprites/azrael/nude/proud.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "gift-wrapped",
+     "name": "Gift Wrapped",
+     "sprites": {
+      "idle": "sprites/azrael/gift-wrapped/neutral.webp",
+      "play": "sprites/azrael/gift-wrapped/happy.webp",
+      "attack": "sprites/azrael/gift-wrapped/angry.webp",
+      "special": "sprites/azrael/gift-wrapped/rage.webp",
+      "hurt": "sprites/azrael/gift-wrapped/scared.webp",
+      "lose": "sprites/azrael/gift-wrapped/sad.webp",
+      "win": "sprites/azrael/gift-wrapped/excited.webp",
+      "taunt": "sprites/azrael/gift-wrapped/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/azrael.webp",
+   "novel": "Nupta Daemoni"
+  },
+  {
+   "id": "ayame",
+   "name": "Ayame",
+   "outfit": "default",
+   "short": "Wannabe scientist highschool girl",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ayame/neutral.webp",
+    "play": "sprites/ayame/happy.webp",
+    "attack": "sprites/ayame/angry.webp",
+    "special": "sprites/ayame/rage.webp",
+    "hurt": "sprites/ayame/scared.webp",
+    "lose": "sprites/ayame/sad.webp",
+    "win": "sprites/ayame/excited.webp",
+    "taunt": "sprites/ayame/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ayame.webp",
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa"
+  },
+  {
+   "id": "ken",
+   "name": "Ken",
+   "outfit": "default",
+   "short": "Average male highschooler.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ken/neutral.webp",
+    "play": "sprites/ken/happy.webp",
+    "attack": "sprites/ken/angry.webp",
+    "special": "sprites/ken/angry.webp",
+    "hurt": "sprites/ken/scared.webp",
+    "lose": "sprites/ken/sad.webp",
+    "win": "sprites/ken/happy.webp",
+    "taunt": "sprites/ken/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ken.webp",
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa"
+  },
+  {
+   "id": "natsumi",
+   "name": "Natsumi",
+   "outfit": "default",
+   "short": "Gyaru.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/natsumi/neutral.webp",
+    "play": "sprites/natsumi/happy.webp",
+    "attack": "sprites/natsumi/angry.webp",
+    "special": "sprites/natsumi/angry.webp",
+    "hurt": "sprites/natsumi/scared.webp",
+    "lose": "sprites/natsumi/sad.webp",
+    "win": "sprites/natsumi/happy.webp",
+    "taunt": "sprites/natsumi/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "quantumly-entangled",
+     "name": "Quantumly entangled.",
+     "sprites": {
+      "idle": "sprites/natsumi/quantumly-entangled/neutral.webp",
+      "play": "sprites/natsumi/quantumly-entangled/happy.webp",
+      "attack": "sprites/natsumi/quantumly-entangled/angry.webp",
+      "special": "sprites/natsumi/quantumly-entangled/angry.webp",
+      "hurt": "sprites/natsumi/quantumly-entangled/scared.webp",
+      "lose": "sprites/natsumi/quantumly-entangled/sad.webp",
+      "win": "sprites/natsumi/quantumly-entangled/happy.webp",
+      "taunt": "sprites/natsumi/quantumly-entangled/amused.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/natsumi.webp",
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa"
+  },
+  {
+   "id": "rui",
+   "name": "Rui",
+   "outfit": "default",
+   "short": "The responsible one.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/rui/neutral.webp",
+    "play": "sprites/rui/happy.webp",
+    "attack": "sprites/rui/angry.webp",
+    "special": "sprites/rui/angry.webp",
+    "hurt": "sprites/rui/scared.webp",
+    "lose": "sprites/rui/sad.webp",
+    "win": "sprites/rui/happy.webp",
+    "taunt": "sprites/rui/happy.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/rui.webp",
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa"
   }
  ],
  "backgrounds": [
@@ -22446,6 +23160,1276 @@
    "desc": "",
    "src": "backgrounds/servant-bedroom-77b21b.webp",
    "nsfw": true
+  },
+  {
+   "id": "b4e518c4-9e88-490c-945a-c8d671152eff",
+   "name": "Clearing",
+   "desc": "",
+   "src": "backgrounds/clearing-b4e518.webp"
+  },
+  {
+   "id": "9aa6d42f-7a8f-4966-8820-f6ab1b9d6919",
+   "name": "Campsite",
+   "desc": "",
+   "src": "backgrounds/campsite-9aa6d4.webp"
+  },
+  {
+   "id": "97fef9a8-8e36-44e6-b90e-053959965560",
+   "name": "ko 1",
+   "desc": "",
+   "src": "backgrounds/ko-1-97fef9.webp"
+  },
+  {
+   "id": "f223c270-0bc3-4ca6-b865-99ac8508501b",
+   "name": "Ko 2",
+   "desc": "",
+   "src": "backgrounds/ko-2-f223c2.webp"
+  },
+  {
+   "id": "53f31c41-0f0a-4e1b-b1b2-29f628e46f01",
+   "name": "Forest ",
+   "desc": "",
+   "src": "backgrounds/forest-53f31c.webp"
+  },
+  {
+   "id": "13b82a20-15a5-48b8-9a95-a19c30003a4e",
+   "name": "Sacred Grove",
+   "desc": "",
+   "src": "backgrounds/sacred-grove-13b82a.webp"
+  },
+  {
+   "id": "88ff9e8b-1cc7-408e-bd1c-1753a406aade",
+   "name": "Spirit Realm",
+   "desc": "",
+   "src": "backgrounds/spirit-realm-88ff9e.webp"
+  },
+  {
+   "id": "fba8f598-1139-484a-93ff-ab248fb7fc11",
+   "name": "Forest path",
+   "desc": "",
+   "src": "backgrounds/forest-path-fba8f5.webp"
+  },
+  {
+   "id": "38010404-257a-40f4-ae4f-0c6d19756f81",
+   "name": "Grove Night",
+   "desc": "",
+   "src": "backgrounds/grove-night-380104.webp"
+  },
+  {
+   "id": "b8622988-0455-4689-b54b-149dc2a74e5e",
+   "name": "Petal River",
+   "desc": "",
+   "src": "backgrounds/petal-river-b86229.webp"
+  },
+  {
+   "id": "416164e6-47b5-4b24-844a-2523817f8e7a",
+   "name": "Wenshir Village",
+   "desc": "",
+   "src": "backgrounds/wenshir-village-416164.webp"
+  },
+  {
+   "id": "fbac0090-699a-4cdf-b885-ff70e832adbb",
+   "name": "Town Night",
+   "desc": "",
+   "src": "backgrounds/town-night-fbac00.webp"
+  },
+  {
+   "id": "994d9501-adb3-459e-adad-1aee55566744",
+   "name": "Forest Night",
+   "desc": "",
+   "src": "backgrounds/forest-night-994d95.webp"
+  },
+  {
+   "id": "3aebc2cf-7367-4137-9534-56c0f29612c1",
+   "name": "Forest Path Night",
+   "desc": "",
+   "src": "backgrounds/forest-path-night-3aebc2.webp"
+  },
+  {
+   "id": "62219c9a-384b-41ba-bea1-5151424219d2",
+   "name": "River Night",
+   "desc": "",
+   "src": "backgrounds/river-night-62219c.webp"
+  },
+  {
+   "id": "4c18be43-e405-4c9e-80dd-db8251f02544",
+   "name": "Deep Woods",
+   "desc": "",
+   "src": "backgrounds/deep-woods-4c18be.webp"
+  },
+  {
+   "id": "a02f6f80-b1f3-45e0-8796-9c2dc86d885e",
+   "name": "Potion Shop",
+   "desc": "",
+   "src": "backgrounds/potion-shop-a02f6f.webp"
+  },
+  {
+   "id": "a25492b5-cb26-4547-b57d-11d6ed49162f",
+   "name": "Tavern",
+   "desc": "",
+   "src": "backgrounds/tavern-a25492.webp"
+  },
+  {
+   "id": "5e943066-43c7-4585-81c1-07ec0463bf1a",
+   "name": "Available Room",
+   "desc": "",
+   "src": "backgrounds/available-room-5e9430.webp"
+  },
+  {
+   "id": "2a83fefe-40bf-4eeb-b932-f2c54e175fa4",
+   "name": "Paloma's Room",
+   "desc": "",
+   "src": "backgrounds/paloma-s-room-2a83fe.webp"
+  },
+  {
+   "id": "80437908-ec68-4f42-a025-55a5bc8db678",
+   "name": "Berry's Room",
+   "desc": "",
+   "src": "backgrounds/berry-s-room-804379.webp"
+  },
+  {
+   "id": "43a1fb04-0409-41df-ae7e-3a76b0b805ef",
+   "name": "Basement",
+   "desc": "",
+   "src": "backgrounds/basement-43a1fb.webp"
+  },
+  {
+   "id": "3bfbaae3-567c-42b9-851c-8982b27c36c6",
+   "name": "Marivelle's",
+   "desc": "",
+   "src": "backgrounds/marivelle-s-3bfbaa.webp"
+  },
+  {
+   "id": "5939fada-70ba-44fc-ae1f-32a790e67f2f",
+   "name": "Rusty's",
+   "desc": "",
+   "src": "backgrounds/rusty-s-5939fa.webp"
+  },
+  {
+   "id": "6b6fba80-efad-4f1d-b710-b3fe8603ddbc",
+   "name": "Ember's Room",
+   "desc": "",
+   "src": "backgrounds/ember-s-room-6b6fba.webp"
+  },
+  {
+   "id": "7ba711b4-415f-4687-8c1a-0ffa91f8420a",
+   "name": "Camp Night",
+   "desc": "",
+   "src": "backgrounds/camp-night-7ba711.webp"
+  },
+  {
+   "id": "ef27a485-ff10-4d67-9b39-2a7927da562d",
+   "name": "Stagroe Bedroom",
+   "desc": "",
+   "src": "backgrounds/stagroe-bedroom-ef27a4.webp"
+  },
+  {
+   "id": "28ac0155-c5f5-4b9b-84b1-1f1adb6550ba",
+   "name": "Stagroe Lounge",
+   "desc": "",
+   "src": "backgrounds/stagroe-lounge-28ac01.webp"
+  },
+  {
+   "id": "4553a9d8-2f01-4baa-aea4-1b311f529b7c",
+   "name": "Farm",
+   "desc": "",
+   "src": "backgrounds/farm-4553a9.webp"
+  },
+  {
+   "id": "15b1c8da-2ac7-43b8-88ce-489946aeb7e5",
+   "name": "Barn",
+   "desc": "",
+   "src": "backgrounds/barn-15b1c8.webp"
+  },
+  {
+   "id": "743cd26a-bf06-42b9-bfcc-a830c278d9a4",
+   "name": "Elsy's Room",
+   "desc": "",
+   "src": "backgrounds/elsy-s-room-743cd2.webp"
+  },
+  {
+   "id": "6a626464-7bca-4789-8427-e08b40038512",
+   "name": "Pippa's Room",
+   "desc": "",
+   "src": "backgrounds/pippa-s-room-6a6264.webp"
+  },
+  {
+   "id": "eb920072-b341-470c-87e6-152178956c22",
+   "name": "Larry's Room",
+   "desc": "",
+   "src": "backgrounds/larry-s-room-eb9200.webp"
+  },
+  {
+   "id": "3fdecc89-48c8-4b9c-a259-6625249b28c7",
+   "name": "Claire's  Room",
+   "desc": "",
+   "src": "backgrounds/claire-s-room-3fdecc.webp"
+  },
+  {
+   "id": "fb63d47a-d014-4d2f-ba95-82d225022ed7",
+   "name": "Farm Night",
+   "desc": "",
+   "src": "backgrounds/farm-night-fb63d4.webp"
+  },
+  {
+   "id": "faeeb1c4-33e6-49b4-ae55-0d17830d26e4",
+   "name": "Farm House",
+   "desc": "",
+   "src": "backgrounds/farm-house-faeeb1.webp"
+  },
+  {
+   "id": "5e601758-6a7e-4874-a515-fb4491d36624",
+   "name": "Garden",
+   "desc": "",
+   "src": "backgrounds/garden-5e6017.webp"
+  },
+  {
+   "id": "47dbd698-3259-4c3c-95c0-f6a5004f0f45",
+   "name": "Labratory",
+   "desc": "",
+   "src": "backgrounds/labratory-47dbd6.webp"
+  },
+  {
+   "id": "930c683c-946a-44d7-932e-c8e1a73f726f",
+   "name": "Shadow's Room",
+   "desc": "",
+   "src": "backgrounds/shadow-s-room-930c68.webp"
+  },
+  {
+   "id": "c63b0b03-fc30-46e8-a501-e95d2d951bf5",
+   "name": "claire nude",
+   "desc": "",
+   "src": "backgrounds/claire-nude-c63b0b.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8558a674-ef75-4abd-ac5f-af44a749b643",
+   "name": "Forest South",
+   "desc": "",
+   "src": "backgrounds/forest-south-8558a6.webp"
+  },
+  {
+   "id": "dceda361-df4d-4786-9ca0-01ebb4ba05c6",
+   "name": "Trip",
+   "desc": "",
+   "src": "backgrounds/trip-dceda3.webp"
+  },
+  {
+   "id": "f33e07ca-2c8f-4abd-815c-b0a20e6c35f6",
+   "name": "Beach",
+   "desc": "",
+   "src": "backgrounds/beach-f33e07.webp"
+  },
+  {
+   "id": "1a65c572-5654-4680-958e-47809fb84bea",
+   "name": "Billyton",
+   "desc": "",
+   "src": "backgrounds/billyton-1a65c5.webp"
+  },
+  {
+   "id": "1de59846-075d-4ff8-84cd-2e0ab2431aa8",
+   "name": "Swimming",
+   "desc": "",
+   "src": "backgrounds/swimming-1de598.webp"
+  },
+  {
+   "id": "80941f2e-6104-431d-95ef-885933e4596e",
+   "name": "Marivelle Yoga",
+   "desc": "",
+   "src": "backgrounds/marivelle-yoga-80941f.webp"
+  },
+  {
+   "id": "8243576c-efea-443e-a22c-0d49f73cc849",
+   "name": "Berry Spill 1",
+   "desc": "",
+   "src": "backgrounds/berry-spill-1-824357.webp",
+   "nsfw": true
+  },
+  {
+   "id": "8e3ac3c0-49bd-4b33-a88b-79ab435a5707",
+   "name": "Berry Spill 2",
+   "desc": "",
+   "src": "backgrounds/berry-spill-2-8e3ac3.webp",
+   "nsfw": true
+  },
+  {
+   "id": "ffabc769-db7a-4a24-b4f8-0ca531669da8",
+   "name": "Elsie mae milking",
+   "desc": "",
+   "src": "backgrounds/elsie-mae-milking-ffabc7.webp",
+   "nsfw": true
+  },
+  {
+   "id": "a5f2429e-19b8-4bac-ab84-2c70faf63581",
+   "name": "Berry, beach",
+   "desc": "",
+   "src": "backgrounds/berry-beach-a5f242.webp"
+  },
+  {
+   "id": "b2a0cab8-2178-4a15-b8bc-3942f9ab27f3",
+   "name": "Cody, beach",
+   "desc": "",
+   "src": "backgrounds/cody-beach-b2a0ca.webp"
+  },
+  {
+   "id": "d4cf444c-667c-4ba0-8c0a-48c7a909e4c1",
+   "name": "Elsy, beach",
+   "desc": "",
+   "src": "backgrounds/elsy-beach-d4cf44.webp"
+  },
+  {
+   "id": "82c910d8-c374-4fac-a735-ed95f51045db",
+   "name": "Holly, beach",
+   "desc": "",
+   "src": "backgrounds/holly-beach-82c910.webp"
+  },
+  {
+   "id": "a70e4b27-1622-472d-ba57-cf3432b4db8f",
+   "name": "Bonfire Beach",
+   "desc": "",
+   "src": "backgrounds/bonfire-beach-a70e4b.webp"
+  },
+  {
+   "id": "ad6c92a8-82d6-4e09-8ffa-d9f32cc101b0",
+   "name": "Available Room Night",
+   "desc": "",
+   "src": "backgrounds/available-room-night-ad6c92.webp"
+  },
+  {
+   "id": "7446a7d4-d73b-4724-882a-05870ff175d3",
+   "name": "Up River Day",
+   "desc": "",
+   "src": "backgrounds/up-river-day-7446a7.webp"
+  },
+  {
+   "id": "a862fffc-e014-491e-982a-7292b47c51b2",
+   "name": "Up River Night",
+   "desc": "",
+   "src": "backgrounds/up-river-night-a862ff.webp"
+  },
+  {
+   "id": "8b9e9cb3-4254-4c16-ac38-d2db0e13bc8a",
+   "name": "Flora City",
+   "desc": "",
+   "src": "backgrounds/flora-city-8b9e9c.webp"
+  },
+  {
+   "id": "62940935-2111-479f-b661-22f2bb668402",
+   "name": "Palace Hall",
+   "desc": "",
+   "src": "backgrounds/palace-hall-629409.webp"
+  },
+  {
+   "id": "6eb545d0-bcdf-4ebe-b169-ff72dc4b91d7",
+   "name": "Flora City Burns",
+   "desc": "",
+   "src": "backgrounds/flora-city-burns-6eb545.webp"
+  },
+  {
+   "id": "223d5d48-5bba-4c04-a05e-db323a4d6b0b",
+   "name": "Flora City Dead",
+   "desc": "",
+   "src": "backgrounds/flora-city-dead-223d5d.webp"
+  },
+  {
+   "id": "85a6ef3c-009a-47e4-a583-44b409a40cba",
+   "name": "Andrea Camp",
+   "desc": "",
+   "src": "backgrounds/andrea-camp-85a6ef.webp"
+  },
+  {
+   "id": "c7be1ce9-8f65-4e0f-a9a2-c2a71d0e195f",
+   "name": "Andrea Camp Night",
+   "desc": "",
+   "src": "backgrounds/andrea-camp-night-c7be1c.webp"
+  },
+  {
+   "id": "f713c3cc-3346-4741-8335-6e44b15c07a8",
+   "name": "Tent Day",
+   "desc": "",
+   "src": "backgrounds/tent-day-f713c3.webp"
+  },
+  {
+   "id": "bc29b19c-6335-45ed-b2c2-7b4d6c3a6d8f",
+   "name": "Tent Night",
+   "desc": "",
+   "src": "backgrounds/tent-night-bc29b1.webp"
+  },
+  {
+   "id": "ad11890c-9a75-4006-831e-b0f3d1ace929",
+   "name": "Cursed Woods",
+   "desc": "",
+   "src": "backgrounds/cursed-woods-ad1189.webp"
+  },
+  {
+   "id": "851f9797-93e3-4ba9-879f-a27c6147ec9d",
+   "name": "Tower",
+   "desc": "",
+   "src": "backgrounds/tower-851f97.webp"
+  },
+  {
+   "id": "b4270dd1-be00-4a5a-b9fd-ef1693216ec8",
+   "name": "Tower Inner",
+   "desc": "",
+   "src": "backgrounds/tower-inner-b4270d.webp"
+  },
+  {
+   "id": "1093bdcc-24e5-4c00-879e-cf87e6d100a3",
+   "name": "Tower Bedroom",
+   "desc": "",
+   "src": "backgrounds/tower-bedroom-1093bd.webp"
+  },
+  {
+   "id": "5268dda0-aa3f-4d8d-b320-7cf7b7263e64",
+   "name": "labyrinth 1",
+   "desc": "",
+   "src": "backgrounds/labyrinth-1-5268dd.webp"
+  },
+  {
+   "id": "3398f922-3276-4c77-a91a-45a69c8c191b",
+   "name": "Labyrinth 2",
+   "desc": "",
+   "src": "backgrounds/labyrinth-2-3398f9.webp"
+  },
+  {
+   "id": "529ce98d-2b97-4b50-9311-be87f1cc789d",
+   "name": "Labyrinth 3",
+   "desc": "",
+   "src": "backgrounds/labyrinth-3-529ce9.webp"
+  },
+  {
+   "id": "80b6bd0b-1b4f-4eb0-86b1-bd2fa5df30f0",
+   "name": "Labyrinth 4",
+   "desc": "",
+   "src": "backgrounds/labyrinth-4-80b6bd.webp"
+  },
+  {
+   "id": "016687c5-1b83-4ef4-b6c1-e579cd6bec4e",
+   "name": "Sacred Font",
+   "desc": "",
+   "src": "backgrounds/sacred-font-016687.webp"
+  },
+  {
+   "id": "7f5b4af3-1f0f-4aee-9df5-b200927e61a0",
+   "name": "Bouqara",
+   "desc": "",
+   "src": "backgrounds/bouqara-7f5b4a.webp"
+  },
+  {
+   "id": "c4674f17-0066-47ea-9468-daf39f8cf80f",
+   "name": "Northern Forest",
+   "desc": "",
+   "src": "backgrounds/northern-forest-c4674f.webp"
+  },
+  {
+   "id": "a2a85141-2994-43f4-a898-d91d28cdf661",
+   "name": "Ruins Day",
+   "desc": "",
+   "src": "backgrounds/ruins-day-a2a851.webp"
+  },
+  {
+   "id": "57765630-1022-4ed2-b320-265a9b7a4f0d",
+   "name": "Ruins Night",
+   "desc": "",
+   "src": "backgrounds/ruins-night-577656.webp"
+  },
+  {
+   "id": "75f41ee3-c53d-459d-9129-c24978208d4c",
+   "name": "Goblin Camp Day",
+   "desc": "",
+   "src": "backgrounds/goblin-camp-day-75f41e.webp"
+  },
+  {
+   "id": "2e738083-57fb-458f-b06d-7665f16eb263",
+   "name": "Goblin Camp Night",
+   "desc": "",
+   "src": "backgrounds/goblin-camp-night-2e7380.webp"
+  },
+  {
+   "id": "8752d0bc-9e3c-4033-a467-f31ed304b2d3",
+   "name": "Gob Tent",
+   "desc": "",
+   "src": "backgrounds/gob-tent-8752d0.webp"
+  },
+  {
+   "id": "6df425d2-1c6f-405b-9597-43bc1ca44e28",
+   "name": "Mist Wood",
+   "desc": "",
+   "src": "backgrounds/mist-wood-6df425.webp"
+  },
+  {
+   "id": "d425c633-99c3-4859-9462-94290a2fc753",
+   "name": "Mushroom Patch",
+   "desc": "",
+   "src": "backgrounds/mushroom-patch-d425c6.webp"
+  },
+  {
+   "id": "edfcf514-bb6e-4686-8625-77e9b1078c49",
+   "name": "North Beach",
+   "desc": "",
+   "src": "backgrounds/north-beach-edfcf5.webp"
+  },
+  {
+   "id": "cf92b78b-d7cd-4e2e-8a43-bfc6d79b8fad",
+   "name": "Mountain Side",
+   "desc": "",
+   "src": "backgrounds/mountain-side-cf92b7.webp"
+  },
+  {
+   "id": "a92a20fe-4216-4fbd-a5ad-41b3b1a99e48",
+   "name": "Labyrinth Entrance",
+   "desc": "",
+   "src": "backgrounds/labyrinth-entrance-a92a20.webp"
+  },
+  {
+   "id": "78cee70e-30b8-4b42-8fa2-4b854a9c1c61",
+   "name": "Inner ruins",
+   "desc": "",
+   "src": "backgrounds/inner-ruins-78cee7.webp"
+  },
+  {
+   "id": "04e6160d-7839-4039-962e-ba5ca0d8631a",
+   "name": "Bunbun Web",
+   "desc": "",
+   "src": "backgrounds/bunbun-web-04e616.webp"
+  },
+  {
+   "id": "87136f9e-7b74-429a-8ce1-b744e1101777",
+   "name": "Hot Springs",
+   "desc": "",
+   "src": "backgrounds/hot-springs-87136f.webp"
+  },
+  {
+   "id": "f008a120-561a-4827-9669-4e9cf2cdd877",
+   "name": "Cove",
+   "desc": "",
+   "src": "backgrounds/cove-f008a1.webp"
+  },
+  {
+   "id": "0895e3d4-b57d-4b82-ad5c-72c3a7c29d59",
+   "name": "HP Deck Day",
+   "desc": "",
+   "src": "backgrounds/hp-deck-day-0895e3.webp"
+  },
+  {
+   "id": "0303cb76-ecd1-44c7-9159-40531090197d",
+   "name": "Ocean. Deck Night",
+   "desc": "",
+   "src": "backgrounds/ocean-deck-night-0303cb.webp"
+  },
+  {
+   "id": "35c9c6f1-1ab7-4568-a272-06862d7b6443",
+   "name": "HP Deck Ocean",
+   "desc": "",
+   "src": "backgrounds/hp-deck-ocean-35c9c6.webp"
+  },
+  {
+   "id": "5515f860-f318-427d-9d2d-92cc0f44889c",
+   "name": "HP Helm",
+   "desc": "",
+   "src": "backgrounds/hp-helm-5515f8.webp"
+  },
+  {
+   "id": "427f36de-70a4-466d-a8dc-53241eb9ff10",
+   "name": "HP Crew Cabin",
+   "desc": "",
+   "src": "backgrounds/hp-crew-cabin-427f36.webp"
+  },
+  {
+   "id": "da689d8e-a4b6-4dfe-a81e-d459718484f2",
+   "name": "HP Captains Cabin",
+   "desc": "",
+   "src": "backgrounds/hp-captains-cabin-da689d.webp"
+  },
+  {
+   "id": "50d82eb8-9219-43fd-aebf-2ddc173c0061",
+   "name": "HP Kitchen",
+   "desc": "",
+   "src": "backgrounds/hp-kitchen-50d82e.webp"
+  },
+  {
+   "id": "a7979ea0-648c-41f1-93dd-58c5e64f6219",
+   "name": "HP Deck Storm",
+   "desc": "",
+   "src": "backgrounds/hp-deck-storm-a7979e.webp"
+  },
+  {
+   "id": "a7445057-ec5a-425a-b5ea-39f8899da8d6",
+   "name": "HP Helm Storm",
+   "desc": "",
+   "src": "backgrounds/hp-helm-storm-a74450.webp"
+  },
+  {
+   "id": "ff9a8eb6-f118-4d5d-adb4-8a52318aa0e3",
+   "name": "Beach Bar",
+   "desc": "",
+   "src": "backgrounds/beach-bar-ff9a8e.webp"
+  },
+  {
+   "id": "18a3cd6c-e068-4e74-b0d8-25314988840c",
+   "name": "Liana's Beach House",
+   "desc": "",
+   "src": "backgrounds/liana-s-beach-house-18a3cd.webp"
+  },
+  {
+   "id": "3a4972ad-3282-47e4-955e-c411c3db70ec",
+   "name": "beach house night",
+   "desc": "",
+   "src": "backgrounds/beach-house-night-3a4972.webp"
+  },
+  {
+   "id": "3a1a52db-8528-4659-8ff6-8e919a970d96",
+   "name": "BIllyton Night",
+   "desc": "",
+   "src": "backgrounds/billyton-night-3a1a52.webp"
+  },
+  {
+   "id": "407cbb8d-fb01-4aa0-89ce-dd076ad08f5e",
+   "name": "Captain's Cabin Night",
+   "desc": "",
+   "src": "backgrounds/captain-s-cabin-night-407cbb.webp"
+  },
+  {
+   "id": "145a8db6-b037-4f12-83c7-f0fbb9304848",
+   "name": "Cove. Deck Night",
+   "desc": "",
+   "src": "backgrounds/cove-deck-night-145a8d.webp"
+  },
+  {
+   "id": "732a39c1-9a0a-4454-b635-28aea59de736",
+   "name": "Ship: Beach ",
+   "desc": "",
+   "src": "backgrounds/ship-beach-732a39.webp"
+  },
+  {
+   "id": "01c0f400-77bd-40b8-8ed6-d6e7becf5ea0",
+   "name": "The Arcane College",
+   "desc": "",
+   "src": "backgrounds/the-arcane-college-01c0f4.webp"
+  },
+  {
+   "id": "8c7f6d79-0ccd-4281-bbf5-52be73a9704c",
+   "name": "AC - Main Courtyard",
+   "desc": "",
+   "src": "backgrounds/ac-main-courtyard-8c7f6d.webp"
+  },
+  {
+   "id": "3af108ee-870d-4fe5-98f4-b36c953a6739",
+   "name": "Inner Court Evening",
+   "desc": "",
+   "src": "backgrounds/inner-court-evening-3af108.webp"
+  },
+  {
+   "id": "888c0ee2-938c-436d-8372-f7cd32bb2719",
+   "name": "AC - Portal Hall",
+   "desc": "",
+   "src": "backgrounds/ac-portal-hall-888c0e.webp"
+  },
+  {
+   "id": "8e085dc9-8504-4403-ada4-93a1fa35e7a7",
+   "name": "AC - Cafetorium Day  ",
+   "desc": "",
+   "src": "backgrounds/ac-cafetorium-day-8e085d.webp"
+  },
+  {
+   "id": "3b6e1eab-0a73-4125-adaf-51232d88e693",
+   "name": "AC - Cafetorium Night",
+   "desc": "",
+   "src": "backgrounds/ac-cafetorium-night-3b6e1e.webp"
+  },
+  {
+   "id": "3738080a-0a67-4dec-84fc-8284a34f7e1d",
+   "name": "AC -Class Day",
+   "desc": "",
+   "src": "backgrounds/ac-class-day-373808.webp"
+  },
+  {
+   "id": "d8387c5f-e042-4d06-a423-4aa9f4bfd00f",
+   "name": "AC - Class Night",
+   "desc": "",
+   "src": "backgrounds/ac-class-night-d8387c.webp"
+  },
+  {
+   "id": "b9536f32-4bad-4f19-b9d4-2734819d572f",
+   "name": "AC - Potions Class",
+   "desc": "",
+   "src": "backgrounds/ac-potions-class-b9536f.webp"
+  },
+  {
+   "id": "b322fdd8-8f8a-4dad-bedb-8d01e0e72f14",
+   "name": "AC - Infirmary ",
+   "desc": "",
+   "src": "backgrounds/ac-infirmary-b322fd.webp"
+  },
+  {
+   "id": "093f9e3e-d9da-40c7-a532-55c973093d0b",
+   "name": "AC - Library Day ",
+   "desc": "",
+   "src": "backgrounds/ac-library-day-093f9e.webp"
+  },
+  {
+   "id": "50ef0e9f-eabe-49f4-b6b1-e83cf2657685",
+   "name": "AC - Library Night",
+   "desc": "",
+   "src": "backgrounds/ac-library-night-50ef0e.webp"
+  },
+  {
+   "id": "65c755a4-1bd7-4977-9f17-70f819e1ccf5",
+   "name": "AC - Lower Hall Day",
+   "desc": "",
+   "src": "backgrounds/ac-lower-hall-day-65c755.webp"
+  },
+  {
+   "id": "b7f2e84a-a28a-43b8-870a-c82b872dd8a3",
+   "name": "AC - Upper Hall Day",
+   "desc": "",
+   "src": "backgrounds/ac-upper-hall-day-b7f2e8.webp"
+  },
+  {
+   "id": "8a936aa9-4f0d-4076-801a-3ed062c98f60",
+   "name": "AC - Boy Dorm",
+   "desc": "",
+   "src": "backgrounds/ac-boy-dorm-8a936a.webp"
+  },
+  {
+   "id": "52f30605-c977-4e56-a9aa-4b5004512515",
+   "name": "AC - Girls Dorm Day",
+   "desc": "",
+   "src": "backgrounds/ac-girls-dorm-day-52f306.webp"
+  },
+  {
+   "id": "d75becb4-5f7b-4fc9-ba77-b3d0dd9b67fa",
+   "name": "AC - Girl Dorm Night",
+   "desc": "",
+   "src": "backgrounds/ac-girl-dorm-night-d75bec.webp"
+  },
+  {
+   "id": "efb8f2e6-f7ad-4227-8a01-85e4bcb32f57",
+   "name": "AC - Shower",
+   "desc": "",
+   "src": "backgrounds/ac-shower-efb8f2.webp"
+  },
+  {
+   "id": "a5f62a5c-3952-47c8-bf63-4cc867d44460",
+   "name": "AC - Shower Night",
+   "desc": "",
+   "src": "backgrounds/ac-shower-night-a5f62a.webp"
+  },
+  {
+   "id": "b51fe425-461d-4796-b590-4244cd2cdaa9",
+   "name": "AC - Adalinda's Day",
+   "desc": "",
+   "src": "backgrounds/ac-adalinda-s-day-b51fe4.webp"
+  },
+  {
+   "id": "99cd994d-d3df-4d87-9ac0-71b15a3313f9",
+   "name": "AC - Adalinda's Night",
+   "desc": "",
+   "src": "backgrounds/ac-adalinda-s-night-99cd99.webp"
+  },
+  {
+   "id": "ff2d4c67-66a4-4372-9287-6b0fdfd0bf82",
+   "name": "AC - Roof Courtyard",
+   "desc": "",
+   "src": "backgrounds/ac-roof-courtyard-ff2d4c.webp"
+  },
+  {
+   "id": "2a39138a-11ed-4884-9330-8b38c230644b",
+   "name": "AC - Dungeon",
+   "desc": "",
+   "src": "backgrounds/ac-dungeon-2a3913.webp"
+  },
+  {
+   "id": "1e2fd026-dc37-4290-b481-61f9df60f0dd",
+   "name": "AC - Storage Room",
+   "desc": "",
+   "src": "backgrounds/ac-storage-room-1e2fd0.webp"
+  },
+  {
+   "id": "9897348d-021c-4935-853f-fce90bc027dd",
+   "name": "AC - Recreation room",
+   "desc": "",
+   "src": "backgrounds/ac-recreation-room-989734.webp"
+  },
+  {
+   "id": "f9fca931-67f7-4d31-89fa-65135f4487c0",
+   "name": "Wenworth's Room",
+   "desc": "",
+   "src": "backgrounds/wenworth-s-room-f9fca9.webp"
+  },
+  {
+   "id": "06aff752-c120-47c4-b650-8be02054c5d7",
+   "name": "Brokkr's Room",
+   "desc": "",
+   "src": "backgrounds/brokkr-s-room-06aff7.webp"
+  },
+  {
+   "id": "cb811cc8-d886-4d47-a68d-12b555de2d89",
+   "name": "Ac - Upper Hall Night",
+   "desc": "",
+   "src": "backgrounds/ac-upper-hall-night-cb811c.webp"
+  },
+  {
+   "id": "413964b0-43b9-46f8-a1e5-63f1f3967e0b",
+   "name": "AC - Hall Lower Night",
+   "desc": "",
+   "src": "backgrounds/ac-hall-lower-night-413964.webp"
+  },
+  {
+   "id": "2a51e36e-b421-4f69-b4d4-dcfe892ab62d",
+   "name": "Teacher's Lounge Night",
+   "desc": "",
+   "src": "backgrounds/teacher-s-lounge-night-2a51e3.webp"
+  },
+  {
+   "id": "fbe1f51d-00e6-4715-9940-67284a5f3ece",
+   "name": "Teacher's Lounge Day",
+   "desc": "",
+   "src": "backgrounds/teacher-s-lounge-day-fbe1f5.webp"
+  },
+  {
+   "id": "ac7f7eae-2b9e-4273-9c9a-43950e1fa127",
+   "name": "infirmary day",
+   "desc": "",
+   "src": "backgrounds/infirmary-day-ac7f7e.webp"
+  },
+  {
+   "id": "4282cc63-c20b-4977-bd1a-5e536170557d",
+   "name": "Phoebe's Room",
+   "desc": "",
+   "src": "backgrounds/phoebe-s-room-4282cc.webp"
+  },
+  {
+   "id": "0881b448-30e3-4112-a150-c95e371f290b",
+   "name": "Inner Court Day",
+   "desc": "",
+   "src": "backgrounds/inner-court-day-0881b4.webp"
+  },
+  {
+   "id": "ba148392-b07c-44e7-aaa9-6a0df9b05808",
+   "name": "Inner Court Night",
+   "desc": "",
+   "src": "backgrounds/inner-court-night-ba1483.webp"
+  },
+  {
+   "id": "bfed71bf-9416-470b-b177-8eae04b1c310",
+   "name": "Rhys, bondage",
+   "desc": "",
+   "src": "backgrounds/rhys-bondage-bfed71.webp"
+  },
+  {
+   "id": "505384c2-a53b-42ae-b330-505286c86940",
+   "name": "Beach Rock - PoKe",
+   "desc": "",
+   "src": "backgrounds/beach-rock-poke-505384.webp"
+  },
+  {
+   "id": "c287aa9d-5620-4f4c-8f60-a428b40f79fc",
+   "name": "Beach Picnic - PoKe",
+   "desc": "",
+   "src": "backgrounds/beach-picnic-poke-c287aa.webp"
+  },
+  {
+   "id": "b195d2e1-3f0d-4ccb-acab-ac9336116317",
+   "name": "Coastal Forest - PoKe",
+   "desc": "",
+   "src": "backgrounds/coastal-forest-poke-b195d2.webp"
+  },
+  {
+   "id": "5d99226b-8e7f-4407-a64a-305237cf1daa",
+   "name": "Coral Reef - PoKe",
+   "desc": "",
+   "src": "backgrounds/coral-reef-poke-5d9922.webp"
+  },
+  {
+   "id": "7f931d80-6b58-43a5-b7b9-9481bae81480",
+   "name": "Mountain Lake Path - PoKe",
+   "desc": "",
+   "src": "backgrounds/mountain-lake-path-poke-7f931d.webp"
+  },
+  {
+   "id": "4b55b907-f3c6-49e3-8574-a73d5aa25e26",
+   "name": "Ice Cave",
+   "desc": "",
+   "src": "backgrounds/ice-cave-4b55b9.webp"
+  },
+  {
+   "id": "66019841-6310-43d9-b4ce-07f9465f8b41",
+   "name": "Balcony Day",
+   "desc": "",
+   "src": "backgrounds/balcony-day-660198.webp"
+  },
+  {
+   "id": "446bfae6-7060-40cc-86dd-49bb2d50976c",
+   "name": "Balcony Night",
+   "desc": "",
+   "src": "backgrounds/balcony-night-446bfa.webp"
+  },
+  {
+   "id": "1ff2b5ac-7f83-4675-b58e-eb7d88edba68",
+   "name": "Gym Day",
+   "desc": "",
+   "src": "backgrounds/gym-day-1ff2b5.webp"
+  },
+  {
+   "id": "6473bf5d-2606-4b37-beef-48c9d6cd7da7",
+   "name": "Gym Night",
+   "desc": "",
+   "src": "backgrounds/gym-night-6473bf.webp"
+  },
+  {
+   "id": "25e0511b-5f45-42a0-9358-9ac17bb932e7",
+   "name": "Boy's Dorm Day",
+   "desc": "",
+   "src": "backgrounds/boy-s-dorm-day-25e051.webp"
+  },
+  {
+   "id": "57a35e34-0588-481d-88e0-3403eeea04ed",
+   "name": "Portal Hall Day",
+   "desc": "",
+   "src": "backgrounds/portal-hall-day-57a35e.webp"
+  },
+  {
+   "id": "75e0cdff-4676-4a10-b536-f39adacd21cc",
+   "name": "Room Night",
+   "desc": "",
+   "src": "backgrounds/room-night-75e0cd.webp"
+  },
+  {
+   "id": "bc55e338-d53d-4302-85dc-54310a45a43e",
+   "name": "Tavern Night",
+   "desc": "",
+   "src": "backgrounds/tavern-night-bc55e3.webp"
+  },
+  {
+   "id": "24a17dfa-67e0-4084-874f-9fc75726fb30",
+   "name": "Magic Carpet Ride",
+   "desc": "",
+   "src": "backgrounds/magic-carpet-ride-24a17d.webp"
+  },
+  {
+   "id": "917984bb-afce-4b16-b24a-0a02d67bb5b5",
+   "name": "Elsy's room night",
+   "desc": "",
+   "src": "backgrounds/elsy-s-room-night-917984.webp"
+  },
+  {
+   "id": "f72f46ac-ed5b-4458-9383-36398f854061",
+   "name": "Claire's Room Night",
+   "desc": "",
+   "src": "backgrounds/claire-s-room-night-f72f46.webp"
+  },
+  {
+   "id": "55b9fda5-9e62-4e38-b24b-c292c877c427",
+   "name": "Farm Lounge Night",
+   "desc": "",
+   "src": "backgrounds/farm-lounge-night-55b9fd.webp"
+  },
+  {
+   "id": "04812b55-77b1-4175-b22c-3c8f95766575",
+   "name": "Harvest fest",
+   "desc": "",
+   "src": "backgrounds/harvest-fest-04812b.webp"
+  },
+  {
+   "id": "3bb08668-97ff-4988-8249-d44b39765c3e",
+   "name": "arm wrestle",
+   "desc": "",
+   "src": "backgrounds/arm-wrestle-3bb086.webp"
+  },
+  {
+   "id": "e17535ac-f860-4a5f-82af-dfe2583b1aed",
+   "name": "gobo canon ball",
+   "desc": "",
+   "src": "backgrounds/gobo-canon-ball-e17535.webp"
+  },
+  {
+   "id": "e81fc5ce-e875-4836-9d3a-afb7d4249065",
+   "name": "collage friends",
+   "desc": "",
+   "src": "backgrounds/collage-friends-e81fc5.webp"
+  },
+  {
+   "id": "5b751728-7d7b-4ac8-b229-ea1b73d1decf",
+   "name": "dunk tank",
+   "desc": "",
+   "src": "backgrounds/dunk-tank-5b7517.webp"
+  },
+  {
+   "id": "f3988f01-3fca-446e-9df9-8185c9fb7c32",
+   "name": "curious myce",
+   "desc": "",
+   "src": "backgrounds/curious-myce-f3988f.webp"
+  },
+  {
+   "id": "3828a699-f009-4cbc-9768-72f3e50b2b3b",
+   "name": "Pippa's Stall",
+   "desc": "",
+   "src": "backgrounds/pippa-s-stall-3828a6.webp"
+  },
+  {
+   "id": "94c34027-5b52-4e11-aed3-1107b75bf218",
+   "name": "Arcane entertainment",
+   "desc": "",
+   "src": "backgrounds/arcane-entertainment-94c340.webp"
+  },
+  {
+   "id": "26ff4639-4d9a-4077-9e7d-04ad511c895c",
+   "name": "Living Room",
+   "desc": "A nice living room.",
+   "src": "backgrounds/living-room-26ff46.webp"
+  },
+  {
+   "id": "11613b22-7137-4118-afd6-44c044b6f6a6",
+   "name": "Bedroom",
+   "desc": "A modern bedroom with a large bed",
+   "src": "backgrounds/bedroom-11613b.webp"
+  },
+  {
+   "id": "bce775a7-b966-454f-a249-5cfe8c3c5726",
+   "name": "Bathroom",
+   "desc": "A nice modern bathroom",
+   "src": "backgrounds/bathroom-bce775.webp"
+  },
+  {
+   "id": "0ce956ff-7048-439d-b22c-ebfae3473014",
+   "name": "Backyard",
+   "desc": "A small but adequate backyard, where Azrael gardens",
+   "src": "backgrounds/backyard-0ce956.webp"
+  },
+  {
+   "id": "9b99d19b-5333-44ac-ae1c-7ecaec574a31",
+   "name": "Kitchen",
+   "desc": "",
+   "src": "backgrounds/kitchen-9b99d1.webp"
+  },
+  {
+   "id": "480c18ed-8571-46a8-9f80-dcf524825bcf",
+   "name": "Beach",
+   "desc": "A nice, secluded beach, where Azrael can be without any fear of being spotted",
+   "src": "backgrounds/beach-480c18.webp"
+  },
+  {
+   "id": "934eab30-ab7f-4f8a-897b-efffcc1a3689",
+   "name": "Hot Spring",
+   "desc": "A nice local hot spring",
+   "src": "backgrounds/hot-spring-934eab.webp"
+  },
+  {
+   "id": "5cf6bec8-9657-4ffe-b55b-b3e8bd8cd9fa",
+   "name": "Christmas",
+   "desc": "",
+   "src": "backgrounds/christmas-5cf6be.webp"
+  },
+  {
+   "id": "9e8e8c7d-c146-474f-af95-02b419a78ffa",
+   "name": "Place holder.",
+   "desc": "classroom high school, football team banners, trophy showcase, chemistry set, interactive lessons, engaged teenagers",
+   "src": "backgrounds/place-holder-9e8e8c.webp"
+  },
+  {
+   "id": "2e565b93-b00d-4a73-a9f4-958fb8356b94",
+   "name": "The goat of all science.",
+   "desc": "",
+   "src": "backgrounds/the-goat-of-all-science-2e565b.webp"
+  },
+  {
+   "id": "f915c473-f1ca-498a-bff2-47bbce7c9fd0",
+   "name": "Flash back Ayame (cute)",
+   "desc": "",
+   "src": "backgrounds/flash-back-ayame-cute-f915c4.webp"
+  },
+  {
+   "id": "604e1e70-c7b0-4f6d-85df-6af85d14c0ac",
+   "name": "club",
+   "desc": "",
+   "src": "backgrounds/club-604e1e.webp"
+  },
+  {
+   "id": "de29c35d-a8fc-4c6c-ba83-f509ab51763b",
+   "name": "perfect game",
+   "desc": "",
+   "src": "backgrounds/perfect-game-de29c3.webp"
+  },
+  {
+   "id": "28cec6a7-f0da-4fcf-9640-bacab4bb6cc1",
+   "name": "Failure...",
+   "desc": "",
+   "src": "backgrounds/failure-28cec6.webp"
+  },
+  {
+   "id": "b33d411f-30b4-481b-a20d-19d5e4403f8a",
+   "name": "Classroom",
+   "desc": "",
+   "src": "backgrounds/classroom-b33d41.webp"
+  },
+  {
+   "id": "70129534-49bf-42b1-a0a8-a33e8ab730e2",
+   "name": "Intermission",
+   "desc": "",
+   "src": "backgrounds/intermission-701295.webp"
+  },
+  {
+   "id": "be4f5391-eb34-4539-a13d-4ba951ddb345",
+   "name": "Ken CG 1",
+   "desc": "",
+   "src": "backgrounds/ken-cg-1-be4f53.webp"
+  },
+  {
+   "id": "5b71a466-600b-4c87-b36f-112ecc4d7d6e",
+   "name": "Hallway",
+   "desc": "",
+   "src": "backgrounds/hallway-5b71a4.webp"
+  },
+  {
+   "id": "131b7a47-2b6c-4ced-8520-e8669aaa8de7",
+   "name": "mid-day class",
+   "desc": "",
+   "src": "backgrounds/mid-day-class-131b7a.webp"
+  },
+  {
+   "id": "743fa4d7-60ab-4696-ad35-3d24db7c67e4",
+   "name": "POST Experiment 2 Club.",
+   "desc": "",
+   "src": "backgrounds/post-experiment-2-club-743fa4.webp"
+  },
+  {
+   "id": "166e8414-ee02-4d8f-becd-328363a8bd2c",
+   "name": "\"We've been Had!\"",
+   "desc": "",
+   "src": "backgrounds/we-ve-been-had-166e84.webp"
+  },
+  {
+   "id": "7bd9bce2-dd5f-40cf-afea-194e3a4ecfe2",
+   "name": "Mental Break down.",
+   "desc": "",
+   "src": "backgrounds/mental-break-down-7bd9bc.webp"
+  },
+  {
+   "id": "561a594b-90a0-47f0-ae2f-400e1d82d454",
+   "name": "Experiment 2 CG",
+   "desc": "",
+   "src": "backgrounds/experiment-2-cg-561a59.webp"
+  },
+  {
+   "id": "a1ce075a-3d05-4b8b-80a5-1d53ae89ce69",
+   "name": "Ken's anguish",
+   "desc": "",
+   "src": "backgrounds/ken-s-anguish-a1ce07.webp"
+  },
+  {
+   "id": "7b606825-4d26-489f-a70e-074e14428728",
+   "name": "Hiding, watching.",
+   "desc": "",
+   "src": "backgrounds/hiding-watching-7b6068.webp"
+  },
+  {
+   "id": "3f526c4e-33e9-4389-b535-31eb4bdc7856",
+   "name": "Generic city background",
+   "desc": "",
+   "src": "backgrounds/generic-city-background-3f526c.webp"
+  },
+  {
+   "id": "f0f4c3bd-69ca-42db-a892-88ad06e4033d",
+   "name": "Natsu",
+   "desc": "",
+   "src": "backgrounds/natsu-f0f4c3.webp"
+  },
+  {
+   "id": "34713137-9bf2-48dd-8085-b92b6e3edb79",
+   "name": "Generic city background dos",
+   "desc": "",
+   "src": "backgrounds/generic-city-background-dos-347131.webp"
+  },
+  {
+   "id": "1fae883f-0579-4f14-8346-eb46bbaf1c8c",
+   "name": "Experiment 3 CG",
+   "desc": "",
+   "src": "backgrounds/experiment-3-cg-1fae88.webp"
+  },
+  {
+   "id": "37b9411c-db45-4b72-b84e-2dbf65bcb274",
+   "name": "Intermission 3; Gaming!!",
+   "desc": "",
+   "src": "backgrounds/intermission-3-gaming-37b941.webp"
+  },
+  {
+   "id": "a473a42f-596f-49c6-ae2f-bf142552a3b3",
+   "name": "Intermission 3: Gaming!!",
+   "desc": "",
+   "src": "backgrounds/intermission-3-gaming-a473a4.webp"
+  },
+  {
+   "id": "4c1e3e92-a6d6-4f1e-9957-1444e996ceda",
+   "name": "Post 'experiment' 4 club",
+   "desc": "",
+   "src": "backgrounds/post-experiment-4-club-4c1e3e.webp"
+  },
+  {
+   "id": "b89c8f28-3628-4714-a0d0-2c67c0e3a98e",
+   "name": "Entering during experiment 4",
+   "desc": "",
+   "src": "backgrounds/entering-during-experiment-4-b89c8f.webp"
+  },
+  {
+   "id": "6bdfb248-b4c6-4b4b-9298-f5b9e856f627",
+   "name": "Ken in water hell",
+   "desc": "",
+   "src": "backgrounds/ken-in-water-hell-6bdfb2.webp"
+  },
+  {
+   "id": "c1e06304-216b-4f05-982c-3351beaf0981",
+   "name": "wet Natsu.",
+   "desc": "",
+   "src": "backgrounds/wet-natsu-c1e063.webp"
+  },
+  {
+   "id": "2cdae865-ea8e-443d-94ea-ef77bb325f63",
+   "name": "-|BLASTERS|- Arcade",
+   "desc": "",
+   "src": "backgrounds/blasters-arcade-2cdae8.webp"
+  },
+  {
+   "id": "41010ffa-f35d-4ee3-87b6-ed0f1ee48484",
+   "name": "Hasegawa Shrine",
+   "desc": "",
+   "src": "backgrounds/hasegawa-shrine-41010f.webp"
+  },
+  {
+   "id": "662febb5-c6ba-4d36-997d-d644dcd855fd",
+   "name": "Wig Tonalds",
+   "desc": "",
+   "src": "backgrounds/wig-tonalds-662feb.webp"
+  },
+  {
+   "id": "8a2f7ccf-ff93-4744-98a6-5fd498529a19",
+   "name": "flood plain",
+   "desc": "",
+   "src": "backgrounds/flood-plain-8a2f7c.webp"
+  },
+  {
+   "id": "3d7a2211-abdd-40b5-9a70-d22e4186f387",
+   "name": "711 ripoff",
+   "desc": "",
+   "src": "backgrounds/711-ripoff-3d7a22.webp"
+  },
+  {
+   "id": "d42bf0d8-81a2-4de8-b71a-c534a8e7b13e",
+   "name": "school roof",
+   "desc": "",
+   "src": "backgrounds/school-roof-d42bf0.webp"
+  },
+  {
+   "id": "634bec2f-a3e9-4985-80ee-d04264f7c745",
+   "name": "The Challenger.",
+   "desc": "",
+   "src": "backgrounds/the-challenger-634bec.webp"
+  },
+  {
+   "id": "3983271f-ff5e-4fbc-9950-c4f34d08ea2c",
+   "name": "Rui Jumpscare",
+   "desc": "",
+   "src": "backgrounds/rui-jumpscare-398327.webp"
   }
  ],
  "items": [
@@ -23397,6 +25381,252 @@
    "desc": "For those who've played the novel before and don't want to collect them all again.",
    "icon": "items/enjoy.webp",
    "nsfw": true
+  },
+  {
+   "id": "tome-of-town-portal",
+   "name": "Tome of Town Portal",
+   "desc": "Takes you back to the center of town. Useful if you get stuck in a scene. [Warning; don't use during unlocked/ story sequences as it may block you from completing the novel]",
+   "icon": "items/tome-of-town-portal.webp"
+  },
+  {
+   "id": "the-keeper-s-key",
+   "name": "The Keeper's Key",
+   "desc": "Opens the Spirit Door in the Sacred grove of Wenshir forest. Requires Daylight.",
+   "icon": "items/the-keeper-s-key.webp"
+  },
+  {
+   "id": "bucket",
+   "name": "Bucket",
+   "desc": "A steel bucket. Useful for holding liquids",
+   "icon": "items/bucket.webp"
+  },
+  {
+   "id": "bottle-of-milk",
+   "name": "Bottle of Milk",
+   "desc": "A bottle of Elsie mae's milk",
+   "icon": "items/bottle-of-milk.webp"
+  },
+  {
+   "id": "fae-dew",
+   "name": "Fae Dew",
+   "desc": "Fae dew also known as fairy nectar or pixie juice. Is the liquid from the vagina of an aroused fairy girl. Trade with Horen for potions",
+   "icon": "items/fae-dew.webp"
+  },
+  {
+   "id": "love-potion",
+   "name": "Love Potion",
+   "desc": "Drinking this potion will make anyone else present fall deeply in love with you",
+   "icon": "items/love-potion.webp"
+  },
+  {
+   "id": "passivity-potion",
+   "name": "Passivity Potion",
+   "desc": "Splash this potion on someone to make them become calm, docile and suggestable.",
+   "icon": "items/passivity-potion.webp"
+  },
+  {
+   "id": "memory-potion",
+   "name": "Memory Potion",
+   "desc": "Splash this potion on someone to make them forget who they and what they're doing.",
+   "icon": "items/memory-potion.webp"
+  },
+  {
+   "id": "claire-s-panties",
+   "name": "Claire's panties",
+   "desc": "A pink lacey thong",
+   "icon": "items/claire-s-panties.webp"
+  },
+  {
+   "id": "hand-held-eml",
+   "name": "Hand Held EML",
+   "desc": "Detects electromagnetic signals from buried utilities like cables or pipes. ",
+   "icon": "items/hand-held-eml.webp"
+  },
+  {
+   "id": "i-o-u-from-larry",
+   "name": "I.O.U. from Larry",
+   "desc": "Use to get items from Larry.",
+   "icon": "items/i-o-u-from-larry.webp"
+  },
+  {
+   "id": "claire-nude-photo",
+   "name": "Claire nude photo",
+   "desc": "A candid image taken of Claire in the shower. (View in your room at the Inn)",
+   "icon": "items/claire-nude-photo.webp"
+  },
+  {
+   "id": "the-rigpa-seed",
+   "name": "The Rigpa Seed",
+   "desc": "A large radiant gem from the spirit realm.",
+   "icon": "items/the-rigpa-seed.webp"
+  },
+  {
+   "id": "awen-s-blessing",
+   "name": "Awen's Blessing",
+   "desc": "The Blessing of Awen grants you a portion of her power",
+   "icon": "items/awen-s-blessing.webp"
+  },
+  {
+   "id": "magic-mushroom",
+   "name": "Magic Mushroom",
+   "desc": "Psilocybe Mysticae: A very potent magic Mushroom.",
+   "icon": "items/magic-mushroom.webp"
+  },
+  {
+   "id": "bag-o-weed",
+   "name": "Bag o' weed",
+   "desc": "Cannabis sativa: desiccated floral clusters containing trichome-rich calyces, primarily composed of cannabinoids like tetrahydrocannabinol and cannabidiol, terpenoids, and flavonoids, processed to a moisture content of approximately 10-12%.\n\n",
+   "icon": "items/bag-o-weed.webp"
+  },
+  {
+   "id": "joint",
+   "name": "Joint",
+   "desc": "A joint, a hand-rolled cigarette containing ground Cannabis sativa flower wrapped in combustible paper for inhaling cannabinoids.\n\n",
+   "icon": "items/joint.webp"
+  },
+  {
+   "id": "potion-of-chaos",
+   "name": "Potion of Chaos",
+   "desc": "The potion of chaos is rare potion which can have a variety of effects. It's a complete gamble every time it's used, it could be devastating, empowering or completely mundane. ",
+   "icon": "items/potion-of-chaos.webp"
+  },
+  {
+   "id": "shrinka-shroom",
+   "name": "Shrinka Shroom",
+   "desc": "Temporarily shrinks the consumer down in size.",
+   "icon": "items/shrinka-shroom.webp"
+  },
+  {
+   "id": "sacred-spring-water",
+   "name": "Sacred Spring Water",
+   "desc": "Water from the Sacred Wellspring of life. A powerful potion ingredient. Drinking it heals all afflictions.",
+   "icon": "items/sacred-spring-water.webp"
+  },
+  {
+   "id": "potion-of-faeform",
+   "name": "Potion of Faeform",
+   "desc": "Just a drop will temporarily shrink the consumer down, turning them into a fairy. Wings and all.",
+   "icon": "items/potion-of-faeform.webp"
+  },
+  {
+   "id": "boom-box",
+   "name": "Boom Box",
+   "desc": "A retro box loaded with dance beats",
+   "icon": "items/boom-box.webp"
+  },
+  {
+   "id": "goblin-spear",
+   "name": "Goblin Spear",
+   "desc": "A crude spear made of carved bone fastened to a stick, known to the Goblins as Poka-Poka.",
+   "icon": "items/goblin-spear.webp"
+  },
+  {
+   "id": "tugga-chest",
+   "name": "Tugga Chest",
+   "desc": "A personal lock box belonging to Tugga ",
+   "icon": "items/tugga-chest.webp"
+  },
+  {
+   "id": "vibrating-butt-plug",
+   "name": "Vibrating Butt Plug",
+   "desc": "A carved crystal butt plug, enchanted to vibrate.",
+   "icon": "items/vibrating-butt-plug.webp"
+  },
+  {
+   "id": "spider-silk-rope",
+   "name": "Spider Silk Rope",
+   "desc": "A bundle of silken rope.",
+   "icon": "items/spider-silk-rope.webp"
+  },
+  {
+   "id": "tentacle-sex-toy",
+   "name": "Tentacle Sex Toy",
+   "desc": "An enchanted tentacle that writhes and wriggles as if it's alive.",
+   "icon": "items/tentacle-sex-toy.webp"
+  },
+  {
+   "id": "fae-magic",
+   "name": "Fae Magic",
+   "desc": "Fae have the ability to appear and disappear at will.",
+   "icon": "items/fae-magic.webp"
+  },
+  {
+   "id": "hyperdimensional-fragment",
+   "name": "Hyperdimensional Fragment",
+   "desc": "A fragment of the Arcane College's Portal sealed within a pendant. It can be used to return to the college from anywhere.",
+   "icon": "items/hyperdimensional-fragment.webp"
+  },
+  {
+   "id": "slime-girl-bathwater",
+   "name": "Slime Girl Bathwater",
+   "desc": "A grape-flavored, lavender-scented alchemical reagent. Said to possess potent aphrodisiac properties. You're in luck; this shit usually sells out online.",
+   "icon": "items/slime-girl-bathwater.webp"
+  },
+  {
+   "id": "enchanted-dildo",
+   "name": "Enchanted Dildo",
+   "desc": "A dildo made from a semi flexible crystalline material, it glows slightly with magical energy.",
+   "icon": "items/enchanted-dildo.webp"
+  },
+  {
+   "id": "liber-emoterium",
+   "name": "Liber Emoterium",
+   "desc": "A collection of spells and rituals designed to help poor actors display the correct emotion.",
+   "icon": "items/liber-emoterium.webp"
+  },
+  {
+   "id": "bewitchable-bindings",
+   "name": "Bewitchable Bindings",
+   "desc": "An strange tome of binding spells. Notorious within BDSM circles.",
+   "icon": "items/bewitchable-bindings.webp"
+  },
+  {
+   "id": "necronomicon",
+   "name": "Necronomicon",
+   "desc": "Kitab al-Azif written in the 8th century by the mad arab Abdul Alhazred.  ",
+   "icon": "items/necronomicon.webp"
+  },
+  {
+   "id": "cheddar-late-then-never",
+   "name": "Cheddar Late Then Never",
+   "desc": "Mastering the art of Cheese Wizardry",
+   "icon": "items/cheddar-late-then-never.webp"
+  },
+  {
+   "id": "master-degree",
+   "name": "Master Degree",
+   "desc": "Your Arcane Mastery Degree, presented to you by the College of Wenshir.",
+   "icon": "items/master-degree.webp"
+  },
+  {
+   "id": "mana-potion",
+   "name": "Mana Potion",
+   "desc": "A simple magical formulae that restores magical potency and energy.",
+   "icon": "items/mana-potion.webp"
+  },
+  {
+   "id": "raymond",
+   "name": "Raymond",
+   "desc": "A little mouse familiar.",
+   "icon": "items/raymond.webp"
+  },
+  {
+   "id": "coach",
+   "name": "Coach",
+   "desc": "Zeph's small moth familiar. The perfect hype man, er, moth and personal trainer.",
+   "icon": "items/coach.webp"
+  },
+  {
+   "id": "magic-carpet",
+   "name": "Magic Carpet",
+   "desc": "A rare Flying Carpet. Best used outside in daylight.",
+   "icon": "items/magic-carpet.webp"
+  },
+  {
+   "id": "festival-event",
+   "name": "Festival Event",
+   "desc": "Use item to start the Summer Harvest Festival Event",
+   "icon": "items/festival-event.webp"
   }
  ],
  "music": [
@@ -28360,6 +30590,368 @@
    ],
    "novel": "New Haven",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/cfa88f72-d2cd-41f1-8d5f-517baadf3220.mpeg"
+  },
+  {
+   "id": "tavern",
+   "name": "Tavern",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/b019dcb9-133d-43fc-8ec7-ddbb4422ac8a.mpeg"
+  },
+  {
+   "id": "forest-night",
+   "name": "Forest Night",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/205a83e1-3aee-4df4-807c-63ebedebde85.mpeg"
+  },
+  {
+   "id": "forest-day",
+   "name": "Forest Day",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/152590f8-7d78-480d-b7ed-0cf9d9238fe9.mpeg"
+  },
+  {
+   "id": "spirit-realm",
+   "name": "Spirit Realm",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/76299948-6af7-430b-a305-b1661b1ce43b.mpeg"
+  },
+  {
+   "id": "town",
+   "name": "Town",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/4dc3c877-65db-410e-a203-393ebcc7e703.mpeg"
+  },
+  {
+   "id": "river",
+   "name": "River",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/cb98c160-874e-4a0c-85c7-60dfdec64f16.mpeg"
+  },
+  {
+   "id": "farm",
+   "name": "Farm",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/5feb06a6-ec55-4e96-b162-64439a70d12f.mpeg"
+  },
+  {
+   "id": "romance-beats",
+   "name": "Romance Beats",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/8c3ea907-c90a-4017-9e56-ce392b76fe69.mpeg"
+  },
+  {
+   "id": "labratory",
+   "name": "Labratory",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/a67929cb-c496-4fa5-a427-b9d8dc511d92.mpeg"
+  },
+  {
+   "id": "trip",
+   "name": "Trip",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/a429f697-75f7-4cf5-9347-8b509ffe2bb5.mpeg"
+  },
+  {
+   "id": "cottage",
+   "name": "Cottage",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/6f4f9da2-a2e2-4b2b-a6ff-bbb758bb9e7f.mpeg"
+  },
+  {
+   "id": "beach-vibe",
+   "name": "Beach Vibe",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/96e4ba65-0d4c-41e8-aad0-4c87bb060ae3.mpeg"
+  },
+  {
+   "id": "beach-party",
+   "name": "Beach Party",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/44f08229-cb24-4b5b-9a73-95ea6f0fb4a3.mpeg"
+  },
+  {
+   "id": "spider",
+   "name": "Spider",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/4baf060d-62eb-4c64-8f37-574ccb469bd3.mpeg"
+  },
+  {
+   "id": "dark-den",
+   "name": "Dark Den",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/5a4aebca-c6db-4fcd-b2bb-49e591e37e9d.mpeg"
+  },
+  {
+   "id": "labyrinth",
+   "name": "Labyrinth",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/8299e42c-6268-425b-a70e-bd8203165566.mpeg"
+  },
+  {
+   "id": "celtic-mellow",
+   "name": "Celtic Mellow",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/118576e7-4097-4b54-b14f-7552ed919cf5.mpeg"
+  },
+  {
+   "id": "celtic-upbeat",
+   "name": "Celtic Upbeat",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/3280facd-01d9-4139-b0d5-efdd29b16f02.mpeg"
+  },
+  {
+   "id": "tribal",
+   "name": "Tribal",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/e7c56ddf-6cd0-4e47-a6dc-5f67ae9f1e75.mpeg"
+  },
+  {
+   "id": "windy",
+   "name": "Windy",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/d962d2e3-8a72-4ed4-94de-597ee3a54e49.mpeg"
+  },
+  {
+   "id": "lordly",
+   "name": "Lordly",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/05bb56b3-234e-4ece-af71-1ae6373cf87f.mpeg"
+  },
+  {
+   "id": "campfire",
+   "name": "Campfire",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/4add5a79-5c86-4056-a016-c34f30badde2.mpeg"
+  },
+  {
+   "id": "tribal-party",
+   "name": "Tribal Party",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/8e6f3060-da5a-4710-81bd-957279e95bff.mpeg"
+  },
+  {
+   "id": "beach-ambient",
+   "name": "Beach Ambient",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/48658d34-aed4-4307-92a6-d9cc0dbf9228.mpeg"
+  },
+  {
+   "id": "tribal-action",
+   "name": "Tribal Action",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/57f08f51-de99-4645-b925-611a0b78727c.mpeg"
+  },
+  {
+   "id": "hurdy-gurdy",
+   "name": "Hurdy Gurdy",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/3596a4b9-a08e-4145-9e8a-decc6c9ff746.mpeg"
+  },
+  {
+   "id": "stormy-ocean",
+   "name": "Stormy Ocean",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/40a56907-b63a-40c4-a9c8-f670f0cb597d.mpeg"
+  },
+  {
+   "id": "ship-ambience",
+   "name": "Ship Ambience",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/00419037-1d46-488f-84b8-3181157f5edd.mpeg"
+  },
+  {
+   "id": "beach-house-bar",
+   "name": "Beach House Bar",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/f6bcaa9e-ff1a-4421-ba05-28c3883ba27f.mpeg"
+  },
+  {
+   "id": "melodeon-jig",
+   "name": "Melodeon Jig",
+   "tags": [
+    "jig",
+    "melodeon",
+    "accordian",
+    "merry"
+   ],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/2f808d27-32c1-473b-81b9-f88c22d4d937.mpeg"
+  },
+  {
+   "id": "dark-hunter",
+   "name": "Dark Hunter",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/6137a301-f71f-4a8b-8b19-642519250ffd.mpeg"
+  },
+  {
+   "id": "the-wellermen",
+   "name": "The Wellermen",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/62172bf9-7837-4dec-9911-a9c9697ab575.mpeg"
+  },
+  {
+   "id": "castle-chill",
+   "name": "Castle Chill",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/31ab40d5-26c4-4ac2-b143-11b58bf39e41.mpeg"
+  },
+  {
+   "id": "castle-night",
+   "name": "Castle Night",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/1f86bb81-ee32-40dd-97d1-6fa17b83a8de.mpeg"
+  },
+  {
+   "id": "80s-vibe",
+   "name": "80s Vibe",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/00e3f000-3216-4851-a6e4-149ef9c01ec6.mpeg"
+  },
+  {
+   "id": "dragon",
+   "name": "Dragon",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/e3793b61-fd70-4f2c-877d-d4a15183da6f.mpeg"
+  },
+  {
+   "id": "the-forge",
+   "name": "The Forge",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/8409d4dc-ecf7-4844-b0ef-601d8a49fef0.mpeg"
+  },
+  {
+   "id": "crab",
+   "name": "Crab",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/e4d9929a-3a76-4748-9531-5e8a728916ac.mpeg"
+  },
+  {
+   "id": "gymbeat",
+   "name": "Gymbeat",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/3c930514-b99a-482d-95b8-daa25431567d.mpeg"
+  },
+  {
+   "id": "magic-carpet",
+   "name": "Magic Carpet",
+   "tags": [],
+   "novel": "Grove Keeper",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/b807070f-34c6-4730-a93b-fbe1c4ef6a9a.mpeg"
+  },
+  {
+   "id": "song-1-4",
+   "name": "song-1",
+   "tags": [],
+   "novel": "Nupta Daemoni",
+   "url": "https://assets.miku.services/QmYB5AuY4vWgK6saXApBkQ3iTawbPv43TTzcwgiUwsJu2Q.mpeg"
+  },
+  {
+   "id": "song-1-5",
+   "name": "song-1",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/5d5cd438-0ee1-422b-a78a-cfade92e5f44.mpeg"
+  },
+  {
+   "id": "ayame-s-theme",
+   "name": "Ayame's theme.",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/85910a55-08a8-4808-8ba4-58888fdfe7a7.mpeg"
+  },
+  {
+   "id": "magical-inst-version",
+   "name": " ☆ Magical {Inst version}",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/11b7018e-4db8-4f5a-a1b9-c815c6197366.mpeg"
+  },
+  {
+   "id": "another-day",
+   "name": "Another day...",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/6da3fd45-a72e-481a-9055-7ab9687903c0.mpeg"
+  },
+  {
+   "id": "ken-logical",
+   "name": "Ken Logical.",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/8e079cac-4775-4b90-9537-22055f59dabf.mpeg"
+  },
+  {
+   "id": "world-s-smartest-gal",
+   "name": "World's smartest Gal",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/335f9a44-e717-439d-b956-773a2a30077a.mpeg"
+  },
+  {
+   "id": "experiment",
+   "name": "Experiment.",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/1eaa8b55-3e85-4cb9-b173-08a0fee15866.mpeg"
+  },
+  {
+   "id": "at-the-end-of-the-day",
+   "name": "At the end of the day.",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/5818aa31-238c-43bb-a1fa-cf2c34d67004.mpeg"
+  },
+  {
+   "id": "ain-t-this-kinda-intimate",
+   "name": "Ain't this kinda intimate?",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/c8908ab3-1e37-463e-92ec-fd6051c2195b.mpeg"
+  },
+  {
+   "id": "oji-san-s-sandwich-sale",
+   "name": "Oji-san's sandwich sale",
+   "tags": [],
+   "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/365e52df-9191-4c60-8e9b-f514ef0db78e.mpeg"
   }
  ]
 }

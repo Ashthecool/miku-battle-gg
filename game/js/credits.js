@@ -33,6 +33,7 @@
         { novel: "Makin' Magic with Miku", id: '004899cf-4191-4630-9425-7374a4b3151f' },
         { novel: 'Can Anyone Love Maia?', id: '3e403fd5-5776-4853-891e-81da3617ef65' },
         { novel: 'Stranded terrestrial SN- 1.0009...', title: 'Stranded terrestrial', id: '92ad7487-bde9-4d7c-ad14-df5772485582' },
+        { novel: 'Phantastic Experiments [with] Ayame Kadokawa', id: '32f5057c-0796-4d12-8378-bdf12bcffb6f' },
       ] },
     { name: 'mikudev', aka: 'the miku.gg team', id: '5a967b4b-b773-46b9-94f4-4c0214a2ea0f', color: '#39d5c9',
       pic: 'optimized/5a967b4b-b773-46b9-94f4-4c0214a2ea0f/7a141c32-c421-48b8-88c7-669ca98992af.webp', novels: [
@@ -51,6 +52,13 @@
         { novel: 'Katya', id: '478097cd-66e0-4099-b047-503ce7b86dbb' },
         { novel: 'Cranky Roommate', id: 'd7332a18-ece8-4c63-bf02-fa60ec33febc' },
       ] },
+    { name: 'druidlydude', id: '042be5cb-3ad7-4292-9dbc-d1bfc3aba88a', color: '#5ad0a0',
+      pic: 'optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/c2765e09-9fbb-4ec3-ae2c-5b78d3325023.webp', novels: [
+        { novel: 'Integrated Domestic Android', id: '0f4481d3-e4a2-4292-bbc0-c2d01a5b8453' },
+        { novel: 'Meditate with Yllara', id: 'a4d06e92-5a7d-4755-a168-fd8ffb42ea40' },
+        { novel: 'WTF STEP BRO', id: '32d79bcc-6e60-42be-a6f4-23bbb906e6db' },
+        { novel: 'Grove Keeper', id: '6a714388-256d-4899-ae8f-c5fa595cf230' },
+      ] },
     { name: 'piedarling', id: 'ee597633-a4df-4067-a132-31fd982f93c7', color: '#ff9d6b',
       pic: 'optimized/ee597633-a4df-4067-a132-31fd982f93c7/072c3c96-909e-4181-b0d8-209e68cb2728.webp', novels: [
         { novel: 'Sugar & Sweethearts', id: '85d0fcda-7a49-42c4-b53d-0b8edd7997af' },
@@ -60,12 +68,6 @@
       pic: '7Yc8W7N_2-OWz0DJl1tQGinHF8trQ7BI6-63rcTho7w.png', novels: [
         { novel: 'Hanako Ikezawa', title: 'Hanako Ikezawa (Katawa Shoujo)', id: '61198132-ac8d-45a4-bc91-b7615a767a1d' },
         { novel: 'Lilly Satou', title: 'Lilly Satou (Katawa Shoujo)', id: '32bc7d6c-f850-4041-bcd8-55ccefbc347c' },
-      ] },
-    { name: 'druidlydude', id: '042be5cb-3ad7-4292-9dbc-d1bfc3aba88a', color: '#5ad0a0',
-      pic: 'optimized/042be5cb-3ad7-4292-9dbc-d1bfc3aba88a/c2765e09-9fbb-4ec3-ae2c-5b78d3325023.webp', novels: [
-        { novel: 'Integrated Domestic Android', id: '0f4481d3-e4a2-4292-bbc0-c2d01a5b8453' },
-        { novel: 'Meditate with Yllara', id: 'a4d06e92-5a7d-4755-a168-fd8ffb42ea40' },
-        { novel: 'WTF STEP BRO', id: '32d79bcc-6e60-42be-a6f4-23bbb906e6db' },
       ] },
     { name: 'Richard Wily', id: '18e1c3d3-84ac-4981-9446-e829829de9c1', color: '#6bb6ff',
       pic: 'optimized/18e1c3d3-84ac-4981-9446-e829829de9c1/af2e8c4a-189c-42c4-9a26-30f8504f7599.webp', novels: [
@@ -86,6 +88,7 @@
       ] },
     { name: 'Orion', id: 'ab30ad39-6d74-49cd-a2dc-8f7e155017b2', color: '#7cdb5a', novels: [
         { novel: 'Paradiso Suburbia', id: 'c99bd6b9-60c5-4c71-aed1-2f8410078767' },
+        { novel: 'Nupta Daemoni', id: 'bd4dd2ee-8212-4b96-a779-7f9697c16894' },
       ] },
     { name: 'Setsuna', id: '48b03b5c-5011-42e3-9886-f1dd2ee7df77', color: '#ff5a5a',
       pic: 'profile_48b03b5c-5011-42e3-9886-f1dd2ee7df77.jpeg', novels: [

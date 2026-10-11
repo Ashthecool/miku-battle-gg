@@ -88,6 +88,20 @@ Signature scenes for Exodus, In Her Care and Pastures Unknown (sprite-based, no 
 `proclaim` (Sakuragi: FATE / DESTINY / PROTAGONIST, a blue light and a sword drop) · `umbral` (Obliviahime: rune seal, bat swarm, dark column, "...As foretold.") ·
 `homesafe` (Care: lights flicker, every door slams shut round the target, a padlock) · `abduct` (Vachelle: wrong lever, then a saucer, a beam and a herd of cows).
 
+Signature scenes for Grove Keeper, Nupta Daemoni and Phantastic Experiments (sprite-based): `orderup` (Berry: hops over with a tray, stomps, the round
+lands, a sponge) · `mamabear` (Paloma: grows, roars, a giant paw) · `doeleap` (Holly: prancing leap past, back kick) · `antlerrush` (Spruce: metal horns,
+paws the dirt, ram) · `acornpop` (Ember: firecracker fizzles, a sneeze of sparks sets it off) · `fireinhole` (Rusty: drains a beer, lobs the can like a
+grenade) · `pilfer` (Lumin: darts round snatching snacks, a nip) · `spiltmilk` (Elsie Mae: trips, the milk pail flies) · `stampede` (Pippa: sniffs,
+whistles, farm animals run across) · `crystalray` (Dr. Volde: crystal charges, cackle, leyline beam) · `session` (Kiera: camera flash, clipboard of
+emotions, a precise jab, DIAGNOSED) · `soulweb` (Nephila: webs pull tight, the soul is drawn out) · `shamble` (Milo: lurching steps, a bite) ·
+`devotion` (Azrael: ring glint, blown hearts turn to hellfire) · `coolguy` (Ken: back turned, a pebble skips in, admires the rock) · `ofuda` (Rui:
+talismans, bell, a fox spirit) · `gyarustar` (Natsumi: gum bubble, a planet on a gravity assist) · `bigbrain` (Ayame: nonsense equation, loop-the-loop
+rocket, KABOOM). Their duos: `innsupper` (Paloma & Berry: last orders, stew pot, CLOSED) · `couplespat` (Spruce & Holly: argue, she steps aside, he
+rams the target) · `familyfire` (Rusty & Ember: her spark lights his can, he throws it) · `remember` (Lumin & Milo: a glow of recognition, a pounce) ·
+`haybale` (Pippa & Elsie Mae: a hay bale rolls over it) · `labnotes` (Dr. Volde & Kiera: contraption, "unstable", discharge) · `succubusclass` (Azrael &
+Maiko: a wink, a miss, then the bite) · `peerreview` (Ayame & Natsumi: the equation is corrected, a star falls) · `rocksample` (Ayame & Ken: he spots
+obsidian and throws it) · `exorcism` (Rui & Ayame: talisman on the beaker, it goes off anyway).
+
 Lines: `cry` (said as it winds up) and `finish` (over the target after the hit) work with every style and replace
 the style's own line where it has one; `sfx` adds an impact sound (any name from the Entrances `sfx` list). `lingo`/`hyper` take `words` [..], `stamp` a `mark`,
 `shout`/`pompom` a `shout`. Keep lines ≤ 30 chars.

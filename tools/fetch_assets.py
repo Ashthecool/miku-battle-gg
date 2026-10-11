@@ -60,6 +60,9 @@ SKIP_OUTFITS = {
     # Reincarnation Colosseum: Koko's speech-bubble image
     "jillian-peters/clear", "melony-peters/blank", "kayla-peters/clear", "ashton-peters/blank",
     "ashton-peters/naked", "ashton-peters/lewd", "koko/new-outfit",
+    # Grove Keeper, Nupta Daemoni, Phantastic Experiments: blank outfits and placeholder silhouettes (Masashi has no art)
+    "berry/blank", "holly/blank", "elsie-mae/clear", "azrael/lingerie", "ayame/new-outfit", "ken/new-outfit",
+    "natsumi/new-outfit", "masashi/default",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -93,6 +96,8 @@ NSFW_NOVELS = {"Noble One", "Integrated Domestic Android", "WTF STEP BRO", "Rein
 # all alike ("background-47", some of them twice)
 NSFW_BACKGROUNDS = {
     "Paradiso Suburbia/CGH1",
+    # Grove Keeper: the milking and spill CGs
+    "Grove Keeper/Elsie mae milking", "Grove Keeper/Berry Spill 1", "Grove Keeper/Berry Spill 2",
     # Cries behind Snowfall: the bloody crime-scene CGs
     "bffc1c4e-d26d-47b6-ac94-aea6b8d30dfb", "db3cdb43-1558-4de2-8eb3-eafd11a809e2", "1df80627-0bb7-4d5f-a2ea-1c83db9c0fb3",
     "b6e7b8d8-8472-48a5-a2ac-97d0c8e1c970", "9135b340-fe2f-4c10-8735-3875df5897ac", "087b6138-6e29-4723-9351-60e03b6cf2b7",
@@ -148,6 +153,10 @@ ONLY_CHARACTERS = {
     "Academia Magicka: Entrance Ceremony [DEMO]": {"beatrice", "jeffery", "ruby", "steel", "irene", "charlotte", "thomas",
                                                    "elyssa", "gwendolyn", "howard", "hailey", "rion",
                                                    "marianne", "makoto", "nevaeh", "hubertson", "farigh-anterim", "aria", "licht"},
+    # Wenshir town's core: the inn (Berry, Paloma), the Stagroes, Ember and her father, Lumin, her zombie brother Milo
+    # and the spider who killed him, the farm (Pippa, Elsie Mae) and the gnome lab (Dr Volde, Kiera)
+    "Grove Keeper": {"berry", "paloma", "holly", "spruce", "ember", "rusty", "lumin", "milo", "nephila", "pippa",
+                     "elsie-mae", "dr-volde", "kiera"},
     # the named cast (without the nameless workers, guards and goons)
     "Cyber Delivery": {"dani", "kat-13", "stv-3", "takeda", "jet", "lamina", "seo-jin-tae", "nikita", "mel", "crash",
                        "hope", "pedro"},
