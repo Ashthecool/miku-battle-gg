@@ -12260,8 +12260,8 @@
   },
   {
    "id": "andrew",
-   "name": "Andrew",
-   "outfit": "Andrew 1",
+   "name": "Adam",
+   "outfit": "Adam 1",
    "short": "Marija's Husband, a Tree Surgeon-turned biologist from Earth 7",
    "traits": [
     "Mexican accent",
@@ -12283,7 +12283,7 @@
    "costumes": [
     {
      "id": "andrew-2",
-     "name": "Andrew 2",
+     "name": "Adam 2",
      "sprites": {
       "idle": "sprites/andrew/andrew-2/neutral.webp",
       "play": "sprites/andrew/andrew-2/happy.webp",
@@ -12297,7 +12297,7 @@
     },
     {
      "id": "andrew-3",
-     "name": "Andrew 3",
+     "name": "Adam 3",
      "sprites": {
       "idle": "sprites/andrew/andrew-3/desire.webp",
       "play": "sprites/andrew/andrew-3/desire.webp",

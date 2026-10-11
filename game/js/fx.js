@@ -5977,7 +5977,7 @@
     await glowDown(v);
   };
 
-  // Andrew: once a tree surgeon, always a tree surgeon. A tree shoots up beside the target, three chops of the axe with
+  // Adam (Earth 7's Andrew): once a tree surgeon, always a tree surgeon. A tree shoots up beside the target, three chops of the axe with
   // the chips flying, TIMBER!, and it comes down right on top of it
   S.timber = async (V, a, t, impact) => {
     const { v, A, T, hT, c } = ctx(V, a, t), tv = victim(V, t), H = V.heightOf(a);
