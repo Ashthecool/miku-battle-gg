@@ -13,6 +13,28 @@ Use this for new character attacks and for reports that an attack misses, clips,
 - Write a short beat sheet before coding: **personality cue → wind-up → visible path → contact → reaction → cleanup**. Choose a style from `game/js/fx.js` / `game/js/data.js` when it already tells that story. Add a signature style only when its staging is meaningfully distinct.
 - Use `attack.emoji` or existing art for props. If the prop is one of the illustrated IDs in `game/js/attack-art.js`, it renders as an illustrated sprite. Avoid generic effects that obscure the character's own behavior.
 
+## New effects first
+
+Each new character gets **new visual effects**, not a remix of the old particles (`burst`, `puff`, `flameBurst`, `ring`, `pillar`, `scatter`, the emoji
+rain). For every novel:
+
+1. List what each character's attack is *made of* (a web, a paw, a talisman, a splash, a chalkboard) and draw it: an inline SVG (paths, gradients,
+   `class="d"` strokes drawn in with `draw()`) or a CSS shape, standing as a billboard (`svgBB`) or lying on the floor (`svgFlat`). Emoji are fine as
+   *props* that fly; the effect that lands must be drawn.
+2. Make each one a reusable **drawn effect** in fx.js ("drawn effects", above the novel's styles): an `RFX.<name> = async (V, t, r, F, land, o)` that
+   draws, calls `land(i)` **once the drawing touches the target** (create the billboard first, then land, or the checker sees nothing at the hit),
+   and removes every node before it resolves. Small building blocks that don't hit go next to them as plain helpers. Style its classes with `.dfx.<name>`
+   at the end of `style.css`, and add it to the recipe `fx` list in `add-novel/catalog.md`.
+3. Build the signature attacks on them: `const { r, land } = kit(V, a, t, impact)`, then `await RFX.web(V, t, r, r.A, land, o)`; chain several
+   (a web, then the soul pulled out), and pass a no-damage `land` such as `() => hit(V, t, r.c, false)` to an effect that only sets up the real hit.
+4. Never loop a sound with `repeat: -1` or a self-rescheduling `delayedCall`: an attack that is cut short leaves it playing forever. Give
+   sound loops a finite `repeat`.
+
+The drawn effects so far (Grove Keeper, Nupta Daemoni, Phantastic Experiments): `web`, `soulpull`, `splash`, `paw`, `trample`, `prism`, `firework`,
+`kaboom`, `ofuda`, `chalk`, `planet`, `heartfire`, `skip`, `viewfinder`, `bale`, `toll`, `warmth`, `jaws`; helpers `tracks` (hoof, paw, bunny,
+mouse, shoe prints), `speedLines`, `impactStar`, `chalkboard`, `soundArcs`, `scentLines`, `shards`. Reuse one for a later character only when it
+truly fits; otherwise draw a new one.
+
 ## Geometry and hit timing
 
 - Board coordinates are 1180 × 760; slots are at x 215, 465, 715, 965, with opposite rows y 232 and 548. The perspective camera and the gallery panel reduce usable screen space, especially around far and side slots. Use `ctx(V,a,t)` for attacker/target positions and `V.heightOf(t)` for the target's height. `r.T` is the target's floor point; `r.hT` is its visual center. Prefer `arc` and `path` for thrown props, with the final sample at `{x:r.T.x, y:r.T.y, h:r.hT}`. For melee, use `r.C` to stop short of the target.

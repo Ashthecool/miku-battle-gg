@@ -2742,3 +2742,46 @@ body.dev .dev-only { display: flex !important; }
 .hare-shadow svg, .rabbit-bot svg, .bat-flock svg { display: block; overflow: visible; }
 .rabbit-bot { filter: drop-shadow(0 5px 5px rgba(0,0,0,.45)); }
 .bat-flock { filter: drop-shadow(0 0 8px var(--c)); }
+
+/* drawn effects (fx.js "drawn effects"): SVG billboards and floor marks */
+.dfx svg { display: block; overflow: visible; }
+.dfx.track { opacity: .85; filter: drop-shadow(0 1px 0 #fff3); }
+.dfx.speed-lines { filter: drop-shadow(0 0 4px var(--c)); opacity: .9; }
+.dfx.impact-star { filter: drop-shadow(0 4px 6px #0008); }
+.dfx.impact-star b, .dfx.kaboom b, .dfx.viewfinder b { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-6deg);
+  font: 900 28px 'Segoe UI', sans-serif; color: #fff; -webkit-text-stroke: 2px #1a0a10; letter-spacing: 1px; white-space: nowrap; }
+.dfx.kaboom b { font-size: 34px; color: #fff3a0; -webkit-text-stroke: 3px #3a1a10; }
+.dfx.viewfinder b { left: 22%; top: 12%; transform: none; font-size: 16px; color: #ff3a3a; -webkit-text-stroke: 0; }
+.dfx.chalkboard { background: #23402e; border: 7px solid #7a4a2a; border-radius: 6px; padding: 8px 16px; box-shadow: 0 8px 14px #0008, inset 0 0 18px #0006;
+  font: 700 22px 'Segoe Print', 'Comic Sans MS', cursive; color: #f4f4ea; text-shadow: 0 0 2px #fffa; text-align: left; }
+.dfx.chalkboard i { display: block; font-style: normal; line-height: 1.35; }
+.dfx.sound-arc, .dfx.scent { filter: drop-shadow(0 0 5px var(--c)); }
+.dfx.web-net { filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px var(--c)); }
+.dfx.wisp { filter: drop-shadow(0 0 10px #c8f4ff) drop-shadow(0 0 24px #7ad8ff); }
+.dfx.splash-crown, .dfx.drop { filter: drop-shadow(0 3px 3px #0005); }
+.flat.dfx.puddle { opacity: .9; }
+.flat.dfx.paw-shadow { width: 170px; height: 110px; border-radius: 50%; background: radial-gradient(#000c, #0000 70%); }
+.dfx.paw-drop { filter: drop-shadow(0 10px 8px #0008); }
+.flat.dfx.paw-print { opacity: .7; }
+.dfx.gem { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 0 20px var(--c)); }
+.dfx.prism-seg { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(#fff 0 30%, var(--c) 60%, transparent 72%);
+  box-shadow: 0 0 18px var(--c), 0 0 36px var(--c); }
+.dfx.shard { filter: drop-shadow(0 0 6px #fff); }
+.dfx.starburst { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 16px var(--c)); }
+.dfx.kaboom { filter: drop-shadow(0 6px 8px #0007); }
+.dfx.ofuda { filter: drop-shadow(0 3px 4px #0006); }
+.flat.dfx.seal { filter: drop-shadow(0 0 8px #ff4a5a) drop-shadow(0 0 18px #ff4a5a); }
+.flat.dfx.orbit-line { filter: drop-shadow(0 0 6px #fff3a0); }
+.dfx.planet { filter: drop-shadow(0 0 10px var(--c)); }
+.dfx.heartfire { filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 0 24px #ff5a1f); }
+.dfx.heartfire .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: dfx-flicker .16s ease-in-out infinite alternate; }
+@keyframes dfx-flicker { from { transform: scaleY(.75) skewX(-6deg); } to { transform: scaleY(1.2) skewX(6deg); } }
+.flat.dfx.ripple { filter: drop-shadow(0 0 4px #fff); }
+.dfx.viewfinder { filter: drop-shadow(0 0 3px #000); }
+.dfx.bale { filter: drop-shadow(0 8px 6px #0007); }
+.dfx.bell { filter: drop-shadow(0 0 10px #ffe08a); }
+.dfx.warm-orb { width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(#fff 0 12%, var(--c) 40%, transparent 70%); opacity: .9;
+  mix-blend-mode: screen; }
+.flat.dfx.warm-ring { filter: drop-shadow(0 0 10px #ffd88a) drop-shadow(0 0 22px #ffb347); }
+.dfx.jaw { filter: drop-shadow(0 4px 4px #0008); }
+.dfx.gum { filter: drop-shadow(0 2px 3px #0005); }

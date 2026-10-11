@@ -123,6 +123,7 @@ Design rules:
 - **Rarity mix per novel**: ~40% common, 30% rare, 20% epic, 10% legendary (the leads/bosses). Commons are
   owned from the start, so the common cards should be simple and fun.
 - **Powers** cost 2 (small) or 3 (card draw, strong), never more; they must be usable most turns.
+- **New effects**: every novel brings new drawn effects of its own (attack-animation skill, "New effects first"), and its attacks are built on them.
 - **Variety**: don't give two characters of one novel the same attack style or entrance; mix the generic
   styles with `emoji`, give styles their own `cry`/`finish` lines, build attack recipes (`move` + `fx` + props),
   and use `intro` recipes. Colors should match the character's look.

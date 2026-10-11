@@ -125,6 +125,14 @@ attack: { name: 'Cat Scratch Combo', color: '#ff9a3c', move: 'blink', fx: 'slash
   the floor splits) · `fissure` (crack + light erupting in a line) · `helix` (props corkscrew over) · `ricochet` (props skip along the
   floor) · `whip` (light whip lashes out) · `crush` (shadow, then a huge prop drops) · `comet` (arcs up and dives) · `ribbon` (props
   stream over weaving) · `pulse` (force rings shake the target) · `roll` (boulder rolls over it) · `lasers` (beams stab from the sky)
+- Drawn effects (hand-drawn SVG, see the attack-animation skill; options in `o`): `web` (a web is spun over it and pulled tight; `thread`) ·
+  `soulpull` (a wisp is torn out and floats to the attacker; `soul`) · `splash` (liquid crown, drops, puddle; `liquid`) · `paw` (shadow, then a giant
+  paw and its print; `fur`) · `trample` (a herd runs across, hoofprints; `prop` = animals) · `prism` (a crystal charges, rainbow beam, shards) ·
+  `firework` (rocket + drawn starburst; `colors`) · `kaboom` (cartoon explosion cloud; `word`, `cloud`) · `ofuda` (paper talismans + a drawn seal) ·
+  `chalk` (a chalkboard is written on, then lands on its head; `words`) · `planet` (an orbit on the floor, a ringed planet spirals in) ·
+  `heartfire` (a heart outline fills and catches fire) · `skip` (a stone skips in, ripples; `prop`) · `viewfinder` (camera brackets, REC, the
+  shutter) · `bale` (a hay bale rolls over it) · `toll` (a bell swings, sound arcs strike; `bell`, `waves`) · `warmth` (a golden glow rolls over
+  and hugs it; `glow`) · `jaws` (drawn jaws snap shut; `jawSize`)
 - `prop`: emoji or list for throw/volley/rain/orbit · `hits`: how many (1-20) · `floor`: `splat` `frost` `sigil`
   `whirlpool` `ring` decal · `scatter`: emoji flung out on impact · `big`: bigger hit + shake · `shake`: strength
 - Defaults: fx `hit` → move `dash`; other fx → move `stay`; move only → `hit` (melee) or `throw` (stay/float).
