@@ -126,6 +126,41 @@ Freesound, all CC0 (no attribution required, listed anyway). The game plays thes
 | chain | chain-536737.mp3 | Chain.ogg | egomassive | https://freesound.org/people/egomassive/sounds/536737/ |
 | karate | karate-443535.mp3 | _karate_.wav | juliandmc4 | https://freesound.org/people/juliandmc4/sounds/443535/ |
 | riserhit | riserhit-511874.mp3 | Riser Hit sfx 031.wav | AudioPapkin | https://freesound.org/people/AudioPapkin/sounds/511874/ |
+| scribble | scribble-211247.mp3 | Scribble | Tomoyo Ichijouji | https://freesound.org/people/Tomoyo Ichijouji/sounds/211247/ |
+| pageflip | pageflip-397548.mp3 | Page Turn 01 | LilMati | https://freesound.org/people/LilMati/sounds/397548/ |
+| bookslam | bookslam-319809.mp3 | Book slamming shut 1 | zmobie | https://freesound.org/people/zmobie/sounds/319809/ |
+| cork | cork-392624.mp3 | Champagne Cork | KenRT | https://freesound.org/people/KenRT/sounds/392624/ |
+| jingle | jingle-369506.mp3 | Sleigh bells hit | Selector | https://freesound.org/people/Selector/sounds/369506/ |
+| bat | bat-445958.mp3 | Cartoon - Bat / Mouse Squeak | Breviceps | https://freesound.org/people/Breviceps/sounds/445958/ |
+| blip | blip-431329.mp3 | 8-Bit Powerup | SomeGuy22 | https://freesound.org/people/SomeGuy22/sounds/431329/ |
+| cardboard | cardboard-364740.mp3 | open-cardboard-box-compartment.wav | newagesoup | https://freesound.org/people/newagesoup/sounds/364740/ |
+| sweep | sweep-154376.mp3 | broom sweep.wav | semccab | https://freesound.org/people/semccab/sounds/154376/ |
+| creak | creak-377552.mp3 | Wooden Creak | Mafon2 | https://freesound.org/people/Mafon2/sounds/377552/ |
+| chime | chime-376745.mp3 | Fantasy_ui_Button_3.wav | ZenithInfinitiveStudios | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745/ |
+| ooh | ooh-870651.mp3 | Group Ooh 2 | CHallSmith | https://freesound.org/people/CHallSmith/sounds/870651/ |
+| gulp | gulp-450624.mp3 | Cartoon - Gulp! | Breviceps | https://freesound.org/people/Breviceps/sounds/450624/ |
+| spray | spray-200371.mp3 | Spray Paint Shake Once.wav | cbakos | https://freesound.org/people/cbakos/sounds/200371/ |
+| typewriter | typewriter-406243.mp3 | Typewriter ding_near_mono.wav | _stubb | https://freesound.org/people/_stubb/sounds/406243/ |
+| blowout | blowout-242867.mp3 | blowing out candle.wav | Reitanna | https://freesound.org/people/Reitanna/sounds/242867/ |
+| stamp | stamp-683031.mp3 | Thump.mp3 | mpuffenbarger | https://freesound.org/people/mpuffenbarger/sounds/683031/ |
+| keys | keys-788310.mp3 | Key Pickup | RealSquink | https://freesound.org/people/RealSquink/sounds/788310/ |
+| rubberband | rubberband-351373.mp3 | TentacleSnap.mp3 | wilhellboy | https://freesound.org/people/wilhellboy/sounds/351373/ |
+| pour | pour-207781.mp3 | Pouring Liquid.wav | Dvideoguy | https://freesound.org/people/Dvideoguy/sounds/207781/ |
+| ghostly | ghostly-359153.mp3 | Ghostly Sigh.wav | HorrorAudio | https://freesound.org/people/HorrorAudio/sounds/359153/ |
+| servicebell | servicebell-243701.mp3 | correct | ertfelda | https://freesound.org/people/ertfelda/sounds/243701/ |
+| clownhorn | clownhorn-251611.mp3 | Clown_Horn.mp3 | inplay | https://freesound.org/people/inplay/sounds/251611/ |
+| singingbowl | singingbowl-478658.mp3 | ping.ogg | xUMR | https://freesound.org/people/xUMR/sounds/478658/ |
+| partyhorn | partyhorn-170583.mp3 | Party horn.wav | audiosmedia | https://freesound.org/people/audiosmedia/sounds/170583/ |
+| clap | clap-147597.mp3 | never be clap.wav | kendallbear | https://freesound.org/people/kendallbear/sounds/147597/ |
+| growl | growl-85568.mp3 | DRAGON_ROAR.wav | JoelAudio | https://freesound.org/people/JoelAudio/sounds/85568/ |
+| shush | shush-151224.mp3 | Shush! | OwlStorm | https://freesound.org/people/OwlStorm/sounds/151224/ |
+| canopen | canopen-61392.mp3 | BeerCanOpening.aif | gleepglop | https://freesound.org/people/gleepglop/sounds/61392/ |
+| vending | vending-696746.mp3 | lever.wav | Krokulator | https://freesound.org/people/Krokulator/sounds/696746/ |
+| fizz | fizz-347007.mp3 | Open bottle cap | Kinoton | https://freesound.org/people/Kinoton/sounds/347007/ |
+| stopwatch | stopwatch-54848.mp3 | Ticking Clock.wav | Izkhanilov | https://freesound.org/people/Izkhanilov/sounds/54848/ |
+| peel | peel-466203.mp3 | BookPeel.wav | Harrisando | https://freesound.org/people/Harrisando/sounds/466203/ |
+| marker | marker-321137.mp3 | Sharpie marker drawing circle 01.wav | elliott.klein | https://freesound.org/people/elliott.klein/sounds/321137/ |
+| rustle | rustle-327894.mp3 | Bush Cut.wav | Kreastricon62 | https://freesound.org/people/Kreastricon62/sounds/327894/ |
 
 ## User-supplied audio
 

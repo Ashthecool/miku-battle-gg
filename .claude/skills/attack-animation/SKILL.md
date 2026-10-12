@@ -38,6 +38,18 @@ and helpers `floorRing`, `beadLine` (a rope or chain of light between two spots)
 spring arm, a light cone), `grind`, `overhead(t, r, extra, half)` (how high a prop may hang over the target and stay on screen; the enemy row and
 leader are near the top). Reuse one for a later character only when it truly fits; otherwise draw a new one.
 
+## Rough.js and SVG.js (game/lib)
+
+- `sk(shapes)` sketches shapes with Rough.js into svg markup (strokes carry class `d`; `skDraw` draws them in with a pencil-scribble sound).
+  `morph(path, d)` morphs a plain path with SVG.js (same commands and point count; `blobD` makes morphable blobs).
+- `sjStage(V, P, h, w, hh, cls)` gives a billboard with an SVG.js canvas (`st.S`) and a Rough.js renderer into it (`st.rc`); use it for
+  masks (`maskWith`), clip wipes (`clipWith` + animated rect), text on paths (`text.path(d)` + animated `startOffset`), path morphs
+  (`.animate().plot()`), gradients and groups. `boil(parent, rc, make)` redraws rough shapes several times a second (hand-drawn "boiling").
+  SVG.js runs on its own clock: give it `sjms(seconds)` and sequence with `wait()` so hits stay on the GSAP clock. End with `fadeStage(st)`.
+  Effects check `libs()` and fall back to `kaboom` without the libraries (the Node checker).
+- Sounds: recorded samples live in `game/assets/sounds` (credited in its CREDITS.md) and register in `SAMPLES` with a synth stand-in in `SFX`
+  (audio.js). New CC0 sounds can be fetched from Freesound's API (preview-hq-mp3); ask the user for the API key, never commit it.
+
 ## Layering, duo partners and the camera
 
 - Effect billboards stand 75px toward the viewer (`.bb-stand.lift`, view.js), so whatever lands on a target is drawn over its sprite and over a melee

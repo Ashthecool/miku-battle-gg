@@ -196,6 +196,17 @@ throws a lifebuoy lasso) · `phasers` (both dive to cover, crossing beams) · `s
 ofuda) · `brimstone` (both rise, yin-yang of fire and sin, flames) · `puppetstrings` (1 laps the target leaving mouse prints, 0 webs it and
 pulls the strings) · `firstcontact` (0 hovers, two tractor-beam spotlights, 1 runs in for the photo) · `teddytag` (they hop to either side,
 heart halves lock) · `grapestomp` (they leap in either side, grape juice, alternating stomps).
+Sketched effects (Rough.js, hand-drawn look; fx names): `gardenbloom` `boardbreak` `brawlcloud` (outline morphs) `picketfence` (`word`) `bassdrop`
+`icecream` `coffeespill` (spill morphs) `baguette` `megaphone` (`words`) `roughrock` `checklist` (`items`) `booktower` `compass` `pageslash`
+`cheerpoms` (duo) `magnifier` `antlers` `bargraph` `ornament` `graffiti` `cheesepull` `dustsweep` `mangaframe` `tome` `roastmic` `champagne`
+`parcels` (duo) `pixelblast` `glitter` `batswarm`. SVG.js stages (masks, clip wipes, morphs, text on paths, boiling Rough.js lines): `hauntedhall`
+`candlelight` `receipt` (`items`, `total`) `scrollunfurl` (`tale`) `scales` (`word`) `decree` (`decree`, `wax`) `enso` `teaceremony` `flaskfeud`
+(`dates`) `synthscan` `tvstatic` (`ticker`) `maskswap` `keyhole` (`room`) `whisper` (`line`) `inboxstorm`.
+Duos built on them (`duoBeat`: a cry, each partner's own move, the effect, a finish): `gardenblessing` `honestchop` `noogierush` `grounded`
+`overlooked` `brainfreeze` `coffeerun` `ouioui` `clubwar` `rockbottom` `nobiting` `allnighter` `onechanguard` `bookmarkslash` `routinecheck`
+`factcheck` `doeduo` `dataclaws` `punchcocktail` `viralstunt` `cheeseedict` `dusterduo` `mangaliterature` `requiredreading` `familyroast`
+`hungoverdrill` `doubledelivery` `coopmode` `glitterbomb` `thornedbat` `hauntedwing` `lastorders` `customerservice` `yokailecture` `dramaticplea`
+`fateddecree` `mindfulbreathing` `quietcup` `facultyfeud` `synthpanic` `infernalgossip` `cosplayduo` `roomkey` `quietcompany` `replyall`.
 Single styles work for duos too.
 
 ## Entrances (`intro`, game/js/cards.js)

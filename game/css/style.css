@@ -2840,3 +2840,21 @@ body.dev .dev-only { display: flex !important; }
 .flat.dfx.portal { filter: drop-shadow(0 0 16px #b05ae8); }
 .flat.dfx.whirl { opacity: .9; }
 .flat.dfx.floor-ring { filter: drop-shadow(0 0 6px var(--c)); }
+
+/* sketched effects (Rough.js, fx.js "sketched effects") */
+[class*="dfx sk-"] { filter: drop-shadow(0 4px 4px #0006); }
+.dfx.sk-wave, .dfx.sk-x, .dfx.sk-geo, .dfx.sk-chop, .dfx.sk-tag, .dfx.sk-trend, .dfx.sk-garland, .dfx.sk-foam, .dfx.sk-cheese { filter: drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 2px #fff); }
+.dfx.sk-glitter, .dfx.sk-pixel, .dfx.sk-burn { filter: drop-shadow(0 0 8px #fff8); }
+.dfx.sk-flame { filter: drop-shadow(0 0 8px #ff7a2a); }
+.dfx.sk-sign b, .dfx.sk-shout b, .dfx.sk-panel b { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-4deg); font: 900 22px 'Segoe UI', sans-serif;
+  color: #2a1a1a; white-space: nowrap; pointer-events: none; }
+.dfx.sk-shout b { top: 48%; font-size: 18px; color: #c0182a; }
+.dfx.sk-panel b { top: auto; bottom: -18px; font-size: 30px; color: #fff; -webkit-text-stroke: 3px var(--c); }
+.dfx.buoy { filter: drop-shadow(0 5px 5px #0007); }
+
+/* SVG.js stages (fx.js "SVG.js stages") */
+.dfx.sj svg { display: block; overflow: visible; }
+.dfx.sj { filter: drop-shadow(0 5px 6px #0007); }
+.dfx.sj-scan, .dfx.sj-decree, .dfx.sj-hall { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 4px 4px #0006); }
+.dfx.sj-candle { filter: none; }
+.dfx.sj-glass, .dfx.sj-sun { filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 4px 4px #0006); }

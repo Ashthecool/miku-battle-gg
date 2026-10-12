@@ -15155,7 +15155,7 @@
 
   // ---- thornwrap: a thorny vine winds up round the target, sprouts thorns and leaves, squeezes, then withers
   RFX.thornwrap = async (V, t, r, F, land, o) => {
-    const H = Math.round(r.hT * 2.1), W = 160, N = 64, turns = 3.5, c = o.vine || '#3f8a3a';
+    const H = Math.round(Math.min(r.hT * 2.1, ceilOf(t, r) - 25)), W = 160, N = 64, turns = 3.5, c = o.vine || '#3f8a3a';
     let d = '', th = '';
     for (let i = 0; i <= N; i++) {
       const k = i / N, x = W / 2 + Math.sin(k * turns * Math.PI * 2) * (W / 2 - 14), y = H - 6 - k * (H - 12);
@@ -16187,6 +16187,7 @@
     land(0); MB.audio.sfx('splat');
     squash(victim(V, t), 0.7);
     gsap.to(cake.body, { scaleY: 0.6, duration: 0.1 });
+    MB.audio.sfx('pour');
     await RFX.inksplat(V, t, r, p.pos(1), land, { ink: '#c8781a' });
     drop(cake, 0, 0.3);
     pop(V, T, hT + 150, own(a, 'finish', 'Breakfast is served!'), 'float-text heal', 1.1);
@@ -16232,19 +16233,6 @@
     toss(ball, { v: [240, 400], dur: 0.7 });
     pop(V, T, hT + 160, own(a, 'finish', 'Two points!'), 'float-text burn', 1.1);
     await wait(0.4);
-    await p.home();
-  };
-
-  // Kai & Jace: Kai rides a great wave in while Jace sprints down the beach, whistles, and throws the lifebuoy
-  S.rescuesurf = async (V, a, t, impact) => {
-    const { r, land } = kit(V, a, t, impact), { T, hT } = r, H = V.heightOf(a), p = partners(V, a);
-    pop(V, p.pos(0), H + 30, own(a, 'cry', 'Surf\'s up!'), 'float-text heal', 0.9);
-    p.rush(1, besideOf(r, 1, 170), 0.5);
-    await Promise.all([RFX.greatwave(V, t, r, p.pos(0), land, { water: '#2ec4d6' }), wait(0.3).then(() => p.to(0, r.C, 0.5, 'power2.in'))]);
-    MB.audio.sfx('whistle');
-    pop(V, p.pos(1), H + 20, 'PWEEEET!', 'float-text shield', 0.7);
-    await RFX.lasso(V, t, r, p.pos(1), land, { rope: '#ff5a2a' });
-    pop(V, T, hT + 150, own(a, 'finish', 'Rescued. Sort of.'), 'float-text heal', 1.1);
     await p.home();
   };
 
@@ -16335,6 +16323,7 @@
     pop(V, p.pos(0), H + 50, own(a, 'cry', 'Oh! Um. Greetings, earthling!'), 'float-text heal', 1);
     await Promise.all([p.rise(0, 80, 0.5), p.hop(1, besideOf(r, 1, 160), 3, 0.6)]);
     pop(V, p.pos(1), H + 20, "I've read about this!!", 'float-text buff', 0.8);
+    MB.audio.sfx('blip');
     await RFX.spotlights(V, t, r, p.pos(0), land, { from2: p.pos(1), lights: ['#9affb0', '#c8ffe0'] });
     await RFX.viewfinder(V, t, r, p.pos(1), land, {});
     pop(V, T, hT + 150, own(a, 'finish', 'Proof of aliens!'), 'float-text heal', 1.1);
@@ -16347,6 +16336,7 @@
     const { r, land } = kit(V, a, t, impact), { T, hT } = r, H = V.heightOf(a), p = partners(V, a);
     pop(V, r.A, H + 30, own(a, 'cry', 'Tag-team! Teddy power!'), 'float-text heal', 0.9);
     await Promise.all([p.hop(0, besideOf(r, 0, 150), 3, 0.6), wait(0.15).then(() => p.hop(1, besideOf(r, 1, 150), 3, 0.6))]);
+    MB.audio.sfx('chime');
     await RFX.heartlock(V, t, r, p.pos(0), land, { from2: p.pos(1), colors: ['#ffb3dc', '#ff7ab0'] });
     pop(V, T, hT + 150, own(a, 'finish', 'TAG! You\'re it!'), 'float-text heal', 1.1);
     await Promise.all([p.hop(0, p.pos(0), 1, 0.25), p.hop(1, p.pos(1), 1, 0.25)]);
@@ -16365,9 +16355,1680 @@
       floorRing(V, p.pos(i % 2), '#8a3a9a', 60, 5);
       land(i + 1);
     }
+    MB.audio.sfx('gulp');
     pop(V, T, hT + 150, own(a, 'finish', 'Vintage!'), 'float-text heal', 1.1);
     await p.home();
   };
+
+  // ---------------------------------------------------------------- sketched effects (Rough.js + SVG.js, game/lib)
+  // sk(shapes) draws shapes as if sketched by hand with Rough.js (wobbly doubled strokes, hachure / zigzag / cross-hatch fills) and
+  // returns svg markup; unfilled strokes carry class "d" so draw() sketches them in. A shape is [kind, ...args, opts]: 'line' x1 y1 x2 y2,
+  // 'rectangle' x y w h, 'circle' cx cy diameter, 'ellipse' cx cy w h, 'path' d, 'polygon' [[x, y]...], 'linearPath' [[x, y]...].
+  // morph(path, d) turns a plain <path> into another shape with SVG.js (same commands, same number of points). Both libraries are
+  // optional: the Node checker has neither, so nothing here needs them at load time.
+  const RG = GW.rough ? GW.rough.generator() : null;
+  const SK = { roughness: 1.4, bowing: 1.2, strokeWidth: 3, stroke: '#2a1a2a', fillStyle: 'hachure', hachureGap: 6, fillWeight: 2 };
+  function skPlain(kind, a, o) {
+    const st = `stroke="${o.stroke}" stroke-width="${o.strokeWidth}" fill="${o.fill || 'none'}"`;
+    if (kind === 'line') return `<path class="d" d="M${a[0]} ${a[1]} L${a[2]} ${a[3]}" ${st}/>`;
+    if (kind === 'rectangle') return `<rect x="${a[0]}" y="${a[1]}" width="${a[2]}" height="${a[3]}" ${st}/>`;
+    if (kind === 'circle') return `<circle cx="${a[0]}" cy="${a[1]}" r="${a[2] / 2}" ${st}/>`;
+    if (kind === 'ellipse') return `<ellipse cx="${a[0]}" cy="${a[1]}" rx="${a[2] / 2}" ry="${a[3] / 2}" ${st}/>`;
+    if (kind === 'path') return `<path${o.fill ? '' : ' class="d"'} d="${a[0]}" ${st}/>`;
+    const pts = a[0].map((p) => p.join(',')).join(' ');
+    return kind === 'polygon' ? `<polygon points="${pts}" ${st}/>` : `<polyline class="d" points="${pts}" ${st}/>`;
+  }
+  function sk(shapes) {
+    return shapes.map((shape) => {
+      const [kind, ...raw] = shape, num = (x) => (Array.isArray(x) ? x.map(num) : typeof x === 'string' && x !== '' && !isNaN(x) ? +x : x);
+      const args = kind === 'path' ? raw : raw.map(num), last = args[args.length - 1];
+      const o = { ...SK, ...(last && typeof last === 'object' && !Array.isArray(last) ? args.pop() : {}) };
+      if (!RG) return skPlain(kind, args, o);
+      const dr = kind === 'path' ? RG.path(args[0], o) : kind === 'polygon' ? RG.polygon(args[0], o) : kind === 'linearPath' ? RG.linearPath(args[0], o) : RG[kind](...args, o);
+      return RG.toPaths(dr).map((p) => `<path${!p.fill || p.fill === 'none' ? ' class="d"' : ''} d="${p.d}" stroke="${p.stroke}" stroke-width="${p.strokeWidth}" fill="${p.fill || 'none'}" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+    }).join('');
+  }
+  const skSvg = (w, h, shapes, extra = '', size) => `<svg viewBox="0 0 ${w} ${h}" width="${size ? size[0] : w}" height="${size ? size[1] : h}">${sk(shapes)}${extra}</svg>`;
+  function morph(el, d, ms = 300, delay = 0) {
+    if (GW.SVG) { try { GW.SVG(el).animate(ms, delay, 'now').plot(d); return; } catch (e) { /* snap below */ } }
+    gsap.delayedCall((ms + delay) / 1000, () => el.setAttribute('d', d));
+  }
+  // a closed blob of n points round (cx, cy), radius R, each point pushed in or out by up to jit (same n -> morphable)
+  const blobD = (cx, cy, R, n = 14, jit = 0.25, sy = 0.82) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2, rr = R * (1 + rnd(-jit, jit)); return `${i ? 'L' : 'M'}${f1(cx + Math.cos(a) * rr)} ${f1(cy + Math.sin(a) * rr * sy)}`; }).join(' ') + 'Z';
+  // draw() with a pencil scribble: every sketched stroke is heard being drawn
+  const skDraw = (els, vars) => { MB.audio.sfx('scribble'); return draw(els, vars); };
+  const steamUp = (V, P, h, c = '#ffffff', delay = 0) => {
+    const st = svgBB(V, P, h, 'sk-steam', skSvg(30, 80, [['path', 'M15 78 C2 60 28 50 15 34 C2 18 28 10 15 2', { stroke: c, strokeWidth: 3 }]], '', [24, 64]), c);
+    skDraw(st.body.querySelectorAll('.d'), { duration: 0.4, delay });
+    gsap.to(st.body, { y: '-=45', opacity: 0, duration: 0.8, delay: delay + 0.2, onComplete: () => st.remove() });
+  };
+
+  // ---- gardenbloom: sketched flowers spring up in a ring round the target, lean in together and burst into petals
+  const flowerSk = (c) => skSvg(60, 96, [['line', 30, 92, 30, 40, { stroke: '#3f8a3a', strokeWidth: 4 }], ['ellipse', 20, 68, 18, 9, { fill: '#6fcf5a', fillStyle: 'solid', stroke: '#2a5a1a', strokeWidth: 2 }],
+    ...[0, 1, 2, 3, 4].map((i) => { const a = (i / 5) * Math.PI * 2; return ['circle', 30 + Math.cos(a) * 12, 28 + Math.sin(a) * 12, 18, { fill: c, fillStyle: 'solid', stroke: '#7a2a4a', strokeWidth: 2 }]; }),
+    ['circle', 30, 28, 12, { fill: '#ffd84a', fillStyle: 'solid', strokeWidth: 2 }]]);
+  RFX.gardenbloom = async (V, t, r, F, land, o) => {
+    const R = t.isLeader ? 70 : 90, fl = [], cols = o.colors || ['#ff8ac0', '#ffd0f0', '#c8a8ff'];
+    MB.audio.sfx('grow'); MB.audio.sfx('chime');
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2, P = { x: r.T.x + Math.cos(a) * R, y: r.T.y + Math.sin(a) * R * 0.45 }, b = svgBB(V, P, 48, 'sk-flower', flowerSk(MB.pick(cols)), r.c);
+      gsap.set(b.body, { transformOrigin: '50% 100%' });
+      gsap.fromTo(b.body, { scaleY: 0 }, { scaleY: 1, duration: 0.3, delay: i * 0.06, ease: 'back.out(2)' });
+      fl.push({ b, P });
+    }
+    await wait(0.7);
+    MB.audio.sfx('vines');
+    await Promise.all(fl.map(({ b, P }) => gsap.to(b.body, { rotation: (P.x < r.T.x ? 1 : -1) * 35, duration: 0.2, ease: 'power2.in' })));
+    lands(land, o);
+    tint(victim(V, t), 'saturate(1.6) hue-rotate(60deg)', 0.8);
+    for (let i = 0; i < 10; i++) toss(svgBB(V, r.T, r.hT, 'petal-d', petalSvg(MB.pick(cols)), r.c), { v: [200, 380], ang: [-160, -20], dur: 0.7, spin: 200 });
+    fl.forEach(({ b }, i) => gsap.to(b.body, { scaleY: 0, duration: 0.25, delay: 0.3 + i * 0.03, onComplete: () => b.remove() }));
+    await wait(0.7);
+  };
+
+  // ---- boardbreak: a sketched wooden board is held up in front of the target and a karate chop splits it in two
+  RFX.boardbreak = async (V, t, r, F, land, o) => {
+    const W = 150, H = 46, half = () => skSvg(W / 2, H, [['rectangle', 2, 2, W / 2 - 4, H - 4, { fill: '#d8a868', fillStyle: 'solid', stroke: '#6a4a1a' }], ['line', 6, 14, W / 2 - 8, 12, { stroke: '#a8783a', strokeWidth: 2 }], ['line', 6, 30, W / 2 - 8, 32, { stroke: '#a8783a', strokeWidth: 2 }]]);
+    const hs = [0, 1].map((i) => { const b = svgBB(V, r.T, r.hT * 1.1, 'sk-board', half(), r.c); gsap.set(b.body, { x: (i ? 1 : -1) * W / 4 }); return b; });
+    gsap.fromTo(hs.map((b) => b.body), { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    await wait(0.4);
+    const chop = svgBB(V, r.T, r.hT * 1.1 + 60, 'sk-chop', skSvg(80, 120, [['path', 'M10 10 Q70 50 40 115', { stroke: r.c, strokeWidth: 6, roughness: 2 }]]), r.c);
+    await skDraw(chop.body.querySelectorAll('.d'), { duration: 0.12, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('karate'); MB.audio.sfx('crunch'); V.shake(10);
+    hs.forEach((b, i) => gsap.to(b.body, { rotation: (i ? 1 : -1) * 50, x: (i ? 1 : -1) * 90, y: '+=60', opacity: 0, duration: 0.5, ease: 'power2.in', onComplete: () => b.remove() }));
+    impactStar(V, r.T, Math.min(r.hT * 1.4, ceilOf(t, r) - 70), '#ffd84a', o.word || 'HI-YAH!', 130);
+    drop(chop, 0.1, 0.2);
+    await wait(0.55);
+  };
+
+  // ---- brawlcloud: a cartoon fight cloud (its outline morphing as it boils, fists and stars sticking out) swallows the target
+  RFX.brawlcloud = async (V, t, r, F, land, o) => {
+    const S = t.isLeader ? 180 : 210, extras = sk([['line', 30, 60, -4, 40, { strokeWidth: 6 }], ['circle', -8, 38, 18, { fill: '#f0c8a0', fillStyle: 'solid' }], ['line', 170, 150, 206, 166, { strokeWidth: 6 }],
+      ['circle', 208, 168, 20, { fill: '#3a2a2a', fillStyle: 'solid' }], ['polygon', [[150, 20], [158, 4], [164, 22], [180, 20], [166, 30], [172, 46], [158, 36], [146, 44], [150, 30], [136, 24]], { fill: '#ffd84a', fillStyle: 'solid' }]]);
+    const cl = svgBB(V, r.T, r.hT, 'sk-brawl', `<svg viewBox="0 0 200 200" width="${S}" height="${S}"><path class="blob" d="${blobD(100, 100, 82, 14, 0.2)}" fill="${o.cloud || '#ece8f2'}" stroke="#3a2a4a" stroke-width="5" stroke-linejoin="round"/>${extras}</svg>`, r.c);
+    const blob = cl.body.querySelector('.blob');
+    gsap.fromTo(cl.body, { scale: 0.2 }, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    lands(land, o);
+    MB.audio.sfx('pow');
+    for (let i = 1; i <= 4; i++) {
+      morph(blob, blobD(100, 100, 82, 14, 0.24), 110);
+      await gsap.to(cl.body, { x: rnd(-14, 14), rotation: rnd(-12, 12), duration: 0.1 });
+      land(i);
+      MB.audio.sfx(MB.pick(['punch', 'bonk', 'pow', 'squeak']));
+      if (i % 2) pop(V, { x: r.T.x + rnd(-60, 60), y: r.T.y }, Math.min(r.hT * 1.7, ceilOf(t, r) - 20), MB.pick(['POW!', 'BIFF!', 'OOF!', 'WHAM!']), 'float-text baka', 0.5);
+    }
+    gsap.to(cl.body, { scale: 1.3, opacity: 0, duration: 0.3, onComplete: () => cl.remove() });
+    await wait(0.35);
+  };
+
+  // ---- picketfence: a picket fence shoots up round the target and a GROUNDED sign comes down on its head (o.word, o.sign)
+  RFX.picketfence = async (V, t, r, F, land, o) => {
+    const W = 200, pk = Array.from({ length: 7 }, (_, i) => ['polygon', [[8 + i * 27, 70], [8 + i * 27, 18], [19 + i * 27, 4], [30 + i * 27, 18], [30 + i * 27, 70]], { fill: '#fffaf0', fillStyle: 'solid', stroke: '#5a4a3a' }]);
+    const fence = svgBB(V, r.T, 38, 'sk-fence', skSvg(W, 76, [...pk, ['line', 2, 30, W - 2, 32, { strokeWidth: 4 }], ['line', 2, 56, W - 2, 54, { strokeWidth: 4 }]]), r.c);
+    gsap.set(fence.body, { transformOrigin: '50% 100%' });
+    MB.audio.sfx('rumble'); MB.audio.sfx('creak');
+    await gsap.fromTo(fence.body, { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: 'back.out(2)' });
+    const sign = svgBB(V, r.T, overhead(t, r, 80, 40), 'sk-sign', skSvg(170, 70, [['rectangle', 4, 4, 162, 52, { fill: o.sign || '#ffd84a', fillStyle: 'solid', stroke: '#3a2a1a', strokeWidth: 4 }], ['line', 85, 56, 85, 70, { strokeWidth: 5 }]]) + `<b>${o.word || 'GROUNDED!'}</b>`, r.c);
+    gsap.fromTo(sign.body, { scale: 0, rotation: -20 }, { scale: 1, rotation: -4, duration: 0.25, ease: 'back.out(2)' });
+    await wait(0.4);
+    MB.audio.sfx('whoosh');
+    await gsap.to(sign.body, { y: -r.hT * 1.15, rotation: 4, duration: 0.18, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('slam'); V.shake(12); squash(victim(V, t), 0.7);
+    await wait(0.45);
+    drop(sign, 0, 0.25);
+    gsap.to(fence.body, { scaleY: 0, duration: 0.25, delay: 0.1, onComplete: () => fence.remove() });
+    await wait(0.4);
+  };
+
+  // ---- bassdrop: a sketched speaker thumps three times; each beat sends a wobbly ring across the board into the target
+  RFX.bassdrop = async (V, t, r, F, land, o) => {
+    const sp = svgBB(V, F, r.hA, 'sk-speaker', skSvg(90, 120, [['rectangle', 4, 4, 82, 112, { fill: '#2a2a3a', fillStyle: 'solid', stroke: '#0a0a12' }], ['circle', 45, 40, 40, { fill: '#5a5a7a', fillStyle: 'solid' }], ['circle', 45, 84, 30, { fill: '#5a5a7a', fillStyle: 'solid' }]], '', [80, 106]), r.c);
+    gsap.fromTo(sp.body, { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    await wait(0.25);
+    const rings = [];
+    for (let i = 0; i < 3; i++) {
+      MB.audio.sfx('pulse');
+      gsap.fromTo(sp.body, { scale: 1.15 }, { scale: 1, duration: 0.15 });
+      const ring = svgBB(V, F, r.hA, 'sk-wave', skSvg(120, 120, [['circle', 60, 60, 100, { stroke: o.wave || r.c, strokeWidth: 5, roughness: 2.5 }]], '', [110, 110]), r.c);
+      rings.push(path(ring, (k) => ({ x: lerp(F.x, r.T.x, k), y: lerp(F.y, r.T.y, k), h: lerp(r.hA, r.hT, k), s: 0.5 + k * 1.2 }), 0.35, 'power1.in').then(() => { land(i); if (!i) V.shake(10); drop(ring, 0, 0.15); }));
+      await wait(0.18);
+    }
+    await Promise.all(rings);
+    tint(victim(V, t), 'contrast(1.6) saturate(1.5)', 0.5);
+    drop(sp, 0.1, 0.25);
+    await wait(0.35);
+  };
+
+  // ---- icecream: a giant cone is turned upside down onto the target's head; it drips (o.scoop)
+  RFX.icecream = async (V, t, r, F, land, o) => {
+    const c = o.scoop || '#8fe8ff', top = overhead(t, r, 140, 110);
+    const cone = svgBB(V, r.T, top, 'sk-cone', skSvg(100, 150, [['polygon', [[14, 60], [86, 60], [50, 146]], { fill: '#d8a050', fillStyle: 'cross-hatch', hachureGap: 8, stroke: '#7a4a1a' }], ['circle', 50, 48, 70, { fill: c, fillStyle: 'solid', stroke: '#3a6a8a' }], ['circle', 50, 14, 26, { fill: '#e8203a', fillStyle: 'solid' }]], '', [96, 144]), r.c);
+    gsap.fromTo(cone.body, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    await wait(0.3);
+    MB.audio.sfx('whoosh');
+    await gsap.to(cone.body, { rotation: 180, duration: 0.25 });
+    await gsap.to(cone.body, { y: -Math.min(r.hT * 1.5, ceilOf(t, r) - 80), duration: 0.2, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('splat'); MB.audio.sfx('freeze'); MB.audio.sfx('gulp');
+    tint(victim(V, t), 'brightness(1.3) hue-rotate(160deg)', 1);
+    const dr = svgBB(V, r.T, r.hT * 1.15, 'sk-drip', skSvg(120, 80, [['path', 'M10 4 Q14 50 22 60 Q30 50 30 4Z M50 4 Q52 70 60 76 Q68 70 70 4Z M88 4 Q92 40 98 50 Q106 40 108 4Z', { fill: c, fillStyle: 'solid', stroke: '#3a6a8a', strokeWidth: 2 }]]), c);
+    gsap.fromTo(dr.body, { scaleY: 0, transformOrigin: '50% 0%' }, { scaleY: 1, duration: 0.5 });
+    await wait(0.6);
+    drop(cone, 0, 0.3); drop(dr, 0.1, 0.3);
+    await wait(0.4);
+  };
+
+  // ---- coffeespill: a sketched coffee cup is lobbed over and tips out on the target; the spill spreads (morphing) and steams
+  RFX.coffeespill = async (V, t, r, F, land, o) => {
+    const cup = svgBB(V, F, r.hA, 'sk-cup', skSvg(70, 80, [['polygon', [[6, 14], [56, 14], [50, 76], [12, 76]], { fill: '#fffaf0', fillStyle: 'solid', stroke: '#5a3a2a' }], ['rectangle', 4, 6, 54, 10, { fill: '#7a4a2a', fillStyle: 'solid' }], ['path', 'M56 28 C70 30 70 54 52 56', { strokeWidth: 4 }], ['rectangle', 14, 36, 34, 16, { fill: o.sleeve || '#c98a5a', fillStyle: 'solid', strokeWidth: 2 }]], '', [62, 71]), r.c);
+    MB.audio.sfx('whoosh');
+    await path(cup, (k) => ({ ...arc(F, r.T, r.hA, r.hT * 1.6, 120)(k), r: k * 200 }), 0.55, 'power1.in');
+    const c = o.coffee || '#6a3a1a', sp = svgBB(V, r.T, r.hT * 1.2, 'sk-spill', `<svg viewBox="0 0 160 140" width="150" height="131"><path class="blob" d="${blobD(80, 60, 30, 16, 0.3, 0.9)}" fill="${c}" stroke="#3a1a0a" stroke-width="4" stroke-linejoin="round"/></svg>`, r.c);
+    lands(land, o);
+    MB.audio.sfx('splash'); MB.audio.sfx('pour'); MB.audio.sfx('sizzle');
+    morph(sp.body.querySelector('.blob'), blobD(80, 64, 66, 16, 0.32, 0.95), 260);
+    tint(victim(V, t), 'sepia(1) brightness(0.7)', 0.9);
+    toss(cup, { v: [200, 360], dur: 0.6 });
+    for (let i = 0; i < 3; i++) steamUp(V, { x: r.T.x + (i - 1) * 36, y: r.T.y }, Math.min(r.hT * 1.8, ceilOf(t, r) - 90), '#ffffff', 0.2 + i * 0.1);
+    await wait(0.7);
+    drop(sp, 0, 0.35);
+    await wait(0.45);
+  };
+
+  // ---- baguette: a sketched baguette is swung like a sword onto the target's head; crumbs
+  RFX.baguette = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), P = { x: r.T.x - sx * 90, y: r.T.y + 6 }, h0 = Math.min(r.hT * 1.5, ceilOf(t, r) - 95);
+    const b = svgBB(V, P, h0, 'sk-baguette', skSvg(40, 200, [['path', 'M20 4 C36 4 36 20 36 40 L34 180 C34 196 6 196 6 180 L4 40 C4 20 4 4 20 4Z', { fill: '#e0a050', fillStyle: 'solid', stroke: '#7a4a1a' }],
+      ...[40, 80, 120, 160].map((y) => ['line', 10, y, 30, y - 10, { stroke: '#fff3c0', strokeWidth: 3 }])], '', [36, 180]), r.c);
+    gsap.set(b.body, { transformOrigin: '50% 100%', rotation: -sx * 60, scale: 0 });
+    await gsap.to(b.body, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    MB.audio.sfx('whoosh');
+    await gsap.to(b.body, { rotation: sx * 50, duration: 0.16, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('bonk');
+    impactStar(V, r.T, Math.min(r.hT * 1.7, ceilOf(t, r) - 70), '#ffd84a', o.word || 'OUI!', 120);
+    squash(victim(V, t), 0.7);
+    for (let i = 0; i < 8; i++) toss(svgBB(V, r.T, r.hT * 1.4, 'sk-crumb', '<svg viewBox="0 0 10 10" width="9" height="9"><circle cx="5" cy="5" r="4" fill="#e0a050"/></svg>', '#e0a050'), { v: [160, 320], dur: 0.6 });
+    await wait(0.35);
+    drop(b, 0, 0.25);
+    await wait(0.3);
+  };
+
+  // ---- megaphone: a sketched megaphone shouts; jagged shout bursts with words (o.words) fly into the target
+  RFX.megaphone = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), mg = svgBB(V, F, r.hA * 1.3, 'sk-mega', skSvg(120, 70, [['polygon', [[8, 24], [30, 24], [110, 4], [110, 66], [30, 46], [8, 46]], { fill: o.horn || '#ff5a3a', fillStyle: 'solid', stroke: '#3a1a1a' }], ['line', 30, 24, 30, 46, { strokeWidth: 3 }], ['rectangle', 14, 46, 10, 18, { fill: '#3a3a4a', fillStyle: 'solid' }]], '', [110, 64]), r.c);
+    gsap.set(mg.body.firstElementChild, { scaleX: sx });
+    gsap.fromTo(mg.body, { scale: 0 }, { scale: 1, duration: 0.2, ease: 'back.out(2)' });
+    await wait(0.25);
+    MB.audio.sfx('megaphone');
+    const words = o.words || ['HEY!!', 'LISTEN!', 'GO!'];
+    await Promise.all(words.map((w, i) => wait(i * 0.12).then(async () => {
+      const b = svgBB(V, F, r.hA * 1.3, 'sk-shout', skSvg(160, 80, [['polygon', [[10, 40], [30, 10], [60, 22], [80, 2], [100, 22], [140, 8], [130, 40], [156, 60], [110, 60], [96, 78], [70, 62], [30, 76], [34, 56]], { fill: '#fff6a0', fillStyle: 'solid', stroke: '#3a1a1a', strokeWidth: 3 }]], '', [140, 70]) + `<b>${w}</b>`, r.c);
+      const hq = r.hT * (1 + (i % 2) * 0.3);
+      await path(b, (k) => ({ x: lerp(F.x, r.T.x, k), y: lerp(F.y, r.T.y, k), h: lerp(r.hA * 1.3, hq, k), s: 0.4 + k * 0.7 }), 0.35, 'power1.in');
+      land(i); MB.audio.sfx('pow');
+      drop(b, 0.15, 0.2);
+    })));
+    drop(mg, 0, 0.25);
+    await wait(0.35);
+  };
+
+  // ---- roughrock: a hand-sketched boulder rolls over the board into the target (o.rock)
+  RFX.roughrock = async (V, t, r, F, land, o) => {
+    const pts = Array.from({ length: 9 }, (_, i) => { const a = (i / 9) * Math.PI * 2, rr = rnd(38, 48); return [f1(50 + Math.cos(a) * rr), f1(50 + Math.sin(a) * rr)]; });
+    const b = svgBB(V, F, 48, 'sk-rock', skSvg(100, 100, [['polygon', pts, { fill: o.rock || '#9a8a7a', fillStyle: 'hachure', hachureGap: 5, stroke: '#3a2a1a' }], ['line', 30, 40, 44, 52, { strokeWidth: 2 }], ['line', 60, 30, 66, 46, { strokeWidth: 2 }]], '', [96, 96]), r.c);
+    MB.audio.sfx('boulder');
+    gsap.to(b.body, { rotation: sgnX(r) * 540, duration: 0.7, ease: 'power1.in' });
+    await gsap.to(b, { x: r.T.x - r.d.x * 20, y: r.T.y - r.d.y * 20, duration: 0.7, ease: 'power1.in' });
+    lands(land, o);
+    MB.audio.sfx('crunch'); V.shake(14); squash(victim(V, t), 0.6);
+    cracks(V, r.T, '#2a1e14', { n: 5, len: 90, hold: 0.6, w: 3 });
+    await gsap.to(b.body, { y: -90, duration: 0.18, ease: 'power2.out' });
+    await gsap.to(b.body, { y: -48, duration: 0.18, ease: 'power2.in' });
+    drop(b, 0.1, 0.25);
+    await wait(0.35);
+  };
+
+  // ---- checklist: a clipboard over the target ticks its boxes (o.items), then a big red X is scrawled across the target
+  RFX.checklist = async (V, t, r, F, land, o) => {
+    const items = (o.items || ['Manners', 'Napkin', 'No biting']).slice(0, 3);
+    const marks = items.map((w, i) => `<text x="46" y="${51 + i * 32}" font-size="12" font-weight="800" fill="#2a2a3a">${w}</text><path class="tick" d="M24 ${48 + i * 32} L30 ${54 + i * 32} L40 ${38 + i * 32}" fill="none" stroke="#2a9a3a" stroke-width="4" stroke-linecap="round"/>`).join('');
+    const cb = svgBB(V, r.T, overhead(t, r, 90, 75), 'sk-clip', skSvg(120, 150, [['rectangle', 6, 12, 108, 134, { fill: '#c89a5a', fillStyle: 'solid', stroke: '#5a3a1a' }], ['rectangle', 14, 22, 92, 118, { fill: '#fffdf6', fillStyle: 'solid', strokeWidth: 2 }],
+      ['rectangle', 40, 4, 40, 16, { fill: '#9aa0b0', fillStyle: 'solid' }], ...items.map((_, i) => ['rectangle', 22, 38 + i * 32, 16, 16, { strokeWidth: 2 }])], marks, [110, 137]), r.c);
+    gsap.fromTo(cb.body, { scale: 0 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    const ticks = [...cb.body.querySelectorAll('.tick')];
+    gsap.set(ticks, { opacity: 0 });
+    await wait(0.3);
+    for (const tk of ticks) { gsap.set(tk, { opacity: 1 }); MB.audio.sfx('tick'); await skDraw([tk], { duration: 0.15 }); await wait(0.1); }
+    const x = svgBB(V, r.T, r.hT, 'sk-x', skSvg(160, 160, [['line', 20, 20, 140, 140, { stroke: '#e8203a', strokeWidth: 12, roughness: 2 }], ['line', 140, 20, 20, 140, { stroke: '#e8203a', strokeWidth: 12, roughness: 2 }]], '', [150, 150]), '#e8203a');
+    MB.audio.sfx('slash');
+    await skDraw(x.body.querySelectorAll('.d'), { duration: 0.2, stagger: 0.08 });
+    lands(land, o);
+    MB.audio.sfx('stamp');
+    V.shake(8);
+    await wait(0.4);
+    drop(x, 0, 0.25); drop(cb, 0.05, 0.25);
+    await wait(0.35);
+  };
+
+  // ---- booktower: sketched books stack up over the target one by one, wobble, and topple onto it
+  RFX.booktower = async (V, t, r, F, land, o) => {
+    const n = 6, cols = ['#e8504a', '#4a8ae8', '#f0c040', '#5ab07a', '#a05ae8', '#e8884a'], books = [], base = Math.min(r.hT * 2 + 10, ceilOf(t, r) - n * 24 - 30);
+    for (let i = 0; i < n; i++) {
+      const b = svgBB(V, { x: r.T.x + rnd(-8, 8), y: r.T.y }, base + i * 24, 'sk-book', skSvg(110, 28, [['rectangle', 3, 3, 104, 22, { fill: cols[i % 6], fillStyle: 'solid', stroke: '#2a1a1a', strokeWidth: 2 }], ['line', 12, 8, 12, 20, { stroke: '#fff', strokeWidth: 2 }]], '', [f1(rnd(90, 115)), 26]), r.c);
+      gsap.fromTo(b.body, { y: -base - i * 24 - 80, opacity: 0 }, { y: -base - i * 24, opacity: 1, duration: 0.14, ease: 'power2.in' });
+      books.push(b);
+      MB.audio.sfx('bookslam');
+      await wait(0.1);
+    }
+    MB.audio.sfx('creak');
+    await gsap.to(books.map((b) => b.body), { rotation: (i) => (i % 2 ? -1 : 1) * i * 2, duration: 0.1, yoyo: true, repeat: 3 });
+    MB.audio.sfx('whoosh');
+    await Promise.all(books.map((b, i) => gsap.to(b.body, { y: -r.hT * rnd(0.6, 1.4), x: rnd(-50, 50), rotation: rnd(-90, 90), duration: 0.3, delay: (n - i) * 0.03, ease: 'power2.in' })));
+    lands(land, o);
+    MB.audio.sfx('slam'); V.shake(12); squash(victim(V, t), 0.6);
+    books.forEach((b) => toss(b, { v: [160, 300], dur: 0.6 }));
+    await wait(0.6);
+  };
+
+  // ---- compass: a geometry construction (circle, triangle, radius) is drawn round the target, snaps to 60 degrees and closes on it
+  RFX.compass = async (V, t, r, F, land, o) => {
+    const S = t.isLeader ? 190 : 220, c = o.ink || '#4a3aa8';
+    const g = svgBB(V, r.T, r.hT, 'sk-geo', skSvg(220, 220, [['circle', 110, 110, 200, { stroke: c, strokeWidth: 4 }], ['polygon', [[110, 14], [193, 158], [27, 158]], { stroke: c, strokeWidth: 4 }], ['line', 110, 110, 110, 14, { stroke: '#e8203a', strokeWidth: 2 }], ['line', 110, 110, 193, 158, { stroke: '#e8203a', strokeWidth: 2 }]],
+      `<text x="118" y="70" font-size="16" font-weight="900" fill="#e8203a">r</text><text x="94" y="186" font-size="15" font-weight="900" fill="${c}">60°</text>`, [S, S]), c);
+    MB.audio.sfx('chalk');
+    await skDraw(g.body.querySelectorAll('.d'), { duration: 0.6, stagger: 0.05, ease: 'none' });
+    MB.audio.sfx('click');
+    await gsap.to(g.body, { scale: 0.5, rotation: 60, duration: 0.2, ease: 'power3.in' });
+    lands(land, o);
+    flash(V, r.T, r.hT, c, 220);
+    await gsap.to(g.body, { scale: 1.3, opacity: 0, duration: 0.3, onComplete: () => g.remove() });
+  };
+
+  // ---- pageslash: pages tear out and fly spinning through the target like blades, from both sides (o.hits)
+  RFX.pageslash = async (V, t, r, F, land, o) => {
+    const page = () => skSvg(50, 64, [['rectangle', 3, 3, 44, 58, { fill: '#fffdf2', fillStyle: 'solid', stroke: '#5a4a3a', strokeWidth: 2 }], ...[0, 1, 2, 3].map((i) => ['line', 9, 14 + i * 11, 41, 14 + i * 11, { stroke: '#8a8aa0', strokeWidth: 1.5 }])], '', [44, 56]);
+    MB.audio.sfx('rip');
+    await Promise.all(Array.from({ length: Math.min(6, o.hits || 4) }, (_, i) => wait(i * 0.08).then(async () => {
+      const b = svgBB(V, F, r.hA, 'sk-page', page(), r.c), fn = arc(F, r.T, r.hA, r.hT * rnd(0.8, 1.2), 60, (i % 2 ? 1 : -1) * 80, r.perp);
+      await path(b, (k) => ({ ...fn(k), r: k * 900 }), 0.35, 'power1.in');
+      land(i); MB.audio.sfx('slash'); MB.audio.sfx('pageflip');
+      if (!t.isLeader) slashArc(V, r.T, -r.hT, r.c, rnd(-60, 60));
+      toss(b, { v: [160, 300], dur: 0.5 });
+    })));
+    await wait(0.35);
+  };
+
+  // ---- cheerpoms (duo): cheer pom-poms shake at F and o.from2, fly in and burst into confetti on the target
+  const pomSvg = (c) => skSvg(80, 80, [...Array.from({ length: 14 }, (_, i) => { const a = (i / 14) * Math.PI * 2; return ['line', 40, 40, f1(40 + Math.cos(a) * 36), f1(40 + Math.sin(a) * 36), { stroke: c, strokeWidth: 5, roughness: 2 }]; }), ['circle', 40, 40, 30, { fill: c, fillStyle: 'solid', stroke: c }]], '', [70, 70]);
+  RFX.cheerpoms = async (V, t, r, F, land, o) => {
+    const F2 = otherOf(r, F, o), cols = o.colors || ['#2e6b3a', '#ffd84a'], ps = [F, F2].map((P, i) => svgBB(V, P, r.hA * 1.2, 'sk-pom', pomSvg(cols[i]), cols[i]));
+    MB.audio.sfx('cheer');
+    await gsap.to(ps.map((b) => b.body), { rotation: 25, y: '-=20', duration: 0.1, yoyo: true, repeat: 5 });
+    await Promise.all(ps.map((b, i) => path(b, (k) => ({ ...arc(i ? F2 : F, r.T, r.hA * 1.2, r.hT, 120)(k), r: k * 720 }), 0.45, 'power1.in')));
+    lands(land, o);
+    MB.audio.sfx('pop');
+    for (let i = 0; i < 14; i++) toss(svgBB(V, r.T, r.hT, 'sk-confetti', `<svg viewBox="0 0 10 24" width="8" height="20"><rect width="10" height="24" rx="2" fill="${MB.pick(cols.concat(['#ff5aa0', '#4ab0ff']))}"/></svg>`, '#fff'), { v: [240, 460], ang: [-170, -10], dur: 0.8, spin: 500 });
+    ps.forEach((b) => gsap.to(b.body, { scale: 1.6, opacity: 0, duration: 0.25, onComplete: () => b.remove() }));
+    await wait(0.6);
+  };
+
+  // ---- magnifier: a magnifying glass hunts over the target, focuses the sun on it and it smoulders (o.word: the verdict)
+  RFX.magnifier = async (V, t, r, F, land, o) => {
+    const top = overhead(t, r, 70, 60), mg = svgBB(V, r.T, top, 'sk-lens', skSvg(120, 120, [['circle', 48, 48, 80, { fill: '#bfe8ff', fillStyle: 'solid', stroke: '#5a3a1a', strokeWidth: 6 }], ['line', 76, 76, 112, 112, { stroke: '#5a3a1a', strokeWidth: 10 }], ['path', 'M28 36 Q34 24 46 22', { stroke: '#fff', strokeWidth: 4 }]], '', [110, 110]), r.c);
+    gsap.set(mg.body, { x: 60, opacity: 0 });
+    await gsap.to(mg.body, { x: 0, opacity: 1, duration: 0.3 });
+    MB.audio.sfx('scope');
+    await gsap.to(mg.body, { keyframes: [{ x: -30, duration: 0.2 }, { x: 20, duration: 0.2 }, { x: 0, duration: 0.15 }] });
+    const L = Math.max(20, top - r.hT - 30), beam = svgBB(V, r.T, r.hT + L / 2, 'sk-burn', `<svg viewBox="0 0 40 ${f1(L)}" width="40" height="${f1(L)}"><polygon points="0,0 40,0 22,${f1(L)} 18,${f1(L)}" fill="#fff6a0" opacity=".8"/></svg>`, '#fff6a0');
+    gsap.fromTo(beam.body, { scaleY: 0, transformOrigin: '50% 0%' }, { scaleY: 1, duration: 0.15 });
+    await wait(0.2);
+    lands(land, o);
+    MB.audio.sfx('sizzle');
+    tint(victim(V, t), 'sepia(1) brightness(0.6)', 0.9);
+    for (let i = 0; i < 3; i++) steamUp(V, { x: r.T.x + (i - 1) * 16, y: r.T.y }, r.hT + 10, '#6a6a6a', i * 0.1);
+    pop(V, r.T, r.hT + 90, o.word || 'FALSE!', 'float-text debuff', 0.9);
+    await wait(0.5);
+    drop(beam, 0, 0.2); drop(mg, 0.1, 0.3);
+    await wait(0.4);
+  };
+
+  // ---- antlers: sketched antlers lower and charge across the board leaving hoofprints, and ram the target
+  RFX.antlers = async (V, t, r, F, land, o) => {
+    const c = o.antler || '#e8d8b8', b = svgBB(V, F, r.hA, 'sk-antler', skSvg(120, 112, [['path', 'M40 90 C40 60 30 40 14 20 M30 50 C20 46 10 44 4 36 M24 34 C24 24 28 14 34 6', { stroke: c, strokeWidth: 7 }], ['path', 'M80 90 C80 60 90 40 106 20 M90 50 C100 46 110 44 116 36 M96 34 C96 24 92 14 86 6', { stroke: c, strokeWidth: 7 }], ['ellipse', 60, 96, 56, 26, { fill: '#c8884a', fillStyle: 'solid', stroke: '#5a3a1a' }]], '', [110, 103]), r.c);
+    gsap.fromTo(b.body, { scale: 0 }, { scale: 1, duration: 0.2 });
+    MB.audio.sfx('stomp');
+    await gsap.to(b.body, { rotation: -sgnX(r) * 15, duration: 0.2 });
+    tracks(V, F, r.T, 'hoof', '#5a4030', 7, 0.35, 0.6);
+    MB.audio.sfx('charge');
+    await path(b, (k) => ({ x: lerp(F.x, r.T.x - r.d.x * 20, k), y: lerp(F.y, r.T.y - r.d.y * 20, k), h: lerp(r.hA, r.hT * 1.1, k), r: -sgnX(r) * 15 }), 0.35, 'power3.in');
+    lands(land, o);
+    MB.audio.sfx('slam'); V.shake(12);
+    impactStar(V, r.T, r.hT * 1.2, '#c8884a', null, 140);
+    const vt = victim(V, t);
+    if (vt) gsap.fromTo(vt.figure, { x: r.d.x * 40 }, { x: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' });
+    await wait(0.3);
+    drop(b, 0, 0.25);
+    await wait(0.3);
+  };
+
+  // ---- bargraph: a sketched bar chart grows under the target, then the trend line crashes down through it (o.word)
+  RFX.bargraph = async (V, t, r, F, land, o) => {
+    const H = Math.round(Math.min(r.hT * 2, ceilOf(t, r) - 30)), W = 170, hs = [0.5, 0.8, 0.35];
+    const g = svgBB(V, r.T, H / 2, 'sk-chart', skSvg(W, H, [['line', 6, H - 4, W - 4, H - 4, { strokeWidth: 4 }], ['line', 6, H - 4, 6, 10, { strokeWidth: 4 }], ...hs.map((k, i) => ['rectangle', 22 + i * 48, f1(H - 6 - k * (H - 20)), 34, f1(k * (H - 20)), { fill: ['#4a8ae8', '#5ab07a', '#e8a04a'][i], fillStyle: 'hachure', hachureGap: 5 }])]), r.c);
+    MB.audio.sfx('pulse');
+    await skDraw(g.body.querySelectorAll('.d'), { duration: 0.5, stagger: 0.02 });
+    const ar = svgBB(V, r.T, H / 2, 'sk-trend', skSvg(W, H, [['linearPath', [[10, 20], [60, 40], [90, 30], [150, H - 30]], { stroke: '#e8203a', strokeWidth: 8 }], ['polygon', [[150, H - 30], [126, H - 40], [148, H - 58]], { fill: '#e8203a', fillStyle: 'solid', stroke: '#e8203a' }]]), '#e8203a');
+    MB.audio.sfx('whistleDown');
+    await skDraw(ar.body.querySelectorAll('.d'), { duration: 0.3, ease: 'power2.in' });
+    lands(land, o);
+    MB.audio.sfx('crunch'); V.shake(10); squash(victim(V, t), 0.7);
+    pop(V, r.T, r.hT + 120, o.word || '-99%', 'float-text debuff', 0.9);
+    await wait(0.5);
+    drop(ar, 0, 0.25); drop(g, 0.05, 0.3);
+    await wait(0.35);
+  };
+
+  // ---- ornament: Christmas baubles drop on strings round the target, a garland wraps it and the baubles shatter
+  RFX.ornament = async (V, t, r, F, land, o) => {
+    const top = overhead(t, r, 70, 40), cols = o.colors || ['#c0392b', '#2e8a4e', '#f0c040'], bs = [];
+    MB.audio.sfx('jingle');
+    for (let i = 0; i < 4; i++) {
+      const L = Math.round(rnd(20, 60)), b = svgBB(V, { x: r.T.x + (i - 1.5) * 40, y: r.T.y }, top, 'sk-bauble', skSvg(40, L + 44, [['line', 20, 0, 20, L, { strokeWidth: 1.5 }], ['rectangle', 14, L, 12, 8, { fill: '#d8c060', fillStyle: 'solid', strokeWidth: 2 }], ['circle', 20, L + 26, 34, { fill: cols[i % cols.length], fillStyle: 'solid', stroke: '#3a1a1a', strokeWidth: 2 }]], '', [36, L + 40]), cols[0]);
+      gsap.set(b.body, { transformOrigin: '50% 0%' });
+      gsap.fromTo(b.body, { scaleY: 0 }, { scaleY: 1, duration: 0.25, delay: i * 0.08 });
+      gsap.to(b.body, { rotation: rnd(-15, 15), duration: 0.3, yoyo: true, repeat: 3, delay: 0.3 });
+      bs.push(b);
+    }
+    await wait(0.6);
+    const gar = svgBB(V, r.T, r.hT, 'sk-garland', skSvg(180, 120, [['path', 'M4 20 Q45 70 90 50 Q135 30 176 80 M4 70 Q50 110 92 92 Q140 74 176 110', { stroke: '#2e8a4e', strokeWidth: 9, roughness: 2 }]], '', [170, 113]), '#2e8a4e');
+    MB.audio.sfx('stretch');
+    await skDraw(gar.body.querySelectorAll('.d'), { duration: 0.35 });
+    lands(land, o);
+    MB.audio.sfx('glass');
+    bs.forEach((b) => { shards(V, { x: gsap.getProperty(b, 'x'), y: r.T.y }, r.hT * 1.3, 3, 0); b.remove(); });
+    await wait(0.45);
+    drop(gar, 0, 0.3);
+    await wait(0.3);
+  };
+
+  // ---- graffiti: a spray can hisses and a dripping tag is sprayed right across the target (o.paint)
+  RFX.graffiti = async (V, t, r, F, land, o) => {
+    const c = o.paint || '#5fae6e', W = t.isLeader ? 170 : 200, H = Math.round(r.hT * 1.4);
+    const tag = svgBB(V, r.T, r.hT, 'sk-tag', skSvg(200, 160, [['path', 'M20 120 C30 30 50 30 60 110 C70 40 90 40 100 110 C110 30 140 20 150 100 C160 60 180 60 186 90', { stroke: c, strokeWidth: 12, roughness: 2.5 }], ['path', 'M30 140 L170 130', { stroke: '#ff5aa0', strokeWidth: 6, roughness: 3 }], ['circle', 176, 30, 22, { fill: '#ffd84a', fillStyle: 'zigzag', stroke: '#ffd84a' }]], '', [W, H]), c);
+    const can = svgBB(V, F, r.hA * 1.2, 'sk-can', skSvg(30, 64, [['rectangle', 3, 12, 24, 50, { fill: c, fillStyle: 'solid', stroke: '#2a2a2a' }], ['rectangle', 10, 2, 10, 10, { fill: '#dddddd', fillStyle: 'solid', strokeWidth: 2 }]], '', [26, 56]), c);
+    MB.audio.sfx('spray');
+    gsap.to(can.body, { rotation: 20, duration: 0.08, yoyo: true, repeat: 9 });
+    await skDraw(tag.body.querySelectorAll('.d'), { duration: 0.7, ease: 'none' });
+    lands(land, o);
+    MB.audio.sfx('splat');
+    tint(victim(V, t), `drop-shadow(0 0 8px ${c})`, 0.8);
+    await wait(0.5);
+    drop(can, 0, 0.2);
+    gsap.to(tag.body, { opacity: 0, y: '+=20', duration: 0.5, onComplete: () => tag.remove() });
+    await wait(0.45);
+  };
+
+  // ---- cheesepull: a pizza slice spins over and slaps onto the target; strings of cheese stretch all the way back
+  RFX.cheesepull = async (V, t, r, F, land, o) => {
+    const sl = svgBB(V, F, r.hA, 'sk-pizza', skSvg(100, 100, [['polygon', [[6, 10], [94, 10], [50, 96]], { fill: '#f8d060', fillStyle: 'solid', stroke: '#a0602a' }], ['rectangle', 4, 4, 92, 12, { fill: '#c8843a', fillStyle: 'solid', stroke: '#7a4a1a' }],
+      ['circle', 36, 32, 16, { fill: '#d8382a', fillStyle: 'solid', strokeWidth: 2 }], ['circle', 62, 30, 14, { fill: '#d8382a', fillStyle: 'solid', strokeWidth: 2 }], ['circle', 50, 58, 14, { fill: '#d8382a', fillStyle: 'solid', strokeWidth: 2 }]], '', [90, 90]), r.c);
+    MB.audio.sfx('whoosh');
+    await path(sl, (k) => ({ ...arc(F, r.T, r.hA, r.hT * 1.2, 140)(k), r: k * 720 }), 0.55, 'power1.in');
+    lands(land, o);
+    MB.audio.sfx('splat'); MB.audio.sfx('stretch'); squash(victim(V, t), 0.75);
+    const strings = span(V, F, r.hA, r.T, r.hT * 1.2, 'sk-cheese', (x0, y0, x1, y1) => sk([0, 1, 2].map((i) => ['path', `M${f1(x0)} ${f1(y0 + i * 6)} Q${f1((x0 + x1) / 2)} ${f1(Math.max(y0, y1) + 40 + i * 14)} ${f1(x1)} ${f1(y1 + i * 6)}`, { stroke: '#ffe070', strokeWidth: 4, roughness: 1.5 }])), '#ffe070', 80);
+    skDraw(strings.body.querySelectorAll('.d'), { duration: 0.25 });
+    await wait(0.5);
+    gsap.to(strings.body, { opacity: 0, duration: 0.25, onComplete: () => strings.remove() });
+    drop(sl, 0.1, 0.3);
+    await wait(0.4);
+  };
+
+  // ---- dustsweep: scribbly dust bunnies are swept up by a broom across the board and thrown into the target
+  RFX.dustsweep = async (V, t, r, F, land, o) => {
+    const bunny = () => skSvg(50, 44, [['circle', 25, 28, 30, { fill: '#9a94a8', fillStyle: 'zigzag', hachureGap: 3, stroke: '#5a546a', roughness: 2.5 }], ['ellipse', 16, 10, 8, 16, { stroke: '#5a546a', strokeWidth: 2 }], ['ellipse', 32, 10, 8, 16, { stroke: '#5a546a', strokeWidth: 2 }]], '<circle cx="20" cy="26" r="2.5" fill="#222"/><circle cx="31" cy="26" r="2.5" fill="#222"/>', [44, 39]);
+    const bs = Array.from({ length: 5 }, (_, i) => { const k = 0.3 + i * 0.08; return svgBB(V, { x: lerp(F.x, r.T.x, k) + rnd(-40, 40), y: lerp(F.y, r.T.y, k) + rnd(-20, 20) }, 20, 'sk-bunny', bunny(), '#9a94a8'); });
+    gsap.fromTo(bs.map((b) => b.body), { scale: 0 }, { scale: 1, duration: 0.2, stagger: 0.05, ease: 'back.out(2)' });
+    await wait(0.35);
+    const sx = sgnX(r), broom = svgBB(V, F, 66, 'sk-broom', skSvg(60, 150, [['line', 30, 4, 30, 100, { stroke: '#8a5a2a', strokeWidth: 6 }], ['polygon', [[14, 96], [46, 96], [58, 146], [2, 146]], { fill: o.straw || '#e8c35a', fillStyle: 'hachure', hachureGap: 4, stroke: '#9a7020' }]], '', [54, 135]), '#e8c35a');
+    gsap.set(broom.body, { rotation: -sx * 30 });
+    MB.audio.sfx('sweep');
+    await Promise.all([gsap.to(broom, { x: r.T.x - r.d.x * 60, y: r.T.y - r.d.y * 60, duration: 0.6, ease: 'power1.in' }), gsap.to(broom.body, { rotation: sx * 30, duration: 0.15, yoyo: true, repeat: 3 }),
+      ...bs.map((b, i) => gsap.to(b, { x: r.T.x + rnd(-20, 20), y: r.T.y + rnd(-6, 6), duration: 0.5, delay: 0.1 + i * 0.02, ease: 'power2.in' }))]);
+    await Promise.all(bs.map((b) => gsap.to(b.body, { y: -r.hT, duration: 0.15 })));
+    lands(land, o);
+    MB.audio.sfx('poof'); squash(victim(V, t), 0.8);
+    bs.forEach((b) => toss(b, { v: [220, 380], dur: 0.6, spin: 300 }));
+    shards(V, r.T, r.hT, 6, 50);
+    drop(broom, 0.1, 0.25);
+    await wait(0.6);
+  };
+
+  // ---- mangaframe: manga panel borders slam down round the target with speed lines, a sound effect and DOKI (o.word)
+  RFX.mangaframe = async (V, t, r, F, land, o) => {
+    const W = t.isLeader ? 190 : 230, H = t.isLeader ? 190 : Math.round(r.hT * 1.8);
+    const pn = svgBB(V, r.T, r.hT, 'sk-panel', `<svg viewBox="0 0 230 210" width="${W}" height="${H}" preserveAspectRatio="none">${sk([['rectangle', 4, 4, 104, 96, { strokeWidth: 5 }], ['rectangle', 118, 4, 108, 96, { strokeWidth: 5 }], ['rectangle', 4, 110, 222, 96, { strokeWidth: 5 }],
+      ...Array.from({ length: 8 }, (_, i) => ['line', 116, 158, f1(116 + Math.cos((i / 8) * Math.PI * 2) * 100), f1(158 + Math.sin((i / 8) * Math.PI * 2) * 44), { strokeWidth: 2, stroke: '#666666' }])])}<text x="18" y="64" font-size="30" font-weight="900" fill="${r.c}" stroke="#fff" stroke-width="2">!?</text><text x="134" y="66" font-size="26" font-weight="900" fill="#2a1a2a">!!</text></svg><b>${o.word || 'DOKI!'}</b>`, r.c);
+    MB.audio.sfx('cardflip');
+    await skDraw(pn.body.querySelectorAll('.d'), { duration: 0.45, stagger: 0.03 });
+    MB.audio.sfx('heartbeat');
+    await gsap.fromTo(pn.body, { scale: 1 }, { scale: 1.08, duration: 0.1, yoyo: true, repeat: 1 });
+    lands(land, o);
+    flash(V, r.T, r.hT, '#ffffff', 220);
+    await wait(0.5);
+    drop(pn, 0, 0.3);
+    await wait(0.3);
+  };
+
+  // ---- tome: a huge book opens over the target, its pages flutter, and it claps shut on it (o.cover)
+  RFX.tome = async (V, t, r, F, land, o) => {
+    const c = o.cover || '#5a2a8a', top = overhead(t, r, 60, 60);
+    const open = skSvg(200, 120, [['polygon', [[100, 110], [6, 100], [6, 10], [100, 20]], { fill: '#fffaf0', fillStyle: 'solid', stroke: c, strokeWidth: 5 }], ['polygon', [[100, 110], [194, 100], [194, 10], [100, 20]], { fill: '#fffaf0', fillStyle: 'solid', stroke: c, strokeWidth: 5 }],
+      ...[0, 1, 2, 3].map((i) => ['line', 18, 34 + i * 16, 88, 40 + i * 16, { stroke: '#8a8aa0', strokeWidth: 2 }]), ...[0, 1, 2, 3].map((i) => ['line', 112, 40 + i * 16, 182, 34 + i * 16, { stroke: '#8a8aa0', strokeWidth: 2 }])], '', [190, 114]);
+    const shut = skSvg(120, 130, [['rectangle', 6, 6, 108, 118, { fill: c, fillStyle: 'solid', stroke: '#1a0a2a', strokeWidth: 4 }], ['rectangle', 22, 30, 76, 22, { fill: '#f0c040', fillStyle: 'solid', strokeWidth: 2 }]], '', [100, 108]);
+    const bk = svgBB(V, r.T, top, 'sk-tome', open, c);
+    gsap.fromTo(bk.body, { scale: 0, rotation: -10 }, { scale: 1, rotation: 0, duration: 0.3, ease: 'back.out(2)' });
+    MB.audio.sfx('pageflip');
+    await gsap.to(bk.body, { scaleY: 0.9, duration: 0.1, yoyo: true, repeat: 5 });
+    MB.audio.sfx('whoosh');
+    await gsap.to(bk.body, { y: -r.hT * 1.1, scaleX: 0.2, duration: 0.18, ease: 'power3.in' });
+    bk.body.innerHTML = shut;
+    gsap.set(bk.body, { scaleX: 1, scaleY: 1 });
+    lands(land, o);
+    MB.audio.sfx('bookslam'); MB.audio.sfx('slam'); V.shake(12);
+    impactStar(V, r.T, Math.min(r.hT * 1.6, ceilOf(t, r) - 60), '#fff6a0', 'CLAP!', 120);
+    await wait(0.45);
+    drop(bk, 0, 0.3);
+    await wait(0.3);
+  };
+
+  // ---- roastmic: a microphone is dropped on the target and sketched flames roar up round it (o.word)
+  RFX.roastmic = async (V, t, r, F, land, o) => {
+    const top = overhead(t, r, 140, 50), mic = svgBB(V, r.T, top, 'sk-mic', skSvg(50, 110, [['ellipse', 25, 22, 40, 40, { fill: '#9aa0b0', fillStyle: 'cross-hatch', hachureGap: 5, stroke: '#2a2a33' }], ['polygon', [[14, 40], [36, 40], [30, 106], [20, 106]], { fill: '#2a2a33', fillStyle: 'solid' }]], '', [44, 97]), r.c);
+    gsap.fromTo(mic.body, { scale: 0 }, { scale: 1, duration: 0.2 });
+    await wait(0.35);
+    MB.audio.sfx('whistleDown');
+    await gsap.to(mic.body, { y: -r.hT * 0.8, rotation: 200, duration: 0.4, ease: 'power2.in' });
+    lands(land, o);
+    MB.audio.sfx('boom'); MB.audio.sfx('fire'); V.shake(12);
+    const fl = Array.from({ length: 5 }, (_, i) => {
+      const h = Math.round(r.hT * rnd(1, 1.6)), b = svgBB(V, { x: r.T.x + (i - 2) * 28, y: r.T.y + (i % 2 ? 6 : -6) }, h / 2, 'sk-flame', skSvg(50, h, [['path', `M25 ${h - 2} C0 ${h - 10} 2 ${f1(h * 0.5)} 25 2 C48 ${f1(h * 0.5)} 50 ${h - 10} 25 ${h - 2}Z`, { fill: MB.pick(['#ff7a2a', '#ffb347', '#ff4a1a']), fillStyle: 'solid', stroke: '#a01a0a', strokeWidth: 2, roughness: 2 }]]), '#ff7a2a');
+      gsap.set(b.body, { transformOrigin: '50% 100%' });
+      gsap.fromTo(b.body, { scaleY: 0 }, { scaleY: 1, duration: 0.2, delay: i * 0.04 });
+      return b;
+    });
+    MB.audio.sfx('ooh');
+    pop(V, r.T, r.hT + 120, o.word || 'ROASTED!', 'float-text burn', 0.9);
+    await wait(0.6);
+    fl.forEach((b) => gsap.to(b.body, { scaleY: 0, duration: 0.25, onComplete: () => b.remove() }));
+    drop(mic, 0, 0.2);
+    await wait(0.35);
+  };
+
+  // ---- champagne: a bottle is shaken, the cork pops into the target and a fountain of foam arcs over it
+  RFX.champagne = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), hB = r.hA * 1.2, bt = svgBB(V, F, hB, 'sk-bottle', skSvg(40, 110, [['path', 'M14 4 L26 4 L26 30 C38 40 38 50 38 60 L38 106 L2 106 L2 60 C2 50 2 40 14 30Z', { fill: '#2e6a3a', fillStyle: 'solid', stroke: '#0a2a1a' }], ['rectangle', 4, 62, 32, 24, { fill: '#f0e0b0', fillStyle: 'solid', strokeWidth: 2 }], ['rectangle', 12, 0, 16, 8, { fill: '#d8c060', fillStyle: 'solid', strokeWidth: 2 }]], '', [34, 94]), r.c);
+    gsap.set(bt.body, { rotation: sx * 35 });
+    MB.audio.sfx('rumble');
+    await gsap.to(bt.body, { x: '+=5', duration: 0.04, yoyo: true, repeat: 11 });
+    MB.audio.sfx('cork');
+    const cork = svgBB(V, F, hB + 40, 'sk-cork', skSvg(20, 20, [['rectangle', 2, 2, 16, 16, { fill: '#c89a5a', fillStyle: 'solid', strokeWidth: 2 }]], '', [18, 18]), r.c);
+    await path(cork, (k) => ({ ...arc(F, r.T, hB + 40, r.hT * 1.5, 80)(k), r: k * 1080 }), 0.3, 'power1.in');
+    lands(land, o);
+    MB.audio.sfx('bonk');
+    impactStar(V, r.T, Math.min(r.hT * 1.5, ceilOf(t, r) - 60), '#fff6c0', 'POP!', 110);
+    toss(cork, { v: [200, 340], dur: 0.6 });
+    const hF = Math.min(r.hT * 1.4, ceilOf(t, r) - 80), foam = span(V, F, hB + 40, r.T, hF, 'sk-foam', (x0, y0, x1, y1) => sk([0, 1, 2].map((i) => ['path', `M${f1(x0)} ${f1(y0)} Q${f1((x0 + x1) / 2)} ${f1(t.isLeader ? (y0 + y1) / 2 - i * 14 : Math.min(y0, y1) - 60 - i * 20)} ${f1(x1 + (i - 1) * 20)} ${f1(y1 + (i - 1) * 14)}`, { stroke: '#fffaf0', strokeWidth: 8, roughness: 2.2 }])), '#fff', 100);
+    MB.audio.sfx('splash');
+    skDraw(foam.body.querySelectorAll('.d'), { duration: 0.3, stagger: 0.05 });
+    tint(victim(V, t), 'brightness(1.4) sepia(0.3)', 0.7);
+    await wait(0.5);
+    gsap.to(foam.body, { opacity: 0, duration: 0.3, onComplete: () => foam.remove() });
+    drop(bt, 0, 0.25);
+    await wait(0.35);
+  };
+
+  // ---- parcels (duo): cardboard boxes are thrown in turn from F and o.from2 and pile onto the target; the last one is FRAGILE
+  const boxSvg = (w) => skSvg(70, 60, [['rectangle', 3, 6, 64, 50, { fill: '#c8984a', fillStyle: 'solid', stroke: '#5a3a1a' }], ['line', 35, 6, 35, 56, { stroke: '#e8d8a8', strokeWidth: 6 }], ['line', 3, 6, 67, 6, { strokeWidth: 3 }]], w ? `<text x="35" y="40" text-anchor="middle" font-size="11" font-weight="900" fill="#c0182a">${w}</text>` : '', [64, 55]);
+  RFX.parcels = async (V, t, r, F, land, o) => {
+    const F2 = otherOf(r, F, o), n = 4, bs = [];
+    for (let i = 0; i < n; i++) {
+      const P = i % 2 ? F2 : F, last = i === n - 1, b = svgBB(V, P, r.hA, 'sk-box', boxSvg(last ? 'FRAGILE' : ''), r.c), hq = last ? r.hT : r.hT * 0.3 + i * 40;
+      MB.audio.sfx('whoosh');
+      await path(b, (k) => ({ ...arc(P, r.T, r.hA, hq, 110)(k), r: (1 - k) * (i % 2 ? -200 : 200) }), 0.35, 'power1.in');
+      land(i);
+      MB.audio.sfx(last ? 'crunch' : 'cardboard');
+      bs.push(b);
+      if (last) { V.shake(10); squash(victim(V, t), 0.6); }
+    }
+    await wait(0.4);
+    bs.forEach((b) => toss(b, { v: [160, 300], dur: 0.6 }));
+    await wait(0.5);
+  };
+
+  // ---- pixelblast: an 8-bit heart bounces over the board and the target explodes in square pixels, K.O. (o.word, o.colors)
+  RFX.pixelblast = async (V, t, r, F, land, o) => {
+    const cols = o.colors || ['#9ad0ff', '#ff5aa0', '#ffe94a', '#5affb0'], HP = ['01100110', '11111111', '11111111', '01111110', '00111100', '00011000'];
+    const heart = svgBB(V, F, r.hA, 'sk-pixel', `<svg viewBox="0 0 8 6" width="64" height="48" shape-rendering="crispEdges">${HP.flatMap((row, y) => [...row].map((ch, x) => (ch === '1' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="#ff3a5a"/>` : ''))).join('')}</svg>`, '#ff3a5a');
+    MB.audio.sfx('glitch'); MB.audio.sfx('blip');
+    await path(heart, (k) => ({ x: lerp(F.x, r.T.x, k), y: lerp(F.y, r.T.y, k), h: lerp(r.hA, r.hT, k) + Math.abs(Math.sin(k * Math.PI * 3)) * 60 }), 0.6, 'none');
+    lands(land, o);
+    MB.audio.sfx('boom');
+    heart.remove();
+    for (let i = 0; i < 24; i++) {
+      const b = svgBB(V, r.T, r.hT, 'sk-pixel', `<svg viewBox="0 0 10 10" width="14" height="14"><rect width="10" height="10" fill="${MB.pick(cols)}"/></svg>`, '#fff'), a = rnd(0, Math.PI * 2), d = rnd(40, 130);
+      gsap.to(b, { x: r.T.x + Math.cos(a) * d, y: r.T.y + Math.sin(a) * d * 0.5, duration: 0.5, ease: 'steps(5)' });
+      gsap.to(b.body, { y: -r.hT - Math.sin(a) * d * 0.6, duration: 0.5, ease: 'steps(5)' });
+      gsap.to(b.body, { opacity: 0, duration: 0.2, delay: 0.4, onComplete: () => b.remove() });
+    }
+    pop(V, r.T, r.hT + 100, o.word || 'K.O.!', 'float-text baka', 0.9);
+    await wait(0.7);
+  };
+
+  // ---- glitter: sketched four-point sparkles shower over the target and a lipstick kiss is stamped on it
+  RFX.glitter = async (V, t, r, F, land, o) => {
+    const cols = o.colors || ['#ff8a3a', '#ffd84a', '#ff5aa0', '#ffffff'], top = overhead(t, r, 100, 20);
+    MB.audio.sfx('chime');
+    const sp = (c, s) => skSvg(40, 40, [['polygon', [[20, 0], [25, 15], [40, 20], [25, 25], [20, 40], [15, 25], [0, 20], [15, 15]], { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 1.5, roughness: 0.8 }]], '', [s, s]);
+    MB.audio.sfx('sparkle');
+    await Promise.all(Array.from({ length: 14 }, (_, i) => wait(i * 0.04).then(async () => {
+      const b = svgBB(V, { x: r.T.x + rnd(-70, 70), y: r.T.y + rnd(-10, 10) }, top, 'sk-glitter', sp(MB.pick(cols), Math.round(rnd(18, 32))), '#fff');
+      await gsap.to(b.body, { y: -r.hT * rnd(0.4, 1.6), rotation: rnd(-180, 180), duration: 0.45, ease: 'power1.in' });
+      drop(b, 0.2, 0.2);
+    })));
+    const kiss = svgBB(V, r.T, r.hT * 1.2, 'sk-kiss', skSvg(100, 60, [['path', 'M6 24 C20 0 40 6 50 18 C60 6 80 0 94 24 C80 30 60 26 50 28 C40 26 20 30 6 24Z', { fill: o.lips || '#e8203a', fillStyle: 'solid', stroke: '#8a0a1a', strokeWidth: 2 }], ['path', 'M10 30 C24 56 76 56 90 30 C76 36 24 36 10 30Z', { fill: o.lips || '#e8203a', fillStyle: 'solid', stroke: '#8a0a1a', strokeWidth: 2 }]], '', [90, 54]), '#e8203a');
+    MB.audio.sfx('kiss');
+    await gsap.fromTo(kiss.body, { scale: 3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.15, ease: 'power4.in' });
+    lands(land, o);
+    tint(victim(V, t), 'saturate(1.8) brightness(1.2)', 0.8);
+    await wait(0.5);
+    drop(kiss, 0, 0.3);
+    await wait(0.3);
+  };
+
+  // ---- batswarm: sketched bats pour out, circle the target in a tightening spiral and dive into it one by one (o.hits)
+  const batSk = (c) => skSvg(60, 30, [['path', 'M30 14 C24 4 14 2 2 8 C8 12 10 18 6 24 C14 20 20 22 30 26 C40 22 46 20 54 24 C50 18 52 12 58 8 C46 2 36 4 30 14Z', { fill: c, fillStyle: 'solid', stroke: '#0a0a12', strokeWidth: 1.5, roughness: 1 }]], '<circle cx="27" cy="16" r="1.5" fill="#ff3a3a"/><circle cx="33" cy="16" r="1.5" fill="#ff3a3a"/>', [46, 23]);
+  RFX.batswarm = async (V, t, r, F, land, o) => {
+    const n = Math.min(9, o.hits || 7), R = t.isLeader ? 90 : 120, c = o.bat || '#2a1a3a';
+    MB.audio.sfx('flutter'); MB.audio.sfx('bat');
+    await Promise.all(Array.from({ length: n }, (_, i) => {
+      const b = svgBB(V, F, r.hA * 1.3, 'sk-bat', batSk(c), c), a0 = (i / n) * Math.PI * 2, hb = Math.min(r.hT * rnd(0.8, 1.6), ceilOf(t, r) - 20);
+      gsap.to(b.body.firstElementChild, { scaleY: 0.4, duration: 0.08, yoyo: true, repeat: 15 });
+      return path(b, (k) => {
+        if (k < 0.3) { const q = k / 0.3; return { x: lerp(F.x, r.T.x + Math.cos(a0) * R, q), y: lerp(F.y, r.T.y + Math.sin(a0) * R * 0.45, q), h: lerp(r.hA * 1.3, hb, q) }; }
+        const q = (k - 0.3) / 0.7, a = a0 + q * Math.PI * 2, rr = R * (1 - q * q);
+        return { x: r.T.x + Math.cos(a) * rr, y: r.T.y + Math.sin(a) * rr * 0.45, h: lerp(hb, r.hT, q) };
+      }, 1.1, 'none').then(() => { land(i); MB.audio.sfx(i % 2 ? 'bat' : 'hit'); drop(b, 0, 0.15); });
+    }));
+    tint(victim(V, t), 'brightness(0.6) hue-rotate(260deg)', 0.7);
+    await wait(0.2);
+  };
+
+  // ---------------------------------------------------------------- 1-heart duo styles II: partners on the move, on the sketched effects
+  // Kai & Jace (rebuilt): Jace blows the whistle and sprints down the beach while Kai drops onto his board and RIDES a wave in on its crest
+  // (a stand-in, so he is drawn in front of the wave); the wave crashes on the target, Kai hops off beside it, Jace throws the lifebuoy over it
+  const surfboardSvg = skSvg(130, 30, [['ellipse', 65, 15, 124, 22, { fill: '#ff7a3a', fillStyle: 'solid', stroke: '#5a2a0a', strokeWidth: 3 }], ['line', 10, 15, 120, 15, { stroke: '#ffffff', strokeWidth: 3 }]], '', [120, 28]);
+  const buoySvg = '<svg viewBox="0 0 120 120" width="104" height="104"><circle cx="60" cy="60" r="44" fill="none" stroke="#ffffff" stroke-width="26"/><circle cx="60" cy="60" r="44" fill="none" stroke="#e8203a" stroke-width="26" stroke-dasharray="34.5 34.5"/><circle cx="60" cy="60" r="57" fill="none" stroke="#5a0a0a" stroke-width="2.5"/><circle cx="60" cy="60" r="31" fill="none" stroke="#5a0a0a" stroke-width="2.5"/></svg>';
+  S.rescuesurf = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { T, hT } = r, H = V.heightOf(a), p = partners(V, a), [K] = p.parts, sx = sgnX(r);
+    pop(V, p.pos(1), H + 30, own(a, 'cry', 'Swimmer in trouble! GO GO GO!'), 'float-text shield', 1);
+    MB.audio.sfx('whistle');
+    const run = p.rush(1, besideOf(r, 1, 170), 0.5);
+    // Kai steps out of the pair as a stand-in so he can ride in front of the wave
+    const P0 = p.pos(0), Q0 = besideOf(r, 0, 120), kai = standIn(V, p.v, K, P0);
+    const board = svgBB(V, P0, 8, 'sk-board', surfboardSvg, '#ff7a3a');
+    const wave = svgBB(V, { x: P0.x - sx * 40, y: P0.y - 26 }, 90, 'great-wave behind', waveSvg('#2ec4d6'), '#2ec4d6');
+    gsap.set(wave.body.firstElementChild, { scaleX: sx });
+    MB.audio.sfx('wave');
+    await gsap.fromTo(wave.body, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1.15, duration: 0.4, ease: 'back.out(1.6)' });
+    // up onto the crest, then ride it in
+    await Promise.all([gsap.to(kai.fl.body, { y: -78, duration: 0.25, ease: 'power2.out' }), gsap.to(board.body, { y: -82, duration: 0.25, ease: 'power2.out' })]);
+    pop(V, P0, H + 110, "Surf's up!", 'float-text heal', 0.8);
+    const q = { k: 0 };
+    await gsap.to(q, { k: 1, duration: 0.75, ease: 'power1.in', onUpdate: () => {
+      const P = { x: lerp(P0.x, Q0.x, q.k), y: lerp(P0.y, Q0.y, q.k) }, bob = Math.sin(q.k * Math.PI * 3) * 8;
+      gsap.set([kai.fl, board], P);
+      gsap.set(wave, { x: P.x - sx * 40, y: P.y - 26 });
+      gsap.set(kai.fl.body, { y: -78 + bob, rotation: sx * 6 });
+      gsap.set(board.body, { y: -82 + bob, rotation: sx * 6 });
+    } });
+    // the wave rolls on over the target and crashes; Kai kicks off the board and lands beside it
+    gsap.to(kai.fl.body, { y: 0, rotation: 0, duration: 0.3, ease: 'bounce.out' });
+    toss(board, { v: [240, 360], dur: 0.6, spin: 300 });
+    await gsap.to(wave, { x: T.x - sx * 20, y: T.y - 10, duration: 0.25, ease: 'power2.in' });
+    land(0); MB.audio.sfx('splash'); V.shake(14);
+    tint(victim(V, t), 'brightness(1.2) hue-rotate(190deg) saturate(1.5)', 0.8);
+    await gsap.to(wave.body, { rotation: sx * 30, scaleY: 0.25, duration: 0.25, ease: 'power2.in' });
+    for (let i = 0; i < 10; i++) toss(svgBB(V, T, hT, 'drop', dropSvg('#bfe8ff'), '#2ec4d6'), { v: [260, 480], ang: [-160, -20], dur: 0.7, spin: 60 });
+    drop(wave, 0, 0.2);
+    // Jace's lifebuoy drops over the target
+    await run;
+    MB.audio.sfx('whoosh');
+    const buoy = svgBB(V, p.pos(1), H * 0.6, 'buoy', buoySvg, '#e8203a');
+    await path(buoy, (k) => ({ ...arc(p.pos(1), T, H * 0.6, Math.min(hT * 1.8, ceilOf(t, r) - 60), 60)(k), r: k * 540, s: 1 }), 0.5, 'sine.inOut');
+    gsap.to(buoy.body, { scaleY: 0.38, rotation: 0, duration: 0.12 });
+    await gsap.to(buoy.body, { y: -hT * 0.75, duration: 0.25, ease: 'bounce.out' });
+    land(1); MB.audio.sfx('boing');
+    pop(V, p.pos(1), H + 20, 'Gotcha!', 'float-text shield', 0.8);
+    pop(V, T, hT + 150, own(a, 'finish', 'Rescued. Sort of.'), 'float-text heal', 1.1);
+    await wait(0.4);
+    drop(buoy, 0, 0.25);
+    // Kai jogs home and steps back into the pair
+    await gsap.to(kai.fl, { x: P0.x, y: P0.y, duration: 0.4, ease: 'power2.inOut' });
+    kai.back();
+    await p.home();
+  };
+
+  // duo style builder for the ones below: a cry, each partner's own move (fns get p, r), the effect(s), a finish line, everyone home
+  const duoBeat = (cry, moves, hit, finish, cls = 'float-text heal') => async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), H = V.heightOf(a), p = partners(V, a);
+    pop(V, r.A, H + 30, own(a, 'cry', cry), cls, 1);
+    await moves(p, r, V, t);
+    await hit(V, t, r, p, land);
+    pop(V, r.T, r.hT + 150, own(a, 'finish', finish), cls, 1.1);
+    await wait(0.15);
+    await Promise.all([p.settle(0), p.settle(1)]);
+    await p.home();
+  };
+  const both = (...ps) => Promise.all(ps);
+  const later = (s, fn) => wait(s).then(fn);
+
+  // Seraphina & Yllara: the elf rises calling on the forest while the monk walks calmly to the target's side; flowers spring up and lean in
+  S.gardenblessing = duoBeat('Bloom, little ones.', (p, r) => both(p.rise(0, 50, 0.4), p.to(1, besideOf(r, 1, 150), 0.7, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.gardenbloom(V, t, r, p.pos(0), land, { colors: ['#ff8ac0', '#ffffff', '#c8f0a0'] }), 'Breathe in. Bloom out.');
+  // Maiko & James: James stays put being sarcastic, Maiko rushes in and karate-chops a board in half on the target
+  S.honestchop = duoBeat('Wow. Inspiring.', (p, r) => both(p.rush(0, r.C, 0.3), p.rise(1, 10, 0.2)),
+    (V, t, r, p, land) => RFX.boardbreak(V, t, r, p.pos(0), land, { word: 'OSU!' }), '...Okay, that was cool.', 'float-text buff');
+  // Harris & Hayley: they charge in from both sides and the squabble becomes a fight cloud with the target in it
+  S.noogierush = duoBeat('MOM SAID IT\'S MY TURN!', (p, r) => p.flank(r.T, 70, 0.3),
+    (V, t, r, p, land) => RFX.brawlcloud(V, t, r, p.pos(0), land, {}), 'NOOGIE!', 'float-text baka');
+  // Farley & Kayla: Kayla runs off ahead, dad leaps after her; a fence goes up round the target and the GROUNDED sign comes down
+  S.grounded = duoBeat('KAYLA. KATE.', (p, r) => both(p.rush(1, besideOf(r, 1, 150), 0.3), later(0.15, () => p.leap(0, r.C, 200, 0.5))),
+    (V, t, r, p, land) => RFX.picketfence(V, t, r, p.pos(0), land, { word: 'GROUNDED!' }), 'Two weeks. No phone.', 'float-text buff');
+  // Harris & Kayla: the overlooked middle kids swing out to either side and drop the bass on the target
+  S.overlooked = duoBeat('Nobody ever notices us...', (p, r) => both(p.swing(0, besideOf(r, 0, 170), -1, 0.5), p.swing(1, besideOf(r, 1, 170), 1, 0.5)),
+    (V, t, r, p, land) => RFX.bassdrop(V, t, r, p.pos(0), land, { wave: '#8f9bff' }), 'NOTICE US NOW?', 'float-text buff');
+  // Farley & Harris: father and kid hop up either side and flip a giant ice cream onto the target's head
+  S.brainfreeze = duoBeat('Ice cream for dinner?!', (p, r) => both(p.hop(0, besideOf(r, 0, 140), 3, 0.6), later(0.12, () => p.hop(1, besideOf(r, 1, 140), 3, 0.6))),
+    (V, t, r, p, land) => RFX.icecream(V, t, r, p.pos(0), land, { scoop: '#ffd0e8' }), 'BRAIN FREEZE!', 'float-text baka');
+  // Olivia & Mason: the barista lobs a coffee from the counter while the delivery guy charges in to the target's side
+  S.coffeerun = duoBeat('One large, extra hot!', (p, r) => both(p.rise(0, 20, 0.2), p.rush(1, besideOf(r, 1, 150), 0.4)),
+    (V, t, r, p, land) => RFX.coffeespill(V, t, r, p.pos(0), land, {}), 'Careful, it\'s hot!');
+  // Claire & Lisa: Claire leaps in with a baguette, Lisa hops after with the conjugations
+  S.ouioui = duoBeat('Répétez après moi!', (p, r) => both(p.leap(0, r.C, 220, 0.5), later(0.15, () => p.hop(1, besideOf(r, 1, 150), 3, 0.6))),
+    (V, t, r, p, land) => RFX.baguette(V, t, r, p.pos(0), land, { word: 'OUI!' }), 'Très bien!', 'float-text buff');
+  // Lisa & Betty: the rival club leaders face off on either side of the target and shout it down with megaphones
+  S.clubwar = duoBeat('Our club is BETTER!', (p, r) => p.flank(r.T, 170, 0.4),
+    async (V, t, r, p, land) => { await RFX.megaphone(V, t, r, p.pos(0), land, { words: ['LLL!', 'BEST!'] }); await RFX.megaphone(V, t, r, p.pos(1), land, { words: ['SCARRED!', 'NO, US!'], horn: '#6f8cff' }); },
+    'Draw. ...Again.', 'float-text baka');
+  // Melanika & Rirarra: they both lunge for the same rock, it rolls away from them and into the target
+  S.rockbottom = duoBeat('MY rock!', (p, r) => { const M = { x: lerp(r.A.x, r.T.x, 0.2), y: lerp(r.A.y, r.T.y, 0.2) }; return both(p.rush(0, { x: M.x - 40, y: M.y }, 0.3), p.rush(1, { x: M.x + 40, y: M.y }, 0.3)); },
+    async (V, t, r, p, land) => { const M = { x: (p.pos(0).x + p.pos(1).x) / 2, y: (p.pos(0).y + p.pos(1).y) / 2 }; await RFX.roughrock(V, t, r, M, land, { rock: '#b0a090' }); }, 'Okay. YOUR rock.', 'float-text baka');
+  // Brizz & Rirarra: the tutor ticks off the manners checklist while the student hops over... and bites. Big red X
+  S.nobiting = duoBeat('Lesson one: manners.', (p, r) => both(p.rise(0, 30, 0.3), p.hop(1, besideOf(r, 1, 120), 4, 0.7)),
+    (V, t, r, p, land) => RFX.checklist(V, t, r, p.pos(0), land, { items: ['Napkin', 'Please', 'No biting'] }), 'We will practise again.', 'float-text buff');
+  // Eva & Andrea: the study buddies hop over either side and stack the whole syllabus on the target
+  S.allnighter = duoBeat('One more chapter...', (p, r) => both(p.hop(0, besideOf(r, 0, 150), 3, 0.6), later(0.1, () => p.hop(1, besideOf(r, 1, 150), 3, 0.6))),
+    (V, t, r, p, land) => RFX.booktower(V, t, r, p.pos(0), land, {}), 'Exam passed. Barely.');
+  // Shiina & Suzu: onee-chan rises with the compass, little sister swings round; the construction closes on the target
+  S.onechanguard = duoBeat('Stay behind me, Suzu.', (p, r) => both(p.rise(0, 40, 0.3), p.swing(1, besideOf(r, 1, 150), 1, 0.5)),
+    (V, t, r, p, land) => RFX.compass(V, t, r, p.pos(0), land, { ink: '#6a4fb5' }), 'Q.E.D.', 'float-text buff');
+  // Sakura & Aoi: the reader rises turning pages, the swordswoman charges in, and the pages cut like blades
+  S.bookmarkslash = duoBeat('Chapter twelve: the duel.', (p, r) => both(p.rise(0, 30, 0.3), p.rush(1, r.C, 0.3)),
+    (V, t, r, p, land) => RFX.pageslash(V, t, r, p.pos(0), land, { hits: 5 }), 'Bookmarked.', 'float-text buff');
+  // Owain & Ellis: the manager stays with his clipboard, the cheerleader cartwheels out front; the pom-poms fly from both
+  S.routinecheck = duoBeat('Five, six, seven, eight!', (p, r) => both(p.rise(0, 10, 0.2), p.swing(1, { x: lerp(r.A.x, r.T.x, 0.4), y: lerp(r.A.y, r.T.y, 0.4) }, 1, 0.5)),
+    (V, t, r, p, land) => RFX.cheerpoms(V, t, r, p.pos(1), land, { from2: p.pos(0), colors: ['#2e6b3a', '#ffd84a'] }), 'Routine: approved.');
+  // Linda & Janice: the sisters hop in close on either side and fact-check the target under a magnifying glass
+  S.factcheck = duoBeat('Citation needed.', (p, r) => both(p.hop(0, besideOf(r, 0, 120), 2, 0.5), later(0.1, () => p.hop(1, besideOf(r, 1, 120), 2, 0.5))),
+    (V, t, r, p, land) => RFX.magnifier(V, t, r, p.pos(0), land, { word: 'FALSE!' }), 'Sources: us.', 'float-text buff');
+  // Diana & Jane: the doe sisters charge from both sides; antlers ram the target
+  S.doeduo = duoBeat('Antlers down!', (p, r) => p.flank(r.T, 140, 0.35),
+    (V, t, r, p, land) => RFX.antlers(V, t, r, p.pos(0), land, {}), 'Doe-n mess with us.', 'float-text buff');
+  // Asuka & Quinta: Asuka presents the chart, Quinta leaps in after the trend line with her claws out
+  S.dataclaws = duoBeat('As the data shows...', (p, r) => p.rise(0, 30, 0.3),
+    async (V, t, r, p, land) => { await RFX.bargraph(V, t, r, p.pos(0), land, { word: '-99%' }); await p.leap(1, r.C, 200, 0.45); await RFX.brushstroke(V, t, r, p.pos(1), land, { paint: '#8e6bbf' }); }, 'Peer reviewed.', 'float-text buff');
+  // Louis & Natalie: father and daughter hop round the target hanging baubles, and the garland wraps it
+  S.punchcocktail = duoBeat('Yule be sorry!', (p, r) => both(p.hop(0, besideOf(r, 0, 140), 3, 0.6), later(0.12, () => p.hop(1, besideOf(r, 1, 140), 3, 0.6))),
+    (V, t, r, p, land) => RFX.ornament(V, t, r, p.pos(0), land, {}), 'Fa-la-la-LOL.', 'float-text burn');
+  // Juniper & Jane: Juniper sneaks round to tag the target while Jane films it rising on her tiptoes
+  S.viralstunt = duoBeat('Are you recording?!', (p, r) => both(p.swing(0, besideOf(r, 0, 130), -1, 0.5), p.rise(1, 20, 0.3)),
+    async (V, t, r, p, land) => { await RFX.graffiti(V, t, r, p.pos(0), land, { paint: '#5fae6e' }); await RFX.viewfinder(V, t, r, p.pos(1), land, {}); }, '10 million views!', 'float-text buff');
+  // Pepita & Beatrice: the chef flings a slice, the princess decrees more cheese from on high
+  S.cheeseedict = duoBeat('By royal decree: EXTRA CHEESE!', (p, r) => both(p.rise(1, 50, 0.4), p.to(0, { x: lerp(r.A.x, r.T.x, 0.25), y: lerp(r.A.y, r.T.y, 0.25) }, 0.3)),
+    (V, t, r, p, land) => RFX.cheesepull(V, t, r, p.pos(0), land, {}), 'Mamma mia!');
+  // Charlotte & Sophia: the maid sweeps across the board while the young lady watches with her fan
+  S.dusterduo = duoBeat('Allow me, my lady.', (p, r) => both(p.rush(0, { x: lerp(r.A.x, r.T.x, 0.3), y: lerp(r.A.y, r.T.y, 0.3) }, 0.3), p.rise(1, 10, 0.2)),
+    async (V, t, r, p, land) => { await RFX.dustsweep(V, t, r, p.pos(0), land, {}); }, 'Spotless, my lady.', 'float-text heal');
+  // Monika & Natsuki: Natsuki stomps up to make her point, Monika stays back; the target ends up in a manga panel
+  S.mangaliterature = duoBeat('Manga IS literature!', (p, r) => both(p.hop(1, besideOf(r, 1, 140), 4, 0.6), p.rise(0, 10, 0.2)),
+    (V, t, r, p, land) => RFX.mangaframe(V, t, r, p.pos(1), land, { word: 'DOKI!' }), 'Okay, okay, it is!', 'float-text baka');
+  // Monika & Yuri: Yuri rises with the book, Monika steps aside; the tome claps shut on the target
+  S.requiredreading = duoBeat('You will read this.', (p, r) => both(p.rise(1, 50, 0.4), p.to(0, { x: r.A.x - 60, y: r.A.y }, 0.3)),
+    (V, t, r, p, land) => RFX.tome(V, t, r, p.pos(1), land, { cover: '#5a2a8a' }), 'Chapter one. Again.', 'float-text debuff');
+  // Ethan & Skylar: aunt and nephew circle out for the roast battle; the mic drops and the stage burns
+  S.familyroast = duoBeat('Oh, it\'s ROAST time.', (p, r) => both(p.swing(0, besideOf(r, 0, 160), -1, 0.5), p.swing(1, besideOf(r, 1, 160), 1, 0.5)),
+    (V, t, r, p, land) => RFX.roastmic(V, t, r, p.pos(0), land, { word: 'ROASTED!' }), 'Same time next Thanksgiving.', 'float-text burn');
+  // Irene & Howard: the chancellor pops the champagne, the hungover soldier stumbles in after the cork
+  S.hungoverdrill = duoBeat('To victory! *hic*', (p, r) => p.rise(0, 20, 0.2),
+    async (V, t, r, p, land) => { const go = p.hop(1, besideOf(r, 1, 130), 4, 0.9); await RFX.champagne(V, t, r, p.pos(0), land, {}); await go; }, 'Drill... tomorrow.', 'float-text burn');
+  // Dani & Jet: the couriers fan out to either side of the lane and pelt the target with parcels in turn
+  S.doubledelivery = duoBeat('Delivery for YOU!', (p, r) => both(p.swing(0, { x: lerp(r.A.x, r.T.x, 0.35) - 80, y: lerp(r.A.y, r.T.y, 0.35) }, -1, 0.4), p.swing(1, { x: lerp(r.A.x, r.T.x, 0.35) + 80, y: lerp(r.A.y, r.T.y, 0.35) }, 1, 0.4)),
+    (V, t, r, p, land) => RFX.parcels(V, t, r, p.pos(0), land, { from2: p.pos(1) }), 'Sign here!', 'float-text buff');
+  // Zero & Finn: the gamer stays at the controller, the dancer bounces round him; an 8-bit heart takes the target out
+  S.coopmode = duoBeat('Player two has joined!', (p, r) => both(p.orbit(1, r.A, 90, 1, 0.8), p.rise(0, 10, 0.2)),
+    (V, t, r, p, land) => RFX.pixelblast(V, t, r, p.pos(0), land, { word: 'K.O.!' }), 'GG!', 'float-text buff');
+  // Dani & Zero: Dani dashes in for the makeover, Zero hangs back blushing; glitter everywhere and a kiss mark
+  S.glitterbomb = duoBeat('Makeover TIME~!', (p, r) => both(p.rush(0, besideOf(r, 0, 120), 0.35), p.rise(1, 10, 0.2)),
+    (V, t, r, p, land) => RFX.glitter(V, t, r, p.pos(0), land, {}), 'Gorgeous, babe~', 'float-text heal');
+  // Seraphina & Valerian: the vampire rises and lets his bats loose, the elf binds the target in thorns
+  S.thornedbat = duoBeat('Into my forest? Bold.', (p, r) => both(p.rise(1, 60, 0.4), p.to(0, besideOf(r, 0, 170), 0.6, 'sine.inOut')),
+    async (V, t, r, p, land) => { await RFX.batswarm(V, t, r, p.pos(1), land, { hits: 6 }); await RFX.thornwrap(V, t, r, p.pos(0), land, {}); }, 'Fang and thorn.', 'float-text debuff');
+
+  // ---------------------------------------------------------------- SVG.js stages (SVG.js builds and animates, Rough.js sketches into it)
+  // sjStage() is a billboard holding an SVG.js canvas (st.S) with a Rough.js renderer drawing into it (st.rc). SVG.js animates on its own
+  // clock, so sjms(s) converts seconds to its ms at the game's current speed (the checker runs GSAP faster); the sequencing still
+  // waits on GSAP (wait()), which keeps the hit timing on the game's clock. boil() redraws rough shapes several times a second with a
+  // new random wobble each time: the "boiling line" look of hand-drawn animation. Without the libraries an effect falls back to kaboom.
+  const libs = () => !!(GW.SVG && GW.rough);
+  const sjms = (s) => (s * 1000) / (gsap.globalTimeline.timeScale() || 1);
+  function sjStage(V, P, h, w, hh, cls, c = '#ffffff') {
+    const b = V.billboard('dfx sj ' + cls, '', P.x, P.y);
+    b.body.style.setProperty('--c', c);
+    gsap.set(b.body, { y: -h });
+    const S = GW.SVG().addTo(b.body).size(w, hh).viewbox(0, 0, w, hh);
+    return { b, S, rc: GW.rough.svg(S.node), w, h: hh };
+  }
+  const rput = (parent, node) => parent.put(GW.SVG(node));
+  function boil(parent, rc, make, every = 0.12, times = 14) {
+    const g = parent.group(), render = () => { g.clear(); [].concat(make(rc)).forEach((n) => g.node.appendChild(n)); };
+    render();
+    const tw = gsap.to({}, { duration: every, repeat: times, onRepeat: render });
+    return { g, stop: () => tw.kill() };
+  }
+  const fadeStage = async (st, delay = 0, dur = 0.3) => { await wait(delay); await gsap.to(st.b.body, { opacity: 0, duration: dur }); st.b.remove(); };
+
+  // ---- hauntedhall: two sketched doors creak open either side of the target and a ghost (its hem rippling, a morph) sweeps out through it
+  const ghostD = (k) => `M20 60 C20 18 80 18 80 60 L80 100 Q72.5 ${108 + k} 65 100 Q57.5 ${92 - k} 50 100 Q42.5 ${108 + k} 35 100 Q27.5 ${92 - k} 20 100 Z`;
+  RFX.hauntedhall = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 280, H = t.isLeader ? 190 : 220, st = sjStage(V, r.T, r.hT, W, H, 'sj-hall', o.glow || '#8ad0b0');
+    const door = (x) => (rc) => [rc.rectangle(x, 20, 70, H - 30, { fill: '#5a3a2a', fillStyle: 'hachure', hachureGap: 6, stroke: '#2a1a0a', strokeWidth: 3, roughness: 1.8 }), rc.circle(x + (x < W / 2 ? 58 : 12), H / 2, 10, { fill: '#e8c040', fillStyle: 'solid' })];
+    const dl = boil(st.S, st.rc, door(6)), dr = boil(st.S, st.rc, door(W - 76));
+    MB.audio.sfx('creak');
+    dl.g.animate(sjms(0.45)).ease('<>').transform({ scaleX: 0.2, origin: [6, H / 2] });
+    dr.g.animate(sjms(0.45), sjms(0.15)).ease('<>').transform({ scaleX: 0.2, origin: [W - 6, H / 2] });
+    await wait(0.5);
+    const gh = st.S.group(), body = gh.path(ghostD(8)).fill('#f4fffa').stroke({ color: '#5a8a7a', width: 3 }).opacity(0.92);
+    gh.circle(10).center(42, 52).fill('#1a2a2a'); gh.circle(10).center(58, 52).fill('#1a2a2a'); gh.ellipse(10, 14).center(50, 72).fill('#1a2a2a');
+    body.animate(sjms(0.22)).plot(ghostD(-8)).loop(10, true);
+    gh.transform({ translateX: 0, translateY: H / 2 - 60, scale: 0.4 });
+    MB.audio.sfx('ghostly');
+    gh.animate(sjms(0.6)).ease('<>').transform({ translateX: W / 2 - 50, translateY: H / 2 - 70, scale: 1.4 });
+    await wait(0.62);
+    lands(land, o);
+    MB.audio.sfx('vortex');
+    tint(victim(V, t), 'grayscale(1) brightness(1.6)', 0.9);
+    gh.animate(sjms(0.4)).transform({ translateX: W - 30, translateY: 0, scale: 0.3 }).attr({ opacity: 0 });
+    await wait(0.45);
+    dl.stop(); dr.stop();
+    await fadeStage(st);
+  };
+
+  // ---- candlelight: the lights go down (a darkness masked round a shrinking circle of light), two sketched candles flicker; they are
+  // blown out and the dark closes on the target
+  const flameD = (k) => `M0 ${-26 - k} C8 ${-14} 9 -4 0 0 C-9 -4 -8 ${-14} 0 ${-26 - k} Z`;
+  RFX.candlelight = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 300, H = t.isLeader ? 200 : 260, st = sjStage(V, r.T, r.hT, W, H, 'sj-candle', '#ffb347');
+    const dark = st.S.rect(W, H).fill('#05020a').opacity(0.85), m = st.S.mask(), hole = st.S.circle(W * 1.4).center(W / 2, H / 2).fill('#000');
+    m.add(st.S.rect(W, H).fill('#fff')); m.add(hole); dark.maskWith(m);
+    MB.audio.sfx('dark');
+    hole.animate(sjms(0.8)).ease('<>').attr({ r: 70 });
+    const cx = [40, W - 40], candles = cx.map((x) => boil(st.S, st.rc, (rc) => [rc.rectangle(x - 12, H - 70, 24, 60, { fill: '#fff4dc', fillStyle: 'solid', stroke: '#8a6a3a', strokeWidth: 2, roughness: 1.5 }), rc.line(x, H - 70, x, H - 78, { strokeWidth: 2 })], 0.15, 12));
+    const flames = cx.map((x) => { const f = st.S.path(flameD(0)).fill('#ffb347').stroke({ color: '#ff7a2a', width: 2 }).transform({ translateX: x, translateY: H - 78 }); f.animate(sjms(0.15)).plot(flameD(6)).loop(14, true); return f; });
+    MB.audio.sfx('fire');
+    await wait(0.95);
+    MB.audio.sfx('blowout');
+    flames.forEach((f) => f.animate(sjms(0.15)).attr({ opacity: 0 }));
+    hole.animate(sjms(0.25)).ease('<').attr({ r: 0 });
+    await wait(0.27);
+    lands(land, o);
+    tint(victim(V, t), 'brightness(0.25)', 1);
+    await wait(0.45);
+    candles.forEach((c) => c.stop());
+    await fadeStage(st, 0, 0.35);
+  };
+
+  // ---- receipt: a service bell, then a receipt prints and unrolls down over the target line by line (a clip that grows), TOTAL: YOU
+  RFX.receipt = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 150, H = t.isLeader ? 200 : 260, st = sjStage(V, r.T, r.hT * 1.05, W, H, 'sj-receipt', '#ffffff');
+    const g = st.S.group(), clip = st.S.clip(), win = st.S.rect(W, 0);
+    clip.add(win); g.clipWith(clip);
+    let zz = `M6 6 L${W - 6} 6 L${W - 6} ${H - 14}`;
+    for (let x = W - 6; x > 6; x -= 12) zz += ` L${x - 6} ${H - 4} L${x - 12} ${H - 14}`;
+    rput(g, st.rc.path(zz + ' Z', { fill: '#fffdf4', fillStyle: 'solid', stroke: '#8a8a9a', strokeWidth: 2, roughness: 1 }));
+    const items = o.items || ['1x Attitude', '2x Smile', '1x Complaint', 'Service fee'];
+    g.text('RECEIPT').font({ size: 16, weight: 900, family: 'Courier New, monospace', anchor: 'middle' }).center(W / 2, 24).fill('#2a2a33');
+    items.forEach((it, i) => g.text(`${it}`).font({ size: 11, weight: 700, family: 'Courier New, monospace' }).move(14, 44 + i * 26).fill('#2a2a33'));
+    items.forEach((_, i) => g.text(`${(i + 1) * 3}.99`).font({ size: 11, weight: 700, family: 'Courier New, monospace', anchor: 'end' }).move(W - 14, 44 + i * 26).fill('#2a2a33'));
+    rput(g, st.rc.line(12, H - 66, W - 12, H - 66, { strokeWidth: 2, roughness: 2 }));
+    g.text(o.total || 'TOTAL: YOU').font({ size: 15, weight: 900, family: 'Courier New, monospace', anchor: 'middle' }).center(W / 2, H - 46).fill('#c0182a');
+    MB.audio.sfx('servicebell');
+    await wait(0.25);
+    for (let i = 0; i <= items.length + 1; i++) { MB.audio.sfx('typewriter'); win.animate(sjms(0.12)).attr({ height: Math.min(H, 40 + i * 30) }); await wait(0.14); }
+    win.animate(sjms(0.15)).attr({ height: H });
+    await wait(0.18);
+    MB.audio.sfx('rip');
+    await gsap.to(st.b.body, { scaleX: 0.7, duration: 0.12, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('stamp');
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- scrollunfurl: a scroll unrolls (one roller rolls away as a clip widens), an ink yokai is brushed on it, a tale runs along a curve,
+  // then the yokai leaps off the paper onto the target
+  RFX.scrollunfurl = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 300, H = 150, st = sjStage(V, r.T, Math.min(r.hT * 1.3, ceilOf(t, r) - 80), W, H, 'sj-scroll', '#2a2a33');
+    const paper = st.S.group(), clip = st.S.clip(), win = st.S.rect(0, H).move(18, 0);
+    clip.add(win); paper.clipWith(clip);
+    rput(paper, st.rc.rectangle(18, 14, W - 36, H - 28, { fill: '#f6ecd0', fillStyle: 'solid', stroke: '#8a6a3a', strokeWidth: 2, roughness: 1.2 }));
+    const yokai = paper.group();
+    rput(yokai, st.rc.path('M120 108 C110 70 130 40 150 40 C170 40 190 70 180 108 Z', { fill: '#1a1a22', fillStyle: 'zigzag', hachureGap: 4, stroke: '#1a1a22', strokeWidth: 3, roughness: 2.2 }));
+    rput(yokai, st.rc.path('M128 50 L120 26 L138 44 M172 50 L180 26 L162 44', { stroke: '#1a1a22', strokeWidth: 4, roughness: 2 }));
+    yokai.circle(10).center(140, 66).fill('#e8203a'); yokai.circle(10).center(160, 66).fill('#e8203a');
+    const tale = paper.text(o.tale || 'long, long ago, in this very village...').font({ size: 12, weight: 700, family: 'Georgia, serif', style: 'italic' }).fill('#5a3a2a');
+    const tp = tale.path('M30 128 Q150 104 270 128');
+    tp.attr('startOffset', 240);
+    const rollL = rput(st.S, st.rc.rectangle(6, 4, 14, H - 8, { fill: '#a0603a', fillStyle: 'solid', stroke: '#4a2a1a', roughness: 1 }));
+    const rollR = rput(st.S, st.rc.rectangle(6, 4, 14, H - 8, { fill: '#a0603a', fillStyle: 'solid', stroke: '#4a2a1a', roughness: 1 }));
+    MB.audio.sfx('pageflip');
+    win.animate(sjms(0.6)).ease('<>').attr({ width: W - 36 });
+    rollR.animate(sjms(0.6)).ease('<>').transform({ translateX: W - 26 });
+    await wait(0.62);
+    MB.audio.sfx('scribble');
+    tp.animate(sjms(0.8)).attr('startOffset', 0);
+    await wait(0.8);
+    MB.audio.sfx('ghostly');
+    yokai.animate(sjms(0.3)).ease('<').transform({ scale: 2.2, translateY: 40, origin: [150, 74] });
+    await wait(0.3);
+    lands(land, o);
+    MB.audio.sfx('roar'); V.shake(10);
+    yokai.animate(sjms(0.25)).attr({ opacity: 0 });
+    rollL.animate(sjms(0.3)).attr({ opacity: 0 });
+    await wait(0.3);
+    await fadeStage(st);
+  };
+
+  // ---- scales: the scales of justice are sketched over the target and weigh it (the beam see-saws), OBJECTION! runs along an arc, and
+  // the beam slams down
+  RFX.scales = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 240, H = 200, st = sjStage(V, r.T, Math.min(r.hT * 0.95, ceilOf(t, r) - 110), W, H, 'sj-scales', '#e8c040');
+    const post = boil(st.S, st.rc, (rc) => [rc.line(W / 2, 40, W / 2, H - 14, { stroke: '#8a6a1a', strokeWidth: 5 }), rc.rectangle(W / 2 - 40, H - 16, 80, 12, { fill: '#c89a3a', fillStyle: 'solid', stroke: '#6a4a1a' })], 0.14, 12);
+    const beam = st.S.group();
+    rput(beam, st.rc.line(20, 40, W - 20, 40, { stroke: '#8a6a1a', strokeWidth: 5 }));
+    [30, W - 30].forEach((x) => { rput(beam, st.rc.line(x, 40, x - 18, 96, { strokeWidth: 2 })); rput(beam, st.rc.line(x, 40, x + 18, 96, { strokeWidth: 2 })); rput(beam, st.rc.arc(x, 96, 56, 26, 0, Math.PI, false, { fill: '#e8c040', fillStyle: 'solid', stroke: '#6a4a1a' })); });
+    beam.circle(14).center(W / 2, 40).fill('#e8c040').stroke({ color: '#6a4a1a', width: 2 });
+    const word = st.S.text(o.word || 'OBJECTION!').font({ size: 22, weight: 900, family: 'Impact, sans-serif' }).fill('#c0182a').stroke({ color: '#fff', width: 1 });
+    const tp = word.path(`M10 30 Q${W / 2} -40 ${W - 10} 30`);
+    tp.attr('startOffset', -160);
+    MB.audio.sfx('creak');
+    beam.animate(sjms(0.25)).ease('<>').transform({ rotate: 12, origin: [W / 2, 40] }).animate(sjms(0.25)).ease('<>').transform({ rotate: -12, origin: [W / 2, 40] }).loop(2, true);
+    await wait(0.6);
+    MB.audio.sfx('ooh');
+    tp.animate(sjms(0.4)).ease('>').attr('startOffset', 40);
+    await wait(0.45);
+    MB.audio.sfx('gavel');
+    beam.animate(sjms(0.12)).ease('<').transform({ rotate: 28, origin: [W / 2, 40] });
+    await wait(0.13);
+    lands(land, o);
+    V.shake(10);
+    await wait(0.5);
+    post.stop();
+    await fadeStage(st);
+  };
+
+  // ---- decree: a proclamation circles the target as text running round a ring, then a royal wax seal is stamped on it
+  RFX.decree = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = t.isLeader ? 220 : 260, st = sjStage(V, r.T, r.hT, W, W, 'sj-decree', o.wax || '#a03fd6'), c = W / 2, R = c - 18;
+    const ring = st.S.group();
+    rput(ring, st.rc.circle(c, c, R * 2 + 16, { stroke: '#d8b040', strokeWidth: 3, roughness: 1.6 }));
+    const txt = ring.text(((o.decree || 'BY ROYAL DECREE') + ' ✦ ').repeat(3)).font({ size: 15, weight: 900, family: 'Georgia, serif', 'letter-spacing': 1 }).fill('#f6e2a0').stroke({ color: '#3a1a4a', width: 0.6 });
+    txt.path(`M${c} ${c - R} A${R} ${R} 0 1 1 ${c - 0.1} ${c - R} Z`);
+    MB.audio.sfx('fanfare');
+    ring.transform({ scale: 0.2, origin: [c, c] });
+    ring.animate(sjms(0.3)).ease('>').transform({ scale: 1, origin: [c, c] });
+    ring.animate(sjms(0.9), sjms(0.3), 'now').transform({ rotate: 240, origin: [c, c] });
+    await wait(1.2);
+    const seal = st.S.group();
+    rput(seal, st.rc.circle(c, c, 90, { fill: o.wax || '#a03fd6', fillStyle: 'solid', stroke: '#4a0a5a', strokeWidth: 3, roughness: 2.2 }));
+    rput(seal, st.rc.polygon([[c, c - 26], [c + 8, c - 8], [c + 26, c - 6], [c + 12, c + 6], [c + 16, c + 24], [c, c + 14], [c - 16, c + 24], [c - 12, c + 6], [c - 26, c - 6], [c - 8, c - 8]], { fill: '#f6e2a0', fillStyle: 'solid', stroke: '#4a0a5a', strokeWidth: 2 }));
+    seal.transform({ scale: 3, origin: [c, c] }).attr({ opacity: 0 });
+    MB.audio.sfx('whoosh');
+    seal.animate(sjms(0.15)).ease('<').transform({ scale: 1, origin: [c, c] }).attr({ opacity: 1 });
+    await wait(0.16);
+    lands(land, o);
+    MB.audio.sfx('stamp'); MB.audio.sfx('gavel'); V.shake(12);
+    ring.animate(sjms(0.3)).attr({ opacity: 0 });
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---- enso: a brushed zen circle round the target breathes in and out (boiling ink, the stage swelling and settling), a bell, then it
+  // snaps shut. Calm, then not
+  RFX.enso = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = t.isLeader ? 200 : 240, c = W / 2, st = sjStage(V, r.T, r.hT, W, W, 'sj-enso', '#1a1a22');
+    const ink = o.ink || '#1a1a22', ens = boil(st.S, st.rc, (rc) => rc.path(`M${c + 10} ${c - 96} A96 96 0 1 1 ${c - 30} ${c - 92}`, { stroke: ink, strokeWidth: 9, roughness: 2.6, bowing: 2 }), 0.14, 16);
+    const label = st.S.text('breathe in...').font({ size: 15, weight: 700, family: 'Georgia, serif', style: 'italic', anchor: 'middle' }).center(c, c).fill(ink).opacity(0);
+    MB.audio.sfx('ding');
+    for (const [k, s] of [['breathe in...', 1.12], ['...and out.', 0.9], ['breathe in...', 1.12]]) {
+      label.text(k).opacity(1).center(c, c);
+      ens.g.animate(sjms(0.4)).ease('<>').transform({ scale: s, origin: [c, c] });
+      MB.audio.sfx('wind');
+      await wait(0.42);
+    }
+    label.animate(sjms(0.1)).attr({ opacity: 0 });
+    MB.audio.sfx('gong');
+    ens.g.animate(sjms(0.14)).ease('<').transform({ scale: 0.35, origin: [c, c] });
+    await wait(0.15);
+    lands(land, o);
+    MB.audio.sfx('bonk');
+    ens.g.animate(sjms(0.3)).transform({ scale: 1.6, origin: [c, c] }).attr({ opacity: 0 });
+    await wait(0.35);
+    ens.stop();
+    await fadeStage(st, 0, 0.15);
+  };
+
+  // ---- teaceremony: over the target a sketched pot tips and pours a stream into a cup (the stream grows, the steam ripples, morphing),
+  // then the full cup is set down on its head
+  const steamD = (k) => `M0 0 C${-8 - k} -10 ${8 + k} -20 0 -30 C${-8 - k} -40 ${8 + k} -50 0 -60`;
+  RFX.teaceremony = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 220, H = 200, h0 = Math.min(r.hT * 2 + 40, ceilOf(t, r) - H / 2), st = sjStage(V, r.T, h0, W, H, 'sj-tea', '#7ab060');
+    const pot = st.S.group();
+    rput(pot, st.rc.ellipse(70, 70, 90, 70, { fill: o.pot || '#7ab060', fillStyle: 'cross-hatch', hachureGap: 6, stroke: '#2a4a1a', strokeWidth: 3 }));
+    rput(pot, st.rc.path('M114 62 C130 56 136 46 146 40', { stroke: '#2a4a1a', strokeWidth: 5 }));
+    rput(pot, st.rc.path('M28 60 C6 60 6 90 30 86', { stroke: '#2a4a1a', strokeWidth: 4 }));
+    const cupG = st.S.group();
+    rput(cupG, st.rc.path(`M120 150 L196 150 C194 186 176 196 158 196 C140 196 122 186 120 150 Z`, { fill: '#fffaf0', fillStyle: 'solid', stroke: '#5a5a5a', strokeWidth: 3 }));
+    const stream = st.S.path('M146 40 C150 60 156 80 158 80').fill('none').stroke({ color: '#a8c86a', width: 6, linecap: 'round' }).attr({ 'stroke-dasharray': 200, 'stroke-dashoffset': 200 });
+    MB.audio.sfx('creak');
+    pot.animate(sjms(0.4)).ease('<>').transform({ rotate: 28, origin: [70, 70] });
+    await wait(0.4);
+    MB.audio.sfx('pour');
+    stream.plot('M146 40 C150 80 158 120 158 150').animate(sjms(0.3)).attr({ 'stroke-dashoffset': 0 });
+    const steams = [140, 158, 176].map((x, i) => { const s = st.S.path(steamD(0)).fill('none').stroke({ color: '#ffffff', width: 3, linecap: 'round' }).transform({ translateX: x, translateY: 146 }).opacity(0.8); s.animate(sjms(0.3), sjms(i * 0.1)).plot(steamD(6)).loop(6, true); return s; });
+    await wait(0.8);
+    stream.animate(sjms(0.15)).attr({ opacity: 0 });
+    pot.animate(sjms(0.3)).transform({ rotate: 0, origin: [70, 70] }).attr({ opacity: 0 });
+    MB.audio.sfx('whoosh');
+    await gsap.to(st.b.body, { y: -Math.max(r.hT * 0.9, 60), duration: 0.25, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('splash'); MB.audio.sfx('gulp');
+    tint(victim(V, t), 'sepia(0.6) hue-rotate(40deg)', 0.8);
+    steams.forEach((s) => s.animate(sjms(0.3)).attr({ opacity: 0 }));
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- flaskfeud: a sketched flask bubbles on one side (rising bubbles), a timeline of dates runs along an arrow on the other; the flask's
+  // brew swells and morphs into an explosion over the target
+  RFX.flaskfeud = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 280, H = 210, st = sjStage(V, r.T, Math.min(r.hT * 1.1, ceilOf(t, r) - H / 2), W, H, 'sj-flask', '#5affb0');
+    rput(st.S, st.rc.path('M40 30 L40 80 L14 150 C10 166 20 172 34 172 L86 172 C100 172 110 166 106 150 L80 80 L80 30', { stroke: '#4a5a6a', strokeWidth: 3 }));
+    const brew = st.S.path(blobD(60, 150, 26, 14, 0.12, 0.5)).fill(o.brew || '#5affb0').opacity(0.85);
+    for (let i = 0; i < 6; i++) { const b = st.S.circle(8 + (i % 3) * 3).center(46 + (i * 7) % 28, 156).fill('#d8fff0'); b.animate(sjms(0.5), sjms(i * 0.12)).attr({ cy: 40, opacity: 0 }).loop(2); }
+    rput(st.S, st.rc.line(140, 160, 270, 40, { stroke: '#2a3a8a', strokeWidth: 4 }));
+    rput(st.S, st.rc.polygon([[270, 40], [252, 44], [264, 58]], { fill: '#2a3a8a', fillStyle: 'solid' }));
+    const dates = st.S.text(o.dates || '1066 · 1492 · 1789 · 1969 · NOW').font({ size: 12, weight: 900, family: 'Georgia, serif' }).fill('#2a3a8a');
+    const tp = dates.path('M140 150 L270 30');
+    tp.attr('startOffset', 200);
+    MB.audio.sfx('bubble'); MB.audio.sfx('typewriter');
+    tp.animate(sjms(0.8)).attr('startOffset', 0);
+    brew.animate(sjms(0.8)).plot(blobD(60, 140, 34, 14, 0.18, 0.7));
+    await wait(0.85);
+    MB.audio.sfx('rumble');
+    brew.animate(sjms(0.25)).ease('<').plot(blobD(W / 2, H / 2, 110, 14, 0.45, 0.85));
+    await wait(0.26);
+    lands(land, o);
+    MB.audio.sfx('boom'); V.shake(14);
+    tint(victim(V, t), 'hue-rotate(120deg) saturate(2)', 0.8);
+    brew.animate(sjms(0.4)).attr({ opacity: 0 });
+    await wait(0.4);
+    await fadeStage(st);
+  };
+
+  // ---- synthscan: a sketched robot outline is laid over the target (boiling), a scan line with a glow sweeps it twice, SYNTH?! and alarms
+  RFX.synthscan = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 200, H = Math.round(Math.min(r.hT * 2.1, ceilOf(t, r) - 10)), st = sjStage(V, r.T, H / 2, W, H, 'sj-scan', '#8ad0ff');
+    const bot = boil(st.S, st.rc, (rc) => [rc.rectangle(60, 14, 80, 60, { stroke: '#8ad0ff', strokeWidth: 3, roughness: 2 }), rc.rectangle(46, 84, 108, H - 100, { stroke: '#8ad0ff', strokeWidth: 3, roughness: 2 }), rc.line(100, 14, 100, 0, { stroke: '#8ad0ff', strokeWidth: 3 }), rc.circle(82, 42, 14, { stroke: '#ff3a5a', strokeWidth: 3 }), rc.circle(118, 42, 14, { stroke: '#ff3a5a', strokeWidth: 3 })], 0.1, 16);
+    bot.g.opacity(0.75);
+    const grad = st.S.gradient('linear', (add) => { add.stop(0, '#8ad0ff', 0); add.stop(0.5, '#8ad0ff', 0.9); add.stop(1, '#8ad0ff', 0); }).from(0, 0).to(0, 1);
+    const scan = st.S.rect(W, 26).fill(grad).move(0, -26);
+    const label = st.S.text('SCANNING...').font({ size: 15, weight: 900, family: 'Consolas, monospace', anchor: 'middle' }).center(W / 2, H - 8).fill('#8ad0ff');
+    MB.audio.sfx('scope');
+    scan.animate(sjms(0.45)).ease('-').attr({ y: H }).loop(2);
+    await wait(0.95);
+    label.text(o.word || 'SYNTH?!').fill('#ff3a5a').center(W / 2, H - 8);
+    MB.audio.sfx('alarm');
+    bot.g.animate(sjms(0.05)).transform({ translateX: 6 }).loop(6, true);
+    lands(land, o);
+    MB.audio.sfx('glitch');
+    tint(victim(V, t), 'hue-rotate(180deg) saturate(2)', 0.6);
+    await wait(0.5);
+    bot.stop();
+    await fadeStage(st);
+  };
+
+  // ---- tvstatic: a sketched TV is set over the target, its screen crawling with static (the pattern regenerated), a gossip ticker
+  // scrolls along the bottom, a GASP, and the screen cracks
+  RFX.tvstatic = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 240, H = 200, st = sjStage(V, r.T, Math.min(r.hT * 1.2, ceilOf(t, r) - H / 2), W, H, 'sj-tv', '#d0304a');
+    const tv = boil(st.S, st.rc, (rc) => [rc.rectangle(10, 30, W - 20, H - 40, { fill: '#3a2a2a', fillStyle: 'solid', stroke: '#1a0a0a', strokeWidth: 4, roughness: 1.6 }), rc.line(W / 2, 30, W / 2 - 40, 2, { strokeWidth: 3 }), rc.line(W / 2, 30, W / 2 + 40, 2, { strokeWidth: 3 }), rc.circle(W - 34, H - 32, 14, { fill: '#c89a5a', fillStyle: 'solid' })], 0.12, 14);
+    const scr = st.S.group(), noiseRects = () => { scr.clear(); scr.rect(W - 80, H - 80).move(24, 42).fill('#8a8a9a'); for (let i = 0; i < 70; i++) scr.rect(rnd(4, 14), rnd(2, 5)).move(24 + rnd(0, W - 94), 42 + rnd(0, H - 86)).fill(MB.pick(['#ffffff', '#1a1a1a', '#c8c8d8'])); };
+    noiseRects();
+    const st2 = gsap.to({}, { duration: 0.06, repeat: 18, onRepeat: noiseRects });
+    const ticker = st.S.text(o.ticker || 'BREAKING: scandal at the summoning circle... more at eleven... ').font({ size: 12, weight: 900, family: 'Arial, sans-serif' }).fill('#ffe94a').move(W, H - 30);
+    MB.audio.sfx('glitch');
+    ticker.animate(sjms(1.2)).ease('-').attr({ x: -260 });
+    await wait(0.8);
+    MB.audio.sfx('gasp'); MB.audio.sfx('ooh');
+    await wait(0.4);
+    st2.kill();
+    scr.clear();
+    rput(st.S, st.rc.path(`M${W / 2} ${H / 2} L${W / 2 - 40} 50 M${W / 2} ${H / 2} L${W - 50} 70 M${W / 2} ${H / 2} L70 ${H - 40} M${W / 2} ${H / 2} L${W - 60} ${H - 44}`, { stroke: '#ffffff', strokeWidth: 3, roughness: 2.5 }));
+    lands(land, o);
+    MB.audio.sfx('glass'); V.shake(10);
+    await wait(0.5);
+    tv.stop();
+    await fadeStage(st);
+  };
+
+  // ---- maskswap: a fox mask is sketched over the target's face, morphs into a cat mask (same outline, new shape), and is slapped on
+  const FOX = [[50, 92], [30, 70], [16, 44], [10, 8], [34, 28], [50, 26], [66, 28], [90, 8], [84, 44], [70, 70]];
+  const CAT = [[50, 86], [24, 76], [12, 52], [16, 10], [36, 32], [50, 30], [64, 32], [84, 10], [88, 52], [76, 76]];
+  const polyD = (pts) => 'M' + pts.map((p) => p.join(' ')).join(' L') + ' Z';
+  RFX.maskswap = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const st = sjStage(V, r.T, Math.min(r.hT * 1.6, ceilOf(t, r) - 70), 140, 140, 'sj-mask', '#ff9a4a');
+    const g = st.S.group().transform({ scale: 1.4, origin: [0, 0] });
+    const face = g.path(polyD(FOX)).fill(o.fox || '#ff8a3a').stroke({ color: '#3a1a0a', width: 3, linejoin: 'round' });
+    const eyes = [g.ellipse(14, 6).center(36, 48).fill('#1a0a0a'), g.ellipse(14, 6).center(64, 48).fill('#1a0a0a')];
+    const deco = boil(g, st.rc, (rc) => [rc.path('M40 70 Q50 78 60 70', { strokeWidth: 3 }), rc.line(20, 58, 4, 54, { strokeWidth: 2 }), rc.line(80, 58, 96, 54, { strokeWidth: 2 })], 0.12, 14);
+    MB.audio.sfx('pop');
+    g.attr({ opacity: 0 }).animate(sjms(0.2)).attr({ opacity: 1 });
+    await wait(0.45);
+    MB.audio.sfx('meow'); MB.audio.sfx('sparkle');
+    face.animate(sjms(0.4)).ease('<>').plot(polyD(CAT)).attr({ fill: o.cat || '#f0f0f8' });
+    eyes.forEach((e) => e.animate(sjms(0.4)).attr({ ry: 8, rx: 5 }));
+    await wait(0.5);
+    MB.audio.sfx('whoosh');
+    await gsap.to(st.b.body, { y: -r.hT * 1.25, scale: 1.2, duration: 0.15, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('slap');
+    await wait(0.5);
+    deco.stop();
+    await fadeStage(st);
+  };
+
+  // ---- keyhole: a door is sketched over the target, a key flies into its keyhole and turns (unlock), and the door swings open on it
+  RFX.keyhole = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 170, H = Math.round(Math.min(r.hT * 2, ceilOf(t, r) - 10)), st = sjStage(V, r.T, H / 2, W, H, 'sj-door', '#c9a46a');
+    const door = st.S.group();
+    rput(door, st.rc.rectangle(10, 6, W - 20, H - 10, { fill: o.door || '#8a5a3a', fillStyle: 'hachure', hachureGap: 7, stroke: '#3a1a0a', strokeWidth: 3 }));
+    rput(door, st.rc.rectangle(28, 24, W - 56, H / 2 - 40, { stroke: '#3a1a0a', strokeWidth: 2 }));
+    door.path(`M${W / 2 - 9} ${H * 0.55} a9 9 0 1 1 18 0 l-5 4 l4 22 h-16 l4 -22 Z`).fill('#0a0a0a');
+    door.text(o.room || '305').font({ size: 16, weight: 900, family: 'Georgia, serif', anchor: 'middle' }).center(W / 2, 40).fill('#f6e2a0');
+    const key = st.S.group();
+    rput(key, st.rc.circle(0, 0, 26, { stroke: '#e8c040', strokeWidth: 5 }));
+    rput(key, st.rc.path('M13 0 L56 0 M44 0 L44 10 M52 0 L52 8', { stroke: '#e8c040', strokeWidth: 5 }));
+    key.transform({ translateX: -60, translateY: H * 0.2, rotate: -30 });
+    MB.audio.sfx('keys');
+    key.animate(sjms(0.4)).ease('<>').transform({ translateX: W / 2 - 56, translateY: H * 0.55, rotate: 0 });
+    await wait(0.45);
+    MB.audio.sfx('unlock');
+    key.animate(sjms(0.2)).transform({ translateX: W / 2 - 56, translateY: H * 0.55, rotate: 0, scaleY: 0.3 });
+    await wait(0.25);
+    MB.audio.sfx('creak');
+    door.animate(sjms(0.25)).ease('<').transform({ scaleX: 0.08, origin: [10, H / 2] });
+    key.animate(sjms(0.2)).attr({ opacity: 0 });
+    await wait(0.22);
+    lands(land, o);
+    MB.audio.sfx('slam');
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---- whisper: a sketched speech bubble over the target types out a shy line letter by letter; the bubble outline morphs into a heart
+  // and drops on it
+  const BUBBLE_D = 'M50 90 C20 90 2 70 2 45 C2 20 20 5 50 5 C80 5 98 20 98 45 C98 70 80 90 50 90 Z';
+  const HEART_D = 'M50 90 C30 75 2 55 2 30 C2 5 40 0 50 20 C60 0 98 5 98 30 C98 55 70 75 50 90 Z';
+  RFX.whisper = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const st = sjStage(V, r.T, overhead(t, r, 70, 80), 200, 170, 'sj-whisper', '#ff9ccd');
+    const g = st.S.group().transform({ scaleX: 2, scaleY: 1.7, origin: [0, 0] });
+    const bub = g.path(BUBBLE_D).fill('#fffdf8').stroke({ color: '#5a3a5a', width: 1.6 });
+    const tail = rput(g, st.rc.path('M40 88 L30 100 L54 89', { stroke: '#5a3a5a', strokeWidth: 1.6, roughness: 1.4 }));
+    const line = o.line || 'u-um... hi...', txt = g.text('').font({ size: 9, weight: 700, family: 'Georgia, serif', anchor: 'middle' }).fill('#5a3a5a').center(50, 48);
+    MB.audio.sfx('pop');
+    for (let i = 1; i <= line.length; i++) { txt.text(line.slice(0, i)).center(50, 48); if (i % 2) MB.audio.sfx('scribble'); await wait(0.05); }
+    await wait(0.3);
+    MB.audio.sfx('heartbeat');
+    txt.animate(sjms(0.15)).attr({ opacity: 0 });
+    tail.animate(sjms(0.15)).attr({ opacity: 0 });
+    bub.animate(sjms(0.4)).ease('<>').plot(HEART_D).attr({ fill: o.heart || '#ff7ab0' });
+    await wait(0.45);
+    MB.audio.sfx('whoosh');
+    await gsap.to(st.b.body, { y: -r.hT * 1.1, scale: 0.7, duration: 0.2, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('kiss');
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- inboxstorm: sketched envelopes whirl round the target, the inbox counter races up to 999+, and a giant paperclip clamps on it
+  RFX.inboxstorm = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 260, c = W / 2, st = sjStage(V, r.T, r.hT, W, W, 'sj-inbox', '#6f8fb0');
+    const swirl = st.S.group();
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2, x = c + Math.cos(a) * 100, y = c + Math.sin(a) * 100, e = swirl.group();
+      rput(e, st.rc.rectangle(x - 18, y - 12, 36, 24, { fill: '#fffaf0', fillStyle: 'solid', stroke: '#4a5a7a', strokeWidth: 2 }));
+      rput(e, st.rc.linearPath([[x - 18, y - 12], [x, y + 2], [x + 18, y - 12]], { stroke: '#4a5a7a', strokeWidth: 2 }));
+    }
+    const count = st.S.text('Inbox: 0').font({ size: 18, weight: 900, family: 'Arial, sans-serif', anchor: 'middle' }).center(c, 16).fill('#e8203a').stroke({ color: '#fff', width: 0.6 });
+    swirl.transform({ scale: 0.3, origin: [c, c] });
+    swirl.animate(sjms(0.3)).transform({ scale: 1, origin: [c, c] });
+    swirl.animate(sjms(0.9), sjms(0.3), 'now').ease('-').transform({ rotate: 360, origin: [c, c] });
+    const n = { v: 0 };
+    gsap.to(n, { v: 999, duration: 1.1, ease: 'power2.in', onUpdate: () => { count.text(n.v >= 999 ? 'Inbox: 999+' : `Inbox: ${Math.round(n.v)}`).center(c, 16); } });
+    for (let i = 0; i < 5; i++) { MB.audio.sfx(i % 2 ? 'ding' : 'tick'); await wait(0.22); }
+    const clip = st.S.path(`M${c - 20} ${c + 70} L${c - 20} ${c - 60} C${c - 20} ${c - 90} ${c + 20} ${c - 90} ${c + 20} ${c - 60} L${c + 20} ${c + 50} C${c + 20} ${c + 70} ${c - 6} ${c + 70} ${c - 6} ${c + 50} L${c - 6} ${c - 40}`)
+      .fill('none').stroke({ color: '#9aa0b0', width: 9, linecap: 'round', linejoin: 'round' });
+    const L = clip.length();
+    clip.attr({ 'stroke-dasharray': L, 'stroke-dashoffset': L });
+    MB.audio.sfx('stretch');
+    clip.animate(sjms(0.3)).attr({ 'stroke-dashoffset': 0 });
+    swirl.animate(sjms(0.3)).attr({ opacity: 0 });
+    await wait(0.32);
+    lands(land, o);
+    MB.audio.sfx('clang'); MB.audio.sfx('rubberband'); V.shake(8);
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---------------------------------------------------------------- 1-heart duo styles III: on the SVG.js stages
+  S.hauntedwing = duoBeat('Mind the guests, Cassian.', (p, r) => both(p.rise(0, 30, 0.3), p.swing(1, besideOf(r, 1, 160), 1, 0.6)),
+    (V, t, r, p, land) => RFX.hauntedhall(V, t, r, p.pos(1), land, {}), 'Check-out is... never.', 'float-text debuff');
+  S.lastorders = duoBeat('Last orders, sir.', (p, r) => both(p.rise(0, 20, 0.3), p.to(1, besideOf(r, 1, 150), 0.7, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.candlelight(V, t, r, p.pos(1), land, {}), 'Closing time.', 'float-text debuff');
+  S.customerservice = duoBeat('How may I NOT help you?', (p, r) => both(p.rush(0, r.C, 0.3), p.rise(1, 20, 0.3)),
+    (V, t, r, p, land) => RFX.receipt(V, t, r, p.pos(0), land, { items: ['1x Prank', '1x Glare', '2x Sigh', 'Service fee'] }), 'Have a nice day~', 'float-text baka');
+  S.yokailecture = duoBeat('Let me tell you a story...', (p, r) => both(p.rise(1, 10, 0.3), p.hop(0, besideOf(r, 0, 140), 3, 0.6)),
+    (V, t, r, p, land) => RFX.scrollunfurl(V, t, r, p.pos(1), land, {}), '...and that is how it ends.', 'float-text debuff');
+  S.dramaticplea = duoBeat('Your Honour, LOOK at him!', (p, r) => both(p.to(0, { x: lerp(r.A.x, r.T.x, 0.3), y: lerp(r.A.y, r.T.y, 0.3) }, 0.4), p.swing(1, besideOf(r, 1, 150), 1, 0.5)),
+    (V, t, r, p, land) => RFX.scales(V, t, r, p.pos(0), land, {}), 'The defence rests!', 'float-text buff');
+  S.fateddecree = duoBeat('Kneel before our decree!', (p) => both(p.rise(0, 60, 0.5), p.rise(1, 25, 0.4)),
+    (V, t, r, p, land) => RFX.decree(V, t, r, p.pos(0), land, { decree: 'FATED DECREE' }), 'It is written.', 'float-text debuff');
+  S.mindfulbreathing = duoBeat('Breathe with me...', (p) => both(p.rise(0, 30, 0.4), p.hop(1, p.pos(1), 4, 0.6)),
+    (V, t, r, p, land) => RFX.enso(V, t, r, p.pos(0), land, {}), 'See? Much calmer.', 'float-text heal');
+  S.quietcup = duoBeat('...', (p, r) => both(p.to(0, besideOf(r, 0, 150), 0.8, 'sine.inOut'), p.to(1, besideOf(r, 1, 150), 0.8, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.teaceremony(V, t, r, p.pos(0), land, {}), '...Tea?', 'float-text heal');
+  S.facultyfeud = duoBeat('History says...! Science says...!', (p, r) => p.flank(r.T, 160, 0.4),
+    (V, t, r, p, land) => RFX.flaskfeud(V, t, r, p.pos(1), land, {}), 'Peer review: rejected.', 'float-text burn');
+  S.synthpanic = duoBeat('Is he a SYNTH?!', (p, r) => both(p.to(0, { x: r.A.x - r.d.x * 40 - 40, y: r.A.y - r.d.y * 40 }, 0.3), p.to(1, besideOf(r, 1, 140), 0.6)),
+    (V, t, r, p, land) => RFX.synthscan(V, t, r, p.pos(1), land, {}), 'I\'m from Ohio, ma\'am.', 'float-text baka');
+  S.infernalgossip = duoBeat('Did you SEE what she did?!', (p) => both(p.rise(0, 40, 0.4), p.rise(1, 40, 0.4)),
+    (V, t, r, p, land) => RFX.tvstatic(V, t, r, p.pos(0), land, {}), 'Same time next week~', 'float-text debuff');
+  S.cosplayduo = duoBeat('Henshin!', (p, r) => both(p.leap(0, besideOf(r, 0, 130), 200, 0.5), later(0.12, () => p.hop(1, besideOf(r, 1, 130), 3, 0.6))),
+    (V, t, r, p, land) => RFX.maskswap(V, t, r, p.pos(0), land, {}), 'Fox AND cat. Nya-kon!', 'float-text buff');
+  S.roomkey = duoBeat('Your room is ready~', (p, r) => both(p.rise(1, 60, 0.4), p.rise(0, 10, 0.2)),
+    (V, t, r, p, land) => RFX.keyhole(V, t, r, p.pos(1), land, { room: '305' }), 'Enjoy your stay~', 'float-text heal');
+  S.quietcompany = duoBeat('...', (p, r) => both(p.to(0, besideOf(r, 0, 120), 0.9, 'sine.inOut'), p.to(1, besideOf(r, 1, 120), 0.9, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.whisper(V, t, r, p.pos(0), land, { line: 'w-we can sit here...' }), '(smiles)', 'float-text heal');
+  S.replyall = duoBeat('Per my last email...', (p, r) => both(p.rise(0, 10, 0.2), p.swing(1, besideOf(r, 1, 150), 1, 0.5)),
+    (V, t, r, p, land) => RFX.inboxstorm(V, t, r, p.pos(0), land, {}), 'Reply all. Regret all.', 'float-text buff');
+
+  // ---------------------------------------------------------------- SVG.js stages II: the last of the 1-heart duos
+  // a path inked in along its length (SVG.js: dash offset animated), resolves when drawn
+  function inkIn(parent, d, color, width, s = 0.3, delay = 0) {
+    const pth = parent.path(d).fill('none').stroke({ color, width, linecap: 'round', linejoin: 'round' }), L = pth.length() + 2;
+    pth.attr({ 'stroke-dasharray': L, 'stroke-dashoffset': L });
+    gsap.to(pth.node, { attr: { 'stroke-dashoffset': 0 }, duration: s, delay, ease: 'none' }); // on the GSAP clock, so a hit-stop can't leave it half drawn
+    return pth;
+  }
+  const smallHeartD = (x, y, k = 1) => `M${x} ${y + 9 * k} C${x - 12 * k} ${y} ${x - 8 * k} ${y - 9 * k} ${x} ${y - 3 * k} C${x + 8 * k} ${y - 9 * k} ${x + 12 * k} ${y} ${x} ${y + 9 * k} Z`;
+
+  // ---- redpen: a sketched paper is held over the target and marked to pieces in red pen: strike-outs, a ring, "?!", and the grade
+  RFX.redpen = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 200, H = t.isLeader ? 200 : 240, st = sjStage(V, r.T, Math.min(H / 2 + 4, ceilOf(t, r) - H / 2), W, H, 'sj-paper', '#e8203a');
+    rput(st.S, st.rc.rectangle(6, 6, W - 12, H - 12, { fill: '#fffdf4', fillStyle: 'solid', stroke: '#8a8a9a', strokeWidth: 2, roughness: 1 }));
+    // the paper: a title and handwritten lines (blue ink), each written in left to right
+    const hand = { weight: 700, family: 'Comic Sans MS, Segoe Print, cursive' }, blue = '#24306a';
+    st.S.text(o.title || 'LAB B-2 REPORT').font({ ...hand, size: 15, weight: 900, anchor: 'middle' }).fill(blue).center(W / 2, 24);
+    const lines = (o.lines || ['Hypothesis: B-2 wins', 'Data: trust me', 'Errors: none', 'Lab A-3: lol']).slice(0, 4);
+    const ys = lines.map((_, i) => 54 + i * 30);
+    const written = lines.map((ln, i) => {
+      const tx = st.S.text(ln).font({ ...hand, size: 14 }).fill(blue).move(16, ys[i] - 11), cl = st.S.clip(), win = st.S.rect(0, 26).move(10, ys[i] - 15);
+      cl.add(win); tx.clipWith(cl);
+      return win;
+    });
+    MB.audio.sfx('pageflip');
+    for (const win of written) { MB.audio.sfx('scribble'); win.animate(sjms(0.16)).attr({ width: W - 20 }); await wait(0.15); }
+    await wait(0.15);
+    // the red pen: strike two lines with notes in the margin, ring the third, then the grade
+    const red = o.ink || '#e8203a', note = (txt, x, y, rot) => st.S.text(txt).font({ ...hand, size: 13, weight: 900 }).fill(red).move(x, y).transform({ rotate: rot });
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M14 ${ys[0]} C70 ${ys[0] - 4} 130 ${ys[0] + 3} ${W - 18} ${ys[0] - 2}`, red, 3, 0.16);
+    note('WRONG', W - 66, ys[0] + 6, -8);
+    await wait(0.22);
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M70 ${ys[1] + 3} C100 ${ys[1] - 18} 150 ${ys[1] - 16} 152 ${ys[1]} C154 ${ys[1] + 14} 90 ${ys[1] + 16} 66 ${ys[1] + 2}`, red, 3, 0.22);
+    note('source?', W - 70, ys[1] + 10, 6);
+    await wait(0.26);
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M14 ${ys[2]} C70 ${ys[2] + 3} 120 ${ys[2] - 3} ${W - 50} ${ys[2]}`, red, 3, 0.14);
+    note('?!', W - 40, ys[2] - 10, 0);
+    await wait(0.2);
+    const gx = W / 2, gy = H - 34;
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M${gx + 30} ${gy - 24} C${gx + 50} ${gy - 4} ${gx + 34} ${gy + 26} ${gx} ${gy + 26} C${gx - 36} ${gy + 26} ${gx - 44} ${gy - 18} ${gx - 6} ${gy - 28} C${gx + 10} ${gy - 30} ${gx + 22} ${gy - 28} ${gx + 34} ${gy - 18}`, red, 4, 0.25);
+    const grade = st.S.text(o.grade || 'F-').font({ size: 40, weight: 900, family: 'Georgia, serif', anchor: 'middle' }).fill(red).center(gx, gy);
+    grade.transform({ scale: 3, origin: [gx, gy] }).attr({ opacity: 0 }).animate(sjms(0.15)).ease('<').transform({ scale: 1, origin: [gx, gy] }).attr({ opacity: 1 });
+    MB.audio.sfx('whoosh');
+    await wait(0.16);
+    lands(land, o);
+    MB.audio.sfx('stamp'); V.shake(8);
+    note('see me.', 14, gy - 4, -6);
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---- beakerswap: two sketched beakers either side pour into each other over the target (the streams inked in, the colours swapping);
+  // the mix in the middle flask swells, bubbles and goes off
+  RFX.beakerswap = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 280, H = 200, st = sjStage(V, r.T, Math.min(r.hT * 1.2, ceilOf(t, r) - H / 2), W, H, 'sj-beakers', '#7a5cd9'), cols = o.colors || ['#5affb0', '#ff5aa0'];
+    const beaker = (x, c) => { const g = st.S.group(); g.rect(36, 40).move(x + 2, 60).fill(c).opacity(0.85); rput(g, st.rc.path(`M${x} 30 L${x} 100 C${x} 106 ${x + 40} 106 ${x + 40} 100 L${x + 40} 30`, { stroke: '#4a5a6a', strokeWidth: 3 })); return g; };
+    const L = beaker(14, cols[0]), Rb = beaker(W - 54, cols[1]);
+    rput(st.S, st.rc.path(`M${W / 2 - 22} 90 L${W / 2 - 22} 120 L${W / 2 - 48} 186 C${W / 2 - 52} 196 ${W / 2 + 52} 196 ${W / 2 + 48} 186 L${W / 2 + 22} 120 L${W / 2 + 22} 90`, { stroke: '#4a5a6a', strokeWidth: 3 }));
+    const mix = st.S.path(blobD(W / 2, 176, 20, 14, 0.1, 0.4)).fill('#c8a0ff').opacity(0);
+    MB.audio.sfx('creak');
+    L.animate(sjms(0.3)).transform({ rotate: 50, origin: [34, 100] });
+    Rb.animate(sjms(0.3)).transform({ rotate: -50, origin: [W - 34, 100] });
+    await wait(0.32);
+    MB.audio.sfx('pour');
+    inkIn(st.S, `M56 46 C${W / 2 - 40} 10 ${W / 2 - 10} 40 ${W / 2 - 4} 150`, cols[0], 6, 0.35);
+    inkIn(st.S, `M${W - 56} 46 C${W / 2 + 40} 10 ${W / 2 + 10} 40 ${W / 2 + 4} 150`, cols[1], 6, 0.35, 0.1);
+    L.findOne('rect').animate(sjms(0.4)).attr({ fill: cols[1] });
+    Rb.findOne('rect').animate(sjms(0.4)).attr({ fill: cols[0] });
+    mix.animate(sjms(0.4), sjms(0.2)).attr({ opacity: 0.9 });
+    await wait(0.6);
+    MB.audio.sfx('fizz'); MB.audio.sfx('bubble');
+    for (let i = 0; i < 6; i++) st.S.circle(8).center(W / 2 - 16 + i * 6, 176).fill('#f0e0ff').animate(sjms(0.4), sjms(i * 0.06)).attr({ cy: 100, opacity: 0 });
+    mix.animate(sjms(0.35)).plot(blobD(W / 2, 150, 40, 14, 0.2, 0.7));
+    await wait(0.4);
+    mix.animate(sjms(0.2)).ease('<').plot(blobD(W / 2, H / 2, 120, 14, 0.45, 0.8));
+    await wait(0.21);
+    lands(land, o);
+    MB.audio.sfx('boom'); V.shake(14);
+    tint(victim(V, t), 'hue-rotate(260deg) saturate(2)', 0.8);
+    mix.animate(sjms(0.35)).attr({ opacity: 0 });
+    await wait(0.4);
+    await fadeStage(st);
+  };
+
+  // ---- smileface: a sketched frowny face is held over the target; its mouth morphs into a forced grin, SMILE!, and the camera flashes
+  RFX.smileface = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 180, c = W / 2, st = sjStage(V, r.T, Math.min(r.hT * 1.4, ceilOf(t, r) - 95), W, W, 'sj-smile', '#ffd84a');
+    const face = boil(st.S, st.rc, (rc) => [rc.circle(c, c, 150, { fill: o.face || '#ffd84a', fillStyle: 'solid', stroke: '#5a4a1a', strokeWidth: 4, roughness: 1.6 }), rc.circle(c - 28, c - 18, 16, { fill: '#2a1a1a', fillStyle: 'solid' }), rc.circle(c + 28, c - 18, 16, { fill: '#2a1a1a', fillStyle: 'solid' })], 0.12, 14);
+    const mouth = st.S.path(`M${c - 40} ${c + 42} Q${c} ${c + 12} ${c + 40} ${c + 42}`).fill('none').stroke({ color: '#2a1a1a', width: 7, linecap: 'round' });
+    face.g.transform({ scale: 0, origin: [c, c] }).animate(sjms(0.25)).ease('>').transform({ scale: 1, origin: [c, c] });
+    MB.audio.sfx('pop');
+    await wait(0.5);
+    MB.audio.sfx('clownhorn');
+    mouth.animate(sjms(0.3)).ease('<>').plot(`M${c - 50} ${c + 22} Q${c} ${c + 78} ${c + 50} ${c + 22}`).attr({ fill: '#ffffff' });
+    const word = st.S.text(o.word || 'SMILE!').font({ size: 30, weight: 900, family: 'Impact, sans-serif', anchor: 'middle' }).fill('#ff5aa0').stroke({ color: '#fff', width: 1.5 }).center(c, 12);
+    word.transform({ scale: 0.2, origin: [c, 12] }).animate(sjms(0.2)).ease('>').transform({ scale: 1, origin: [c, 12] });
+    await wait(0.45);
+    const flashR = st.S.rect(W * 2, W * 2).move(-W / 2, -W / 2).fill('#ffffff').opacity(0);
+    MB.audio.sfx('camera');
+    flashR.animate(sjms(0.06)).attr({ opacity: 1 }).animate(sjms(0.3)).attr({ opacity: 0 });
+    lands(land, o);
+    flash(V, r.T, r.hT, '#ffffff', 320);
+    await wait(0.5);
+    face.stop();
+    await fadeStage(st);
+  };
+
+  // ---- grassfist: sketched grass springs up round the target (boiling), rustles, and a fist made of grass punches up out of it
+  RFX.grassfist = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 230, H = Math.round(Math.min(r.hT * 2, ceilOf(t, r) - 10)), st = sjStage(V, r.T, H / 2, W, H, 'sj-grass', '#6fcf3f'), c = o.grass || '#5ab03a';
+    const grass = boil(st.S, st.rc, (rc) => Array.from({ length: 16 }, (_, i) => { const x = 8 + i * 14; return rc.line(x, H, x + rnd(-10, 10), H - rnd(30, 60), { stroke: i % 2 ? c : '#3a8a2a', strokeWidth: 4, roughness: 2 }); }), 0.1, 16);
+    grass.g.transform({ scaleY: 0, origin: [W / 2, H] }).animate(sjms(0.3)).ease('>').transform({ scaleY: 1, origin: [W / 2, H] });
+    MB.audio.sfx('rustle'); MB.audio.sfx('grow');
+    await wait(0.45);
+    const fist = st.S.group();
+    rput(fist, st.rc.path(`M${W / 2 - 40} 60 C${W / 2 - 44} 20 ${W / 2 + 44} 20 ${W / 2 + 40} 60 L${W / 2 + 34} 110 L${W / 2 - 34} 110 Z`, { fill: c, fillStyle: 'zigzag', hachureGap: 4, stroke: '#2a5a1a', strokeWidth: 3, roughness: 2 }));
+    [-24, -8, 8, 24].forEach((dx) => rput(fist, st.rc.line(W / 2 + dx, 32, W / 2 + dx, 52, { stroke: '#2a5a1a', strokeWidth: 3 })));
+    rput(fist, st.rc.rectangle(W / 2 - 20, 110, 40, H, { fill: c, fillStyle: 'hachure', stroke: '#2a5a1a', strokeWidth: 3 }));
+    fist.transform({ translateY: H });
+    MB.audio.sfx('rustle');
+    fist.animate(sjms(0.18)).ease('<').transform({ translateY: Math.max(0, H - 230) });
+    await wait(0.19);
+    lands(land, o);
+    MB.audio.sfx('punch'); MB.audio.sfx('pow'); V.shake(14);
+    squash(victim(V, t), 0.6);
+    for (let i = 0; i < 8; i++) toss(svgBB(V, r.T, r.hT, 'leaf', leafSvg(MB.pick(['#6fcf5a', '#3a8a2a'])), c), { v: [200, 380], ang: [-160, -20], dur: 0.7, spin: 300 });
+    await wait(0.45);
+    grass.stop();
+    await fadeStage(st);
+  };
+
+  // ---- glasswindow: a stained-glass window assembles pane by pane over the target (an organ chord, a beam of light), then shatters on it
+  RFX.glasswindow = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 170, H = Math.round(Math.min(r.hT * 2.1, ceilOf(t, r) - 10)), st = sjStage(V, r.T, H / 2, W, H, 'sj-glass', '#ffd84a'), cols = ['#e8203a', '#2a6ae8', '#f0c040', '#3ab060', '#a03fd6', '#ff8a3a'];
+    const beam = st.S.polygon(`${W / 2 - 30},20 ${W / 2 + 30},20 ${W},${H} 0,${H}`).fill(st.S.gradient('linear', (add) => { add.stop(0, '#fff6c0', 0.7); add.stop(1, '#fff6c0', 0); }).from(0, 0).to(0, 1)).opacity(0);
+    const panes = [], rows = 4, colsN = 3, pw = (W - 20) / colsN, ph = (H - 70) / rows;
+    for (let y = 0; y < rows; y++) for (let x = 0; x < colsN; x++) {
+      const g = st.S.group().attr({ opacity: 0 });
+      rput(g, st.rc.rectangle(10 + x * pw, 60 + y * ph, pw, ph, { fill: cols[(x + y * 2) % cols.length], fillStyle: 'solid', stroke: '#1a1a22', strokeWidth: 4, roughness: 1.2 }));
+      panes.push(g);
+    }
+    const top = st.S.group().attr({ opacity: 0 });
+    rput(top, st.rc.arc(W / 2, 62, W - 20, 100, Math.PI, Math.PI * 2, true, { fill: '#f0c040', fillStyle: 'solid', stroke: '#1a1a22', strokeWidth: 4 }));
+    MB.audio.sfx('organ'); MB.audio.sfx('choir');
+    [top, ...panes].forEach((g, i) => g.animate(sjms(0.12), sjms(i * 0.06)).attr({ opacity: 1 }));
+    beam.animate(sjms(0.5), sjms(0.3)).attr({ opacity: 1 });
+    await wait(1.1);
+    lands(land, o);
+    MB.audio.sfx('shatter'); MB.audio.sfx('glass'); V.shake(10);
+    [top, ...panes].forEach((g) => g.animate(sjms(0.45)).ease('<').transform({ translateX: rnd(-60, 60), translateY: rnd(60, 160), rotate: rnd(-90, 90) }).attr({ opacity: 0 }));
+    beam.animate(sjms(0.3)).attr({ opacity: 0 });
+    shards(V, r.T, r.hT, 10);
+    await wait(0.5);
+    await fadeStage(st, 0, 0.15);
+  };
+
+  // ---- stopwatch: a sketched stopwatch over the target ticks round twice, sweat drops fly, LAP!, and it lands on the target's head
+  RFX.stopwatch = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 150, H = 170, c = 75, st = sjStage(V, r.T, overhead(t, r, 60, 85), W, H, 'sj-watch', '#ff9ecb');
+    boil(st.S, st.rc, (rc) => [rc.circle(c, 95, 130, { fill: '#fffaf0', fillStyle: 'solid', stroke: '#3a3a4a', strokeWidth: 5 }), rc.rectangle(c - 10, 14, 20, 16, { fill: '#9aa0b0', fillStyle: 'solid' }), ...[0, 1, 2, 3].map((i) => { const a = (i / 4) * Math.PI * 2; return rc.line(c + Math.cos(a) * 48, 95 + Math.sin(a) * 48, c + Math.cos(a) * 58, 95 + Math.sin(a) * 58, { strokeWidth: 4 }); })], 0.12, 16);
+    const hand = st.S.line(c, 95, c, 45).stroke({ color: '#e8203a', width: 5, linecap: 'round' });
+    MB.audio.sfx('stopwatch');
+    hand.animate(sjms(0.5)).ease('-').transform({ rotate: 360, origin: [c, 95] }).loop(2);
+    for (let i = 0; i < 6; i++) { const d = st.S.ellipse(8, 12).center(c + (i % 2 ? 50 : -50), 60).fill('#9ad8ff'); d.animate(sjms(0.5), sjms(i * 0.15)).attr({ cy: 170, opacity: 0 }); }
+    await wait(1.05);
+    MB.audio.sfx('whistle');
+    st.S.text(o.word || 'LAP!').font({ size: 26, weight: 900, family: 'Impact, sans-serif', anchor: 'middle' }).fill('#e8203a').center(c, 95);
+    await gsap.to(st.b.body, { y: -Math.min(r.hT * 1.5, ceilOf(t, r) - 85), duration: 0.18, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('bonk');
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- autograph: a sketched danish is held up over the target and signed with a flourish (the signature inked in), fans squeal, hearts
+  RFX.autograph = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 210, H = 170, st = sjStage(V, r.T, Math.min(r.hT * 1.2, ceilOf(t, r) - H / 2), W, H, 'sj-autograph', '#ff9ac0');
+    const pastry = boil(st.S, st.rc, (rc) => [rc.ellipse(W / 2, 100, 180, 110, { fill: '#e8b060', fillStyle: 'solid', stroke: '#8a5a1a', strokeWidth: 4, roughness: 1.6 }), rc.path(`M${W / 2} 100 m-40 0 a40 26 0 1 0 80 0 a28 18 0 1 0 -56 0 a16 10 0 1 0 32 0`, { stroke: '#a06a2a', strokeWidth: 3 }), rc.circle(W / 2, 100, 30, { fill: '#e8203a', fillStyle: 'solid', strokeWidth: 2 })], 0.14, 14);
+    MB.audio.sfx('pop');
+    await wait(0.3);
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M30 70 C40 30 60 30 58 70 C56 100 70 40 90 60 C100 70 96 90 110 70 C120 54 130 60 132 74 C134 90 150 40 160 60 C170 80 180 70 192 50`, o.ink || '#2a1a6a', 4, 0.55);
+    await wait(0.6);
+    MB.audio.sfx('marker');
+    inkIn(st.S, 'M40 90 C90 100 140 96 190 84', o.ink || '#2a1a6a', 3, 0.15);
+    await wait(0.2);
+    MB.audio.sfx('cheer');
+    for (let i = 0; i < 6; i++) st.S.path(smallHeartD(30 + i * 30, 150)).fill('#ff5a8a').animate(sjms(0.6), sjms(i * 0.05)).attr({ opacity: 0 }).transform({ translateY: -120 });
+    await gsap.to(st.b.body, { scale: 1.15, duration: 0.1, yoyo: true, repeat: 1 });
+    lands(land, o);
+    MB.audio.sfx('kiss');
+    await wait(0.5);
+    pastry.stop();
+    await fadeStage(st);
+  };
+
+  // ---- sunsalute: a sketched sun rises behind the target, its rays turning; a stick figure flows through three yoga poses (morphs) and
+  // the sun flares on the final pose
+  const poseD = (a1x, a1y, a2x, a2y, l1x, l1y, l2x, l2y) => `M100 70 L100 130 M100 85 L${a1x} ${a1y} M100 85 L${a2x} ${a2y} M100 130 L${l1x} ${l1y} M100 130 L${l2x} ${l2y}`;
+  const POSES = [poseD(80, 110, 120, 110, 85, 180, 115, 180), poseD(85, 40, 115, 40, 85, 180, 115, 180), poseD(50, 70, 150, 70, 60, 175, 150, 160)];
+  RFX.sunsalute = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 200, H = 200, st = sjStage(V, r.T, Math.min(r.hT * 1.1, ceilOf(t, r) - H / 2), W, H, 'sj-sun', '#ffcf3f');
+    const sun = st.S.group();
+    rput(sun, st.rc.circle(100, 100, 90, { fill: o.sun || '#ffcf3f', fillStyle: 'solid', stroke: '#ff8a2a', strokeWidth: 3, roughness: 1.4 }));
+    for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; rput(sun, st.rc.line(100 + Math.cos(a) * 54, 100 + Math.sin(a) * 54, 100 + Math.cos(a) * 80, 100 + Math.sin(a) * 80, { stroke: '#ff8a2a', strokeWidth: 4 })); }
+    sun.transform({ translateY: 120 }).attr({ opacity: 0 }).animate(sjms(0.5)).ease('>').transform({ translateY: 0 }).attr({ opacity: 0.9 });
+    sun.animate(sjms(1.6), sjms(0.5), 'now').ease('-').transform({ rotate: 60, origin: [100, 100] });
+    const fig = st.S.group(), body = fig.path(POSES[0]).fill('none').stroke({ color: '#1a1a22', width: 6, linecap: 'round' });
+    fig.circle(22).center(100, 58).fill('#1a1a22');
+    MB.audio.sfx('singingbowl');
+    await wait(0.5);
+    for (const pz of POSES.slice(1)) { body.animate(sjms(0.4)).ease('<>').plot(pz); MB.audio.sfx('wind'); await wait(0.45); }
+    MB.audio.sfx('ding');
+    sun.animate(sjms(0.2)).ease('<').transform({ scale: 1.6, origin: [100, 100] }).attr({ opacity: 1 });
+    await wait(0.2);
+    lands(land, o);
+    flash(V, r.T, r.hT, '#ffe36a', 280);
+    tint(victim(V, t), 'brightness(1.6) sepia(0.4)', 0.8);
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- layercake: cake layers drop and stack over the target, the frosting drips (a morph), a candle is lit, the party horn goes, and the
+  // whole cake tips over onto it
+  RFX.layercake = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 170, H = 210, st = sjStage(V, r.T, Math.min(r.hT * 1.5, ceilOf(t, r) - H / 2), W, H, 'sj-cake', '#ff9ac0'), cols = o.colors || ['#f6d8a8', '#ff9ac0', '#fff4e8'];
+    const cake = st.S.group();
+    for (let i = 0; i < 3; i++) {
+      const lw = 140 - i * 30, x = (W - lw) / 2, y = H - 40 - i * 40, g = cake.group();
+      rput(g, st.rc.rectangle(x, y, lw, 38, { fill: cols[i], fillStyle: 'solid', stroke: '#8a4a3a', strokeWidth: 3, roughness: 1.3 }));
+      g.transform({ translateY: -260 }).animate(sjms(0.2), sjms(i * 0.18)).ease('<').transform({ translateY: 0 });
+    }
+    MB.audio.sfx('thud');
+    await wait(0.6);
+    const drip = cake.path('M40 92 L130 92 L130 96 Q124 96 122 100 Q116 104 110 100 Q100 96 92 100 Q84 104 76 100 Q66 96 58 100 Q50 104 40 96 Z').fill('#ffffff').stroke({ color: '#d8c8d8', width: 2 });
+    drip.animate(sjms(0.4)).plot('M40 92 L130 92 L130 112 Q124 122 122 108 Q116 132 110 104 Q100 120 92 104 Q84 128 76 106 Q66 118 58 104 Q50 126 40 110 Z');
+    rput(cake, st.rc.rectangle(W / 2 - 4, 52, 8, 38, { fill: '#9ad8ff', fillStyle: 'solid', strokeWidth: 2 }));
+    const fl = cake.path(flameD(0)).fill('#ffb347').transform({ translateX: W / 2, translateY: 52 }).attr({ opacity: 0 });
+    await wait(0.4);
+    fl.attr({ opacity: 1 }).animate(sjms(0.15)).plot(flameD(5)).loop(6, true);
+    MB.audio.sfx('partyhorn');
+    await wait(0.6);
+    MB.audio.sfx('whoosh');
+    cake.animate(sjms(0.25)).ease('<').transform({ rotate: 150, origin: [W / 2, H - 20] });
+    await gsap.to(st.b.body, { y: -r.hT * 1.1, duration: 0.25, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('splat'); squash(victim(V, t), 0.6);
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- handshake: two sketched hands slide in from either side of the target and clasp; a ring of secret runes spins round them and flares
+  RFX.handshake = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 260, H = 200, st = sjStage(V, r.T, Math.min(r.hT * 1.2, ceilOf(t, r) - H / 2), W, H, 'sj-shake', '#c0182a'), cols = o.colors || ['#f6d0b0', '#c84a3a'];
+    // a hand seen from the side reaching toward dir (1 right, -1 left): wrist at x0, thumb up, four fingers stacked forward, a sleeve cuff
+    const hand = (x0, dir, skin, sleeve) => {
+      const X = (px) => f1(x0 + dir * px), Y = (py) => f1(64 + py), g = st.S.group(), ink = { stroke: '#3a1a1a', strokeWidth: 2.5, roughness: 1.2 };
+      rput(g, st.rc.path(`M${X(0)} ${Y(20)} L${X(44)} ${Y(16)} C${X(52)} ${Y(6)} ${X(64)} ${Y(2)} ${X(70)} ${Y(8)} C${X(74)} ${Y(14)} ${X(66)} ${Y(20)} ${X(60)} ${Y(22)} `
+        + `L${X(100)} ${Y(22)} C${X(110)} ${Y(22)} ${X(110)} ${Y(32)} ${X(100)} ${Y(32)} L${X(104)} ${Y(32)} C${X(114)} ${Y(32)} ${X(114)} ${Y(42)} ${X(104)} ${Y(42)} `
+        + `L${X(102)} ${Y(42)} C${X(111)} ${Y(42)} ${X(111)} ${Y(51)} ${X(102)} ${Y(51)} L${X(96)} ${Y(51)} C${X(104)} ${Y(51)} ${X(104)} ${Y(59)} ${X(96)} ${Y(59)} `
+        + `L${X(50)} ${Y(60)} C${X(30)} ${Y(62)} ${X(14)} ${Y(58)} ${X(0)} ${Y(56)} Z`, { fill: skin, fillStyle: 'solid', ...ink }));
+      [32, 42, 51].forEach((py) => rput(g, st.rc.line(+X(62), +Y(py), +X(98), +Y(py), { ...ink, strokeWidth: 1.8 })));
+      rput(g, st.rc.path(`M${X(52)} ${Y(14)} C${X(56)} ${Y(18)} ${X(58)} ${Y(20)} ${X(60)} ${Y(22)}`, { ...ink, strokeWidth: 1.8 }));
+      rput(g, st.rc.rectangle(Math.min(+X(0), +X(-34)), +Y(12), 34, 52, { fill: sleeve, fillStyle: 'solid', stroke: '#1a1a22', strokeWidth: 2.5, roughness: 1.2 }));
+      return g;
+    };
+    const skins = o.skins || ['#f6d0b0', '#c8805a'], sleeves = o.sleeves || ['#3a4a7a', '#2a2a2a'];
+    const hl = hand(W / 2 - 92, 1, skins[0], sleeves[0]), hr = hand(W / 2 + 92, -1, skins[1], sleeves[1]);
+    hl.transform({ translateX: -150 }); hr.transform({ translateX: 150 });
+    MB.audio.sfx('whoosh');
+    hl.animate(sjms(0.4)).ease('>').transform({ translateX: 0 });
+    hr.animate(sjms(0.4)).ease('>').transform({ translateX: 0 });
+    await wait(0.42);
+    MB.audio.sfx('clap');
+    // the shake: up, down, up, down
+    [hl, hr].forEach((g) => g.animate(sjms(0.1)).transform({ translateY: -10 }).animate(sjms(0.1)).transform({ translateY: 8 }).loop(2, true));
+    await wait(0.3);
+    const ring = st.S.group(), txt = ring.text('ᚠᚢᚦᚨᚱᚲ ✦ ᚷᚹᚺᚾᛁᛃ ✦ ᛇᛈᛉᛊᛏᛒ ✦ ').font({ size: 16, weight: 900, family: 'serif' }).fill('#ffd84a');
+    txt.path(`M${W / 2} 6 A90 90 0 1 1 ${W / 2 - 0.1} 6 Z`);
+    ring.transform({ scale: 0.3, origin: [W / 2, 96] }).animate(sjms(0.3)).transform({ scale: 1, origin: [W / 2, 96] });
+    ring.animate(sjms(0.8), sjms(0.3), 'now').ease('-').transform({ rotate: 200, origin: [W / 2, 96] });
+    MB.audio.sfx('chime');
+    await wait(0.8);
+    lands(land, o);
+    MB.audio.sfx('clap'); MB.audio.sfx('blast');
+    flash(V, r.T, r.hT, '#ffd84a', 280);
+    ring.animate(sjms(0.3)).transform({ scale: 1.6, origin: [W / 2, 96] }).attr({ opacity: 0 });
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- scarymeter: a sketched gauge over the target reads cute... scary... VAMPIRE (the needle swings), BOO!, and it drops on the target
+  RFX.scarymeter = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 220, H = 150, st = sjStage(V, r.T, overhead(t, r, 60, 80), W, H, 'sj-meter', '#e02a3a'), cx = W / 2, cy = 130;
+    [['#7ad07a', Math.PI, Math.PI * 1.33], ['#f0c040', Math.PI * 1.33, Math.PI * 1.66], ['#e02a3a', Math.PI * 1.66, Math.PI * 2]].forEach(([c, a0, a1]) => rput(st.S, st.rc.arc(cx, cy, 200, 200, a0, a1, true, { fill: c, fillStyle: 'solid', stroke: '#2a1a1a', strokeWidth: 3 })));
+    (o.labels || ['cute', 'scary', 'VAMPIRE']).forEach((w, i) => st.S.text(w).font({ size: i === 2 ? 15 : 13, weight: 900, family: 'Arial, sans-serif', anchor: 'middle' }).fill('#1a1a1a').center(cx + Math.cos(Math.PI * (1.17 + i * 0.33)) * 70, cy + Math.sin(Math.PI * (1.17 + i * 0.33)) * 70));
+    const needle = st.S.line(cx, cy, cx - 80, cy).stroke({ color: '#1a1a1a', width: 6, linecap: 'round' });
+    st.S.circle(16).center(cx, cy).fill('#1a1a1a');
+    MB.audio.sfx('creak');
+    needle.animate(sjms(0.3)).ease('<>').transform({ rotate: 70, origin: [cx, cy] }).animate(sjms(0.25)).ease('<>').transform({ rotate: 30, origin: [cx, cy] });
+    await wait(0.6);
+    MB.audio.sfx('growl');
+    needle.animate(sjms(0.2)).ease('>').transform({ rotate: 175, origin: [cx, cy] }).animate(sjms(0.05)).transform({ rotate: 168, origin: [cx, cy] }).loop(4, true);
+    st.S.text(o.word || 'BOO!').font({ size: 34, weight: 900, family: 'Impact, sans-serif', anchor: 'middle' }).fill('#e02a3a').stroke({ color: '#fff', width: 1.5 }).center(cx, 20);
+    await wait(0.5);
+    await gsap.to(st.b.body, { y: -Math.min(r.hT * 1.4, ceilOf(t, r) - 75), duration: 0.18, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('bonk'); V.shake(10);
+    await wait(0.45);
+    await fadeStage(st);
+  };
+
+  // ---- overdue: a library card slides up out of its pocket over the target (a clip wipe), the dates are typed in, shh, OVERDUE is stamped
+  RFX.overdue = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 160, H = t.isLeader ? 180 : 220, st = sjStage(V, r.T, r.hT * 1.05, W, H, 'sj-card', '#9b4dff');
+    const card = st.S.group(), clip = st.S.clip(), win = st.S.rect(W, 0).move(0, H - 40);
+    clip.add(win); card.clipWith(clip);
+    rput(card, st.rc.rectangle(14, 10, W - 28, H - 50, { fill: '#f6ecd0', fillStyle: 'solid', stroke: '#8a6a3a', strokeWidth: 2, roughness: 1 }));
+    card.text('DATE DUE').font({ size: 13, weight: 900, family: 'Courier New, monospace', anchor: 'middle' }).center(W / 2, 30).fill('#5a3a2a');
+    rput(st.S, st.rc.rectangle(6, H - 44, W - 12, 40, { fill: '#9b4dff', fillStyle: 'cross-hatch', hachureGap: 6, stroke: '#3a1a6a', strokeWidth: 3 }));
+    MB.audio.sfx('peel');
+    win.animate(sjms(0.4)).ease('>').attr({ height: H - 40, y: 0 });
+    await wait(0.42);
+    const dates = o.dates || ['APR 02', 'MAY 14', 'JUN 30', 'AUG 01'];
+    for (let i = 0; i < dates.length; i++) { card.text(dates[i]).font({ size: 12, weight: 700, family: 'Courier New, monospace' }).move(30, 46 + i * 24).fill('#2a2a5a'); MB.audio.sfx('typewriter'); await wait(0.12); }
+    MB.audio.sfx('shush');
+    pop(V, F, V.heightOf(t) * 0.5 + 60, 'Shhh!', 'float-text debuff', 0.6);
+    await wait(0.4);
+    const stampT = st.S.text(o.word || 'OVERDUE').font({ size: 28, weight: 900, family: 'Impact, sans-serif', anchor: 'middle' }).fill('none').stroke({ color: '#e8203a', width: 2.5 }).center(W / 2, H / 2);
+    stampT.transform({ rotate: -18, scale: 3, origin: [W / 2, H / 2] }).attr({ opacity: 0 }).animate(sjms(0.14)).ease('<').transform({ rotate: -18, scale: 1, origin: [W / 2, H / 2] }).attr({ opacity: 1 });
+    await wait(0.15);
+    lands(land, o);
+    MB.audio.sfx('stamp'); MB.audio.sfx('kaching'); V.shake(8);
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---- vending: a sketched vending machine appears beside the target, a button blinks, a can thunks down, is pulled out, cracked open
+  // and fizzes all over the target
+  RFX.vending = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const sx = sgnX(r), W = 130, H = Math.round(Math.min(r.hT * 2, ceilOf(t, r) - 10)), P = { x: r.T.x - sx * 110, y: r.T.y - 70 }, st = sjStage(V, P, H / 2, W, H, 'sj-vend behind', '#38d27a');
+    boil(st.S, st.rc, (rc) => [rc.rectangle(6, 6, W - 12, H - 12, { fill: o.machine || '#d8303a', fillStyle: 'solid', stroke: '#3a0a0a', strokeWidth: 4, roughness: 1.4 }), rc.rectangle(16, 18, 70, H * 0.55, { fill: '#bfe8ff', fillStyle: 'solid', strokeWidth: 2 }), rc.rectangle(18, H - 50, W - 36, 30, { fill: '#1a1a22', fillStyle: 'solid' })], 0.14, 14);
+    for (let y = 0; y < 3; y++) for (let x = 0; x < 3; x++) st.S.rect(14, 24).move(22 + x * 22, 26 + y * (H * 0.17)).fill(['#3ab060', '#f0c040', '#2a6ae8'][(x + y) % 3]).radius(3);
+    const btn = st.S.circle(14).center(W - 24, 50).fill('#ffe94a');
+    MB.audio.sfx('click');
+    btn.animate(sjms(0.08)).attr({ fill: '#ffffff' }).loop(6, true);
+    await wait(0.5);
+    MB.audio.sfx('vending');
+    await wait(0.3);
+    const can = svgBB(V, { x: P.x, y: P.y + 4 }, 30, 'sk-can', skSvg(30, 50, [['rectangle', 3, 3, 24, 44, { fill: o.can || '#3ab060', fillStyle: 'solid', stroke: '#1a3a1a' }], ['line', 5, 10, 25, 10, { stroke: '#ffffff', strokeWidth: 2 }]], '', [26, 44]), '#3ab060');
+    MB.audio.sfx('whoosh');
+    await path(can, (k) => ({ ...arc({ x: P.x, y: P.y + 4 }, r.T, 30, r.hT * 1.3, 90)(k), r: k * 540 }), 0.4, 'power1.in');
+    MB.audio.sfx('canopen'); MB.audio.sfx('fizz');
+    lands(land, o);
+    tint(victim(V, t), 'brightness(1.3) hue-rotate(80deg)', 0.8);
+    for (let i = 0; i < 10; i++) toss(svgBB(V, r.T, r.hT * 1.3, 'drop', dropSvg('#d8ffe0'), '#3ab060'), { v: [240, 420], ang: [-150, -30], dur: 0.7, spin: 60 });
+    toss(can, { v: [160, 300], dur: 0.6 });
+    await wait(0.5);
+    await fadeStage(st);
+  };
+
+  // ---- stickynotes: sketched sticky notes slap onto the target one after another, each with a word, then a highlighter streaks across
+  RFX.stickynotes = async (V, t, r, F, land, o) => {
+    if (!libs()) return RFX.kaboom(V, t, r, F, land, o);
+    const W = 210, H = Math.round(Math.min(r.hT * 1.7, ceilOf(t, r) - 40)), st = sjStage(V, r.T, r.hT, W, H, 'sj-notes', '#ff6a6a');
+    const words = o.words || ['READ!', 'ch. 4', 'exam?!', 'notes', 'help'], cols = ['#fff07a', '#ff9ac0', '#9ae0ff', '#b0ff9a', '#ffc87a'];
+    for (let i = 0; i < words.length; i++) {
+      const x = 10 + (i % 3) * 64, y = 10 + Math.floor(i / 3) * (H / 2 - 4), g = st.S.group();
+      rput(g, st.rc.rectangle(x, y, 60, 60, { fill: cols[i % cols.length], fillStyle: 'solid', stroke: '#8a7a3a', strokeWidth: 1.5, roughness: 1.2 }));
+      g.text(words[i]).font({ size: 13, weight: 800, family: 'Comic Sans MS, cursive', anchor: 'middle' }).fill('#2a2a3a').center(x + 30, y + 30);
+      g.transform({ rotate: rnd(-12, 12), scale: 2, origin: [x + 30, y + 30] }).attr({ opacity: 0 }).animate(sjms(0.1)).ease('<').transform({ rotate: rnd(-12, 12), scale: 1, origin: [x + 30, y + 30] }).attr({ opacity: 1 });
+      MB.audio.sfx('peel');
+      await wait(0.11);
+      land(i);
+    }
+    MB.audio.sfx('marker');
+    inkIn(st.S, `M4 ${H / 2} C${W / 3} ${H / 2 - 20} ${(W * 2) / 3} ${H / 2 + 20} ${W - 4} ${H / 2 - 6}`, o.highlight || '#ffee0088', 22, 0.25);
+    await wait(0.6);
+    await fadeStage(st);
+  };
+
+  // ---------------------------------------------------------------- 1-heart duo styles IV: the last fourteen
+  S.redpenreview = duoBeat('Let me review that for you.', (p, r) => both(p.rise(1, 30, 0.3), p.rush(0, besideOf(r, 0, 210), 0.35)),
+    (V, t, r, p, land) => RFX.redpen(V, t, r, p.pos(1), land, { grade: 'F-' }), 'Rejected. Resubmit.', 'float-text debuff');
+  S.labswap = duoBeat('Sister, swap!', (p, r) => p.flank(r.T, 160, 0.4),
+    (V, t, r, p, land) => RFX.beakerswap(V, t, r, p.pos(0), land, { colors: ['#5affb0', '#ff5aa0'] }), '...That was not the plan.', 'float-text buff');
+  S.smileforonce = duoBeat('Smile for once!', (p, r) => both(p.hop(0, besideOf(r, 0, 130), 3, 0.6), p.rise(1, 10, 0.2)),
+    (V, t, r, p, land) => RFX.smileface(V, t, r, p.pos(0), land, {}), '...No.', 'float-text baka');
+  S.grassknuckle = duoBeat('Nature punches BACK!', (p, r) => both(p.rush(0, r.C, 0.3), p.swing(1, besideOf(r, 1, 150), 1, 0.5)),
+    (V, t, r, p, land) => RFX.grassfist(V, t, r, p.pos(0), land, {}), 'Touch grass.', 'float-text heal');
+  S.sermonsalve = duoBeat('Let us pray...', (p, r) => both(p.rise(0, 50, 0.5), p.to(1, besideOf(r, 1, 150), 0.7, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.glasswindow(V, t, r, p.pos(0), land, {}), 'Amen.', 'float-text heal');
+  S.studysweat = duoBeat('Five more laps, then flashcards!', (p, r) => both(p.rise(0, 10, 0.2), p.orbit(1, r.T, 150, 1, 0.9)),
+    (V, t, r, p, land) => RFX.stopwatch(V, t, r, p.pos(0), land, {}), 'New record!', 'float-text buff');
+  S.autographdanish = duoBeat('For my number one fan~', (p, r) => both(p.hop(0, besideOf(r, 0, 140), 3, 0.6), p.rise(1, 20, 0.3)),
+    (V, t, r, p, land) => RFX.autograph(V, t, r, p.pos(0), land, {}), 'Fresh from the oven!', 'float-text heal');
+  S.beachyoga = duoBeat('Inhale... the ocean...', (p, r) => both(p.rise(0, 40, 0.4), p.to(1, besideOf(r, 1, 150), 0.7, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.sunsalute(V, t, r, p.pos(0), land, {}), 'Namaste, dude.', 'float-text heal');
+  S.sugardelivery = duoBeat('Dessert for the author!', (p, r) => both(p.rush(0, besideOf(r, 0, 130), 0.35), p.rise(1, 15, 0.2)),
+    (V, t, r, p, land) => RFX.layercake(V, t, r, p.pos(0), land, {}), 'Chapter eleven: cake.', 'float-text heal');
+  S.secrethandshake = duoBeat('You knew too, huh?', (p, r) => p.flank(r.T, 110, 0.4),
+    (V, t, r, p, land) => RFX.handshake(V, t, r, p.pos(0), land, {}), 'Our little secret.', 'float-text debuff');
+  S.whoisscarier = duoBeat('I am TERRIFYING! ...Right?', (p) => both(p.hop(0, p.pos(0), 4, 0.6), p.rise(1, 60, 0.5)),
+    (V, t, r, p, land) => RFX.scarymeter(V, t, r, p.pos(1), land, {}), 'The bunny wins. Somehow.', 'float-text baka');
+  S.paperbackdelivery = duoBeat('It is due. Today.', (p, r) => both(p.rush(1, besideOf(r, 1, 130), 0.35), p.to(0, { x: lerp(r.A.x, r.T.x, 0.25), y: lerp(r.A.y, r.T.y, 0.25) }, 0.6, 'sine.inOut')),
+    (V, t, r, p, land) => RFX.overdue(V, t, r, p.pos(1), land, {}), 'Late fees apply.', 'float-text debuff');
+  S.breakroomtruce = duoBeat('Truce. Coffee first.', (p, r) => both(p.to(0, besideOf(r, 0, 150), 0.6), p.to(1, besideOf(r, 1, 150), 0.6)),
+    (V, t, r, p, land) => RFX.vending(V, t, r, p.pos(1), land, {}), 'Back to work. Ugh.', 'float-text buff');
+  S.studygroup = duoBeat('Group study! Bring notes!', (p, r) => both(p.hop(0, besideOf(r, 0, 140), 3, 0.6), later(0.12, () => p.hop(1, besideOf(r, 1, 140), 3, 0.6))),
+    (V, t, r, p, land) => RFX.stickynotes(V, t, r, p.pos(0), land, {}), 'We are SO ready.', 'float-text buff');
 
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
@@ -16406,7 +18067,10 @@
     'dormfight', 'riggeddeck', 'armwrestle', 'legday', 'sacredflame', 'darkhymn', 'cosplaypair', 'roarcrowd', 'healinghands', 'nextcontestant', 'patchup', 'knockknock', 'coopraid', 'sundayroast', 'familydinner', 'bigsishug', 'knightdrill', 'royalspar', 'parallellab', 'overseer',
     'innsupper', 'couplespat', 'familyfire', 'remember', 'haybale', 'labnotes', 'succubusclass', 'peerreview', 'rocksample', 'exorcism',
     'anomalyreport', 'coldcase', 'konbini', 'selfexperiment', 'screentest',
-    'pancakeflip', 'spoonsmack', 'passit', 'rescuesurf', 'phasers', 'soulblades', 'twiniaido', 'startalisman', 'brimstone', 'puppetstrings', 'firstcontact', 'teddytag', 'grapestomp'];
+    'pancakeflip', 'spoonsmack', 'passit', 'rescuesurf', 'phasers', 'soulblades', 'twiniaido', 'startalisman', 'brimstone', 'puppetstrings', 'firstcontact', 'teddytag', 'grapestomp',
+    'gardenblessing', 'honestchop', 'noogierush', 'grounded', 'overlooked', 'brainfreeze', 'coffeerun', 'ouioui', 'clubwar', 'rockbottom', 'nobiting', 'allnighter', 'onechanguard', 'bookmarkslash', 'routinecheck', 'factcheck', 'doeduo', 'dataclaws', 'punchcocktail', 'viralstunt', 'cheeseedict', 'dusterduo', 'mangaliterature', 'requiredreading', 'familyroast', 'hungoverdrill', 'doubledelivery', 'coopmode', 'glitterbomb', 'thornedbat',
+    'hauntedwing', 'lastorders', 'customerservice', 'yokailecture', 'dramaticplea', 'fateddecree', 'mindfulbreathing', 'quietcup', 'facultyfeud', 'synthpanic', 'infernalgossip', 'cosplayduo', 'roomkey', 'quietcompany', 'replyall',
+    'redpenreview', 'labswap', 'smileforonce', 'grassknuckle', 'sermonsalve', 'studysweat', 'autographdanish', 'beachyoga', 'sugardelivery', 'secrethandshake', 'whoisscarier', 'paperbackdelivery', 'breakroomtruce', 'studygroup'];
 
   async function attack(V, a, t, impact) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
