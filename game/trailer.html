@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every World Has a You</title>
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<!-- The Story Mode trailer: two minutes, built from the game's own sprites, backgrounds and music (STORY.md). -->
+<style>
+  :root { --red: #e0263c; --ink: #f4eef2; --dim: #a99aa4; --glow: #9fd8ff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #000; color: var(--ink); overflow: hidden;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  #stage { position: absolute; left: 50%; top: 50%; width: min(100vw, 177.78vh); height: min(56.25vw, 100vh);
+    transform: translate(-50%, -50%); overflow: hidden; background: #000; }
+  .layer { position: absolute; inset: 0; }
+  .bg { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; opacity: 0; will-change: transform, opacity; }
+  #tint { background: transparent; mix-blend-mode: multiply; pointer-events: none; }
+  #vignette { background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.85) 100%); pointer-events: none; }
+  #glowSpot { left: 50%; top: 78%; width: 34%; height: 12%; transform: translate(-50%, -50%); border-radius: 50%; inset: auto;
+    background: radial-gradient(ellipse, rgba(200,240,255,.95), rgba(120,200,255,.45) 40%, transparent 72%);
+    filter: blur(6px); opacity: 0; mix-blend-mode: screen; }
+  .char { position: absolute; bottom: -2%; height: 92%; transform: translateX(-50%); opacity: 0; will-change: transform, opacity, filter; }
+  .char img { height: 100%; display: block; }
+  .char .ghost { position: absolute; left: 0; top: 0; opacity: 0; mix-blend-mode: screen; }
+  .char.plague > img:first-child { filter: saturate(.35) contrast(1.35) brightness(.85) drop-shadow(0 0 2.2vmin rgba(200,0,40,.75)); }
+  .char.plague .ghost { opacity: .55; }
+  .char .ghost.r { filter: sepia(1) saturate(6) hue-rotate(-50deg) brightness(.9); }
+  .char .ghost.c { filter: sepia(1) saturate(6) hue-rotate(150deg) brightness(.9); }
+  canvas#fx { pointer-events: none; }
+  #eyes { pointer-events: none; opacity: 0; }
+  .eye { position: absolute; width: 4.4%; aspect-ratio: 2 / 1; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #120006 0 22%, #ffd8de 23% 48%, transparent 50%);
+    box-shadow: 0 0 1.4vmin rgba(255,60,90,.8); transform: translate(-50%, -50%) scaleY(0); }
+  #flash { background: #fff; opacity: 0; pointer-events: none; }
+  #bars::before, #bars::after { content: ""; position: absolute; left: 0; right: 0; height: 9%; background: #000; z-index: 2; }
+  #bars::before { top: 0; } #bars::after { bottom: 0; }
+  #sub { position: absolute; left: 10%; right: 10%; bottom: 12%; text-align: center; font-size: clamp(14px, 2.4vmin, 30px);
+    line-height: 1.35; text-shadow: 0 2px 6px #000, 0 0 2px #000; opacity: 0; z-index: 3; }
+  #sub b { display: block; font-size: .72em; letter-spacing: .25em; text-transform: uppercase; color: var(--dim); margin-bottom: .2em; }
+  #card { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 0 8%; z-index: 3; pointer-events: none; }
+  #card .line { text-shadow: 0 0 2vmin #000, 0 0 5vmin #000, 0 3px 0 #000; font-family: Georgia, "Times New Roman", serif; font-size: clamp(18px, 4.4vmin, 56px); letter-spacing: .04em; opacity: 0; }
+  #card .line.small { font-family: system-ui, sans-serif; font-size: clamp(11px, 1.9vmin, 22px); letter-spacing: .5em; text-transform: uppercase; color: var(--dim); margin-top: 1.2em; }
+  #card .line.big { font-size: clamp(30px, 9vmin, 120px); font-weight: 700; letter-spacing: .08em; }
+  #card .line.red { color: var(--red); }
+  #plate { position: absolute; left: 6%; top: 50%; transform: translateY(-50%); z-index: 3; opacity: 0; max-width: 46%; }
+  #plate.right { left: auto; right: 6%; text-align: right; }
+  #plate .who { font-size: clamp(11px, 1.9vmin, 22px); letter-spacing: .45em; text-transform: uppercase; color: var(--dim); }
+  #plate .title { font-family: Georgia, serif; font-size: clamp(22px, 6vmin, 78px); line-height: 1.02; font-weight: 700;
+    text-transform: uppercase; color: #fff; text-shadow: 0 0 2vmin rgba(224,38,60,.9), 0 3px 0 #000; }
+  #plate .rule { height: .5vmin; width: 0; background: var(--red); margin: 1vmin 0; box-shadow: 0 0 1vmin var(--red); }
+  #plate.right .rule { margin-left: auto; }
+  #plate .quote { font-style: italic; font-size: clamp(12px, 2.2vmin, 26px); color: #ffd9de; opacity: .9; }
+  #binary { position: absolute; inset: 0; font: clamp(9px, 1.5vmin, 16px)/1.25 ui-monospace, Consolas, monospace; color: #7dffb0;
+    opacity: 0; white-space: normal; overflow: hidden; text-shadow: 0 0 6px #2bff88; pointer-events: none; padding: 2%; word-break: break-all; }
+  #deck { position: absolute; inset: 0; pointer-events: none; }
+  #deck img { position: absolute; width: 9%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; border-radius: 1vmin;
+    border: .35vmin solid #fff; box-shadow: 0 0 2vmin rgba(160,220,255,.8); opacity: 0; background: #223; }
+  /* start / end screens */
+  #gate { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.4vmin;
+    background: radial-gradient(ellipse at center, #1a0a14, #000 70%); text-align: center; padding: 16px; }
+  #gate h1 { font-family: Georgia, serif; font-size: clamp(26px, 6vmin, 64px); letter-spacing: .06em; }
+  #gate p { color: var(--dim); font-size: clamp(12px, 2vmin, 18px); letter-spacing: .3em; text-transform: uppercase; }
+  #gate button { font: inherit; font-size: clamp(14px, 2.4vmin, 22px); letter-spacing: .3em; text-transform: uppercase; color: #fff;
+    background: transparent; border: 1px solid var(--red); padding: 1.2em 2.6em; cursor: pointer; box-shadow: 0 0 2vmin rgba(224,38,60,.5); }
+  #gate button:disabled { opacity: .4; cursor: wait; }
+  #gate button:hover:not(:disabled) { background: rgba(224,38,60,.18); }
+  #progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--red); z-index: 4; opacity: .7; }
+  #skip { position: fixed; right: 16px; bottom: 14px; z-index: 6; background: rgba(0,0,0,.5); color: var(--dim); border: 1px solid #444;
+    font: 12px system-ui, sans-serif; letter-spacing: .2em; text-transform: uppercase; padding: 8px 12px; cursor: pointer; display: none; }
+</style>
+</head>
+<body>
+<div id="stage"><div class="layer" id="cam">
+  <img class="bg" id="bgA" alt=""><img class="bg" id="bgB" alt="">
+  <div class="layer" id="glowSpot"></div>
+  <div class="layer" id="eyes"></div>
+  <div class="layer" id="chars"></div>
+  <div class="layer" id="tint"></div>
+  <canvas class="layer" id="fx"></canvas>
+  <div class="layer" id="vignette"></div>
+  <div id="deck"></div>
+  <div id="binary"></div>
+  <div id="plate"><div class="who"></div><div class="rule"></div><div class="title"></div><div class="quote"></div></div>
+  <div id="card"></div>
+  <div id="sub"></div>
+  <div class="layer" id="bars"></div>
+  <div class="layer" id="flash"></div>
+  <div id="progress"></div>
+</div></div>
+<div id="gate">
+  <p>Miku Battle · Story Mode</p>
+  <h1>Every World Has a You</h1>
+  <button id="play" disabled>Loading 0%</button>
+  <p style="letter-spacing:.15em;text-transform:none">Trailer · 2:00 · sound on</p>
+</div>
+<button id="skip">Esc · stop</button>
+
+<script src="lib/gsap.min.js"></script>
+<script src="js/config.js"></script>
+<script src="assets/manifest.js"></script>
+<script>
+(function () {
+  const M = window.MIKU_MANIFEST;
+  const $ = (id) => document.getElementById(id);
+  const stage = $('stage');
+
+  // ---------------------------------------------------------------- assets
+  const charById = Object.fromEntries(M.characters.map((c) => [c.id, c]));
+  const bgByName = (name) => M.backgrounds.find((b) => b.name.trim().toLowerCase() === name.toLowerCase());
+  const sprite = (id, role) => { const c = charById[id]; return c ? MB.asset(c.sprites[role] || c.sprites.idle) : ''; };
+  const bgUrl = (name) => { const b = bgByName(name); return b ? MB.asset(b.src) : ''; };
+  const trackUrl = (id) => (M.music.find((m) => m.id === id) || {}).url;
+
+  // ---------------------------------------------------------------- sound: music tracks and a small synth for hits
+  let ac, master, current = null;
+  function audioInit() { ac = new (window.AudioContext || window.webkitAudioContext)(); master = ac.createGain(); master.gain.value = 0.7; master.connect(ac.destination); }
+  function music(id, vol = 0.8, fade = 1.2) {
+    if (current) { const old = current; gsap.to(old, { volume: 0, duration: fade, onComplete: () => old.pause() }); current = null; }
+    if (!id) return;
+    const a = new Audio(trackUrl(id)); a.loop = true; a.volume = 0;
+    a.play().then(() => gsap.to(a, { volume: vol, duration: fade })).catch(() => {});
+    current = a;
+  }
+  function noise(dur, vol, f, sweep, type = 'lowpass', delay = 0) {
+    const t = ac.currentTime + delay, buf = ac.createBuffer(1, Math.ceil(ac.sampleRate * dur), ac.sampleRate);
+    const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const s = ac.createBufferSource(); s.buffer = buf;
+    const fl = ac.createBiquadFilter(); fl.type = type; fl.frequency.setValueAtTime(f, t); if (sweep) fl.frequency.exponentialRampToValueAtTime(sweep, t + dur);
+    const g = ac.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    s.connect(fl); fl.connect(g); g.connect(master); s.start(t);
+  }
+  function tone(f0, f1, dur, vol, type = 'sine', delay = 0) {
+    const t = ac.currentTime + delay, o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.setValueAtTime(f0, t); if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
+  }
+  const SFX = {
+    boom: () => { tone(90, 28, 1.6, 0.9); noise(1.2, 0.5, 400, 40); },
+    hit: () => { tone(140, 40, 0.5, 0.7); noise(0.35, 0.5, 1200, 120); },
+    whoosh: () => noise(0.45, 0.35, 300, 3000, 'bandpass'),
+    glitch: () => { for (let i = 0; i < 6; i++) tone(200 + Math.random() * 1800, 0, 0.04, 0.12, 'square', i * 0.045); noise(0.25, 0.25, 4000, 0, 'highpass'); },
+    riser: () => { tone(120, 1400, 3.2, 0.18, 'sawtooth'); noise(3.2, 0.12, 400, 6000, 'bandpass'); },
+    heart: () => { tone(60, 40, 0.18, 0.9); tone(55, 38, 0.2, 0.7, 'sine', 0.24); },
+    shimmer: () => [0, 0.08, 0.16, 0.24, 0.32].forEach((d, i) => tone(1200 + i * 260, 0, 0.5, 0.06, 'sine', d)),
+    paper: () => noise(0.3, 0.2, 2500, 6000, 'highpass'),
+  };
+  const sfx = (n) => { try { SFX[n](); } catch (e) { /* no audio */ } };
+
+  // ---------------------------------------------------------------- visuals
+  let front = $('bgA'), back = $('bgB');
+  function setBg(name, { dur = 0.8, zoom = 1.08, filter = 'none', pan = 0 } = {}) {
+    const url = bgUrl(name); if (!url) return;
+    back.src = url; back.style.filter = filter;
+    gsap.killTweensOf(back);
+    gsap.fromTo(back, { opacity: 0, scale: 1, xPercent: 0 }, { opacity: 1, duration: dur });
+    gsap.to(back, { scale: zoom, xPercent: pan, duration: 9, ease: 'none' });
+    gsap.to(front, { opacity: 0, duration: dur });
+    [front, back] = [back, front];
+  }
+  function cutBg(name, filter = 'none') { setBg(name, { dur: 0.05, zoom: 1.03, filter }); }
+  function bgFilter(filter, dur = 1) { gsap.to(front, { filter, duration: dur }); }
+
+  const chars = $('chars');
+  function showChar(id, role, { x = 50, h = 92, plague = false, from = 'fade', dur = 0.6, key = id } = {}) {
+    let el = chars.querySelector(`[data-key="${key}"]`);
+    if (!el) {
+      el = document.createElement('div'); el.className = 'char'; el.dataset.key = key;
+      el.innerHTML = '<img alt=""><img class="ghost r" alt=""><img class="ghost c" alt="">';
+      chars.appendChild(el);
+    }
+    el.querySelectorAll('img').forEach((i) => { i.src = sprite(id, role); });
+    el.classList.toggle('plague', plague);
+    el.style.height = h + '%';
+    gsap.killTweensOf(el);
+    const to = { opacity: 1, left: x + '%', xPercent: -50, y: 0, scale: 1, duration: dur, ease: 'power2.out' };
+    if (from === 'rise') gsap.fromTo(el, { opacity: 0, left: x + '%', xPercent: -50, y: '12%' }, to);
+    else if (from === 'snap') gsap.fromTo(el, { opacity: 0, left: x + '%', xPercent: -50, scale: 1.12 }, { ...to, duration: 0.12 });
+    else gsap.fromTo(el, { opacity: 0, left: x + '%', xPercent: -50 }, to);
+    if (plague) jitter(el);
+    return el;
+  }
+  function role(key, id, r) { const el = chars.querySelector(`[data-key="${key}"]`); if (el) el.querySelectorAll('img').forEach((i) => { i.src = sprite(id, r); }); }
+  function jitter(el) {
+    const [r, c] = el.querySelectorAll('.ghost');
+    gsap.to(r, { x: () => gsap.utils.random(-14, -3), y: () => gsap.utils.random(-4, 4), duration: 0.09, repeat: 60, repeatRefresh: true, ease: 'steps(1)' });
+    gsap.to(c, { x: () => gsap.utils.random(3, 14), y: () => gsap.utils.random(-4, 4), duration: 0.11, repeat: 50, repeatRefresh: true, ease: 'steps(1)' });
+  }
+  function clearChars(dur = 0.4) { [...chars.children].forEach((el) => gsap.to(el, { opacity: 0, duration: dur, onComplete: () => el.remove() })); }
+  function push(key, scale = 1.25, dur = 3) { const el = chars.querySelector(`[data-key="${key}"]`); if (el) gsap.to(el, { scale, y: '6%', duration: dur, ease: 'power1.inOut' }); }
+
+  function sub(who, text, dur = 3) {
+    const el = $('sub'); el.innerHTML = (who ? `<b>${who}</b>` : '') + text;
+    gsap.killTweensOf(el); gsap.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35 });
+    gsap.to(el, { opacity: 0, duration: 0.35, delay: dur });
+  }
+  function card(lines, { dur = 3, stagger = 0.5, hold = true } = {}) {
+    const el = $('card'); el.innerHTML = '';
+    lines.forEach((l) => { const d = document.createElement('div'); const [cls, txt] = Array.isArray(l) ? l : ['', l]; d.className = 'line ' + cls; d.textContent = txt; el.appendChild(d); });
+    const kids = el.querySelectorAll('.line');
+    gsap.fromTo(kids, { opacity: 0, y: 10, letterSpacing: '.2em' }, { opacity: 1, y: 0, letterSpacing: '.04em', duration: 0.9, stagger, ease: 'power2.out' });
+    if (hold) gsap.to(kids, { opacity: 0, duration: 0.5, delay: dur });
+  }
+  function plate(who, title, quote, { side = 'left', dur = 3 } = {}) {
+    const el = $('plate'); el.className = side === 'right' ? 'right' : '';
+    el.querySelector('.who').textContent = who; el.querySelector('.title').textContent = title; el.querySelector('.quote').textContent = quote ? `"${quote}"` : '';
+    gsap.killTweensOf(el);
+    gsap.fromTo(el, { opacity: 0, x: side === 'right' ? 30 : -30 }, { opacity: 1, x: 0, duration: 0.25, ease: 'power3.out' });
+    gsap.fromTo(el.querySelector('.rule'), { width: 0 }, { width: '60%', duration: 0.5, delay: 0.1 });
+    gsap.fromTo(el.querySelector('.quote'), { opacity: 0 }, { opacity: 0.9, duration: 0.6, delay: 0.7 });
+    gsap.to(el, { opacity: 0, duration: 0.25, delay: dur });
+  }
+  function flash(color = '#fff', dur = 0.6, peak = 1) { const el = $('flash'); el.style.background = color; gsap.fromTo(el, { opacity: peak }, { opacity: 0, duration: dur }); }
+  function blackout(on, dur = 0.6) { const el = $('flash'); el.style.background = '#000'; gsap.to(el, { opacity: on ? 1 : 0, duration: dur }); }
+  function shake(power = 1, dur = 0.5) { gsap.fromTo('#cam', { x: 0, y: 0 }, { x: () => gsap.utils.random(-12, 12) * power, y: () => gsap.utils.random(-8, 8) * power, duration: 0.04, repeat: Math.round(dur / 0.04), repeatRefresh: true, ease: 'steps(1)', onComplete: () => gsap.set('#cam', { x: 0, y: 0 }) }); }
+  function tint(color, dur = 0.8) { gsap.to($('tint'), { backgroundColor: color, duration: dur }); }
+  function glitch(dur = 0.5) {
+    sfx('glitch');
+    const tl = gsap.timeline();
+    for (let i = 0; i < Math.round(dur / 0.06); i++) tl.set(stage, { filter: `hue-rotate(${gsap.utils.random(-90, 90)}deg) contrast(${gsap.utils.random(1, 2)}) saturate(${gsap.utils.random(0, 3)})`, clipPath: Math.random() < 0.5 ? `inset(${gsap.utils.random(0, 40)}% 0 ${gsap.utils.random(0, 40)}% 0)` : 'none' }, i * 0.06);
+    tl.set(stage, { filter: 'none', clipPath: 'none' });
+  }
+
+  // particles: embers, rain, snow, bubbles, sparks (one mode at a time)
+  const cv = $('fx'), cx = cv.getContext('2d'); let parts = [], mode = null;
+  function size() { cv.width = stage.clientWidth; cv.height = stage.clientHeight; }
+  addEventListener('resize', size);
+  function particles(m) { mode = m; parts = []; }
+  function spawn() {
+    const W = cv.width, H = cv.height, r = Math.random;
+    if (mode === 'embers') return { x: r() * W, y: H + 10, vx: (r() - 0.5) * 1.2, vy: -1 - r() * 2.6, s: 1 + r() * 3, c: `hsla(${10 + r() * 30},100%,${55 + r() * 20}%,`, life: 1 };
+    if (mode === 'rain') return { x: r() * W * 1.2, y: -20, vx: -2, vy: 14 + r() * 6, s: 1, c: 'rgba(170,190,220,', life: 1, line: true };
+    if (mode === 'snow') return { x: r() * W, y: -10, vx: (r() - 0.3) * 1.6, vy: 0.8 + r() * 1.6, s: 1 + r() * 2.5, c: 'rgba(240,245,255,', life: 1 };
+    if (mode === 'bubbles') return { x: r() * W, y: H + 10, vx: (r() - 0.5) * 0.4, vy: -0.6 - r() * 1.2, s: 2 + r() * 5, c: 'rgba(150,220,255,', life: 1, ring: true };
+    if (mode === 'sparks') return { x: W / 2, y: H * 0.55, vx: (r() - 0.5) * 18, vy: (r() - 0.5) * 18, s: 1 + r() * 2.5, c: 'rgba(190,235,255,', life: 1, fade: 0.02 };
+  }
+  (function loop() {
+    requestAnimationFrame(loop);
+    cx.clearRect(0, 0, cv.width, cv.height);
+    if (mode) for (let i = 0; i < (mode === 'rain' ? 6 : mode === 'sparks' ? 4 : 2); i++) parts.push(spawn());
+    parts = parts.filter((p) => p.life > 0 && p.y < cv.height + 40 && p.y > -60);
+    for (const p of parts) {
+      p.x += p.vx; p.y += p.vy; if (p.fade) p.life -= p.fade;
+      if (mode === 'embers') { p.vx += (Math.random() - 0.5) * 0.2; p.life -= 0.004; }
+      cx.globalAlpha = 1;
+      if (p.line) { cx.strokeStyle = p.c + '0.5)'; cx.beginPath(); cx.moveTo(p.x, p.y); cx.lineTo(p.x + p.vx * 1.5, p.y + p.vy * 1.5); cx.stroke(); }
+      else if (p.ring) { cx.strokeStyle = p.c + '0.6)'; cx.beginPath(); cx.arc(p.x, p.y, p.s, 0, 7); cx.stroke(); }
+      else { cx.fillStyle = p.c + Math.max(0, p.life).toFixed(2) + ')'; cx.beginPath(); cx.arc(p.x, p.y, p.s, 0, 7); cx.fill(); }
+    }
+    if (parts.length > 900) parts.splice(0, parts.length - 900);
+  })();
+
+  // the sky full of eyes (Doe's Engine / Daphne's open seal)
+  const eyes = $('eyes');
+  for (let i = 0; i < 46; i++) { const e = document.createElement('div'); e.className = 'eye'; e.style.left = (4 + Math.random() * 92) + '%'; e.style.top = (8 + Math.random() * 52) + '%'; e.style.width = (2.4 + Math.random() * 4) + '%'; eyes.appendChild(e); }
+  function eyesOpen(on) {
+    gsap.to(eyes, { opacity: on ? 1 : 0, duration: 0.8 });
+    gsap.to(eyes.children, { scaleY: on ? 1 : 0, duration: 0.35, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(3)' });
+  }
+  function eyesBlink() { gsap.to(eyes.children, { scaleY: 0.05, duration: 0.08, yoyo: true, repeat: 1, stagger: { each: 0.01, from: 'random' } }); }
+
+  function binary(on) {
+    const el = $('binary');
+    if (on) {
+      const msg = 'beware of the unthinkable present and future ';
+      const bits = [...msg].map((c) => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+      el.textContent = (bits + ' ').repeat(14);
+      gsap.fromTo(el, { opacity: 0, y: 0 }, { opacity: 0.55, duration: 1 });
+      gsap.to(el, { y: '-30%', duration: 9, ease: 'none' });
+    } else gsap.to(el, { opacity: 0, duration: 0.6 });
+  }
+
+  function deckBurst(ids, { cols = 7 } = {}) {
+    const deck = $('deck'); deck.innerHTML = ''; gsap.set(deck, { opacity: 1 });
+    ids.forEach((id, i) => {
+      const img = document.createElement('img'); img.src = sprite(id, 'win'); deck.appendChild(img);
+      const col = i % cols, row = Math.floor(i / cols);
+      const x = 6 + col * (85 / (cols - 1)) - 4.5 + 4.5, y = 11 + row * 26.5;
+      gsap.fromTo(img, { left: '44.5%', top: '35%', opacity: 0, rotation: gsap.utils.random(-60, 60), scale: 0.3 },
+        { left: x + '%', top: y + '%', opacity: 1, rotation: gsap.utils.random(-8, 8), scale: 1, duration: 0.7, delay: i * 0.05, ease: 'back.out(1.6)' });
+    });
+  }
+  function deckClear() { gsap.to('#deck img', { opacity: 0, scale: 1.3, duration: 0.4, stagger: 0.01 }); }
+
+  // ---------------------------------------------------------------- the two minutes
+  const tl = gsap.timeline({ paused: true });
+  const at = (t, fn) => tl.call(fn, null, t);
+
+  // 0:00 — cold open
+  at(0.0, () => { music('the-unknown-tear', 0.7, 3); blackout(true, 0); });
+  at(1.0, () => card(['Every story has a "you".'], { dur: 3.2 }));
+  at(5.6, () => card(['In every world.', ['small', 'Every single one.']], { dur: 2.6, stagger: 0.9 }));
+
+  // 0:09 — the glow
+  at(9.4, () => { blackout(false, 1.4); setBg('Classroom', { dur: 1.4, zoom: 1.12 }); });
+  at(10.2, () => { showChar('hayley-kate', 'play', { x: 30, h: 88 }); showChar('james-lone', 'idle', { x: 72, h: 88 }); });
+  at(11.0, () => sub('Hayley', 'Psst. If x is boredom and y is James, what\'s the area of a sulk?', 3));
+  at(14.6, () => { gsap.to('#glowSpot', { opacity: 1, duration: 1.4 }); gsap.to('#glowSpot', { scale: 1.25, duration: 0.9, yoyo: true, repeat: 7, ease: 'sine.inOut' }); sfx('shimmer'); });
+  at(15.4, () => sub('You', 'Does anyone else see that?', 2.4));
+  at(17.6, () => { sub('', 'Nobody else could see it.', 2.2); role('hayley-kate', 'hayley-kate', 'idle'); });
+  at(19.6, () => { sfx('riser'); gsap.to('#glowSpot', { scale: 6, opacity: 1, duration: 1.4, ease: 'power2.in' }); });
+
+  // 0:21 — every world at once
+  at(21.0, () => { flash('#fff', 0.9); clearChars(0.05); gsap.set('#glowSpot', { opacity: 0, scale: 1 }); sfx('whoosh'); });
+  ['Lab A-3 - Night', 'Pier', 'cherry road night', 'BADASS DARK CASTLE', 'Colosseum', 'Institute Rooftop - BAD SUN'].forEach((bg, i) =>
+    at(21.2 + i * 0.45, () => { cutBg(bg); if (i % 2) sfx('whoosh'); }));
+
+  // 0:24 — Doe's tests
+  at(24.0, () => { setBg('Lab A-3 - Night', { dur: 0.3, zoom: 1.1 }); showChar('doe', 'win', { x: 55, from: 'rise' }); sfx('hit'); });
+  at(24.6, () => sub('Doctor Doe Bullen', '¡Hola! Sit, sit. This won\'t hurt. Probably.', 2.4));
+  at(27.4, () => { role('doe', 'doe', 'lose'); sub('Doe', 'Nobody ever looks at me. But the universe... it looks at YOU.', 2.8); });
+  at(30.6, () => { role('doe', 'doe', 'taunt'); push('doe', 1.35, 3); sub('Doe', 'If it can be measured... it can be moved.', 2.6); sfx('heart'); });
+
+  // 0:33 — the letter
+  at(33.6, () => { clearChars(0.3); setBg('Bedroom - Night', { dur: 0.6, zoom: 1.06, filter: 'brightness(.55) saturate(.6)' }); sfx('paper'); });
+  at(34.2, () => binary(true));
+  at(35.0, () => sub('???', '01100010 01100101 01110111 01100001 01110010 01100101 ...', 2.2));
+  at(37.4, () => { card([['red', 'CALL UPON YOUR WEAPON.']], { dur: 1.6 }); sfx('heart'); });
+  [38.0, 38.5, 38.9, 39.2, 39.45, 39.65, 39.8].forEach((t, i) => at(t, () => { glitch(0.12); cutBg(['Lab A-3 - Night', 'Bedroom - Night', 'Bonfire Beach', 'Bedroom - Night', 'dark castle entrance', 'Bedroom - Night', 'Doe Earth 2'][i], 'brightness(.6)'); }));
+  at(40.0, () => { binary(false); card([['red big', 'DOE IS COMING.']], { dur: 1.4 }); shake(1.4, 0.6); sfx('boom'); });
+
+  // 0:42 — the plague
+  at(41.8, () => { music('doomsday-clock-midnight', 0.85, 0.4); blackout(true, 0.2); });
+  at(42.4, () => card(['A plague is spreading.'], { dur: 2 }));
+  at(45.0, () => card(['It turns everyone you love', ['red', 'into the worst version of themselves.']], { dur: 2.2, stagger: 0.8 }));
+
+  // 0:48 — the worst selves
+  const reveals = [
+    ['james-lone', 'special', 'Outside School', 'James', 'The Fake Emo', "I don't care. I never have. I never will.", 'right', 72],
+    ['maiko-ghan', 'attack', 'Karate Fighting ring (Beginners)', 'Maiko', 'The Lost Sen', 'Everyone who stands next to you disappears.', 'left', 30],
+    ['kayla-kate', 'lose', 'Bedroom - Night', 'Kayla', 'The Hollow Sister', 'Maybe I wished her away.', 'right', 70],
+    ['diana', 'lose', 'Institute Rooftop - BAD SUN', 'Diana', 'The Doe Nobody Mourns', 'She\'s the real one anyway.', 'left', 32],
+    ['rirarra-charca', 'special', 'Bonfire Beach', 'Rirarra', 'The Hunger Below', '...HUNGRY.', 'right', 68, 'bubbles', 'rgba(0,60,120,.55)'],
+    ['lilith', 'special', 'Fire..', 'Lilith', 'The Unloved', "I can't turn it off! It's not me!", 'left', 32, 'embers', 'rgba(180,40,0,.35)'],
+    ['miss-mireille', 'special', 'Lobby', 'Miss Mireille', 'The Thirst', 'House rules no longer apply.', 'right', 70],
+    ['keiko-cries', 'idle', 'Lounge Night', 'Keiko', 'The Table for the Dead', "Supper's at seven. Everyone stays for supper.", 'left', 32, 'snow'],
+    ['shogun-kagetora', 'attack', 'palace', 'Shogun Kagetora', 'The Blood Tyrant', 'I will protect them from everyone.', 'right', 68],
+    ['valse', 'play', 'Church,', 'Valse', 'The Saint of the Last Mercy', 'An act of love.', 'left', 32],
+    ['daphne', 'idle', 'Inner ruins', 'Daphne', 'The Demon Heir', '...Insects. All of you.', 'right', 68],
+  ];
+  reveals.forEach(([id, r, bg, who, title, quote, side, x, parts, color], i) => {
+    const t = 48.2 + i * 3.4;
+    at(t, () => {
+      blackout(false, 0.05); clearChars(0.1); glitch(0.25);
+      cutBg(bg, 'brightness(.5) saturate(.5) contrast(1.2)');
+      tint(color || 'rgba(110,0,20,.35)', 0.2); particles(parts || null);
+      showChar(id, r, { x, from: 'snap', plague: true, key: 'reveal' + i });
+      plate(who, title, quote, { side: side === 'right' ? 'left' : 'right', dur: 2.9 });
+      sfx('hit'); if (i % 3 === 0) shake(0.7, 0.3);
+    });
+    at(t + 1.6, () => push('reveal' + i, 1.08, 1.8));
+  });
+
+  // 1:25 — the ones who chose it
+  at(85.6, () => { clearChars(0.2); particles(null); tint('rgba(0,0,0,0)', 0.3); blackout(true, 0.2); });
+  at(86.0, () => card(['Some of them weren\'t plagued.', ['red', 'They chose this.']], { dur: 1.9, stagger: 0.6 }));
+  [
+    ['marija', 'taunt', 'Lab B-2 Earth 7 Rift', 'Marija', 'I am a mother. I can only save mine.'],
+    ['celeste', 'special', 'Outside the prom', 'Celeste', 'I won\'t lose you to anyone. Not even you.'],
+    ['sakura-tooyama', 'attack', 'sakura tree at night', 'Sakura', 'I\'m not plagued. I\'m RIGHT.'],
+  ].forEach(([id, r, bg, who, line], i) => {
+    const t = 88.6 + i * 2.6;
+    at(t, () => { blackout(false, 0.1); clearChars(0.15); setBg(bg, { dur: 0.3, zoom: 1.1, filter: 'brightness(.6)' }); showChar(id, r, { x: 50, from: 'rise', dur: 0.4 }); sub(who, line, 2.2); sfx('hit'); });
+  });
+
+  // 1:36 — heartbreak
+  at(96.4, () => { music('missing-my-hayley', 0.75, 1.2); clearChars(0.4); blackout(true, 0.4); sfx('heart'); });
+  at(97.0, () => { blackout(false, 1); setBg('living room night', { dur: 1, zoom: 1.08, filter: 'brightness(.55)' }); showChar('maia', 'lose', { x: 50 }); });
+  at(97.6, () => sub('Maia', 'Please don\'t go anywhere. I\'ll be good. I promise.', 2.6));
+  at(100.4, () => { clearChars(0.4); setBg('night forest', { dur: 0.8, filter: 'brightness(.5) saturate(.4)' }); particles('rain'); showChar('milo', 'lose', { x: 50, plague: true }); });
+  at(101.0, () => sub('Milo', '...Lu... min...? I... came... back...', 2.4));
+  at(103.6, () => { particles(null); clearChars(0.4); setBg("Doe's lab - Night", { dur: 0.8, zoom: 1.14, filter: 'brightness(.6)' }); showChar('maria-hunley', 'lose', { x: 50, plague: true }); });
+  at(104.2, () => sub('Maria', 'Every morning I think: today\'s the day you don\'t come home. Not today. Not EVER.', 3));
+
+  // 1:47 — Doe
+  at(107.4, () => { music('doomsday-clock-five-minutes-past-midnight', 0.9, 0.4); clearChars(0.2); setBg('Doe Earth 2', { dur: 0.2, zoom: 1.18, filter: 'brightness(.55) hue-rotate(-20deg)' }); tint('rgba(90,0,60,.35)', 0.3); eyesOpen(true); showChar('doe', 'special', { x: 50, from: 'snap', plague: true }); sfx('boom'); shake(1, 0.5); });
+  at(108.0, () => sub('Doe', 'Everyone is looking at me. Every single world.', 2.2));
+  at(110.4, () => { role('doe', 'doe', 'lose'); eyesBlink(); sub('Doe', '...So why can\'t I feel it?', 1.8); });
+
+  // 1:52 — the weapon
+  at(112.4, () => { eyesOpen(false); tint('rgba(0,0,0,0)', 0.3); clearChars(0.2); flash('#bfe8ff', 0.8); particles('sparks'); sfx('riser');
+    deckBurst(['hayley-kate', 'james-lone', 'maiko-ghan', 'kayla-kate', 'julie-hunley', 'isabella-hunley', 'diana', 'marija', 'delphine', 'rirarra-charca', 'lilith', 'celeste', 'monika', 'rimu-hiraga', 'shogun-kagetora', 'sakura-tooyama', 'miracle', 'serris', 'beatrice-avalistos', 'zulu', 'uzi'], { cols: 7 }); });
+  at(113.3, () => { gsap.to('#deck', { opacity: 0.35, duration: 0.4 }); card([['big', 'CALL UPON YOUR WEAPON.'], ['red', 'All of it.']], { dur: 1.8, stagger: 0.5 }); });
+
+  // 1:55 — title
+  at(115.6, () => { deckClear(); particles(null); blackout(true, 0.3); sfx('boom'); music(null, 0, 3); });
+  at(116.2, () => card([['small', 'Miku Battle · Story Mode'], ['big', 'Every World Has a You'], ['small red', 'Coming soon']], { dur: 3.2, stagger: 0.45 }));
+  at(120.0, () => end());
+  tl.to('#progress', { width: '100%', duration: 120, ease: 'none' }, 0);
+
+  // ---------------------------------------------------------------- start, end, preload
+  function end() {
+    tl.pause(); music(null, 0, 1);
+    $('skip').style.display = 'none';
+    const g = $('gate'); g.style.display = 'flex'; gsap.fromTo(g, { opacity: 0 }, { opacity: 1, duration: 0.8 });
+    $('play').textContent = 'Watch again';
+  }
+  $('play').onclick = () => {
+    if (!ac) audioInit(); else ac.resume();
+    size(); gsap.to('#gate', { opacity: 0, duration: 0.5, onComplete: () => { $('gate').style.display = 'none'; } });
+    $('skip').style.display = 'block';
+    clearChars(0); particles(null); $('card').innerHTML = ''; tint('rgba(0,0,0,0)', 0);
+    tl.restart();
+  };
+  $('skip').onclick = end;
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && tl.isActive()) end(); });
+
+  // load every picture before the first frame so nothing pops in late
+  const urls = new Set();
+  ['Classroom', 'Lab A-3 - Night', 'Pier', 'cherry road night', 'BADASS DARK CASTLE', 'Colosseum', 'Institute Rooftop - BAD SUN', 'Bedroom - Night', 'Bonfire Beach',
+    'dark castle entrance', 'Doe Earth 2', 'Lab B-2 Earth 7 Rift', 'Outside the prom', 'sakura tree at night', 'living room night', 'night forest', "Doe's lab - Night"]
+    .concat(reveals.map((r) => r[2])).forEach((n) => urls.add(bgUrl(n)));
+  [['hayley-kate', 'play'], ['hayley-kate', 'idle'], ['james-lone', 'idle'], ['doe', 'win'], ['doe', 'lose'], ['doe', 'taunt'], ['doe', 'special'], ['marija', 'taunt'], ['celeste', 'special'],
+    ['sakura-tooyama', 'attack'], ['maia', 'lose'], ['milo', 'lose'], ['maria-hunley', 'lose']].concat(reveals.map((r) => [r[0], r[1]])).forEach(([id, r]) => urls.add(sprite(id, r)));
+  ['hayley-kate', 'james-lone', 'maiko-ghan', 'kayla-kate', 'julie-hunley', 'isabella-hunley', 'diana', 'marija', 'delphine', 'rirarra-charca', 'lilith', 'celeste', 'monika', 'rimu-hiraga',
+    'shogun-kagetora', 'sakura-tooyama', 'miracle', 'serris', 'beatrice-avalistos', 'zulu', 'uzi'].forEach((id) => urls.add(sprite(id, 'win')));
+  urls.delete('');
+  let done = 0; const total = urls.size, btn = $('play');
+  // ?autoplay starts as soon as everything is loaded (muted until a click, browsers block sound before one)
+  const auto = new URLSearchParams(location.search).has('autoplay');
+  const ready = () => { btn.disabled = false; btn.textContent = 'Play trailer'; if (auto && !tl.isActive() && tl.progress() === 0) btn.onclick(); };
+  const tick = () => { done++; btn.textContent = `Loading ${Math.round(done / total * 100)}%`; if (done >= total) ready(); };
+  urls.forEach((u) => { const i = new Image(); i.onload = i.onerror = tick; i.src = u; });
+  setTimeout(() => { if (btn.disabled) ready(); }, 15000);
+})();
+</script>
+</body>
+</html>

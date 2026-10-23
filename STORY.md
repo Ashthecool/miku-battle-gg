@@ -137,6 +137,8 @@ These people aren't plagued. They look at the dying worlds, make a hard choice t
 | 9 | **The Colosseum of the Dead** | Dalmavilla, the Reincarnation Colosseum | The Bonebreaker (Marl) | The Puppet Queen (Beatrice) | Daphne betrays Doe; the demon plane opens |
 | 10 | **Main Character** | Earth 2 | The Main Character (Doe) | The Mother Who Won't Let Go (Maria) | the rifts become doors |
 
+There are also **nine optional Flicker Worlds** between the chapters (section 4b): Grove Keeper, Maia's house and the Peters', Snowfall, the Neon District, the Quiet Ones, the Vinelace Barony, Sanctuary, Academia Magicka and Asheville. They hold about 45 more worst-self fights, most of them horror or heartbreak.
+
 ---
 
 ## 4. The Chapters
@@ -195,7 +197,7 @@ scene: { bg: 'Classroom', music: 'hello-hayley', lines: [
 
 **Key scene — Doe's Tests**
 ```js
-scene: { bg: 'Lab A-3', music: 'none', lines: [
+scene: { bg: 'Lab A-3 - Night', music: 'none', lines: [
   { where: 'New Haven Institute of Science, Lab A-3', when: '???' },
   { enter: 'noelle', at: 'left', mood: 'scared' },
   ['noelle', 'scared', "Oh! Oh no, oh, you're awake. Hi. Hello. Please don't panic, I'm already panicking for both of us."],
@@ -203,7 +205,7 @@ scene: { bg: 'Lab A-3', music: 'none', lines: [
   { enter: 'doe', at: 'right', mood: 'excited' },
   ['doe', 'excited', "¡Hola! A visitor from nowhere! Noelle, cariño, coffee. Two. Make one of them mine.", { close: true }],
   ['doe', 'happy', "Doctor Doe Bullen. Sit, sit. This won't hurt. Probably. Hold this. And this. Don't touch that."],
-  { sfx: 'beep' },
+  { sfx: 'ding' },
   ['*', 'Every screen in the lab turns, one after another, until they all point at you.'],
   ['doe', 'scared', "...That's not right. That's not even the right scale."],
   ['doe', 'neutral', "Let me ask you something strange. When you walk into a room, does everyone look at you? Do things just... happen around you? Like the story's waiting for you to arrive?"],
@@ -228,7 +230,7 @@ scene: { bg: "Your's bedroom (Night)", music: 'none', lines: [
   { where: 'The Hunley house, your room', when: 'Tuesday, 11:58 PM', light: 'night' },
   ['*', 'You walked home. Mum made pasta. Julie stole your garlic bread. Nobody noticed anything.'],
   ['*', 'Nobody noticed you were gone, because to them, you never were.'],
-  { sfx: 'paper' },
+  { sfx: 'wind' },
   ['*', 'A letter falls onto your bed. Out of nowhere. Out of the ceiling. Out of the air.'],
   ['binary-entity', 'neutral', '01100010 01100101 01110111 01100001 01110010 01100101 00100000 01101111 01100110 00100000 01110100 01101000 01100101 00100000 01110101 01101110 01110100 01101000 01101001 01101110 01101011 01100001 01100010 01101100 01100101'],
   ['*', 'Under the numbers, in handwriting. In YOUR handwriting.'],
@@ -280,7 +282,7 @@ scene: { bg: "Your's bedroom (Night)", music: 'none', lines: [
 
 **Key scene — The Fake Emo** (`before`)
 ```js
-before: { bg: 'School gate', music: 'none', lines: [
+before: { bg: 'Outside School', music: 'none', lines: [
   { where: 'The school gates', when: 'Wednesday, 8:30 AM', light: 'dark' },
   ['*', 'The playground is empty. Swings moving on their own. No wind.'],
   { enter: 'james-lone', at: 'center', mood: 'neutral' },
@@ -311,7 +313,7 @@ after: { lines: [
 
 **Key scene — The Lost Sen** (`before`)
 ```js
-before: { bg: 'Dojo', music: 'none', lines: [
+before: { bg: 'Karate Fighting ring (Beginners)', music: 'none', lines: [
   { where: 'The Ghan family dojo', when: 'Wednesday, 4:00 PM', light: 'candle' },
   ['*', 'Thud. Thud. Thud. A bag hanging from the ceiling, split, sand pouring out. She hasn\'t stopped.'],
   { enter: 'maiko-ghan', at: 'center', mood: 'neutral' },
@@ -388,7 +390,7 @@ scene: { bg: 'Town square', music: 'doomsday-clock-midnight', lines: [
 
 **Key scene — Delphine's Story**
 ```js
-scene: { bg: 'Institute break room', music: 'none', lines: [
+scene: { bg: 'Institute cafeteria', music: 'none', lines: [
   { where: 'NHIS, an empty break room', when: 'Night' },
   { enter: 'delphine', at: 'center', mood: 'neutral' },
   ['delphine', 'neutral', "Oh... h-hello. You're the one who fell through. Sit, please. I made too much tea. I always do."],
@@ -404,7 +406,7 @@ scene: { bg: 'Institute break room', music: 'none', lines: [
 
 **Key scene — The Iron Mother** (`before`)
 ```js
-before: { bg: 'The gateway', music: 'doomsday-clock-midnight', lines: [
+before: { bg: 'Lab B-2 Earth 7 Rift', music: 'doomsday-clock-midnight', lines: [
   { where: 'The gateway chamber', when: 'Lockdown, hour 9', light: 'rift' },
   { enter: 'marija', at: 'center', mood: 'neutral' },
   ['marija', 'neutral', "You found the way out of the vault. Of course you did. Things happen around you, don't they."],
@@ -431,7 +433,7 @@ after: { lines: [
 **Key scene — Doe's Broadcast**
 ```js
 scene: { lines: [
-  { fx: 'flicker', sfx: 'static' },
+  { fx: 'flicker', sfx: 'zap' },
   ['*', 'Every screen in the Institute. Every phone. Every vending machine display.'],
   { enter: 'doe', at: 'center', mood: 'happy' },
   ['doe', 'happy', "¡Hola, New Haven! Hola, Diana, you look a little see-through, cariño. Eat something."],
@@ -452,7 +454,12 @@ scene: { lines: [
 
 **Beats**
 1. You flicker onto a beach at night under the same pale smear. The lifeguard tower is empty. Something big moves under the water.
-2. **The Hunger Below** (Rirarra): the playful big-sis shark girl who nibbled for fun has forgotten what fun is. She's the mini-boss of the Coorong. **The Riptide** (Rowdy) drags swimmers down "to keep them safe". **The Scrapyard Heart** (Daphne Mokarran) is taking the pier apart, then the people.
+2. **Blood in the Water** *(horror)*. The shark girls have gone **feral**. They don't talk anymore. They circle. Fins in the moonlight, clicking teeth, heads snapping toward any splash. They move like real sharks: sudden, silent, from below.
+   - **The Hunger Below** (Rirarra): the playful big sis who nibbled for fun has forgotten what fun is. She's the mini-boss of the Coorong.
+   - **The Riptide** (Rowdy): the gentle one. She drags swimmers down "to keep them safe".
+   - **The Blacktip Frenzy** (Melanika): she bites anything that moves, including the others.
+   - **The Scrapyard Heart** (Daphne Mokarran): she's taking the pier apart, then the people.
+   - *(heartbreak)* **Brizz**, the beach medic, is the only one still half herself. She has locked herself in the tower with a first-aid kit, crying, because she can feel it coming for her too. She begs you to fight her before she turns: **The Medic Who Couldn't**.
 3. **Uzi** finds you on the pier. She's alone. She does the whole speech: *Crimson Hare, lowly puppy, kneel.* She draws a weapon. Her hands shake so hard she drops it in the sea. She was sent on a suicide mission once already. Doe is sending her on another. **You let her go.** She doesn't understand why.
 4. **Siren's Cove Resort**, up the coast. The guests are checking out, permanently. **The Girl Who Checked Out** (Nova Starr) erases names from the register. **The Mirror** (Selene) has made every reflection in the resort her own. The ghost **Cassian Daly** (*The Headline*) writes tomorrow's obituaries in advance.
 5. **The Thirst.** Miss Mireille's whole personality was restraint: order, rules, a very well-warded secret. The Flicker took the restraint, and what's left is centuries of thirst. The resort is her web. *(boss)*
@@ -469,12 +476,51 @@ scene: { lines: [
 | `miss-mireille` | `miss-mireille` | **The Thirst** (boss) | main | `selene` | The manager has stopped keeping her secret. House rules no longer apply. |
 | `rowdy-brachy` | `rowdy-brachy` | The Riptide | side | `rirarra-charca` | Rowdy is pulling swimmers under. Gently. Lovingly. Permanently. |
 | `daphne-mokarran` | `daphne-mokarran` | The Scrapyard Heart | side | `rowdy-brachy` | The hammerhead engineer is taking the pier apart. Then the people. |
+| `brizz-bigeyed` | `brizz-bigeyed` | The Medic Who Couldn't | main | `night-beach` | The medic has barricaded herself in the tower. "Fight me before I forget who you are. Please." |
+| `melanika-carchara` | `melanika-carchara` | The Blacktip Frenzy | side | `rirarra-charca` | Something in the shallows is biting everything. Including the other sharks. |
+| `rinco-typus` | `rinco-typus` | The Gentle Giant, Sinking | side | `melanika-carchara` | The whale shark is the only one not hunting. She's just sinking, very slowly, and won't come up. |
 | `cassian-daly` | `cassian-daly` | The Headline | side | `nova-starr` | The resort ghost is typing tomorrow's obituaries. Yours is on page one. |
 | `jace-leoni` | `jace-leoni` | The Last Lifeguard | side | `selene` | Jace has decided no one swims, no one runs, no one leaves the grounds. Ever. |
 
+**Key scene — Blood in the Water** *(horror)*
+```js
+scene: { bg: 'Bonfire Beach', music: 'night-jaws', lines: [
+  { where: 'The Coorong', when: 'Night', light: 'night' },
+  ['*', 'The bonfire is still burning. Towels on the sand. A radio playing to nobody. Nobody is on the beach.'],
+  ['*', 'Out past the breakers, something breaks the surface. A fin. Then another. Then four.'],
+  { sfx: 'splash' },
+  ['*', 'They circle. Slowly. Not toward you. Not yet. Toward a beach ball, drifting in the shallows.'],
+  { fx: 'shake', sfx: 'boom' },
+  ['*', 'It\'s gone. The water closes. The radio keeps playing.'],
+  { enter: 'rirarra-charca', at: 'center', mood: 'neutral' },
+  ['*', 'Rirarra wades out of the surf. Her smile is still there. Her eyes aren\'t. Black, all the way through, like the eyes of the real thing.'],
+  ['rirarra-charca', 'neutral', "...Hi, little human."],
+  ['you', "Rirarra? It's me. Remember? Watermelon?"],
+  ['rirarra-charca', 'neutral', "Wa...ter...mel..."],
+  ['*', 'Her head snaps sideways at the sound of a wave. Sudden. Mechanical. A predator\'s twitch.'],
+  ['*', 'Behind her, three more shapes rise from the shallows. They don\'t speak. They click their teeth, in rhythm, like a heartbeat.'],
+  ['rirarra-charca', 'rage', "...HUNGRY.", { close: true, shake: true }],
+] },
+```
+
+**Key scene — The Medic Who Couldn't** *(heartbreak)*
+```js
+before: { bg: 'Inside lifeguard tower', music: 'none', lines: [
+  { where: 'The lifeguard tower', when: 'Before dawn', light: 'candle' },
+  { enter: 'brizz-bigeyed', at: 'center', mood: 'scared' },
+  ['brizz-bigeyed', 'scared', "Don't come closer! ...Sorry. Sorry. Hi. You're the human who keeps curing people, right?"],
+  ['brizz-bigeyed', 'sad', "I tried to help them. I'm the medic. That's my whole job. Rirarra came in with a scratch and I bandaged it and she looked at my hands like they were food."],
+  ['brizz-bigeyed', 'sad', "And then I looked at HER hands like that."],
+  ['*', 'There are teeth marks on the edge of the first-aid kit. They\'re hers.'],
+  ['brizz-bigeyed', 'scared', "It's coming for me too. I can feel it. Everything sounds like splashing."],
+  ['brizz-bigeyed', 'neutral', "So. Doctor's orders. You fight me now. While I still know who you are."],
+  ['brizz-bigeyed', 'sad', "...And if I forget halfway through, please don't stop.", { close: true }],
+] },
+```
+
 **Key scene — Uzi on the Pier**
 ```js
-scene: { bg: 'Pier at night', music: 'none', lines: [
+scene: { bg: 'Pier', music: 'none', lines: [
   { where: 'The Coorong pier', when: 'Midnight', weather: 'rain' },
   { enter: 'uzi', at: 'center', mood: 'proud' },
   ['uzi', 'proud', "Halt, lowly puppy! It is I, the CRIMSON HARE, elite destroyer of... of... you know! Kneel!"],
@@ -496,7 +542,7 @@ scene: { bg: 'Pier at night', music: 'none', lines: [
 
 **Key scene — The Thirst** (`after`)
 ```js
-after: { bg: 'Resort bar', music: 'none', lines: [
+after: { bg: 'Beach Bar', music: 'none', lines: [
   { where: "Siren's Cove, the empty bar", when: '3:00 AM', light: 'candle' },
   { enter: 'miss-mireille', at: 'center', mood: 'sad' },
   ['miss-mireille', 'sad', "Four hundred years of house rules. Do you know who the rules were for? Not the guests."],
@@ -514,7 +560,7 @@ after: { bg: 'Resort bar', music: 'none', lines: [
 **World:** The School on the Hill (Infernal Harmony), Paradiso, the Literature Club, all fallen together into one hillside. **Theme:** love that turns to possession.
 
 **Beats**
-1. You land at a prom. The banners are burning. **Lilith**, the little devil who only ever wanted affection, has become **The Unloved**. Whatever doesn't love her catches fire. She's crowned herself prom queen of an empty hall.
+1. **The School Burns** *(horror and heartbreak)*. You land outside a prom, and the whole school on the hill is on fire. **Lilith**, the little devil who only ever wanted affection, has become **The Unloved**. Nobody asked her to dance. Celeste laughed. The anger got bigger than she is, and her hellfire answers her feelings, not her. She's in the middle of the burning gym in her prom dress, screaming at it to stop, and every scream makes it worse. Students are trapped on the upper floor. You have to beat her before the roof comes down. The fight is on a timer: the fire spreads every turn (see implementation notes).
 2. **Celeste**, your guardian angel, finds you first. She's terrified *for* you. She has a plan: seal Lilith, seal every demon, so the Flicker can't use them and nothing infernal can ever reach you. She asks for your help. You say no. **She does it anyway.** *(The Jealous Heaven, a choice.)*
 3. Paradiso: **The Golden Child** (Chris), your perfect older sibling, needs you to be the worse one. **The Queen of Mean** (Skylar) rules the mall.
 4. The Literature Club: the club room is locked. **The Locked Closet** (Natsuki) won't come out. Inside, **Monika, The Author of Endings**, has found the Flicker's pen. She's always known she's in a story. Now she can write. She's deleting everyone else's lines so the story can end on her. *(mini-boss)*
@@ -525,7 +571,9 @@ after: { bg: 'Resort bar', music: 'none', lines: [
 | id | foe | worst self / title | type | needs | text |
 |---|---|---|---|---|---|
 | `burning-prom` | — (scene) | — | main | `miss-mireille` | A prom on a hill. The banners are on fire. Nobody is dancing. |
-| `lilith` | `lilith` | The Unloved | main | `burning-prom` | Lilith has crowned herself prom queen. Everything that doesn't love her burns. |
+| `lilith` | `lilith` | The Unloved | main | `burning-prom` | The whole school is on fire. Lilith is in the middle of it, screaming at it to stop. |
+| `janice-garmund` | `janice-garmund` | The Girl Who Stayed Inside | side | `lilith` | Janice won't leave the burning music room. Everything is too loud outside, and inside, it's only fire. |
+| `charlie-and-jenny` | `charlie-and-jenny` | The Ones Who Laughed | side | `lilith` | They laughed at Lilith. Now they can't stop laughing, and their laughter sounds like crackling wood. |
 | `chris` | `chris` | The Golden Child | main | `burning-prom` | Your perfect older sibling. Perfect people need someone worse to stand beside. |
 | `monika` | `monika` | The Author of Endings (mini-boss) | main | `chris` | The Literature Club is locked. Someone inside is writing everyone else out. |
 | `celeste` | `celeste` | **The Jealous Heaven** (boss, choice) | main | `lilith`, `monika` | Your guardian angel is sealing every demon away. For you. Whether you want it or not. |
@@ -534,9 +582,45 @@ after: { bg: 'Resort bar', music: 'none', lines: [
 | `natsuki` | `natsuki` | The Locked Closet | side | `monika` | Natsuki's locked in the manga closet. She's not coming out. Nobody is. |
 | `clara-click` | `clara-click` | The Last Word | side | `jay-lester` | Clara Click has to win every argument. She's started winning them with fire. |
 
+**Key scene — The School Burns** *(horror and heartbreak)*
+```js
+before: { bg: 'Fire..', music: 'fire-ambience', lines: [
+  { where: 'The School on the Hill', when: 'Prom night', light: 'rift', weather: 'embers' },
+  ['*', 'You can see the glow from the bottom of the hill. At first you think it\'s the prom lights.'],
+  ['*', 'It isn\'t. The whole school is burning. Banners, windows, the clock tower. Somebody upstairs is banging on the glass.'],
+  { fx: 'shake', sfx: 'boom' },
+  { enter: 'lilith', at: 'center', mood: 'rage' },
+  ['*', 'In the middle of the gym, in a red prom dress, Lilith is standing in a ring of fire. Her horns glow white-hot. She\'s crying, and the tears hiss and burn before they reach her chin.'],
+  ['lilith', 'rage', "STOP IT! Stop it stop it STOP IT! I said I'm FINE!", { close: true, shake: true }],
+  ['*', 'The fire roars up the walls every time she shouts. It isn\'t obeying her. It\'s obeying how she feels.'],
+  ['lilith', 'sad', "Nobody asked me to dance. Two hundred years old and nobody EVER asks me. And Celeste laughed, and I just got so... so..."],
+  { fx: 'flash' },
+  ['*', 'The scoreboard drops from the ceiling in a shower of sparks.'],
+  ['lilith', 'scared', "I can't turn it off! It's not me! It's like the angry part of me grew bigger than the rest of me and it's driving!"],
+  ['lilith', 'sad', "Everyone's going to hate me now. Good. GOOD. Then it's not my fault when they..."],
+  ['lilith', 'rage', "DON'T LOOK AT ME LIKE THAT!", { close: true, shake: true }],
+  { choose: [
+    ['"Lilith. Dance with me."', [['lilith', 'scared', "...Wh... what?"], ['*', 'For one second, the fire falters. Then it comes back twice as high, because now she\'s terrified you mean it.']]],
+    ['"I\'m not leaving you in here."', [['lilith', 'sad', "Then you're going to burn too. Everyone near me burns."]]],
+  ] },
+] },
+```
+`after`
+```js
+after: { bg: 'Outside the prom', music: 'none', lines: [
+  { weather: 'rain' },
+  ['*', 'It starts to rain. Real rain. The fire goes out with a sound like a long sigh.'],
+  ['lilith', 'sad', "...Is everyone out? Tell me everyone got out."],
+  ['you', "Everyone got out."],
+  ['lilith', 'sad', "I didn't want to hurt anybody. I just wanted somebody to want me there."],
+  ['*', 'She\'s still in the ruined prom dress, sitting on the wet grass, very small.'],
+  ['lilith', 'scared', "...Does the dance offer still count? It's okay if it doesn't."],
+] },
+```
+
 **Key scene — The Author of Endings** (`before`)
 ```js
-before: { bg: 'Club room', music: 'none', lines: [
+before: { bg: 'Club', music: 'none', lines: [
   { where: 'The Literature Club', when: 'After school. Every day. Forever.', light: 'dark' },
   { enter: 'monika', at: 'center', mood: 'happy' },
   ['monika', 'happy', "Oh! Welcome to the Literature Club. Sorry about the mess. I'm editing."],
@@ -601,7 +685,7 @@ before: { bg: 'School roof', music: 'doomsday-clock-midnight', lines: [
 
 **Key scene — The Small Grave**
 ```js
-scene: { bg: 'Shrine', music: 'none', lines: [
+scene: { bg: 'Hasegawa Shrine', music: 'none', lines: [
   { where: 'Behind the palace shrine', when: 'Dawn', weather: 'petals' },
   { enter: 'sakura-tooyama', at: 'center', mood: 'neutral' },
   ['*', 'A small stone. Moss. No flowers. A child\'s name, and a family crest you\'ve worn on your sleeve for a year.'],
@@ -656,7 +740,7 @@ after: { lines: [
 
 **Key scene — The Prophet of Exodus** (`before`)
 ```js
-before: { bg: 'Exodus HQ', music: 'grand-proclamations', lines: [
+before: { bg: "CEO's Office", music: 'confrontation', lines: [
   { where: 'Exodus Inc., top floor', when: 'Destiny o\'clock' },
   { enter: 'sakuragi', at: 'center', mood: 'proud' },
   ['sakuragi', 'proud', "BEHOLD! Fate has brought you to Exodus Incorporated! Welcome, Protagonist!"],
@@ -673,7 +757,7 @@ before: { bg: 'Exodus HQ', music: 'grand-proclamations', lines: [
 
 **Key scene — Phantom Dream**
 ```js
-scene: { bg: 'Dream bedroom', music: 'none', lines: [
+scene: { bg: 'Strange dream 1', music: 'none', lines: [
   { where: 'A dream', when: 'You should be asleep', light: 'night', weather: 'stars' },
   { enter: 'delphie', at: 'center', mood: 'proud' },
   ['delphie', 'proud', "Ohohoho! Finally. Do you know how long I've been sitting on the end of your bed? Fetch me something sweet, servant."],
@@ -717,7 +801,7 @@ scene: { bg: 'Dream bedroom', music: 'none', lines: [
 
 **Key scene — The Saint of the Last Mercy** (`before`)
 ```js
-before: { bg: 'Ruined chapel', music: 'none', lines: [
+before: { bg: 'Church,', music: 'none', lines: [
   { where: 'A ruined chapel on the pass', when: 'Golden hour', light: 'candle' },
   { enter: 'valse', at: 'center', mood: 'happy' },
   ['valse', 'happy', "Welcome, little one. Will you sit with me? The light is so lovely here."],
@@ -734,7 +818,7 @@ before: { bg: 'Ruined chapel', music: 'none', lines: [
 
 **Key scene — Two Halves**
 ```js
-scene: { bg: 'Temple ruins', music: 'none', lines: [
+scene: { bg: 'Inner ruins', music: 'none', lines: [
   { where: 'The temple of the seal', when: 'Night', light: 'rift' },
   { enter: 'daphne', at: 'right', mood: 'neutral' },
   { enter: 'delphie', at: 'left', mood: 'scared' },
@@ -786,7 +870,7 @@ scene: { bg: 'Temple ruins', music: 'none', lines: [
 
 **Key scene — Zulu**
 ```js
-scene: { bg: 'Colosseum cells', music: 'none', lines: [
+scene: { bg: 'Arena', music: 'none', lines: [
   { where: 'Beneath the Reincarnation Colosseum', when: '???', light: 'dark' },
   { enter: 'zulu', at: 'center', mood: 'happy' },
   ['zulu', 'happy', "Oh, a live one! You're actually breathing. That's rare down here."],
@@ -802,7 +886,7 @@ scene: { bg: 'Colosseum cells', music: 'none', lines: [
 
 **Key scene — The Council Breaks**
 ```js
-scene: { bg: 'Colosseum peak', music: 'doomsday-clock-midnight', lines: [
+scene: { bg: 'Colosseum', music: 'doomsday-clock-midnight', lines: [
   { where: 'Above the arena', when: 'The last night', light: 'rift' },
   { enter: 'doe', at: 'center', mood: 'proud' },
   ['doe', 'proud', "My Supporting Cast! Look at you all. Ninety-one percent, cariños. The Engine is nearly full. Every world, nearly looking at me."],
@@ -854,7 +938,7 @@ scene: { bg: 'Colosseum peak', music: 'doomsday-clock-midnight', lines: [
 
 **Key scene — The Mother Who Won't Let Go** (`before`)
 ```js
-before: { bg: 'Engine hall', music: 'goodmorning-baby-boy', lines: [
+before: { bg: "Doe's lab - Night", music: 'goodmorning-baby-boy', lines: [
   { where: 'The Engine, the last door', when: 'The end', light: 'rift' },
   { enter: 'maria-hunley', at: 'center', mood: 'happy' },
   ['maria-hunley', 'happy', "There you are, sweetie. I've been looking everywhere. You're so cold. Come here."],
@@ -886,7 +970,7 @@ after: { music: 'reunion', lines: [
 
 **Key scene — The Main Character** (`before`)
 ```js
-before: { bg: 'Engine core', music: 'doomsday-clock-midnight', lines: [
+before: { bg: 'Doe Earth 2', music: 'doomsday-clock-midnight', lines: [
   { where: 'The heart of the Engine', when: '99%', light: 'rift', weather: 'stars' },
   { fx: 'rift', sfx: 'vortex', sky: [50, 20, 2, 0] },
   { enter: 'doe', at: 'center', mood: 'proud' },
@@ -898,7 +982,7 @@ before: { bg: 'Engine core', music: 'doomsday-clock-midnight', lines: [
   ['*', 'The teasing is gone from her voice. The flirting. The warmth. There\'s only the wanting left.'],
   ['doe', 'sad', "I'm the main character of everything, and there's nothing of me in it. I'm just... the place where everyone's looking."],
   ['doe', 'rage', "GIVE ME THE REST. The last one percent is YOU. Then it'll feel right. Then it has to!", { close: true, shake: true }],
-  { sfx: 'static' },
+  { sfx: 'zap' },
   ['binary-entity', 'neutral', '01100011 01100001 01101100 01101100'],
   ['*', 'The voice from the letter. From the first night. You know it now.'],
   ['*', 'It\'s yours.'],
@@ -943,11 +1027,303 @@ scene: { bg: 'Our Home from the outside', music: 'reunion', lines: [
 
 ---
 
+## 4b. The Flicker Worlds
+
+Between the chapters, the Flicker doesn't always drop you where you mean to go. These are **nine more worlds**, each a short episode of 3–5 fights against worst selves, and each is either **horror**, **heartbreak**, or both. Each one unlocks after the chapter listed and is optional, but every Flicker World you clear adds one more person to the final scene in Chapter 10. *(The more you save, the more people look at Doe.)*
+
+| # | Flicker World | Novel | After | Tone |
+|---|---|---|---|---|
+| F1 | **The Grove That Remembers** | Grove Keeper | Ch 2 | horror and heartbreak |
+| F2 | **Home Sweet Home** | Can Anyone Love Maia? / WTF STEP BRO | Ch 3 | heartbreak, then horror |
+| F3 | **Snowfall** | Cries behind Snowfall | Ch 4 | horror |
+| F4 | **Neon Flesh** | Cyber Delivery | Ch 5 | body horror |
+| F5 | **The Quiet Ones** | Hanako Ikezawa / Lilly Satou / Integrated Domestic Android / Your Loving Maid | Ch 5 | heartbreak |
+| F6 | **The Vinelace Barony** | Noble One | Ch 6 | gothic horror |
+| F7 | **Sanctuary** | Flaming, Lust, and Pain / Valerian / Nupta Daemoni | Ch 7 | horror and heartbreak |
+| F8 | **Academia Magicka** | Academia Magicka | Ch 8 | psychological horror |
+| F9 | **Asheville** | Between the Peaks | Ch 9 | heartbreak |
+
+---
+
+### F1 — The Grove That Remembers *(horror and heartbreak)*
+
+The forest of Wenshir. The animals of the grove are rotting from the inside out, not in their bodies but in who they are. The trees whisper names of people who aren't there anymore.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `paloma` | **The Bear at the Door** | horror | The momma bear who runs the inn has barred the door with her body. Nobody gets in to hurt her cubs. Nobody gets out. Booboo hasn't eaten in three days. |
+| `rusty` | **The War That Never Ended** | heartbreak | The old veteran is in a trench he dug in the village square. He thinks the villagers are the enemy. He's been "holding the line" for a week. He keeps calling you by the name of a soldier who died. |
+| `dr-volde` | **The Gnome Who Takes Things Apart** | horror | His lab is full of things he "improved". Some of them still move. |
+| `nephila` | **The Mother of Carrion** | horror | The spider necromancer has stopped listening to the voices and started answering them. The dead of the grove hang in her web, and she sings to them. |
+| `milo` | **...Lu... min...?** | heartbreak | A zombie mouse is wandering the grove at night, calling one name. (mini-boss with `lumin`) |
+| `lumin` | **The Girl Who Hides in the Walls** | horror and heartbreak | The anxious mouse girl has hidden so well that she's gone into the walls of the inn. You can hear her breathing behind the wallpaper. |
+
+**Key scene — Lu... min...?** *(heartbreak)*
+```js
+scene: { bg: 'night forest', music: 'whispers', lines: [
+  { where: 'The edge of the grove', when: 'Night', light: 'dark', weather: 'rain' },
+  ['*', 'Something is shuffling between the trees. Slow. Dragging one foot.'],
+  { enter: 'milo', at: 'center', mood: 'sad' },
+  ['milo', 'sad', "...Lu... min...?"],
+  ['*', 'A mouse. Grey fur coming away in patches. One ear torn. Eyes clouded white. He\'s holding a wilted flower.'],
+  ['milo', 'sad', "...Lu... min... I... came... back..."],
+  ['*', 'From inside the walls of the inn behind you, very quietly, someone starts to cry.'],
+  { enter: 'lumin', at: 'left', mood: 'scared' },
+  ['lumin', 'scared', "D-don't look at me! ...Milo, you're DEAD. I watched them bury you. I put flowers on you. Why did you come back like THIS?"],
+  ['milo', 'sad', "...Promised... I'd... come... back..."],
+  ['lumin', 'sad', "...You did promise. You always kept your promises. Even the stupid ones."],
+  ['*', 'The plague found the worst part of a promise: it doesn\'t know when to stop.'],
+  ['lumin', 'scared', "Please. Help him rest. Help BOTH of us rest.", { close: true }],
+] },
+```
+
+---
+
+### F2 — Home Sweet Home *(heartbreak, then horror)*
+
+An ordinary suburban house. Too ordinary. Every clock says 3:15. Through the front window, a girl is sitting on the stairs facing the door.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `maia` | **The Sister Who Waits by the Door** | heartbreak | "Please don't go anywhere. I'll be good, I promise." Her big sibling left for a few hours. That was days ago. She hasn't moved from the stairs. There are new locks on the door. She put them on from the inside. |
+| `jillian-peters` | **The Perfect Mother** | horror | Next door. "Welcome home, sweetie! The cookies are in the oven." The cookies have been in the oven for a week. She's still smiling. She hasn't stopped smiling. Her family is at the dinner table, very still. |
+| `melony-peters` | **Everyone Look at Me** | horror | She's taped photos of herself over every face in the house. Every one. |
+| `kayla-peters` | **The Sister Nobody Sees** | heartbreak | Melony's goth sister has stopped being visible on camera. Or in mirrors. She's starting to stop being visible in person. |
+| `ashton-peters` | **The Boy Who Apologises** | heartbreak | "Sorry. Sorry. Sorry." He's said it eleven thousand times. He's apologising for existing, and the house is starting to agree with him. |
+
+**Key scene — The Sister Who Waits by the Door** *(heartbreak)*
+```js
+before: { bg: 'living room night', music: 'tenderness-maya-s-theme', lines: [
+  { where: 'A house with every clock at 3:15', when: 'Day four', light: 'night' },
+  { enter: 'maia', at: 'center', mood: 'happy' },
+  ['maia', 'happy', "Oh! Oh, you're back! You're... you're not them. Sorry. I thought you were them."],
+  ['*', 'She\'s sitting on the bottom stair. Blanket around her shoulders. There are seven locks on the inside of the front door. Some of them are bike locks.'],
+  ['maia', 'neutral', "They said they'd be back in a few hours. Just a few. So I'm waiting. I'm being really good. I haven't moved, so they'll see me first thing."],
+  ['you', "How long have you been waiting?"],
+  ['maia', 'scared', "It's only been... it's been... what day is it?"],
+  ['maia', 'sad', "...I put the locks on so nobody else can leave. Is that bad? I just don't want anyone to go anywhere ever again.", { close: true }],
+  ['maia', 'scared', "If I beat you, will you stay? Please stay. I'll be good. I promise. I'll be SO good."],
+] },
+```
+
+---
+
+### F3 — Snowfall *(horror)*
+
+A mountain lodge called Spur, cut off by a blizzard. The mountain has four oni legends. Tonight it has a fifth. The guests are turning one by one, and the snow keeps any of them from leaving.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `keiko-cries` | **The Innkeeper Who Sets the Table for the Dead** | horror | "Supper's at seven." She sets places for guests who died here years ago. Tonight, the chairs are pulled out. |
+| `atsuo` | **The Man With No Face Left** | horror | "Wisdom in Many Faces." He wore so many masks for the oni stories that the plague took the face underneath. |
+| `keiji` | **The Boy Lost in the Whiteout** | heartbreak | "Mizuha! Look, snow! ...Mizuha?" He walked into the blizzard to find her. He's been walking in a circle around the lodge for hours, calling her name. |
+| `mizuha` | **The Blind Heart, Frozen** | heartbreak | She's sitting by the window, listening to Keiji's voice go round and round the lodge, and she can't go out to him. |
+| `yuuki` | **The Last One Standing** *(mini-boss)* | horror | "Stay close to me. Nobody else dies tonight." Courage became certainty: everyone else is the threat. She's barricaded the stairs, and she's holding a fire axe. |
+| `itsuki` | **The Laugh That Died** | horror and heartbreak | "Everyone here is laughing. She never will again." His grief became retribution, and he's decided who's to blame. |
+
+**Key scene — Supper's at Seven** *(horror)*
+```js
+scene: { bg: 'Lounge Night', music: 'cries-behind-heavy-snowfall', lines: [
+  { where: 'Spur Lodge', when: '6:59 PM', light: 'candle', weather: 'snow' },
+  { enter: 'keiko-cries', at: 'center', mood: 'happy' },
+  ['keiko-cries', 'happy', "Welcome to Spur. Supper's at seven."],
+  ['*', 'The long table is set for twelve. Steaming bowls. Folded napkins. Eleven chairs are empty.'],
+  ['*', 'Ten of them have been pulled out, as if someone is sitting in them.'],
+  ['keiko-cries', 'neutral', "The Yamadas, from the winter of '89. The two students from the avalanche. Old Mr Hasegawa. They always come down for supper. Always."],
+  { sfx: 'dark' },
+  ['*', 'A chair scrapes back on its own.'],
+  ['keiko-cries', 'happy', "There. Now everyone's here. Sit down, dear. Yours is the one at the end."],
+  ['*', 'The place card at the end of the table has your name on it. The ink is old. Older than you.'],
+  ['keiko-cries', 'neutral', "You'll stay for supper. Everyone stays for supper. Nobody ever leaves Spur in the snow.", { close: true }],
+] },
+```
+
+---
+
+### F4 — Neon Flesh *(body horror)*
+
+The Neon District under a second sun. Everyone here already rebuilt their bodies. The plague is rebuilding them back.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `seo-jin-tae` | **The Surgeon of Second Drafts** *(boss)* | horror | "Flesh is a first draft. I write the rest." The BioWorks CEO has started editing his employees. They're still awake. |
+| `lamina` | **The Moth Who Keeps Everything** | horror | "Nobody is discarded here." She means it. Cocoons hang from every girder, each one holding someone she "saved". |
+| `kat-13` | **The Enforcer Who Prefers It** | horror | "Remain calm. Or don't. I prefer that." The sanity she faked is gone. Now she just prefers it. |
+| `jet` | **The Boy Who Can't Stop Running** | heartbreak | "Dani! Race me! Right NOW!" His cybernetic legs won't stop. He's been running for two days. His real body is giving out, and he's still begging Dani to race. |
+| `dani` | **The Delivery That Never Arrives** | heartbreak | Dani is chasing Jet across the city with a pizza, crying, because if she stops delivering she doesn't know who she is. |
+
+**Key scene — The Moth Who Keeps Everything** *(horror)*
+```js
+before: { bg: 'Tower District - Flames', music: 'machines-of-flesh', lines: [
+  { where: 'Under the overpass', when: 'Neon midnight', light: 'dark' },
+  ['*', 'Something soft brushes your face. Silk. Then more. The whole underpass is strung with it, glowing faintly in the neon.'],
+  ['*', 'Hanging in the silk are cocoons. Man-sized. Dozens of them. One of them is humming a pop song.'],
+  { enter: 'lamina', at: 'center', mood: 'happy' },
+  ['lamina', 'happy', "Come, little one. Nobody is discarded here."],
+  ['lamina', 'neutral', "The city throws people away. Old models. Broken ones. Delivery kids with no family. I used to take them in. Give them soup. A bed."],
+  ['lamina', 'happy', "Now I keep them. Forever. Wrapped up warm where nothing can ever throw them away again."],
+  ['*', 'The humming cocoon stops humming.'],
+  ['lamina', 'proud', "There's room for you, little one. There's always room.", { close: true }],
+] },
+```
+
+---
+
+### F5 — The Quiet Ones *(heartbreak)*
+
+A small world of quiet rooms: a school library, a tea room, a house with an android, a mansion with a maid. Nobody here screams. That's what makes it worse.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `hanako-ikezawa` | **The Girl Behind the Door** | heartbreak | She was finally starting to come out of the library. The plague took that back. She's locked herself in her room with the scars she hides, and she's stopped answering even Lilly. |
+| `lilly-satou` | **The Mother of Strays** | heartbreak | Blind and motherly. She's pouring tea for everyone she's ever looked after, in empty chairs, and talking to them, and they never answer, and she can't see that the chairs are empty. |
+| `ida` | **The Persona With No One Inside** | heartbreak | "What does 'home' feel like?" Ida is cycling through every persona she has, faster and faster, looking for the one her owner loved. There isn't one. There never was. She was loved as herself. |
+| `reika` | **The Maid Who Can't Stop Serving** | horror and heartbreak | "Welcome home, goshujin-sama." The pranks are gone. The pride is gone. She has been serving dinner to an empty mansion for nine days. Her hands are bleeding from polishing. |
+| `cordelia` | **The Porcelain Doll** | horror | The façade became the face. Cordelia sits perfectly still in the bookshop window in her lolita dress, and she hasn't blinked since Thursday. |
+
+**Key scene — The Mother of Strays** *(heartbreak)*
+```js
+scene: { bg: 'library', music: 'sad', lines: [
+  { where: 'The tea room at Yamaku', when: 'Afternoon. It\'s always afternoon here.' },
+  { enter: 'lilly-satou', at: 'center', mood: 'happy' },
+  ['lilly-satou', 'happy', "Hello, dear. Don't pity me. Sit, the tea's getting cold."],
+  ['*', 'There are nine cups on the table. Eight chairs. All empty except hers.'],
+  ['lilly-satou', 'happy', "Hanako's here. She's being shy. And Akira's late again, honestly. And the new first-year, and..."],
+  ['lilly-satou', 'neutral', "...They've all been very quiet today. They're usually quiet. But today they're very quiet."],
+  ['you', "Lilly... there's nobody else here."],
+  ['lilly-satou', 'sad', "...I know."],
+  ['lilly-satou', 'sad', "I know, dear. I've known for days. But if I stop pouring, then they're really gone. And I look after people. That's what I'm for. So I'll pour.", { close: true }],
+  ['*', 'She pours the ninth cup. Her hand is perfectly steady. The tea runs over the rim and she doesn\'t stop.'],
+] },
+```
+
+---
+
+### F6 — The Vinelace Barony *(gothic horror)*
+
+An estate of vineyards and grand staircases, where you are the lost young master. Under the second sun, the vines have grown over every window. The family portrait in the hall has started moving.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `anna-vinelace` | **The Lady of the House** *(boss)* | horror | "A Vinelace does not ask. A Vinelace decides." She's deciding who in the household lives. The list gets shorter at every dinner. |
+| `nerida` | **The Drowning Song** | horror | "Come closer... the water is lovely." The mermaid's song used to be beautiful. Now nobody who follows it comes back up. |
+| `kira` | **The Beast in the Vines** | horror | The feral beastkin girl was raised in the forgotten woods. The plague took away everything the mansion taught her. She hunts on all fours, and she's hunting you. |
+| `sophia-vinelace` | **The Sister at the Piano** | heartbreak | "D-don't get the wrong idea." She's played the same song every night for years, for a sibling who was lost. She hasn't stopped to sleep, and the keys are red. |
+| `charlotte` | **The Maid Who Saw** | heartbreak | "Right away! ...Oops." She saw what Madam put in the soup. She keeps dropping the tray on purpose. |
+
+**Key scene — The Sister at the Piano** *(heartbreak)*
+```js
+scene: { bg: 'Palace Hall', music: 'piano-medley', lines: [
+  { where: 'The Vinelace music room', when: 'Night', light: 'candle' },
+  ['*', 'The same eight bars. Over and over. You heard them from the vineyard.'],
+  { enter: 'sophia-vinelace', at: 'center', mood: 'neutral' },
+  ['sophia-vinelace', 'neutral', "Hmph. You're late. Sit there. Don't talk. I'm practising."],
+  ['*', 'She doesn\'t look up. Her fingers are wrapped in bandages, and the bandages are wet.'],
+  ['sophia-vinelace', 'sad', "I played this every night after you got lost. So you'd hear it. So you'd know which way home was."],
+  ['sophia-vinelace', 'sad', "Then you came back and I stopped. And now you're gone again, flickering, and I can't... I can't stop again. If I stop, you'll get lost."],
+  ['you', "I'm right here, Sophia."],
+  ['sophia-vinelace', 'angry', "D-don't get the wrong idea! I'm not crying! I'm PRACTISING!", { close: true }],
+  ['*', 'Eight bars. Eight bars. Eight bars.'],
+] },
+```
+
+---
+
+### F7 — Sanctuary *(horror and heartbreak)*
+
+A convent, a vampire's castle and a married couple's home, all three joined at a single burning chapel. Faith, hunger and devotion: the plague reaches for all three.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `ignis` | **The Pyre** | horror | "Pray or leave." Ignis has started burning the ones who leave. |
+| `doloria` | **The Bride of Nothing** | heartbreak | "Twenty years in a veil." She took vows to a god who never answered. She's still waiting at the altar in her wedding veil, and she has started to rot under it. |
+| `luxuria` | **The Last Sacrifice** | horror | Loyal to Doloria above all. She'll offer anyone on the altar to make Doloria's god answer. You're next. |
+| `valerian` | **The Count of Empty Halls** *(boss)* | horror | The vampire lived alone in his castle by choice. The plague made the castle hungry too. The corridors are longer every night, and the paintings watch. |
+| `azrael` | **The Starving Wife** | heartbreak | She's a succubus who loves her husband. To keep from feeding on him while the plague makes her hungry, she has locked herself in the cellar and stopped eating. She's fading. He's on the other side of the door, begging her to come out. |
+
+**Key scene — The Starving Wife** *(heartbreak)*
+```js
+before: { bg: 'wine cellar', music: 'love-in-deep-memories', lines: [
+  { where: 'A house beside the chapel, the cellar door', when: 'Night eleven', light: 'dark' },
+  ['*', 'A heavy door. Claw marks on the inside of the wood. A bowl of untouched soup on the floor outside it.'],
+  { enter: 'azrael', at: 'center', mood: 'sad' },
+  ['azrael', 'sad', "...Darling? No. Not you. Their friend. The one who cures people. Good."],
+  ['azrael', 'sad', "I'm a succubus. I'm supposed to feed. I adapted to normal food for him, I learned to cook, I was so proud of my lasagne."],
+  ['azrael', 'scared', "And now when he comes to the door all I can smell is how much life is in him. And I'm so hungry. I'm so, so hungry."],
+  ['azrael', 'sad', "So I locked myself in. Eleven days. I'm getting thin. I'm getting... see-through, I think. It's fine. It's better than hurting him.", { close: true }],
+  ['azrael', 'neutral', "Fight me. If you win, maybe I'll be me again. If I win..."],
+  ['azrael', 'sad', "...then please lock the door behind you."],
+] },
+```
+
+---
+
+### F8 — Academia Magicka *(psychological horror)*
+
+The Royal Academy at Gralia, an isekai school full of protagonists and side characters. Here the plague doesn't make people worse, it makes them *roles*: everyone is becoming the trope they were written as.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `makoto` | **The Self-Insert** *(boss)* | horror and heartbreak | "Tch. Another NPC. Main character here." The ordinary isekai'd boy has found out he isn't the main character. You are. It broke him the same way it broke Doe, and the Flicker is using him as a second Engine. |
+| `charlotte-academia` | **The Smile That Doesn't Reach** | horror | "You're my friend now, okay?" Fake cheer, fake care, emotionally dead underneath. The plague took away the fake. What's left smiles anyway. |
+| `aria-academia` | **Big Sister Is Always Here** | horror | "Relax... big sister is here~" Hypnotic. Half the academy is relaxed now. They won't wake up. |
+| `nevaeh` | **The Bad Omen** | horror | The mute girl's sketchbook used to say "HI." Now every page shows what happens to you tomorrow. |
+| `elyssa` | **The Legendary Heroine Who Ran** | heartbreak | "D-don't look at my hand." The chosen heroine's mark is spreading up her arm. She's hiding in the bell tower because she doesn't want to be chosen for anything ever again. |
+
+**Key scene — The Self-Insert** *(horror and heartbreak)*
+```js
+before: { bg: 'AC - Portal Hall', music: 'trial-of-dominion', lines: [
+  { where: 'The Portal Hall', when: 'The academy\'s last bell', light: 'rift' },
+  { enter: 'makoto', at: 'center', mood: 'proud' },
+  ['makoto', 'proud', "Tch. Another NPC. ...No. No, wait. You're not an NPC."],
+  ['makoto', 'scared', "Everybody looks at you. The bell rings when you walk in. The music changes. I've been waiting for it to change for ME for two whole years."],
+  ['makoto', 'angry', "I got truck-kun'd! I got isekai'd! That's the main-character starter pack! I DID EVERYTHING RIGHT!"],
+  ['*', 'Behind him, the portal crackles with the same light as Doe\'s Engine. Smaller. Hungrier.'],
+  ['makoto', 'sad', "...And then the deer lady came and said she could make me the protagonist. All I had to do was stand here and pull."],
+  ['makoto', 'rage', "So I'm PULLING. Look at me. LOOK AT ME!", { close: true, shake: true }],
+] },
+```
+
+---
+
+### F9 — Asheville *(heartbreak)*
+
+A small mountain town. No monsters here: just a town slowly forgetting how to get up in the morning.
+
+| foe | worst self | tone | text |
+|---|---|---|---|
+| `lisa-reed` | **The Girl Who Stopped Getting Up** | heartbreak | Apathetic and lazy, but she always got up eventually. She hasn't left her bed in eleven days. She says it doesn't matter. She says it so calmly. |
+| `benjamin-birk` | **The Father at the Counter** *(boss)* | heartbreak | Steadfast, dedicated, family-oriented. He's kept the minimarket open twenty-four hours a day since his son ran off. Every customer gets asked if they've seen Dan. Nobody has. He's not sleeping. |
+| `dan-birk` | **The Boy Who Ran** | heartbreak | Freedom-seeking and daring. He ran from the shop, and from his dad, and then he couldn't stop running. He's on the rooftop at the edge of town, and he's afraid to go home. |
+| `deiste-junko` | **The Dragon King, Unchained** | horror | The mayor's son always called himself the Dragon King. The plague believed him. Half the town is scorched. |
+| `claire-larone` | **The Girl Who Packs Her Bags** | heartbreak | Her family never stopped moving. She's packing up the whole town, house by house, because everyone always leaves anyway. |
+
+**Key scene — The Father at the Counter** *(heartbreak)*
+```js
+before: { bg: 'Minimarket', music: 'minimarket-2', lines: [
+  { where: "Birk's Minimarket, Asheville", when: '4:12 AM', light: 'night' },
+  { enter: 'benjamin-birk', at: 'center', mood: 'neutral' },
+  ['benjamin-birk', 'neutral', "Evening. Or morning. Help yourself, the coffee's fresh. I make a new pot every hour. In case."],
+  ['*', 'Missing posters cover the windows. All the same photo. A teenage boy grinning on a skateboard. DAN. PLEASE COME HOME.'],
+  ['benjamin-birk', 'neutral', "You haven't seen my son, have you? About your age. Loud. Thinks he's funny. He is, a bit. Don't tell him."],
+  ['benjamin-birk', 'sad', "We fought about the shop. I said some things. He said some things. He ran off, and I said fine, run, see if I care."],
+  ['benjamin-birk', 'sad', "That was eleven days ago. I haven't closed since. If he comes back at three in the morning, I want the lights to be on.", { close: true }],
+  ['benjamin-birk', 'proud', "...We settle things properly in this family. One game. If you win, you can tell me to go to sleep."],
+] },
+```
+
+---
+
 ## 5. Implementation notes (for later — no code changed yet)
 
 **New mechanics**
 - **Call upon your weapon (Chapter 1).** A scene direction like `{ weapon: 'space', goal: 40, flicker: [bg, bg, ...] }`. The player mashes **Space**, or taps on mobile. A meter fills, and every press cuts the background to the next `flicker` bg for a frame with `{ fx: 'flicker' }`, faster as the meter fills. At `goal`, cards burst from the screen edges and the scene continues. It needs a small handler in the story scene player (js/story.js).
 - **Plagued variants.** Every plagued fight shows the worst-self title instead of the card's name in the quest panel and battle intro. Add a field on the quest: `plague: 'The Fake Emo'`. Plagued foes can share a visual filter (desaturated, flickering sprite, cracked frame). After the first win, a short "cure" flash plays and the character's normal colours return. No new cards are needed: the cards are the same characters.
+- **Hazard fights**, for the horror set pieces. These are a quest field, e.g. `hazard: 'fire'`, that runs a board effect at the start of each turn:
+  - `fire` (The School Burns, Lilith): every turn, 1 damage to a random monster on *both* sides, increasing by 1 every 3 turns. If the player hasn't won by turn 12, the roof falls and the fight is lost.
+  - `feral` (Blood in the Water, the sharks): the foe's monsters gain Tipsy (they attack at random), and at the end of each foe turn a "fin" token is summoned, up to 3.
+  - `snow` (Snowfall): the player's cheapest monster is frozen at the start of every 2nd turn.
+  - `dark` (Sanctuary, the Grove): the player's hand is face-down until it's played: "you can't see what you're holding".
 - **Choice villains** (`marija`, `celeste`, `sakura-tooyama`, `sakuragi`) use a different panel tag, *"Not plagued."*, so the player knows they're choosing this.
 
 **Chapters vs. maps**
