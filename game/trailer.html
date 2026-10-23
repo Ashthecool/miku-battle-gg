@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Every World Has a You</title>
 <link rel="icon" type="image/png" href="icons/icon-192.png">
-<!-- The Story Mode trailer: two and a half minutes, built from the game's own sprites, backgrounds and music (STORY.md).
+<!-- The Story Mode trailer: three minutes, built from the game's own sprites, backgrounds and music (STORY.md).
      Plagued characters are drawn on canvases (Fx below) so they can slit-scan, smear, melt, twitch and stretch.
      It opens as a happy school story and turns: a found tape and an emergency alert (analogue horror), a count that doesn't
      add up, a figure that is closer every time the lights come back, voicemails from a mother, a classroom that has forgotten
@@ -32,7 +32,7 @@
   canvas#grain { width: 100%; height: 100%; mix-blend-mode: soft-light; opacity: 0; }
   #scan { pointer-events: none; opacity: 0; background: repeating-linear-gradient(to bottom, rgba(0,0,0,.35) 0 1px, transparent 1px 3px); }
   #eyes { pointer-events: none; opacity: 0; }
-  .eye { position: absolute; width: 4.4%; aspect-ratio: 2 / 1; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #120006 0 22%, #ffd8de 23% 48%, transparent 50%);
+  .eye { position: absolute; width: 4.4%; aspect-ratio: 2 / 1; border-radius: 50%; background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), #120006 0 22%, #ffd8de 23% 48%, transparent 50%);
     box-shadow: 0 0 1.4vmin rgba(255,60,90,.8); transform: translate(-50%, -50%) scaleY(0); }
   #subliminal { z-index: 5; pointer-events: none; opacity: 0; display: flex; align-items: center; justify-content: center; background: #000; }
   #subliminal img { height: 140%; filter: invert(1) contrast(2.2) grayscale(1); }
@@ -74,6 +74,11 @@
   #term { position: absolute; inset: 24% 10% 15%; font: clamp(11px, 2.6vmin, 30px)/1.55 ui-monospace, Consolas, monospace; color: #e8e8e8; letter-spacing: .03em;
     opacity: 0; pointer-events: none; text-shadow: 2px 0 rgba(255,0,60,.55), -2px 0 rgba(0,190,255,.55); z-index: 3; }
   #term .red { color: #ff3248; } #term .dim { color: #8a8a8a; }
+  /* a visual-novel choice that chooses itself */
+  #choice { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 1.4vmin; z-index: 3; opacity: 0; pointer-events: none; }
+  #choice div { min-width: 40vmin; padding: .7em 2em; text-align: center; font: clamp(13px, 2.4vmin, 28px) system-ui, sans-serif; color: #fff;
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.55); border-radius: 1vmin; text-shadow: 0 1px 3px #000; }
+  #choice div.on { background: rgba(255,130,190,.6); border-color: #fff; }
   #lcd { position: absolute; left: 50%; top: 13%; transform: translateX(-50%); padding: .5em 1em; font: clamp(12px, 2.6vmin, 30px) ui-monospace, Consolas, monospace;
     color: #9dff9d; background: rgba(4,20,8,.85); border: 1px solid #2f7a3f; letter-spacing: .12em; text-shadow: 0 0 8px #3dff6a;
     opacity: 0; z-index: 3; pointer-events: none; white-space: nowrap; }
@@ -119,6 +124,7 @@
   <div class="layer" id="eas"><div class="bars"></div><div class="lower"></div><div class="crawl"><span></span></div></div>
   <div id="term"></div>
   <div id="lcd"></div>
+  <div id="choice"></div>
   <div id="card"></div>
   <div id="sub"></div>
   <div class="layer" id="scan"></div>
@@ -133,7 +139,7 @@
   <p>Miku Battle · Story Mode</p>
   <h1>Every World Has a You</h1>
   <button id="play" disabled>Loading 0%</button>
-  <p id="gateNote" style="letter-spacing:.15em;text-transform:none">Trailer · 2:30 · sound on</p>
+  <p id="gateNote" style="letter-spacing:.15em;text-transform:none">Trailer · 3:00 · sound on</p>
 </div>
 <button id="skip">Esc · stop</button>
 
@@ -205,7 +211,7 @@
     out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(vol, t + 3);
     const oscs = [41.2, 41.6, 61.7, 82.9].map((f) => { const o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.connect(lp); o.start(t); return o; });
     lp.connect(out); out.connect(master); lfo.start(t);
-    const stop = () => { const n = ac.currentTime; out.gain.cancelScheduledValues(n); out.gain.setValueAtTime(out.gain.value, n); out.gain.exponentialRampToValueAtTime(0.0001, n + 1.5); [...oscs, lfo].forEach((o) => o.stop(n + 1.6)); live.delete(stop); };
+    const stop = () => { if (!live.has(stop)) return; const n = ac.currentTime; out.gain.cancelScheduledValues(n); out.gain.setValueAtTime(out.gain.value, n); out.gain.exponentialRampToValueAtTime(0.0001, n + 1.5); [...oscs, lfo].forEach((o) => o.stop(n + 1.6)); live.delete(stop); };
     live.add(stop); return stop;
   }
   const SFX = {
@@ -229,8 +235,35 @@
     beep: () => tone(1000, 0, 0.45, 0.12),
     click: () => { noise(0.05, 0.4, 3000, 0, 'highpass'); tone(80, 40, 0.08, 0.4); },
     breath: () => noise(1.6, 0.18, 700, 1800, 'bandpass'),
+    plip: () => { tone(1500, 500, 0.12, 0.12); tone(900, 400, 0.18, 0.05, 'sine', 0.03); },
+    chomp: () => { noise(0.25, 0.8, 900, 120); tone(200, 50, 0.25, 0.9); tone(2600, 0, 0.03, 0.2, 'square', 0.02); tone(2400, 0, 0.03, 0.2, 'square', 0.09); },
+    squelch: () => { noise(0.5, 0.35, 500, 90); tone(110, 45, 0.45, 0.35); },
+    roar: () => { noise(3.2, 0.35, 250, 900); noise(3.2, 0.12, 2000, 600, 'bandpass'); },
+    ice: () => { for (let i = 0; i < 5; i++) tone(2400 + Math.random() * 2400, 0, 0.05, 0.05, 'triangle', i * 0.07 + Math.random() * 0.05); noise(0.2, 0.15, 5000, 0, 'highpass'); },
+    shatter: () => { noise(1.4, 0.6, 7000, 1500, 'highpass'); for (let i = 0; i < 14; i++) tone(2000 + Math.random() * 4000, 0, 0.12, 0.07, 'triangle', Math.random() * 0.6); tone(90, 30, 0.6, 0.6); },
+    // a voice made of two sawtooths with a shaking pitch, through a mouth-shaped band, rising and breaking
+    scream: () => {
+      const t = ac.currentTime, out = ac.createGain(), bp = ac.createBiquadFilter(), lfo = ac.createOscillator(), lg = ac.createGain();
+      bp.type = 'bandpass'; bp.frequency.value = 1400; bp.Q.value = 1.6; lfo.frequency.value = 7; lg.gain.value = 40; lfo.connect(lg);
+      out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.5, t + 0.15); out.gain.setValueAtTime(0.5, t + 2.1); out.gain.exponentialRampToValueAtTime(0.0001, t + 2.7);
+      [520, 790].forEach((f) => { const o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 1.6, t + 2.2); lg.connect(o.frequency); o.connect(bp); o.start(t); o.stop(t + 2.8); });
+      bp.connect(out); out.connect(master); lfo.start(t); lfo.stop(t + 2.8); noise(2.6, 0.12, 3000, 1200, 'bandpass');
+    },
     shriek: () => { [0, 7, 13, 19].forEach((d) => tone(500 + d * 20, 2600 + d * 60, 0.9, 0.12, 'sawtooth')); noise(0.9, 0.5, 5000, 800, 'highpass'); tone(70, 25, 1.2, 0.9); },
   };
+  // wind (or surf, lower): looping noise through a band that wanders; returns a stop function
+  function wind(f = 500, vol = 0.22) {
+    if (!ac) return () => {};
+    const t = ac.currentTime, buf = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const s = ac.createBufferSource(), bp = ac.createBiquadFilter(), out = ac.createGain(), lfo = ac.createOscillator(), lg = ac.createGain();
+    s.buffer = buf; s.loop = true; bp.type = 'bandpass'; bp.frequency.value = f; bp.Q.value = 0.8; lfo.frequency.value = 0.23; lg.gain.value = f * 0.6; lfo.connect(lg); lg.connect(bp.frequency);
+    out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(vol, t + 1);
+    s.connect(bp); bp.connect(out); out.connect(master); s.start(t); lfo.start(t);
+    let stopped = false;
+    const stop = (fade = 0.6) => { if (stopped) return; stopped = true; const n = ac.currentTime; out.gain.cancelScheduledValues(n); out.gain.setValueAtTime(out.gain.value, n); out.gain.exponentialRampToValueAtTime(0.0001, n + fade); s.stop(n + fade + 0.05); lfo.stop(n + fade + 0.05); live.delete(stop); };
+    live.add(stop); return stop;
+  }
   // a music box; the last note is played flat
   const MELODY = [659, 784, 880, 784, 659, 587, 622];
   function musicBox(step = 0.42, detune = 1) { try { MELODY.forEach((f, i) => { tone(f * detune, 0, 1.2, 0.08, 'sine', i * step); tone(f * detune * 2.005, 0, 0.6, 0.025, 'sine', i * step); }); } catch (e) { /* no audio */ } }
@@ -247,7 +280,8 @@
   class Fx {
     constructor(url, { bg = false, x = 50, h = 92, bottom, neck = 0.3, parent } = {}) {
       this.bg = bg; this.img = image(url); this.hist = []; this.N = 40; this.t0 = performance.now(); this.neckAt = neck;
-      this.p = { slit: 0, wave: 0, melt: 0, smear: 0, rgb: 0, sway: 0, zoom: 1, shift: 0, plague: 0, warm: 0, dark: 0, neck: 0, twitch: 0, alpha: 1 };
+      this.p = { slit: 0, wave: 0, melt: 0, smear: 0, rgb: 0, sway: 0, zoom: 1, shift: 0, plague: 0, warm: 0, dark: 0, neck: 0, twitch: 0,
+        frost: 0, crack: 0, burn: 0, hollow: 0, blood: 0, alpha: 1 };
       this.el = document.createElement('canvas'); this.el.className = bg ? 'fxbg' : 'fxchar';
       if (!bg) { this.el.style.left = x + '%'; this.el.style.height = h + '%'; if (bottom != null) this.el.style.bottom = bottom + '%'; }
       (parent || (bg ? $('bgfx') : $('chars'))).appendChild(this.el);
@@ -285,6 +319,8 @@
           g.drawImage(img, 0, sy - 2, iw, 2, -W / 2, -H + nk - L, W, L + 1);
           g.drawImage(img, 0, 0, iw, sy, -W / 2, -H - L, W, nk);
         } else g.drawImage(img, -W / 2, -H, W, H);
+        g.filter = 'none';
+        this.wounds(g, W, H, t);
       }
       this.hist.unshift(f);
       const out = c.getContext('2d'), n = this.hist.length;
@@ -337,7 +373,101 @@
       }
       out.globalAlpha = 1;
     }
+    // what happens to the body, drawn over the figure in picture space (0..1 of the image, so it moves with it):
+    // frost, cracks and char only land on the figure itself; eyes go hollow; blood runs from this.bleeds
+    // ({ x, y, w, v: speed, max: length, delay }) and drops fall from the ends; flames lick up from the burn line.
+    wounds(g, W, H, t) {
+      const p = this.p, X = (x) => -W / 2 + x * W, Y = (y) => -H + y * H;
+      if (p.frost > 0.001 || p.crack > 0.001 || p.burn > 0.001) {
+        // drawn on a canvas of their own, then cut to the figure: the image's alpha is applied three times, so faint
+        // haze around a sprite drops away and only the solid figure keeps the frost, the cracks and the char
+        const o = this.ov && this.ov.width === W && this.ov.height === H ? this.ov : (this.ov = newCanvas(W, H)), q = o.getContext('2d');
+        q.globalCompositeOperation = 'source-over'; q.clearRect(0, 0, W, H);
+        if (p.frost > 0.001) {
+          if (!this.frostTex) this.frostTex = frostTexture(W, H);
+          const top = H * (1 - Math.min(1, p.frost * 1.15)), gr = q.createLinearGradient(0, top, 0, H);
+          gr.addColorStop(0, 'rgba(225,245,255,.8)'); gr.addColorStop(0.06, 'rgba(160,210,255,.5)'); gr.addColorStop(1, 'rgba(120,180,240,.6)');
+          q.save(); q.beginPath(); q.rect(0, top, W, H - top); q.clip(); q.fillStyle = gr; q.fillRect(0, top, W, H - top); q.drawImage(this.frostTex, 0, 0); q.restore();
+        }
+        if (p.crack > 0.001) {
+          if (!this.crackPaths) this.crackPaths = crackPaths();
+          q.lineCap = 'round';
+          for (const path of this.crackPaths) {
+            const m = Math.max(2, Math.round(path.length * p.crack)); q.beginPath(); q.moveTo(path[0][0] * W, path[0][1] * H);
+            for (let i = 1; i < m; i++) q.lineTo(path[i][0] * W, path[i][1] * H);
+            q.strokeStyle = 'rgba(255,255,255,.9)'; q.lineWidth = W * 0.006; q.stroke(); q.strokeStyle = 'rgba(10,30,60,.95)'; q.lineWidth = W * 0.0025; q.stroke();
+          }
+        }
+        if (p.burn > 0.001) {
+          // char rises from the feet; at its edge the body glows and flames lick upward
+          const line = H * (1 - Math.min(1.05, p.burn * 1.1)), gr = q.createLinearGradient(0, H, 0, line - H * 0.05);
+          gr.addColorStop(0, 'rgba(8,3,0,.95)'); gr.addColorStop(0.72, 'rgba(40,10,0,.85)'); gr.addColorStop(0.92, 'rgba(255,110,20,.85)'); gr.addColorStop(1, 'rgba(255,200,80,0)');
+          q.fillStyle = gr; q.fillRect(0, line - H * 0.05, W, H - line + H * 0.05);
+          q.globalCompositeOperation = 'lighter';
+          for (let i = 0; i < 26; i++) {
+            const fx = (i + 0.5) / 26 * W, fh = H * (0.06 + 0.12 * Math.abs(Math.sin(t * 7 + i * 1.7) * Math.cos(t * 3.1 + i))), fy = line + H * 0.015 * Math.sin(i * 2.3);
+            const r = q.createRadialGradient(fx, fy, 0, fx, fy - fh * 0.4, fh);
+            r.addColorStop(0, 'rgba(255,230,140,.7)'); r.addColorStop(0.4, 'rgba(255,120,20,.45)'); r.addColorStop(1, 'rgba(120,20,0,0)');
+            q.fillStyle = r; q.beginPath(); q.ellipse(fx, fy - fh * 0.4, fh * 0.3, fh, 0, 0, 7); q.fill();
+          }
+        }
+        q.globalCompositeOperation = 'destination-in';
+        for (let i = 0; i < 3; i++) q.drawImage(this.img, 0, 0, W, H);
+        g.drawImage(o, -W / 2, -H, W, H);
+        if (p.burn > 0.001) {
+          // fire pooling round the feet, outside the figure too
+          g.save(); g.globalCompositeOperation = 'lighter';
+          for (let i = 0; i < 12; i++) {
+            const fx = -W * 0.3 + (i + 0.5) / 12 * W * 0.6, fh = H * Math.min(1, p.burn * 2) * (0.08 + 0.08 * Math.abs(Math.sin(t * 6 + i * 2.1))), r = g.createRadialGradient(fx, 0, 0, fx, -fh * 0.4, fh);
+            r.addColorStop(0, 'rgba(255,220,120,.6)'); r.addColorStop(0.5, 'rgba(255,100,10,.3)'); r.addColorStop(1, 'rgba(120,20,0,0)');
+            g.fillStyle = r; g.beginPath(); g.ellipse(fx, -fh * 0.4, fh * 0.4, fh, 0, 0, 7); g.fill();
+          }
+          g.restore();
+        }
+      }
+      if (p.hollow > 0.001 && this.eyes) for (const e of this.eyes) {
+        const R = e.r * W * (0.4 + 0.8 * p.hollow), r = g.createRadialGradient(X(e.x), Y(e.y), 0, X(e.x), Y(e.y), R);
+        r.addColorStop(0, 'rgba(0,0,0,1)'); r.addColorStop(0.55, 'rgba(10,0,0,.95)'); r.addColorStop(0.8, 'rgba(90,0,8,.7)'); r.addColorStop(1, 'rgba(90,0,8,0)');
+        g.globalAlpha = Math.min(1, p.hollow * 1.5); g.fillStyle = r; g.beginPath(); g.ellipse(X(e.x), Y(e.y), R, R * 0.8, 0, 0, 7); g.fill(); g.globalAlpha = 1;
+      }
+      if (p.blood > 0.001 && this.bleeds) {
+        g.save(); g.globalAlpha = Math.min(1, p.blood); g.lineCap = 'round';
+        const t0 = this.bloodT0 ?? (this.bloodT0 = t);
+        for (const b of this.bleeds) {
+          const age = t - t0 - (b.delay || 0); if (age <= 0) continue;
+          const len = Math.min(b.max, age * b.v), w = b.w * W, x = X(b.x), y = Y(b.y), end = y + len * H;
+          g.strokeStyle = '#6e0008'; g.lineWidth = w; g.beginPath(); g.moveTo(x, y); g.lineTo(x, end); g.stroke();
+          g.fillStyle = '#8c000b'; g.beginPath(); g.arc(x, end, w * 0.9, 0, 7); g.fill();
+          const full = b.max / b.v; if (age > full) {   // the drop at the end lets go, again and again
+            const ph = (age - full) % 1.3; g.beginPath(); g.ellipse(x, end + 0.5 * 2.2 * ph * ph * H, w * 0.6, w * 1.1, 0, 0, 7); g.fill();
+          }
+        }
+        g.restore();
+      }
+    }
     kill(dur = 0) { gsap.to(this.p, { alpha: 0, duration: dur, onComplete: () => { fxs.delete(this); this.el.remove(); } }); }
+  }
+  // feathery ice: branching white strokes and speckle
+  function frostTexture(W, H) {
+    const c = newCanvas(W, H), g = c.getContext('2d'), r = mulberry(7);
+    g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineCap = 'round';
+    for (let i = 0; i < 140; i++) {
+      let x = r() * W, y = r() * H, a = r() * 7; g.lineWidth = 0.6 + r() * 1.4; g.beginPath(); g.moveTo(x, y);
+      for (let k = 0; k < 6; k++) { a += (r() - 0.5) * 1.2; x += Math.cos(a) * W * 0.03; y += Math.sin(a) * W * 0.03; g.lineTo(x, y);
+        if (r() < 0.5) { g.moveTo(x, y); g.lineTo(x + Math.cos(a + 1) * W * 0.012, y + Math.sin(a + 1) * W * 0.012); g.moveTo(x, y); } }
+      g.stroke();
+    }
+    g.fillStyle = 'rgba(255,255,255,.5)'; for (let i = 0; i < 900; i++) g.fillRect(r() * W, r() * H, 1.5, 1.5);
+    return c;
+  }
+  // jagged cracks running out from the chest
+  function crackPaths() {
+    const r = mulberry(11);
+    return Array.from({ length: 9 }, (_, i) => {
+      let x = 0.5, y = 0.42, a = i / 9 * 6.28; const pts = [[x, y]];
+      for (let k = 0; k < 14; k++) { a += (r() - 0.5) * 0.9; x += Math.cos(a) * 0.035; y += Math.sin(a) * 0.035; pts.push([x, y]); }
+      return pts;
+    });
   }
   function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function killFx() { fxs.forEach((f) => { fxs.delete(f); f.el.remove(); }); }
@@ -370,12 +500,13 @@
   function setBg(name, { dur = 0.8, zoom = 1.08, filter = 'none', pan = 0 } = {}) {
     const url = bgUrl(name); if (!url) return;
     back.src = url; back.style.filter = filter;
-    gsap.killTweensOf(back);
+    gsap.killTweensOf(back); gsap.killTweensOf(front, 'opacity');
     gsap.fromTo(back, { opacity: 0, scale: 1, xPercent: 0 }, { opacity: 1, duration: dur });
     gsap.to(back, { scale: zoom, xPercent: pan, duration: 9, ease: 'none' });
     gsap.to(front, { opacity: 0, duration: dur });
     [front, back] = [back, front];
   }
+  function noBg() { gsap.killTweensOf('.bg', 'opacity'); gsap.set('.bg', { opacity: 0 }); }
   function cutBg(name, filter = 'none', tear = true) { setBg(name, { dur: 0.05, zoom: 1.03, filter }); if (tear) slitBg(name); }
 
   const chars = $('chars');
@@ -426,7 +557,7 @@
   function flash(color = '#fff', dur = 0.6, peak = 1) { const el = $('flash'); gsap.killTweensOf(el); el.style.background = color; gsap.fromTo(el, { opacity: peak }, { opacity: 0, duration: dur }); }
   function blackout(on, dur = 0.6) { const el = $('flash'); gsap.killTweensOf(el); el.style.background = '#000'; gsap.to(el, { opacity: on ? 1 : 0, duration: dur }); }
   function shake(power = 1, dur = 0.5) { gsap.fromTo('#cam', { x: 0, y: 0 }, { x: () => gsap.utils.random(-12, 12) * power, y: () => gsap.utils.random(-8, 8) * power, duration: 0.04, repeat: Math.round(dur / 0.04), repeatRefresh: true, ease: 'steps(1)', onComplete: () => gsap.set('#cam', { x: 0, y: 0 }) }); }
-  function tint(color, dur = 0.8) { gsap.to($('tint'), { backgroundColor: color, duration: dur }); }
+  function tint(color, dur = 0.8) { gsap.to($('tint'), { backgroundColor: color, duration: dur, overwrite: 'auto' }); }
   function glitch(dur = 0.5) {
     sfx('glitch');
     const tl = gsap.timeline();
@@ -477,6 +608,9 @@
     gsap.to(eyes, { opacity: on ? 1 : 0, duration: 0.8 });
     gsap.to(eyes.children, { scaleY: on ? 1 : 0, duration: 0.35, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(3)' });
   }
+  // every eye looks where the viewer's pointer is
+  addEventListener('pointermove', (e) => { const b = stage.getBoundingClientRect();
+    eyes.style.setProperty('--px', (50 + ((e.clientX - b.left) / b.width - 0.5) * 34) + '%'); eyes.style.setProperty('--py', (50 + ((e.clientY - b.top) / b.height - 0.5) * 30) + '%'); });
   function eyesBlink() { gsap.to(eyes.children, { scaleY: 0.05, duration: 0.08, yoyo: true, repeat: 1, stagger: { each: 0.01, from: 'random' } }); }
 
   function binary(on) {
@@ -526,6 +660,12 @@
       }, onComplete: () => { d.textContent = txt || ' '; } });
     });
   }
+  function choice(opts, on = -1) {
+    const el = $('choice'); gsap.killTweensOf(el);
+    if (!opts) return gsap.to(el, { opacity: 0, duration: 0.2 });
+    el.innerHTML = ''; opts.forEach((o, i) => { const d = document.createElement('div'); d.textContent = o; if (i === on) d.className = 'on'; el.appendChild(d); });
+    gsap.fromTo(el, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3 });
+  }
   // an answering machine's display
   function lcd(text) {
     const el = $('lcd'); gsap.killTweensOf(el);
@@ -553,7 +693,7 @@
   let stopDrone = null;
   // the trailer remembers having been watched to the end (it changes the gate, the first second and the last line)
   let views = 0; try { views = +localStorage.getItem('mb-trailer-views') || 0; } catch (e) { /* private window */ }
-  const LENGTH = 148.6;
+  const LENGTH = 177.6;
 
   // 0:00 — a happy school story (the bait)
   at(0.0, () => { blackout(true, 0); if (views) { card([['red', 'You came back.']], { dur: 0.5, stagger: 0 }); sfx('sting'); } });
@@ -635,109 +775,175 @@
   at(65.4, () => card(['It turns everyone you love', ['red glitch', 'into the worst version of themselves.']], { dur: 1.5, stagger: 0.5 }));
   at(66.6, () => { stopDrone = drone(0.14); });
 
-  // 1:08 — the worst selves: each one tears in on a slit-scan, and each one is wrong in its own way
+  // 1:08 — the worst selves. Two tear in fast; the rest each get a scene of their own
   const reveals = [
-    ['james-lone', 'special', 'Outside School', 'James', 'The Fake Emo', "I don't care. I never have. I never will.", 72, null, null, { twitch: 1 }],
-    ['kayla-kate', 'lose', 'Bedroom - Night', 'Kayla', 'The Hollow Sister', 'Maybe I wished her away.', 30, null, null, { neck: 0.8 }],
-    ['diana', 'lose', 'Institute Rooftop - BAD SUN', 'Diana', 'The Doe Nobody Mourns', 'She\'s the real one anyway.', 70],
-    ['maiko-ghan', 'attack', 'Karate Fighting ring (Beginners)', 'Maiko', 'The Lost Sen', 'Everyone who stands next to you disappears.', 30, null, null, { twitch: 0.6 }],
-    ['rirarra-charca', 'special', 'Bonfire Beach', 'Rirarra', 'The Hunger Below', '...HUNGRY.', 68, 'bubbles', 'rgba(0,60,120,.55)', { neck: 0.6, twitch: 0.8 }],
-    // Keiko does not glitch at all: she holds perfectly still, which is worse
-    ['keiko-cries', 'idle', 'Lounge Night', 'Keiko', 'The Table for the Dead', "Supper's at seven. Everyone stays for supper.", 32, 'snow', null, { still: 1 }],
-    ['lilith', 'special', 'Fire..', 'Lilith', 'The Unloved', "I can't turn it off! It's not me!", 68, 'embers', 'rgba(180,40,0,.35)'],
-    ['daphne', 'idle', 'Inner ruins', 'Daphne', 'The Demon Heir', '...Insects. All of you.', 32, null, null, { twitch: 0.5, eyes: 1 }],
+    ['james-lone', 'special', 'Outside School', 'James', 'The Fake Emo', "I don't care. I never have. I never will.", 72, { twitch: 1 }],
+    ['diana', 'lose', 'Institute Rooftop - BAD SUN', 'Diana', 'The Doe Nobody Mourns', 'She\'s the real one anyway.', 30, { neck: 0.6 }],
   ];
-  reveals.forEach(([id, r, bg, who, title, quote, x, parts, color, mod = {}], i) => {
+  reveals.forEach(([id, r, bg, who, title, quote, x, mod], i) => {
     const t = 67.6 + i * 3.0;
     let f;
     at(t, () => {
-      blackout(false, 0.05); if (!mod.still) glitch(0.25);
-      cutBg(bg, 'brightness(.5) saturate(.5) contrast(1.2)', !mod.still);
-      tint(color || 'rgba(110,0,20,.35)', 0.2); particles(parts || null);
-      f = plagued(id, r, { x });
-      if (mod.still) { gsap.killTweensOf(f.p); Object.assign(f.p, { alpha: 1, zoom: 1, shift: 0, slit: 0, rgb: 0, smear: 0, sway: 0 }); }
-      if (mod.neck) gsap.to(f.p, { neck: mod.neck, duration: 2, ease: 'power2.in' });
-      if (mod.twitch) f.p.twitch = mod.twitch;
-      if (mod.eyes) eyesOpen(true);
-      plate(who, title, quote, { side: x > 50 ? 'left' : 'right', dur: 2.4 });
-      if (!mod.still) sfx('hit'); if (i % 3 === 0) shake(0.7, 0.3);
+      blackout(false, 0.05); glitch(0.25); cutBg(bg, 'brightness(.5) saturate(.5) contrast(1.2)'); tint('rgba(110,0,20,.35)', 0.2);
+      f = plagued(id, r, { x }); if (mod.neck) gsap.to(f.p, { neck: mod.neck, duration: 2, ease: 'power2.in' }); if (mod.twitch) f.p.twitch = mod.twitch;
+      plate(who, title, quote, { side: x > 50 ? 'left' : 'right', dur: 2.4 }); sfx('hit'); shake(0.7, 0.3);
     });
-    at(t + 1.2, () => f && !mod.still && gsap.to(f.p, { zoom: 1.06, duration: 1.2, ease: 'power1.inOut' }));
-    at(t + 2.3, () => { if (f) melt(f, 0.65); if (mod.eyes) eyesOpen(false); });
-    if (i % 3 === 1 && reveals[i + 1]) at(t + 2.9, () => subliminal(horror(reveals[i + 1][0], reveals[i + 1][1]), 0.07));
+    at(t + 1.2, () => f && gsap.to(f.p, { zoom: 1.06, duration: 1.2, ease: 'power1.inOut' }));
+    at(t + 2.3, () => f && melt(f, 0.65));
   });
+  let stopWind = null;
+  const windDown = (fade) => { if (stopWind) stopWind(fade); stopWind = null; };
 
-  // 1:31 — the ones who chose it
-  at(91.6, () => { clearChars(0.2); particles(null); tint('rgba(0,0,0,0)', 0.3); blackout(true, 0.2); });
-  at(91.9, () => card(['Some of them weren\'t plagued.', ['red', 'They chose this.']], { dur: 1.3, stagger: 0.5 }));
+  // 1:14 — Rirarra doesn't move. She looks at you, and her teeth drip
+  let rira;
+  at(73.6, () => { music(null, 0, 0.3); clearChars(0); tint('rgba(0,20,60,.45)', 0.3); blackout(false, 0.4);
+    setBg('beach night', { dur: 0.4, zoom: 1.04, filter: 'brightness(.35) saturate(.5)' }); stopWind = wind(260, 0.2);
+    rira = new Fx(horror('rirarra-charca', 'special'), { x: 50, h: 200, bottom: -106 });
+    Object.assign(rira.p, { plague: 0.3, alpha: 0, blood: 1 }); gsap.to(rira.p, { alpha: 1, duration: 1.4 });
+    rira.bleeds = [[0.53, 0.12, 0], [0.56, 0.08, 0.6], [0.6, 0.14, 0.2], [0.63, 0.1, 1.1], [0.655, 0.07, 0.4]].map(([x, max, delay]) => ({ x, y: 0.185, w: 0.007, v: 0.03, max, delay }));
+    plate('Rirarra', 'The Hunger Below', '', { side: 'left', dur: 2.2 }); });
+  [75.4, 76.6, 77.5, 78.6, 79.3].forEach((t) => at(t, () => sfx('plip')));
+  at(75.2, () => sub('Rirarra', '...hi, little human.', 1.8));
+  at(77.4, () => sub('Rirarra', 'Wa... ter... mel...', 1.6));
+  at(79.6, () => hush(0.45));
+  at(80.05, () => { sfx('chomp'); shake(1.6, 0.4); gsap.to(rira.el, { xPercent: -50, scale: 1.8, transformOrigin: '56% 17%', duration: 0.14, ease: 'power4.in' });
+    sub('', '<span style="color:var(--red)">...HUNGRY.</span>', 0.5); });
+  at(80.3, () => { blackout(true, 0); clearChars(0); windDown(0.1); });
+
+  // 1:21 — Maiko loses an eye, slowly, while she talks to you
+  let maiko;
+  at(80.6, () => { blackout(false, 0.3); tint('rgba(60,0,10,.35)', 0.2); cutBg('Karate Fighting ring (Beginners)', 'brightness(.35) saturate(.35)', false);
+    maiko = new Fx(horror('maiko-ghan', 'attack'), { x: 50, h: 190, bottom: -95 }); Object.assign(maiko.p, { plague: 0.4, sway: 0.25, alpha: 0 }); gsap.to(maiko.p, { alpha: 1, duration: 0.4 });
+    maiko.eyes = [{ x: 0.57, y: 0.19, r: 0.04 }];
+    maiko.bleeds = [{ x: 0.57, y: 0.215, w: 0.008, v: 0.06, max: 0.2, delay: 0.9 }, { x: 0.558, y: 0.215, w: 0.005, v: 0.04, max: 0.12, delay: 1.6 }]; });
+  at(81.0, () => sub('Maiko', 'Sen? Is that you? I can\'t see you properly.', 1.9));
+  at(81.8, () => { sfx('squelch'); gsap.to(maiko.p, { hollow: 1, duration: 2.2, ease: 'power1.in' }); maiko.p.blood = 1; });
+  at(83.2, () => { sfx('squelch'); sub('Maiko', 'Everyone who stands next to me disappears. Why can\'t I see you?', 2.2); });
+  at(84.4, () => plate('Maiko', 'The Lost Sen', '', { side: 'right', dur: 1.8 }));
+  at(86.3, () => { blackout(true, 0.1); clearChars(0); });
+
+  // 1:27 — Lilith catches fire and can't make it stop
+  let lil;
+  at(86.6, () => { blackout(false, 0.1); setBg('Outside the prom', { dur: 0.1, zoom: 1.08, filter: 'brightness(.5) saturate(.6)' }); tint('rgba(180,40,0,.25)', 0.4); particles('embers');
+    lil = new Fx(sprite('lilith', 'hurt'), { x: 50, h: 92 }); Object.assign(lil.p, { sway: 0.6 }); });
+  at(86.9, () => sub('Lilith', 'Make it stop... please, make it STOP!', 1.6));
+  at(87.2, () => { sfx('roar'); gsap.to(lil.p, { burn: 1, duration: 3.2, ease: 'power1.in' }); gsap.to(lil.p, { rgb: 0.4, smear: 0.4, duration: 3 }); });
+  at(88.4, () => { sfx('scream'); shake(0.5, 2.4); });
+  at(88.8, () => sub('Lilith', '<span style="color:var(--red)">[screaming]</span>', 1.6));
+  at(90.6, () => { sfx('roar'); flash('#ffb060', 0.5, 0.8); glitch(0.2); cutBg('Fire..', 'brightness(.7)'); lil.setImage(horror('lilith', 'special'));
+    Object.assign(lil.p, { burn: 0.35, twitch: 0.8 }); tint('rgba(200,50,0,.3)', 0.1); });
+  at(91.0, () => plate('Lilith', 'The Unloved', "I can't turn it off! It's not me!", { side: 'left', dur: 1.7 }));
+
+  // 1:33 — silence, and the dark is full of eyes (they follow the viewer's pointer)
+  let daph;
+  at(93.0, () => { hush(5.25); clearChars(0); particles(null); tint('rgba(0,0,0,0)', 0); noBg(); blackout(false, 0); gsap.set('#sub', { opacity: 0 });
+    gsap.set(eyes, { opacity: 1 }); gsap.set(eyes.children, { scaleY: 0 });
+    gsap.to(eyes.children, { scaleY: 1, duration: 0.9, ease: 'power1.out', stagger: { each: 0.08, from: 'random' } }); });
+  at(94.4, () => { daph = new Fx(horror('daphne', 'idle'), { x: 50, h: 92 }); Object.assign(daph.p, { dark: 0.65, alpha: 0 }); gsap.to(daph.p, { alpha: 0.4, duration: 2.5 }); });
+  at(96.0, () => sub('Daphne', '...Insects. All of you.', 1.6));
+  at(97.9, () => { gsap.to(eyes.children, { scaleY: 0, duration: 0.06 }); blackout(true, 0); clearChars(0); });
+  at(98.3, () => { gsap.set(eyes, { opacity: 0 }); sfx('boom'); });
+
+  // 1:39 — Julia freezes while she apologizes
+  let jul;
+  at(98.6, () => { blackout(false, 0.3); setBg('Ice Cave', { dur: 0.3, zoom: 1.06, filter: 'brightness(.55) saturate(.6)' }); tint('rgba(0,40,90,.3)', 0.3); particles('snow'); stopWind = wind(700, 0.18);
+    jul = new Fx(sprite('julia-aquacrucis', 'hurt'), { x: 50, h: 96 }); Object.assign(jul.p, { sway: 0.7 }); });
+  at(99.0, () => sub('Julia', 'S-sorry... I\'m s-so sorry... it w-won\'t stop...', 2.0));
+  at(99.2, () => { gsap.to(jul.p, { frost: 1, duration: 4.2, ease: 'none' }); gsap.to(jul.p, { sway: 0, duration: 4.2, ease: 'power2.in' }); });
+  [99.8, 100.9, 101.8, 102.5, 103.0].forEach((t) => at(t, () => sfx('ice')));
+  at(101.2, () => { sub('Julia', 'I c-can\'t f-feel my h-hands... p-please d-don\'t lea—', 3.4); gsap.to('#sub', { color: '#bfe6ff', duration: 2.4, delay: 0.6 }); });
+  at(103.6, () => { sfx('shatter'); gsap.to(jul.p, { crack: 1, duration: 0.25 }); flash('#cfeaff', 0.4, 0.6); shake(0.8, 0.3); windDown(0.4); });
+  at(104.1, () => plate('Julia', 'The Frozen Saint', 'S-sorry...', { side: 'right', dur: 0.8 }));
+  at(105.0, () => { blackout(true, 0.2); clearChars(0); particles(null); $('sub').style.color = ''; });
+
+  // 1:45 — Kayla on the school roof, and you can't remember her name
+  let kay;
+  at(105.4, () => { if (stopDrone) { stopDrone(); stopDrone = null; } tint('rgba(0,0,0,0)', 0); blackout(false, 1.0);
+    setBg('school roof', { dur: 1.0, zoom: 1.04, filter: 'brightness(.6) saturate(.35)' }); stopWind = wind(420, 0.24);
+    kay = new Fx(sprite('kayla-kate', 'lose'), { x: 62, h: 26, bottom: 46 }); Object.assign(kay.p, { sway: 0.5 }); });
+  at(106.4, () => sub('Kayla', 'When Hayley vanished, everyone asked where she went.', 2.2));
+  at(108.8, () => sub('Kayla', 'Nobody\'s going to ask where I went.', 1.8));
+  at(110.8, () => sub('Kayla', '...Would you?', 1.4));
+  at(112.0, () => choice(['Call her by her name', '...']));
+  at(112.7, () => { sfx('glitch'); scramble($('choice').firstChild, 'Call her by ██████'); });
+  at(114.0, () => { [...$('choice').children].forEach((d, i) => d.classList.toggle('on', i === 1)); sfx('click'); });  // it picks for you
+  at(114.5, () => { choice(null); sub('Kayla', '...Yeah. I didn\'t think so.', 1.6); });
+  at(116.4, () => { blackout(true, 0); sfx('click'); });
+  at(116.6, () => { blackout(false, 0); kay.kill(); });   // the roof, empty
+  at(118.0, () => { windDown(1.2); blackout(true, 1.0); });
+  at(118.6, () => card([['soft', 'Her name was Kayla.']], { dur: 1.5 }));
+
+  // 2:01 — the ones who chose it
+  at(120.6, () => { clearChars(0.2); particles(null); tint('rgba(0,0,0,0)', 0.3); blackout(true, 0.2); music('doomsday-clock-midnight', 0.8, 0.3); });
+  at(120.9, () => card(['Some of them weren\'t plagued.', ['red', 'They chose this.']], { dur: 1.3, stagger: 0.5 }));
   [
     ['marija', 'taunt', 'Lab B-2 Earth 7 Rift', 'Marija', 'I am a mother. I can only save mine.'],
     ['celeste', 'special', 'Outside the prom', 'Celeste', 'I won\'t lose you to anyone. Not even you.'],
   ].forEach(([id, r, bg, who, line], i) => {
-    const t = 93.8 + i * 2.4;
+    const t = 122.8 + i * 2.4;
     at(t, () => { blackout(false, 0.1); clearChars(0.15); cutBg(bg, 'brightness(.6)'); showChar(id, r, { x: 50, from: 'rise', dur: 0.4 }); sub(who, line, 2.0); sfx('hit'); });
   });
 
-  // 1:38 — loss: slower, quieter, colder
-  at(98.4, () => { if (stopDrone) stopDrone(); music('missing-my-hayley', 0.7, 1.4); clearChars(0.4); blackout(true, 0.5); grain(0.08); scan(false); });
-  at(98.8, () => card([['soft', 'They aren\'t monsters.'], 'They\'re the people you love.'], { dur: 1.8, stagger: 0.8 }));
+  // 2:07 — loss: slower, quieter, colder
+  at(127.4, () => { if (stopDrone) stopDrone(); music('missing-my-hayley', 0.7, 1.4); clearChars(0.4); blackout(true, 0.5); grain(0.08); scan(false); });
+  at(127.8, () => card([['soft', 'They aren\'t monsters.'], 'They\'re the people you love.'], { dur: 1.8, stagger: 0.8 }));
   // Maria's voicemails, while the picture of her goes wrong
   let warm;
-  at(101.8, () => {
+  at(130.8, () => {
     blackout(false, 0.6); setBg('Our Home from the outside', { dur: 0.6, zoom: 1.05, filter: 'sepia(.45) brightness(1.08) blur(1px)' });
     warm = new Fx(sprite('maria-hunley', 'play'), { x: 50 }); Object.assign(warm.p, { warm: 1, sway: 0.4, alpha: 0 }); gsap.to(warm.p, { alpha: 1, duration: 0.6 });
     sfx('beep'); lcd('MESSAGE 1 · MON 7:42 PM'); sub('Maria', 'Hi sweetie, it\'s Mom! Dinner\'s ready. Call me back, okay?', 2.1);
   });
-  at(104.3, () => { sfx('beep'); lcd('MESSAGE 2 · TUE 3:10 AM'); setBg('living room night', { dur: 0.4, zoom: 1.06, filter: 'brightness(.45) saturate(.4)' });
+  at(133.3, () => { sfx('beep'); lcd('MESSAGE 2 · TUE 3:10 AM'); setBg('living room night', { dur: 0.4, zoom: 1.06, filter: 'brightness(.45) saturate(.4)' });
     gsap.to(warm.p, { warm: 0, plague: 0.6, smear: 0.2, duration: 1.2 }); sub('Maria', '...Sweetie, please pick up. I\'m not mad. Just come home.', 2.1); });
-  at(106.8, () => { sfx('beep'); lcd('MESSAGE 47 · 2 YEARS LATER'); melt(warm, 0.6);
+  at(135.8, () => { sfx('beep'); lcd('MESSAGE 47 · 2 YEARS LATER'); melt(warm, 0.6);
     const f = plagued('maria-hunley', 'lose', { x: 50 }); gsap.to(f.p, { smear: 0.2, rgb: 0.15, duration: 1 });
     sub('Maria', 'I still set your plate. Every night. I set your plate.', 2.3); });
-  at(109.4, () => { lcd('END OF MESSAGES'); sfx('beep'); blackout(true, 0.4); clearChars(0.3); });
+  at(138.4, () => { lcd('END OF MESSAGES'); sfx('beep'); blackout(true, 0.4); clearChars(0.3); });
   // the same classroom, the same song, but nobody remembers James
-  at(110.2, () => { lcd(null); music('crazy-cutesy-classtime', 0.5, 0.1); blackout(false, 0.5); setBg('Classroom', { dur: 0.5, zoom: 1.1 }); showChar('hayley-kate', 'play', { x: 30, h: 88 }); });
-  at(110.8, () => sub('Hayley', 'Psst. If x is boredom and y is...', 1.5));
-  at(112.5, () => { role('hayley-kate', 'hayley-kate', 'idle'); sub('Hayley', '...Sorry. I forgot what I was going to say.', 1.6); musicRate(0.6, 1.8); });
-  at(114.3, () => { music(null, 0, 0.5); blackout(true, 0.5); clearChars(0.4); });
-  at(114.6, () => card([['soft', 'When the Flicker takes someone, the world forgets they were there.'], ['red', 'You won\'t.']], { dur: 2.1, stagger: 0.9 }));
+  at(139.2, () => { lcd(null); music('crazy-cutesy-classtime', 0.5, 0.1); blackout(false, 0.5); setBg('Classroom', { dur: 0.5, zoom: 1.1 }); showChar('hayley-kate', 'play', { x: 30, h: 88 }); });
+  at(139.8, () => sub('Hayley', 'Psst. If x is boredom and y is...', 1.5));
+  at(141.5, () => { role('hayley-kate', 'hayley-kate', 'idle'); sub('Hayley', '...Sorry. I forgot what I was going to say.', 1.6); musicRate(0.6, 1.8); });
+  at(143.3, () => { music(null, 0, 0.5); blackout(true, 0.5); clearChars(0.4); });
+  at(143.6, () => card([['soft', 'When the Flicker takes someone, the world forgets they were there.'], ['red', 'You won\'t.']], { dur: 2.1, stagger: 0.9 }));
   // Milo and Lumin, Lilith, and a heartbeat slowing down
-  at(117.8, () => { music('missing-my-hayley', 0.6, 0.8); blackout(false, 0.4); setBg('night forest', { dur: 0.4, filter: 'brightness(.45) saturate(.35)' });
+  at(146.8, () => { music('missing-my-hayley', 0.6, 0.8); blackout(false, 0.4); setBg('night forest', { dur: 0.4, filter: 'brightness(.45) saturate(.35)' });
     const f = plagued('milo', 'lose', { x: 34, h: 82 }); gsap.to(f.p, { smear: 0.25, rgb: 0.15, duration: 0.6 });
     showChar('lumin', 'hurt', { x: 70, h: 82 }); });
-  at(118.1, () => sub('Milo', '...Lu... min...? I... came... back...', 1.3));
-  at(119.5, () => sub('Lumin', 'You promised. You always kept your promises. Even the stupid ones.', 1.3));
-  at(121.0, () => { clearChars(0.4); setBg('Outside the prom', { dur: 0.6, zoom: 1.08, filter: 'brightness(.5) saturate(.45)' }); showChar('lilith', 'lose', { x: 50, h: 84 }); push('lilith', 1.1, 2.3); });
-  at(121.4, () => sub('Lilith', 'Is everyone out? ...Does the dance offer still count? It\'s okay if it doesn\'t.', 2.0));
-  [117.8, 118.8, 120.0, 121.6, 123.5].forEach((t) => at(t, () => sfx('heart')));   // a heartbeat, slowing...
-  at(124.8, () => { sfx('flatline'); blackout(true, 0.4); particles(null); music(null, 0, 0.4); });  // ...and stopping
+  at(147.1, () => sub('Milo', '...Lu... min...? I... came... back...', 1.3));
+  at(148.5, () => sub('Lumin', 'You promised. You always kept your promises. Even the stupid ones.', 1.3));
+  at(150, () => { clearChars(0.4); setBg('Outside the prom', { dur: 0.6, zoom: 1.08, filter: 'brightness(.5) saturate(.45)' }); showChar('lilith', 'lose', { x: 50, h: 84 }); push('lilith', 1.1, 2.3); });
+  at(150.4, () => sub('Lilith', 'Is everyone out? ...Does the dance offer still count? It\'s okay if it doesn\'t.', 2.0));
+  [146.8, 147.8, 149, 150.6, 152.5].forEach((t) => at(t, () => sfx('heart')));   // a heartbeat, slowing...
+  at(153.8, () => { sfx('flatline'); blackout(true, 0.4); particles(null); music(null, 0, 0.4); });  // ...and stopping
 
-  // 2:05 — Doe
-  at(125.6, () => { music('doomsday-clock-five-minutes-past-midnight', 0.9, 0.4); clearChars(0); blackout(false, 0.1); grain(0.14); scan(true);
+  // 2:35 — Doe
+  at(154.6, () => { music('doomsday-clock-five-minutes-past-midnight', 0.9, 0.4); clearChars(0); blackout(false, 0.1); grain(0.14); scan(true);
     cutBg('Doe Earth 2', 'brightness(.55) hue-rotate(-20deg)'); tint('rgba(90,0,60,.35)', 0.3); eyesOpen(true);
     window.__doe = plagued('doe', 'special', { x: 50 }); sfx('boom'); shake(1, 0.5); });
-  at(126.2, () => sub('Doe', 'Everyone is looking at me. Every single world.', 2.2));
-  at(128.6, () => { window.__doe.setImage(horror('doe', 'lose')); gsap.fromTo(window.__doe.p, { slit: 1, wave: 1 }, { slit: 0.1, wave: 0, duration: 1.2 }); eyesBlink(); sub('Doe', '...So why can\'t I feel it?', 1.6); });
-  at(130.3, () => melt(window.__doe, 0.5));
+  at(155.2, () => sub('Doe', 'Everyone is looking at me. Every single world.', 2.2));
+  at(157.6, () => { window.__doe.setImage(horror('doe', 'lose')); gsap.fromTo(window.__doe.p, { slit: 1, wave: 1 }, { slit: 0.1, wave: 0, duration: 1.2 }); eyesBlink(); sub('Doe', '...So why can\'t I feel it?', 1.6); });
+  at(159.3, () => melt(window.__doe, 0.5));
 
-  // 2:10 — the weapon
-  at(130.6, () => { eyesOpen(false); tint('rgba(0,0,0,0)', 0.3); clearChars(0.2); flash('#bfe8ff', 0.8); particles('sparks'); sfx('riser'); scan(false); grain(0.08); deckBurst(DECK, { cols: 7 }); });
-  at(131.5, () => { gsap.to('#deck', { opacity: 0.35, duration: 0.4 }); card([['big', 'CALL UPON YOUR WEAPON.'], ['red', 'All of it.']], { dur: 1.8, stagger: 0.5 }); });
+  // 2:40 — the weapon
+  at(159.6, () => { eyesOpen(false); tint('rgba(0,0,0,0)', 0.3); clearChars(0.2); flash('#bfe8ff', 0.8); particles('sparks'); sfx('riser'); scan(false); grain(0.08); deckBurst(DECK, { cols: 7 }); });
+  at(160.5, () => { gsap.to('#deck', { opacity: 0.35, duration: 0.4 }); card([['big', 'CALL UPON YOUR WEAPON.'], ['red', 'All of it.']], { dur: 1.8, stagger: 0.5 }); });
 
-  // 2:13 — title
-  at(133.8, () => { deckClear(); particles(null); blackout(true, 0.3); sfx('boom'); music(null, 0, 3); });
-  at(134.4, () => card([['small', 'Miku Battle · Story Mode'], ['big glitch', 'Every World Has a You'], ['small red', 'Coming soon']], { dur: 3.2, stagger: 0.45 }));
-  at(136.8, () => subliminal(horror('doe', 'special'), 0.06));
+  // 2:43 — title
+  at(162.8, () => { deckClear(); particles(null); blackout(true, 0.3); sfx('boom'); music(null, 0, 3); });
+  at(163.4, () => card([['small', 'Miku Battle · Story Mode'], ['big glitch', 'Every World Has a You'], ['small red', 'Coming soon']], { dur: 3.2, stagger: 0.45 }));
+  at(165.8, () => subliminal(horror('doe', 'special'), 0.06));
 
-  // 2:19 — after the title, it talks to you
+  // 2:48 — after the title, it talks to you
   let last;
-  at(139.4, () => { gsap.set('.bg', { opacity: 0 }); tint('rgba(0,0,0,0)', 0); grain(0.05, 1); sub('', `It's ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.`, 1.5); });
-  at(141.2, () => { const h = new Date().getHours(); sub('', h >= 22 || h < 5 ? 'You should be asleep.' : 'You\'re still watching.', 1.5); });
-  at(143.0, () => { musicBox(); blackout(false, 1.2);
+  at(168.4, () => { noBg(); tint('rgba(0,0,0,0)', 0); grain(0.05, 1); sub('', `It's ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.`, 1.5); });
+  at(170.2, () => { const h = new Date().getHours(); sub('', h >= 22 || h < 5 ? 'You should be asleep.' : 'You\'re still watching.', 1.5); });
+  at(172, () => { musicBox(); blackout(false, 1.2);
     last = new Fx(sprite('hayley-kate', 'play'), { x: 50, h: 90, neck: 0.29 }); Object.assign(last.p, { warm: 0.4, sway: 0.3, alpha: 0 }); gsap.to(last.p, { alpha: 1, duration: 1.2 }); });
-  at(143.8, () => sub('Hayley', views ? 'You came back. I knew you would.' : 'Hey. You\'ll come back, right?', 2.1));
-  at(146.1, () => { musicBox(0.6, 0.94); sub('Hayley', 'You promised.', 1.4); gsap.to(last.p, { neck: 0.8, warm: 0, plague: 0.5, duration: 1.6, ease: 'power2.in' }); });
-  at(147.2, () => { last.p.twitch = 0.6; });
-  at(147.9, () => { subliminal(sprite('hayley-kate', 'special'), 0.1); clearChars(0); });
+  at(172.8, () => sub('Hayley', views ? 'You came back. I knew you would.' : 'Hey. You\'ll come back, right?', 2.1));
+  at(175.1, () => { musicBox(0.6, 0.94); sub('Hayley', 'You promised.', 1.4); gsap.to(last.p, { neck: 0.8, warm: 0, plague: 0.5, duration: 1.6, ease: 'power2.in' }); });
+  at(176.2, () => { last.p.twitch = 0.6; });
+  at(176.9, () => { subliminal(sprite('hayley-kate', 'special'), 0.1); clearChars(0); });
   at(LENGTH, () => end(true));
   tl.to('#progress', { width: '100%', duration: LENGTH, ease: 'none' }, 0);
 
@@ -747,7 +953,7 @@
     if (!views) return;
     document.title = 'Every World Had a You';
     $('gate').querySelector('h1').textContent = 'Every World Had a You';
-    $('gateNote').textContent = 'Trailer · 2:30 · she\'s still here';
+    $('gateNote').textContent = 'Trailer · 3:00 · she\'s still here';
   }
   haunt();
   function end(finished) {
@@ -770,19 +976,19 @@
 
   // load every picture before the first frame so nothing pops in late
   const urls = new Set();
-  ['Classroom', 'Lab A-3 - Night', 'Bedroom - Night', 'Bonfire Beach', 'dark castle entrance', 'Doe Earth 2', 'Your bedroom', 'Lab B-2 Earth 7 Rift', 'Outside the prom',
+  ['beach night', 'Karate Fighting ring (Beginners)', 'Fire..', 'Ice Cave', 'school roof', 'Classroom', 'Lab A-3 - Night', 'Bedroom - Night', 'Bonfire Beach', 'dark castle entrance', 'Doe Earth 2', 'Your bedroom', 'Lab B-2 Earth 7 Rift', 'Outside the prom',
     'living room night', 'night forest', 'Our Home from the outside']
     .concat(reveals.map((r) => r[2])).forEach((n) => urls.add(bgUrl(n)));
   [['hayley-kate', 'play'], ['hayley-kate', 'idle'], ['hayley-kate', 'win'], ['hayley-kate', 'hurt'], ['hayley-kate', 'special'], ['james-lone', 'idle'], ['james-lone', 'play'],
     ['kayla-kate', 'idle'], ['doe', 'win'], ['doe', 'lose'], ['doe', 'taunt'], ['marija', 'taunt'], ['celeste', 'special'], ['lumin', 'hurt'], ['lilith', 'lose'],
-    ['maria-hunley', 'play']].forEach(([id, r]) => urls.add(sprite(id, r)));
-  [['doe', 'special'], ['doe', 'lose'], ['maria-hunley', 'lose'], ['milo', 'lose']].concat(reveals.map((r) => [r[0], r[1]])).forEach(([id, r]) => { urls.add(horror(id, r)); urls.add(sprite(id, r)); });
+    ['maria-hunley', 'play'], ['lilith', 'hurt'], ['julia-aquacrucis', 'hurt'], ['kayla-kate', 'lose']].forEach(([id, r]) => urls.add(sprite(id, r)));
+  [['doe', 'special'], ['doe', 'lose'], ['maria-hunley', 'lose'], ['milo', 'lose'], ['rirarra-charca', 'special'], ['maiko-ghan', 'attack'], ['lilith', 'special'], ['daphne', 'idle']].concat(reveals.map((r) => [r[0], r[1]])).forEach(([id, r]) => { urls.add(horror(id, r)); urls.add(sprite(id, r)); });
   DECK.forEach((id) => urls.add(sprite(id, 'win')));
   urls.delete('');
-  // ?autoplay starts as soon as everything is loaded (muted until a click, browsers block sound before one); ?t=SECONDS jumps there (for checking a shot)
+  // ?autoplay starts as soon as everything is loaded (muted until a click, browsers block sound before one); ?t=SECONDS plays the 4 s before it (for checking a shot; &hold stops there)
   const params = new URLSearchParams(location.search), auto = params.has('autoplay') || params.has('t');
   let done = 0; const total = urls.size;
-  const ready = () => { btn.disabled = false; btn.textContent = 'Play trailer'; if (auto && !tl.isActive() && tl.progress() === 0) { btn.onclick(); if (params.has('t')) { tl.seek(+params.get('t'), false); if (params.has('hold')) setTimeout(() => tl.pause(), 600); } } };
+  const ready = () => { btn.disabled = false; btn.textContent = 'Play trailer'; if (auto && !tl.isActive() && tl.progress() === 0) { btn.onclick(); if (params.has('t')) { tl.seek(Math.max(0, +params.get('t') - 4), false); if (params.has('hold')) setTimeout(() => tl.pause(), 4000); } } };
   const tick = () => { done++; btn.textContent = `Loading ${Math.round(done / total * 100)}%`; if (done === total) ready(); };
   urls.forEach((u) => { const i = image(u); if (i.complete) tick(); else { i.onload = i.onerror = tick; } });
   setTimeout(() => { if (btn.disabled) ready(); }, 15000);
