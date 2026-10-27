@@ -24,30 +24,54 @@
   fit();
 
   // decoded images stay referenced here so the browser keeps them ready: nothing has to be fetched or
-  // decoded the first time a sprite shows up mid-battle
-  const images = new Map(); // url -> promise of the decoded Image
+  // decoded the first time a sprite shows up mid-battle. Only the most recently asked-for ones are kept (up to
+  // DECODED_PX pixels, ~400 MB of bitmaps): holding every sprite a session had touched grew past gigabytes and made
+  // the whole game lag. A dropped one is still in the HTTP cache and decodes again when next shown or preloaded.
+  const DECODED_PX = 100e6;
+  const images = new Map(); // url -> promise of the decoded Image, oldest first
+  const px = new Map(); // url -> pixels of a decoded one
+  let heldPx = 0;
+  const trim = () => {
+    for (const [u, n] of px) {
+      if (heldPx <= DECODED_PX) break;
+      px.delete(u); images.delete(u); heldPx -= n;
+    }
+  };
   MB.preloadImages = (urls, onProgress) => {
     const list = [...new Set(urls)].filter(Boolean);
     let done = 0;
     return Promise.all(list.map((u) => {
       let p = images.get(u);
-      if (!p) {
+      if (p) { // asked for again: now the newest
+        images.delete(u); images.set(u, p);
+        if (px.has(u)) { const n = px.get(u); px.delete(u); px.set(u, n); }
+      } else {
         const img = new Image();
         img.src = u;
-        p = img.decode().then(() => img, () => { images.delete(u); }); // a failed one is tried again next time
+        p = img.decode().then(() => {
+          if (images.get(u) === p) { const n = img.naturalWidth * img.naturalHeight; px.set(u, n); heldPx += n; trim(); }
+          return img;
+        }, () => { if (images.get(u) === p) images.delete(u); }); // a failed one is tried again next time
         images.set(u, p);
       }
       return p.then((img) => { done++; if (onProgress) onProgress(done / list.length, img, done, list.length); });
     }));
   };
 
-  // same, a few at a time and in order: the rest of the roster trickles in behind the game without starving what a
-  // screen asks for right now (those go straight through preloadImages, which shares the same decoded images)
-  MB.preloadBackground = (urls, pool = 6) => {
-    const list = [...new Set(urls)].filter(Boolean);
+  // the rest of the roster, a few at a time and in order, downloaded into the HTTP cache behind the game without
+  // starving what a screen asks for right now. Not decoded or held: ~1300 sprites decoded at once were most of
+  // the lag. preloadImages decodes the ones a battle uses when it starts, from the cache.
+  const fetchImage = (u) => new Promise((res) => {
+    const img = new Image();
+    img.fetchPriority = 'low';
+    img.onload = img.onerror = res;
+    img.src = u;
+  });
+  MB.preloadBackground = (urls, pool = 4) => {
+    const list = [...new Set(urls)].filter((u) => u && !images.has(u));
     let next = 0;
     return Promise.all(Array.from({ length: pool }, async () => {
-      while (next < list.length) await MB.preloadImages([list[next++]]);
+      while (next < list.length) await fetchImage(list[next++]);
     }));
   };
 
@@ -82,10 +106,12 @@
     // M-chan's intro and the Story-button guide show her full-size, so those must be ready before the first screen
     const mchan = MB.charById('m-chan');
     if (mchan) Object.keys(mchan.sprites).forEach((role) => urls.push(MB.bigSpriteUrl('m-chan', role, null)));
+    // battles wait for any of these still loading when the timeout below started the game (not the wall's
+    // portraits: a battle doesn't need them, and decoding them all again at every battle start was a stall)
+    MB.bootImages = urls.slice();
     // everyone's portrait too: it fills the loading screen's wall of faces
     const faces = new Map(MB.manifest.characters.map((c) => [MB.spriteSrc(c.sprites.idle), c.id]));
     faces.forEach((id, u) => urls.push(u));
-    MB.bootImages = urls; // battles wait for any of these still loading when the timeout below started the game
     const bar = document.querySelector('#loading i');
     const label = document.querySelector('#loading').firstElementChild, wall = document.querySelector('#loading .ld-sprites');
     // the wall of faces: a grid of square tiles, each portrait popping into a free spot (random order) as it arrives;
