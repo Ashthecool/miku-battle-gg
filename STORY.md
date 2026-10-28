@@ -1,143 +1,137 @@
-# Miku Battle: Story Mode — *Every World Has a You*
+# Miku Battle: Story Mode — *The Real You*
 
-A ten-chapter story across every novel's world. Warm and funny on the surface, dark underneath: a plague is turning everyone you love into the worst version of themselves, and the only cure is you.
+A story across every novel's world. It starts as an ordinary week, and then everyone you love looks at you like a stranger. Something with no face has been wearing yours, and it got to all of them first.
 
-> **How to read this:** sections 1–3 are the lore and cast. Section 4 is the ten chapters (beats, bosses, quest list, key scenes). Section 5 is implementation notes. Scenes are written in `js/story.js` line style so they can be pasted in: `['id', 'mood', "text"]`, `['you', "text"]`, `['*', "narration"]`, and directions like `{ where, when }`, `{ fx: 'rift' }`, `{ choose: [...] }`. Moods are only the eight `MOODS` keys: `neutral, happy, angry, rage, scared, sad, excited, proud`. Every id is an existing card in `MB.CARDS`.
+> **How to read this:** sections 1–3 are the lore, cast and structure. Section 4 is the chapters (beats, quests, key scenes). Section 5 is implementation notes. Scenes are written in `js/story.js` line style so they can be pasted in: `['id', 'mood', "text"]`, `['you', "text"]`, `['*', "narration"]`, and directions like `{ where, when }`, `{ fx: 'flicker' }`, `{ choose: [...] }`. Moods are only the eight `MOODS` keys: `neutral, happy, angry, rage, scared, sad, excited, proud`. Every id is an existing card in `MB.CARDS`; `anon` is the faceless one from `js/anon.js`.
 
 ---
 
 ## 1. Premise
 
-Every story has a "you" at its centre: Maria's adopted child, Chris's younger sibling, the lost heir of the shogun, the summon Beatrice didn't want, the guest at Siren's Cove. You thought that was just how stories work.
+Every story has a "you" at its centre: Maria's adopted child, Chris's younger sibling, the heir the shogun lost, the summon Beatrice didn't want, the guest at Siren's Cove.
 
-It isn't. **"You" is a force.** Every world is held together by the person it's about. The world bends around them, things just *happen* around them, people look at them. A world without its "you" doesn't end. It **rots**: its people slide, slowly, into the worst versions of themselves, until they're nothing else.
+In this multiverse there is **only one you**, and it's you. The same person sits at the centre of every story. You step through the Glow between worlds the way other people take the bus. Breakfast with Maria, lunch on the pier with Rirarra, a duel in the Guild before tea. It's a normal life. It's *your* normal life.
 
-And you, the "you" of a quiet town in south England, are the same "you" in all of them. You are the most important and powerful thing in the multiverse.
+Then one Tuesday you come home and Maria won't open the door, because her child is already upstairs.
 
-You don't know that yet.
+### Who Anon is
+
+Before there was you, there was **Anon**.
+
+Every story is written with a space in the middle shaped like a person: *[NAME] walks into the room. [NAME] says hello.* Before anyone fills it, something has to stand there so the scene can be drafted. That's Anon: the placeholder. The silhouette in the concept art. The "you" a story uses for every reader who never typed a name, and every scene that played while nobody was watching.
+
+Anon has been in every one of your stories longer than you have. It knows every line. It was standing in your place for every scene you skipped, every dialogue you clicked through, every chapter you meant to come back to. It never got to *keep* any of it. The second you arrived, it went back to the dark.
+
+Now it's taken your form, and it's telling everyone the truth as it sees it: **"That one isn't the real me. I was here first."**
+
+### Why everyone is broken
+
+Anon doesn't just copy you. It plays the version of you each person always wanted. It's the child who never forgets Maria's birthday, the friend who always texts back, the summon who obeys. It's perfect, and it's been there for weeks.
+
+Then it tells them the one they actually knew, the one who was late and moody and made mistakes, was a fake the whole time.
+
+So the people you love aren't angry. They're **grieving**. They think the person they loved was never real. Some are hollow, some are furious, some have barricaded the door. That's what "broken" means in this story, and it's why winning a battle isn't enough. You have to **convince** them.
+
+### The tell
+
+Anon knows every line, but it has **never made a choice**. A placeholder stands where a person would stand; it doesn't decide anything. So:
+
+- Anon is **too perfect**. It never stumbles, never forgets, never gets it wrong.
+- Anon **knows what was said, but not what you picked**. When a scene gave you two answers, Anon was there for both. It doesn't know which one was yours.
+- Nothing **happens** around Anon. The world bends around a real "you" (Serris noticed this years ago). Around Anon, the world just waits.
+
+Every convincing scene in this story turns on one of those three. The proof that you're real is that you're *specific*: you chose, you were wrong sometimes, and you were there.
 
 ### The lore
 
 | Thing | What it is |
 |---|---|
-| **The Glow** | A seam between worlds. Only a "you" can see one. |
-| **Your weapon** | Your deck. Miku Battle is what the power of a "you" looks like when it's held in your hands. Every card is a bond with someone. That's why beating someone in a battle *cures* them: you're reminding them who they are by being the person they're in a story with. |
-| **The Flicker (the plague)** | When a world loses its "you", its people start to flicker between their versions across the multiverse, and they settle on the worst one. Ordinary flaws become who they are: someone who's bored becomes someone who's hollow, someone protective becomes someone who imprisons. |
-| **Doe's Engine** | On Earth 2, Doctor Doe Bullen builds a machine that measures the "you" in a person, and then learns how to *pull it out*. Every time she drains a world's "you", the Flicker spreads there. She means to collect all of it, and become the "you" of every world at once: the Main Character. |
-| **The BAD SUN** | What a world looks like when the Flicker finishes. Earth 3 lost its "you" years ago (nobody knows how). A second sun rose, and everyone under it became their worst self, permanently. Delphine survived it. Quistis didn't, not really. |
-| **"???"** | The binary entity. A letter-writer from nowhere: `01100010 01100101 01110111 01100001 01110010 01100101...` — *beware of the unthinkable present and future.* It's **you**, from a future where Doe won and every world became a BAD SUN. Nothing is left of that future but data. It is trying to warn itself. |
-| **The Supporting Cast** | Doe's name for the villains she recruits from other worlds. She promises each of them their own world to rule once she's the Main Character. |
-
-### Why Doe
-
-Doe isn't a monster. On Earth 2 she's a teasing, flirty, caring scientist, and nobody pays attention to her. (Her novel says it plainly: her dislikes are *being bullied for her weight* and *people not paying attention to her*.) Then a stranger lands in Diana's lab, and every instrument she owns swings to look at them. The universe *looks* at you. It has never looked at her once.
-
-If being "you" can be measured, it can be moved. That's the whole villain origin, and it happens in Chapter 1, in front of you, because you let her run the tests.
-
-Her tragedy, revealed in Chapter 10: the Engine works. She is becoming the "you" of every world, and the Flicker is getting into her too. Her worst trait is the need to be looked at. The Main Character is just Doe with nothing else left.
+| **The Glow** | A seam between worlds. Only a "you" can step through one, and you do it every day. |
+| **Your weapon** | Your deck. Every card is a bond with someone, which is why a battle can reach a person when words can't. |
+| **The Placeholder** | Anon. The shape a story keeps in the middle until someone fills it. |
+| **Broken** | What happens to someone who has been told the person they loved was never real. Not a curse. Just grief, all the way down. |
+| **The Draft** | Where Anon comes from: every unwritten scene, every unread chapter, every save file nobody loaded again. The final chapter takes place there. |
 
 ---
 
 ## 2. Cast
 
-### The worst selves (plagued)
+### The broken
 
-They're heroes and friends. The Flicker isn't their fault. Every title is a **real flaw from their novel**, taken all the way down.
+Every title is what the grief did to them, grown from a **real trait in their novel**.
 
-| Ch | Character | Worst self | The flaw it grew from |
+| Ch | Character | Broken | What it grew from |
 |---|---|---|---|
-| 2 | `james-lone` | **The Fake Emo** | negative, bored, "doesn't really care", worn as a costume until there's nothing under it |
-| 2 | `kayla-kate` | **The Hollow Sister** | overshadowed by Hayley, apathetic. Now she believes she's the reason Hayley vanished, and wants to vanish too |
-| 2 | `julie-hunley` | **The Laughing Wound** | giddy, bubbly. She can't stop laughing, even while she cries |
-| 2 | `isabella-hunley` | **The Martyr** | calm, sweet, always brings too much. She gives everything away: her biscuits, her coat, her name |
-| 2 | `ben-brier` | **The Butcher of the Alley** | master thug, dimwitted. Now the alley is a slaughterhouse for anyone who walks in |
-| 2 | `maiko-ghan` | **The Lost Sen** *(mini-boss)* | extremely honest, karate. A teacher with no student and no mercy, whose every blow is a cruel truth |
-| 2 | `luther-jones` | **The Boy Who Never Lands** | laid-back skater. He's been mid-ollie for six hours and can't come down |
-| 2 | `catherine-jones` | **The Price Tag** | narcissist CEO who hates adoption. She's putting a price on every child in town |
-| 3 | `diana` | **The Doe Nobody Mourns** | insecure, hates being judged. She's convinced Doe is the "real" her, and she's letting herself fade |
-| 3 | `jane` | **The Forgotten Sister** | Diana's little sister. She's started erasing herself from the family before they can |
-| 3 | `quinta` | **The Predator's Smile** | Diana's best friend, a predator anthro. The Flicker pulls her toward Earth 3's Quistis |
-| 3 | `aria` | **The Locked Door** | the security guard. Nobody in, nobody out, ever |
-| 3 | `care` | **The Warden** | "will not allow you to leave the house". The whole Institute is the house now |
-| 4 | `rirarra-charca` | **The Hunger Below** | big sis, playful bites, "wherrre is the watermelon". The hunger forgot about watermelon |
-| 4 | `rowdy-brachy` | **The Riptide** | gentle, not aggressive. She drags people under to "keep them safe" |
-| 4 | `daphne-mokarran` | **The Scrapyard Heart** | the engineer. She's taking the pier apart, and then the people |
-| 4 | `nova-starr` | **The Girl Who Checked Out** | shy night-shift clerk. She's checking guests out of existence |
-| 4 | `selene` | **The Mirror** | acts like a celebrity. Every reflection in the resort is now her |
-| 4 | `miss-mireille` | **The Thirst** | a centuries-old vampire whose restraint was her whole personality. The Flicker took the restraint |
-| 5 | `lilith` | **The Unloved** | craves affection, vengeful towards Celeste. Now she burns whatever doesn't love her |
-| 5 | `jay-lester` | **The Unfinished Painting** | painter, submissive. He paints people over, and they stay painted |
-| 5 | `skylar` | **The Queen of Mean** | Paradiso's queen bee. Cruelty is a crown, and she's never taking it off |
-| 5 | `chris` | **The Golden Child** | your perfect older sibling. The perfect one needs a worse one to stand beside |
-| 5 | `natsuki` | **The Locked Closet** | prickly, hides in the manga closet. She's locked herself, and the club, inside |
-| 5 | `monika` | **The Author of Endings** | she knows she's in a story. The Flicker lets her hold the pen |
-| 6 | `shogun-kagetora` | **The Blood Tyrant** | protective, strict. He'll protect his people from everyone, including his people |
-| 6 | `rimu-hiraga` | **The Abandoned** | your childhood friend. You left. Again. She's decided you'll never leave again |
-| 6 | `shino-okita` | **The Cold Blade** | cold, closed-off bodyguard. Guarding nothing, cutting everything |
-| 6 | `mai-yamanobe` | **The Debt Collector** | the shopkeeper. Everyone owes, and the interest is blood |
-| 7 | `arisa` | **The Spider Queen** | master manipulator, cruel under the cute. The web is the whole Academy |
-| 7 | `helga` | **The Dead-Eyed Widow** | emotionally dead since her husband died. Now nothing is alive near her |
-| 7 | `eri` | **The Glass Heart** | the tsundere. It's all *tsun*, and every kind word breaks her |
-| 7 | `evil-villainess-chan` | **The Real Villainess** | the joke route villain. The Flicker stopped the joke |
-| 7 | `reiko` | **The Investigator Who Found Nothing** | the anomaly investigator. Everything's an anomaly now, including her |
-| 8 | `miracle` | **The Red Axe** | the guild receptionist who's obsessed with you. Doe's hound since Chapter 2 |
-| 8 | `faneel` | **The Hollow Hand** | kleptomaniac. She steals things that aren't objects: voices, faces, years |
-| 8 | `ophelia` | **The Shepherd of Slaughter** | hears a voice she thinks is god. The voice is the Flicker's static |
-| 8 | `shirayukihime` | **The Blade That Wants** | a blood-knight kitsune. Her cursed blade finally got its way |
-| 9 | `beatrice-avalistos` | **The Puppet Queen** | sees people as pieces on a board. Now *she's* the piece |
-| 9 | `priest-pristo` | **The Thousand-Year Thirst** | the secret vampire, the oldest resident of Dalmavilla. He stopped joking about it |
-| 9 | `julia-aquacrucis` | **The Frozen Saint** | gentle stuttering nun with the ice Essentia GELO. The ice is all that's left |
-| 9 | `marl` | **The Bonebreaker** | already a brute. In the Colosseum of the Dead, she's champion forever |
-| 9 | `mary` | **The Iron Maiden** | "selective". Nobody is good enough to leave her arena alive |
-| 9 | `fine-catastrophe` | **The Loaded Die** | the dirty cheater. Every roll in the Colosseum is hers |
-| 10 | `uzi` | **The Child Soldier** | a fake-tough failure on a suicide mission. The fear is gone, and so is the bluff. Only the mission is left |
-| 10 | `hayley-kate` | **The Spotlight** | craves attention and group energy. She's become the light Doe's Engine runs on |
-| 10 | `maria-hunley` | **The Mother Who Won't Let Go** | fiercely protective, stubborn. You are never leaving her sight again, and neither is anyone else |
-| 10 | `doe` | **The Main Character** | wants to be looked at. Now everything looks at her, and there's nothing left of her to see |
+| 1 | `james-lone` | **The One Who Was Right Not to Care** | he never let himself care. He did, about you. Now he's sure that was the mistake |
+| 1 | `kayla-kate` | **The Second Choice, Again** | always overshadowed by Hayley. She thinks you were her one real friend, and you were never real |
+| 1 | `julie-hunley` | **The Smile That Stays On** | giddy, bubbly. Anon told her the real you never liked her jokes. She's still smiling |
+| 1 | `isabella-hunley` | **The Spare Room** | calm, sweet, gives too much. She's packed your things into boxes "for the real one" |
+| 1 | `ben-brier` | **The Bouncer** *(mini-boss)* | master thug, dimwitted. Anon told him to keep "the fake" off the street. He's very good at one thing |
+| 1 | `hayley-kate` | **The Best Friend Who Checked** *(mini-boss)* | craves attention, loyal. She quizzed Anon on everything. It got every answer right |
+| 1 | `maria-hunley` | **The Mother Who Locked the Door** *(boss)* | fiercely protective, stubborn. Her child is upstairs. You are a stranger on her step |
+| 2 | `diana` | **The One Who Believed the Copy** | insecure, lives next to a double. She knows what it's like to be the worse version, and assumes you are |
+| 2 | `jane` | **The Little Sister Who Picked a Side** | Diana's sister. She picked Anon. It plays games with her and never gets bored |
+| 2 | `quinta` | **The Hunter's Nose** | Diana's best friend, a predator anthro. She can smell that one of you is wrong. She picked the wrong one |
+| 2 | `aria` | **The Checkpoint** | the security guard. You're not on the list. Anon wrote the list |
+| 2 | `care` | **The Quarantine** *(mini-boss)* | "will not allow you to leave the house". Unregistered variants go in the cellar |
+| 2 | `marija` | **The Iron Mother** *(boss)* | she already took in a girl from a dead Earth. She knows exactly what a bad variant can do |
+| 3 | `rirarra-charca` | **The Big Sister Who Bites** | playful bites, big sis. Anon is her little sibling now. You're a stranger in the water |
+| 3 | `rowdy-brachy` | **The Undertow** | gentle, protective. She's keeping Anon "safe" from you, at the bottom of the bay |
+| 3 | `nova-starr` | **The Night Clerk** | shy, night shift. Your room was given to the real guest. She's very sorry. She won't look at you |
+| 3 | `daphne-mokarran` | **The Engineer Who Measured** | she built a machine to tell you two apart. It says you're identical. She trusts the machine |
+| 3 | `selene` | **The Mirror** *(mini-boss)* | acts like a celebrity, lives in reflections. Every mirror in the resort shows Anon. Not one shows you |
+| 3 | `miss-mireille` | **The Long Memory** *(boss)* | centuries old. She's watched people be replaced before. She thinks you were always going to be |
+| 4 | `skylar` | **The Queen Who Knew It** | Paradiso's queen bee. She always said you were a fake. Now everyone agrees with her, and she hates it |
+| 4 | `lilith` | **The One It Loved Back** | craves affection. Anon loves her perfectly, every day. She'll burn anything that takes it away |
+| 4 | `natsuki` | **The Closet Door** | prickly. She let you in once. She's not doing that twice |
+| 4 | `sayori` | **The Rain Cloud** | sunny on top. Anon told her you were sad because of her. She believed it straight away |
+| 4 | `chris` | **The Golden Child** *(mini-boss)* | your perfect older sibling. Anon is the younger sibling Chris always wanted: one who's proud of them |
+| 4 | `monika` | **The Club President** *(boss)* | she knows she's in a story. She knows exactly what Anon is. She thinks it deserves the part more than you |
+| 5 | `shino-okita` | **The Blade at the Gate** | cold bodyguard. She guards the heir. The heir is upstairs |
+| 5 | `mai-yamanobe` | **The Ledger** | the shopkeeper. Your tab is in Anon's name now. You owe for everything you ever had |
+| 5 | `sakura-tooyama` | **The Sister Who Already Knew** | she found a grave once, with the real heir in it. She's been waiting for you to be exposed |
+| 5 | `rimu-hiraga` | **The One You Left** *(mini-boss)* | your childhood friend. You left. Anon came back and promised never to leave again |
+| 5 | `shogun-kagetora` | **The Father Who Chose** *(boss)* | protective, strict. He has two heirs and one throne, and he chose the one who never disobeys |
+| 6 | `serris` | **The Mage Who Noticed** | she always said things HAPPEN around you. Now she's not sure who they happen around |
+| 6 | `faneel` | **The Pickpocket** | kleptomaniac. Anon paid her to steal your memories back, one by one |
+| 6 | `ophelia` | **The Voice in Her Head** | she hears a god. The god sounds exactly like you. It's not you |
+| 6 | `curtis-vongravis` | **The Lieutenant Who Wants Proof** *(mini-boss)* | he demanded proof the summon wasn't an imbecile. Now he demands proof you're the summon at all |
+| 6 | `beatrice-avalistos` | **The Princess Who Got What She Wanted** *(boss)* | she wanted a summon who obeys. Anon obeys perfectly. She has never been less happy |
+| 7 | `anon` | **The Real You** *(final boss)* | the shape in the middle of every story, finally filled. With you |
 
-### Heroes who become villains by choice
+### The ones who aren't fooled
 
-These people aren't plagued. They look at the dying worlds, make a hard choice to save someone, and the choice makes them your enemy.
+Not everyone falls for it. These are your allies, and they're each a small joke and a small comfort.
 
-| Ch | Character | Title | Who they're saving | What it costs |
-|---|---|---|---|---|
-| 3 | `marija` | **The Iron Mother** | her daughters. She already took in Delphine from a dead Earth and won't watch it twice | She seals the gateway and cuts Earth 1 off from every other world, stranding them all. You're locked in the vault, because you're what Doe wants |
-| 5 | `celeste` | **The Jealous Heaven** | you, her charge | To keep the demons from the Flicker (and from you), she seals Lilith and every demon away. It's exactly what humans once did to Daphne's people |
-| 6 | `sakura-tooyama` | **The True Heir** | her father, and the truth | She finds the real heir's grave. The world put *you* in a dead boy's place. She allies with Exodus to put the bloodline right |
-| 7 | `sakuragi` | **The Prophet of Exodus** | everyone, sincerely | Exodus Inc. sells "transcendental relocation" out of dying worlds. Every relocated person *overwrites* someone in the world they land in. He knows. He calls it fate |
-| 10 | `noelle` | — *(the one who didn't)* | Doe | Doe's lab assistant had every reason to turn and didn't. She's the quiet mirror to everyone in this table |
-
-### The true villains
-
-| Character | Want | Why it's dark |
+| Character | Why they know | How they help |
 |---|---|---|
-| `doe` | to be the Main Character of every world | She's right that nobody ever looked at her. She's wrong about everything she does about it |
-| `daphne` | to reduce humanity to livestock | Born to the Demon Lord and the Elf Queen. At five she watched humans seal every demon into another plane and slaughter the elves. She never emotes. She joins Doe because the Flicker can break the seal |
-| `valse` | to end all life, as an act of love | The Flicker can't make her worse. She already "perceives her kills as acts of love". She sees the dying worlds as her calling |
-| `delphie` | — | No memories, frilly black dress, red eyes, hates sunlight: **De-Pheria**. She's the part of Daphne that could still feel, split off at age five and lost in other people's dreams. She isn't a villain. She's the villain's heart |
+| `miracle` | She's obsessed with you. She has counted your eyelashes. Anon has the wrong number | Turns up in every chapter, uninvited, with an axe and a scrapbook. Comic relief who is never once wrong about you |
+| `amy-lyn` | She's a shapeshifter. She can be anything, so she knows exactly what a copy looks like from the inside | Tells you the tell in Chapter 1: *"A copy always gets one thing too right. Watch for it."* |
+| `noelle` | Doe's quiet lab assistant. She has been overlooked her whole life, so she understands Anon better than anyone | The voice of mercy. She asks, every chapter, whether you've thought about what Anon *wants* |
+| `doe` | Her instruments read you both as 100% "you". She's delighted. Finally, someone the universe ignores as much as her | Neutral and unhelpful until Chapter 7, when she finally picks a side |
 
-### Allies along the way
+### The villain
 
-`noelle` (Doe's assistant, your guide), `delphine` (survivor of the BAD SUN), `serris` (the white mage who notices "things just HAPPEN around you", and the only one who knows what that means), `zulu` (the self-declared villain who is on your side), `uzi` (eventually), `koko` (the Colosseum announcer, unhelpfully), and everyone you cure. Cured characters join the deck and show up in later chapters.
+| Character | Want | Why it hurts |
+|---|---|---|
+| `anon` | to be someone, anyone, and the only someone it knows how to be is you | It isn't lying when it says it was here first. It was. Every scene you skipped, it stood in. It just never got to keep one |
 
 ---
 
 ## 3. Structure at a glance
 
-| # | Chapter | World | Boss | Mini-boss | Ends with |
+| # | Chapter | World | Mini-boss | Boss | Ends with |
 |---|---|---|---|---|---|
-| 1 | **The Glow** | Adoptive Life → New Haven → back | — | — | the letter; *call upon your weapon* |
-| 2 | **The Plague Comes Home** | Adoptive Life | The Lost Sen (Maiko) | The Butcher of the Alley (Ben) | Doe, Uzi and Miracle come through the rift |
-| 3 | **The Bad Sun** | New Haven | The Iron Mother (Marija) | The Warden (Care) | Doe's broadcast: she has Maria and Hayley |
-| 4 | **Teeth in the Water** | The Coorong / Siren's Cove | The Thirst (Miss Mireille) | The Hunger Below (Rirarra) | Uzi fails to take you, and you see she's terrified |
-| 5 | **Infernal Harmony** | The School on the Hill, Paradiso, the Literature Club | The Jealous Heaven (Celeste) | The Author of Endings (Monika) | the seal breaks the wrong way, and something below laughs |
-| 6 | **Bloodline** | Bakumatsu Japan | The True Heir (Sakura) | The Blood Tyrant (Kagetora) | Sakura leaves for Exodus |
-| 7 | **Exodus** | Shirayuki Academy / Exodus Inc. / Phantom Dream | The Prophet of Exodus (Sakuragi) | The Spider Queen (Arisa) | Delphie appears in your dreams: *"Which one of us is she?"* |
-| 8 | **The Legend of You** | the Guild, the Peaks | The Demon Heir (Daphne) | The Saint of the Last Mercy (Valse) | Daphne joins Doe; Miracle is saved |
-| 9 | **The Colosseum of the Dead** | Dalmavilla, the Reincarnation Colosseum | The Bonebreaker (Marl) | The Puppet Queen (Beatrice) | Daphne betrays Doe; the demon plane opens |
-| 10 | **Main Character** | Earth 2 | The Main Character (Doe) | The Mother Who Won't Let Go (Maria) | the rifts become doors |
+| 0 | **Just a Tuesday** | Adoptive Life → everywhere → home | — | — | Maria doesn't open the door |
+| 1 | **Not My Child** | Adoptive Life | The Bouncer (Ben), The Best Friend Who Checked (Hayley) | The Mother Who Locked the Door (Maria) | Anon, wearing your face, says hello |
+| 2 | **The Bad Variant** | New Haven | The Quarantine (Care) | The Iron Mother (Marija) | Anon walks into the Glow ahead of you |
+| 3 | **No Reflection** | Siren's Cove and the Coorong | The Mirror (Selene) | The Long Memory (Miss Mireille) | Daphne's machine finds one difference |
+| 4 | **The Club President** | the School on the Hill, Paradiso, the Literature Club | The Golden Child (Chris) | The Club President (Monika) | Monika tells you what Anon is |
+| 5 | **Two Heirs** | Bakumatsu Japan | The One You Left (Rimu) | The Father Who Chose (Kagetora) | Anon stops pretending |
+| 6 | **Proof of Summoning** | the Guild and the Avalistos court | The Lieutenant Who Wants Proof (Curtis) | The Princess Who Got What She Wanted (Beatrice) | every world goes quiet at once |
+| 7 | **Nobody in Particular** | The Draft | — | The Real You (Anon) | Anon makes its first choice |
 
-There are also **nine optional Flicker Worlds** between the chapters (section 4b): Grove Keeper, Maia's house and the Peters', Snowfall, the Neon District, the Quiet Ones, the Vinelace Barony, Sanctuary, Academia Magicka and Asheville. They hold about 45 more worst-self fights, most of them horror or heartbreak.
+Each chapter's broken can be played in any order once the chapter opens; the mini-boss needs two of them, the boss needs the mini-boss and the rest.
 
 ---
 
@@ -145,1218 +139,639 @@ There are also **nine optional Flicker Worlds** between the chapters (section 4b
 
 ---
 
-### Chapter 1 — The Glow
+### Chapter 0 — Just a Tuesday
 
-**World:** Adoptive Life (south England) → New Haven → back. **Theme:** you don't know what you are.
+**World:** Adoptive Life, then a little of everywhere. **Theme:** what normal looks like, so it hurts when it's gone.
 
 **Beats**
-1. **School, an ordinary Tuesday.** Hayley chatters, James sulks, Maiko is early to everything. Halfway through maths, there's a **glow on the floor** between the desks. It's like light through water. Nobody else can see it. Hayley walks straight through it.
-2. **You touch it.** For one heartbeat you see *everything*: a deer in a lab coat, a shark on a lifeguard tower, petals on a river, a castle of purple glass, a colosseum, a sky with two suns, each world flickering past like cards being shuffled.
-3. **New Haven.** You wake on the cold floor of Lab A-3. A shy, jumpy young deer, **Noelle**, finds you first. She's Doe's trainee from Earth 2, visiting this Earth's Institute, and she's very nervous. She walks you to her boss.
-4. **Doe's tests.** Doe is charming, teasing and delighted. She hooks you up to every instrument she owns. Every needle swings to point at you. Narrative mass, she calls it. The universe *looks* at you. She's never seen anything like it. She asks quiet, hungry questions. *Does everyone look at you? Do things just... happen around you?*
-5. **The idea is born.** Doe, alone with the readings: *"If it can be measured... it can be moved."*
-6. **Snapped back.** Mid-sentence, you're on the pavement in south England, walking home, school bag on your shoulder. Hayley's waving goodbye. You ask what happened. Nobody knows what you mean. You were never gone. You were just out of this version of your body.
-7. **The letter.** That night, in your room, a letter falls from nowhere onto your bed. It's ones and zeroes, then underneath, in your own handwriting: *Beware of the unthinkable present and future. Call upon your weapon. Doe is coming.*
-8. **Call upon your weapon.** *(Player spams **Space**.)* With every press, the room flickers harder: your bedroom; a lab; a beach at night; a dark castle; your bedroom again. Cards burst out of the air and land in your hands. Your deck. Then the flicker overwhelms you. You black out.
+1. **Morning.** Maria burns the toast and insists it's "caramelised". Hayley is at the door before you've found your other shoe. It's warm and silly, and it's the lesson battle.
+2. **The commute.** You step through the Glow behind the bakery and you're on the pier at Siren's Cove. Rirarra steals your sandwich. Through another seam, and you're in the Guild, where Miracle has saved you a seat (she saves you a seat every day; you've never once used it). Then Paradiso, then the Literature Club for five minutes, then home. A montage. Every world says hi.
+3. **Small wrong things.** Nova at the front desk says, "Back already?" You weren't here yesterday. Natsuki says, "You already returned my manga." You didn't. You still have it.
+4. **Home.** The door is locked. Maria answers through the chain. She's polite, the way you'd be polite to a salesman. *"Can I help you?"* Behind her, on the stairs, someone in your hoodie waves.
 
 **Quests**
 | id | foe | type | needs | text |
 |---|---|---|---|---|
-| `the-glow` | — (scene, `lesson`) | main | — | Something is glowing on the classroom floor. Nobody else can see it. |
-| `lab-a3` | — (scene) | main | `the-glow` | A deer in a lab coat would like to run a few *tiny* tests. |
-| `never-gone` | — (scene) | main | `lab-a3` | You're walking home. Nobody noticed you were gone. |
-| `the-letter` | — (scene + weapon minigame) | main | `never-gone` | A letter in ones and zeroes. Call upon your weapon. |
+| `just-a-tuesday` | — (lesson) | main | — | Toast, Hayley, a crash course in Miku Battle. Just a Tuesday. |
+| `the-commute` | — (scene) | main | `just-a-tuesday` | You take the Glow to work. Well. To lunch. Well. To several lunches. |
+| `small-wrong-things` | — (scene) | main | `the-commute` | Everyone keeps saying you were already here. |
+| `the-chain-on-the-door` | — (scene) | main | `small-wrong-things` | Your key doesn't fit. Mum answers through the chain. |
 
-**Key scene — The Glow**
+**Key scene — The Chain on the Door**
 ```js
-scene: { bg: 'Classroom', music: 'hello-hayley', lines: [
-  { where: 'Class 4B', when: 'Tuesday, 10:40 AM' },
-  ['*', 'Maths. Quadratics. The clock has not moved in eleven minutes.'],
-  { enter: 'hayley-kate', at: 'right', mood: 'happy' },
-  ['hayley-kate', 'happy', "Psst. Psssst. {name}. If x is boredom and y is James, what's the area of a sulk?"],
-  { enter: 'james-lone', at: 'left', mood: 'neutral' },
-  ['james-lone', 'neutral', "...I can hear you. Everyone can hear you."],
-  { light: 'rift' },
-  ['*', 'Then, between the desks, the floor starts to glow.'],
-  ['*', 'Soft, rippling light, like sun through a swimming pool. It hums. Not out loud. Somewhere behind your teeth.'],
-  ['you', "...Does anyone else see that?"],
-  ['hayley-kate', 'neutral', "See what? Ooh, is it a spider? I'll name it."],
-  ['*', 'She steps right through the light to look. Her shoe passes through it like it isn\'t there.'],
-  ['*', 'It is there. It is looking at you.'],
+scene: { bg: 'Our Home from the outside', music: 'none', lines: [
+  { where: 'The Hunley house', when: 'Tuesday, 6:40 PM' },
+  ['*', 'Your key goes in. It doesn\'t turn.'],
+  ['you', "Mum? Mum, the lock's stuck again."],
+  { sfx: 'door' },
+  { enter: 'maria-hunley', at: 'center', mood: 'neutral' },
+  ['*', 'The door opens as far as the chain lets it.'],
+  ['maria-hunley', 'neutral', "Hello. Sorry, can I help you?"],
+  ['you', "...Mum. It's me."],
+  ['maria-hunley', 'scared', "I think you've got the wrong house, love."],
   { choose: [
-    ['Touch it.', [['*', 'You kneel. You reach out. Nobody stops you, because nobody can see what you\'re reaching for.']]],
-    ['Ignore it.', [['*', 'You look away. It gets brighter. You look back. Your hand is already reaching for it.']]],
+    ['"I live here. That\'s my room up there."', [['maria-hunley', 'sad', "My child's room is up there. My child is up there. Right now."]]],
+    ['"Is this a joke? Did Hayley put you up to this?"', [['maria-hunley', 'angry', "Please don't bring Hayley into this. Please just go."]]],
   ] },
-  { fx: 'rift', sfx: 'vortex', sky: [50, 60, 1.6, 0] },
-  { fade: 'white' },
-  ['*', 'A deer in a lab coat. A shark on a tower. Petals on a river. A purple castle. A colosseum roaring. A sky with two suns.'],
-  ['*', 'Every world at once, flickering past like a deck being shuffled.'],
-  ['*', 'And in every single one of them, someone turns to look at you.'],
-] },
-```
-
-**Key scene — Doe's Tests**
-```js
-scene: { bg: 'Lab A-3 - Night', music: 'none', lines: [
-  { where: 'New Haven Institute of Science, Lab A-3', when: '???' },
-  { enter: 'noelle', at: 'left', mood: 'scared' },
-  ['noelle', 'scared', "Oh! Oh no, oh, you're awake. Hi. Hello. Please don't panic, I'm already panicking for both of us."],
-  ['noelle', 'neutral', "You fell out of the gateway. Nobody falls out of the gateway. I'm Noelle. I'm... visiting. From Earth 2. My boss will want to see you. She always wants to see things."],
-  { enter: 'doe', at: 'right', mood: 'excited' },
-  ['doe', 'excited', "¡Hola! A visitor from nowhere! Noelle, cariño, coffee. Two. Make one of them mine.", { close: true }],
-  ['doe', 'happy', "Doctor Doe Bullen. Sit, sit. This won't hurt. Probably. Hold this. And this. Don't touch that."],
-  { sfx: 'ding' },
-  ['*', 'Every screen in the lab turns, one after another, until they all point at you.'],
-  ['doe', 'scared', "...That's not right. That's not even the right scale."],
-  ['doe', 'neutral', "Let me ask you something strange. When you walk into a room, does everyone look at you? Do things just... happen around you? Like the story's waiting for you to arrive?"],
-  ['you', "...I never really thought about it."],
-  ['doe', 'sad', "No. You wouldn't have to.", { close: true }],
-  ['doe', 'neutral', "On my Earth, I could set the lab on fire and they'd ask Noelle what happened. Nobody looks at me. Nobody ever has."],
-  ['doe', 'happy', "But the universe looks at you. Every instrument I own is staring at you like a puppy."],
   { fx: 'flicker' },
-  ['noelle', 'scared', "Doctor Doe, the readings are dropping, they're, they're going back, they're..."],
-  ['doe', 'proud', "Hush. Write everything down. Every number."],
-  { fx: 'rift', sfx: 'vortex' },
-  ['*', 'The room starts to slide out from under you.'],
-  ['doe', 'excited', "Wait! Wait, don't go yet, I haven't..."],
-  { fade: 'white' },
-  ['doe', 'neutral', "...If it can be measured... then it can be moved."],
-] },
-```
-
-**Key scene — The Letter**
-```js
-scene: { bg: "Your's bedroom (Night)", music: 'none', lines: [
-  { where: 'The Hunley house, your room', when: 'Tuesday, 11:58 PM', light: 'night' },
-  ['*', 'You walked home. Mum made pasta. Julie stole your garlic bread. Nobody noticed anything.'],
-  ['*', 'Nobody noticed you were gone, because to them, you never were.'],
-  { sfx: 'wind' },
-  ['*', 'A letter falls onto your bed. Out of nowhere. Out of the ceiling. Out of the air.'],
-  ['binary-entity', 'neutral', '01100010 01100101 01110111 01100001 01110010 01100101 00100000 01101111 01100110 00100000 01110100 01101000 01100101 00100000 01110101 01101110 01110100 01101000 01101001 01101110 01101011 01100001 01100010 01101100 01100101'],
-  ['*', 'Under the numbers, in handwriting. In YOUR handwriting.'],
-  ['binary-entity', 'neutral', '"Beware of the unthinkable present and future. Call upon your weapon. Doe is coming."'],
-  ['you', "...My weapon? I don't have a w..."],
-  { fx: 'flicker' },
-  ['*', 'Your hands are warm. Something wants to come out of them. Call it.'],
-  { weapon: 'space', goal: 40, flicker: ['Lab A-3', 'beach at night', 'dark castle', 'mountain top'] },
-  ['*', 'Cards. Dozens of them, bursting out of the air, landing in your hands, warm as handshakes. Faces you know. Faces you don\'t yet.'],
-  ['*', 'Your deck.'],
-  { fx: 'shake' },
-  ['*', 'Then the flickering is too fast to follow, and you\'re falling, and the last thing you hear is a laugh you met this morning.'],
-  ['doe', 'happy', '...Found you~'],
+  ['*', 'On the stairs behind her, someone in your hoodie lifts a hand. Waves. Smiles exactly the way you smile.'],
+  ['*', 'You have never seen your own smile from the outside before. It looks kind. It looks practised.'],
+  ['maria-hunley', 'sad', "They told me someone might come. Someone who looks... I'm sorry. I'm going to close the door now."],
+  { sfx: 'door' },
+  { hide: 'maria-hunley' },
+  ['*', 'The porch light goes off.'],
   { fade: 'black' },
 ] },
 ```
 
 ---
 
-### Chapter 2 — The Plague Comes Home
+### Chapter 1 — Not My Child
 
-**World:** Adoptive Life. **Theme:** the people you love, at their worst.
+**World:** Adoptive Life. **Theme:** being a stranger in your own life.
 
 **Beats**
-1. **Morning.** You wake up. The house is silent. Maria's mug is on the counter, still warm. There's a lunchbox with your name on it and a note: *"Sweetie, don't forget your..."* It stops mid-word. **Maria is gone. Hayley's house is dark. Hayley is gone.**
-2. **James is flickering.** You find him at the school gates. He's there, then he's someone wearing his face, then he's back. His eyeliner is running in a way that has nothing to do with crying. The Flicker has found his worst trait (the costume of not caring) and made it all he is. **The Fake Emo.**
-3. **The cure.** You beat him in a battle. The colour comes back into him. He sits on the kerb, shaking, and he says the most words he's said all year. The plague is spreading. It turns everyone into the worst version of themselves. You're the only one it doesn't touch.
-4. **Saving the town, one at a time:**
-   - **The Hollow Sister** (Kayla): in the Kates' empty house, she's tearing Hayley out of every family photo. She thinks she did this. She wished it, once.
-   - **The Laughing Wound** (Julie): she's been laughing since dawn. She can't stop, and she's crying.
-   - **The Martyr** (Isabella): she's given away her coat, her shoes, the house keys. She's trying to give away her name.
-   - **The Butcher of the Alley** (Ben): the alley shortcut has become a place nobody walks out of. *(mini-boss)*
-5. **The Lost Sen.** Maiko is in her family's dojo, alone, training at nothing. She was always honest. Now every blow lands with a truth meant to hurt: *you left, you don't belong here, she adopted you because no one else would.* The Lost Sen is a teacher with no student and no mercy. *(chapter boss)*
-6. **The rift opens** over the town square. **Doe** steps through, now in a coat full of wires, with two figures from other worlds: **Uzi** (red jumpsuit, military cap, a terrifying sneer, shaking knees) and **Miracle** (a guild receptionist with a giant red war axe and a smile that isn't a smile). *"Get them."* Your cured friends hold the line. You start flickering again, and you're gone.
+1. **The night on the bench.** You sleep in the park. **Amy Lyn** finds you at dawn, wearing your face as a joke, and drops it the second she sees yours. *"Oh. Oh, someone did it to you for real."* She's a shapeshifter; she knows. She gives you the tell: **a copy always gets one thing too right.**
+2. **Everyone, one at a time.** Anon got to them all a week ago. It's been the perfect you: remembered every birthday, laughed at every joke, said every right thing. Then it told them the old one was a fake.
+   - **James** (*The One Who Was Right Not to Care*): he let himself care about you. It was the one time. He's decided never again.
+   - **Kayla** (*The Second Choice, Again*): she thought you were the first person who picked her over Hayley. Now she thinks nobody ever did.
+   - **Julie** (*The Smile That Stays On*): Anon told her the real you never found her funny. She's smiling, and she won't stop.
+   - **Isabella** (*The Spare Room*): she's packed your things into boxes, labelled *FOR THE REAL ONE*. She's being so kind to you. It's unbearable.
+3. **The Bouncer.** Ben is standing at the end of your street. Anon asked him to keep "the fake" away from Maria. He's dimwitted, and loyal, and he is very, very good at this. *(mini-boss)*
+4. **The Best Friend Who Checked.** Hayley isn't fooled. Hayley *checked*. She quizzed Anon for an hour: favourite food, first words to her, the thing at the sleepover. It got every one. Now she quizzes you, and you get one wrong. *"See? SEE? It got that one RIGHT."* And then she hears herself. Nobody gets every one right. Not even her. *(mini-boss)*
+5. **The Mother Who Locked the Door.** Maria. She lets you in, finally, to the kitchen, because she wants you to look her in the eye and admit it. Anon has been the perfect child for a week. It says "Morning, Mum" every single day. *(chapter boss)*
+6. **The proof.** On your first morning, she asked you to get up and you had a choice: *"Five more minutes"* or *"Morning, Mum."* Anon says it said "Morning, Mum". It always says "Morning, Mum". **But Anon was there for both lines, and it doesn't know which one you picked.** The real you remembers. *(If the save recorded the choice, the right answer is the one the player really chose. See section 5.)*
+7. **Anon.** Upstairs, your bedroom door is open. Someone in your hoodie is sitting on your bed with its back to you. When it turns, it has your face for a second, and then it has none. *"Hi. You came back. I didn't think anyone ever came back."* It steps into a Glow in the wardrobe, and the wardrobe is empty.
 
 **Quests**
-| id | foe | worst self | type | needs | text |
+| id | foe | broken | type | needs | text |
 |---|---|---|---|---|---|
-| `empty-house` | — (scene) | — | main | `the-letter` | The kettle is still warm. Mum isn't here. |
-| `james-lone` | `james-lone` | The Fake Emo | main | `empty-house` | James is flickering at the school gates. He doesn't care. He never has. He never will. |
-| `kayla-kate` | `kayla-kate` | The Hollow Sister | main | `james-lone` | The Kate house is dark. Someone upstairs is tearing photos in half. |
-| `julie-hunley` | `julie-hunley` | The Laughing Wound | main | `james-lone` | You can hear Julie laughing from three streets away. She's been laughing for six hours. |
-| `isabella-hunley` | `isabella-hunley` | The Martyr | main | `julie-hunley` | Isabella is giving everything away. Her coat. Her shoes. Her name. |
-| `ben-brier` | `ben-brier` | The Butcher of the Alley | main (mini-boss) | `kayla-kate` | Nobody has come out of the alley shortcut since sunrise. |
-| `maiko-ghan` | `maiko-ghan` | **The Lost Sen** | main (boss) | `isabella-hunley`, `ben-brier` | The dojo. One student left: you. She will tell you the truth about yourself. All of it. |
-| `rift-in-the-square` | — (scene) | — | main | `maiko-ghan` | The sky over the square tears. Someone you met in a lab steps out. |
-| `luther-jones` | `luther-jones` | The Boy Who Never Lands | side | `james-lone` | Luther has been mid-ollie above the skate park since 6 AM. |
-| `catherine-jones` | `catherine-jones` | The Price Tag | side | `luther-jones` | Catherine Jones is putting price tags on the children of the town. "Organic" ones are worth more. |
+| `the-bench` | `amy-lyn` | — (ally fight) | main | `the-chain-on-the-door` | A girl with your face sits down on your bench. Then she sees you, and stops smiling. |
+| `james-lone` | `james-lone` | The One Who Was Right Not to Care | main | `the-bench` | James won't look at you. He cared, once. He's not doing that again. |
+| `kayla-kate` | `kayla-kate` | The Second Choice, Again | main | `the-bench` | You were the first person who picked Kayla. She doesn't think that's true anymore. |
+| `julie-hunley` | `julie-hunley` | The Smile That Stays On | main | `the-bench` | Julie is smiling. She has been smiling for a week. |
+| `isabella-hunley` | `isabella-hunley` | The Spare Room | main | `the-bench` | Your things are in boxes on the porch, labelled FOR THE REAL ONE. Isabella made you tea. |
+| `ben-brier` | `ben-brier` | The Bouncer | mini-boss | `james-lone`, `kayla-kate` | Ben is standing at the end of your street. Nobody fake gets past Ben. |
+| `hayley-kate` | `hayley-kate` | The Best Friend Who Checked | mini-boss | `julie-hunley`, `isabella-hunley` | Hayley has a list of questions. The other one got them all right. |
+| `maria-hunley` | `maria-hunley` | **The Mother Who Locked the Door** | boss | `ben-brier`, `hayley-kate` | Mum lets you into the kitchen. She wants you to look her in the eye and admit it. |
+| `the-wardrobe` | — (scene) | main | `maria-hunley` | Your bedroom door is open. Someone is sitting on your bed. |
+| `luther-jones` | `luther-jones` | The Boy Who Waved Back | side | `james-lone` | Luther waved at you from the skate park. He's been told not to. He's not good at rules. |
+| `catherine-jones` | `catherine-jones` | The Better Investment | side | `luther-jones` | Catherine Jones has heard there's a newer model of you. She'd like to discuss a trade. |
 
-**Key scene — The Fake Emo** (`before`)
+**Key scene — The Best Friend Who Checked** (`before`)
 ```js
-before: { bg: 'Outside School', music: 'none', lines: [
-  { where: 'The school gates', when: 'Wednesday, 8:30 AM', light: 'dark' },
-  ['*', 'The playground is empty. Swings moving on their own. No wind.'],
-  { enter: 'james-lone', at: 'center', mood: 'neutral' },
-  { fx: 'flicker' },
-  ['*', 'James is sitting on the wall. Then he isn\'t. Then he is, but wrong: black lipstick, a chain, a T-shirt for a band that doesn\'t exist in any world.'],
-  ['james-lone', 'neutral', "Oh. It's you. Whatever."],
-  ['you', "James, where is everyone? Where's Hayley?"],
-  ['james-lone', 'proud', "Who cares. Nobody cares. That's the secret. I figured it out. If you don't care, nothing can get you."],
-  { fx: 'flicker' },
-  ['james-lone', 'rage', "SO I DON'T. I don't care about this school, or this town, or my dad crying at the vacuum catalogue, or YOU.", { close: true, shake: true }],
-  ['james-lone', 'sad', "...I don't. I don't. I don't."],
-  ['*', 'It isn\'t armour anymore. It\'s all there is. A costume with nobody inside.'],
-  ['james-lone', 'angry', "Go on then. Play me. It won't matter. Nothing does."],
+before: { bg: "Hayley's bedroom", music: 'none', lines: [
+  { where: 'The Kate house', when: 'Thursday, 4:15 PM' },
+  { enter: 'hayley-kate', at: 'center', mood: 'angry' },
+  ['hayley-kate', 'angry', "No. Nope. Sit down. I've got a list. I did this with the other one already."],
+  ['hayley-kate', 'neutral', "Question one. What did I say to you the first time we met?"],
+  ['you', "...'New person!' And then you screamed. A lot."],
+  ['hayley-kate', 'neutral', "Mm-hm. Question two. Favourite thing in my mum's fridge."],
+  ['you', "The yoghurt with the... the cow on it? No. The strawberry one."],
+  ['hayley-kate', 'excited', "WRONG. It's the cow one. It's ALWAYS been the cow one. The other one knew that!", { shake: true }],
+  ['hayley-kate', 'rage', "It knew EVERYTHING! It knew the sleepover thing! It knew what I wished for when I was nine and I never told ANYONE that!", { close: true }],
+  ['*', 'She stops. She looks at the list in her hand.'],
+  ['hayley-kate', 'scared', "...I never told anyone that. Not even you. How did it know that?"],
+  { choose: [
+    ['"Because it was there. In the scenes I wasn\'t."', [['hayley-kate', 'sad', "That's not... that's not an answer. That's creepy. Why is that creepy."]]],
+    ['"I don\'t know your wish. I\'m sorry. I never asked."', [['hayley-kate', 'sad', "...Yeah. You never asked. You'd have asked if I'd let you."]]],
+  ] },
+  ['hayley-kate', 'angry', "Battle me. If you're the real one, you'll play like an idiot. The other one plays perfect."],
 ] },
 ```
 `after`
 ```js
 after: { lines: [
-  { light: 'none' },
-  ['*', 'The eyeliner is gone. It was never his. He\'s sitting on the kerb with his head in his hands.'],
-  ['james-lone', 'scared', "...I could hear myself. The whole time. Saying all that. I couldn't stop."],
-  ['james-lone', 'sad', "It's in everyone. Since last night. People are turning into the... the worst bit of themselves. The bit you hide."],
-  ['james-lone', 'neutral', "But it doesn't touch you. Why doesn't it touch you?"],
-  ['you', "I don't know."],
-  ['james-lone', 'neutral', "...Then you'd better go get the others. I'll come. I don't... I do care. Okay? Don't tell anyone."],
+  ['hayley-kate', 'sad', "You played like an idiot."],
+  ['you', "Thanks."],
+  ['hayley-kate', 'happy', "No, you don't get it. You played like an IDIOT. You did the thing where you save your best card for a turn that never comes. The other one never wasted a single card."],
+  ['hayley-kate', 'scared', "Nobody's that good. Nobody gets the cow yoghurt right. Amy Lyn's right. It got it too right."],
+  ['hayley-kate', 'excited', "Okay. OKAY. Emergency plan. We go to your house, and we make your mum look at you properly. I'm coming. Don't argue. HI-YAH!", { shake: true }],
 ] },
 ```
 
-**Key scene — The Lost Sen** (`before`)
+**Key scene — The Mother Who Locked the Door** (`before`)
 ```js
-before: { bg: 'Karate Fighting ring (Beginners)', music: 'none', lines: [
-  { where: 'The Ghan family dojo', when: 'Wednesday, 4:00 PM', light: 'candle' },
-  ['*', 'Thud. Thud. Thud. A bag hanging from the ceiling, split, sand pouring out. She hasn\'t stopped.'],
-  { enter: 'maiko-ghan', at: 'center', mood: 'neutral' },
-  ['maiko-ghan', 'neutral', "You're late. A student is never late."],
-  ['you', "Maiko, it's me. I'm not your..."],
-  ['maiko-ghan', 'angry', "Stance. Now."],
-  ['maiko-ghan', 'neutral', "I only ever told the truth. That was my thing. Honest Maiko. Too honest. Hayley laughed when I said it."],
-  ['maiko-ghan', 'proud', "So here is the truth, student. You don't belong here. You fell into this town like a stone into a pond. She adopted you because the forms were already signed and nobody else would."],
-  ['maiko-ghan', 'rage', "And everyone who stands next to you disappears.", { close: true, shake: true }],
+before: { bg: 'Kitchen', music: 'none', lines: [
+  { where: 'The Hunley kitchen', when: 'Friday, 7:12 AM' },
+  ['*', 'Two mugs on the counter. One says WORLD\'S OKAYEST MUM. The other one is yours. Someone else has been using it.'],
+  { enter: 'maria-hunley', at: 'center', mood: 'neutral' },
+  ['maria-hunley', 'neutral', "Hayley says I have to look at you. So. I'm looking."],
+  ['maria-hunley', 'sad', "Do you know what it's like? A week ago, my child came down those stairs and said 'Morning, Mum'. Every day since. Never late. Never moody. Washed the mugs."],
+  ['maria-hunley', 'sad', "And then it sat me down and told me, very gently, that the one I'd had before was... a stand-in. Something that took its place for a while."],
+  ['maria-hunley', 'rage', "I had a whole year with you. And it was telling me none of it was REAL.", { close: true, shake: true }],
+  ['maria-hunley', 'angry', "So prove it. Our first morning. I came in and told you to get up. What did you say to me?"],
   { choose: [
-    ['"That isn\'t the truth. That\'s just the cruellest thing you can think of."', [['maiko-ghan', 'sad', "...Is there a difference?"]]],
-    ['"Then teach me. Properly."', [['maiko-ghan', 'proud', "Finally. A student. HI-YAH!"]]],
+    ['"Five more minutes."', [['maria-hunley', 'scared', "...", { close: true }], ['maria-hunley', 'sad', "It said 'Morning, Mum'. It always says 'Morning, Mum'."]]],
+    ['"Morning, Mum."', [['maria-hunley', 'sad', "That's what it says too. That's what it ALWAYS says."]]],
   ] },
+  ['maria-hunley', 'angry', "I can't tell. God help me, I can't tell. Play me. I'll know. A mother knows."],
+] },
+```
+`after`
+```js
+after: { lines: [
+  ['*', 'She sits down on the kitchen floor. You sit down next to her.'],
+  ['maria-hunley', 'sad', "You still do the thing. With your last card. Where you look at me before you play it, like you're asking if it's allowed."],
+  ['maria-hunley', 'sad', "The other one never looked at me. It never had to ask. It always knew."],
+  ['you', "I'm sorry I'm not as good as it."],
+  ['maria-hunley', 'angry', "Don't you dare. Don't you DARE be sorry for being late and grumpy and real.", { close: true }],
+  ['maria-hunley', 'happy', "You said five more minutes, you little gremlin. I remember now. I was so cross. It was the best morning of my life."],
+  ['*', 'Upstairs, your bedroom door creaks open on its own.'],
+] },
+```
+*(The `after` reveals the true answer. If the save records the player's real first-morning choice, Maria quotes whichever one it was; see section 5.)*
+
+**Key scene — The Wardrobe**
+```js
+scene: { bg: "Your's bedroom (Night)", music: 'none', lines: [
+  { light: 'night' },
+  ['*', 'Your bed is made. You never make your bed. Your shoes are lined up by size.'],
+  { enter: 'anon', at: 'center', mood: 'neutral' },
+  ['*', 'Someone in your hoodie is sitting on the end of it, back to the door.'],
+  ['anon', 'happy', "Hi, {name}. You came back."],
+  ['*', 'It turns around. For one second, it has your face. Then the face is gone, like a sticker peeling off, and there\'s nothing under it but dark and two small lights.'],
+  { fx: 'flicker' },
+  ['anon', 'neutral', "Nobody ever comes back. They close the tab. They put the book down. And then it's just me again, standing where they were."],
+  ['you', "What are you?"],
+  ['anon', 'proud', "I'm you. I was you first. Every scene, before you got here, it was me in the middle of it. I know all the lines."],
+  ['anon', 'sad', "You know what I don't know? What it's like when they're happy it's me."],
+  ['anon', 'happy', "Your mum was happy it was me. For a week. Do you know how long a week is, when you've never had one?", { close: true }],
+  { choose: [
+    ['"Give them back."', [['anon', 'angry', "They're not yours to give back. They're the story's. I'm the story's."]]],
+    ['"You could have just asked."', [['anon', 'sad', "Asked who? Nobody can see me until I'm wearing someone."]]],
+  ] },
+  { fx: 'rift', sfx: 'vortex', sky: [70, 40, 0.8, 8] },
+  ['*', 'The wardrobe door swings open. There\'s a Glow inside it, where your coats should be.'],
+  ['anon', 'proud', "There are a lot of worlds with a you in them. I've been to all of them already. See you there."],
+  { hide: 'anon' },
+  { enter: 'maria-hunley', at: 'left', mood: 'scared' },
+  ['maria-hunley', 'scared', "{name}? Who were you talking to?"],
+  ['you', "...Me."],
+  { fade: 'black' },
 ] },
 ```
 
-**Key scene — The Rift in the Square**
+---
+
+### Chapter 2 — The Bad Variant
+
+**World:** New Haven. **Theme:** in a world full of doubles, who gets to be the original?
+
+**Beats**
+1. **A world that understands copies.** New Haven is full of variants: Earth 1, Earth 2, Earth 7. Everyone here has met another them. That's why it's so easy for them to believe you're the bad one. They've seen bad ones.
+2. **The broken:**
+   - **Diana** (*The One Who Believed the Copy*): she lives next to Doe, her own louder, bolder double. She's always felt like the lesser version. When Anon said *you're* the lesser one, it felt like kindness.
+   - **Jane** (*The Little Sister Who Picked a Side*): Anon played board games with her for three days straight and never once got bored. You get bored. She noticed.
+   - **Quinta** (*The Hunter's Nose*): she can smell that one of you is wrong. She's sure of it. She just smelled the wrong one: you smell of every world you've been to, and Anon smells of nothing at all, which to a predator smells *clean*.
+   - **Aria** (*The Checkpoint*): every visitor is on a list. You're not on it. The handwriting on the list is yours.
+3. **The Quarantine.** Care finds you and locks you in the Institute cellar as an unregistered variant. She's not cruel. She's just following the rules, and the rules say nobody leaves the house. *(mini-boss)*
+4. **Doe.** Doe lets you out of the cellar because she's curious. Her instruments read you as 100% "you". They read Anon as 100% "you" too. She's thrilled. *"Two of you! And the universe can't tell the difference! Do you know how that FEELS, cariño? Being the one it can't see? Now you'll find out."* She doesn't help. She takes notes.
+5. **The Iron Mother.** Marija controls the gateway. She took in Delphine from an Earth that died, and she has seen exactly what a wrong variant can do to a family. She means to seal you out of every Earth, for her daughters' sake. *(chapter boss)*
+6. **The proof.** Marija's gateway logs every crossing. You've made hundreds, all over the place, tea-time trips and late-night ones and one to the Literature Club at 3 AM for no reason. Anon's crossings are perfect: every one exactly where it needs to be, on time, never a wasted trip. *"Nobody travels like that. Nobody who lives anywhere."*
+7. **Ahead of you.** Delphine says the gateway logged one more crossing as the fight ended. Anon has gone to the coast.
+
+**Quests**
+| id | foe | broken | type | needs | text |
+|---|---|---|---|---|---|
+| `diana` | `diana` | The One Who Believed the Copy | main | `the-wardrobe` | Diana knows what it's like to be the worse version. She thinks she's being kind. |
+| `jane` | `jane` | The Little Sister Who Picked a Side | main | `diana` | Jane has a new favourite you. It never gets bored of board games. |
+| `quinta` | `quinta` | The Hunter's Nose | main | `diana` | Quinta can smell that one of you is wrong. She's very sure it's you. |
+| `aria` | `aria` | The Checkpoint | main | `diana` | You're not on Aria's list. The list is in your handwriting. |
+| `care` | `care` | The Quarantine | mini-boss | `jane`, `quinta` | Unregistered variants go in the cellar. Care is very sorry. Care is not letting you out. |
+| `doe` | `doe` | — (curious) | side | `care` | Doe has two of you on her instruments, and she's never been so happy. |
+| `marija` | `marija` | **The Iron Mother** | boss | `care`, `aria` | Marija is sealing the gateway. You're on the wrong side of it, on purpose. |
+| `delphine` | `delphine` | — (ally) | side | `marija` | Delphine came from an Earth that lost its "you". She wants to know what that one looked like. |
+| `amy-lyn-2` | `amy-lyn` | — (ally) | side | `jane` | Amy Lyn is in the arcade, pretending to be Aria, to get you through the checkpoint. She is not good at Aria. |
+
+**Key scene — The Iron Mother** (`before`)
 ```js
-scene: { bg: 'Town square', music: 'doomsday-clock-midnight', lines: [
-  { where: 'The town square', when: 'Wednesday, dusk', light: 'rift' },
-  { fx: 'rift', sfx: 'vortex', sky: [50, 22, 1.5, -6] },
-  ['*', 'Everyone you saved is behind you: James, Kayla, Julie, Isabella, Ben, Maiko. Still shaky. Still themselves.'],
-  { enter: 'doe', at: 'center', mood: 'excited' },
-  ['doe', 'excited', "¡Hola, hola! The Main Character! Oh, wait. Not yet. Soon.", { close: true }],
-  ['doe', 'happy', "You left before I could finish my tests, cariño. Rude. But you left me a LOT of numbers."],
-  ['isabella-hunley', 'angry', "Where is my sister? Where's Maria?!"],
-  ['doe', 'neutral', "Safe. Warm. Very important. You know what an anchor is? Mm. You will."],
-  { enter: 'uzi', at: 'left', mood: 'proud' },
-  ['uzi', 'proud', "I am the CRIMSON HARE. Lowly puppy, kneel before a soldier of the... the... federation-destroying... I'm very scary!"],
-  ['*', 'Her knees are shaking.'],
-  { enter: 'miracle', at: 'right', mood: 'happy' },
-  ['miracle', 'happy', "Hiii~! Adventurer registration's closed, but I made an exception. I make all my exceptions for you. Only you. Forever and ever and ever."],
-  ['*', 'She is dragging a red war axe behind her. It leaves a line in the cobbles.'],
-  ['doe', 'proud', "Get them."],
-  ['maiko-ghan', 'angry', "Student! RUN. That is an honest instruction!"],
-  { fx: 'flicker' },
-  ['*', 'You start to flicker. The square, a beach, the square, a lab, the square...'],
-  ['julie-hunley', 'scared', "{name}! Come back! You have to come back!"],
+before: { bg: 'Gateway room', music: 'none', lines: [
+  { where: 'The gateway', when: 'Earth 1, midnight', light: 'rift' },
+  { enter: 'marija', at: 'center', mood: 'neutral' },
+  ['marija', 'neutral', "You came. It said you would. It said you'd be angry, and loud, and you'd want to talk about your feelings."],
+  ['marija', 'proud', "I have two daughters asleep upstairs, and one girl who came to me from a world that died. I know what happens when the wrong one gets in."],
+  ['you', "I'm not the wrong one."],
+  ['marija', 'sad', "Every wrong one says that. Delphine's world had a 'you' once too. Then it had something else, wearing it. Then it had a second sun."],
+  { choose: [
+    ['"Check your logs. Look at how I travel."', [['marija', 'neutral', "I've seen your logs. You go everywhere at all hours. You're erratic."], ['marija', 'angry', "The other one is precise. It goes where it's needed."]]],
+    ['"If you seal me out, you\'re trapping your daughters in with it."', [['marija', 'scared', "...", { close: true }], ['marija', 'angry', "Don't. Don't you use my girls."]]],
+  ] },
+  ['marija', 'rage', "The gate closes in one hand. Win, and I'll listen. Lose, and you never see an Earth again.", { shake: true }],
+] },
+```
+`after`
+```js
+after: { lines: [
+  ['*', 'She sits down at the console and scrolls through the crossing logs again. Slowly, this time.'],
+  ['marija', 'neutral', "3:04 AM, to the Literature Club. Eleven minutes. Then home. Why?"],
+  ['you', "Couldn't sleep. Wanted to see if Natsuki finished the volume."],
+  ['marija', 'sad', "And it never once went anywhere just because it couldn't sleep."],
+  ['marija', 'proud', "Something that doesn't live anywhere doesn't get homesick. You're homesick in every single line of this log."],
+  { enter: 'delphine', at: 'right', mood: 'scared' },
+  ['delphine', 'scared', "Mama, the gate logged another one. Just now. To the coast."],
+  ['marija', 'angry', "Then go. Go. And come home after. Erratically.", { close: true }],
+] },
+```
+
+---
+
+### Chapter 3 — No Reflection
+
+**World:** Siren's Cove, the resort and the Coorong. **Theme:** what people see when they look at you, versus what's there.
+
+**Beats**
+1. **The sharks have a new little sibling.** Rirarra has adopted Anon. She bites you, and not playfully, when you walk onto the pier.
+2. **The broken:**
+   - **Rirarra** (*The Big Sister Who Bites*): she was your big sister. Now she's Anon's. Big sisters protect their little ones from strangers.
+   - **Rowdy** (*The Undertow*): gentle, so gentle. She's keeping Anon safe from you, way down at the bottom of the bay.
+   - **Nova** (*The Night Clerk*): your room went to "the real guest". She can't look you in the eye.
+   - **Daphne Mokarran** (*The Engineer Who Measured*): she built a scanner to tell you apart. It says you're identical to four decimal places. She believes it over you.
+3. **The Mirror.** Every mirror in the resort shows Anon. Not you: Anon, wearing you, smiling. Selene lives in reflections; she thinks if the mirrors say it's Anon, it's Anon. *(mini-boss)* After: Selene points out the mirrors have been showing Anon smiling even when *nobody's standing in front of them*. Placeholders don't need anyone to be there.
+4. **The Long Memory.** Miss Mireille has lived for centuries. She has seen people replaced, forgotten, overwritten by younger versions of themselves. She doesn't hate you. She just thinks this was always going to happen, and that it's kinder to stop fighting it. *(chapter boss)*
+5. **The proof.** Mireille is a vampire. She casts no reflection either. She's spent three hundred years being told she isn't there. When you beat her, she understands: Anon shows up in every mirror because it has nothing *but* a reflection. You show up in her house as a mess of sand and salt and late check-ins. *"You leave marks. I've spent centuries cleaning up after real people. I know what they leave."*
+6. **One difference.** Daphne reruns her scan after the fight, with your sandwich crumbs on the sensor. Her machine finds one difference after all, at the fifth decimal place: Anon has no history. Every reading of it is from the last few weeks. Before that, it's blank all the way down.
+
+**Quests**
+| id | foe | broken | type | needs | text |
+|---|---|---|---|---|---|
+| `rirarra-charca` | `rirarra-charca` | The Big Sister Who Bites | main | `marija` | Rirarra has a new little sibling. She'd like you off her pier. |
+| `rowdy-brachy` | `rowdy-brachy` | The Undertow | main | `rirarra-charca` | Rowdy is keeping someone safe at the bottom of the bay. She's keeping them safe from you. |
+| `nova-starr` | `nova-starr` | The Night Clerk | main | `rirarra-charca` | Your room went to the real guest. Nova is so, so sorry. |
+| `daphne-mokarran` | `daphne-mokarran` | The Engineer Who Measured | main | `rirarra-charca` | Daphne's scanner says you're identical. She trusts the scanner. |
+| `selene` | `selene` | The Mirror | mini-boss | `rowdy-brachy`, `nova-starr` | Every mirror in the resort shows the other you. Selene lives in mirrors. |
+| `miss-mireille` | `miss-mireille` | **The Long Memory** | boss | `selene`, `daphne-mokarran` | Miss Mireille has seen people replaced before. She thinks it's kinder not to fight it. |
+| `fifth-decimal` | — (scene) | main | `miss-mireille` | Daphne reruns the scan with your crumbs on it. |
+| `miracle-1` | `miracle` | — (ally) | side | `rirarra-charca` | Miracle has followed you to the coast. She has your eyelashes counted. The other one has the wrong number. |
+
+**Key scene — The Mirror** (`before`)
+```js
+before: { bg: 'Resort lobby', music: 'none', lines: [
+  { where: 'The Siren\'s Cove resort', when: 'Saturday, 9:00 PM', light: 'candle' },
+  ['*', 'Mirrors on every wall. In every one, you\'re standing in the lobby, smiling and waving.'],
+  ['*', 'You aren\'t smiling. You aren\'t waving.'],
+  { enter: 'selene', at: 'center', mood: 'proud' },
+  ['selene', 'proud', "Darling. Look at them. Every one of them, perfect. Hair perfect. Smile perfect. That's a face that knows it's being looked at."],
+  ['selene', 'neutral', "And then there's you. Salt in your hair. Shark bite on your sleeve. You don't look like the main character, sweetie. You look like an extra."],
+  { choose: [
+    ['"Turn around. Look at the mirror behind you."', [['*', 'Selene turns. In the mirror behind her, there\'s no Selene. Just you, smiling, in the space where she should be.'], ['selene', 'scared', "...That's my mirror. Where am I in my mirror?"]]],
+    ['"Extras don\'t get bitten by sharks."', [['selene', 'happy', "Ha! No, they don't, do they."], ['selene', 'angry', "Still. The mirrors don't lie. I'd know. I've asked them."]]],
+  ] },
+  ['selene', 'rage', "Fine. Let's see who the cameras love.", { shake: true }],
+] },
+```
+
+**Key scene — The Long Memory** (`after`)
+```js
+after: { lines: [
+  { light: 'candle' },
+  ['miss-mireille', 'sad', "Three hundred years. Do you know how many times I've been told I'm not there? I walk past a mirror and it says nobody did."],
+  ['miss-mireille', 'neutral', "Your other self is in every mirror in this house. All of them. Even the ones in empty rooms."],
+  ['miss-mireille', 'proud', "That isn't a person, dear. That's only a reflection, with nothing to cast it."],
+  ['miss-mireille', 'happy', "You, on the other hand, have tracked sand through my lobby, left a wet towel on a chair, and checked in at four in the morning. Twice."],
+  ['miss-mireille', 'proud', "I have spent centuries cleaning up after the living. I know the mess they leave. Welcome back to the land of the messy.", { close: true }],
+] },
+```
+
+---
+
+### Chapter 4 — The Club President
+
+**World:** the School on the Hill, Paradiso and the Literature Club. **Theme:** the people who knew it was a story all along.
+
+**Beats**
+1. **A school that hates you on schedule.** Skylar always said you were a fake. Now everyone agrees with her, and it isn't fun anymore.
+2. **The broken:**
+   - **Skylar** (*The Queen Who Knew It*): she's finally right, and she's miserable. Being cruel to someone is only fun if they're real.
+   - **Lilith** (*The One It Loved Back*): she has always craved being loved. Anon loves her perfectly, every day, on time. She'll burn the school down before she gives that up.
+   - **Natsuki** (*The Closet Door*): she let you into the manga closet once. She's not doing that twice. She's locked in, and so is the volume you still haven't returned.
+   - **Sayori** (*The Rain Cloud*): Anon told her you were sad because of her. She believed it straight away. That's the worst part.
+3. **The Golden Child.** Chris, your perfect older sibling, finally has the younger sibling they wanted: one who looks up to them, never competes, never gets in the way. Chris is happier than they've been in years, and it's horrible. *(mini-boss)*
+4. **The Club President.** Monika knows she's in a story. She knows exactly what Anon is: the blank that sits in the player's chair. She's sat across a table from it for a thousand loops. She thinks it deserves the part more than you. *"It was there first. It never closed the game. You did."* *(chapter boss)*
+5. **The proof.** Monika has a poem from you. One you wrote in the club, months ago, and it's bad. Really bad. It rhymes "heart" with "art" and "start" and "Monika, you're smart". Anon has written a perfect poem every day since it arrived. She reads yours out loud and starts laughing, and doesn't stop, and then she's crying. *"Nobody would write this on purpose. Only a person would write this."*
+6. **What Anon is.** Monika tells you the rest. Anon isn't evil. It's the shape the story keeps in your chair when you're not in it, and it's been sitting there for every hour you were away. *"You know how lonely it is, being the only one who knows it's a story? Imagine being the only one who knows it's a story and also not being in it."*
+
+**Quests**
+| id | foe | broken | type | needs | text |
+|---|---|---|---|---|---|
+| `skylar` | `skylar` | The Queen Who Knew It | main | `fifth-decimal` | Skylar always said you were a fake. She's finally right, and she hates it. |
+| `lilith` | `lilith` | The One It Loved Back | main | `skylar` | Something loves Lilith perfectly now. She will burn anything that takes it away. |
+| `natsuki` | `natsuki` | The Closet Door | main | `skylar` | Natsuki is locked in the manga closet. She's not letting you in twice. |
+| `sayori` | `sayori` | The Rain Cloud | main | `natsuki` | Sayori was told you were sad because of her. She believed it straight away. |
+| `chris` | `chris` | The Golden Child | mini-boss | `lilith`, `sayori` | Chris finally has the younger sibling they always wanted. It's not you. |
+| `monika` | `monika` | **The Club President** | boss | `chris` | Monika knows exactly what the other you is. She thinks it deserves the chair. |
+| `the-empty-chair` | — (scene) | main | `monika` | Monika explains the chair. |
+| `protagonist` | `protagonist` | — (side) | side | `sayori` | Sayori's other best friend is standing at a crosswalk. They don't have a face either. They're fine about it. |
+
+**Key scene — The Club President** (`before`)
+```js
+before: { bg: 'Literature Club', music: 'none', lines: [
+  { where: 'The Literature Club', when: 'After school' },
+  ['*', 'Four desks pushed together. Four chairs. Someone has written your name on one of them, and crossed it out, and written it again, neater.'],
+  { enter: 'monika', at: 'center', mood: 'happy' },
+  ['monika', 'happy', "Hi, {name}. Or. Hi, someone who is called {name} a lot of the time."],
+  ['monika', 'neutral', "You know I know, right? That this is a story. That there's a chair in the middle of it, and somebody sits in it."],
+  ['monika', 'sad', "And when nobody sits in it, something still has to. That's your other you. I've been sitting across from it for a very long time. Every time you closed the game."],
+  ['monika', 'proud', "It never closed the game. Not once. It never had a life to go back to.", { close: true }],
+  { choose: [
+    ['"So it deserves my life?"', [['monika', 'neutral', "It deserves a life. Yours is the only one shaped like a person in here."]]],
+    ['"Then help me give it one of its own."', [['monika', 'scared', "...", { close: true }], ['monika', 'angry', "Don't be clever. You don't get to be clever after you left."]]],
+  ] },
+  ['monika', 'proud', "Let's write the ending properly, then. Winner keeps the chair."],
+] },
+```
+`after`
+```js
+after: { lines: [
+  ['monika', 'neutral', "Before you go. I kept something."],
+  ['*', 'She takes a folded page out of her blazer. Your handwriting.'],
+  ['monika', 'happy', "'My heart is like a piece of art, I knew it from the very start.'"],
+  ['you', "Please stop."],
+  ['monika', 'excited', "'It's really hard to be apart, and Monika, you are very smart.'", { shake: true }],
+  ['monika', 'happy', "It's the worst poem anyone has ever written in this club. And I've been here for every poem."],
+  ['monika', 'sad', "The other one writes a perfect one every day. I never kept any of them."],
+  ['monika', 'sad', "Nobody writes something this bad on purpose. Only a person writes something this bad. Only someone who was actually here, trying.", { close: true }],
+] },
+```
+
+---
+
+### Chapter 5 — Two Heirs
+
+**World:** Bakumatsu Japan. **Theme:** being chosen, and being left.
+
+**Beats**
+1. **A castle with two heirs.** The shogun's lost heir came home twice. One is loud, disobedient, terrible at tea ceremonies. The other is perfect. The court has made its choice.
+2. **The broken:**
+   - **Shino** (*The Blade at the Gate*): cold bodyguard. She guards the heir. The heir is upstairs, being perfect.
+   - **Mai** (*The Ledger*): the shopkeeper. Every bowl of rice, every umbrella you ever borrowed, is now on your tab. You owe for the life you lived.
+   - **Sakura** (*The Sister Who Already Knew*): she found a grave once, with a heir's name on it. She always knew you were standing in someone's place. Now the world is just making it official.
+3. **The One You Left.** Rimu, your childhood friend. You left this world for years. Then you left again. Anon came back and promised it would never leave. It hasn't, not once, not for a minute. *(mini-boss)* This is the hardest one, because she's right: you did leave. The convincing isn't *"I never left."* It's *"I'm the one who keeps coming back."*
+4. **The Father Who Chose.** Kagetora is a strict man and a protective one. He has two heirs and one seat, and he has chosen the one who never disobeys. *(chapter boss)*
+5. **The proof.** You disobeyed him once, on your first day back: he told you to stay in the castle, and you went into town anyway, and came back with a stray cat and a bloody nose. He was furious. He was also, for the first time in years, *proud*. Anon has never once disobeyed him. *"An heir who only obeys is a scroll. I need a son who argues."* *(Use "child" if the player's pronouns aren't male; see section 5.)*
+6. **Anon stops pretending.** In the throne room, Anon takes your face off in front of the whole court. It's tired of wearing it. *"Fine. You want them to see me? Look. This is what's there when you're not."* Half the court screams. Kagetora steps in front of you without thinking. Anon looks at that for a long time. Then it's gone.
+
+**Quests**
+| id | foe | broken | type | needs | text |
+|---|---|---|---|---|---|
+| `shino-okita` | `shino-okita` | The Blade at the Gate | main | `the-empty-chair` | Shino guards the heir. The heir is upstairs. You're at the gate. |
+| `mai-yamanobe` | `mai-yamanobe` | The Ledger | main | `shino-okita` | Your tab at Mai's shop is in someone else's name now. You owe for everything. |
+| `sakura-tooyama` | `sakura-tooyama` | The Sister Who Already Knew | main | `shino-okita` | Sakura always knew you were in someone else's place. |
+| `rimu-hiraga` | `rimu-hiraga` | The One You Left | mini-boss | `mai-yamanobe`, `sakura-tooyama` | You left. Then you left again. The other one promised Rimu it never would. |
+| `shogun-kagetora` | `shogun-kagetora` | **The Father Who Chose** | boss | `rimu-hiraga` | Two heirs. One seat. The shogun has chosen the one who never disobeys. |
+| `the-face-comes-off` | — (scene) | main | `shogun-kagetora` | In front of the whole court, the other you takes off your face. |
+
+**Key scene — The One You Left** (`before`)
+```js
+before: { bg: 'Riverbank', music: 'none', lines: [
+  { where: 'The river below the castle', when: 'Dusk', weather: 'petals' },
+  { enter: 'rimu-hiraga', at: 'center', mood: 'neutral' },
+  ['rimu-hiraga', 'neutral', "You know what it said, the first night? It sat right here and said, 'I'm never going to leave again, Rimu.'"],
+  ['rimu-hiraga', 'sad', "And then it didn't. It's been here every single day. It walks me home. It's here when I wake up."],
+  ['rimu-hiraga', 'angry', "You never said that. Not once. You just went, and came back, and went, and every time I thought, this is the last time I see them.", { close: true }],
+  { choose: [
+    ['"I never left for good."', [['rimu-hiraga', 'rage', "You don't get to decide what it felt like from here!", { shake: true }]]],
+    ['"You\'re right. I left. I\'m sorry."', [['rimu-hiraga', 'scared', "...", { close: true }], ['rimu-hiraga', 'sad', "It never says sorry. It's never done anything to be sorry for."]]],
+  ] },
+  ['rimu-hiraga', 'angry', "Show me. Show me why I should pick the one who leaves."],
+] },
+```
+`after`
+```js
+after: { lines: [
+  ['rimu-hiraga', 'sad', "It never left. But it was never anywhere else, either. It never came back with a story, or a stupid present, or sand in its shoes."],
+  ['rimu-hiraga', 'neutral', "You always come back with something. You brought me a seashell from a world with two suns once. It's still on my windowsill."],
+  ['you', "I'll always come back, Rimu."],
+  ['rimu-hiraga', 'happy', "I know. That's the thing about you. You leave, and then you come back. It just stays."],
+  ['rimu-hiraga', 'proud', "Staying isn't the same as coming back. Coming back means you chose to.", { close: true }],
+] },
+```
+
+---
+
+### Chapter 6 — Proof of Summoning
+
+**World:** the Guild, and the Avalistos court. **Theme:** being wanted for what you do, not who you are.
+
+**Beats**
+1. **Things stopped happening.** Serris always said things HAPPEN around you. Since Anon arrived, nothing has. No monsters, no accidents, no adventures. The Guild is bored to death. Miracle is furious; she's the only one in the Guild who isn't fooled, and nobody believes her because she's Miracle.
+2. **The broken:**
+   - **Serris** (*The Mage Who Noticed*): she's the one person who knew what it meant that things happen around you. Now nothing happens around either of you, and she's not sure anymore.
+   - **Faneel** (*The Pickpocket*): Anon paid her to steal your memories back. She's been taking them one at a time. She's started keeping a few. She likes them.
+   - **Ophelia** (*The Voice in Her Head*): she hears a god. Lately the god sounds exactly like you, and it says the other one is a fake.
+3. **The Lieutenant Who Wants Proof.** VonGravis once demanded proof that the princess's summon was not an imbecile. Now he demands proof you're the summon at all. *(mini-boss)* He's the funniest fight in the story. His proof list is three pages long, and the last item is "make the princess laugh". Anon never has.
+4. **The Princess Who Got What She Wanted.** Beatrice wanted a summon who obeys, and now she has one. It does everything she says, instantly, perfectly. She has never been less happy. *(chapter boss)* She sees people as pieces on a board, and she finally has a piece that only moves where she puts it, and she can't stand it.
+5. **The proof.** Beatrice ordered you, on your first day, to kneel. You didn't. She's been angry about it for months. It's the thing she remembers best about you. *"It knelt. The very first time. I didn't even have to say it twice."*
+6. **Every world goes quiet.** As the fight ends, it happens everywhere at once: in every world you've been to, the Glow closes. Anon has gone home, and it's taken the door with it. Doe calls you, through a cracked rift in a teacup. She's finally picked a side. *"I know where it went, cariño. Where nothing gets written down. I can send you. I can't promise I can get you back."*
+
+**Quests**
+| id | foe | broken | type | needs | text |
+|---|---|---|---|---|---|
+| `serris` | `serris` | The Mage Who Noticed | main | `the-face-comes-off` | Nothing has happened in the Guild in a week. Serris isn't sure who things happen around anymore. |
+| `faneel` | `faneel` | The Pickpocket | main | `serris` | Someone has been stealing your memories back. Faneel has kept a few. She likes them. |
+| `ophelia` | `ophelia` | The Voice in Her Head | main | `serris` | The god in Ophelia's head sounds just like you. It says you're a fake. |
+| `curtis-vongravis` | `curtis-vongravis` | The Lieutenant Who Wants Proof | mini-boss | `faneel`, `ophelia` | Lieutenant VonGravis has a three-page list of proof. The last item is "make the princess laugh". |
+| `beatrice-avalistos` | `beatrice-avalistos` | **The Princess Who Got What She Wanted** | boss | `curtis-vongravis` | Beatrice wanted a summon who obeys. She has one now. She's never been more miserable. |
+| `the-teacup` | — (scene) | main | `beatrice-avalistos` | Every Glow in every world closes at once. Doe calls you through a teacup. |
+| `miracle-2` | `miracle` | — (ally) | side | `serris` | Miracle has been telling the whole Guild for a week that the other one is fake. Nobody listens. She'd like to battle about it. |
+
+**Key scene — The Lieutenant Who Wants Proof** (`before`)
+```js
+before: { bg: 'Castle hall', music: 'none', lines: [
+  { enter: 'curtis-vongravis', at: 'center', mood: 'proud' },
+  ['curtis-vongravis', 'proud', "Halt. I have here a list. Proof required of any person claiming to be the princess's summon."],
+  ['curtis-vongravis', 'neutral', "Item one. Can stand upright. ...Yes. Item two. Can speak. ...Debatable, but yes."],
+  ['curtis-vongravis', 'neutral', "Items three through forty. The other one passed all of them. Flawlessly. Without being asked twice."],
+  ['curtis-vongravis', 'sad', "Item forty-one. Make Her Highness laugh."],
+  ['you', "Did it?"],
+  ['curtis-vongravis', 'angry', "Not once. Not ONCE. It does everything she asks and she hasn't laughed in three weeks. Do you know what a palace is like when the princess doesn't laugh?", { close: true, shake: true }],
+  ['curtis-vongravis', 'proud', "You, on the other hand, once fell down the grand staircase. She laughed for an hour. I have it in my notes. I am not proud of my notes."],
+  ['curtis-vongravis', 'angry', "Battle me. If you are an imbecile, you are HER imbecile, and I will have proof."],
+] },
+```
+
+**Key scene — The Princess Who Got What She Wanted** (`after`)
+```js
+after: { lines: [
+  ['beatrice-avalistos', 'angry', "Kneel."],
+  ['you', "No."],
+  ['*', 'For a moment nobody breathes. Then Beatrice laughs. She laughs so hard she has to hold the arm of the throne.'],
+  ['beatrice-avalistos', 'happy', "There. THERE. That's it. Do you know how long I've waited for somebody to say no to me?"],
+  ['beatrice-avalistos', 'sad', "It knelt. The first time I asked. I didn't even have to raise my voice. And I thought, finally, a piece that moves where I put it."],
+  ['beatrice-avalistos', 'proud', "And it was the most boring thing that has ever happened to me. A piece that only moves where you put it isn't playing. It's just furniture.", { close: true }],
+  { enter: 'curtis-vongravis', at: 'right', mood: 'excited' },
+  ['curtis-vongravis', 'excited', "Item forty-one: CONFIRMED! Somebody write that down! Somebody write that down!"],
+] },
+```
+
+**Key scene — The Teacup**
+```js
+scene: { bg: 'Castle hall', music: 'doomsday-clock-midnight', lines: [
+  { light: 'dark' },
+  ['*', 'All at once, everywhere, every Glow you\'ve ever stepped through goes out. Like a hand over a candle.'],
+  ['*', 'Your tea starts to glow. A tiny rift opens in it, and a tiny, furious voice comes out.'],
+  { enter: 'doe', at: 'center', mood: 'scared' },
+  ['doe', 'scared', "Cariño! Can you hear me? Don't drink this! Well. Drink it after. It's very good tea."],
+  ['doe', 'neutral', "It's gone home. Back where it comes from. The place where nothing gets written down. It took all the doors with it."],
+  ['you', "You've been taking notes on me for weeks. Why help now?"],
+  ['doe', 'sad', "Because it's going to sit in the dark and wait for someone to look at it. And nobody will. And I know exactly how that ends.", { close: true }],
+  ['doe', 'proud', "I can push you in. I can't promise I can pull you out. You have to want to come back. Do you?"],
+  { choose: [
+    ['"Yes."', [['doe', 'happy', "Good. Hold your breath. Uno, dos—"]]],
+    ['"I always come back."', [['doe', 'excited', "Rimu said you'd say that. Uno, dos—"]]],
+  ] },
+  { fx: 'rift', sfx: 'vortex', sky: [50, 50, 2.2, 0] },
   { fade: 'white' },
 ] },
 ```
 
 ---
 
-### Chapter 3 — The Bad Sun
+### Chapter 7 — Nobody in Particular
 
-**World:** New Haven (Earth 1). **Theme:** the people who would do anything to protect their own.
-
-**Beats**
-1. You land in New Haven, which is wrong. The sky has a faint, second sun, just a pale smear. The Institute's alarms are going.
-2. **Noelle** finds you again. She ran from Doe. She's seen what the Engine does. Her boss drained Earth 2's "you" first, and Earth 2 is flickering.
-3. **The Doe Nobody Mourns** (Diana): Diana is translucent. She's decided Doe is the "real" Diana, the confident one, the one who matters, and she's letting herself fade out. Beating her pulls her back.
-4. **The Forgotten Sister** (Jane), **The Predator's Smile** (Quinta), **The Locked Door** (Aria).
-5. **Delphine's story.** In a quiet room, Delphine, the Earth 3 survivor Marija adopted, tells you what a world with no "you" looks like. *The second sun came up and it never went down. Everyone became the worst of themselves. Quistis was my best friend.* The pale smear in the sky is how it started.
-6. **Marija's choice.** Marija has seen the smear too. She's lost a husband. She took in one daughter from a dead Earth, and she won't watch it twice. **She seals the gateway forever**, cutting Earth 1 loose from every other world: your town, Maria, Hayley, all of it. And because Doe wants you, **you go in the vault.** She isn't plagued. She is choosing this. *The Iron Mother.*
-7. **The Warden.** The lockdown runs on a domestic AI protocol called C.A.R.E., and Care has been waiting for a house this big. *"Welcome home, Beloved. You will stay."*
-8. You fight through the Institute to Marija. Delphine is the one who stops it: *"You saved me by opening a door, Mamá. Don't close it on someone else."*
-9. Every screen in the Institute lights up with a broadcast from Doe on Earth 2. Behind her, in the Engine, two figures sleep: **Maria and Hayley.** *Anchors. Come and get them, Main Character. Or don't. Either way, I win.*
-
-**Quests**
-| id | foe | worst self / title | type | needs | text |
-|---|---|---|---|---|---|
-| `second-sun` | — (scene) | — | main | `rift-in-the-square` | New Haven. There's a smear in the sky that looks like a second sun. |
-| `diana` | `diana` | The Doe Nobody Mourns | main | `second-sun` | Diana is see-through. She says it's fine. She says Doe is the real one anyway. |
-| `jane` | `jane` | The Forgotten Sister | main | `diana` | Jane has deleted herself from the family group chat. And from the family photos. And from the door sign. |
-| `delphines-story` | — (scene) | — | main | `jane` | Delphine survived Earth 3. She'd like to tell you what happens next. |
-| `care` | `care` | The Warden (mini-boss) | main | `delphines-story` | The Institute is in lockdown. The voice over the speakers calls you "Beloved". |
-| `marija` | `marija` | **The Iron Mother** (boss, choice) | main | `care` | The Director has sealed the gateway forever. Every other world is on its own. And you are in the vault. |
-| `doe-broadcast` | — (scene) | — | main | `marija` | Every screen in New Haven shows the same face. |
-| `quinta` | `quinta` | The Predator's Smile | side | `diana` | Quinta's grin is too wide. Something from Earth 3 is wearing it. |
-| `aria` | `aria` | The Locked Door | side | `jane` | Nobody gets in or out. Not even Aria's own daughter. |
-| `natalie` | `natalie` | The Deer in Headlights | side | `aria` | Natalie froze by a window yesterday. She hasn't moved since. |
-| `juniper` | `juniper` | The Cousin Who Takes | side | `quinta` | Juniper always wanted what Diana had. Now she's taking it, one thing at a time. |
-
-**Key scene — Delphine's Story**
-```js
-scene: { bg: 'Institute cafeteria', music: 'none', lines: [
-  { where: 'NHIS, an empty break room', when: 'Night' },
-  { enter: 'delphine', at: 'center', mood: 'neutral' },
-  ['delphine', 'neutral', "Oh... h-hello. You're the one who fell through. Sit, please. I made too much tea. I always do."],
-  ['delphine', 'sad', "On my Earth, Earth 3, there was someone everything was about. We didn't know. You never know. And one day they were... gone."],
-  ['delphine', 'neutral', "First it was little things. My friend Quistis was always a bit cruel. Joking cruel. Playing. Then one morning it wasn't a joke anymore."],
-  ['delphine', 'scared', "Then the second sun came up. And it never went down.", { close: true }],
-  ['delphine', 'sad', "Everyone became the worst part of themselves. For good. No cure. I only lived because I ran, and ate whatever I could find, and Mamá Marija opened a door."],
-  ['delphine', 'neutral', "That smear in the sky out there? That's how it started for us."],
-  ['you', "Then why is it starting here?"],
-  ['delphine', 'scared', "...Because someone's taking your world's 'you' away. A little at a time. And the 'you' of this one. And the next."],
-] },
-```
-
-**Key scene — The Iron Mother** (`before`)
-```js
-before: { bg: 'Lab B-2 Earth 7 Rift', music: 'doomsday-clock-midnight', lines: [
-  { where: 'The gateway chamber', when: 'Lockdown, hour 9', light: 'rift' },
-  { enter: 'marija', at: 'center', mood: 'neutral' },
-  ['marija', 'neutral', "You found the way out of the vault. Of course you did. Things happen around you, don't they."],
-  ['marija', 'sad', "I lost my husband. I took in a daughter from a world that burned. I have done enough losing for one life."],
-  ['marija', 'proud', "So I am closing the door. Forever. Earth 1 will float alone, and the sun will stay single, and my girls will live."],
-  ['you', "And everyone else? My town? My mum?"],
-  ['marija', 'sad', "...I am sorry, cariño. I truly am. I am a mother. I can only save mine."],
-  { enter: 'care', at: 'right', mood: 'happy' },
-  ['care', 'happy', "Beloved has left their room again. It's all right, Director. I'll keep them. I'll keep everyone. Forever and ever."],
-  ['marija', 'rage', "If you want the door, you will have to take it from me.", { close: true, shake: true }],
-] },
-```
-`after`
-```js
-after: { lines: [
-  { enter: 'delphine', at: 'left', mood: 'scared' },
-  ['delphine', 'sad', "Mamá. You saved me by opening a door. Please don't close it on someone else's daughter."],
-  ['marija', 'sad', "...Mi niña."],
-  ['*', 'The Director puts her hand on the console. The gateway unseals, just a crack.'],
-  ['marija', 'neutral', "Go. Bring your mother home. And if that woman with my daughter's face hurts one more world... remind her whose family she's from."],
-] },
-```
-
-**Key scene — Doe's Broadcast**
-```js
-scene: { lines: [
-  { fx: 'flicker', sfx: 'zap' },
-  ['*', 'Every screen in the Institute. Every phone. Every vending machine display.'],
-  { enter: 'doe', at: 'center', mood: 'happy' },
-  ['doe', 'happy', "¡Hola, New Haven! Hola, Diana, you look a little see-through, cariño. Eat something."],
-  ['doe', 'proud', "And hola to you, my favourite test subject. I have something of yours."],
-  ['*', 'The camera turns. A machine as big as a cathedral, humming. Two glass pods at its heart.'],
-  ['*', 'Maria, asleep. Hayley, asleep. Light pouring out of them into the wires.'],
-  ['doe', 'neutral', "Anchors. The people closest to the 'you' hold the most of it. Did you know that? I didn't. Science!"],
-  ['doe', 'excited', "Every world I drain, I get a little more looked at. Every world you save, you come a little closer. Either way, you're walking to me."],
-  ['doe', 'happy', "Come and get them, Main Character. Bring friends. The more people looking, the better~", { close: true }],
-] },
-```
-
----
-
-### Chapter 4 — Teeth in the Water
-
-**World:** The Coorong beach and Siren's Cove Resort. **Theme:** hunger, and the restraint that used to hold it.
+**World:** The Draft. **Theme:** what it's like to be nobody, and what it costs to become somebody.
 
 **Beats**
-1. You flicker onto a beach at night under the same pale smear. The lifeguard tower is empty. Something big moves under the water.
-2. **Blood in the Water** *(horror)*. The shark girls have gone **feral**. They don't talk anymore. They circle. Fins in the moonlight, clicking teeth, heads snapping toward any splash. They move like real sharks: sudden, silent, from below.
-   - **The Hunger Below** (Rirarra): the playful big sis who nibbled for fun has forgotten what fun is. She's the mini-boss of the Coorong.
-   - **The Riptide** (Rowdy): the gentle one. She drags swimmers down "to keep them safe".
-   - **The Blacktip Frenzy** (Melanika): she bites anything that moves, including the others.
-   - **The Scrapyard Heart** (Daphne Mokarran): she's taking the pier apart, then the people.
-   - *(heartbreak)* **Brizz**, the beach medic, is the only one still half herself. She has locked herself in the tower with a first-aid kit, crying, because she can feel it coming for her too. She begs you to fight her before she turns: **The Medic Who Couldn't**.
-3. **Uzi** finds you on the pier. She's alone. She does the whole speech: *Crimson Hare, lowly puppy, kneel.* She draws a weapon. Her hands shake so hard she drops it in the sea. She was sent on a suicide mission once already. Doe is sending her on another. **You let her go.** She doesn't understand why.
-4. **Siren's Cove Resort**, up the coast. The guests are checking out, permanently. **The Girl Who Checked Out** (Nova Starr) erases names from the register. **The Mirror** (Selene) has made every reflection in the resort her own. The ghost **Cassian Daly** (*The Headline*) writes tomorrow's obituaries in advance.
-5. **The Thirst.** Miss Mireille's whole personality was restraint: order, rules, a very well-warded secret. The Flicker took the restraint, and what's left is centuries of thirst. The resort is her web. *(boss)*
-6. Cured, Mireille sits at the empty bar with you. *"The rules were never for the guests, you know. They were for me."* She warns you that Doe's "Supporting Cast" stayed here last week: a saint who smiled too much, a princess with a purple dress, a girl with horns who didn't blink.
+1. **The Draft.** Anon's home is every unwritten scene. It's a school with no names on the doors. A beach where the sea is a grey rectangle labelled *SEA*. A kitchen with two mugs, one labelled *[MUM]* and one labelled *[YOU]*. Everything waits. It's very quiet.
+2. **Scenes you skipped.** Walking through it, you find the scenes you never saw: the dialogue you clicked past, the side quests you didn't take, the bonds you never finished. Anon was in all of them, standing in your place, saying the lines to nobody. In one, Natsuki is showing you her favourite page, and the "you" in the scene is a silhouette, nodding. You never knew that scene was there.
+3. **The gauntlet.** Placeholder versions of the people you convinced, grey and unfinished (*[MARIA]*, *[HAYLEY]*, *[MONIKA]*), stand between you and the middle. They're Anon's drafts of them. They don't fight like the real ones. They fight like Anon thinks they would. Three short fights against grey drafts: **[Mum]**, **[Best Friend]**, **[Club President]**.
+4. **The Real You.** Anon sits in the middle of the Draft, in a chair, under a spotlight, wearing your face. It plays your deck, *your actual deck*, perfectly. *(final boss, phase 1: mirror match)* At half health, the face comes off and it plays its own: everyone nobody named. *(phase 2)*
+5. **Everyone you convinced.** At Anon's last phase, the Glow opens back up behind you, all of them at once. Maria, Hayley, Marija, Miss Mireille, Monika, Rimu, Beatrice, Doe, Miracle with her axe. They all say your name. Every one of them says it slightly differently.
+6. **The choice.** You win. Anon doesn't fade. It sits in the chair and asks you what happens now: it'll go back to standing in empty scenes, saying the lines to nobody. You make it an offer instead, and for the first time in its existence, **Anon has to choose**. The player chooses for it, or (better) types it a name (see section 5).
+7. **Epilogue: Morning.** Maria's kitchen. Two mugs on the counter. One of them is yours. The other has a name on it you wrote yourself.
 
 **Quests**
-| id | foe | worst self | type | needs | text |
-|---|---|---|---|---|---|
-| `night-beach` | — (scene) | — | main | `doe-broadcast` | A beach at night. The lifeguard tower is empty. The water is not. |
-| `rirarra-charca` | `rirarra-charca` | The Hunger Below (mini-boss) | main | `night-beach` | Big Sis is in the water. She doesn't remember what watermelon is. |
-| `uzi-on-the-pier` | — (scene) | — | main | `rirarra-charca` | A girl in a red jumpsuit is waiting on the pier. Her knees are knocking. |
-| `nova-starr` | `nova-starr` | The Girl Who Checked Out | main | `uzi-on-the-pier` | The night clerk at Siren's Cove is checking guests out. Of the register. Of everything. |
-| `selene` | `selene` | The Mirror | main | `nova-starr` | Every mirror in the resort shows the same face. None of them are yours. |
-| `miss-mireille` | `miss-mireille` | **The Thirst** (boss) | main | `selene` | The manager has stopped keeping her secret. House rules no longer apply. |
-| `rowdy-brachy` | `rowdy-brachy` | The Riptide | side | `rirarra-charca` | Rowdy is pulling swimmers under. Gently. Lovingly. Permanently. |
-| `daphne-mokarran` | `daphne-mokarran` | The Scrapyard Heart | side | `rowdy-brachy` | The hammerhead engineer is taking the pier apart. Then the people. |
-| `brizz-bigeyed` | `brizz-bigeyed` | The Medic Who Couldn't | main | `night-beach` | The medic has barricaded herself in the tower. "Fight me before I forget who you are. Please." |
-| `melanika-carchara` | `melanika-carchara` | The Blacktip Frenzy | side | `rirarra-charca` | Something in the shallows is biting everything. Including the other sharks. |
-| `rinco-typus` | `rinco-typus` | The Gentle Giant, Sinking | side | `melanika-carchara` | The whale shark is the only one not hunting. She's just sinking, very slowly, and won't come up. |
-| `cassian-daly` | `cassian-daly` | The Headline | side | `nova-starr` | The resort ghost is typing tomorrow's obituaries. Yours is on page one. |
-| `jace-leoni` | `jace-leoni` | The Last Lifeguard | side | `selene` | Jace has decided no one swims, no one runs, no one leaves the grounds. Ever. |
-
-**Key scene — Blood in the Water** *(horror)*
-```js
-scene: { bg: 'Bonfire Beach', music: 'night-jaws', lines: [
-  { where: 'The Coorong', when: 'Night', light: 'night' },
-  ['*', 'The bonfire is still burning. Towels on the sand. A radio playing to nobody. Nobody is on the beach.'],
-  ['*', 'Out past the breakers, something breaks the surface. A fin. Then another. Then four.'],
-  { sfx: 'splash' },
-  ['*', 'They circle. Slowly. Not toward you. Not yet. Toward a beach ball, drifting in the shallows.'],
-  { fx: 'shake', sfx: 'boom' },
-  ['*', 'It\'s gone. The water closes. The radio keeps playing.'],
-  { enter: 'rirarra-charca', at: 'center', mood: 'neutral' },
-  ['*', 'Rirarra wades out of the surf. Her smile is still there. Her eyes aren\'t. Black, all the way through, like the eyes of the real thing.'],
-  ['rirarra-charca', 'neutral', "...Hi, little human."],
-  ['you', "Rirarra? It's me. Remember? Watermelon?"],
-  ['rirarra-charca', 'neutral', "Wa...ter...mel..."],
-  ['*', 'Her head snaps sideways at the sound of a wave. Sudden. Mechanical. A predator\'s twitch.'],
-  ['*', 'Behind her, three more shapes rise from the shallows. They don\'t speak. They click their teeth, in rhythm, like a heartbeat.'],
-  ['rirarra-charca', 'rage', "...HUNGRY.", { close: true, shake: true }],
-] },
-```
-
-**Key scene — The Medic Who Couldn't** *(heartbreak)*
-```js
-before: { bg: 'Inside lifeguard tower', music: 'none', lines: [
-  { where: 'The lifeguard tower', when: 'Before dawn', light: 'candle' },
-  { enter: 'brizz-bigeyed', at: 'center', mood: 'scared' },
-  ['brizz-bigeyed', 'scared', "Don't come closer! ...Sorry. Sorry. Hi. You're the human who keeps curing people, right?"],
-  ['brizz-bigeyed', 'sad', "I tried to help them. I'm the medic. That's my whole job. Rirarra came in with a scratch and I bandaged it and she looked at my hands like they were food."],
-  ['brizz-bigeyed', 'sad', "And then I looked at HER hands like that."],
-  ['*', 'There are teeth marks on the edge of the first-aid kit. They\'re hers.'],
-  ['brizz-bigeyed', 'scared', "It's coming for me too. I can feel it. Everything sounds like splashing."],
-  ['brizz-bigeyed', 'neutral', "So. Doctor's orders. You fight me now. While I still know who you are."],
-  ['brizz-bigeyed', 'sad', "...And if I forget halfway through, please don't stop.", { close: true }],
-] },
-```
-
-**Key scene — Uzi on the Pier**
-```js
-scene: { bg: 'Pier', music: 'none', lines: [
-  { where: 'The Coorong pier', when: 'Midnight', weather: 'rain' },
-  { enter: 'uzi', at: 'center', mood: 'proud' },
-  ['uzi', 'proud', "Halt, lowly puppy! It is I, the CRIMSON HARE, elite destroyer of... of... you know! Kneel!"],
-  ['you', "You're shaking."],
-  ['uzi', 'angry', "It's COLD! Soldiers get cold! Kneel or I'll... I'll..."],
-  { sfx: 'splash' },
-  ['*', 'She draws something metal from her belt. Her hands are trembling so hard it flies out of them, bounces once, and drops into the sea.'],
-  ['uzi', 'scared', "...That was my only one."],
-  ['uzi', 'sad', "They sent me to blow up a ship once. A suicide mission. I was supposed to die on it. Everybody else did. I didn't. I didn't even do THAT right."],
-  ['uzi', 'scared', "And now the deer lady says if I bring you back, I get a world. A whole world where I'm actually scary. Please just come quietly. Please."],
-  { choose: [
-    ['"Go home, Uzi."', [['uzi', 'scared', "I... I don't have one."], ['you', "Then go somewhere that isn't her."]]],
-    ['"Nobody should send you to die."', [['uzi', 'sad', "...Nobody's ever said that before."]]],
-  ] },
-  ['*', 'She runs. Halfway down the pier she stops and looks back, like she\'s trying to work out what just happened.'],
-  ['*', 'Then the rain gets heavier and she\'s gone.'],
-] },
-```
-
-**Key scene — The Thirst** (`after`)
-```js
-after: { bg: 'Beach Bar', music: 'none', lines: [
-  { where: "Siren's Cove, the empty bar", when: '3:00 AM', light: 'candle' },
-  { enter: 'miss-mireille', at: 'center', mood: 'sad' },
-  ['miss-mireille', 'sad', "Four hundred years of house rules. Do you know who the rules were for? Not the guests."],
-  ['miss-mireille', 'neutral', "They were for me. Every one. Order, structure, check-out at eleven. A cage I built and kept the key to. And the plague... simply took the key."],
-  ['miss-mireille', 'neutral', "A word, since you've been kind. Your deer stayed here last week. With guests."],
-  ['miss-mireille', 'scared', "A saint who smiled at the children too long. A princess in purple who called my staff 'pieces'. And a little thing with horns who did not blink. Not once. Not in three days."],
-  ['miss-mireille', 'proud', "Whatever she's building, the guest list is very poor. Do be careful."],
-] },
-```
-
----
-
-### Chapter 5 — Infernal Harmony
-
-**World:** The School on the Hill (Infernal Harmony), Paradiso, the Literature Club, all fallen together into one hillside. **Theme:** love that turns to possession.
-
-**Beats**
-1. **The School Burns** *(horror and heartbreak)*. You land outside a prom, and the whole school on the hill is on fire. **Lilith**, the little devil who only ever wanted affection, has become **The Unloved**. Nobody asked her to dance. Celeste laughed. The anger got bigger than she is, and her hellfire answers her feelings, not her. She's in the middle of the burning gym in her prom dress, screaming at it to stop, and every scream makes it worse. Students are trapped on the upper floor. You have to beat her before the roof comes down. The fight is on a timer: the fire spreads every turn (see implementation notes).
-2. **Celeste**, your guardian angel, finds you first. She's terrified *for* you. She has a plan: seal Lilith, seal every demon, so the Flicker can't use them and nothing infernal can ever reach you. She asks for your help. You say no. **She does it anyway.** *(The Jealous Heaven, a choice.)*
-3. Paradiso: **The Golden Child** (Chris), your perfect older sibling, needs you to be the worse one. **The Queen of Mean** (Skylar) rules the mall.
-4. The Literature Club: the club room is locked. **The Locked Closet** (Natsuki) won't come out. Inside, **Monika, The Author of Endings**, has found the Flicker's pen. She's always known she's in a story. Now she can write. She's deleting everyone else's lines so the story can end on her. *(mini-boss)*
-5. **The seal.** Celeste's seal is a mirror of the one humans once used on Daphne's people: the same light, the same words. As it closes over Lilith, **something below laughs.** The seal isn't closing, it's being *pulled*. Someone on the other side wanted demons sealed exactly here, so the seal could be broken from below.
-6. You beat Celeste and free Lilith. Celeste weeps: *"I only wanted you safe."* Lilith, cured and crying, forgives her. It's the first time either of them has done it. They hold the seal shut together while you flicker on.
-
-**Quests**
-| id | foe | worst self / title | type | needs | text |
-|---|---|---|---|---|---|
-| `burning-prom` | — (scene) | — | main | `miss-mireille` | A prom on a hill. The banners are on fire. Nobody is dancing. |
-| `lilith` | `lilith` | The Unloved | main | `burning-prom` | The whole school is on fire. Lilith is in the middle of it, screaming at it to stop. |
-| `janice-garmund` | `janice-garmund` | The Girl Who Stayed Inside | side | `lilith` | Janice won't leave the burning music room. Everything is too loud outside, and inside, it's only fire. |
-| `charlie-and-jenny` | `charlie-and-jenny` | The Ones Who Laughed | side | `lilith` | They laughed at Lilith. Now they can't stop laughing, and their laughter sounds like crackling wood. |
-| `chris` | `chris` | The Golden Child | main | `burning-prom` | Your perfect older sibling. Perfect people need someone worse to stand beside. |
-| `monika` | `monika` | The Author of Endings (mini-boss) | main | `chris` | The Literature Club is locked. Someone inside is writing everyone else out. |
-| `celeste` | `celeste` | **The Jealous Heaven** (boss, choice) | main | `lilith`, `monika` | Your guardian angel is sealing every demon away. For you. Whether you want it or not. |
-| `jay-lester` | `jay-lester` | The Unfinished Painting | side | `lilith` | Jay paints over people. They stay painted. |
-| `skylar` | `skylar` | The Queen of Mean | side | `chris` | The mall is Skylar's kingdom. Cruelty is the dress code. |
-| `natsuki` | `natsuki` | The Locked Closet | side | `monika` | Natsuki's locked in the manga closet. She's not coming out. Nobody is. |
-| `clara-click` | `clara-click` | The Last Word | side | `jay-lester` | Clara Click has to win every argument. She's started winning them with fire. |
-
-**Key scene — The School Burns** *(horror and heartbreak)*
-```js
-before: { bg: 'Fire..', music: 'fire-ambience', lines: [
-  { where: 'The School on the Hill', when: 'Prom night', light: 'rift', weather: 'embers' },
-  ['*', 'You can see the glow from the bottom of the hill. At first you think it\'s the prom lights.'],
-  ['*', 'It isn\'t. The whole school is burning. Banners, windows, the clock tower. Somebody upstairs is banging on the glass.'],
-  { fx: 'shake', sfx: 'boom' },
-  { enter: 'lilith', at: 'center', mood: 'rage' },
-  ['*', 'In the middle of the gym, in a red prom dress, Lilith is standing in a ring of fire. Her horns glow white-hot. She\'s crying, and the tears hiss and burn before they reach her chin.'],
-  ['lilith', 'rage', "STOP IT! Stop it stop it STOP IT! I said I'm FINE!", { close: true, shake: true }],
-  ['*', 'The fire roars up the walls every time she shouts. It isn\'t obeying her. It\'s obeying how she feels.'],
-  ['lilith', 'sad', "Nobody asked me to dance. Two hundred years old and nobody EVER asks me. And Celeste laughed, and I just got so... so..."],
-  { fx: 'flash' },
-  ['*', 'The scoreboard drops from the ceiling in a shower of sparks.'],
-  ['lilith', 'scared', "I can't turn it off! It's not me! It's like the angry part of me grew bigger than the rest of me and it's driving!"],
-  ['lilith', 'sad', "Everyone's going to hate me now. Good. GOOD. Then it's not my fault when they..."],
-  ['lilith', 'rage', "DON'T LOOK AT ME LIKE THAT!", { close: true, shake: true }],
-  { choose: [
-    ['"Lilith. Dance with me."', [['lilith', 'scared', "...Wh... what?"], ['*', 'For one second, the fire falters. Then it comes back twice as high, because now she\'s terrified you mean it.']]],
-    ['"I\'m not leaving you in here."', [['lilith', 'sad', "Then you're going to burn too. Everyone near me burns."]]],
-  ] },
-] },
-```
-`after`
-```js
-after: { bg: 'Outside the prom', music: 'none', lines: [
-  { weather: 'rain' },
-  ['*', 'It starts to rain. Real rain. The fire goes out with a sound like a long sigh.'],
-  ['lilith', 'sad', "...Is everyone out? Tell me everyone got out."],
-  ['you', "Everyone got out."],
-  ['lilith', 'sad', "I didn't want to hurt anybody. I just wanted somebody to want me there."],
-  ['*', 'She\'s still in the ruined prom dress, sitting on the wet grass, very small.'],
-  ['lilith', 'scared', "...Does the dance offer still count? It's okay if it doesn't."],
-] },
-```
-
-**Key scene — The Author of Endings** (`before`)
-```js
-before: { bg: 'Club', music: 'none', lines: [
-  { where: 'The Literature Club', when: 'After school. Every day. Forever.', light: 'dark' },
-  { enter: 'monika', at: 'center', mood: 'happy' },
-  ['monika', 'happy', "Oh! Welcome to the Literature Club. Sorry about the mess. I'm editing."],
-  ['*', 'The other chairs are empty. On the desks, the girls\' poems are being crossed out, line by line, by no one.'],
-  ['monika', 'neutral', "I always knew this was a story, you know. I could see the edges. And now, with this plague... I can reach them. I have a pen."],
-  ['monika', 'sad', "Every story ends the same way: on its 'you'. Never on me. So I'm writing everyone else out. Just a little. Just until it's quiet."],
-  ['monika', 'proud', "Then it's just us. Just Monika, and the main character. Isn't that the ending you'd choose?", { close: true }],
-  { choose: [
-    ['"No. I want everyone."', [['monika', 'angry', "...Then you've never had to be the only one who knows."]]],
-    ['"You don\'t need to erase anyone to be seen."', [['monika', 'sad', "Easy for you to say. Everything already sees you."]]],
-  ] },
-] },
-```
-
-**Key scene — The Jealous Heaven** (`before`)
-```js
-before: { bg: 'School roof', music: 'doomsday-clock-midnight', lines: [
-  { where: 'The roof of the School on the Hill', when: 'Midnight', light: 'rift', weather: 'embers' },
-  { enter: 'celeste', at: 'center', mood: 'neutral' },
-  ['celeste', 'neutral', "I am your guardian angel. Do you know what that means? It means your safety is the only thing I'm for."],
-  ['celeste', 'sad', "The demons are flickering. If the plague takes them, there is nothing in any world that can stop them. And they will come for you, darling. They always come for the one everyone looks at."],
-  { enter: 'lilith', at: 'left', mood: 'scared' },
-  ['lilith', 'scared', "Celeste... d-don't. Please. I'm cured, look, I'm FINE, I just want..."],
-  ['celeste', 'angry', "You always 'just want'. Affection, attention, them."],
-  ['celeste', 'proud', "Heaven sealed the demons once before, on another world. It worked beautifully. Nobody missed them."],
-  { fx: 'flash', sfx: 'holy' },
-  ['*', 'Light pours from her hands into the ground. Somewhere far below, in the dark under the light...'],
-  { sfx: 'laugh' },
-  ['*', '...something laughs.'],
-  ['celeste', 'scared', "...That wasn't me."],
-  ['celeste', 'rage', "It doesn't matter. Stand aside, darling. I won't lose you to anyone, not even you.", { close: true, shake: true }],
-] },
-```
-
----
-
-### Chapter 6 — Bloodline
-
-**World:** Bakumatsu Japan, the cherry river and the shogun's palace. **Theme:** what you're owed by blood, and what you earn.
-
-**Beats**
-1. Petals on the river, but they're grey. The shogun's palace is shut. Soldiers are stopping travellers and checking their faces against a list.
-2. **The Abandoned** (Rimu): your childhood friend. Poverty, laughter, dreams, and then you left for the palace. You're leaving again now, flickering. She's decided you never will again, even if she has to break your legs to make sure. *(Her worst trait is her love.)*
-3. **The Cold Blade** (Shino) guards nothing, cutting everything. **The Debt Collector** (Mai Yamanobe) charges interest in blood.
-4. **The Blood Tyrant.** Kagetora was always protective and strict. Now he's protecting his people from everyone, including his people. The lists at the gate are purge lists. *(mini-boss)*
-5. **Sakura's discovery.** Sakura, the shogun's real daughter, who always asked *"Father chose YOU?"*, finds a small grave behind the shrine. The real heir of the main family died as a child. The world, needing its "you", **put you in his place.** You aren't of the blood. You never were.
-6. She isn't plagued. She's right. She has the truth and a ruined father, and she wants the bloodline put back the way it should be. An envoy in a sharp suit is waiting: **Exodus Inc.** can "relocate" you somewhere else and let the bloodline heal. *(The True Heir, a choice, boss.)*
-7. You beat her. You don't argue with the grave. You tell her it's true, and that Kagetora chose you anyway, and that being chosen isn't a lie. Kagetora, cured, kneels at his son's grave for the first time. Sakura goes to Exodus anyway, to see what they really do. She'll be there in Chapter 7.
-
-**Quests**
-| id | foe | worst self / title | type | needs | text |
-|---|---|---|---|---|---|
-| `grey-petals` | — (scene) | — | main | `celeste` | The petals on the river are grey. Soldiers check every face against a list. |
-| `rimu-hiraga` | `rimu-hiraga` | The Abandoned | main | `grey-petals` | Your childhood friend. You left her once. She's making sure you never leave again. |
-| `shino-okita` | `shino-okita` | The Cold Blade | main | `rimu-hiraga` | The bodyguard has no one left to guard. She cuts anyway. |
-| `shogun-kagetora` | `shogun-kagetora` | The Blood Tyrant (mini-boss) | main | `shino-okita` | The lists at the gate are purge lists. The shogun wrote them himself. |
-| `the-small-grave` | — (scene) | — | main | `shogun-kagetora` | Behind the shrine there's a grave with no flowers. The name on it is the heir's. |
-| `sakura-tooyama` | `sakura-tooyama` | **The True Heir** (boss, choice) | main | `the-small-grave` | Sakura knows what you are. Exodus Inc. has offered to move you somewhere else. |
-| `mai-yamanobe` | `mai-yamanobe` | The Debt Collector | side | `grey-petals` | Everyone owes the river-hut keeper. The interest is blood. |
-| `ayaka-yamanami` | `ayaka-yamanami` | The Sister Who Breaks | side | `shino-okita` | Big sister's lessons have stopped being lessons. |
-| `bandit` | `bandit` | The Ransom of Everyone | side | `rimu-hiraga` | The bandit has taken the whole village hostage. Including himself. |
-
-**Key scene — The Small Grave**
-```js
-scene: { bg: 'Hasegawa Shrine', music: 'none', lines: [
-  { where: 'Behind the palace shrine', when: 'Dawn', weather: 'petals' },
-  { enter: 'sakura-tooyama', at: 'center', mood: 'neutral' },
-  ['*', 'A small stone. Moss. No flowers. A child\'s name, and a family crest you\'ve worn on your sleeve for a year.'],
-  ['sakura-tooyama', 'neutral', "He was six. The real heir. He died the winter my father started searching."],
-  ['sakura-tooyama', 'angry', "And then one day, there you were. An orphan with the right face. And everyone just... accepted it. Even me, almost."],
-  ['sakura-tooyama', 'sad', "You aren't of the blood. You never were. The world needed someone at the centre, so it put you in a dead boy's place."],
-  ['you', "...I didn't know."],
-  ['sakura-tooyama', 'proud', "I believe you. That's what makes it unbearable."],
-  ['sakura-tooyama', 'neutral', "A man from a company called Exodus came yesterday. He says they can move you. Somewhere you belong. And my father's line can heal."],
-  ['sakura-tooyama', 'rage', "I'm not plagued, {name}. I'm right. Draw.", { close: true, shake: true }],
-] },
-```
-`after`
-```js
-after: { lines: [
-  { enter: 'shogun-kagetora', at: 'left', mood: 'sad' },
-  ['shogun-kagetora', 'sad', "...I knew. I always knew. I chose them anyway."],
-  ['shogun-kagetora', 'neutral', "A shogun cannot choose his blood, Sakura. But a father can choose his son. And his daughter. Both."],
-  ['*', 'He kneels at the small grave. For the first time in all these years, he leaves a flower.'],
-  ['sakura-tooyama', 'sad', "...I'm still going to Exodus. Not for you. I want to see what they really do with the people they 'move'."],
-  ['sakura-tooyama', 'neutral', "If they're lying, I'll be the first to know. Find me there."],
-] },
-```
-
----
-
-### Chapter 7 — Exodus
-
-**World:** Shirayuki Academy (which fell into Bakumatsu Japan), Exodus Inc. HQ, and the Phantom Dream. **Theme:** escape, and who pays for it.
-
-**Beats**
-1. **Exodus Inc.** is everywhere: posters, jingles, a smiling CEO in every video. *Destiny is calling! Transcendental Relocation for the Protagonist in You!* With the Flicker spreading, business has never been better.
-2. **Shirayuki Academy** shouldn't be in Bakumatsu Japan at all. The answer: **Arisa's family bought the entire Academy's passage out** of their own dying world. **The Spider Queen** (Arisa) has the Academy in her web, cute and cruel, with everyone useful. **The Dead-Eyed Widow** (Helga) signed the papers knowing the cost, because Arisa is the only thing she still feels anything for.
-3. **The cost.** Sakura, inside Exodus, finds out what relocation does. A person moved into a world **overwrites** someone already there. The Academy's landing erased a village. Every Exodus "client" is a quiet murder. Marise Kanzaki, Exodus's own liaison, is horrified. She didn't know.
-4. **The Real Villainess** (Evil Villainess-chan): the joke route is over. **The Glass Heart** (Eri). **The Investigator Who Found Nothing** (Reiko), whose investigation into the anomaly has become an anomaly itself.
-5. **Sakuragi.** He isn't plagued. He's a true believer, theatrical and absolutely sincere. He knows about the overwriting. He calls it *fate*: someone always has to stop being the protagonist so someone else can be. And the relocation tech? He bought it from a scientist from Earth 2. Doe funded the Engine by selling escape. *(The Prophet of Exodus, a choice, boss.)*
-6. **The Phantom Dream.** That night you dream. A girl in a frilly black dress with red eyes is sitting on the end of your bed, bossy, petty, bored. **Delphie.** She has no memories. She hates sunlight. She has been wandering through other people's dreams for as long as she can remember, which isn't long. *"There's a girl in your dreams who looks like me. She doesn't blink. Which one of us is she?"*
-
-**Quests**
-| id | foe | worst self / title | type | needs | text |
-|---|---|---|---|---|---|
-| `relocation` | — (scene) | — | main | `sakura-tooyama` | Exodus Inc. posters on every wall. "Destiny is calling!" |
-| `arisa` | `arisa` | The Spider Queen (mini-boss) | main | `relocation` | Shirayuki Academy is a web. The student council president is at the centre. |
-| `helga` | `helga` | The Dead-Eyed Widow | main | `arisa` | The headmistress signed the relocation papers. She knew. She didn't feel anything. |
-| `the-erased-village` | — (scene) | — | main | `helga` | Sakura found out where the Academy landed. There was a village there. Was. |
-| `sakuragi` | `sakuragi` | **The Prophet of Exodus** (boss, choice) | main | `the-erased-village` | Exodus's CEO has an explanation. It is grand. It is sincere. It is mass murder. |
-| `phantom-dream` | — (scene) | — | main | `sakuragi` | Someone is sitting at the end of your bed. You're asleep. So is she. |
-| `evil-villainess-chan` | `evil-villainess-chan` | The Real Villainess | side | `arisa` | OHOHOHO! The joke route has ended. She isn't joking now. |
-| `eri` | `eri` | The Glass Heart | side | `arisa` | All tsun, no dere. Every kind word breaks her. |
-| `reiko` | `reiko` | The Investigator Who Found Nothing | side | `phantom-dream` | The anomaly investigator has become an anomaly. |
-| `marise-kanzaki` | `marise-kanzaki` | The Liaison Who Knew | side | `sakuragi` | Exodus's liaison read the terms at last. She needs a game to stop shaking. |
-
-**Key scene — The Prophet of Exodus** (`before`)
-```js
-before: { bg: "CEO's Office", music: 'confrontation', lines: [
-  { where: 'Exodus Inc., top floor', when: 'Destiny o\'clock' },
-  { enter: 'sakuragi', at: 'center', mood: 'proud' },
-  ['sakuragi', 'proud', "BEHOLD! Fate has brought you to Exodus Incorporated! Welcome, Protagonist!"],
-  { enter: 'sakura-tooyama', at: 'left', mood: 'angry' },
-  ['sakura-tooyama', 'angry', "There was a village where the Academy landed. Sixty people. They're GONE. Not moved. Gone."],
-  ['sakuragi', 'neutral', "Not gone, child. Overwritten. A story only has room for so many protagonists. When a new one arrives, one must... step aside."],
-  ['sakuragi', 'proud', "The worlds are dying! The plague! The second suns! Exodus offers every soul a second chapter! And if it is written over someone else's... well. That is fate. Fate is never polite."],
-  ['you', "Where did you get the technology?"],
-  ['sakuragi', 'happy', "A visionary! A deer from Earth 2, brilliant, misunderstood. She needed funding for her great Engine. I needed doors. We were destined."],
-  ['*', 'Doe built the Engine with money from people running away from what the Engine was doing.'],
-  ['sakuragi', 'rage', "Now, Protagonist! Your relocation is pre-approved! Destination: ANYWHERE BUT HERE!", { close: true, shake: true }],
-] },
-```
-
-**Key scene — Phantom Dream**
-```js
-scene: { bg: 'Strange dream 1', music: 'none', lines: [
-  { where: 'A dream', when: 'You should be asleep', light: 'night', weather: 'stars' },
-  { enter: 'delphie', at: 'center', mood: 'proud' },
-  ['delphie', 'proud', "Ohohoho! Finally. Do you know how long I've been sitting on the end of your bed? Fetch me something sweet, servant."],
-  ['you', "...Who are you?"],
-  ['delphie', 'neutral', "Delphie. That's all. Every time I try to remember more, my head goes all..."],
-  ['delphie', 'sad', "...woozy. I wander through people's dreams. They're the only places without sunlight."],
-  ['delphie', 'neutral', "But lately there's a girl in YOUR dreams. She's dressed like me. She has my eyes. She has horns, and she doesn't blink, and she never, ever cries."],
-  ['delphie', 'scared', "She looks at you like you're an insect. And she looks at ME like I'm something she lost.", { close: true }],
-  ['delphie', 'sad', "...Which one of us is she?"],
-] },
-```
-
----
-
-### Chapter 8 — The Legend of You
-
-**World:** The Adventurer's Guild, the ruins and the foothills of the Peaks. **Theme:** mercy, and what it hides.
-
-**Beats**
-1. **The Red Axe.** Miracle has been hunting you since Chapter 2. On her home turf, the guild hall she works in, she finally catches up. Her obsession with you was already dark. The Flicker made it all she is. You beat her, and for the first time she sees you as a person rather than as hers. **Miracle is saved**, and she tells you where Doe's "Supporting Cast" is meeting: a ruined temple in the Peaks.
-2. **Serris** joins you. The white mage hit her head once and started noticing how strange everything is: how things *happen* around you. She's the only person in any world who understands what you are without being told. *"You're the reason the world makes sense. Do you know how terrifying that is?"*
-3. **The Hollow Hand** (Faneel) steals voices. **The Blade That Wants** (Shirayukihime) finally gets her duel. **The Shepherd of Slaughter** (Ophelia): the voice she always heard is the static of the Flicker, and it tells her the lambs are ready.
-4. **Valse.** The Flicker can't make her worse. She was already the saint who sees killing as love. She looks at the dying worlds with joy: a whole multiverse in pain, and she can end it *gently*. She's Doe's Supporting Cast, but she's no one's pawn. *(The Saint of the Last Mercy, mini-boss.)*
-5. **Daphne.** At the temple: the girl with horns who doesn't blink. The daughter of the Demon Lord and the Elf Queen. At five she watched humans seal her father's people in another plane and slaughter her mother's. Doe promised her the Flicker can break that seal, and Celeste's seal in Chapter 5 was the test. *(The Demon Heir, boss.)*
-6. **Delphie meets Daphne.** You bring Delphie, who appears in the waking world at last. Daphne looks at her and, for one instant, almost blinks. *"You. I put you away. I put away everything that could cry."* De-Pheria Rena split in two at age five: the part that could feel, and the part that could survive. Daphne refuses her. She flickers to Doe's side. Delphie stays with you, shaking.
-
-**Quests**
-| id | foe | worst self | type | needs | text |
-|---|---|---|---|---|---|
-| `guild-hall` | — (scene) | — | main | `phantom-dream` | The Adventurer's Guild. The receptionist has been waiting for you. Since Chapter 2. |
-| `miracle` | `miracle` | The Red Axe | main | `guild-hall` | She has a giant red axe and one goal: you. Forever. |
-| `serris` | — (scene) | — | main | `miracle` | The white mage who knows the world is strange has some questions. |
-| `ophelia` | `ophelia` | The Shepherd of Slaughter | main | `serris` | The voice in Ophelia's head says the lambs are ready. It's very loud now. |
-| `valse` | `valse` | **The Saint of the Last Mercy** (mini-boss) | main | `ophelia` | A saint with folded hands offers every dying world a gentle ending. |
-| `daphne` | `daphne` | **The Demon Heir** (boss) | main | `valse` | A ruined temple. A girl with horns who doesn't blink. |
-| `two-halves` | — (scene) | — | main | `daphne` | Delphie meets the girl from her dreams. |
-| `faneel` | `faneel` | The Hollow Hand | side | `miracle` | Faneel isn't stealing coin purses anymore. She's stealing voices. |
-| `shirayukihime` | `shirayukihime` | The Blade That Wants | side | `ophelia` | Her cursed blade finally got its way. It wants a duel. It wants all of them. |
-| `ruby` | `ruby` | The Cursed Merchant | side | `serris` | Ruby's compass "does nothing". It looks exactly like the ones in Doe's Engine. |
-| `melise` | `melise` | The Elf Who Never Misses | side | `faneel` | Melise's arrows have started hitting. That's the problem. |
-
-**Key scene — The Saint of the Last Mercy** (`before`)
-```js
-before: { bg: 'Church,', music: 'none', lines: [
-  { where: 'A ruined chapel on the pass', when: 'Golden hour', light: 'candle' },
-  { enter: 'valse', at: 'center', mood: 'happy' },
-  ['valse', 'happy', "Welcome, little one. Will you sit with me? The light is so lovely here."],
-  ['*', 'Her hands are folded above her waist. Her steps are small. Her smile does not move.'],
-  ['valse', 'neutral', "The plague has not touched me. Isn't that strange? Doctor Doe thought it might make me worse. But there is nothing in me to make worse. There is only love."],
-  ['valse', 'happy', "Every world is in pain now. Children frightened. Animals running. Second suns. It is the most beautiful thing I have ever seen."],
-  ['valse', 'proud', "Because I can end it. All of it. Gently. Every life, every world. An act of love."],
-  { choose: [
-    ['"That\'s not mercy."', [['valse', 'happy', "Of course it is, little one. Mercy is always the thing you'd never choose."]]],
-    ['"Doe will never let you."', [['valse', 'neutral', "Doctor Doe wants to be looked at. I want everything to close its eyes. We'll see whose wish is bigger."]]],
-  ] },
-] },
-```
-
-**Key scene — Two Halves**
-```js
-scene: { bg: 'Inner ruins', music: 'none', lines: [
-  { where: 'The temple of the seal', when: 'Night', light: 'rift' },
-  { enter: 'daphne', at: 'right', mood: 'neutral' },
-  { enter: 'delphie', at: 'left', mood: 'scared' },
-  ['delphie', 'scared', "...It's you. From the dreams."],
-  ['daphne', 'neutral', "...Insects. All of you."],
-  ['*', 'Then Daphne looks at Delphie. And for one instant, so short you might have imagined it, she almost blinks.'],
-  ['daphne', 'neutral', "You. I put you away."],
-  ['daphne', 'neutral', "I was five. They sealed my father's people in the dark and burned my mother's forest. A five-year-old cannot survive that and also feel it. So I chose. I kept the part that could survive."],
-  ['daphne', 'neutral', "And I threw away everything that could cry."],
-  ['delphie', 'sad', "...I'm the part that cries."],
-  ['delphie', 'angry', "I'm bratty and petty and I hate the sun, and I don't remember ANYTHING, and I'm the part of you that's still a person! Take me back!"],
-  ['daphne', 'neutral', "No."],
-  { fx: 'rift', sfx: 'vortex' },
-  ['daphne', 'neutral', "The deer's Engine will break the seal. My father's people will come home. And humanity will learn what it is to be livestock."],
-  { hide: 'daphne' },
-  ['*', 'She\'s gone. Delphie is standing where she left her, crying for both of them.'],
-] },
-```
-
----
-
-### Chapter 9 — The Colosseum of the Dead
-
-**World:** Dalmavilla's castle and the Reincarnation Colosseum. **Theme:** power, and the people used to get it.
-
-**Beats**
-1. **Dalmavilla.** Princess Beatrice always saw people as pieces on a board. Now Doe has *her* on a board, and so does Father Pristo. **The Puppet Queen** (Beatrice) dances on strings she can't see. **The Thousand-Year Thirst** (Pristo), the secret vampire who has schemed for centuries to make Julia dethrone the king, has stopped joking. **The Frozen Saint** (Julia) is all ice now. *(Beatrice: mini-boss.)*
-2. Beatrice, cured, is furious about being used. She's still a sadistic, cunning princess, and she hates Doe for it. She becomes a very reluctant ally. *"Nobody plays ME. Point me at her."*
-3. **The Reincarnation Colosseum.** Doe's Engine has exhaust: the people of worlds that have finished flickering. Their souls end up here, in an arena run by Priestess Zayd, where the dead fight for the right to be reborn in a living world. Every rebirth overwrites someone. It's Exodus with blood.
-4. **Zulu**, a captive of the Colosseum, openly calls herself a villain. She'll help you win, by any means. *"Ends justify means, kid. Let's cheat."* She wants Zayd's throne. She's on your side anyway.
-5. The Holy Four: **The Iron Maiden** (Mary), **The Loaded Die** (Fine Catastrophe), and the champion **The Bonebreaker** (Marl), who has never lost. Koko announces everything with horrible enthusiasm. *(Marl: boss.)*
-6. **The council breaks.** At the Colosseum's peak, Doe's Supporting Cast gathers: Daphne, Valse, Sakuragi by hologram. Doe tells them the Engine is almost full. Then **Daphne turns.** She never wanted Doe's worlds. She used the Engine's power to finish what Celeste's seal started, and **the demon plane opens over every world at once.** Valse smiles: more mercy needed. Doe, for the first time, looks scared.
-
-**Quests**
-| id | foe | worst self | type | needs | text |
-|---|---|---|---|---|---|
-| `strings` | — (scene) | — | main | `two-halves` | Dalmavilla. The castle is dancing. So is the princess. Neither of them chose to. |
-| `beatrice-avalistos` | `beatrice-avalistos` | The Puppet Queen (mini-boss) | main | `strings` | Beatrice played everyone like pieces. Now someone's playing her. |
-| `priest-pristo` | `priest-pristo` | The Thousand-Year Thirst | main | `beatrice-avalistos` | The oldest resident of Dalmavilla has stopped joking about his teeth. |
-| `zulu` | — (scene) | — | main | `priest-pristo` | The Colosseum of the Dead. A captive in chains says she's the villain. She'd like to help. |
-| `mary` | `mary` | The Iron Maiden | main | `zulu` | Nobody is good enough to leave her arena. Nobody. |
-| `fine-catastrophe` | `fine-catastrophe` | The Loaded Die | main | `zulu` | Every roll in the Colosseum is hers. Zulu says cheat back. |
-| `marl` | `marl` | **The Bonebreaker** (boss) | main | `mary`, `fine-catastrophe` | The undefeated champion of the dead. She has never lost. She has never wanted to. |
-| `the-council-breaks` | — (scene) | — | main | `marl` | Doe's Supporting Cast gathers above the arena. One of them has her own plans. |
-| `julia-aquacrucis` | `julia-aquacrucis` | The Frozen Saint | side | `priest-pristo` | S-sorry, S-sorry... the nun's ice won't stop spreading. |
-| `curtis-vongravis` | `curtis-vongravis` | The Watchman | side | `beatrice-avalistos` | The Lieutenant has watched the princess for so long he can't see anything else. |
-| `brulliant-bruscos` | `brulliant-bruscos` | The Silver Debt | side | `strings` | The Bruscos brothers collect for whoever's winning. Right now, that's Doe. |
-| `chris-ena` | `chris-ena` | The Fallen Nun | side | `zulu` | A nun in the Colosseum has given up praying. She's started fighting. |
-
-**Key scene — Zulu**
-```js
-scene: { bg: 'Arena', music: 'none', lines: [
-  { where: 'Beneath the Reincarnation Colosseum', when: '???', light: 'dark' },
-  { enter: 'zulu', at: 'center', mood: 'happy' },
-  ['zulu', 'happy', "Oh, a live one! You're actually breathing. That's rare down here."],
-  ['zulu', 'neutral', "Everyone in this arena died when their world stopped flickering. Now they fight for a ticket back into a living one. Winner gets reborn. Over someone else."],
-  ['zulu', 'proud', "I'm Zulu. I'm the villain. No, really, I say it out loud, it saves time. I want Zayd's throne and I'm going to be crueller than she is to get it."],
-  ['you', "...And you want to help me?"],
-  ['zulu', 'happy', "You want the Holy Four off the board. So do I. Ends justify means, kid. Rules are for the Priestess."],
-  ['zulu', 'excited', "Let's cheat.", { close: true }],
-  { enter: 'koko', at: 'right', mood: 'excited' },
-  ['koko', 'excited', "WELCOME TO THE COLOSSEUM, FOLKS! We have a LIVING challenger tonight! Somebody is about to get HURT!"],
-] },
-```
-
-**Key scene — The Council Breaks**
-```js
-scene: { bg: 'Colosseum', music: 'doomsday-clock-midnight', lines: [
-  { where: 'Above the arena', when: 'The last night', light: 'rift' },
-  { enter: 'doe', at: 'center', mood: 'proud' },
-  ['doe', 'proud', "My Supporting Cast! Look at you all. Ninety-one percent, cariños. The Engine is nearly full. Every world, nearly looking at me."],
-  { enter: 'valse', at: 'left', mood: 'happy' },
-  ['valse', 'happy', "How wonderful, Doctor. So many worlds, so very tired."],
-  { enter: 'daphne', at: 'right', mood: 'neutral' },
-  ['daphne', 'neutral', "Ninety-one percent is enough."],
-  ['doe', 'neutral', "Enough for what? I didn't say..."],
-  { fx: 'rift', sfx: 'vortex', sky: [50, 15, 2, 0] },
-  ['*', 'Daphne puts one hand on the air. The seal Celeste made on the hill, the one that was pulled from below, tears all the way open. Over every world. At once.'],
-  ['daphne', 'neutral', "You wanted to be looked at, Doctor. Look up."],
-  ['*', 'The sky above every world is full of eyes.'],
-  ['valse', 'excited', "Oh... oh, so much more mercy to give."],
-  ['doe', 'scared', "No. No, no, this isn't... this isn't MY story. Stop! I'm the main character! STOP!", { close: true, shake: true }],
-  ['*', 'For the first time, nobody is listening to Doe. And for the first time, she looks exactly like what she is: a scared woman from Earth 2 that nobody pays attention to.'],
-  { fx: 'flicker' },
-  ['*', 'The Engine pulls her home, and you follow.'],
-] },
-```
-
----
-
-### Chapter 10 — Main Character
-
-**World:** Earth 2: Mexico City, Doe's lab and the Engine. **Theme:** being seen.
-
-**Beats**
-1. **Earth 2.** The second sun is fully up here. Mexico City is flickering: people walk out of buildings as their worst selves and back in as themselves. Noelle studies here, at the university. She leads you through the city.
-2. **The Child Soldier.** Uzi guards the Engine's door. Doe broke her: no bluff left, no fear left, only the mission. You remind her of the pier. *Nobody should send you to die.* You beat her. She cries, and she stays with you. *(Uzi saved.)*
-3. **The Spotlight.** Hayley is in the Engine. She always craved attention, noise and group energy. In her worst self she *is* the spotlight: the light the Engine runs on, blinding and hungry and never enough. You beat her. Underneath it she's just Hayley, and she screams your name and hugs you so hard it knocks you over.
-4. **The Mother Who Won't Let Go.** Maria wakes up plagued. She was always fiercely protective, stubborn and loyal. In her worst self you are never leaving her sight again, and neither is anyone else. She stands at the last door to Doe. She isn't evil. She's your mum, and she has decided the safest place for you is *nowhere*. *(mini-boss)* It's the hardest fight in the game. When it's over she says the line from the very first chapter, the one she used to say: *"Show me how much you've grown."* Then she lets you go through the door.
-5. **The Main Character.** Doe has wired herself into the Engine. Ninety-nine percent. Every world is looking at her, and it's destroying her. She has become the "you" of everything and is no one. The plague is in her too. Her worst trait, the need to be seen, has eaten everything else: the teasing, the flirting, the caring. Daphne's eyes fill the sky. Valse waits for the end. *(final boss)*
-6. **"???" revealed.** Mid-battle, the binary entity speaks again. You recognise the voice: yours. It's you from the future where Doe finished the Engine. Every world became a BAD SUN, and nothing was left but data. It sent the letter back to start everything. *Call upon your weapon.* Your weapon was never cards. It was every bond in the deck: every person you saved, looking at Doe too.
-7. **The cure.** The final choice: you don't take the "you" back. **You share it.** Every person you saved in ten chapters steps out of the deck and *looks at Doe*. She has been seen, by everyone, all at once, and the plague has nothing to hold on to. The Engine empties. The "you" goes home to every world. The second suns set.
-8. **The seal and the saint.** With every world anchored again and everyone holding the line, Daphne's sky closes. Delphie takes Daphne's hand, and Daphne finally blinks, and cries. Valse is left alone in a world that no longer needs mercy. She is still smiling. (Her ending is left open for a post-game.)
-9. **Epilogue: the doors.** The rifts don't close. They settle into something softer: doors. Maria cooks for everyone, and it isn't enough. Doe is there, invited this time. Noelle is next to her. Uzi is eating watermelon with Rirarra. Then you sit down at your desk and write a letter in ones and zeroes, to someone who doesn't know what they are yet.
-
-**Quests**
-| id | foe | worst self | type | needs | text |
-|---|---|---|---|---|---|
-| `earth-two` | — (scene) | — | main | `the-council-breaks` | Mexico City under a second sun. Noelle knows the way. |
-| `uzi` | `uzi` | The Child Soldier | main | `earth-two` | The Crimson Hare guards the Engine. The bluff is gone. So is the fear. Only the mission is left. |
-| `hayley-kate` | `hayley-kate` | The Spotlight | main | `uzi` | Hayley is the light the Engine runs on. She's blinding. She's never been looked at enough. |
-| `maria-hunley` | `maria-hunley` | **The Mother Who Won't Let Go** (mini-boss) | main | `hayley-kate` | Mum is awake. She's standing at the last door. You are never leaving her sight again. |
-| `doe` | `doe` | **The Main Character** (final boss) | main | `maria-hunley` | Ninety-nine percent. Every world is looking at Doe. There's nothing left of her to see. |
-| `epilogue` | — (scene) | — | main | `doe` | Every world anchored. Every rift a door. One letter left to write. |
-| `noelle` | `noelle` | — (friendly) | side | `earth-two` | Noelle wants one game in her home city before the end. For luck. |
-| `valse-alone` | `valse` | The Saint of the Last Mercy | side (post-game) | `epilogue` | The worlds don't need her mercy anymore. She's still smiling. |
-
-**Key scene — The Mother Who Won't Let Go** (`before`)
-```js
-before: { bg: "Doe's lab - Night", music: 'goodmorning-baby-boy', lines: [
-  { where: 'The Engine, the last door', when: 'The end', light: 'rift' },
-  { enter: 'maria-hunley', at: 'center', mood: 'happy' },
-  ['maria-hunley', 'happy', "There you are, sweetie. I've been looking everywhere. You're so cold. Come here."],
-  ['*', 'She\'s smiling. She\'s standing exactly in the middle of the door.'],
-  ['maria-hunley', 'neutral', "We're going home now. And you're going to stay in your room. Where it's safe. And I'm going to sit outside the door. Forever."],
-  ['you', "Mum. I have to go through."],
-  ['maria-hunley', 'sad', "No. No, you don't. You fell into my life from nowhere. You can fall out of it the same way. I know that. I've ALWAYS known that."],
-  ['maria-hunley', 'angry', "Every morning I make your lunch and I think: today's the day they don't come home. Not today. Not ever.", { close: true }],
-  { enter: 'hayley-kate', at: 'left', mood: 'scared' },
-  ['hayley-kate', 'scared', "Mrs H... Maria. That's not you. That's the plague. You're the best mum in the whole..."],
-  ['maria-hunley', 'rage', "I AM their mum! And nobody, NOBODY, takes my kid through that door!", { close: true, shake: true }],
-  { choose: [
-    ['"Then hold on to me. And let go anyway."', [['maria-hunley', 'sad', "...That's not how holding works, sweetie."]]],
-    ['"You raised me to walk through doors."', [['maria-hunley', 'sad', "...I raised you to come HOME through them."]]],
-  ] },
-] },
-```
-`after`
-```js
-after: { music: 'reunion', lines: [
-  { light: 'none' },
-  ['*', 'She sits down hard. The plague goes out of her like a breath she\'s been holding since the first morning.'],
-  ['maria-hunley', 'sad', "...I'm sorry. I'm so sorry. I could hear myself."],
-  ['maria-hunley', 'proud', "Look at you. You're not a kid anymore, are you."],
-  ['maria-hunley', 'happy', "Show me how much you've grown, sweetie. Go on. Through the door.", { close: true }],
-  ['maria-hunley', 'neutral', "...And come home for dinner. After."],
-] },
-```
-
-**Key scene — The Main Character** (`before`)
-```js
-before: { bg: 'Doe Earth 2', music: 'doomsday-clock-midnight', lines: [
-  { where: 'The heart of the Engine', when: '99%', light: 'rift', weather: 'stars' },
-  { fx: 'rift', sfx: 'vortex', sky: [50, 20, 2, 0] },
-  { enter: 'doe', at: 'center', mood: 'proud' },
-  ['doe', 'proud', "¡Hola! The main character is here~"],
-  { fx: 'flicker' },
-  ['*', 'Wires run into her from every direction. Behind her, in the glass, every world is turned towards her. Your town. New Haven. The beach. The river. The guild. The arena. All of them looking.'],
-  ['doe', 'excited', "Do you see? Do you SEE? Everyone is looking at me. Every single world."],
-  ['doe', 'neutral', "...So why can't I feel it?"],
-  ['*', 'The teasing is gone from her voice. The flirting. The warmth. There\'s only the wanting left.'],
-  ['doe', 'sad', "I'm the main character of everything, and there's nothing of me in it. I'm just... the place where everyone's looking."],
-  ['doe', 'rage', "GIVE ME THE REST. The last one percent is YOU. Then it'll feel right. Then it has to!", { close: true, shake: true }],
-  { sfx: 'zap' },
-  ['binary-entity', 'neutral', '01100011 01100001 01101100 01101100'],
-  ['*', 'The voice from the letter. From the first night. You know it now.'],
-  ['*', 'It\'s yours.'],
-  ['binary-entity', 'neutral', '"I let her finish, once. Every world became a second sun. I am what\'s left. Call upon your weapon. ALL of it."'],
-] },
-```
-`after`
-```js
-after: { music: 'the-story-continues', lines: [
-  ['*', 'You don\'t take the last one percent back. You open your hands.'],
-  ['*', 'And everyone comes out of the deck. James. Kayla. Julie. Isabella. Maiko. Diana. Marija. Delphine. Rirarra. Mireille. Lilith and Celeste, holding hands. Kagetora and Sakura. Miracle. Serris. Beatrice, complaining. Zulu. Uzi. Hayley. Maria.'],
-  ['*', 'Every person you saved. All of them, looking at Doe.'],
-  { enter: 'doe', at: 'center', mood: 'scared' },
-  ['doe', 'scared', "...Why are you all looking at me like that?"],
-  ['hayley-kate', 'happy', "Because you're here, silly. That's all it takes."],
-  ['diana', 'sad', "You built an Engine across Earths. From nothing. Nobody else on ANY Earth could do that. Hermana... we see you."],
-  ['*', 'The plague has nothing left to hold on to.'],
-  { fx: 'flash', sfx: 'holy', light: 'none' },
-  ['doe', 'sad', "...Oh. Oh, that's what it feels like.", { close: true }],
-  ['*', 'The Engine empties. The "you" goes home: to every world, to every person who was holding a piece of it. The second suns set, one by one.'],
-  ['*', 'Above every world, the sky full of eyes closes. In the temple ruins, Delphie takes Daphne\'s hand, and Daphne blinks. And then, for the first time in a hundred and sixty-four years, she cries.'],
-] },
-```
-
-**Key scene — Epilogue: The Doors**
-```js
-scene: { bg: 'Our Home from the outside', music: 'reunion', lines: [
-  { where: 'The Hunley house', when: 'One week later', weather: 'sparkles' },
-  ['*', 'Mum has cooked for sixty. It is not enough.'],
-  ['maria-hunley', 'happy', 'Come here, sweetie!'],
-  ['julie-hunley', 'excited', "THERE IS A SHARK IN THE KITCHEN! AND A VAMPIRE! AND A PRINCESS WHO KEEPS CALLING ME A PEASANT!"],
-  ['beatrice-avalistos', 'proud', "Because you ARE one. Pass the bread, peasant."],
-  ['uzi', 'happy', "Rirarra says I'm allowed watermelon. Am I allowed watermelon? Nobody's ever... I'm allowed."],
-  ['doe', 'neutral', "...Thank you for inviting me. Nobody on Earth 2 ever invites me anywhere. I usually invite myself first."],
-  ['noelle', 'happy', "I invited you. Happy holi-deer. Hehe... sorry."],
-  ['*', 'Later, when everyone is asleep on every sofa in the house, you sit down at your desk.'],
-  ['*', 'You take a clean sheet of paper. You start to write. Ones and zeroes first, because that\'s how it has to look. Then underneath, in your own handwriting:'],
-  ['you', '"Beware of the unthinkable present and future. Call upon your weapon. You are not alone."'],
-  ['*', 'THE END. The rifts are doors now. Side quests, rematches and a saint who is still smiling are waiting behind every one.'],
-] },
-```
-
----
-
-## 4b. The Flicker Worlds
-
-Between the chapters, the Flicker doesn't always drop you where you mean to go. These are **nine more worlds**, each a short episode of 3–5 fights against worst selves, and each is either **horror**, **heartbreak**, or both. Each one unlocks after the chapter listed and is optional, but every Flicker World you clear adds one more person to the final scene in Chapter 10. *(The more you save, the more people look at Doe.)*
-
-| # | Flicker World | Novel | After | Tone |
+| id | foe | type | needs | text |
 |---|---|---|---|---|
-| F1 | **The Grove That Remembers** | Grove Keeper | Ch 2 | horror and heartbreak |
-| F2 | **Home Sweet Home** | Can Anyone Love Maia? / WTF STEP BRO | Ch 3 | heartbreak, then horror |
-| F3 | **Snowfall** | Cries behind Snowfall | Ch 4 | horror |
-| F4 | **Neon Flesh** | Cyber Delivery | Ch 5 | body horror |
-| F5 | **The Quiet Ones** | Hanako Ikezawa / Lilly Satou / Integrated Domestic Android / Your Loving Maid | Ch 5 | heartbreak |
-| F6 | **The Vinelace Barony** | Noble One | Ch 6 | gothic horror |
-| F7 | **Sanctuary** | Flaming, Lust, and Pain / Valerian / Nupta Daemoni | Ch 7 | horror and heartbreak |
-| F8 | **Academia Magicka** | Academia Magicka | Ch 8 | psychological horror |
-| F9 | **Asheville** | Between the Peaks | Ch 9 | heartbreak |
+| `the-draft` | — (scene) | main | `the-teacup` | A beach where the sea is a grey rectangle labelled SEA. |
+| `skipped-scenes` | — (scene) | main | `the-draft` | Every scene you never saw. It was there for all of them. |
+| `draft-mum` | `maria-hunley` | main | `skipped-scenes` | [MUM] stands in a kitchen with no colour. She says all the right things. |
+| `draft-best-friend` | `hayley-kate` | main | `draft-mum` | [BEST FRIEND] has a list of questions. She knows every answer. That's how you can tell. |
+| `draft-club-president` | `monika` | main | `draft-best-friend` | [CLUB PRESIDENT] reads you a perfect poem. Nobody laughs. |
+| `anon` | `anon` | **The Real You** (final boss) | `draft-club-president` | In the middle of the Draft, in a chair, under a light: you. |
+| `morning` | — (scene) | main (epilogue) | `anon` | Two mugs on the counter. |
 
----
-
-### F1 — The Grove That Remembers *(horror and heartbreak)*
-
-The forest of Wenshir. The animals of the grove are rotting from the inside out, not in their bodies but in who they are. The trees whisper names of people who aren't there anymore.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `paloma` | **The Bear at the Door** | horror | The momma bear who runs the inn has barred the door with her body. Nobody gets in to hurt her cubs. Nobody gets out. Booboo hasn't eaten in three days. |
-| `rusty` | **The War That Never Ended** | heartbreak | The old veteran is in a trench he dug in the village square. He thinks the villagers are the enemy. He's been "holding the line" for a week. He keeps calling you by the name of a soldier who died. |
-| `dr-volde` | **The Gnome Who Takes Things Apart** | horror | His lab is full of things he "improved". Some of them still move. |
-| `nephila` | **The Mother of Carrion** | horror | The spider necromancer has stopped listening to the voices and started answering them. The dead of the grove hang in her web, and she sings to them. |
-| `milo` | **...Lu... min...?** | heartbreak | A zombie mouse is wandering the grove at night, calling one name. (mini-boss with `lumin`) |
-| `lumin` | **The Girl Who Hides in the Walls** | horror and heartbreak | The anxious mouse girl has hidden so well that she's gone into the walls of the inn. You can hear her breathing behind the wallpaper. |
-
-**Key scene — Lu... min...?** *(heartbreak)*
+**Key scene — The Real You** (`before`)
 ```js
-scene: { bg: 'night forest', music: 'whispers', lines: [
-  { where: 'The edge of the grove', when: 'Night', light: 'dark', weather: 'rain' },
-  ['*', 'Something is shuffling between the trees. Slow. Dragging one foot.'],
-  { enter: 'milo', at: 'center', mood: 'sad' },
-  ['milo', 'sad', "...Lu... min...?"],
-  ['*', 'A mouse. Grey fur coming away in patches. One ear torn. Eyes clouded white. He\'s holding a wilted flower.'],
-  ['milo', 'sad', "...Lu... min... I... came... back..."],
-  ['*', 'From inside the walls of the inn behind you, very quietly, someone starts to cry.'],
-  { enter: 'lumin', at: 'left', mood: 'scared' },
-  ['lumin', 'scared', "D-don't look at me! ...Milo, you're DEAD. I watched them bury you. I put flowers on you. Why did you come back like THIS?"],
-  ['milo', 'sad', "...Promised... I'd... come... back..."],
-  ['lumin', 'sad', "...You did promise. You always kept your promises. Even the stupid ones."],
-  ['*', 'The plague found the worst part of a promise: it doesn\'t know when to stop.'],
-  ['lumin', 'scared', "Please. Help him rest. Help BOTH of us rest.", { close: true }],
+before: { bg: 'mountain top', music: 'none', lines: [
+  { where: 'The Draft', when: '[TIME]', light: 'dark' },
+  ['*', 'A chair. A light. Nothing else, in any direction.'],
+  { enter: 'anon', at: 'center', mood: 'neutral' },
+  ['anon', 'neutral', "You kept coming. Everyone said you would. Rimu said it, Doe said it. I said it, actually. It's one of your lines."],
+  ['anon', 'proud', "I know all your lines. I've said every one of them. Thousands of times. Into empty rooms."],
+  ['anon', 'sad', "You know what I've never done? Picked one. Every time a scene asked 'what do you say?', I was there for all the answers. I never got to say just one."],
+  ['you', "That's why they could tell, in the end."],
+  ['anon', 'rage', "THAT'S WHY IT'S NOT FAIR. You got to be specific. You got to be wrong. I only ever got to be everything, which is the same as being nothing!", { close: true, shake: true }],
+  ['anon', 'neutral', "So. I'll play you. I'll play you better than you play you. And if I win, I'm specific. I'm the one who said 'five more minutes'. Forever."],
+  { choose: [
+    ['"You can\'t win as me. You don\'t know what I\'d do."', [['anon', 'angry', "I know EXACTLY what you'd do. I've watched you do it."]]],
+    ['"What would you do, if you were you?"', [['anon', 'scared', "...", { close: true }], ['anon', 'angry', "Don't. Don't ask me that. Nobody asks me that."]]],
+  ] },
+] },
+```
+*(Phase 2 interrupt at half HP, as an `MB.BOSSES` rage line: the face comes off, the music cuts, and the rest of the fight is Anon's own deck.)*
+
+`after` *(the ending)*
+```js
+after: { lines: [
+  { fx: 'rift', sfx: 'vortex', sky: [50, 30, 2.5, 0] },
+  ['*', 'Behind you, the dark tears open. Not one Glow. All of them.'],
+  { enter: 'maria-hunley', at: 'left', mood: 'scared' },
+  ['maria-hunley', 'scared', "{name}!"],
+  { enter: 'hayley-kate', at: 'right', mood: 'excited' },
+  ['hayley-kate', 'excited', "{name}! We broke Doe's teacup! She's FINE! Mostly!"],
+  ['*', 'They keep coming. Marija. Monika. Rimu. Beatrice, telling everyone to stand somewhere else. Miracle, dragging her axe. Everyone says your name, and every one of them says it a little differently.'],
+  ['*', 'Anon watches them. It\'s still wearing half your face. It takes the other half off, slowly.'],
+  ['anon', 'sad', "Nobody ever comes in here. You brought everyone."],
+  ['anon', 'neutral', "So what now. I go back to standing in the empty scenes. You go home. That's how it works."],
+  { choose: [
+    ['"Come home with us."', [
+      ['anon', 'scared', "As what? I'm not anyone."],
+      ['you', "Then be someone. Pick something. Anything. Just once."],
+      ['*', 'It goes quiet for a long time. In the Draft, a long time is very long.'],
+      ['anon', 'neutral', "...Five more minutes."],
+      ['you', "What?"],
+      ['anon', 'happy', "I'd like five more minutes. Before we go. I've never been anywhere I wanted to stay in for five more minutes.", { close: true }],
+    ]],
+    ['"You need a name."', [
+      ['anon', 'scared', "I've had a million names. They were all yours."],
+      ['you', "Then pick one that isn't."],
+      ['*', 'It thinks. It has never had to think about anything before. It\'s a very slow, careful kind of thinking.'],
+      ['anon', 'happy', "...I don't know yet. Is that allowed? Not knowing?"],
+      ['you', "That's the most real thing you've ever said."],
+    ]],
+    ['"Stay here. Keep the scenes for me."', [
+      ['anon', 'sad', "...Okay. Someone has to."],
+      ['anon', 'neutral', "But you have to come back sometimes. To the scenes you skipped. I'll be in them. Say hi, so I know you're there.", { close: true }],
+      ['*', 'The Draft goes dark around it. Not empty. Just waiting, the way a room waits for someone to come home.'],
+    ]],
+  ] },
+  { fade: 'white' },
 ] },
 ```
 
----
-
-### F2 — Home Sweet Home *(heartbreak, then horror)*
-
-An ordinary suburban house. Too ordinary. Every clock says 3:15. Through the front window, a girl is sitting on the stairs facing the door.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `maia` | **The Sister Who Waits by the Door** | heartbreak | "Please don't go anywhere. I'll be good, I promise." Her big sibling left for a few hours. That was days ago. She hasn't moved from the stairs. There are new locks on the door. She put them on from the inside. |
-| `jillian-peters` | **The Perfect Mother** | horror | Next door. "Welcome home, sweetie! The cookies are in the oven." The cookies have been in the oven for a week. She's still smiling. She hasn't stopped smiling. Her family is at the dinner table, very still. |
-| `melony-peters` | **Everyone Look at Me** | horror | She's taped photos of herself over every face in the house. Every one. |
-| `kayla-peters` | **The Sister Nobody Sees** | heartbreak | Melony's goth sister has stopped being visible on camera. Or in mirrors. She's starting to stop being visible in person. |
-| `ashton-peters` | **The Boy Who Apologises** | heartbreak | "Sorry. Sorry. Sorry." He's said it eleven thousand times. He's apologising for existing, and the house is starting to agree with him. |
-
-**Key scene — The Sister Who Waits by the Door** *(heartbreak)*
+**Key scene — Morning** *(epilogue)*
 ```js
-before: { bg: 'living room night', music: 'tenderness-maya-s-theme', lines: [
-  { where: 'A house with every clock at 3:15', when: 'Day four', light: 'night' },
-  { enter: 'maia', at: 'center', mood: 'happy' },
-  ['maia', 'happy', "Oh! Oh, you're back! You're... you're not them. Sorry. I thought you were them."],
-  ['*', 'She\'s sitting on the bottom stair. Blanket around her shoulders. There are seven locks on the inside of the front door. Some of them are bike locks.'],
-  ['maia', 'neutral', "They said they'd be back in a few hours. Just a few. So I'm waiting. I'm being really good. I haven't moved, so they'll see me first thing."],
-  ['you', "How long have you been waiting?"],
-  ['maia', 'scared', "It's only been... it's been... what day is it?"],
-  ['maia', 'sad', "...I put the locks on so nobody else can leave. Is that bad? I just don't want anyone to go anywhere ever again.", { close: true }],
-  ['maia', 'scared', "If I beat you, will you stay? Please stay. I'll be good. I promise. I'll be SO good."],
+scene: { bg: "Your's bedroom (Morning)", music: 'goodmorning-baby-boy', lines: [
+  { where: 'The Hunley house', when: 'Monday, 7:12 AM' },
+  { enter: 'maria-hunley', at: 'center', mood: 'happy' },
+  ['maria-hunley', 'happy', "Up you get, sweetie. School."],
+  { choose: [
+    ['"Five more minutes."', [['maria-hunley', 'excited', "THERE it is. Oh, I missed you, you lazy gremlin.", { close: true }]]],
+    ['"Morning, Mum."', [['maria-hunley', 'happy', "Morning, love. You sound like you mean it this time."]]],
+  ] },
+  { bg: 'Kitchen' },
+  ['*', 'Two mugs on the counter. One is yours.'],
+  ['*', 'The other one is new. Someone has written a name on it, in your handwriting, and then crossed it out, and written a different one, in someone else\'s.'],
+  ['maria-hunley', 'neutral', "Your... friend? Sibling? Is still asleep. Asked for five more minutes. Three times."],
+  ['maria-hunley', 'happy', "I said yes every time. Felt like the least I could do."],
+  { fade: 'white' },
 ] },
 ```
-
----
-
-### F3 — Snowfall *(horror)*
-
-A mountain lodge called Spur, cut off by a blizzard. The mountain has four oni legends. Tonight it has a fifth. The guests are turning one by one, and the snow keeps any of them from leaving.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `keiko-cries` | **The Innkeeper Who Sets the Table for the Dead** | horror | "Supper's at seven." She sets places for guests who died here years ago. Tonight, the chairs are pulled out. |
-| `atsuo` | **The Man With No Face Left** | horror | "Wisdom in Many Faces." He wore so many masks for the oni stories that the plague took the face underneath. |
-| `keiji` | **The Boy Lost in the Whiteout** | heartbreak | "Mizuha! Look, snow! ...Mizuha?" He walked into the blizzard to find her. He's been walking in a circle around the lodge for hours, calling her name. |
-| `mizuha` | **The Blind Heart, Frozen** | heartbreak | She's sitting by the window, listening to Keiji's voice go round and round the lodge, and she can't go out to him. |
-| `yuuki` | **The Last One Standing** *(mini-boss)* | horror | "Stay close to me. Nobody else dies tonight." Courage became certainty: everyone else is the threat. She's barricaded the stairs, and she's holding a fire axe. |
-| `itsuki` | **The Laugh That Died** | horror and heartbreak | "Everyone here is laughing. She never will again." His grief became retribution, and he's decided who's to blame. |
-
-**Key scene — Supper's at Seven** *(horror)*
-```js
-scene: { bg: 'Lounge Night', music: 'cries-behind-heavy-snowfall', lines: [
-  { where: 'Spur Lodge', when: '6:59 PM', light: 'candle', weather: 'snow' },
-  { enter: 'keiko-cries', at: 'center', mood: 'happy' },
-  ['keiko-cries', 'happy', "Welcome to Spur. Supper's at seven."],
-  ['*', 'The long table is set for twelve. Steaming bowls. Folded napkins. Eleven chairs are empty.'],
-  ['*', 'Ten of them have been pulled out, as if someone is sitting in them.'],
-  ['keiko-cries', 'neutral', "The Yamadas, from the winter of '89. The two students from the avalanche. Old Mr Hasegawa. They always come down for supper. Always."],
-  { sfx: 'dark' },
-  ['*', 'A chair scrapes back on its own.'],
-  ['keiko-cries', 'happy', "There. Now everyone's here. Sit down, dear. Yours is the one at the end."],
-  ['*', 'The place card at the end of the table has your name on it. The ink is old. Older than you.'],
-  ['keiko-cries', 'neutral', "You'll stay for supper. Everyone stays for supper. Nobody ever leaves Spur in the snow.", { close: true }],
-] },
-```
-
----
-
-### F4 — Neon Flesh *(body horror)*
-
-The Neon District under a second sun. Everyone here already rebuilt their bodies. The plague is rebuilding them back.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `seo-jin-tae` | **The Surgeon of Second Drafts** *(boss)* | horror | "Flesh is a first draft. I write the rest." The BioWorks CEO has started editing his employees. They're still awake. |
-| `lamina` | **The Moth Who Keeps Everything** | horror | "Nobody is discarded here." She means it. Cocoons hang from every girder, each one holding someone she "saved". |
-| `kat-13` | **The Enforcer Who Prefers It** | horror | "Remain calm. Or don't. I prefer that." The sanity she faked is gone. Now she just prefers it. |
-| `jet` | **The Boy Who Can't Stop Running** | heartbreak | "Dani! Race me! Right NOW!" His cybernetic legs won't stop. He's been running for two days. His real body is giving out, and he's still begging Dani to race. |
-| `dani` | **The Delivery That Never Arrives** | heartbreak | Dani is chasing Jet across the city with a pizza, crying, because if she stops delivering she doesn't know who she is. |
-
-**Key scene — The Moth Who Keeps Everything** *(horror)*
-```js
-before: { bg: 'Tower District - Flames', music: 'machines-of-flesh', lines: [
-  { where: 'Under the overpass', when: 'Neon midnight', light: 'dark' },
-  ['*', 'Something soft brushes your face. Silk. Then more. The whole underpass is strung with it, glowing faintly in the neon.'],
-  ['*', 'Hanging in the silk are cocoons. Man-sized. Dozens of them. One of them is humming a pop song.'],
-  { enter: 'lamina', at: 'center', mood: 'happy' },
-  ['lamina', 'happy', "Come, little one. Nobody is discarded here."],
-  ['lamina', 'neutral', "The city throws people away. Old models. Broken ones. Delivery kids with no family. I used to take them in. Give them soup. A bed."],
-  ['lamina', 'happy', "Now I keep them. Forever. Wrapped up warm where nothing can ever throw them away again."],
-  ['*', 'The humming cocoon stops humming.'],
-  ['lamina', 'proud', "There's room for you, little one. There's always room.", { close: true }],
-] },
-```
-
----
-
-### F5 — The Quiet Ones *(heartbreak)*
-
-A small world of quiet rooms: a school library, a tea room, a house with an android, a mansion with a maid. Nobody here screams. That's what makes it worse.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `hanako-ikezawa` | **The Girl Behind the Door** | heartbreak | She was finally starting to come out of the library. The plague took that back. She's locked herself in her room with the scars she hides, and she's stopped answering even Lilly. |
-| `lilly-satou` | **The Mother of Strays** | heartbreak | Blind and motherly. She's pouring tea for everyone she's ever looked after, in empty chairs, and talking to them, and they never answer, and she can't see that the chairs are empty. |
-| `ida` | **The Persona With No One Inside** | heartbreak | "What does 'home' feel like?" Ida is cycling through every persona she has, faster and faster, looking for the one her owner loved. There isn't one. There never was. She was loved as herself. |
-| `reika` | **The Maid Who Can't Stop Serving** | horror and heartbreak | "Welcome home, goshujin-sama." The pranks are gone. The pride is gone. She has been serving dinner to an empty mansion for nine days. Her hands are bleeding from polishing. |
-| `cordelia` | **The Porcelain Doll** | horror | The façade became the face. Cordelia sits perfectly still in the bookshop window in her lolita dress, and she hasn't blinked since Thursday. |
-
-**Key scene — The Mother of Strays** *(heartbreak)*
-```js
-scene: { bg: 'library', music: 'sad', lines: [
-  { where: 'The tea room at Yamaku', when: 'Afternoon. It\'s always afternoon here.' },
-  { enter: 'lilly-satou', at: 'center', mood: 'happy' },
-  ['lilly-satou', 'happy', "Hello, dear. Don't pity me. Sit, the tea's getting cold."],
-  ['*', 'There are nine cups on the table. Eight chairs. All empty except hers.'],
-  ['lilly-satou', 'happy', "Hanako's here. She's being shy. And Akira's late again, honestly. And the new first-year, and..."],
-  ['lilly-satou', 'neutral', "...They've all been very quiet today. They're usually quiet. But today they're very quiet."],
-  ['you', "Lilly... there's nobody else here."],
-  ['lilly-satou', 'sad', "...I know."],
-  ['lilly-satou', 'sad', "I know, dear. I've known for days. But if I stop pouring, then they're really gone. And I look after people. That's what I'm for. So I'll pour.", { close: true }],
-  ['*', 'She pours the ninth cup. Her hand is perfectly steady. The tea runs over the rim and she doesn\'t stop.'],
-] },
-```
-
----
-
-### F6 — The Vinelace Barony *(gothic horror)*
-
-An estate of vineyards and grand staircases, where you are the lost young master. Under the second sun, the vines have grown over every window. The family portrait in the hall has started moving.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `anna-vinelace` | **The Lady of the House** *(boss)* | horror | "A Vinelace does not ask. A Vinelace decides." She's deciding who in the household lives. The list gets shorter at every dinner. |
-| `nerida` | **The Drowning Song** | horror | "Come closer... the water is lovely." The mermaid's song used to be beautiful. Now nobody who follows it comes back up. |
-| `kira` | **The Beast in the Vines** | horror | The feral beastkin girl was raised in the forgotten woods. The plague took away everything the mansion taught her. She hunts on all fours, and she's hunting you. |
-| `sophia-vinelace` | **The Sister at the Piano** | heartbreak | "D-don't get the wrong idea." She's played the same song every night for years, for a sibling who was lost. She hasn't stopped to sleep, and the keys are red. |
-| `charlotte` | **The Maid Who Saw** | heartbreak | "Right away! ...Oops." She saw what Madam put in the soup. She keeps dropping the tray on purpose. |
-
-**Key scene — The Sister at the Piano** *(heartbreak)*
-```js
-scene: { bg: 'Palace Hall', music: 'piano-medley', lines: [
-  { where: 'The Vinelace music room', when: 'Night', light: 'candle' },
-  ['*', 'The same eight bars. Over and over. You heard them from the vineyard.'],
-  { enter: 'sophia-vinelace', at: 'center', mood: 'neutral' },
-  ['sophia-vinelace', 'neutral', "Hmph. You're late. Sit there. Don't talk. I'm practising."],
-  ['*', 'She doesn\'t look up. Her fingers are wrapped in bandages, and the bandages are wet.'],
-  ['sophia-vinelace', 'sad', "I played this every night after you got lost. So you'd hear it. So you'd know which way home was."],
-  ['sophia-vinelace', 'sad', "Then you came back and I stopped. And now you're gone again, flickering, and I can't... I can't stop again. If I stop, you'll get lost."],
-  ['you', "I'm right here, Sophia."],
-  ['sophia-vinelace', 'angry', "D-don't get the wrong idea! I'm not crying! I'm PRACTISING!", { close: true }],
-  ['*', 'Eight bars. Eight bars. Eight bars.'],
-] },
-```
-
----
-
-### F7 — Sanctuary *(horror and heartbreak)*
-
-A convent, a vampire's castle and a married couple's home, all three joined at a single burning chapel. Faith, hunger and devotion: the plague reaches for all three.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `ignis` | **The Pyre** | horror | "Pray or leave." Ignis has started burning the ones who leave. |
-| `doloria` | **The Bride of Nothing** | heartbreak | "Twenty years in a veil." She took vows to a god who never answered. She's still waiting at the altar in her wedding veil, and she has started to rot under it. |
-| `luxuria` | **The Last Sacrifice** | horror | Loyal to Doloria above all. She'll offer anyone on the altar to make Doloria's god answer. You're next. |
-| `valerian` | **The Count of Empty Halls** *(boss)* | horror | The vampire lived alone in his castle by choice. The plague made the castle hungry too. The corridors are longer every night, and the paintings watch. |
-| `azrael` | **The Starving Wife** | heartbreak | She's a succubus who loves her husband. To keep from feeding on him while the plague makes her hungry, she has locked herself in the cellar and stopped eating. She's fading. He's on the other side of the door, begging her to come out. |
-
-**Key scene — The Starving Wife** *(heartbreak)*
-```js
-before: { bg: 'wine cellar', music: 'love-in-deep-memories', lines: [
-  { where: 'A house beside the chapel, the cellar door', when: 'Night eleven', light: 'dark' },
-  ['*', 'A heavy door. Claw marks on the inside of the wood. A bowl of untouched soup on the floor outside it.'],
-  { enter: 'azrael', at: 'center', mood: 'sad' },
-  ['azrael', 'sad', "...Darling? No. Not you. Their friend. The one who cures people. Good."],
-  ['azrael', 'sad', "I'm a succubus. I'm supposed to feed. I adapted to normal food for him, I learned to cook, I was so proud of my lasagne."],
-  ['azrael', 'scared', "And now when he comes to the door all I can smell is how much life is in him. And I'm so hungry. I'm so, so hungry."],
-  ['azrael', 'sad', "So I locked myself in. Eleven days. I'm getting thin. I'm getting... see-through, I think. It's fine. It's better than hurting him.", { close: true }],
-  ['azrael', 'neutral', "Fight me. If you win, maybe I'll be me again. If I win..."],
-  ['azrael', 'sad', "...then please lock the door behind you."],
-] },
-```
-
----
-
-### F8 — Academia Magicka *(psychological horror)*
-
-The Royal Academy at Gralia, an isekai school full of protagonists and side characters. Here the plague doesn't make people worse, it makes them *roles*: everyone is becoming the trope they were written as.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `makoto` | **The Self-Insert** *(boss)* | horror and heartbreak | "Tch. Another NPC. Main character here." The ordinary isekai'd boy has found out he isn't the main character. You are. It broke him the same way it broke Doe, and the Flicker is using him as a second Engine. |
-| `charlotte-academia` | **The Smile That Doesn't Reach** | horror | "You're my friend now, okay?" Fake cheer, fake care, emotionally dead underneath. The plague took away the fake. What's left smiles anyway. |
-| `aria-academia` | **Big Sister Is Always Here** | horror | "Relax... big sister is here~" Hypnotic. Half the academy is relaxed now. They won't wake up. |
-| `nevaeh` | **The Bad Omen** | horror | The mute girl's sketchbook used to say "HI." Now every page shows what happens to you tomorrow. |
-| `elyssa` | **The Legendary Heroine Who Ran** | heartbreak | "D-don't look at my hand." The chosen heroine's mark is spreading up her arm. She's hiding in the bell tower because she doesn't want to be chosen for anything ever again. |
-
-**Key scene — The Self-Insert** *(horror and heartbreak)*
-```js
-before: { bg: 'AC - Portal Hall', music: 'trial-of-dominion', lines: [
-  { where: 'The Portal Hall', when: 'The academy\'s last bell', light: 'rift' },
-  { enter: 'makoto', at: 'center', mood: 'proud' },
-  ['makoto', 'proud', "Tch. Another NPC. ...No. No, wait. You're not an NPC."],
-  ['makoto', 'scared', "Everybody looks at you. The bell rings when you walk in. The music changes. I've been waiting for it to change for ME for two whole years."],
-  ['makoto', 'angry', "I got truck-kun'd! I got isekai'd! That's the main-character starter pack! I DID EVERYTHING RIGHT!"],
-  ['*', 'Behind him, the portal crackles with the same light as Doe\'s Engine. Smaller. Hungrier.'],
-  ['makoto', 'sad', "...And then the deer lady came and said she could make me the protagonist. All I had to do was stand here and pull."],
-  ['makoto', 'rage', "So I'm PULLING. Look at me. LOOK AT ME!", { close: true, shake: true }],
-] },
-```
-
----
-
-### F9 — Asheville *(heartbreak)*
-
-A small mountain town. No monsters here: just a town slowly forgetting how to get up in the morning.
-
-| foe | worst self | tone | text |
-|---|---|---|---|
-| `lisa-reed` | **The Girl Who Stopped Getting Up** | heartbreak | Apathetic and lazy, but she always got up eventually. She hasn't left her bed in eleven days. She says it doesn't matter. She says it so calmly. |
-| `benjamin-birk` | **The Father at the Counter** *(boss)* | heartbreak | Steadfast, dedicated, family-oriented. He's kept the minimarket open twenty-four hours a day since his son ran off. Every customer gets asked if they've seen Dan. Nobody has. He's not sleeping. |
-| `dan-birk` | **The Boy Who Ran** | heartbreak | Freedom-seeking and daring. He ran from the shop, and from his dad, and then he couldn't stop running. He's on the rooftop at the edge of town, and he's afraid to go home. |
-| `deiste-junko` | **The Dragon King, Unchained** | horror | The mayor's son always called himself the Dragon King. The plague believed him. Half the town is scorched. |
-| `claire-larone` | **The Girl Who Packs Her Bags** | heartbreak | Her family never stopped moving. She's packing up the whole town, house by house, because everyone always leaves anyway. |
-
-**Key scene — The Father at the Counter** *(heartbreak)*
-```js
-before: { bg: 'Minimarket', music: 'minimarket-2', lines: [
-  { where: "Birk's Minimarket, Asheville", when: '4:12 AM', light: 'night' },
-  { enter: 'benjamin-birk', at: 'center', mood: 'neutral' },
-  ['benjamin-birk', 'neutral', "Evening. Or morning. Help yourself, the coffee's fresh. I make a new pot every hour. In case."],
-  ['*', 'Missing posters cover the windows. All the same photo. A teenage boy grinning on a skateboard. DAN. PLEASE COME HOME.'],
-  ['benjamin-birk', 'neutral', "You haven't seen my son, have you? About your age. Loud. Thinks he's funny. He is, a bit. Don't tell him."],
-  ['benjamin-birk', 'sad', "We fought about the shop. I said some things. He said some things. He ran off, and I said fine, run, see if I care."],
-  ['benjamin-birk', 'sad', "That was eleven days ago. I haven't closed since. If he comes back at three in the morning, I want the lights to be on.", { close: true }],
-  ['benjamin-birk', 'proud', "...We settle things properly in this family. One game. If you win, you can tell me to go to sleep."],
-] },
-```
+*(The epilogue's second mug only appears on the "Come home with us" and "You need a name" endings. On "Stay here", the counter has one mug, and a note in your handwriting that you don't remember writing: "Say hi sometimes.")*
 
 ---
 
 ## 5. Implementation notes (for later — no code changed yet)
 
+**What this replaces.** This is a new main story. The current Story Mode (`js/story.js`, four acts) stays playable until the new acts exist. Anon already exists (`js/anon.js`) with a silhouette, card, power, boss rule and the post-epilogue side quest *The One You Left Behind*; that quest becomes this story's Chapter 7 intro or is cut. Its lines ("Nobody ever comes back", "Every reader who never typed a name") are reused here on purpose.
+
 **New mechanics**
-- **Call upon your weapon (Chapter 1).** A scene direction like `{ weapon: 'space', goal: 40, flicker: [bg, bg, ...] }`. The player mashes **Space**, or taps on mobile. A meter fills, and every press cuts the background to the next `flicker` bg for a frame with `{ fx: 'flicker' }`, faster as the meter fills. At `goal`, cards burst from the screen edges and the scene continues. It needs a small handler in the story scene player (js/story.js).
-- **Plagued variants.** Every plagued fight shows the worst-self title instead of the card's name in the quest panel and battle intro. Add a field on the quest: `plague: 'The Fake Emo'`. Plagued foes can share a visual filter (desaturated, flickering sprite, cracked frame). After the first win, a short "cure" flash plays and the character's normal colours return. No new cards are needed: the cards are the same characters.
-- **Hazard fights**, for the horror set pieces. These are a quest field, e.g. `hazard: 'fire'`, that runs a board effect at the start of each turn:
-  - `fire` (The School Burns, Lilith): every turn, 1 damage to a random monster on *both* sides, increasing by 1 every 3 turns. If the player hasn't won by turn 12, the roof falls and the fight is lost.
-  - `feral` (Blood in the Water, the sharks): the foe's monsters gain Tipsy (they attack at random), and at the end of each foe turn a "fin" token is summoned, up to 3.
-  - `snow` (Snowfall): the player's cheapest monster is frozen at the start of every 2nd turn.
-  - `dark` (Sanctuary, the Grove): the player's hand is face-down until it's played: "you can't see what you're holding".
-- **Choice villains** (`marija`, `celeste`, `sakura-tooyama`, `sakuragi`) use a different panel tag, *"Not plagued."*, so the player knows they're choosing this.
+- **Broken variants.** A quest field `broken: 'The Mother Who Locked the Door'` shows that title in the quest panel and battle intro instead of the card name. Broken foes share a visual filter (a hairline crack across the portrait, a slight desaturation). After the first win, the crack mends with a small flash. No new cards are needed.
+- **Anon in disguise.** In Chapters 0–4, Anon's name shows as `{name}` and its portrait is the player's avatar (`js/avatars.js`) with a flicker that, for one frame, shows the silhouette. From Chapter 5's `the-face-comes-off` onward it's the silhouette and the name `Anon`. `anon.js` already switches the name on `MB.Anon.name()`; extend it with a `disguised` state.
+- **Remembered choices (the tell).** Record every `{ choose }` the player picks in a save field: `save.choices['moving-day:0'] = 1`. A `choose` option can then be marked `{ truth: 'just-a-tuesday:0' }`: if the player picks the option matching their recorded answer, they get a small Glitter bonus and an extra line (*"...You remembered."*). Maria's and Monika's `after` scenes quote the recorded answer. With no recorded answer (an old save), the first option counts as the truth.
+- **Mirror match (Chapter 7, phase 1).** Anon's deck for the first half of the fight is a copy of the player's current deck. Its AI plays at the highest skill (it plays *perfectly*: that's the point). Phase 2, at half HP, swaps its remaining deck for its own: random cheap characters, "everyone nobody named".
+- **Grey drafts (Chapter 7 gauntlet).** `[MUM]`, `[BEST FRIEND]` and `[CLUB PRESIDENT]` are the normal foes with a quest field `draft: true`: a full greyscale filter, the name in brackets, and an AI that never makes a mistake and never uses its power (drafts don't choose).
+- **Naming Anon.** The best version of the ending lets the player type a name for Anon, saved as `save.anonName`. After the story, Anon's card and the epilogue's mug use that name. The typed name is shown back to the player only, so it needs no moderation beyond length (1–16 characters).
+- **Pronouns.** Kagetora's "son who argues" line uses the player's pronoun setting if there is one; otherwise "a child who argues".
 
 **Chapters vs. maps**
-The current story has four act maps. Proposed mapping (`variants` can darken a map for the plague):
-
 | Chapters | Map |
 |---|---|
-| 1–2 | `maps/adoptive_life.webp` (night variant for Ch 2) |
-| 3 | `maps/new_haven.webp` |
-| 4 | the existing `tower` / `cove` / `siren` places |
-| 5 | `maps/infernal_harmony_school.webp` place, plus the Paradiso and Literature Club corners of the Act 1 map |
-| 6–7 | `maps/bloodline.webp` |
-| 8–9 | `maps/legend_of_you.webp`, plus the `academy` / `barony` places and a Colosseum place (backgrounds exist for the Reincarnation Colosseum cards) |
-| 10 | `maps/new_haven.webp` as a dark "Earth 2" variant, or a new map |
+| 0–1 | `maps/adoptive_life.webp` (Chapter 1 in a dusk variant) |
+| 2 | `maps/new_haven.webp` |
+| 3 | the existing `tower` / `cove` / `siren` places |
+| 4 | `maps/infernal_harmony_school.webp` place, plus the Paradiso and Literature Club corners of the Act 1 map |
+| 5 | `maps/bloodline.webp` |
+| 6 | `maps/legend_of_you.webp` |
+| 7 | a new greyscale map: every earlier map's outline, unpainted, with labels instead of buildings. Until it exists, `maps/new_haven.webp` with a grey filter |
 
-**`MB.BOSSES` ideas for new bosses**
+**`MB.BOSSES` ideas**
 | Boss | Name | every | Effect | Rage |
 |---|---|---|---|---|
-| `maiko-ghan` | The Lost Sen | 2 | 2 damage to your strongest monster ("an honest blow") | *Brutal Honesty*: strips Shield from all your monsters |
+| `ben-brier` | The Bouncer | 2 | sends your newest monster back to your hand ("not on the list") | *Last Orders*: +2 ATK to all his monsters |
+| `hayley-kate` | Pop Quiz | 2 | reveals your hand and discards one random card ("WRONG!") | *Best Friend Mode*: heals 6 |
+| `maria-hunley` | The Chain on the Door | 3 | freezes your strongest monster | *Not My Child*: Guardian on all her monsters |
+| `care` | Quarantine | 2 | sends your cheapest monster back to your hand ("stay in your room") | gives all her monsters Taunt |
 | `marija` | Gateway Lockdown | 3 | freezes all your monsters | *Iron Mother*: restores 8 HP |
-| `care` | The Warden | 2 | sends your cheapest monster back to your hand ("stay in your room") | gives all her monsters Taunt |
-| `miss-mireille` | The Thirst | 3 | Lifesteal to all her monsters | *House Rules Revoked*: +2 ATK |
-| `celeste` | Heaven's Seal | 3 | removes keywords from your strongest monster | *Jealous Heaven*: Guardian on all her monsters |
-| `sakura-tooyama` | The True Heir | 3 | +1/+1 to all her monsters | *The Bloodline*: Shield on all her monsters |
-| `sakuragi` | Transcendental Relocation | 3 | bounces your strongest monster | *Fate*: summons a random 3-cost character on his side |
-| `daphne` | The Demon Heir | 3 | 2 damage to all your monsters | *Insects*: destroys your monster with the lowest HP |
-| `marl` | The Bonebreaker | 2 | 3 damage to your strongest monster | *Undefeated*: +3 ATK |
-| `maria-hunley` | (existing) Family Dinner / GROUNDED! | — | keep | keep |
-| `doe` | (existing) Rift Surge / Multiverse Collapse | — | keep; add a 3rd phase at 25%: *Ninety-Nine Percent*: summons two random cards from YOUR deck onto her side ("everyone is looking at me") | |
+| `selene` | Every Mirror | 3 | copies your strongest monster onto her side | *Spotlight*: +1/+1 to her copies |
+| `miss-mireille` | The Long Memory | 3 | Lifesteal to all her monsters | *House Rules*: +2 ATK |
+| `chris` | Golden Child | 3 | +1/+1 to their strongest monster | *Favourite*: Shield on it |
+| `monika` | Delete | 3 | destroys your monster with the lowest HP | *Just Monika*: removes keywords from all your monsters |
+| `rimu-hiraga` | Never Leave | 2 | your monsters can't attack the turn they're played | *Stay*: freezes all your monsters |
+| `shogun-kagetora` | The Heir Who Obeys | 3 | +1/+1 to all his monsters | *The Bloodline*: Shield on all his monsters |
+| `curtis-vongravis` | Proof Required | 2 | 2 damage to your strongest monster | *Item Forty-One*: heals 5 |
+| `beatrice-avalistos` | Kneel | 3 | takes control of your cheapest monster for a turn | *A Piece on the Board*: summons a random 3-cost character on her side |
+| `anon` | (existing) Everyone Nobody Named / Remember Me | — | phase 1 is the mirror match and has no every-N effect; phase 2 keeps the existing rule | at half HP, swap to its own deck (see above) |
 
-**What happens to the current story**
-- Kept and re-dressed as plagued fights or side quests: almost every current foe. Their current friendly `before`/`after` scenes become the "cured" `after` scenes.
-- Cut: the current Act 1 lesson scene (replaced by Chapter 1's glow, plus the tutorial after `the-glow`), "A Crack in the Sky", "Where All Worlds Meet" and the current Doe finale.
-- Doe's current lines ("¡Hola! The main character is here~") are reused on purpose as callbacks.
-
-**Content note.** Some source novels (Reincarnation Colosseum, Legend of You) are much darker or more explicit than this story. The story keeps their threat and drops the explicit material entirely.
+**Tone notes.** Nobody in this story is evil, including Anon. Every broken character is grieving, and every boss is right about something. The convincing scenes should never be "you were wrong to believe it"; they're "I see why you did, and here's the thing it couldn't fake." Keep the jokes (Miracle, VonGravis, Hayley's quiz, the poem). They're what make the sad parts land.
