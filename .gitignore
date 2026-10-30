@@ -22,3 +22,6 @@ game/assets/*
 !game/assets/sounds/
 !game/assets/attacks/
 !game/assets/local/
+
+# local secrets
+.env.local
