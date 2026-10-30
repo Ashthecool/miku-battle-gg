@@ -83,6 +83,7 @@ Every title is what the grief did to them, grown from a **real trait in their no
 | 3 | `miss-mireille` | **The Long Memory** *(boss)* | centuries old. She's watched people be replaced before. She thinks you were always going to be |
 | 4 | `skylar` | **The Queen Who Knew It** | Paradiso's queen bee. She always said you were a fake. Now everyone agrees with her, and she hates it |
 | 4 | `lilith` | **The One It Loved Back** | craves affection. Anon loves her perfectly, every day. She'll burn anything that takes it away |
+| 4 | `celeste` | **The Guardian Angel** | Lilith's rival, and your guardian since before you remember. She'd know you anywhere. She can't tell which one is you, and she's too proud to say so |
 | 4 | `natsuki` | **The Closet Door** | prickly. She let you in once. She's not doing that twice |
 | 4 | `sayori` | **The Rain Cloud** | sunny on top. Anon told her you were sad because of her. She believed it straight away |
 | 4 | `chris` | **The Golden Child** *(mini-boss)* | your perfect older sibling. Anon is the younger sibling Chris always wanted: one who's proud of them |
@@ -444,6 +445,7 @@ after: { lines: [
 2. **The broken:**
    - **Skylar** (*The Queen Who Knew It*): she's finally right, and she's miserable. Being cruel to someone is only fun if they're real.
    - **Lilith** (*The One It Loved Back*): she has always craved being loved. Anon loves her perfectly, every day, on time. She'll burn the school down before she gives that up.
+   - **Celeste** (*The Guardian Angel*): Lilith's rival, and your guardian since before you remember. She'd know you anywhere, and she says so, to the wrong one first. She and Lilith have never agreed on anything, and now they agree that neither of them is going to share you.
    - **Natsuki** (*The Closet Door*): she let you into the manga closet once. She's not doing that twice. She's locked in, and so is the volume you still haven't returned.
    - **Sayori** (*The Rain Cloud*): Anon told her you were sad because of her. She believed it straight away. That's the worst part.
 3. **The Golden Child.** Chris, your perfect older sibling, finally has the younger sibling they wanted: one who looks up to them, never competes, never gets in the way. Chris is happier than they've been in years, and it's horrible. *(mini-boss)*
@@ -456,6 +458,7 @@ after: { lines: [
 |---|---|---|---|---|---|
 | `skylar` | `skylar` | The Queen Who Knew It | main | `fifth-decimal` | Skylar always said you were a fake. She's finally right, and she hates it. |
 | `lilith` | `lilith` | The One It Loved Back | main | `skylar` | Something loves Lilith perfectly now. She will burn anything that takes it away. |
+| `celeste` | `celeste` | The Guardian Angel | main | `lilith` | Celeste has guarded you forever. She'd know you anywhere, wouldn't she? |
 | `natsuki` | `natsuki` | The Closet Door | main | `skylar` | Natsuki is locked in the manga closet. She's not letting you in twice. |
 | `sayori` | `sayori` | The Rain Cloud | main | `natsuki` | Sayori was told you were sad because of her. She believed it straight away. |
 | `chris` | `chris` | The Golden Child | mini-boss | `lilith`, `sayori` | Chris finally has the younger sibling they always wanted. It's not you. |
