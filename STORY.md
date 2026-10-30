@@ -66,7 +66,7 @@ Every title is what the grief did to them, grown from a **real trait in their no
 | 1 | `kayla-kate` | **The Second Choice, Again** | always overshadowed by Hayley. She thinks you were her one real friend, and you were never real |
 | 1 | `julie-hunley` | **The Smile That Stays On** | giddy, bubbly. Anon told her the real you never liked her jokes. She's still smiling |
 | 1 | `isabella-hunley` | **The Spare Room** | calm, sweet, gives too much. She's packed your things into boxes "for the real one" |
-| 1 | `ben-brier` | **The Bouncer** *(mini-boss)* | master thug, dimwitted. Anon told him to keep "the fake" off the street. He's very good at one thing |
+| 1 | `maiko-ghan` | **The Honest One** *(mini-boss)* | extremely honest tomboy, Hayley's best friend. She can't lie, so she can't say you're real and can't say you're fake. She says the only true thing she has: she doesn't know you |
 | 1 | `hayley-kate` | **The Best Friend Who Checked** *(mini-boss)* | craves attention, loyal. She quizzed Anon on everything. It got every answer right |
 | 1 | `maria-hunley` | **The Mother Who Locked the Door** *(boss)* | fiercely protective, stubborn. Her child is upstairs. You are a stranger on her step |
 | 2 | `diana` | **The One Who Believed the Copy** | insecure, lives next to a double. She knows what it's like to be the worse version, and assumes you are |
@@ -123,7 +123,7 @@ Not everyone falls for it. These are your allies, and they're each a small joke 
 | # | Chapter | World | Mini-boss | Boss | Ends with |
 |---|---|---|---|---|---|
 | 0 | **Just a Tuesday** | Adoptive Life → everywhere → home | — | — | Maria doesn't open the door |
-| 1 | **Not My Child** | Adoptive Life | The Bouncer (Ben), The Best Friend Who Checked (Hayley) | The Mother Who Locked the Door (Maria) | Anon, wearing your face, says hello |
+| 1 | **Not My Child** | Adoptive Life | The Honest One (Maiko Ghan), The Best Friend Who Checked (Hayley) | The Mother Who Locked the Door (Maria) | Anon, wearing your face, says hello |
 | 2 | **The Bad Variant** | New Haven | The Quarantine (Care) | The Iron Mother (Marija) | Anon walks into the Glow ahead of you |
 | 3 | **No Reflection** | Siren's Cove and the Coorong | The Mirror (Selene) | The Long Memory (Miss Mireille) | Daphne's machine finds one difference |
 | 4 | **The Club President** | the School on the Hill, Paradiso, the Literature Club | The Golden Child (Chris) | The Club President (Monika) | Monika tells you what Anon is |
@@ -197,7 +197,7 @@ scene: { bg: 'Our Home from the outside', music: 'none', lines: [
    - **Kayla** (*The Second Choice, Again*): she thought you were the first person who picked her over Hayley. Now she thinks nobody ever did.
    - **Julie** (*The Smile That Stays On*): Anon told her the real you never found her funny. She's smiling, and she won't stop.
    - **Isabella** (*The Spare Room*): she's packed your things into boxes, labelled *FOR THE REAL ONE*. She's being so kind to you. It's unbearable.
-3. **The Bouncer.** Ben is standing at the end of your street. Anon asked him to keep "the fake" away from Maria. He's dimwitted, and loyal, and he is very, very good at this. *(mini-boss)*
+3. **The Honest One.** Maiko Ghan is standing at the end of your street, in her karate stance, with her arms folded. She's Hayley's best friend, and she has never told a lie in her life. Anon asked her one question, and it answered it perfectly. Now she looks at you and can't say you're the fake, and can't say you're real. *"I can't lie. So here's the only true thing I've got: I don't know you. Reflex. Sorry."* Then she pins you. *(mini-boss)*
 4. **The Best Friend Who Checked.** Hayley isn't fooled. Hayley *checked*. She quizzed Anon for an hour: favourite food, first words to her, the thing at the sleepover. It got every one. Now she quizzes you, and you get one wrong. *"See? SEE? It got that one RIGHT."* And then she hears herself. Nobody gets every one right. Not even her. *(mini-boss)*
 5. **The Mother Who Locked the Door.** Maria. She lets you in, finally, to the kitchen, because she wants you to look her in the eye and admit it. Anon has been the perfect child for a week. It says "Morning, Mum" every single day. *(chapter boss)*
 6. **The proof.** On your first morning, she asked you to get up and you had a choice: *"Five more minutes"* or *"Morning, Mum."* Anon says it said "Morning, Mum". It always says "Morning, Mum". **But Anon was there for both lines, and it doesn't know which one you picked.** The real you remembers. *(If the save recorded the choice, the right answer is the one the player really chose. See section 5.)*
@@ -211,9 +211,9 @@ scene: { bg: 'Our Home from the outside', music: 'none', lines: [
 | `kayla-kate` | `kayla-kate` | The Second Choice, Again | main | `the-bench` | You were the first person who picked Kayla. She doesn't think that's true anymore. |
 | `julie-hunley` | `julie-hunley` | The Smile That Stays On | main | `the-bench` | Julie is smiling. She has been smiling for a week. |
 | `isabella-hunley` | `isabella-hunley` | The Spare Room | main | `the-bench` | Your things are in boxes on the porch, labelled FOR THE REAL ONE. Isabella made you tea. |
-| `ben-brier` | `ben-brier` | The Bouncer | mini-boss | `james-lone`, `kayla-kate` | Ben is standing at the end of your street. Nobody fake gets past Ben. |
+| `maiko-ghan` | `maiko-ghan` | The Honest One | mini-boss | `james-lone`, `kayla-kate` | Maiko can't lie. She won't say you're fake. She can't say you're real. |
 | `hayley-kate` | `hayley-kate` | The Best Friend Who Checked | mini-boss | `julie-hunley`, `isabella-hunley` | Hayley has a list of questions. The other one got them all right. |
-| `maria-hunley` | `maria-hunley` | **The Mother Who Locked the Door** | boss | `ben-brier`, `hayley-kate` | Mum lets you into the kitchen. She wants you to look her in the eye and admit it. |
+| `maria-hunley` | `maria-hunley` | **The Mother Who Locked the Door** | boss | `maiko-ghan`, `hayley-kate` | Mum lets you into the kitchen. She wants you to look her in the eye and admit it. |
 | `the-wardrobe` | — (scene) | main | `maria-hunley` | Your bedroom door is open. Someone is sitting on your bed. |
 | `luther-jones` | `luther-jones` | The Boy Who Waved Back | side | `james-lone` | Luther waved at you from the skate park. He's been told not to. He's not good at rules. |
 | `catherine-jones` | `catherine-jones` | The Better Investment | side | `luther-jones` | Catherine Jones has heard there's a newer model of you. She'd like to discuss a trade. |
@@ -759,7 +759,7 @@ scene: { bg: "Your's bedroom (Morning)", music: 'goodmorning-baby-boy', lines: [
 **`MB.BOSSES` ideas**
 | Boss | Name | every | Effect | Rage |
 |---|---|---|---|---|
-| `ben-brier` | The Bouncer | 2 | sends your newest monster back to your hand ("not on the list") | *Last Orders*: +2 ATK to all his monsters |
+| `maiko-ghan` | The Honest One | 2 | pins your newest monster, which skips its next attack ("Reflex. Sorry.") | *Brutal Honesty*: +2 ATK to all her monsters |
 | `hayley-kate` | Pop Quiz | 2 | reveals your hand and discards one random card ("WRONG!") | *Best Friend Mode*: heals 6 |
 | `maria-hunley` | The Chain on the Door | 3 | freezes your strongest monster | *Not My Child*: Guardian on all her monsters |
 | `care` | Quarantine | 2 | sends your cheapest monster back to your hand ("stay in your room") | gives all her monsters Taunt |
