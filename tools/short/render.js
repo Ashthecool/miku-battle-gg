@@ -1,4 +1,4 @@
-// Renders a "<novel> is in Miku Battle!" vertical short (1080x1920, 30 fps) from novels/<id>.json.
+// Renders a "<novel> is in Miku Battle!" vertical short (1080x1920, 30 fps) from configs/<id>.json.
 //   node tools/short/render.js <id> peek 1.2 4.5 22   stills to output/short/<id>/peek/ (look before rendering)
 //   node tools/short/render.js <id> clip 0 6          a silent clip to output/short/<id>/clip.mp4
 //   node tools/short/render.js <id> all               the finished short: output/miku-battle-<id>-short.mp4
@@ -10,12 +10,12 @@ const HERE = __dirname, REPO = path.join(HERE, '..', '..'), GAME = path.join(REP
 const PORT = 8795, DBG = 9337, FPS = 30;
 const CHROME = process.env.CHROME || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find(fs.existsSync);
 const [, , id, mode = 'all', ...args] = process.argv;
-if (!id || !fs.existsSync(path.join(HERE, 'novels', id + '.json'))) { console.error('usage: node tools/short/render.js <id> [peek t...|clip from to|all]   ids: ' + fs.readdirSync(path.join(HERE, 'novels')).map((f) => f.replace('.json', '')).join(', ')); process.exit(1); }
+if (!id || !fs.existsSync(path.join(HERE, 'configs', id + '.json'))) { console.error('usage: node tools/short/render.js <id> [peek t...|clip from to|all]   ids: ' + fs.readdirSync(path.join(HERE, 'configs')).map((f) => f.replace('.json', '')).join(', ')); process.exit(1); }
 const OUT = path.join(REPO, 'output', 'short', id), CACHE = path.join(REPO, 'output', 'short', 'cache');
 for (const d of [OUT, CACHE, path.join(OUT, 'peek')]) fs.mkdirSync(d, { recursive: true });
 
 // ---- config: the novel's json, plus the song (downloaded once) and its tempo (measured once, then cached in the file)
-const cfgPath = path.join(HERE, 'novels', id + '.json');
+const cfgPath = path.join(HERE, 'configs', id + '.json');
 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
 const manifest = require(path.join(GAME, 'assets/manifest.json'));
 const song = manifest.music.find((m) => m.id === cfg.music.id);

@@ -1,0 +1,18 @@
+{
+  "novel": "Adoptive Life RPG",
+  "title": ["ADOPTIVE", "LIFE"],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#ffb347",
+  "accent2": "#ff6fae",
+  "music": { "id": "hello-hayley", "bpm": 120, "offset": 0.33 },
+  "bgs": ["Our Home from the outside", "Street to school", "School hallway", "Sunset beach", "Classroom", "Mountain top picnic"],
+  "cast": [
+    { "id": "maria-hunley", "tag": "THE MOM", "mood": "win" },
+    { "id": "hayley-kate", "tag": "THE SUNSHINE", "mood": "win" },
+    { "id": "maiko-ghan", "tag": "THE HONEST ONE", "mood": "attack" },
+    { "id": "james-lone", "tag": "THE SARCASTIC ONE", "mood": "idle" },
+    { "id": "kayla-kate", "tag": "THE GLOOMY ONE", "mood": "idle" },
+    { "id": "luther-jones", "tag": "THE CHILL ONE", "mood": "taunt" }
+  ]
+}

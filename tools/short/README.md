@@ -12,7 +12,7 @@ Needs Chrome and ffmpeg. `output/` is git-ignored.
 
 ## Make one for another novel
 
-1. Copy `novels/adoptive-life.json` to `novels/<id>.json`.
+1. Copy `configs/adoptive-life.json` to `configs/<id>.json`.
 2. Set `novel` (the name in `MIKU_MANIFEST.novels`) and `title` (two words: the first line, the big second line).
 3. `music.id` is a song id of that novel (see `music` in `assets/manifest.json`). Leave out `bpm` and `offset` and the
    first render measures them (`bpm.js`) and writes them back; a wrong tempo makes the cuts land off the beat, so
