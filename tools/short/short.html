@@ -186,6 +186,7 @@ const frameUrl = (c, k) => '/battle/' + c.clip.g + '/f' + String(clamp(Math.roun
 const getImg = (url) => { let e = imgs.get(url); if (!e) { const im = new Image(); e = { im, p: new Promise((r) => { im.onload = r; im.onerror = r; }) }; im.src = url; imgs.set(url, e); } return e; };
 const mini = mk(54, 96), mg = mini.getContext('2d');
 const POW = ['POW!', 'BAM!', 'WHAM!', 'BOOM!', 'KAPOW!', 'SMASH!'];
+let AUD = [];
 
 function drawCastBattle(x, lt, t, i) {
   const c = cast[i], m = c.map, src = m.f(lt * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth, side = i % 2 ? 1 : -1;
@@ -215,6 +216,7 @@ function drawCastBattle(x, lt, t, i) {
   x.restore();
   // the character, big, breaking out of the window: their attack hides them on the board, so they are always here
   const spr = lt < m.tGo - .05 ? c.pose.idle : lt < m.tImpact + .35 ? c.pose.attack : c.pose.win, sp0 = E.outBack(clamp((lt - .12) / .4), 1.5);
+  AUD.push({ id: c.id, footage: !!ready, sprite: !!spr }); // what audit() checks: the footage frame is loaded and the cut-out is drawn
   if (spr) { const hS = 900 * (1 + .05 * punch), wS = spr.width * hS / spr.height, lunge = E.inOut(clamp((lt - m.tGo + .2) / .4)) * (1 - clamp(dI / .8)) * 70, cxS = (side < 0 ? 150 : W - 150) + side * (1 - sp0) * -520 - side * lunge;
     x.save(); x.shadowColor = c.color; x.shadowBlur = 50; x.globalAlpha = clamp(sp0 * 2); x.drawImage(spr, cxS - wS / 2, 1650 - hS, wS, hS); x.restore(); }
   // who it is, and the move
@@ -351,12 +353,19 @@ function render(t) {
   const fo = clamp((DUR - t) / .35); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
 }
 window.TIMELINE = { dur: DUR, fps: FPS, bpm: BPM, events, segs: segs.map((s) => ({ name: s.name, start: s.start, end: s.end })) };
-window.frame = async (n) => {
-  const t = n / FPS; let k = segs.findIndex((s) => t >= s.start && t < s.end); if (k < 0) k = segs.length - 1;
+async function prep(t) { // load what this moment draws (the gameplay frames) before drawing it
+  let k = segs.findIndex((s) => t >= s.start && t < s.end); if (k < 0) k = segs.length - 1;
   const want = [k]; if (k > 0 && t - segs[k].start < WIPE) want.push(k - 1);
   for (const j of want) { const s = segs[j]; if (s.need) { const lt = t - s.start; await Promise.all([...s.need(lt), ...s.need(lt + .2)].map((u) => getImg(u).p)); } }
   if (imgs.size > 160) [...imgs.keys()].slice(0, 80).forEach((u) => imgs.delete(u));
-  render(t); return cv.toDataURL('image/jpeg', .94);
+}
+window.frame = async (n) => { const t = n / FPS; await prep(t); AUD = []; render(t); return cv.toDataURL('image/jpeg', .94); };
+// every 'step'th frame: is each gameplay frame loaded, and is the character cut-out drawn? Returns the problems found.
+window.audit = async (step = 3) => {
+  const bad = [];
+  for (let n = 0; n < DUR * FPS; n += step) { const t = n / FPS; await prep(t); AUD = []; render(t);
+    for (const a of AUD) { if (!a.footage) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'gameplay frame not loaded' }); else if (!a.sprite) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'character cut-out not drawn' }); } }
+  return bad;
 };
 window.ready = true;
 })().catch((e) => { console.error('FATAL ' + e.stack); window.fatal = String(e.stack); });

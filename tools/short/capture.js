@@ -1,12 +1,14 @@
 // Records real Miku Battle gameplay for a short: a real Battle runs in the real game page (headless Chrome) and every
 // signature attack of the cast is captured frame by frame.
 //   node tools/short/capture.js <id> [group index]     frames to output/short/<id>/battle/g<N>/
-// configs/<id>.json "battle": { bg, leader, foe, foeDeck, groups: [[cast ids, at most 4 per battle], ...] }
+// configs/<id>.json "battle": { bg, leader, foe, foeDeck, groups: [[cast ids, at most 2 per battle], ...] }
+// Art the game asks for that is not in game/assets/ comes from the bucket (lib/assets.js); anything that is nowhere fails the run.
 // Time is virtual (CDP Emulation.setVirtualTimePolicy): the game's animations (GSAP, timers, CSS) advance exactly 1/30 s
 // per captured frame, so playback is smooth however long a screenshot takes, and the boring parts are skipped fast.
 // A scripted director plays side 0 (cast cards into free slots, then one attack each at an enemy monster); the game's
 // own AI plays the foe. log.json lists what happened when: attacks (with screen rects), impacts, card plays, sounds.
 const fs = require('fs'), path = require('path'), http = require('http'), { spawn } = require('child_process');
+const assets = require('./lib/assets'), { preflight } = require('./check');
 const HERE = __dirname, REPO = path.join(HERE, '..', '..'), GAME = path.join(REPO, 'game');
 const PORT = 8796, DBG = 9338, STEP = 1000 / 30, VW = 1600, VH = 900, DSF = +(process.env.DSF || 1.5);
 const CHROME = process.env.CHROME || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find(fs.existsSync);
@@ -15,14 +17,15 @@ const cfg = JSON.parse(fs.readFileSync(path.join(HERE, 'configs', id + '.json'),
 const manifest = require(path.join(GAME, 'assets/manifest.json'));
 const OUT = path.join(REPO, 'output', 'short', id, 'battle'), CACHE = path.join(REPO, 'output', 'short', 'cache');
 fs.mkdirSync(OUT, { recursive: true });
-const bgSrc = (manifest.backgrounds.filter((b) => b.name === B.bg).find((b) => fs.existsSync(path.join(GAME, 'assets', b.src))) || {}).src;
-if (!bgSrc) { console.error('no local background ' + B.bg); process.exit(1); }
+let bgSrc; // resolved after the preflight
+const missed = new Set(); // asset requests nothing could answer
 
 const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.css': 'text/css', '.png': 'image/png', '.webp': 'image/webp', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
-const server = http.createServer((q, s) => {
+const server = http.createServer(async (q, s) => {
   let p = decodeURIComponent(q.url.split('?')[0]); if (p === '/') p = '/index.html';
-  const f = path.join(GAME, p);
   if (p === '/sw.js') { s.writeHead(404); return s.end(); } // no service worker: it would fetch from the network
+  let f = path.join(GAME, p); const rel = assets.route(p);
+  if (rel) { const r = await assets.find(rel); if (!r.file) { missed.add(rel); s.writeHead(404); return s.end(); } f = r.file; }
   fs.readFile(f, (e, d) => {
     if (e) { s.writeHead(404); return s.end(); }
     if (p === '/js/config.js') d = Buffer.from(d.toString().replace(/MB\.ASSET_BASE = '[^']*'/, "MB.ASSET_BASE = '/assets/'"));
@@ -43,7 +46,7 @@ const director = (group, opts) => `(async () => {
   V.attackFx = async (att, tgt, impact, spill) => {
     const mine = att.side === 0;
     if (mine || ${opts.foeShots}) { window.__cap = 1; L({ k: 'attack', id: att.card.id, name: att.card.attack.name, side: att.side, tgt: tgt.isLeader ? 'leader' : tgt.card.id, ra: rect(att), rt: rect(tgt) }); await sleep(500); L({ k: 'go', id: att.card.id }); }
-    await atk0(att, tgt, (...a) => { if (window.__cap) L({ k: 'impact', id: att.card.id }); return impact(...a); }, spill);
+    await atk0(att, tgt, (...a) => { if (window.__cap) { L({ k: 'impact', id: att.card.id }); if (att.side === 0) { const v = V.ents.get(att.uid), bad = v ? [...v.el.querySelectorAll('img')].filter((i) => i.src && !(i.complete && i.naturalWidth > 0)).map((i) => i.src) : ['(unit gone)']; if (bad.length) L({ k: 'warn', id: att.card.id, bad }); } } return impact(...a); }, spill);
     if (window.__cap) { await sleep(800); L({ k: 'end', id: att.card.id }); window.__cap = 0; }
   };
   await V.run(() => b.start());
@@ -75,6 +78,8 @@ const director = (group, opts) => `(async () => {
 })()`;
 
 (async () => {
+  if ((await preflight(id)).length) process.exit(1);
+  bgSrc = (manifest.backgrounds.filter((b) => b.name === B.bg)).map((b) => b.src).find((src) => fs.existsSync(path.join(GAME, 'assets', src))) || (await Promise.all(manifest.backgrounds.filter((b) => b.name === B.bg).map((b) => assets.find(b.src)))).find((r) => r.file).rel;
   await new Promise((r) => server.listen(PORT, r));
   const groups = only != null ? [B.groups[+only]] : B.groups;
   const ch = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${DBG}`, `--user-data-dir=${path.join(CACHE, 'chrome-capture')}`, `--window-size=${VW},${VH}`, '--hide-scrollbars', '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required', 'about:blank'], { stdio: 'ignore' });
@@ -88,6 +93,7 @@ const director = (group, opts) => `(async () => {
   await cdp('Runtime.enable'); await cdp('Page.enable');
   await cdp('Emulation.setDeviceMetricsOverride', { width: VW, height: VH, deviceScaleFactor: DSF, mobile: false });
 
+  const problems = [];
   for (let gi = 0; gi < groups.length; gi++) {
     const group = groups[gi], dir = path.join(OUT, 'g' + (only != null ? +only : gi)); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
     await cdp('Emulation.setVirtualTimePolicy', { policy: 'advance' }); // real time while it boots
@@ -108,7 +114,7 @@ const director = (group, opts) => `(async () => {
         first: 1, control: ['local', 'ai'], playerLevels: {}, enemyLevels: {} });
       const cheap = new Set(['julie-hunley', 'isabella-hunley', 'keiko-ghan']); b.me(1).deck.sort((a, c) => cheap.has(a.id) - cheap.has(c.id)); // cheap monsters come first, so there is something to hit
       b.aiSkill = 0.7; MB.battle = b; MB.view.b = b;
-      window.__go = () => ${director(group, { foeShots: !!B.foeShots, plays: B.plays !== false })};
+      window.__go = () => ${director(group, { foeShots: !!B.foeShots, plays: !!B.plays })};
       return true; })()`);
     await ev('window.__go(); true'); // runs on in the page
     await cdp('Emulation.setVirtualTimePolicy', { policy: 'pause' });
@@ -121,7 +127,12 @@ const director = (group, opts) => `(async () => {
     }
     const log = await ev('JSON.stringify(window.__log)');
     fs.writeFileSync(path.join(dir, 'log.json'), JSON.stringify({ group, frames, log: JSON.parse(log), fps: 30, w: VW, h: VH, dsf: DSF }));
+    const warns = JSON.parse(log).filter((e) => e.k === 'warn'); if (warns.length) { problems.push(...warns.map((w) => `${w.id}: image not loaded at the hit: ${w.bad.join(', ')}`)); }
     console.log(`group ${gi}: ${k} frames, attacks by`, JSON.parse(log).filter((e) => e.k === 'attack' && e.side === 0).map((e) => e.id).join(', '));
   }
-  ch.kill(); server.close(); process.exit(0);
+  ch.kill(); server.close();
+  const lost = [...missed].filter((r) => /^(sprites|portraits|backgrounds|local)\//.test(r)); if (lost.length) problems.push('art the game asked for is nowhere: ' + lost.join(', '));
+  if (missed.size) console.log('404 (not art, ignored):', [...missed].filter((r) => !lost.includes(r)).join(', ') || 'none');
+  if (problems.length) { console.error('CAPTURE PROBLEMS, do not use these clips:\n  ' + problems.join('\n  ')); process.exit(1); }
+  process.exit(0);
 })().catch((e) => { console.error(e); process.exit(1); });

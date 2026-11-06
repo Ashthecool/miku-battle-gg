@@ -6,6 +6,7 @@
 // protocol, pipes them to ffmpeg and mixes the novel's own song with the sound effects the page asks for.
 // Needs Chrome and ffmpeg on the machine, nothing from npm.
 const fs = require('fs'), path = require('path'), http = require('http'), { spawn, execFileSync } = require('child_process');
+const assets = require('./lib/assets'), { preflight } = require('./check');
 const HERE = __dirname, REPO = path.join(HERE, '..', '..'), GAME = path.join(REPO, 'game');
 const PORT = 8795, DBG = 9337, FPS = 30;
 const CHROME = process.env.CHROME || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find(fs.existsSync);
@@ -23,6 +24,7 @@ const song = cfg.music.file ? null : manifest.music.find((m) => m.id === cfg.mus
 if (!cfg.music.file && !song) { console.error('no song ' + cfg.music.id + ' in the manifest'); process.exit(1); }
 const songFile = cfg.music.file ? path.join(GAME, 'assets/music', cfg.music.file) : path.join(CACHE, cfg.music.id + path.extname(new URL(song.url).pathname));
 (async () => {
+  if ((await preflight(id)).length) process.exit(1);
   if (!cfg.music.file && !fs.existsSync(songFile)) { console.log('downloading', song.name); fs.writeFileSync(songFile, Buffer.from(await (await fetch(song.url)).arrayBuffer())); }
   if (!cfg.music.bpm) { Object.assign(cfg.music, JSON.parse(execFileSync('node', [path.join(HERE, 'bpm.js'), songFile, '60']).toString())); fs.writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n'); console.log('tempo', cfg.music); }
 
@@ -40,8 +42,10 @@ if (fs.existsSync(battleDir)) for (const g of fs.readdirSync(battleDir).filter((
   });
 }
 const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' };
-  const server = http.createServer((q, s) => {
+  const server = http.createServer(async (q, s) => {
     const p = decodeURIComponent(q.url.split('?')[0]);
+    const rel = assets.route(p);
+    if (rel) { const a = await assets.find(rel); if (!a.file) { console.error('MISSING ASSET', rel); s.writeHead(404); return s.end(); } return fs.readFile(a.file, (e, d) => { s.writeHead(e ? 404 : 200, { 'Content-Type': T[path.extname(a.file)] || 'application/octet-stream' }); s.end(d); }); }
     if (p === '/cfg.json') { s.writeHead(200, { 'Content-Type': 'application/json' }); return s.end(JSON.stringify(cfg)); }
     const f = p === '/' ? path.join(HERE, 'short.html') : p.startsWith('/battle/') ? path.join(OUT, p) : p.startsWith('/game/') ? path.join(GAME, p.slice(6)) : path.join(HERE, p);
     fs.readFile(f, (e, d) => { if (e) { s.writeHead(404); return s.end(); } s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream' }); s.end(d); });
@@ -69,12 +73,16 @@ const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'app
     ff.stdin.end(); ff.on('close', done);
   });
 
-  if (mode === 'peek') {
+  const audit = async () => { const bad = await ev('window.audit(3)'); if (bad.length) console.error('AUDIT FAILED, a character or footage frame is missing:\n  ' + bad.slice(0, 20).map((b) => `${b.t}s ${b.id}: ${b.issue}`).join('\n  ')); else console.log('audit ok: every gameplay frame is loaded and every cut-out is drawn'); return bad.length === 0; };
+  if (mode === 'audit') {
+    const ok = await audit(); ch.kill(); server.close(); process.exit(ok ? 0 : 1);
+  } else if (mode === 'peek') {
     for (const a of args) fs.writeFileSync(path.join(OUT, 'peek', `t${(+a).toFixed(2).padStart(6, '0')}.jpg`), jpg(await ev(`frame(${Math.round(+a * FPS)})`)));
     console.log('stills in', path.join(OUT, 'peek'));
   } else if (mode === 'clip') {
     await video(+args[0], +args[1], path.join(OUT, 'clip.mp4'), true); console.log('clip.mp4 done');
   } else {
+    if (!(await audit()) && !args.includes('--force')) { ch.kill(); server.close(); process.exit(1); }
     const silent = path.join(OUT, 'silent.mp4'); await video(0, TL.dur, silent, false);
     // sound: the song starts at its first beat so the cuts land on the beat, plus the effects the page asked for
     const snd = path.join(GAME, 'assets/sounds'), ins = ['-i', silent, '-ss', String(cfg.music.offset || 0), '-i', songFile], f = [];

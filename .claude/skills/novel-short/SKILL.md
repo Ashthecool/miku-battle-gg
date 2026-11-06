@@ -1,0 +1,93 @@
+---
+name: novel-short
+description: Make the vertical YouTube Short "<Novel> is in Miku Battle!" for a novel that was added to the game, from real recorded gameplay of its characters' signature attacks. Use when the user asks for a short, trailer or announcement video for a novel or characters, or reports a character missing, vanishing, out of frame or wrongly posed in one of these videos.
+---
+
+# Novel shorts ("X is in Miku Battle!")
+
+A ~30 s, 1080x1920 video: title slam, one slot per cast member showing **their real attack recorded from the game** (slow motion
+on the hit, the game's own sounds), a portrait grid, stat stamps and a call to action, cut on the beat of a song. Everything lives
+in `tools/short/`; a novel is one JSON file, no code. Its README has the field-by-field reference; this file is the method and
+the rules that keep it from breaking.
+
+## Run it (in this order, from the repo root)
+
+```
+node tools/short/check.js <id>                    # preflight: every image and sound exists (disk or R2 bucket)
+node tools/short/capture.js <id> [group]          # records the attacks from real battles, ~10 min, output/short/<id>/battle/
+node tools/short/render.js <id> peek 4.5 8.9 ...  # stills to output/short/<id>/peek/ : LOOK at them (see "Look before you ship")
+node tools/short/render.js <id> audit             # every gameplay frame loaded, every cut-out drawn
+node tools/short/render.js <id> all               # audit, then the video: output/miku-battle-<id>-short.mp4, ~8 min
+```
+
+Run long ones with `run_in_background` and one job at a time (they use fixed ports and one Chrome profile). Needs Chrome and ffmpeg;
+there is no Python on this machine, so everything is Node.
+
+## Tools to point at
+
+| Tool | Does |
+| --- | --- |
+| `tools/short/configs/<id>.json` | the whole short: `novel`, `title`, `cast` (id, tag, mood), `bgs`, `music`, `accent`, and `battle` (how to record) |
+| `tools/short/check.js` | preflight. Lists every sprite role, portrait, background, sound and song the short needs; says which come from the bucket; exits 1 if any is nowhere |
+| `tools/short/lib/assets.js` | `find(rel)`: art from `game/assets/`, else the R2 bucket (cached under `output/short/cache/assets/`). Both servers use it |
+| `tools/short/capture.js` | runs a real `MB.Battle` in the real game page under virtual time and records each cast member's attack (frames + `log.json`); fails on missing art or an unloaded attacker image |
+| `tools/short/render.js` | serves `short.html`, `peek` / `audit` / `clip` / `all`; mixes the song and the effects |
+| `tools/short/short.html` | draws a frame as a function of time (`window.frame(n)`, `window.audit()`); layouts, effects, timeline, sound cues |
+| `tools/short/bpm.js` | measures a song's tempo and first beat (`node tools/short/bpm.js <file> [seconds]`) |
+
+## Disappearing sprites: why it happened and the rules that stop it
+
+**The incident.** Luther, James and Kayla vanished from the footage while attacking. Their `attack` sprite
+(`luther-jones/amused.webp`, `james-lone/tired.webp`, `kayla-kate/annoyed.webp`) is in the R2 bucket but not in `game/assets/`. The
+game swaps a unit to its `attack` sprite when it strikes; a server that only reads `game/assets/` answered 404 and the unit went blank.
+The first "fix" (a cut-out beside the footage) hid the symptom; the cause was the missing file. Rules:
+
+1. **Never serve the game from `game/assets/` alone.** Use `lib/assets.js` (disk, then bucket). `capture.js` and `render.js` do; a new
+   tool must too. The game's own `MB.ASSET_BASE` is the bucket.
+2. **Run `check.js` first** (capture and render do it for you). It checks all 8 sprite roles of every cast, battle and foe character, not
+   only the ones you expect to see: any of them can be shown by an emotion change. A role that is nowhere stops the job. Fix it
+   (upload to the bucket, or point the manifest at an existing file) instead of working around it.
+3. **`capture.js` fails the run** when art the game asked for is nowhere (404 on `sprites/`, `portraits/`, `backgrounds/`) or when the
+   attacker has an unloaded `<img>` at the moment of the hit. Do not use clips from a failed capture; re-record.
+4. **The character is always drawn in the cast slot**: the cut-out switches idle, attack, win poses (`firstOf` falls back through
+   similar poses, but only for a file that is genuinely absent everywhere). `audit` fails if a cut-out or a gameplay frame is missing.
+5. **At most two cast members per recorded battle** (`battle.groups`): only the two middle slots are in the crop; a third stands at the
+   board's edge and is cut off. **Bonded characters fuse when they stand together** (`MB.BONDS`) and the fusion's attack replaces the
+   one you came for, so keep bonded pairs in different groups. (Cast pairs bonded in Adoptive Life: James+Kayla, Maiko+Hayley,
+   Hayley+James, Hayley+Kayla, Maiko+James.)
+6. **Look before you ship** (below). The audit proves files and frames exist; only your eyes prove the board looks right.
+
+## Look before you ship
+
+Use `peek` at, for every cast member, the wind-up (~0.3 s into their slot), the hit (~1.1 s) and the finish (~2.2 s), then open the
+stills (Read tool; tile them with ffmpeg `hstack` to see several at once). For each:
+
+- the character's board unit is visible before the attack and the cut-out is visible all the time, in the right pose;
+- the attacker and its target are inside the gameplay window (the crop follows `clip.aim`, the midpoint of the two);
+- name, attack name and stats do not overlap the HUD (top 190 px) or run into the bottom 300 px that YouTube covers;
+- the title, "is in Miku Battle!", the grid count and the end card show the right URL (miku-battle.org).
+
+Then check the finished file: `ffprobe` (1080x1920, duration), `volumedetect` (not silent, not clipping), and a frame from each segment.
+Say plainly what you checked and that you have not listened to it.
+
+## Making one for another novel
+
+1. Preconditions: the novel is in the game (see the add-novel skill) with its cards in `game/js/data.js`; each cast member has an attack.
+2. Copy `configs/adoptive-life.json`; set `novel`, `title`, `cast` (4-8, strongest first), `bgs`, `music` (`file` from `game/assets/music/`,
+   or `id` of a novel song; leave `bpm`/`offset` out to have them measured, then sanity-check the tempo), `battle`.
+3. `battle`: `bg`, `leader`, `foe`, `foeDeck` (cheap monsters so there is a target; the director also moves the cheapest to the top of the deck),
+   `groups` (rule 5). Set `foeShots: true` for extra B-roll of the foe's attacks, `plays: true` to also record card entrances (slower).
+4. Run the sequence above. Capture takes ~2-4 minutes per group; re-record one group with `capture.js <id> <index>`.
+5. Commit the config and tools (`git add tools/short`). `output/` is ignored. Never name the config folder `novels/`: `.gitignore` excludes it.
+
+## Gotchas
+
+- Do not stand in `output/short/<id>/battle/` with your shell: `capture.js` deletes and recreates its `g*` folders (EPERM).
+- `capture.js` serves `game/` with `MB.ASSET_BASE` rewritten to `/assets/` and the service worker blocked; time is virtual
+  (`Emulation.setVirtualTimePolicy`), so frames are exact but a screenshot costs real time (~0.25 s each).
+- The director plays side 0 itself (`b.playCard`, `b.attack`) with the leader HP untouched and the game's AI as the foe; if the foe has no
+  monster yet, the attacker waits a turn.
+- Gameplay frames are 2400x1350 (1600x900 at 1.5x so the big sprites load). The 1020x1240 window shows the full height and the middle ~1110 px of the width, shifted toward the fight.
+- Sounds: the page asks for effects from `game/assets/sounds/` by file name; the game's own sound names are mapped to files through
+  `SAMPLES` in `game/js/audio.js` (synthesised-only names have no file and are skipped).
+- Shell quoting in this environment is fragile for long inline scripts with apostrophes: write a script file and run it.

@@ -6,10 +6,16 @@ the game's own sounds. Around it: a title slam, a portrait grid, stat stamps and
 the novel's own song. One JSON file per novel, no code to change.
 
 ```
-node tools/short/capture.js <id>                  # 1. play the battles and record the attacks (about 10 min)
-node tools/short/render.js <id> peek 4.5 8.9 22   # 2. stills to output/short/<id>/peek/ (check the look first)
-node tools/short/render.js <id> all               # 3. output/miku-battle-<id>-short.mp4 (about 8 min)
+node tools/short/check.js <id>                    # 0. preflight: every image and sound exists (disk or the R2 bucket)
+node tools/short/capture.js <id> [group]          # 1. play the battles and record the attacks (about 10 min)
+node tools/short/render.js <id> peek 4.5 8.9 22   # 2. stills to output/short/<id>/peek/ (look at them first)
+node tools/short/render.js <id> audit             # 3. every gameplay frame loaded, every cut-out drawn
+node tools/short/render.js <id> all               # 4. audit, then output/miku-battle-<id>-short.mp4 (about 8 min)
 ```
+
+The method, the rules (why characters vanished from the footage and what stops it) and a checklist are in
+[.claude/skills/novel-short/SKILL.md](../../.claude/skills/novel-short/SKILL.md). Art that is not in `game/assets/` is fetched
+from the R2 bucket by `lib/assets.js`, as the game does.
 
 Needs Chrome and ffmpeg. `output/` is git-ignored. Without a capture the cast slots fall back to sprite cards.
 
