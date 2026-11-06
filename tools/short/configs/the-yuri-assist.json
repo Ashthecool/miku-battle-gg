@@ -1,0 +1,74 @@
+{
+  "novel": "The yuri assist",
+  "title": [
+    "THE YURI",
+    "ASSIST"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#b48cff",
+  "accent2": "#ff7fc8",
+  "music": {
+    "id": "calming-jazz-1",
+    "bpm": 85.5,
+    "offset": 0.12
+  },
+  "bgs": [
+    "Andrea's room",
+    "The study room",
+    "Lounge room",
+    "Park 2",
+    "Hallway (2)",
+    "Your's room"
+  ],
+  "cast": [
+    {
+      "id": "linda-penn",
+      "tag": "THE LEADER",
+      "mood": "win"
+    },
+    {
+      "id": "andrea-lyle",
+      "tag": "THE FORMER PRODIGY",
+      "mood": "attack"
+    },
+    {
+      "id": "eva-vinn",
+      "tag": "THE GEEK",
+      "mood": "idle"
+    },
+    {
+      "id": "ashley-lennette",
+      "tag": "THE TOMBOY",
+      "mood": "taunt"
+    }
+  ],
+  "battle": {
+    "bg": "Lounge room",
+    "leader": "linda-penn",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "linda-penn",
+        "eva-vinn"
+      ],
+      [
+        "andrea-lyle"
+      ],
+      [
+        "ashley-lennette"
+      ]
+    ],
+    "plays": false
+  }
+}

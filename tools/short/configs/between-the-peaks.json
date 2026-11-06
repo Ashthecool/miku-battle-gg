@@ -1,0 +1,102 @@
+{
+  "novel": "Between the Peaks",
+  "title": [
+    "BETWEEN THE",
+    "PEAKS"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#4cd17a",
+  "accent2": "#7ad0ff",
+  "music": {
+    "id": "forrest",
+    "bpm": 81,
+    "offset": 0.07
+  },
+  "bgs": [
+    "Mountain (1)",
+    "Forrest (1)",
+    "Outskirts of city",
+    "Forrest (2)",
+    "Street - Day (1)",
+    "Mountain (2)"
+  ],
+  "cast": [
+    {
+      "id": "deiste-junko",
+      "tag": "THE MAYOR'S SON",
+      "mood": "attack"
+    },
+    {
+      "id": "betty-glee",
+      "tag": "THE SCARRED CLUB PRESIDENT",
+      "mood": "win"
+    },
+    {
+      "id": "benjamin-birk",
+      "tag": "THE SHOPKEEPER",
+      "mood": "idle"
+    },
+    {
+      "id": "claire-larone",
+      "tag": "THE POLYGLOT",
+      "mood": "win"
+    },
+    {
+      "id": "olivia",
+      "tag": "THE BARISTA",
+      "mood": "idle"
+    },
+    {
+      "id": "mason-moose",
+      "tag": "THE POSTMASTER",
+      "mood": "taunt"
+    },
+    {
+      "id": "dan-birk",
+      "tag": "THE WILD ONE",
+      "mood": "idle"
+    },
+    {
+      "id": "lisa-reed",
+      "tag": "THE SLEEPYHEAD",
+      "mood": "idle"
+    }
+  ],
+  "battle": {
+    "bg": "Forrest (1)",
+    "leader": "olivia",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "deiste-junko"
+      ],
+      [
+        "betty-glee",
+        "benjamin-birk"
+      ],
+      [
+        "claire-larone",
+        "olivia"
+      ],
+      [
+        "dan-birk",
+        "mason-moose"
+      ],
+      [
+        "lisa-reed"
+      ]
+    ],
+    "plays": false
+  }
+}

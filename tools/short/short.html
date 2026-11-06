@@ -75,6 +75,8 @@ const blurCache = new Map();
 const blurred = (img) => { if (!blurCache.has(img)) { const c = mk(540, 960), x = c.getContext('2d'); x.filter = 'blur(6px)'; const s = Math.max(c.width / img.width, c.height / img.height); x.drawImage(img, (c.width - img.width * s) / 2, 0, img.width * s, img.height * s); blurCache.set(img, c); } return blurCache.get(img); };
 const cover = (x, img, zoom = 1, px = .5, py = .5) => { const s = Math.max(W / img.width, H / img.height) * zoom, dw = img.width * s, dh = img.height * s; x.drawImage(img, -(dw - W) * px, -(dh - H) * py, dw, dh); };
 
+// RULE: never white text on a yellow background. Text on a yellow/amber fill uses this dark colour (see the novel-short skill).
+function isYellow(c) { const n = parseInt(c.slice(1), 16), r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; if (!d || (mx + mn) / 2 < .55) return false; const h = (mx === r ? ((g - b) / d + 6) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4) * 60; return h >= 30 && h <= 70; }
 function T(x, str, px, py, o = {}) {
   const { size = 100, font = 'Lilita', fill = '#fff', stroke = DARK, sw = size * .13, ext = 0, extFill = '#000', align = 'center', ls = 0, rot = 0, sx = 1, sy = 1, alpha = 1, maxW = 0, glow = null } = o;
   x.save(); x.translate(px, py); x.rotate(rot); x.font = `${size}px ${font}`; x.letterSpacing = ls + 'px';
@@ -189,7 +191,7 @@ const POW = ['POW!', 'BAM!', 'WHAM!', 'BOOM!', 'KAPOW!', 'SMASH!'];
 let AUD = [];
 
 function drawCastBattle(x, lt, t, i) {
-  const c = cast[i], m = c.map, src = m.f(lt * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth, side = i % 2 ? 1 : -1;
+  const c = cast[i], m = c.map, src = m.f(clamp(lt, 0, L.cast * B) * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth, side = i % 2 ? 1 : -1;
   x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H);
   if (ready) { mg.drawImage(img, 560, 90, 1120, 1120, -20, 0, 94, 96); x.save(); x.imageSmoothingEnabled = true; x.globalAlpha = .9; x.drawImage(mini, 0, 0, W, H); x.restore(); }
   tint(x, c.color, .5, .35);
@@ -216,7 +218,7 @@ function drawCastBattle(x, lt, t, i) {
   x.restore();
   // the character, big, breaking out of the window: their attack hides them on the board, so they are always here
   const spr = lt < m.tGo - .05 ? c.pose.idle : lt < m.tImpact + .35 ? c.pose.attack : c.pose.win, sp0 = E.outBack(clamp((lt - .12) / .4), 1.5);
-  AUD.push({ id: c.id, footage: !!ready, sprite: !!spr }); // what audit() checks: the footage frame is loaded and the cut-out is drawn
+  AUD.push({ id: c.id, footage: !!ready, sprite: !!spr, url: frameUrl(c, src) + ' complete=' + img.complete + ' w=' + img.naturalWidth + ' inmap=' + imgs.has(frameUrl(c, src)) }); // what audit() checks: the footage frame is loaded and the cut-out is drawn
   if (spr) { const hS = 900 * (1 + .05 * punch), wS = spr.width * hS / spr.height, lunge = E.inOut(clamp((lt - m.tGo + .2) / .4)) * (1 - clamp(dI / .8)) * 70, cxS = (side < 0 ? 150 : W - 150) + side * (1 - sp0) * -520 - side * lunge;
     x.save(); x.shadowColor = c.color; x.shadowBlur = 50; x.globalAlpha = clamp(sp0 * 2); x.drawImage(spr, cxS - wS / 2, 1650 - hS, wS, hS); x.restore(); }
   // who it is, and the move
@@ -266,8 +268,9 @@ function drawStats(x, lt, t) {
   stats.forEach(([v, lab], k) => { const s0 = .25 + k * B, p = E.outBack(clamp((lt - s0) / .22), 1.6); if (p <= 0) return; const y = 440 + k * (rowH + 8), d = lt - s0;
     x.save(); x.translate(W / 2, y + rowH / 2); x.scale(1 + (1 - p) * .5, 1 + (1 - p) * .5); x.globalAlpha = clamp(p * 3); x.rotate(k % 2 ? .012 : -.012);
     x.fillStyle = cols[k % 4]; x.beginPath(); x.moveTo(-500, -rowH / 2); x.lineTo(520, -rowH / 2 + 22); x.lineTo(500, rowH / 2); x.lineTo(-520, rowH / 2 - 22); x.closePath(); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 8; x.stroke();
-    T(x, String(Math.round(v * E.outCubic(clamp(d / .35)))), -130, 6, { size: 210, align: 'right', ext: 12, extFill: '#2a0e5a', sw: 18 });
-    T(x, lab, -105, 6, { size: 82, align: 'left', maxW: 500, ext: 8, extFill: '#2a0e5a', sw: 12 }); x.restore();
+    const ink = isYellow(cols[k % 4]) ? { fill: '#2a0e5a', stroke: '#fff' } : {};
+    T(x, String(Math.round(v * E.outCubic(clamp(d / .35)))), -130, 6, { size: 210, align: 'right', ext: 12, extFill: '#2a0e5a', sw: 18, ...ink });
+    T(x, lab, -105, 6, { size: 82, align: 'left', maxW: 500, ext: 8, extFill: '#2a0e5a', sw: 12, ...ink }); x.restore();
     ring(x, W / 2, y + rowH / 2, d, '#fff', 1600); });
   x.fillStyle = '#fff'; floaters(x, t, 18, 9, ['#fff', ACC, ACC2]);
   hud(x, t, -1, 0);
@@ -356,15 +359,17 @@ window.TIMELINE = { dur: DUR, fps: FPS, bpm: BPM, events, segs: segs.map((s) => 
 async function prep(t) { // load what this moment draws (the gameplay frames) before drawing it
   let k = segs.findIndex((s) => t >= s.start && t < s.end); if (k < 0) k = segs.length - 1;
   const want = [k]; if (k > 0 && t - segs[k].start < WIPE) want.push(k - 1);
-  for (const j of want) { const s = segs[j]; if (s.need) { const lt = t - s.start; await Promise.all([...s.need(lt), ...s.need(lt + .2)].map((u) => getImg(u).p)); } }
-  if (imgs.size > 160) [...imgs.keys()].slice(0, 80).forEach((u) => imgs.delete(u));
+  const urls = []; for (const j of want) { const s = segs[j]; if (s.need) { const lt = t - s.start; for (const d of [-.07, -.034, 0, .034, .07, .2]) urls.push(...s.need(lt + d)); } }
+  // evict the oldest frames, but never one this moment draws (an evicted frame comes back as a fresh, unloaded Image: a black window)
+  if (imgs.size > 160) { const keep = new Set(urls); [...imgs.keys()].filter((u) => !keep.has(u)).slice(0, 80).forEach((u) => imgs.delete(u)); }
+  await Promise.all(urls.map((u) => getImg(u).p));
 }
 window.frame = async (n) => { const t = n / FPS; await prep(t); AUD = []; render(t); return cv.toDataURL('image/jpeg', .94); };
 // every 'step'th frame: is each gameplay frame loaded, and is the character cut-out drawn? Returns the problems found.
 window.audit = async (step = 3) => {
   const bad = [];
   for (let n = 0; n < DUR * FPS; n += step) { const t = n / FPS; await prep(t); AUD = []; render(t);
-    for (const a of AUD) { if (!a.footage) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'gameplay frame not loaded' }); else if (!a.sprite) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'character cut-out not drawn' }); } }
+    for (const a of AUD) { if (!a.footage) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'gameplay frame not loaded ' + a.url }); else if (!a.sprite) bad.push({ t: +t.toFixed(2), id: a.id, issue: 'character cut-out not drawn' }); } }
   return bad;
 };
 window.ready = true;

@@ -1,0 +1,86 @@
+{
+  "novel": "The Lifeguard has Teeth",
+  "title": [
+    "THE LIFEGUARD",
+    "HAS TEETH"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#1fd1c4",
+  "accent2": "#ff5a5f",
+  "music": {
+    "id": "catchy-waves",
+    "bpm": 125,
+    "offset": 0.34
+  },
+  "bgs": [
+    "Beach (1)",
+    "Beach Rock",
+    "Beach (2)",
+    "Inside lifeguard tower",
+    "Beach (3)",
+    "Beach night"
+  ],
+  "cast": [
+    {
+      "id": "rirarra-charca",
+      "tag": "THE GREAT WHITE",
+      "mood": "attack"
+    },
+    {
+      "id": "rinco-typus",
+      "tag": "THE GENTLE GIANT",
+      "mood": "win"
+    },
+    {
+      "id": "melanika-carchara",
+      "tag": "THE SURF COACH",
+      "mood": "idle"
+    },
+    {
+      "id": "daphne-mokarran",
+      "tag": "THE ENGINEER",
+      "mood": "idle"
+    },
+    {
+      "id": "rowdy-brachy",
+      "tag": "THE WRESTLER",
+      "mood": "taunt"
+    },
+    {
+      "id": "brizz-bigeyed",
+      "tag": "THE MEDIC",
+      "mood": "win"
+    }
+  ],
+  "battle": {
+    "bg": "Beach (1)",
+    "leader": "rirarra-charca",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "rirarra-charca",
+        "rinco-typus"
+      ],
+      [
+        "melanika-carchara",
+        "daphne-mokarran"
+      ],
+      [
+        "rowdy-brachy",
+        "brizz-bigeyed"
+      ]
+    ],
+    "plays": false
+  }
+}

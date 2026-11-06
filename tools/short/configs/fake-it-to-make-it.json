@@ -1,0 +1,100 @@
+{
+  "novel": "Fake It to Make It!",
+  "title": [
+    "FAKE IT TO",
+    "MAKE IT"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#ff5a36",
+  "accent2": "#7be0a6",
+  "music": {
+    "id": "battle-of-power",
+    "bpm": 133,
+    "offset": 0.07
+  },
+  "bgs": [
+    "Classroom 1",
+    "Hallway Outside",
+    "Indoors gym",
+    "Principals Office",
+    "Outside University",
+    "Party Room!"
+  ],
+  "cast": [
+    {
+      "id": "ellis-maidun",
+      "tag": "THE FEMBOY",
+      "mood": "win"
+    },
+    {
+      "id": "jack-lockster",
+      "tag": "THE QUARTERBACK",
+      "mood": "attack"
+    },
+    {
+      "id": "megan-dilourice",
+      "tag": "THE PRESIDENT",
+      "mood": "idle"
+    },
+    {
+      "id": "carys-crowner",
+      "tag": "THE SOCIAL STAR",
+      "mood": "win"
+    },
+    {
+      "id": "owain-owegrain",
+      "tag": "THE MANAGER",
+      "mood": "taunt"
+    },
+    {
+      "id": "eira-randers",
+      "tag": "THE POPULAR ONE",
+      "mood": "idle"
+    },
+    {
+      "id": "rhiannon-davis",
+      "tag": "THE FUTURE TEACHER",
+      "mood": "idle"
+    },
+    {
+      "id": "linda-garmund",
+      "tag": "THE FACT GIRL",
+      "mood": "idle"
+    }
+  ],
+  "battle": {
+    "bg": "Classroom 2",
+    "leader": "ellis-maidun",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "ellis-maidun",
+        "megan-dilourice"
+      ],
+      [
+        "jack-lockster",
+        "carys-crowner"
+      ],
+      [
+        "owain-owegrain",
+        "eira-randers"
+      ],
+      [
+        "rhiannon-davis",
+        "linda-garmund"
+      ]
+    ],
+    "plays": false
+  }
+}
