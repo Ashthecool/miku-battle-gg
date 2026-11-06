@@ -26,7 +26,7 @@ Needs Chrome and ffmpeg. `output/` is git-ignored. Without a capture the cast sl
    finale: `idle`, `play`, `attack`, `special`, `hurt`, `lose`, `win`, `taunt`). Put the strongest first (the first two
    also stand either side of "is in Miku Battle!").
 6. `battle` says how to record them (`capture.js`): `bg` (a background name), `leader`, `foe` (the other leader),
-   `foeDeck` (cheap monsters, so there is something to hit), and `groups`: the cast split into battles of at most 4.
+   `foeDeck` (cheap monsters, so there is something to hit), and `groups`: the cast split into battles of **at most 2** (only the two middle slots are in frame; a third character would stand at the edge of the board).
    **Characters that share a relationship (`MB.BONDS`) fuse when they stand together**, so keep bonded pairs in
    different groups (the fusion would replace the attack you came for).
 7. `accent` / `accent2` colour the title, wipes and sparkles. Each character's card takes the colour of their attack.

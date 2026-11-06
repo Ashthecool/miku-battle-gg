@@ -18,11 +18,12 @@ for (const d of [OUT, CACHE, path.join(OUT, 'peek')]) fs.mkdirSync(d, { recursiv
 const cfgPath = path.join(HERE, 'configs', id + '.json');
 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
 const manifest = require(path.join(GAME, 'assets/manifest.json'));
-const song = manifest.music.find((m) => m.id === cfg.music.id);
-if (!song) { console.error('no song ' + cfg.music.id + ' in the manifest'); process.exit(1); }
-const songFile = path.join(CACHE, cfg.music.id + path.extname(new URL(song.url).pathname));
+// music.file: a song in game/assets/music/; music.id: a novel song from the manifest (downloaded once)
+const song = cfg.music.file ? null : manifest.music.find((m) => m.id === cfg.music.id);
+if (!cfg.music.file && !song) { console.error('no song ' + cfg.music.id + ' in the manifest'); process.exit(1); }
+const songFile = cfg.music.file ? path.join(GAME, 'assets/music', cfg.music.file) : path.join(CACHE, cfg.music.id + path.extname(new URL(song.url).pathname));
 (async () => {
-  if (!fs.existsSync(songFile)) { console.log('downloading', song.name); fs.writeFileSync(songFile, Buffer.from(await (await fetch(song.url)).arrayBuffer())); }
+  if (!cfg.music.file && !fs.existsSync(songFile)) { console.log('downloading', song.name); fs.writeFileSync(songFile, Buffer.from(await (await fetch(song.url)).arrayBuffer())); }
   if (!cfg.music.bpm) { Object.assign(cfg.music, JSON.parse(execFileSync('node', [path.join(HERE, 'bpm.js'), songFile, '60']).toString())); fs.writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n'); console.log('tempo', cfg.music); }
 
   // ---- gameplay clips: capture.js's logs say which frames hold each cast member's attack (go = the wind-up ends, i = the hit)
@@ -34,7 +35,8 @@ if (fs.existsSync(battleDir)) for (const g of fs.readdirSync(battleDir).filter((
   D.log.filter((e) => e.k === 'attack' && e.side === 0).forEach((a) => {
     if (cfg.clips[a.id]) return; const after = (k) => D.log.find((e) => e.k === k && e.id === a.id && e.t >= a.t), go = after('go'), im = after('impact'), end = after('end');
     if (!go || !im || !end) return;
-    cfg.clips[a.id] = { g, n: D.frames.length, go: nearest(go.t), i: nearest(im.t), e: nearest(end.t), sfx: D.log.filter((e) => e.k === 'sfx' && e.t >= a.t && e.t <= end.t).map((e) => ({ f: nearest(e.t), name: e.name })) };
+    const ra = a.ra || [800, 600], rt = a.rt || ra; // where the attacker and its target stand (screen px at 1x)
+    cfg.clips[a.id] = { g, aim: [(ra[0] + rt[0]) / 2 * D.dsf, (ra[1] + rt[1]) / 2 * D.dsf], n: D.frames.length, go: nearest(go.t), i: nearest(im.t), e: nearest(end.t), sfx: D.log.filter((e) => e.k === 'sfx' && e.t >= a.t && e.t <= end.t).map((e) => ({ f: nearest(e.t), name: e.name })) };
   });
 }
 const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' };

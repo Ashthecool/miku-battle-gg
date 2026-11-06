@@ -9,9 +9,9 @@
   "accent": "#ffb347",
   "accent2": "#ff6fae",
   "music": {
-    "id": "hello-hayley",
-    "bpm": 120,
-    "offset": 0.33
+    "file": "mama-la-la.mp3",
+    "bpm": 107,
+    "offset": 0.37
   },
   "bgs": [
     "Our Home from the outside",
@@ -70,11 +70,13 @@
     "groups": [
       [
         "hayley-kate",
-        "maria-hunley",
-        "luther-jones"
+        "maria-hunley"
       ],
       [
-        "maiko-ghan",
+        "luther-jones",
+        "maiko-ghan"
+      ],
+      [
         "kayla-kate"
       ],
       [

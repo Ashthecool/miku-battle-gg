@@ -37,13 +37,14 @@ const cards = MB.CARDS || {};
 const rarity = (id) => (MB.RARITY[(cards[id] || {}).rarity] || MB.RARITY.common);
 const loadBg = async (n) => { for (const b of manifest.backgrounds.filter((x) => x.name === n)) { const img = await load(A + b.src); if (img) return img; } console.error('no background ' + n); return null; };
 const bgs = (await Promise.all(cfg.bgs.map(loadBg))).filter(Boolean);
+const firstOf = async (ch, ...keys) => { for (const k of keys) { const img = await load(A + ch.sprites[k]); if (img) return img; } return null; }; // a pose that is not on disk falls back to the next one
 const cast = [];
 for (const c of cfg.cast) {
   const ch = manifest.characters.find((x) => x.id === c.id);
   const card = cards[c.id] || {};
-  const spr = await load(A + ch.sprites[c.mood || 'play']);
+  const spr = await load(A + ch.sprites[c.mood || 'play']), pose = { idle: await firstOf(ch, 'idle', 'play'), attack: await firstOf(ch, 'attack', 'special', 'idle'), win: await firstOf(ch, 'win', 'play', 'taunt', 'idle') };
   const first = ch.name.split(' ')[0].toUpperCase(), last = ch.name.split(' ').slice(1).join(' ').toUpperCase();
-  cast.push({ ...c, clip: (cfg.clips || {})[c.id], ch, card, spr, first, last, color: (card.attack && card.attack.color) || ACC, rar: rarity(c.id), attackName: card.attack ? card.attack.name : (MB.POWERS[c.id] || {}).name || '' });
+  cast.push({ ...c, clip: (cfg.clips || {})[c.id], ch, card, spr, pose, first, last, color: (card.attack && card.attack.color) || ACC, rar: rarity(c.id), attackName: card.attack ? card.attack.name : (MB.POWERS[c.id] || {}).name || '' });
 }
 const portraits = await Promise.all(novelChars.map(async (c) => ({ ch: c, img: await load(A + 'portraits/' + c.id + '.webp'), rar: rarity(c.id) })));
 const logo = await load('/game/icons/icon-192.png');
@@ -59,7 +60,7 @@ const stats = (cfg.stats || [
 // ---------------------------------------------------------------- timeline (counted in beats so cuts land on the music)
 const BPM = cfg.music.bpm || 120, B = 60 / BPM;
 const hasClips = cast.some((c) => c.clip);
-const L = { intro: 6, cast: hasClips ? 5 : 4, grid: 6, stats: 4, finale: 10 };
+const L = { intro: 6, cast: hasClips ? 5 : 4, grid: 5, stats: 4, finale: 8 };
 const segs = []; let cur = 0;
 const addSeg = (name, beats, draw, i) => { segs.push({ name, i, start: cur * B, end: (cur + beats) * B, draw }); cur += beats; };
 const events = [], impulses = [];
@@ -187,41 +188,46 @@ const mini = mk(54, 96), mg = mini.getContext('2d');
 const POW = ['POW!', 'BAM!', 'WHAM!', 'BOOM!', 'KAPOW!', 'SMASH!'];
 
 function drawCastBattle(x, lt, t, i) {
-  const c = cast[i], m = c.map, src = m.f(lt * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth;
+  const c = cast[i], m = c.map, src = m.f(lt * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth, side = i % 2 ? 1 : -1;
   x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H);
-  if (ready) { mg.drawImage(img, SRC.sx, SRC.sy, SRC.sw, SRC.sh, -20, 0, 94, 96); x.save(); x.imageSmoothingEnabled = true; x.globalAlpha = .9; x.drawImage(mini, 0, 0, W, H); x.restore(); }
+  if (ready) { mg.drawImage(img, 560, 90, 1120, 1120, -20, 0, 94, 96); x.save(); x.imageSmoothingEnabled = true; x.globalAlpha = .9; x.drawImage(mini, 0, 0, W, H); x.restore(); }
   tint(x, c.color, .5, .35);
-  rays(x, W / 2, 840, t * (i % 2 ? 1 : -1), '#fff', .07);
-  const dI = lt - m.tImpact, punch = dI >= 0 ? Math.exp(-dI * 7) : 0, wob = Math.sin(t * 2.2 + i) * .006;
-  // the gameplay window
-  const ww = 960, wh = 960, wy = 372, zoom = 1 + .1 * clamp(lt / (m.tImpact || 1)) + .06 * punch - (dI > 0 ? .1 * clamp(dI / 1.2) : 0), p0 = E.outBack(clamp(lt / .3), 1.3);
-  x.save(); x.translate(W / 2, wy + wh / 2); x.rotate(wob + (1 - p0) * (i % 2 ? .12 : -.12)); x.scale(p0, p0);
+  rays(x, W / 2, 900, t * (i % 2 ? 1 : -1), '#fff', .07);
+  const dI = lt - m.tImpact, punch = dI >= 0 ? Math.exp(-dI * 7) : 0, wob = Math.sin(t * 2.2 + i) * .005;
+  // the gameplay window: as tall as the screen allows; the crop follows the fight and pushes in on the hit
+  const ww = 1020, wh = 1240, wy = 372, zoom = 1 + .1 * clamp(lt / (m.tImpact || 1)) + .07 * punch - (dI > 0 ? .08 * clamp(dI / 1.2) : 0), p0 = E.outBack(clamp(lt / .3), 1.3);
+  x.save(); x.translate(W / 2, wy + wh / 2); x.rotate(wob + (1 - p0) * (i % 2 ? .1 : -.1)); x.scale(p0, p0);
   x.shadowColor = c.color; x.shadowBlur = 60; x.fillStyle = '#000'; rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.fill(); x.shadowBlur = 0;
   x.save(); rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.clip();
-  if (ready) { const cw = SRC.sw / zoom, ch = SRC.sh / zoom, cx = SRC.sx + SRC.sw / 2 + (i % 2 ? 1 : -1) * 20 * clamp(lt / 2), cy = SRC.sy + SRC.sh / 2 + 14; x.drawImage(img, cx - cw / 2, cy - ch / 2, cw, ch, -ww / 2, -wh / 2, ww, wh); }
-  if (punch > .02) { const gr = x.createRadialGradient(0, 0, 100, 0, 0, 700); gr.addColorStop(0, 'rgba(255,255,255,' + (.5 * punch) + ')'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(-ww / 2, -wh / 2, ww, wh); speedLines(x, 0, 0, .35 * punch, '#fff', t, .25, i); }
-  const hl = x.createLinearGradient(0, -wh / 2, 0, -wh / 2 + 120); hl.addColorStop(0, 'rgba(0,0,0,.35)'); hl.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = hl; x.fillRect(-ww / 2, -wh / 2, ww, 120);
+  if (ready) { const ch = 1350 / zoom, cw = ch * ww / wh, aim = c.clip.aim || [1200, 800], k = E.inOut(clamp(lt / (m.tImpact || 1))), cx = clamp(1200 + (aim[0] - 1200) * (.55 + .3 * k), cw / 2, 2400 - cw / 2), cy = clamp(675 + (aim[1] - 675) * .5 * k, ch / 2, 1350 - ch / 2);
+    x.drawImage(img, cx - cw / 2, cy - ch / 2, cw, ch, -ww / 2, -wh / 2, ww, wh); }
+  if (punch > .02) { const gr = x.createRadialGradient(0, -80, 100, 0, -80, 760); gr.addColorStop(0, 'rgba(255,255,255,' + (.5 * punch) + ')'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(-ww / 2, -wh / 2, ww, wh); speedLines(x, 0, -80, .35 * punch, '#fff', t, .25, i); }
+  const hl = x.createLinearGradient(0, -wh / 2, 0, -wh / 2 + 130); hl.addColorStop(0, 'rgba(0,0,0,.35)'); hl.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = hl; x.fillRect(-ww / 2, -wh / 2, ww, 130);
+  const bl = x.createLinearGradient(0, wh / 2 - 330, 0, wh / 2); bl.addColorStop(0, 'rgba(8,3,20,0)'); bl.addColorStop(1, 'rgba(8,3,20,.88)'); x.fillStyle = bl; x.fillRect(-ww / 2, wh / 2 - 330, ww, 330);
   x.restore();
   x.strokeStyle = c.color; x.lineWidth = 10; rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.stroke(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = 3; rr(x, -ww / 2 + 8, -wh / 2 + 8, ww - 16, wh - 16, 28); x.stroke();
-  // in-game badge
   x.fillStyle = 'rgba(10,4,22,.82)'; rr(x, -ww / 2 + 28, -wh / 2 + 26, 300, 58, 29); x.fill(); x.fillStyle = Math.floor(t * 2) % 2 ? '#ff3b5c' : '#a01c34'; x.beginPath(); x.arc(-ww / 2 + 62, -wh / 2 + 55, 11, 0, 7); x.fill();
   T(x, 'REAL GAMEPLAY', -ww / 2 + 84, -wh / 2 + 57, { size: 29, sw: 0, align: 'left', ls: 1 });
   // comic burst at the hit
-  if (dI >= 0 && dI < .7) { const pp = E.outElastic(clamp(dI / .35)), word = POW[(i * 2 + 1) % POW.length]; x.save(); x.translate((i % 2 ? -1 : 1) * 40, -wh * .1); x.rotate(-.12 + (i % 2) * .24); x.globalAlpha = clamp(1 - (dI - .45) / .25);
+  if (dI >= 0 && dI < .7) { const pp = E.outElastic(clamp(dI / .35)), word = POW[(i * 2 + 1) % POW.length]; x.save(); x.translate(-side * 60, -wh * .16); x.rotate(-.12 + (i % 2) * .24); x.globalAlpha = clamp(1 - (dI - .45) / .25);
     x.fillStyle = '#fff'; x.beginPath(); for (let k = 0; k < 20; k++) { const a = k / 20 * Math.PI * 2, r = (k % 2 ? 150 : 250) * pp; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill(); x.fillStyle = c.color; x.beginPath(); for (let k = 0; k < 20; k++) { const a = k / 20 * Math.PI * 2 + .1, r = (k % 2 ? 125 : 215) * pp; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill();
     T(x, word, 0, 6, { size: 130, sx: pp, sy: pp, fill: '#fff', sw: 18, stroke: '#160a2c', ext: 8, extFill: '#160a2c' }); x.restore(); }
   x.restore();
+  // the character, big, breaking out of the window: their attack hides them on the board, so they are always here
+  const spr = lt < m.tGo - .05 ? c.pose.idle : lt < m.tImpact + .35 ? c.pose.attack : c.pose.win, sp0 = E.outBack(clamp((lt - .12) / .4), 1.5);
+  if (spr) { const hS = 900 * (1 + .05 * punch), wS = spr.width * hS / spr.height, lunge = E.inOut(clamp((lt - m.tGo + .2) / .4)) * (1 - clamp(dI / .8)) * 70, cxS = (side < 0 ? 150 : W - 150) + side * (1 - sp0) * -520 - side * lunge;
+    x.save(); x.shadowColor = c.color; x.shadowBlur = 50; x.globalAlpha = clamp(sp0 * 2); x.drawImage(spr, cxS - wS / 2, 1650 - hS, wS, hS); x.restore(); }
   // who it is, and the move
   const np = E.outBack(clamp((lt - .05) / .3), 1.4), tw = Math.min(700, 36 * c.tag.length * .62 + 90);
   x.save(); x.translate(W / 2, 305); x.scale(np, np); x.fillStyle = c.color; rr(x, -tw / 2, -118, tw, 54, 27); x.fill(); T(x, c.tag, 0, -90, { size: 34, sw: 0, fill: '#160a2c', ls: 2, maxW: tw - 30 });
   T(x, c.first + (c.last ? ' ' + c.last : ''), 0, 0, { size: 100, maxW: 960, ext: 8, extFill: '#160a2c', sw: 14 }); x.restore();
   const ap = E.outBack(clamp((lt - m.tGo + .15) / .25), 1.6);
-  if (c.attackName && ap > 0) { x.save(); x.translate(W / 2, 1425); x.scale(ap, ap); x.rotate(-.025);
+  if (c.attackName && ap > 0) { x.save(); x.translate(W / 2, 1460); x.scale(ap, ap); x.rotate(-.025);
     T(x, '⚔ ' + c.attackName.toUpperCase(), 0, 0, { size: 96, maxW: 980, fill: vgrad('#fff', c.color), ext: 12, extFill: '#160a2c', sw: 16 }); x.restore(); }
   const sp = E.outBack(clamp((lt - m.tGo - .1) / .3));
-  if (sp > 0) { const chips = [['COST', c.card.cost, '#4aa3ff'], ['ATK', c.card.atk, '#ff9a3c'], ['HP', c.card.hp, '#ff4f6d']]; x.save(); x.translate(W / 2, 1540); x.scale(sp, sp);
-    chips.forEach(([lab, v, col], k) => { if (v == null) return; x.save(); x.translate((k - 1) * 215 - 110, 0); x.fillStyle = col; rr(x, -95, -38, 190, 76, 38); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 4; x.stroke(); T(x, lab, -48, 3, { size: 28, sw: 0, ls: 1, alpha: .9 }); T(x, String(v), 48, 2, { size: 56, sw: 0 }); x.restore(); });
-    T(x, '★'.repeat(c.rar.stars), 430, 0, { size: 44, fill: c.rar.color, sw: 8 }); x.restore(); }
+  if (sp > 0) { const chips = [['COST', c.card.cost, '#4aa3ff'], ['ATK', c.card.atk, '#ff9a3c'], ['HP', c.card.hp, '#ff4f6d']]; x.save(); x.translate(W / 2, 1545); x.scale(sp, sp);
+    chips.forEach(([lab, v, col], k) => { if (v == null) return; x.save(); x.translate((k - 1) * 215, 0); x.fillStyle = col; rr(x, -95, -38, 190, 76, 38); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 4; x.stroke(); T(x, lab, -48, 3, { size: 28, sw: 0, ls: 1, alpha: .9 }); T(x, String(v), 48, 2, { size: 56, sw: 0 }); x.restore(); });
+    x.restore(); T(x, '★'.repeat(c.rar.stars), W / 2, 1610, { size: 40, fill: c.rar.color, sw: 8, alpha: sp }); }
   x.fillStyle = '#fff'; floaters(x, lt + i * 3, 12, i * 17, ['#fff', c.color]);
   hud(x, t, i, cast.length);
 }
@@ -243,7 +249,7 @@ function drawGrid(x, lt, t) {
     x.restore(); }
   if (n > show) T(x, `+${n - show} more`, W / 2 - 20, y0 + rows * (size + gap) + 30, { size: 48 });
   const bump = 1 + .12 * Math.max(0, 1 - ((lt - .25) * 6 % 1.0)) * (visible < show ? 1 : 0);
-  T(x, String(visible || 0), W / 2, 335, { size: 330, fill: vgrad('#fff', ACC), ext: 18, extFill: '#7a2d8f', sx: bump, sy: bump });
+  if (visible) T(x, String(visible), W / 2, 335, { size: 330, fill: vgrad('#fff', ACC), ext: 18, extFill: '#7a2d8f', sx: bump, sy: bump });
   T(x, 'CHARACTERS', W / 2, 550, { size: 120, ext: 8, extFill: '#2a0e5a', maxW: 900 });
   T(x, 'from ' + cfg.novel, W / 2, 638, { size: 46, fill: ACC, sw: 8 });
   x.fillStyle = '#fff'; floaters(x, t, 12, 5, ['#fff', ACC, ACC2]);
