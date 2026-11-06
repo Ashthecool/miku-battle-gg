@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Miku Battle short</title>
+<!-- A vertical (1080x1920) "this novel is in Miku Battle!" short, drawn on one canvas as a pure function of time:
+     window.frame(n) returns a JPEG of frame n, so render.js can capture it frame by frame (see README.md).
+     Everything novel-specific comes from novels/<id>.json plus the game's own manifest and card data. -->
+<style>
+  @font-face { font-family: Lilita; src: url(/fonts/lilita-one-latin-400-normal.woff2); }
+  @font-face { font-family: Baloo; src: url(/fonts/baloo-2-latin-800-normal.woff2); }
+  html, body { margin: 0; background: #000; height: 100%; }
+  canvas { display: block; height: 100vh; width: auto; margin: 0 auto; }
+</style></head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>window.MB = {};</script>
+<script>
+(async () => {
+const W = 1080, H = 1920, FPS = 30;
+const A = '/game/assets/';
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const hash = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const E = {
+  outCubic: (t) => 1 - Math.pow(1 - t, 3),
+  outBack: (t, s = 1.9) => t >= 1 ? 1 : 1 + (s + 1) * Math.pow(t - 1, 3) + s * Math.pow(t - 1, 2),
+  outExp: (t) => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t),
+  outElastic: (t) => t <= 0 ? 0 : t >= 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - .75) * (2 * Math.PI / 3)) + 1,
+  inOut: (t) => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+};
+const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => { console.error('missing ' + src); res(null); }; i.src = src; });
+
+// ---------------------------------------------------------------- data
+const cfg = await (await fetch('/cfg.json')).json();
+const manifest = await (await fetch(A + 'manifest.json')).json();
+const ACC = cfg.accent || '#ffb347', ACC2 = cfg.accent2 || '#ff6fae', DARK = '#1b0a33';
+const novelChars = manifest.characters.filter((c) => c.novel === cfg.novel && c.sprites && c.sprites.idle);
+window.MIKU_MANIFEST = manifest;
+await new Promise((r) => { const sc = document.createElement('script'); sc.src = '/game/js/data.js'; sc.onload = r; document.head.append(sc); });
+const cards = MB.CARDS || {};
+const rarity = (id) => (MB.RARITY[(cards[id] || {}).rarity] || MB.RARITY.common);
+const loadBg = async (n) => { for (const b of manifest.backgrounds.filter((x) => x.name === n)) { const img = await load(A + b.src); if (img) return img; } console.error('no background ' + n); return null; };
+const bgs = (await Promise.all(cfg.bgs.map(loadBg))).filter(Boolean);
+const cast = [];
+for (const c of cfg.cast) {
+  const ch = manifest.characters.find((x) => x.id === c.id);
+  const card = cards[c.id] || {};
+  const spr = await load(A + ch.sprites[c.mood || 'play']);
+  const first = ch.name.split(' ')[0].toUpperCase(), last = ch.name.split(' ').slice(1).join(' ').toUpperCase();
+  cast.push({ ...c, ch, card, spr, first, last, color: (card.attack && card.attack.color) || ACC, rar: rarity(c.id), attackName: card.attack ? card.attack.name : (MB.POWERS[c.id] || {}).name || '' });
+}
+const portraits = await Promise.all(novelChars.map(async (c) => ({ ch: c, img: await load(A + 'portraits/' + c.id + '.webp'), rar: rarity(c.id) })));
+const logo = await load('/game/icons/icon-192.png');
+await Promise.all(['Lilita', 'Baloo'].map((f) => document.fonts.load(`80px ${f}`)));
+const ids = new Set(novelChars.map((c) => c.id));
+const stats = (cfg.stats || [
+  [novelChars.length, 'CHARACTERS'],
+  [(MB.BONDS || []).filter((b) => b.pair.every((p) => ids.has(p))).length, 'DUO BONDS'],
+  [(MB.ITEM_NOVELS || {})[cfg.novel] ? MB.ITEM_NOVELS[cfg.novel].length : 0, 'ITEMS'],
+  [novelChars.filter((c) => (cards[c.id] || {}).attack).length, 'SIGNATURE ATTACKS'],
+]).filter((s) => s[0] > 0);
+
+// ---------------------------------------------------------------- timeline (counted in beats so cuts land on the music)
+const BPM = cfg.music.bpm || 120, B = 60 / BPM;
+const L = { intro: 6, cast: 4, grid: 6, stats: 4, finale: 10 };
+const segs = []; let cur = 0;
+const addSeg = (name, beats, draw, i) => { segs.push({ name, i, start: cur * B, end: (cur + beats) * B, draw }); cur += beats; };
+const events = [], impulses = [];
+const sfx = (t, file, vol = .5) => events.push({ t, file, vol });
+const hit = (t, shake = 14, ca = 5, flash = 0) => impulses.push({ t, shake, ca, flash });
+
+// ---------------------------------------------------------------- drawing helpers
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const mk = (w = W, h = H) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+const S = mk(), g = S.getContext('2d'), tmp = mk(), tg = tmp.getContext('2d'), sil = mk(), sg = sil.getContext('2d');
+const blurCache = new Map();
+const blurred = (img) => { if (!blurCache.has(img)) { const c = mk(540, 960), x = c.getContext('2d'); x.filter = 'blur(6px)'; const s = Math.max(c.width / img.width, c.height / img.height); x.drawImage(img, (c.width - img.width * s) / 2, 0, img.width * s, img.height * s); blurCache.set(img, c); } return blurCache.get(img); };
+const cover = (x, img, zoom = 1, px = .5, py = .5) => { const s = Math.max(W / img.width, H / img.height) * zoom, dw = img.width * s, dh = img.height * s; x.drawImage(img, -(dw - W) * px, -(dh - H) * py, dw, dh); };
+
+function T(x, str, px, py, o = {}) {
+  const { size = 100, font = 'Lilita', fill = '#fff', stroke = DARK, sw = size * .13, ext = 0, extFill = '#000', align = 'center', ls = 0, rot = 0, sx = 1, sy = 1, alpha = 1, maxW = 0, glow = null } = o;
+  x.save(); x.translate(px, py); x.rotate(rot); x.font = `${size}px ${font}`; x.letterSpacing = ls + 'px';
+  let k = 1; if (maxW) { const w = x.measureText(str).width; if (w > maxW) k = maxW / w; }
+  x.scale(sx * k, sy * k); x.globalAlpha *= alpha; x.textAlign = align; x.textBaseline = 'middle'; x.lineJoin = 'round'; x.miterLimit = 2;
+  if (ext) { x.fillStyle = extFill; x.strokeStyle = extFill; x.lineWidth = sw; for (let i = ext; i > 0; i -= 2) { x.strokeText(str, 0, i); } x.fillText(str, 0, ext); }
+  if (glow) { x.shadowColor = glow; x.shadowBlur = size * .35; }
+  if (sw && stroke) { x.strokeStyle = stroke; x.lineWidth = sw; x.strokeText(str, 0, 0); }
+  x.shadowBlur = 0;
+  if (fill) { x.fillStyle = typeof fill === 'function' ? fill(x, size) : fill; x.fillText(str, 0, 0); }
+  x.restore();
+}
+const vgrad = (c0, c1) => (x, size) => { const gr = x.createLinearGradient(0, -size * .45, 0, size * .45); gr.addColorStop(0, c0); gr.addColorStop(1, c1); return gr; };
+function rr(x, a, b, w, h, r) { x.beginPath(); x.roundRect(a, b, w, h, r); }
+function sparkle(x, px, py, r, rot = 0) { x.save(); x.translate(px, py); x.rotate(rot); x.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, q = i % 2 ? r * .26 : r; x.lineTo(Math.cos(a) * q, Math.sin(a) * q); } x.closePath(); x.fill(); x.restore(); }
+function heart(x, px, py, s, rot = 0) { x.save(); x.translate(px, py); x.rotate(rot); x.scale(s, s); x.beginPath(); x.moveTo(0, .4); x.bezierCurveTo(-1.2, -.4, -.5, -1.1, 0, -.4); x.bezierCurveTo(.5, -1.1, 1.2, -.4, 0, .4); x.fill(); x.restore(); }
+function speedLines(x, cx, cy, a, color, t, inner = .3, seed = 0) {
+  if (a <= .01) return; x.save(); x.globalAlpha = a; x.fillStyle = color; const f = Math.floor(t * 24), n = 72, R = Math.hypot(W, H);
+  for (let i = 0; i < n; i++) { const ang = (i / n) * Math.PI * 2 + hash(i + seed) * .07, w = .010 + hash(i * 3.1 + f) * .022, r0 = Math.max(W, H) * (inner + hash(i * 7 + f) * .22);
+    x.beginPath(); x.moveTo(cx + Math.cos(ang - w) * R, cy + Math.sin(ang - w) * R); x.lineTo(cx + Math.cos(ang + w) * R, cy + Math.sin(ang + w) * R); x.lineTo(cx + Math.cos(ang) * r0, cy + Math.sin(ang) * r0); x.closePath(); x.fill(); }
+  x.restore();
+}
+function rays(x, cx, cy, t, color, a, n = 14) { x.save(); x.globalAlpha = a; x.fillStyle = color; const R = Math.hypot(W, H); for (let i = 0; i < n; i++) { const a0 = t * .25 + (i / n) * Math.PI * 2, a1 = a0 + Math.PI / n; x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + Math.cos(a0) * R, cy + Math.sin(a0) * R); x.lineTo(cx + Math.cos(a1) * R, cy + Math.sin(a1) * R); x.closePath(); x.fill(); } x.restore(); }
+function floaters(x, t, n, seed, colors, speed = 260) {
+  for (let i = 0; i < n; i++) { const span = H + 160, y = H + 80 - ((t * speed * (.5 + hash(i + seed)) + hash(i * 9 + seed) * span) % span), px = hash(i * 5 + seed) * W + Math.sin(t * 2 + i) * 34, r = 10 + hash(i * 2 + seed) * 24;
+    x.globalAlpha = (.35 + .65 * Math.abs(Math.sin(t * 5 + i * 2))) * .9; x.fillStyle = colors[i % colors.length]; if (i % 3 === 0) heart(x, px, y, r * .9, Math.sin(t + i) * .4); else sparkle(x, px, y, r, t + i); }
+  x.globalAlpha = 1;
+}
+function confetti(x, t, t0, ox, oy, n = 140, colors = [ACC, ACC2, '#7fe8ff', '#fff', '#b78cff']) {
+  const d = t - t0; if (d < 0 || d > 3.2) return;
+  for (let i = 0; i < n; i++) { const ang = -Math.PI / 2 + (hash(i * 1.7 + t0) - .5) * 2.6, sp = 500 + hash(i * 2.3 + t0) * 1300, px = ox + Math.cos(ang) * sp * d * (1 - d * .1), py = oy + Math.sin(ang) * sp * d + 900 * d * d;
+    x.save(); x.translate(px, py); x.rotate(d * (4 + hash(i) * 8) + i); x.globalAlpha = clamp(1 - (d - 2.2) / 1); x.fillStyle = colors[i % colors.length]; x.fillRect(-9, -5, 18, 10 * Math.abs(Math.cos(d * 8 + i))); x.restore(); }
+}
+function ring(x, cx, cy, d, color, big = 2600) { if (d < 0 || d > .8) return; x.save(); x.strokeStyle = color; x.globalAlpha = 1 - d / .8; x.lineWidth = 60 * (1 - d / .8) + 4; x.beginPath(); x.arc(cx, cy, 60 + E.outExp(d / .8) * big * .5, 0, Math.PI * 2); x.stroke(); x.restore(); }
+function tint(x, color, a0, a1) { const gr = x.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, color); gr.addColorStop(1, '#05020c'); x.save(); x.globalAlpha = a0; x.fillStyle = gr; x.fillRect(0, 0, W, H); x.globalAlpha = a1; x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H); x.restore(); }
+function hud(x, t, idx, count) {
+  x.save(); x.globalAlpha = .96;
+  if (logo) x.drawImage(logo, 56, 70, 76, 76);
+  T(x, 'MIKU BATTLE', 150, 108, { size: 50, align: 'left', sw: 8, ls: 2 });
+  if (count) for (let i = 0; i < count; i++) { x.fillStyle = i === idx ? ACC : 'rgba(255,255,255,.35)'; rr(x, 56 + i * 44, 176, i === idx ? 34 : 14, 14, 7); x.fill(); }
+  x.restore();
+}
+
+// ---------------------------------------------------------------- segments
+function drawIntro(x, lt, t) {
+  x.fillStyle = '#07030f'; x.fillRect(0, 0, W, H);
+  x.save(); const z = 1.55 - .3 * E.outCubic(clamp(lt / 3)); x.globalAlpha = .55; cover(x, blurred(bgs[0]), z); x.restore();
+  tint(x, ACC2, .35, .25);
+  const sl = clamp(lt / 1) * (lt < 1 ? 1 : Math.max(0, 1 - (lt - 1) * 2.5));
+  speedLines(x, W / 2, H * .45, .55 * sl + (lt < 1 ? 0 : .12 * Math.max(0, 1 - (lt - 1.5) * 2)), '#fff', t, .38 - .26 * clamp(lt), 3);
+  const kp = E.outBack(clamp((lt - .12) / .3)); x.save(); x.translate(W / 2, 520); x.scale(kp, kp);
+  x.fillStyle = ACC2; rr(x, -330, -52, 660, 104, 52); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 8; x.stroke();
+  T(x, cfg.kicker || 'NEW IN MIKU BATTLE', 0, 4, { size: 58, sw: 0, ls: 3 }); x.restore();
+  const word = (str, t0, y, size) => { const p = clamp((lt - t0) / .2); if (p <= 0) return; const s = 2.8 - 1.8 * E.outBack(p, 1.2);
+    T(x, str, W / 2, y, { size, maxW: 960, fill: vgrad('#ffffff', ACC), ext: 22, extFill: '#7a2d8f', sw: size * .12, sx: s, sy: s, alpha: clamp(p * 4), rot: (1 - E.outCubic(p)) * -.08, glow: lt - t0 < .5 ? '#fff' : null }); };
+  word(cfg.title[0], 1.0, 800, 240); word(cfg.title[1], 1.5, 1090, 400);
+  ring(x, W / 2, 800, lt - 1.0, '#fff'); ring(x, W / 2, 1090, lt - 1.5, ACC);
+  const p2 = E.outElastic(clamp((lt - 2.0) / .5)); if (p2 > 0) T(x, 'is in', W / 2, 1345, { size: 90, fill: ACC, sx: p2, sy: p2, ext: 8 });
+  const p3 = E.outElastic(clamp((lt - 2.25) / .5)); if (p3 > 0) T(x, 'MIKU BATTLE!', W / 2, 1480, { size: 170, maxW: 960, fill: vgrad('#9ff3ff', '#ff7ad9'), ext: 14, extFill: '#2a0e5a', sx: p3, sy: p3, rot: -.035 * p3 });
+  if (lt > 1) { x.fillStyle = '#fff'; floaters(x, lt, 26, 2, ['#fff', ACC, ACC2]); }
+  hud(x, t, -1, 0);
+}
+
+function drawCast(x, lt, t, i) {
+  const c = cast[i], bg = bgs[(i + 1) % bgs.length], side = i % 2 ? 1 : -1;
+  x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H);
+  x.save(); cover(x, blurred(bg), 1.25 + lt * .03, .3 + .4 * ((i % 2) ? lt / 2 : 1 - lt / 2)); x.restore();
+  tint(x, c.color, .55, .12);
+  rays(x, W / 2, 900, t * (i % 2 ? 1 : -1), '#fff', .08);
+  const spot = x.createRadialGradient(W / 2, 880, 40, W / 2, 880, 760); spot.addColorStop(0, c.color + 'ee'); spot.addColorStop(.5, c.color + '55'); spot.addColorStop(1, c.color + '00'); x.fillStyle = spot; x.fillRect(0, 0, W, H);
+  // name marquee behind the character
+  const nm = c.first, wTxt = 330 * .58 * nm.length + 140;
+  for (const [ry, dir] of [[360, 1], [660, -1], [960, 1]]) for (let k = -1; k < 4; k++) { const ox = ((lt * 190 * dir) % wTxt + wTxt) % wTxt + (k - 1) * wTxt;
+    T(x, nm, ox, ry, { size: 330, fill: null, stroke: 'rgba(255,255,255,.32)', sw: 5, align: 'left' }); }
+  speedLines(x, W / 2, 820, .5 * Math.max(0, 1 - lt / .45), '#fff', t, .22, i * 11);
+  // sprite
+  const p = E.outBack(clamp(lt / .4), 1.4), h = 1290 * (.92 + .08 * p) * (1 + .006 * Math.sin(t * 6)), w = c.spr.width * h / c.spr.height, bx = W / 2 + side * (1 - p) * 950, by = 1585;
+  x.save(); x.shadowColor = c.color; x.shadowBlur = 70; x.drawImage(c.spr, bx - w / 2, by - h + Math.sin(t * 5) * 6, w, h); x.restore();
+  if (lt < .16) { sil.width = sil.width; sg.drawImage(c.spr, 0, 0, w, h); sg.globalCompositeOperation = 'source-atop'; sg.fillStyle = '#fff'; sg.fillRect(0, 0, w, h); x.save(); x.globalAlpha = 1 - lt / .16; x.drawImage(sil, 0, 0, w, h, bx - w / 2, by - h, w, h); x.restore(); }
+  // card panel
+  const pp = E.outBack(clamp((lt - .28) / .4), 1.3), px0 = 52, pw = 920, ph = 330;
+  x.save(); x.globalAlpha = clamp(pp * 3); x.translate(0, (1 - pp) * 520);
+  x.fillStyle = 'rgba(12,6,28,.86)'; rr(x, px0, 1245, pw, ph, 38); x.fill(); x.strokeStyle = c.color; x.lineWidth = 7; x.stroke();
+  const tagW = Math.min(620, 36 * c.tag.length * .62 + 90); x.fillStyle = c.color; x.beginPath(); x.roundRect(px0 + 30, 1205, tagW, 62, 31); x.fill();
+  T(x, c.tag, px0 + 30 + tagW / 2, 1238, { size: 38, sw: 0, fill: '#160a2c', ls: 2, maxW: tagW - 36 });
+  T(x, '★'.repeat(c.rar.stars) + ' ' + c.rar.name.toUpperCase(), px0 + pw - 30, 1238, { size: 34, align: 'right', fill: c.rar.color, sw: 7, ls: 1, maxW: 420 });
+  T(x, c.first + (c.last ? ' ' + c.last : ''), px0 + 36, 1345, { size: 104, align: 'left', maxW: pw - 72, sw: 14 });
+  [['COST', c.card.cost, '#4aa3ff'], ['ATK', c.card.atk, '#ff9a3c'], ['HP', c.card.hp, '#ff4f6d']].forEach(([lab, v, col], k) => {
+    if (v == null) return; const sp = E.outBack(clamp((lt - .55 - k * .08) / .25)), sx0 = px0 + 36 + k * 188; x.save(); x.translate(sx0 + 85, 1450); x.scale(sp, sp);
+    x.fillStyle = col; rr(x, -85, -36, 170, 72, 36); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 4; x.stroke();
+    T(x, lab, -40, 3, { size: 28, sw: 0, ls: 1, alpha: .9 }); T(x, String(Math.round(v * E.outCubic(clamp((lt - .6 - k * .08) / .35)))), 42, 2, { size: 54, sw: 0 }); x.restore(); });
+  if (c.attackName) { x.save(); x.globalAlpha = E.outCubic(clamp((lt - .85) / .25)); T(x, '⚔ ' + c.attackName.toUpperCase(), px0 + 36, 1522, { size: 46, align: 'left', fill: c.color, sw: 8, maxW: pw - 72, ls: 1 }); x.restore(); }
+  x.restore();
+  x.fillStyle = '#fff'; floaters(x, lt + i * 3, 14, i * 17, ['#fff', c.color]);
+  hud(x, t, i, cast.length);
+}
+
+function drawGrid(x, lt, t) {
+  x.fillStyle = '#0a0418'; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = .5; cover(x, blurred(bgs[bgs.length - 1]), 1.3, .5 + .2 * Math.sin(lt)); x.restore(); tint(x, ACC2, .4, .3);
+  rays(x, W / 2, 420, t, '#fff', .06);
+  const n = portraits.length, cols = n <= 16 ? 4 : 5, gap = 18, size = Math.floor((830 - (cols - 1) * gap) / cols), rowsMax = Math.floor(880 / (size + gap)), show = Math.min(n, cols * rowsMax), rows = Math.ceil(show / cols);
+  const x0 = (W - (cols * size + (cols - 1) * gap)) / 2 - 20, y0 = 700;
+  let visible = 0;
+  for (let i = 0; i < show; i++) { const s0 = .25 + i * Math.min(.12, 1.9 / show), p = E.outBack(clamp((lt - s0) / .28), 2.2); if (p <= 0) continue; if (lt >= s0) visible++;
+    const cx = x0 + (i % cols) * (size + gap) + size / 2, cy = y0 + Math.floor(i / cols) * (size + gap) + size / 2, pr = portraits[i];
+    x.save(); x.translate(cx, cy); x.rotate((hash(i) - .5) * .5 * (1 - p)); x.scale(p, p);
+    x.shadowColor = pr.rar.color; x.shadowBlur = 24; x.fillStyle = '#120826'; rr(x, -size / 2, -size / 2, size, size, 26); x.fill(); x.shadowBlur = 0;
+    x.save(); rr(x, -size / 2, -size / 2, size, size, 26); x.clip(); if (pr.img) x.drawImage(pr.img, -size / 2, -size / 2, size, size); x.restore();
+    x.strokeStyle = pr.rar.color; x.lineWidth = 6; rr(x, -size / 2, -size / 2, size, size, 26); x.stroke();
+    const fl = clamp(1 - (lt - s0) / .18); if (fl > 0 && lt >= s0) { x.globalAlpha = fl; x.fillStyle = '#fff'; rr(x, -size / 2, -size / 2, size, size, 26); x.fill(); }
+    x.restore(); }
+  if (n > show) T(x, `+${n - show} more`, W / 2 - 20, y0 + rows * (size + gap) + 30, { size: 48 });
+  const bump = 1 + .12 * Math.max(0, 1 - ((lt - .25) * 6 % 1.0)) * (visible < show ? 1 : 0);
+  T(x, String(visible || 0), W / 2, 335, { size: 330, fill: vgrad('#fff', ACC), ext: 18, extFill: '#7a2d8f', sx: bump, sy: bump });
+  T(x, 'CHARACTERS', W / 2, 550, { size: 120, ext: 8, extFill: '#2a0e5a', maxW: 900 });
+  T(x, 'from ' + cfg.novel, W / 2, 638, { size: 46, fill: ACC, sw: 8 });
+  x.fillStyle = '#fff'; floaters(x, t, 12, 5, ['#fff', ACC, ACC2]);
+  hud(x, t, -1, 0);
+}
+
+function drawStats(x, lt, t) {
+  x.fillStyle = '#0a0418'; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = .45; cover(x, blurred(bgs[0]), 1.4, .7 - .2 * lt / 2); x.restore(); tint(x, ACC, .35, .35);
+  T(x, 'BY THE NUMBERS', W / 2, 270, { size: 104, ext: 10, extFill: '#7a2d8f', maxW: 900 });
+  const cols = [ACC2, '#35c7e6', ACC, '#9a6bff'], rowH = 255;
+  stats.forEach(([v, lab], k) => { const s0 = .25 + k * B, p = E.outBack(clamp((lt - s0) / .22), 1.6); if (p <= 0) return; const y = 440 + k * (rowH + 8), d = lt - s0;
+    x.save(); x.translate(W / 2, y + rowH / 2); x.scale(1 + (1 - p) * .5, 1 + (1 - p) * .5); x.globalAlpha = clamp(p * 3); x.rotate(k % 2 ? .012 : -.012);
+    x.fillStyle = cols[k % 4]; x.beginPath(); x.moveTo(-500, -rowH / 2); x.lineTo(520, -rowH / 2 + 22); x.lineTo(500, rowH / 2); x.lineTo(-520, rowH / 2 - 22); x.closePath(); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 8; x.stroke();
+    T(x, String(Math.round(v * E.outCubic(clamp(d / .35)))), -130, 6, { size: 210, align: 'right', ext: 12, extFill: '#2a0e5a', sw: 18 });
+    T(x, lab, -105, 6, { size: 82, align: 'left', maxW: 500, ext: 8, extFill: '#2a0e5a', sw: 12 }); x.restore();
+    ring(x, W / 2, y + rowH / 2, d, '#fff', 1600); });
+  x.fillStyle = '#fff'; floaters(x, t, 18, 9, ['#fff', ACC, ACC2]);
+  hud(x, t, -1, 0);
+}
+
+function drawFinale(x, lt, t) {
+  x.fillStyle = '#07030f'; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = .6; cover(x, blurred(bgs[1 % bgs.length]), 1.5 - .15 * E.outCubic(clamp(lt / 3)), .5); x.restore(); tint(x, ACC2, .5, .15);
+  rays(x, W / 2, 800, t, '#fff', .1, 16);
+  const glow = x.createRadialGradient(W / 2, 820, 20, W / 2, 820, 800); glow.addColorStop(0, 'rgba(255,255,255,.5)'); glow.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = glow; x.fillRect(0, 0, W, H);
+  speedLines(x, W / 2, 820, .45 * Math.max(0, 1 - lt / .5), '#fff', t, .2, 21);
+  [[cast[0], -1, 150], [cast[1], 1, 930]].forEach(([c, sd, cx]) => { if (!c) return; const p = E.outBack(clamp((lt - .1) / .45), 1.3), h = 1180 * (.9 + .1 * p), w = c.spr.width * h / c.spr.height;
+    x.save(); x.shadowColor = c.color; x.shadowBlur = 60; x.drawImage(c.spr, cx - w / 2 + sd * (1 - p) * 700, 1590 - h + Math.sin(t * 5 + sd) * 8, w, h); x.restore(); });
+  const a = E.outBack(clamp(lt / .25), 1.4), b = E.outElastic(clamp((lt - .3) / .5)), c1 = E.outElastic(clamp((lt - .65) / .55)), c2 = E.outElastic(clamp((lt - .85) / .55));
+  T(x, cfg.title.join(' '), W / 2, 470, { size: 168, maxW: 940, fill: vgrad('#fff', ACC), ext: 14, extFill: '#7a2d8f', sx: a, sy: a, alpha: clamp(a * 3) });
+  if (b > 0) T(x, 'IS IN', W / 2, 640, { size: 110, fill: ACC, ext: 10, extFill: '#2a0e5a', sx: b, sy: b });
+  T(x, 'MIKU', W / 2, 850, { size: 330, maxW: 940, fill: vgrad('#a5f4ff', '#42c6ff'), ext: 20, extFill: '#12306b', sx: c1, sy: c1, rot: -.04 });
+  T(x, 'BATTLE!', W / 2, 1110, { size: 300, maxW: 960, fill: vgrad('#ffd0ee', '#ff5fb5'), ext: 20, extFill: '#6a1456', sx: c2, sy: c2, rot: .035 });
+  ring(x, W / 2, 850, lt - .65, '#fff'); ring(x, W / 2, 1110, lt - .85, ACC2);
+  const f0 = segs[segs.length - 1].start;
+  confetti(x, t, f0, W / 2, 1000); confetti(x, t, f0 + .85, W / 2, 1100, 90);
+  const cp = E.outBack(clamp((lt - 1.9) / .35));
+  if (cp > 0) { const pulse = 1 + .035 * Math.sin(lt * Math.PI * 4); x.save(); x.translate(W / 2 - 30, 1370); x.scale(cp * pulse, cp * pulse);
+    x.fillStyle = '#fff'; rr(x, -400, -62, 800, 124, 62); x.fill(); x.strokeStyle = ACC2; x.lineWidth = 10; x.stroke();
+    T(x, 'PLAY FREE IN YOUR BROWSER', 0, 4, { size: 56, fill: '#2a0e5a', sw: 0, maxW: 740 }); x.restore();
+    T(x, cfg.url || 'ashthecool.github.io/miku-battle-gg', W / 2 - 30, 1470, { size: 46, font: 'Baloo', maxW: 880, alpha: cp });
+    T(x, 'no download  ·  works offline  ·  100% free', W / 2 - 30, 1527, { size: 32, font: 'Baloo', fill: '#e8dcff', sw: 6, maxW: 880, alpha: cp });
+    T(x, cfg.credit || 'Fan-made and unofficial. Not affiliated with miku.gg.', W / 2 - 30, 1580, { size: 26, font: 'Baloo', fill: '#cbbdf0', sw: 5, maxW: 880, alpha: cp * .9 }); }
+  x.fillStyle = '#fff'; floaters(x, t, 22, 13, ['#fff', ACC, ACC2, '#7fe8ff']);
+  hud(x, t, -1, 0);
+}
+
+// ---------------------------------------------------------------- build the timeline, the hits and the sound cues
+addSeg('intro', L.intro, drawIntro);
+cast.forEach((c, i) => addSeg('cast', L.cast, (x, lt, t) => drawCast(x, lt, t, i), i));
+addSeg('grid', L.grid, drawGrid); addSeg('stats', Math.max(L.stats, stats.length), drawStats); addSeg('finale', L.finale, drawFinale);
+const DUR = cur * B, WIPE = .3;
+sfx(0, 'riser-774635.mp3', .55); sfx(1.0, 'boom-792520.mp3', .7); sfx(1.0, 'shockwave-110819.mp3', .4); sfx(1.5, 'punch-563356.mp3', .7); sfx(1.5, 'whack-114683.mp3', .35); sfx(2.0, 'pop-221091.mp3', .5); sfx(2.25, 'glint-734238.mp3', .55); sfx(2.25, 'riserhit-511874.mp3', .5);
+hit(1.0, 34, 11, .8); hit(1.5, 40, 14, .8); hit(2.25, 20, 8, .3);
+segs.forEach((s, k) => {
+  if (k) { sfx(s.start - .08, 'swish-475132.mp3', .35); hit(s.start, 12, 6, 0); }
+  if (s.name === 'cast') { const c = cast[s.i]; sfx(s.start + .36, 'thud-653910.mp3', .55); sfx(s.start + .45, 'pop-221091.mp3', .3); hit(s.start + .38, 16, 6, .15);
+    [0, 1, 2].forEach((j) => sfx(s.start + .6 + j * .08, 'tick-187992.mp3', .25)); if (c.card.rarity === 'legendary' || c.card.rarity === 'epic') sfx(s.start + .85, 'glint-734238.mp3', .4); sfx(s.start + .9, 'sparkle-457306.mp3', .3); }
+  if (s.name === 'grid') { const n = Math.min(portraits.length, 20); for (let i = 0; i < n; i++) sfx(s.start + .25 + i * Math.min(.12, 1.9 / n) + .08, 'pop-221091.mp3', .22); }
+  if (s.name === 'stats') stats.forEach((_, j) => { const tt = s.start + .25 + j * B + .1; sfx(tt, 'stamp-683031.mp3', .65); sfx(tt, 'thud-653910.mp3', .35); hit(tt, 26, 8, .3); });
+  if (s.name === 'finale') { sfx(s.start, 'fanfare-609028.mp3', .6); sfx(s.start + .05, 'partyhorn-170583.mp3', .5); sfx(s.start + .35, 'cheer-340965.mp3', .35); sfx(s.start + .65, 'boom-792520.mp3', .55); sfx(s.start + .85, 'punch-563356.mp3', .55); sfx(s.start + .85, 'partyhorn-170583.mp3', .35); sfx(s.start + 1.9, 'sparkle-457306.mp3', .5); sfx(s.start + 1.9, 'ding-360948.mp3', .4);
+    hit(s.start, 30, 12, 1); hit(s.start + .65, 26, 10, .5); hit(s.start + .85, 26, 10, .5); }
+});
+
+// ---------------------------------------------------------------- frame
+const vig = mk(); { const v = vig.getContext('2d'), gr = v.createRadialGradient(W / 2, H / 2, H * .3, W / 2, H / 2, H * .75); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.6)'); v.fillStyle = gr; v.fillRect(0, 0, W, H); }
+const noise = mk(256, 256); { const n = noise.getContext('2d'), d = n.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } n.putImageData(d, 0, 0); }
+
+function render(t) {
+  let k = segs.findIndex((s) => t >= s.start && t < s.end); if (k < 0) k = segs.length - 1;
+  const s = segs[k], lt = t - s.start;
+  g.save(); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
+  if (k > 0 && lt < WIPE) {
+    const pv = segs[k - 1]; pv.draw(g, t - pv.start, t);
+    const p = E.inOut(lt / WIPE), sk = 260, X = -sk + p * (W + 2 * sk);
+    g.save(); g.beginPath(); g.moveTo(0, 0); g.lineTo(X + sk, 0); g.lineTo(X - sk, H); g.lineTo(0, H); g.closePath(); g.clip(); s.draw(g, lt, t); g.restore();
+    g.fillStyle = ACC; g.beginPath(); g.moveTo(X + sk, 0); g.lineTo(X + sk + 60, 0); g.lineTo(X - sk + 60, H); g.lineTo(X - sk, H); g.closePath(); g.fill();
+    g.fillStyle = '#fff'; g.beginPath(); g.moveTo(X + sk + 60, 0); g.lineTo(X + sk + 78, 0); g.lineTo(X - sk + 78, H); g.lineTo(X - sk + 60, H); g.closePath(); g.fill();
+  } else s.draw(g, lt, t);
+  g.restore();
+  // impulses: shake, RGB split, white flash; the beat gives everything a small pulse
+  let shake = 0, ca = 0, flash = 0;
+  for (const m of impulses) { const d = t - m.t; if (d < 0) continue; shake += m.shake * Math.exp(-d * 9); ca += m.ca * Math.exp(-d * 7); flash += m.flash * Math.exp(-d * 11); }
+  const ph = (t / B) % 1, pulse = Math.pow(1 - ph, 3), f = Math.floor(t * 60);
+  const dx = (hash(f + 1) - .5) * 2 * shake, dy = (hash(f + 77) - .5) * 2 * shake, rot = (hash(f + 5) - .5) * shake * .0009, sc = 1.012 + .014 * pulse + shake * .0007;
+  ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.translate(W / 2 + dx, H / 2 + dy); ctx.rotate(rot); ctx.scale(sc, sc); ctx.translate(-W / 2, -H / 2);
+  if (ca > .8) { ctx.globalCompositeOperation = 'lighter'; [['#f00', -ca], ['#0f0', 0], ['#00f', ca]].forEach(([col, o]) => { tg.globalCompositeOperation = 'source-over'; tg.clearRect(0, 0, W, H); tg.drawImage(S, 0, 0); tg.globalCompositeOperation = 'multiply'; tg.fillStyle = col; tg.fillRect(0, 0, W, H); ctx.drawImage(tmp, o, 0); }); }
+  else ctx.drawImage(S, 0, 0);
+  ctx.restore(); ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(vig, 0, 0);
+  if (flash > .01) { ctx.fillStyle = `rgba(255,255,255,${Math.min(1, flash)})`; ctx.fillRect(0, 0, W, H); }
+  ctx.save(); ctx.globalAlpha = .07; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(noise, -Math.floor(hash(f) * 256), -Math.floor(hash(f + 9) * 256), 256 * 6, 256 * 9); ctx.restore();
+  const fo = clamp((DUR - t) / .35); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
+}
+window.TIMELINE = { dur: DUR, fps: FPS, bpm: BPM, events, segs: segs.map((s) => ({ name: s.name, start: s.start, end: s.end })) };
+window.frame = (n) => { render(n / FPS); return cv.toDataURL('image/jpeg', .94); };
+window.ready = true;
+})().catch((e) => { console.error('FATAL ' + e.stack); window.fatal = String(e.stack); });
+</script></body></html>
