@@ -10,6 +10,20 @@ on the hit, the game's own sounds), a portrait grid, stat stamps and a call to a
 in `tools/short/`; a novel is one JSON file, no code. Its README has the field-by-field reference; this file is the method and
 the rules that keep it from breaking.
 
+## Step 0: ask first, every time (before any tool call)
+
+At the very start of every use of this skill, before reading configs or running anything, ask the user (one `AskUserQuestion` call,
+even when they named a novel in the request) and wait for the answers:
+
+1. **Which novel or characters is the short about?** Offer the novels that have a config in `tools/short/configs/` plus the novels
+   with uncommitted or recent new characters; "Other" covers the rest. Ask whether it is the full cast or a spotlight on specific
+   characters (e.g. a rivalry).
+2. **What style should it have?** Offer concrete options (accent colours, song mood, pacing), e.g. the config's current look as the
+   recommended one, an alternative theme that fits the novel, and a cute/comedic one.
+
+Use the answers to write or adapt the config (`cast`, `accent`, `accent2`, `music`, `bgs`, tags). Do not start a capture before both
+are answered. Do not skip this because the config already exists or the user has used the skill before.
+
 ## Run it (in this order, from the repo root)
 
 ```
@@ -22,6 +36,22 @@ node tools/short/render.js <id> all               # audit, then the video: outpu
 
 Run long ones with `run_in_background` and one job at a time (they use fixed ports and one Chrome profile). Needs Chrome and ffmpeg;
 there is no Python on this machine, so everything is Node.
+
+## Upload to YouTube (automatic, last step of every short)
+
+`tools/youtube/upload.js` (Data API v3, OAuth already set up: `tools/youtube/.token.json`, git-ignored; setup in `tools/youtube/README.md`).
+Default for a short: **unlisted**, `--short` (adds `#Shorts`), title `<Novel> is in Miku Battle!`, a description file, tags.
+
+1. Write `tools/youtube/descriptions/<id>.txt` (commit it): one line naming the cast, `Play free: https://miku-battle.org`, the config's `credit`
+   line (fan-made and unofficial, novel by AshTheCool on miku.gg), hashtags `#MikuBattle #<Novel> #mikugg #Shorts`.
+2. Run (about 2.5 min for 85 MB; use `run_in_background` or a long timeout):
+   ```
+   node tools/youtube/upload.js upload output/miku-battle-<id>-short.mp4 --title "<Novel> is in Miku Battle!" \
+     --description-file tools/youtube/descriptions/<id>.txt --tags "Miku Battle,<Novel>,miku.gg,card game,visual novel" --privacy unlisted --short
+   ```
+3. Give the user the `youtu.be` link. Do this by default as the last step of every short, without being asked: once the mp4 has passed "Look before you ship", write the description file and upload it unlisted (several shorts: one background job, one upload at a time). Skip only if the user says not to upload. Upload only the finished mp4 that passed the checks.
+   If `auth` is needed again, kill any stale `node ... upload.js auth` first (it holds port 53682); `whoami` shows the channel.
+   Un-audited API projects are forced to private by YouTube; check the visibility in the result line.
 
 ## Tools to point at
 
@@ -65,6 +95,8 @@ stills (Read tool; tile them with ffmpeg `hstack` to see several at once). For e
 - the character's board unit is visible before the attack and the cut-out is visible all the time, in the right pose;
 - the attacker and its target are inside the gameplay window (the crop follows `clip.aim`, the midpoint of the two);
 - name, attack name and stats do not overlap the HUD (top 190 px) or run into the bottom 300 px that YouTube covers;
+- **never white text on a yellow (or amber) background**: use dark ink there (`isYellow()` in `short.html` does it for the stat bands; check any new
+  colour a config's `accent`/`accent2` puts behind text);
 - the title, "is in Miku Battle!", the grid count and the end card show the right URL (miku-battle.org).
 
 Then check the finished file: `ffprobe` (1080x1920, duration), `volumedetect` (not silent, not clipping), and a frame from each segment.
