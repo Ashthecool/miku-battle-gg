@@ -43,7 +43,7 @@ for (const c of cfg.cast) {
   const card = cards[c.id] || {};
   const spr = await load(A + ch.sprites[c.mood || 'play']);
   const first = ch.name.split(' ')[0].toUpperCase(), last = ch.name.split(' ').slice(1).join(' ').toUpperCase();
-  cast.push({ ...c, ch, card, spr, first, last, color: (card.attack && card.attack.color) || ACC, rar: rarity(c.id), attackName: card.attack ? card.attack.name : (MB.POWERS[c.id] || {}).name || '' });
+  cast.push({ ...c, clip: (cfg.clips || {})[c.id], ch, card, spr, first, last, color: (card.attack && card.attack.color) || ACC, rar: rarity(c.id), attackName: card.attack ? card.attack.name : (MB.POWERS[c.id] || {}).name || '' });
 }
 const portraits = await Promise.all(novelChars.map(async (c) => ({ ch: c, img: await load(A + 'portraits/' + c.id + '.webp'), rar: rarity(c.id) })));
 const logo = await load('/game/icons/icon-192.png');
@@ -58,7 +58,8 @@ const stats = (cfg.stats || [
 
 // ---------------------------------------------------------------- timeline (counted in beats so cuts land on the music)
 const BPM = cfg.music.bpm || 120, B = 60 / BPM;
-const L = { intro: 6, cast: 4, grid: 6, stats: 4, finale: 10 };
+const hasClips = cast.some((c) => c.clip);
+const L = { intro: 6, cast: hasClips ? 5 : 4, grid: 6, stats: 4, finale: 10 };
 const segs = []; let cur = 0;
 const addSeg = (name, beats, draw, i) => { segs.push({ name, i, start: cur * B, end: (cur + beats) * B, draw }); cur += beats; };
 const events = [], impulses = [];
@@ -136,7 +137,7 @@ function drawIntro(x, lt, t) {
   hud(x, t, -1, 0);
 }
 
-function drawCast(x, lt, t, i) {
+function drawCastCard(x, lt, t, i) {
   const c = cast[i], bg = bgs[(i + 1) % bgs.length], side = i % 2 ? 1 : -1;
   x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H);
   x.save(); cover(x, blurred(bg), 1.25 + lt * .03, .3 + .4 * ((i % 2) ? lt / 2 : 1 - lt / 2)); x.restore();
@@ -167,6 +168,61 @@ function drawCast(x, lt, t, i) {
   if (c.attackName) { x.save(); x.globalAlpha = E.outCubic(clamp((lt - .85) / .25)); T(x, '⚔ ' + c.attackName.toUpperCase(), px0 + 36, 1522, { size: 46, align: 'left', fill: c.color, sw: 8, maxW: pw - 72, ls: 1 }); x.restore(); }
   x.restore();
   x.fillStyle = '#fff'; floaters(x, lt + i * 3, 14, i * 17, ['#fff', c.color]);
+  hud(x, t, i, cast.length);
+}
+
+// ---- real gameplay: the cast member's attack, recorded from the game by capture.js
+const SRC = { sx: 560, sy: 90, sw: 1120, sh: 1120 }; // the part of the 2400x1350 frame that holds the board
+function clipMap(c) { // output frame (30 fps) -> source frame: a quick windup, slow motion over the hit, a quick finish
+  const k = c.clip, nOut = Math.round(L.cast * B * FPS), s0 = Math.max(1, k.go - 8), sI = Math.max(s0 + 1, k.i - 3), sS = k.i + 9, sE = Math.min(k.n, Math.max(sS + 6, Math.min(k.e - 8, k.i + 45)));
+  const o1 = Math.round(nOut * .37), o2 = o1 + Math.round(nOut * .32);
+  const f = (o) => o <= o1 ? s0 + (sI - s0) * (o / o1) : o <= o2 ? sI + (sS - sI) * ((o - o1) / (o2 - o1)) : sS + (sE - sS) * clamp((o - o2) / (nOut - o2));
+  const inv = (sf) => sf <= sI ? o1 * (sf - s0) / (sI - s0) : sf <= sS ? o1 + (o2 - o1) * (sf - sI) / (sS - sI) : o2 + (nOut - o2) * (sf - sS) / (sE - sS);
+  return { f, inv, tImpact: inv(k.i) / FPS, tGo: inv(k.go) / FPS, sE, s0 };
+}
+const imgs = new Map();
+const frameUrl = (c, k) => '/battle/' + c.clip.g + '/f' + String(clamp(Math.round(k), 1, c.clip.n)).padStart(5, '0') + '.jpg';
+const getImg = (url) => { let e = imgs.get(url); if (!e) { const im = new Image(); e = { im, p: new Promise((r) => { im.onload = r; im.onerror = r; }) }; im.src = url; imgs.set(url, e); } return e; };
+const mini = mk(54, 96), mg = mini.getContext('2d');
+const POW = ['POW!', 'BAM!', 'WHAM!', 'BOOM!', 'KAPOW!', 'SMASH!'];
+
+function drawCastBattle(x, lt, t, i) {
+  const c = cast[i], m = c.map, src = m.f(lt * FPS), img = getImg(frameUrl(c, src)).im, ready = img.complete && img.naturalWidth;
+  x.fillStyle = '#05020c'; x.fillRect(0, 0, W, H);
+  if (ready) { mg.drawImage(img, SRC.sx, SRC.sy, SRC.sw, SRC.sh, -20, 0, 94, 96); x.save(); x.imageSmoothingEnabled = true; x.globalAlpha = .9; x.drawImage(mini, 0, 0, W, H); x.restore(); }
+  tint(x, c.color, .5, .35);
+  rays(x, W / 2, 840, t * (i % 2 ? 1 : -1), '#fff', .07);
+  const dI = lt - m.tImpact, punch = dI >= 0 ? Math.exp(-dI * 7) : 0, wob = Math.sin(t * 2.2 + i) * .006;
+  // the gameplay window
+  const ww = 960, wh = 960, wy = 372, zoom = 1 + .1 * clamp(lt / (m.tImpact || 1)) + .06 * punch - (dI > 0 ? .1 * clamp(dI / 1.2) : 0), p0 = E.outBack(clamp(lt / .3), 1.3);
+  x.save(); x.translate(W / 2, wy + wh / 2); x.rotate(wob + (1 - p0) * (i % 2 ? .12 : -.12)); x.scale(p0, p0);
+  x.shadowColor = c.color; x.shadowBlur = 60; x.fillStyle = '#000'; rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.fill(); x.shadowBlur = 0;
+  x.save(); rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.clip();
+  if (ready) { const cw = SRC.sw / zoom, ch = SRC.sh / zoom, cx = SRC.sx + SRC.sw / 2 + (i % 2 ? 1 : -1) * 20 * clamp(lt / 2), cy = SRC.sy + SRC.sh / 2 + 14; x.drawImage(img, cx - cw / 2, cy - ch / 2, cw, ch, -ww / 2, -wh / 2, ww, wh); }
+  if (punch > .02) { const gr = x.createRadialGradient(0, 0, 100, 0, 0, 700); gr.addColorStop(0, 'rgba(255,255,255,' + (.5 * punch) + ')'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(-ww / 2, -wh / 2, ww, wh); speedLines(x, 0, 0, .35 * punch, '#fff', t, .25, i); }
+  const hl = x.createLinearGradient(0, -wh / 2, 0, -wh / 2 + 120); hl.addColorStop(0, 'rgba(0,0,0,.35)'); hl.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = hl; x.fillRect(-ww / 2, -wh / 2, ww, 120);
+  x.restore();
+  x.strokeStyle = c.color; x.lineWidth = 10; rr(x, -ww / 2, -wh / 2, ww, wh, 34); x.stroke(); x.strokeStyle = 'rgba(255,255,255,.85)'; x.lineWidth = 3; rr(x, -ww / 2 + 8, -wh / 2 + 8, ww - 16, wh - 16, 28); x.stroke();
+  // in-game badge
+  x.fillStyle = 'rgba(10,4,22,.82)'; rr(x, -ww / 2 + 28, -wh / 2 + 26, 300, 58, 29); x.fill(); x.fillStyle = Math.floor(t * 2) % 2 ? '#ff3b5c' : '#a01c34'; x.beginPath(); x.arc(-ww / 2 + 62, -wh / 2 + 55, 11, 0, 7); x.fill();
+  T(x, 'REAL GAMEPLAY', -ww / 2 + 84, -wh / 2 + 57, { size: 29, sw: 0, align: 'left', ls: 1 });
+  // comic burst at the hit
+  if (dI >= 0 && dI < .7) { const pp = E.outElastic(clamp(dI / .35)), word = POW[(i * 2 + 1) % POW.length]; x.save(); x.translate((i % 2 ? -1 : 1) * 40, -wh * .1); x.rotate(-.12 + (i % 2) * .24); x.globalAlpha = clamp(1 - (dI - .45) / .25);
+    x.fillStyle = '#fff'; x.beginPath(); for (let k = 0; k < 20; k++) { const a = k / 20 * Math.PI * 2, r = (k % 2 ? 150 : 250) * pp; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill(); x.fillStyle = c.color; x.beginPath(); for (let k = 0; k < 20; k++) { const a = k / 20 * Math.PI * 2 + .1, r = (k % 2 ? 125 : 215) * pp; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill();
+    T(x, word, 0, 6, { size: 130, sx: pp, sy: pp, fill: '#fff', sw: 18, stroke: '#160a2c', ext: 8, extFill: '#160a2c' }); x.restore(); }
+  x.restore();
+  // who it is, and the move
+  const np = E.outBack(clamp((lt - .05) / .3), 1.4), tw = Math.min(700, 36 * c.tag.length * .62 + 90);
+  x.save(); x.translate(W / 2, 305); x.scale(np, np); x.fillStyle = c.color; rr(x, -tw / 2, -118, tw, 54, 27); x.fill(); T(x, c.tag, 0, -90, { size: 34, sw: 0, fill: '#160a2c', ls: 2, maxW: tw - 30 });
+  T(x, c.first + (c.last ? ' ' + c.last : ''), 0, 0, { size: 100, maxW: 960, ext: 8, extFill: '#160a2c', sw: 14 }); x.restore();
+  const ap = E.outBack(clamp((lt - m.tGo + .15) / .25), 1.6);
+  if (c.attackName && ap > 0) { x.save(); x.translate(W / 2, 1425); x.scale(ap, ap); x.rotate(-.025);
+    T(x, '⚔ ' + c.attackName.toUpperCase(), 0, 0, { size: 96, maxW: 980, fill: vgrad('#fff', c.color), ext: 12, extFill: '#160a2c', sw: 16 }); x.restore(); }
+  const sp = E.outBack(clamp((lt - m.tGo - .1) / .3));
+  if (sp > 0) { const chips = [['COST', c.card.cost, '#4aa3ff'], ['ATK', c.card.atk, '#ff9a3c'], ['HP', c.card.hp, '#ff4f6d']]; x.save(); x.translate(W / 2, 1540); x.scale(sp, sp);
+    chips.forEach(([lab, v, col], k) => { if (v == null) return; x.save(); x.translate((k - 1) * 215 - 110, 0); x.fillStyle = col; rr(x, -95, -38, 190, 76, 38); x.fill(); x.strokeStyle = '#fff'; x.lineWidth = 4; x.stroke(); T(x, lab, -48, 3, { size: 28, sw: 0, ls: 1, alpha: .9 }); T(x, String(v), 48, 2, { size: 56, sw: 0 }); x.restore(); });
+    T(x, '★'.repeat(c.rar.stars), 430, 0, { size: 44, fill: c.rar.color, sw: 8 }); x.restore(); }
+  x.fillStyle = '#fff'; floaters(x, lt + i * 3, 12, i * 17, ['#fff', c.color]);
   hud(x, t, i, cast.length);
 }
 
@@ -229,7 +285,7 @@ function drawFinale(x, lt, t) {
   if (cp > 0) { const pulse = 1 + .035 * Math.sin(lt * Math.PI * 4); x.save(); x.translate(W / 2 - 30, 1370); x.scale(cp * pulse, cp * pulse);
     x.fillStyle = '#fff'; rr(x, -400, -62, 800, 124, 62); x.fill(); x.strokeStyle = ACC2; x.lineWidth = 10; x.stroke();
     T(x, 'PLAY FREE IN YOUR BROWSER', 0, 4, { size: 56, fill: '#2a0e5a', sw: 0, maxW: 740 }); x.restore();
-    T(x, cfg.url || 'ashthecool.github.io/miku-battle-gg', W / 2 - 30, 1470, { size: 46, font: 'Baloo', maxW: 880, alpha: cp });
+    T(x, cfg.url || 'miku-battle.org', W / 2 - 30, 1470, { size: 46, font: 'Baloo', maxW: 880, alpha: cp });
     T(x, 'no download  ·  works offline  ·  100% free', W / 2 - 30, 1527, { size: 32, font: 'Baloo', fill: '#e8dcff', sw: 6, maxW: 880, alpha: cp });
     T(x, cfg.credit || 'Fan-made and unofficial. Not affiliated with miku.gg.', W / 2 - 30, 1580, { size: 26, font: 'Baloo', fill: '#cbbdf0', sw: 5, maxW: 880, alpha: cp * .9 }); }
   x.fillStyle = '#fff'; floaters(x, t, 22, 13, ['#fff', ACC, ACC2, '#7fe8ff']);
@@ -238,14 +294,18 @@ function drawFinale(x, lt, t) {
 
 // ---------------------------------------------------------------- build the timeline, the hits and the sound cues
 addSeg('intro', L.intro, drawIntro);
-cast.forEach((c, i) => addSeg('cast', L.cast, (x, lt, t) => drawCast(x, lt, t, i), i));
+cast.forEach((c) => { if (c.clip) c.map = clipMap(c); });
+cast.forEach((c, i) => { addSeg('cast', L.cast, (x, lt, t) => (c.clip ? drawCastBattle : drawCastCard)(x, lt, t, i), i); if (c.clip) segs[segs.length - 1].need = (lt) => [frameUrl(c, c.map.f(clamp(lt, 0, L.cast * B) * FPS))]; });
 addSeg('grid', L.grid, drawGrid); addSeg('stats', Math.max(L.stats, stats.length), drawStats); addSeg('finale', L.finale, drawFinale);
 const DUR = cur * B, WIPE = .3;
 sfx(0, 'riser-774635.mp3', .55); sfx(1.0, 'boom-792520.mp3', .7); sfx(1.0, 'shockwave-110819.mp3', .4); sfx(1.5, 'punch-563356.mp3', .7); sfx(1.5, 'whack-114683.mp3', .35); sfx(2.0, 'pop-221091.mp3', .5); sfx(2.25, 'glint-734238.mp3', .55); sfx(2.25, 'riserhit-511874.mp3', .5);
 hit(1.0, 34, 11, .8); hit(1.5, 40, 14, .8); hit(2.25, 20, 8, .3);
 segs.forEach((s, k) => {
   if (k) { sfx(s.start - .08, 'swish-475132.mp3', .35); hit(s.start, 12, 6, 0); }
-  if (s.name === 'cast') { const c = cast[s.i]; sfx(s.start + .36, 'thud-653910.mp3', .55); sfx(s.start + .45, 'pop-221091.mp3', .3); hit(s.start + .38, 16, 6, .15);
+  if (s.name === 'cast' && cast[s.i].clip) { const c = cast[s.i], m = c.map; sfx(s.start + m.tImpact, 'thud-653910.mp3', .5); hit(s.start + m.tImpact, 26, 11, .5); hit(s.start + .3, 10, 4, 0);
+    (c.clip.sfx || []).forEach((e) => { const sm = (cfg.samples || {})[e.name]; if (!sm || e.f < m.s0 || e.f > m.sE) return; sfx(s.start + m.inv(e.f) / FPS, sm.file, Math.min(1, (sm.vol || .7) * .85)); });
+    if (c.card.rarity === 'legendary' || c.card.rarity === 'epic') sfx(s.start + m.tImpact + .05, 'glint-734238.mp3', .35); }
+  else if (s.name === 'cast') { const c = cast[s.i]; sfx(s.start + .36, 'thud-653910.mp3', .55); sfx(s.start + .45, 'pop-221091.mp3', .3); hit(s.start + .38, 16, 6, .15);
     [0, 1, 2].forEach((j) => sfx(s.start + .6 + j * .08, 'tick-187992.mp3', .25)); if (c.card.rarity === 'legendary' || c.card.rarity === 'epic') sfx(s.start + .85, 'glint-734238.mp3', .4); sfx(s.start + .9, 'sparkle-457306.mp3', .3); }
   if (s.name === 'grid') { const n = Math.min(portraits.length, 20); for (let i = 0; i < n; i++) sfx(s.start + .25 + i * Math.min(.12, 1.9 / n) + .08, 'pop-221091.mp3', .22); }
   if (s.name === 'stats') stats.forEach((_, j) => { const tt = s.start + .25 + j * B + .1; sfx(tt, 'stamp-683031.mp3', .65); sfx(tt, 'thud-653910.mp3', .35); hit(tt, 26, 8, .3); });
@@ -285,7 +345,13 @@ function render(t) {
   const fo = clamp((DUR - t) / .35); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
 }
 window.TIMELINE = { dur: DUR, fps: FPS, bpm: BPM, events, segs: segs.map((s) => ({ name: s.name, start: s.start, end: s.end })) };
-window.frame = (n) => { render(n / FPS); return cv.toDataURL('image/jpeg', .94); };
+window.frame = async (n) => {
+  const t = n / FPS; let k = segs.findIndex((s) => t >= s.start && t < s.end); if (k < 0) k = segs.length - 1;
+  const want = [k]; if (k > 0 && t - segs[k].start < WIPE) want.push(k - 1);
+  for (const j of want) { const s = segs[j]; if (s.need) { const lt = t - s.start; await Promise.all([...s.need(lt), ...s.need(lt + .2)].map((u) => getImg(u).p)); } }
+  if (imgs.size > 160) [...imgs.keys()].slice(0, 80).forEach((u) => imgs.delete(u));
+  render(t); return cv.toDataURL('image/jpeg', .94);
+};
 window.ready = true;
 })().catch((e) => { console.error('FATAL ' + e.stack); window.fatal = String(e.stack); });
 </script></body></html>

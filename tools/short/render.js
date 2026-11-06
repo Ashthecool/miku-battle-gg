@@ -25,11 +25,23 @@ const songFile = path.join(CACHE, cfg.music.id + path.extname(new URL(song.url).
   if (!fs.existsSync(songFile)) { console.log('downloading', song.name); fs.writeFileSync(songFile, Buffer.from(await (await fetch(song.url)).arrayBuffer())); }
   if (!cfg.music.bpm) { Object.assign(cfg.music, JSON.parse(execFileSync('node', [path.join(HERE, 'bpm.js'), songFile, '60']).toString())); fs.writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n'); console.log('tempo', cfg.music); }
 
-  const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' };
+  // ---- gameplay clips: capture.js's logs say which frames hold each cast member's attack (go = the wind-up ends, i = the hit)
+const samples = {}; for (const m of fs.readFileSync(path.join(GAME, 'js/audio.js'), 'utf8').matchAll(/(\w+): \{ file: '([^']+)', vol: ([\d.]+)/g)) samples[m[1]] = { file: m[2], vol: +m[3] };
+cfg.samples = samples; cfg.clips = {};
+const battleDir = path.join(OUT, 'battle');
+if (fs.existsSync(battleDir)) for (const g of fs.readdirSync(battleDir).filter((f) => /^g\d+$/.test(f))) {
+  const D = JSON.parse(fs.readFileSync(path.join(battleDir, g, 'log.json'), 'utf8')), nearest = (t) => D.frames.reduce((b, v, i) => (Math.abs(v - t) < Math.abs(D.frames[b] - t) ? i : b), 0) + 1;
+  D.log.filter((e) => e.k === 'attack' && e.side === 0).forEach((a) => {
+    if (cfg.clips[a.id]) return; const after = (k) => D.log.find((e) => e.k === k && e.id === a.id && e.t >= a.t), go = after('go'), im = after('impact'), end = after('end');
+    if (!go || !im || !end) return;
+    cfg.clips[a.id] = { g, n: D.frames.length, go: nearest(go.t), i: nearest(im.t), e: nearest(end.t), sfx: D.log.filter((e) => e.k === 'sfx' && e.t >= a.t && e.t <= end.t).map((e) => ({ f: nearest(e.t), name: e.name })) };
+  });
+}
+const T = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2' };
   const server = http.createServer((q, s) => {
     const p = decodeURIComponent(q.url.split('?')[0]);
     if (p === '/cfg.json') { s.writeHead(200, { 'Content-Type': 'application/json' }); return s.end(JSON.stringify(cfg)); }
-    const f = p === '/' ? path.join(HERE, 'short.html') : p.startsWith('/game/') ? path.join(GAME, p.slice(6)) : path.join(HERE, p);
+    const f = p === '/' ? path.join(HERE, 'short.html') : p.startsWith('/battle/') ? path.join(OUT, p) : p.startsWith('/game/') ? path.join(GAME, p.slice(6)) : path.join(HERE, p);
     fs.readFile(f, (e, d) => { if (e) { s.writeHead(404); return s.end(); } s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream' }); s.end(d); });
   });
   await new Promise((r) => server.listen(PORT, r));
