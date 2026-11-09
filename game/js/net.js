@@ -1,8 +1,8 @@
 // PvP over the internet (Arena → Casual PvP). Lockstep: both players run the same battle (engine.js) from one seed,
 // the second player's with the sides flipped so each sees themself at the bottom, and send each other only their
 // moves. Each end of turn carries a digest of the state, so a desync is caught instead of the games drifting apart.
-// Messages go through Supabase Realtime (MB.SUPABASE_KEY in config.js), or between the tabs of one browser
-// (BroadcastChannel) when there is no key or the page has ?pvp=local, for trying it out alone.
+// Messages go through our relay at MB.PVP_URL (config.js; the server is server/pvp), or between the tabs of one
+// browser (BroadcastChannel) when there is no relay or the page has ?pvp=local, for trying it out alone.
 // A match: quick match (players in a lobby are paired by the time they joined) or a friend room (a 4-letter code);
 // then both say hello (name, leader, deck, levels), the host sends the seed, and the battle starts (MB.UI.startPvp).
 window.MB = window.MB || {};
@@ -10,7 +10,7 @@ window.MB = window.MB || {};
   const PROTOCOL = 1;
   const me = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); // this tab
   const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
-  const local = () => !MB.SUPABASE_KEY || /[?&]pvp=local\b/.test(location.search);
+  const local = () => !MB.PVP_URL || /[?&]pvp=local\b/.test(location.search);
 
   // both players need the same cards and rules (the same version of the game, and NSFW mode the same)
   let buildHash = null;
@@ -23,36 +23,50 @@ window.MB = window.MB || {};
   }
 
   // ---------------------------------------------------------------- channels
-  // { ready, send(event, data), on(event, fn), track(meta), members() -> [{ id, ...meta }], onSync(fn), close() }
-  let client = null;
-  async function supabase() {
-    if (!window.supabase) await new Promise((res, rej) => {
-      const s = document.createElement('script');
-      s.src = 'lib/supabase.min.js'; s.onload = res; s.onerror = () => rej(new Error('offline'));
-      document.head.appendChild(s);
+  // { send(event, data), on(event, fn), track(meta), members() -> [{ id, ...meta }], onSync(fn), close() }
+  // Online: a WebSocket to our relay (server/pvp, a Cloudflare Worker with one Durable Object per channel).
+  // A dropped connection comes back by itself; meanwhile messages wait in a queue and members() is empty, so the
+  // match sees the other player as away (and asks for missed moves once both are back).
+  function wsChannel(name) {
+    const url = MB.PVP_URL.replace(/\/$/, '') + '/ch/' + encodeURIComponent(name) + '?id=' + me;
+    const handlers = {}, queue = [];
+    let ws = null, meta = null, members = [], onSync = null, closed = false, tries = 0, ping = null;
+    const sync = () => onSync && onSync();
+    const raw = (x) => { if (ws && ws.readyState === 1) ws.send(x); else if (queue.length < 200) queue.push(x); };
+    const connect = () => new Promise((res, rej) => {
+      ws = new WebSocket(url);
+      let up = false;
+      ws.onopen = () => {
+        up = true; tries = 0;
+        if (meta) ws.send(JSON.stringify({ t: 'track', meta }));
+        while (queue.length) ws.send(queue.shift());
+        clearInterval(ping); ping = setInterval(() => ws && ws.readyState === 1 && ws.send('ping'), 25000);
+        res();
+      };
+      ws.onmessage = ({ data }) => {
+        if (data === 'pong') return;
+        let x; try { x = JSON.parse(data); } catch (e) { return; }
+        if (x.t === 'p' && Array.isArray(x.members)) { members = x.members; sync(); }
+        else if (x.t === 'm') { const f = handlers[x.e]; if (f) f(x.d); }
+      };
+      ws.onclose = () => {
+        clearInterval(ping);
+        if (!up) return closed ? res() : rej(new Error('offline'));
+        if (closed) return;
+        members = []; sync();
+        setTimeout(() => { if (!closed) connect().catch(retry); }, Math.min(8000, 500 * 2 ** tries++));
+      };
     });
-    return client || (client = window.supabase.createClient(MB.SUPABASE_URL, MB.SUPABASE_KEY, { auth: { persistSession: false } }));
-  }
-
-  async function supaChannel(name) {
-    const sb = await supabase(), handlers = {};
-    let onSync = null, meta = null;
-    const ch = sb.channel('mb-' + name, { config: { broadcast: { self: false }, presence: { key: me } } });
-    ch.on('broadcast', { event: 'm' }, ({ payload }) => { const f = handlers[payload.e]; if (f) f(payload.d); });
-    ch.on('presence', { event: 'sync' }, () => onSync && onSync());
-    const ready = new Promise((res, rej) => ch.subscribe((status) => {
-      if (status === 'SUBSCRIBED') { res(); if (meta) ch.track(meta); } // (again after a reconnect)
-      else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') rej(new Error(status));
-    }));
-    await ready;
-    return {
-      send: (e, d) => ch.send({ type: 'broadcast', event: 'm', payload: { e, d } }),
+    const retry = () => { if (!closed) setTimeout(() => connect().catch(retry), Math.min(8000, 500 * 2 ** tries++)); };
+    const api = {
+      send: (e, d) => raw(JSON.stringify({ t: 'm', e, d })),
       on: (e, fn) => { handlers[e] = fn; },
-      track: (m) => { meta = m; return ch.track(m); },
-      members: () => Object.entries(ch.presenceState()).map(([id, metas]) => ({ ...metas[0], id })),
+      track: (m) => { meta = m; raw(JSON.stringify({ t: 'track', meta: m })); },
+      members: () => members,
       onSync: (fn) => { onSync = fn; },
-      close: () => sb.removeChannel(ch),
+      close: () => { closed = true; clearInterval(ping); if (ws) ws.close(1000); },
     };
+    return connect().then(() => api);
   }
 
   // the same between the tabs of one browser; presence is a heartbeat every 1.5 s
@@ -84,7 +98,7 @@ window.MB = window.MB || {};
     };
   }
 
-  const open = (name) => (local() ? localChannel(name) : supaChannel(name));
+  const open = (name) => (local() ? localChannel(name) : wsChannel(name));
 
   // ---------------------------------------------------------------- the match
   // s: the match in progress (null when idle). status(text, state) tells the Arena screen what's going on.
@@ -329,6 +343,6 @@ window.MB = window.MB || {};
     quick, host, join, attach, forfeit, done, leave, build,
     busy: () => !!s, local, peer: () => s && s.peer,
     // the Arena shows PvP once there's a server to play through (or for testing: ?pvp=local, developer mode)
-    available: () => !!MB.SUPABASE_KEY || /[?&]pvp=local\b/.test(location.search) || document.body.classList.contains('dev'),
+    available: () => !!MB.PVP_URL || /[?&]pvp=local\b/.test(location.search) || document.body.classList.contains('dev'),
   };
 })();

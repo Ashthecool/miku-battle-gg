@@ -1,0 +1,16 @@
+# Miku Battle PvP relay. Deploy: cd server/pvp && npm install && npx wrangler login && npx wrangler deploy
+name = "miku-battle-pvp"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+# pvp.miku-battle.org: wrangler makes the DNS record (the zone is on the same Cloudflare account)
+routes = [{ pattern = "pvp.miku-battle.org", custom_domain = true }]
+
+[[durable_objects.bindings]]
+name = "CHANNEL"
+class_name = "Channel"
+
+# SQLite-backed Durable Objects are on the free plan
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Channel"]

@@ -1,0 +1,13 @@
+{
+  "name": "miku-battle-pvp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node test.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}
