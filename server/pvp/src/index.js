@@ -26,6 +26,7 @@ const SWEEP = 30 * 1000;
 const ORIGINS = [
   /^https:\/\/(www\.)?miku-battle\.org$/,
   /^https:\/\/[a-z0-9-]+\.github\.io$/i,
+  /^https:\/\/[a-z0-9-]+\.itch\.zone$/, // the itch.io page embeds the game from html-classic.itch.zone
   /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/,
 ];
 const originOk = (o) => !o || ORIGINS.some((re) => re.test(o)); // no Origin: not a browser (tests, tools)

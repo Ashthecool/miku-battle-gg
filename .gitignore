@@ -30,3 +30,4 @@ game/assets/*
 tools/youtube/.token.json
 tools/youtube/client_secret*.json
 youtube_uploader_mcp.log
+/.secrets/
