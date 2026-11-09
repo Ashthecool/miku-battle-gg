@@ -252,6 +252,14 @@
       return this.fresh(u) ? enemy : [...enemy, this.foe(u.side).leader];
     }
 
+    // the monsters a Splash (the target's neighbours) or Attack All (every other enemy monster) blow also hits
+    spillTargets(u, target) {
+      const foes = this.units(target.side).filter((e) => e !== target && !e.kw.has('stealth') && e.hp > 0);
+      if (u.kw.has('attackAll')) return foes;
+      if (u.kw.has('splash') && !target.isLeader) return foes.filter((e) => Math.abs(e.slot - target.slot) === 1);
+      return [];
+    }
+
     // ---------- actions ----------
     async playCard(side, cid, { slot, target } = {}) {
       const p = this.me(side);
@@ -336,11 +344,20 @@
         if (this.over || !this.find(attacker.uid) || !this.find(target.uid) || target.hp <= 0) { this.view.refresh(); return true; }
       }
       this.view.log(`${attacker.name} → ${this.nameOf(target)} (${attacker.card.attack.name})${tipsy ? ' *hic*' : ''}`);
+      // Splash and Attack All hit more monsters; only the main target strikes back. The animation calls spill(u) as its
+      // effect reaches each one, and whoever it didn't reach is hit once it ends, in the same order.
+      const others = this.spillTargets(attacker, target), atk = attacker.atk, spilt = new Set();
+      const spill = (u) => {
+        if (spilt.has(u.uid) || !others.includes(u)) return;
+        spilt.add(u.uid);
+        if (this.find(u.uid) && u.hp > 0) this.deal(u, atk * this.rivalry(attacker, u), attacker);
+      };
       await this.view.attackFx(attacker, target, () => {
         const dealt = this.deal(target, attacker.atk * this.rivalry(attacker, target), attacker);
         if (!target.isLeader && !attacker.kw.has('ranged') && target.atk > 0) this.deal(attacker, target.atk * this.rivalry(target, attacker), target, true);
         return dealt;
-      });
+      }, others.length ? { units: others, hit: spill, kind: attacker.kw.has('attackAll') ? 'all' : 'splash' } : null);
+      others.forEach(spill);
       await this.resolveDeaths();
       this.view.refresh();
       return true;

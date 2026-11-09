@@ -102,12 +102,15 @@ async function playCase(c) {
     return best || { what: 'nothing visible', gap: Infinity };
   };
   let error = null;
+  // Splash / Attack All: the other dummies the blow reaches must each be hit once by the animation itself
+  const others = b.spillTargets(a, t), spilt = new Map();
+  const spill = others.length ? { units: others, kind: a.kw.has('attackAll') ? 'all' : 'splash', hit: (u) => spilt.set(u.uid, (spilt.get(u.uid) || 0) + 1) } : null;
   try {
     await V.attackFx(a, t, () => {
       hits++;
       if (!firstHit) { firstHit = performance.now() - start; contact = touch(); }
       V.floatText(T, V.heightOf(t) * 0.5, '-5', 'dmg');
-    });
+    }, spill);
   } catch (e) { error = String(e && e.stack || e); }
   running = false;
   await new Promise((r) => setTimeout(r, 2000 / gsap.globalTimeline.timeScale())); // fades that end with the attack (2s of animation time)
@@ -116,7 +119,7 @@ async function playCase(c) {
     rotation: +gsap.getProperty(av.figure, 'rotation'), parts: c.duo && av.img.children.length === 2 ? [...av.img.children].map((p) => +gsap.getProperty(p, 'opacity')) : [] };
   a.side = oldSide; a.slot = oldSlot; t.side = oldTargetSide; t.slot = oldTargetSlot;
   gsap.set(av.el, V.pos(a)); if (tv && !c.leader) gsap.set(tv.el, V.pos(t));
-  return { name: c.name, error, hits, firstHit: Math.round(firstHit), total: Math.round(performance.now() - start), contact, frames: [...frames],
+  return { name: c.name, error, hits, spill: others.map((u) => spilt.get(u.uid) || 0), firstHit: Math.round(firstHit), total: Math.round(performance.now() - start), contact, frames: [...frames],
     actorBad, offProps: [...offProps].map(([cls, over]) => `${cls.replace('bb-body', '').trim() || 'prop'} by ${over}px`), restored, home: A, maxProps, leftovers,
     actorsLeft: document.querySelectorAll('[data-pose]').length };
 }
@@ -149,6 +152,7 @@ async function worker(url, queue, fails, warns, reports, missing) {
         if (r.hits !== 1) bad.push(`${r.hits} damage events (want exactly one)`);
         if (g.errors.length > errs) bad.push(`page error: ${g.errors.slice(errs).join(' | ')}`);
         if (r.actorsLeft) bad.push('drawn actor left behind');
+        if (r.spill.some((n) => n !== 1)) bad.push(`splash / attack-all hits ${r.spill} on the other dummies (want 1 each)`);
         if (Math.hypot(r.restored.x - r.home.x, r.restored.y - r.home.y) >= 1) bad.push('attacker not back in its slot');
         if (r.restored.opacity !== 1) bad.push(`attacker opacity ${r.restored.opacity}`);
         if (Math.abs(r.restored.rotation) > 0.01) bad.push(`attacker rotation ${r.restored.rotation}`);
@@ -161,7 +165,7 @@ async function worker(url, queue, fails, warns, reports, missing) {
         if (strict) bad.push(...soft); else warns.push(...soft.map((s) => `${label}: ${s}`));
         if (bad.length) fails.push(`${label}: ${bad.join('; ')}`);
         reports.push({ id, ...r });
-        const hit = r.hits ? `hit at ${Math.round(r.firstHit * speed)}ms of ${Math.round(r.total * speed)}ms, ${r.contact.what} ${r.contact.gap}px` : 'no hit';
+        const hit = (r.spill.length ? `+${r.spill.length} spilt, ` : '') + (r.hits ? `hit at ${Math.round(r.firstHit * speed)}ms of ${Math.round(r.total * speed)}ms, ${r.contact.what} ${r.contact.gap}px` : 'no hit');
         console.log(`${bad.length ? 'FAIL' : soft.length ? 'WARN' : 'PASS'} ${label}  ${hit}${bad.length ? '  ✗ ' + bad.join('; ') : ''}${soft.length && !strict ? '  ! ' + soft.join('; ') : ''}`);
       }
     }

@@ -2858,3 +2858,12 @@ body.dev .dev-only { display: flex !important; }
 .dfx.sj-scan, .dfx.sj-decree, .dfx.sj-hall { filter: drop-shadow(0 0 8px var(--c)) drop-shadow(0 4px 4px #0006); }
 .dfx.sj-candle { filter: none; }
 .dfx.sj-glass, .dfx.sj-sun { filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 4px 4px #0006); }
+
+/* drawn effects III and their pose-sheet attacks (fx.js) */
+.dfx.verdict-wave, .dfx.verdict-x { filter: drop-shadow(0 0 8px #e8f0ff) drop-shadow(0 3px 4px #0008); }
+.dfx.verdict-glint { filter: drop-shadow(0 0 6px #fff); }
+.dfx.donut-streak { filter: drop-shadow(0 0 10px var(--c)); }
+.dfx.donut-skid { opacity: .8; }
+.dfx.nibble-fang, .dfx.maiko-garlic, .dfx.amy-star { filter: drop-shadow(0 3px 4px #0007); }
+.dfx.nibble-bite, .dfx.nibble-heart, .dfx.maiko-bat { filter: drop-shadow(0 0 4px #fff); }
+.dfx.doodle-line, .dfx.doodle-face { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px var(--c)); }

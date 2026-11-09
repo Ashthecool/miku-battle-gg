@@ -7,3 +7,7 @@ These assets are not registered in the game. No cards, animation implementations
 The sheets follow Jay's redrawn connected anatomy and Pristo's expressive four-pose layout. Each sequence is based on the new character's source description. Ida uses her maid outfit because her export's default Blank outfit contains no visible pixels.
 
 The source-novel images remain staged separately in `output/new-novel-art/`. R2 upload still requires locally configured credentials. Retain artwork until uploads and public URLs are verified.
+
+Curtis VonGravis, Mitsuye, Maiko and Amy Lyn were generated with Codex's image generation (prompts in `prompts.json`) and repacked with
+`py tools/repack_pose_sheet.py <generated.png> <id>`, which separates the four figures, drops stray specks, lays them out on an even grid
+and writes their `sheet-inventory.json` entry. Then `py tools/pose_sheets.py` builds the game's WebP sheets and `js/poses.js`.

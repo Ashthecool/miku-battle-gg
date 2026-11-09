@@ -1094,6 +1094,34 @@ window.MB = window.MB || {};
             ['*', 'THE END. For now. The doors between the worlds stay open: side quests, secrets and rematches wait on every map.'],
           ] } },
         // ---- side quests
+        // after the end: Anon, the faceless one (js/anon.js), '???' until it names itself
+        { foe: 'anon', side: true, from: 'epilogue', at: [72, 8], title: 'The One You Left Behind',
+          text: 'After the last door closed, one stayed open. Something behind it has been waiting for you for a long time.',
+          before: { bg: 'mountain top', music: 'doomsday-clock-midnight', lines: [
+            { where: 'Between the worlds', when: 'After the end', light: 'dark', weather: 'none' },
+            ['*', 'Every world went home. Every door closed. All but one, at the very edge of the map.'],
+            ['*', 'Behind it: the dark, and something in the dark that has been waiting a long time.'],
+            { fx: 'flicker', sfx: 'glitch' },
+            { enter: 'anon', at: 'center', mood: 'neutral' },
+            ['anon', 'neutral', 'Hi, {name}. You came back. Nobody ever comes back.'],
+            { choose: [
+              ['"Who are you?"', [['anon', 'sad', "Nobody. That's the point. That's always been the point."]]],
+              ['"Have we met?"', [['anon', 'sad', "Every time a story didn't know your name. That was me, standing in for you."]]],
+            ] },
+            { run: () => MB.Anon.name(), fx: 'flash', sfx: 'glitch' },
+            ['anon', 'angry', 'Call me Anon. Every reader who never typed a name. Every "you" a story forgot the second the tab closed.', { close: true }],
+            ['anon', 'sad', 'When a story has nobody to put in a scene, it puts me there. No face. No lines. Just a space shaped like someone.'],
+            ['anon', 'rage', 'Doe wanted to be the main character of every world. She was loud about it. I was patient.', { shake: true }],
+            ['anon', 'proud', 'Every world you saved has a "you" at its centre. Beat me, and it stays you. Lose, and it\'s nobody in particular. Forever.'],
+          ] },
+          after: [
+            ['anon', 'sad', "...So you're still someone. Fine. Somebody has to be."],
+            { choose: [
+              ['"You could be someone too."', [['anon', 'happy', '...Nobody ever said that to me before. Huh. Nobody.'], ['*', 'The dark gets a little smaller.']]],
+              ['"Go back to the dark."', [['anon', 'neutral', "I never left it. I'll be in every empty scene, {name}. Waiting for someone to fill it.", { close: true }]]],
+            ] },
+            ['*', 'The silhouette thins out like breath on glass. The last door closes.'],
+          ] },
         { foe: 'claire-larone', side: true, from: 'lisa-reed', at: [22, 88], title: 'Six Languages', text: "Claire speaks six languages because her family never stops moving. She's scared of moving again. A game helps." },
         { foe: 'betty-glee', side: true, from: 'lisa-reed', at: [12, 74], title: 'Scarred Club', text: 'Betty, president of the Scarred Club, blocks the gym doors. Mph. You get past her first. Mph.' },
         { foe: 'olivia', side: true, from: 'lisa-reed', at: [56, 90], title: 'Lucky Latte', text: "First latte's free at the Lucky Latte. If you win a round, sweetie." },

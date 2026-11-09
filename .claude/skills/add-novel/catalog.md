@@ -37,7 +37,13 @@ Game rules (leader HP, max gold, hand size, opening hand, deck size) are `MB.RUL
 `shield` blocks the first damage · `lifesteal` its damage heals your leader · `poison` destroys what it damages ·
 `frenzy` attacks twice · `freeze` what it damages skips an attack · `burn` sets what it damages ablaze ·
 `guardian` takes damage aimed at your leader · `stealth` untargetable until it attacks ·
-`tipsy` ignores Taunt but hits a random enemy · `rebel` ignores Taunt.
+`tipsy` ignores Taunt but hits a random enemy · `rebel` ignores Taunt. ·
+`splash` its attacks also hit the target's neighbours · `attackAll` its attacks hit every enemy monster (both: only the target strikes back,
+so `attackAll` usually comes with `ranged`). Styles stage the extra hits with `spillOf()` / `spillHit` (fx.js "Splash and Attack All", with helpers
+`spillDrops`, `spillRipple`, `spillFlames`, `spillShots`, `spillAims`, `breakers`, `herdRun`); recipe attacks and `effect()` styles replay their
+RFX on each of the others (`spillFx`). Styles that stage them: `wave`, `fireworks`, `stampede`, `siren`, `hellfire`, `dragon`, `whale`, `coffee`,
+`spin`, `nuhuh`, `haiku`, `justmonika`, `pentagram`, `likestorm`, `targetlock`, `moonfall`, `torturefire`, `shadowclones`, `bihime`, `umbral`,
+`marketstall`, `piano`. A style must call `spillOf()` before its hit, or attack() plays the default: drops arcing to the neighbours or a ripple across the row.
 
 ## Attack styles (`attack.style`, game/js/fx.js)
 
@@ -82,7 +88,9 @@ Drawn pose attacks (the character has a 2x2 pose sheet, see the attack-animation
 (Hanako: a chess knight hops the L-shaped way) · `override` (Ida: holo menu, helper drones sanitize) · `rebuff` (Lilly: cane-tap echoes, then
 tea) · `lotuspalm` (Yllara: mala beads, a golden lotus) · `vineward` (Seraphina: a vine crawls, coils and blooms) · `fieldnotes` (Eliza: the scan
 pulse flies wide, then boomerangs) · `harebluff` (Uzi: a giant bluff hare, decoys that go off far too big) · `batcommand` (Valerian: a sigil,
-a bat swarm, KNEEL) · `maidprank` (Reika: tea flicked at you, the cup lands on your head, cafe cats pounce).
+a bat swarm, KNEEL) · `maidprank` (Reika: tea flicked at you, the cup lands on your head, cafe cats pounce) · `verdict` (Curtis: glasses glint, a
+steel wave, a crossed cut) · `starion` (Mitsuye: drifts in fist first, a skid donut round you) · `clumsybite` (Maiko: bats circle, a
+clumsy nibble, garlic) · `lookatme` (Amy Lyn: crayons a :3 face onto you, throws a paper star).
 
 Signature scenes for Exodus, In Her Care and Pastures Unknown (sprite-based, no pose sheet): `candidacy` (Marise: clipboard, three criteria crossed off, UNQUALIFIED stamp) ·
 `proclaim` (Sakuragi: FATE / DESTINY / PROTAGONIST, a blue light and a sword drop) · `umbral` (Obliviahime: rune seal, bat swarm, dark column, "...As foretold.") ·
@@ -152,6 +160,8 @@ attack: { name: 'Cat Scratch Combo', color: '#ff9a3c', move: 'blink', fx: 'slash
   Duo-made (from the lead and the other partner at once, `from2`): `chains` (two chains, a loop cinched; `metal`) · `spotlights` (two spots find it;
   `lights`) · `pincer` (two bolts curve in from both sides, an X; `colors`) · `heartlock` (two half hearts lock with a padlock; `colors`) ·
   `yinyang` (the halves curl in and spin down; `colors`) · `gears` (two gears mesh and grind it; `colors`)
+- Drawn effects III: `verdict` (a steel crescent skims in, two cuts cross; `steel`) · `donut` (a streak drifts round it, double skid
+  marks; `streak`, `tire`) · `nibble` (two fangs press in, a bite ring, hearts; `blush`) · `doodle` (a crayon line, a :3 face drawn on it; `crayon`)
 - `prop`: emoji or list for throw/volley/rain/orbit · `hits`: how many (1-20) · `floor`: `splat` `frost` `sigil`
   `whirlpool` `ring` decal · `scatter`: emoji flung out on impact · `big`: bigger hit + shake · `shake`: strength
 - `cam` (any attack, any style): `zoom` (the camera closes in on the target) · `wide` (pulls back to show the board) · `punch` (jolts in at the hit)

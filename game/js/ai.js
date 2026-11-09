@@ -137,6 +137,8 @@
         s = (kills ? value(t) + 2 + t.atk * danger : -1) + (survives ? 3 : -value(u) * 0.8 * (1 - danger / 3)) + (t.kw.has('taunt') ? 1 : 0);
         if (t.shield) s += 1.5; // popping shields with small units is fine
       }
+      // Splash / Attack All: what the same blow does to the others
+      for (const o of b.spillTargets(u, t)) s += o.shield ? 0.5 : (o.hp <= u.atk || u.kw.has('poison')) ? value(o) + 1 : 0.6;
       s += (Math.random() - 0.5) * (1 - skill) * 8;
       if (s > bestScore) { bestScore = s; best = t; }
     }

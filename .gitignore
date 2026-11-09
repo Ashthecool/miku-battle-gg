@@ -25,3 +25,8 @@ game/assets/*
 
 # local secrets
 .env.local
+
+# YouTube uploader OAuth state
+tools/youtube/.token.json
+tools/youtube/client_secret*.json
+youtube_uploader_mcp.log

@@ -20,7 +20,7 @@ const SHELL_FILES = [
   'assets/attacks/pristo/guitar-poses.png',
   'assets/attacks/metal-mass/julia-singing-poses.png', 'assets/sounds/singing.flac',
   'assets/sounds/dolphin-456151.mp3',
-  'js/poses.js', 'assets/attacks/poses/cordelia.webp', 'assets/attacks/poses/eliza.webp', 'assets/attacks/poses/hanako-ikezawa.webp', 'assets/attacks/poses/ida.webp', 'assets/attacks/poses/lilly-satou.webp', 'assets/attacks/poses/maia.webp', 'assets/attacks/poses/reika.webp', 'assets/attacks/poses/seraphina.webp', 'assets/attacks/poses/uzi.webp', 'assets/attacks/poses/valerian.webp', 'assets/attacks/poses/yllara.webp',
+  'js/poses.js', 'assets/attacks/poses/cordelia.webp', 'assets/attacks/poses/eliza.webp', 'assets/attacks/poses/hanako-ikezawa.webp', 'assets/attacks/poses/ida.webp', 'assets/attacks/poses/lilly-satou.webp', 'assets/attacks/poses/maia.webp', 'assets/attacks/poses/reika.webp', 'assets/attacks/poses/seraphina.webp', 'assets/attacks/poses/uzi.webp', 'assets/attacks/poses/valerian.webp', 'assets/attacks/poses/yllara.webp', 'assets/attacks/poses/curtis-vongravis.webp', 'assets/attacks/poses/mitsuye.webp', 'assets/attacks/poses/maiko.webp', 'assets/attacks/poses/amy-lyn.webp',
 ];
 
 // these scripts assign to window.MB / window.MIKU_MANIFEST

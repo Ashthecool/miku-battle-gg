@@ -18,7 +18,7 @@ const sandbox = {
 };
 sandbox.window = sandbox; sandbox.self = sandbox;
 vm.createContext(sandbox);
-for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js', 'js/credits.js']) {
+for (const f of ['js/config.js', 'assets/manifest.js', 'js/avatars.js', 'js/data.js', 'js/anon.js', 'js/content.js', 'js/story.js', 'js/collection.js', 'js/missions.js', 'js/arena.js', 'js/effects.js', 'js/engine.js', 'js/ai.js', 'js/fx.js', 'js/cards.js', 'js/credits.js']) {
   if (f === 'js/content.js') sandbox.MB.NSFW = !SFW;
   vm.runInContext(fs.readFileSync(path.join(GAME, f), 'utf8'), sandbox, { filename: f });
 }

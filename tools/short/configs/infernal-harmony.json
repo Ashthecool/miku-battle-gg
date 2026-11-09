@@ -1,0 +1,94 @@
+{
+  "novel": "Infernal Harmony",
+  "title": [
+    "INFERNAL",
+    "HARMONY"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by AshTheCool on miku.gg",
+  "accent": "#ff4a1c",
+  "accent2": "#ffe9a0",
+  "music": {
+    "id": "party-music-1",
+    "bpm": 100,
+    "offset": 0.25
+  },
+  "bgs": [
+    "Outside the prom",
+    "Cafeteria (Party)",
+    "Lobby",
+    "Art club",
+    "Outside gym (afternoon)",
+    "Wrecked Cafeteria"
+  ],
+  "cast": [
+    {
+      "id": "lilith",
+      "tag": "THE DEMON",
+      "mood": "attack"
+    },
+    {
+      "id": "celeste",
+      "tag": "THE ANGEL",
+      "mood": "win"
+    },
+    {
+      "id": "mr-dino",
+      "tag": "THE TEACHER",
+      "mood": "idle"
+    },
+    {
+      "id": "jay-lester",
+      "tag": "THE ARTIST",
+      "mood": "idle"
+    },
+    {
+      "id": "janice-garmund",
+      "tag": "THE SWEET ONE",
+      "mood": "idle"
+    },
+    {
+      "id": "charlie-and-jenny",
+      "tag": "THE PARTY ANIMALS",
+      "mood": "taunt"
+    },
+    {
+      "id": "clara-click",
+      "tag": "THE TSUNDERE",
+      "mood": "idle"
+    }
+  ],
+  "battle": {
+    "bg": "Cafeteria (Party)",
+    "leader": "lilith",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "lilith",
+        "mr-dino"
+      ],
+      [
+        "celeste",
+        "jay-lester"
+      ],
+      [
+        "janice-garmund",
+        "clara-click"
+      ],
+      [
+        "charlie-and-jenny"
+      ]
+    ],
+    "plays": false
+  }
+}

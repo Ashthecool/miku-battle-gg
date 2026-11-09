@@ -338,14 +338,15 @@
     }
 
     // ---------- sequenced animations ----------
-    async attackFx(att, tgt, impact) {
+    // spill: { units, hit(u), kind } when a Splash or Attack All blow also reaches other monsters (engine.attack)
+    async attackFx(att, tgt, impact, spill) {
       const av = this.ents.get(att.uid), tv = this.ents.get(tgt.uid);
       av.el.classList.add('acting');
       const openingEmotion = (att.card.attack.emotions || []).find((cue) => cue.at === 0);
       this.emote(att, openingEmotion ? openingEmotion.emotion : 'attack', 0);
       const zoom = att.card.attack.zoom ?? (att.atk >= 5 ? 0.12 : 0.06); // attack.zoom: how far the camera pushes in
       const restore = this.focus({ x: (this.pos(att).x + this.pos(tgt).x) / 2, y: (this.pos(att).y + this.pos(tgt).y) / 2 }, zoom);
-      await MB.FX.attack(this, att, tgt, impact);
+      await MB.FX.attack(this, att, tgt, impact, spill);
       restore();
       av.el.classList.remove('acting');
       if (this.ents.has(att.uid)) this.emote(att, 'idle', 0);

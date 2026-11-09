@@ -847,6 +847,7 @@
 
     function kenBurns(e) { gsap.fromTo(e, { scale: 1.02 }, { scale: 1.1, duration: 24, ease: 'none' }); }
     async function direct(d) {
+      if (d.run) d.run(); // a scene's own step (js/anon.js unmasks Anon)
       if (d.fade) {
         await gsap.to('#sc-fade', { opacity: 1, backgroundColor: d.fade === 'white' ? '#fff' : '#000', duration: 0.6 });
         if (d.bg) { sc = { ...sc, bg: d.bg }; bgEl = bg(); kenBurns(bgEl); SLOTS.forEach((k) => { if (slots[k]) { slots[k] = null; img[k].classList.add('gone'); } }); }
