@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://miku-battle.org/sitemap.xml

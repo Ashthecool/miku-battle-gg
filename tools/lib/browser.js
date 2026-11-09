@@ -45,7 +45,7 @@ function serve(dir = GAME) {
 async function openGame({ url, live = false, gallery = false, nsfw = true, fast = true, viewport = { width: 1600, height: 900 }, routeLocal = true } = {}) {
   const { chromium } = playwright();
   const server = url || live ? null : await serve();
-  const target = live ? 'https://ashthecool.github.io/miku-battle-gg/' : (url || server.url + '?dev');
+  const target = live ? 'https://miku-battle.org/' : (url || server.url + '?dev');
   let browser;
   try { browser = await chromium.launch({ channel: 'msedge', headless: true }); } catch (_) { browser = await chromium.launch({ headless: true }); }
   const page = await browser.newPage({ viewport, serviceWorkers: 'block' });

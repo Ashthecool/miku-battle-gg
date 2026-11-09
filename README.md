@@ -2,7 +2,7 @@
 
 A browser card battler starring the casts of miku.gg novels: *Adoptive Life RPG*, *Infernal Harmony*, *Between the Peaks*, *The Lifeguard has Teeth*, *The yuri assist*, *Atarashī gakkō; Secret Garden!*, *Bloodline*, *Fake It to Make It!*, *New Haven*, *DUMB SUPER FANTASY RPG*, *Legend of You*, *Doki Doki Literature Club*, *Flaming, Lust, and Pain.*, *Paradiso Suburbia*, *Siren's Cove Resort*, *Grove Keeper* and *Phantastic Experiments*, and the one-girl novels *Anna*, *Everythin' with Amy Lyn*, *Hina*, *Nala*, *Saya*, *Sweet Garlic*, *Can Anyone Love Maia?*, *Cordelia*, *Hanako Ikezawa*, *Lilly Satou*, *Meditate with Yllara*, *Seraphina*, *Stranded terrestrial*, *Valerian*, *Your Loving Maid*, *Exodus: Bound for Beyond*, *In Her Care*, *Pastures Unknown: Repasteurized*, *Katya*, *Cranky Roommate* and *Nupta Daemoni*, plus *Noble One*, *Integrated Domestic Android*, *Reincarnation Colosseum* and *WTF STEP BRO* in NSFW mode.
 
-**Play:** https://ashthecool.github.io/miku-battle-gg/
+**Play:** https://miku-battle.org
 
 It installs as an app (Chrome/Edge: the install icon in the address bar; phones: "Add to Home Screen") and works offline after the first load, except music, which streams from the miku.gg CDN, and costumes, which are kept for offline use once they've been shown.
 
@@ -16,7 +16,7 @@ npx serve game
 
 ## Card Maker
 
-`game/maker.html` (https://ashthecool.github.io/miku-battle-gg/maker.html) makes cards from any miku.gg novel export: drop in
+`game/maker.html` (https://miku-battle.org/maker.html) makes cards from any miku.gg novel export: drop in
 the `.json`, and it lists the novel's characters with a first draft of each card. Tune stats and keywords, build the attack visually (a searchable
 gallery of every style, or move → hit → impact from parts, with emoji, color, sound and sky pickers; it replays as you edit),
 entrance and quote, build relationships with their close-up scene and duo attack, and play them all live on the game's own
