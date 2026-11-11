@@ -161,6 +161,7 @@
       n.innerHTML = `<div class="qn-ring">${state === 'locked' ? '<div class="qn-face lock">?</div>' : faceHtml(q)}</div>`
         + (q.main ? `<b class="qn-num">${main.indexOf(q) + 1}</b>` : !done ? '<b class="qn-new">!</b>' : '')
         + (bossOf(q) && state !== 'locked' ? '<b class="qn-crown">👑</b>' : '')
+        + (q.rule && state !== 'locked' && !s.ruleWins.includes(q.id) ? '<b class="qn-rule" title="Deck rule">📜</b>' : '')
         + (stageOf(q) && done ? `<div class="qn-stars">${starRow(s.stars[q.stage] | 0)}</div>` : '')
         + (state !== 'locked' ? `<div class="qn-label">${q.arc && q.main ? `<small>${q.arc}</small>` : ''}${q.title}</div>` : '');
       n.addEventListener('click', (e) => { if (dragged) return; e.stopPropagation(); click(); select(q, true); });
@@ -597,6 +598,13 @@
       if (ch) body += `<div class="mp-who"><b>${ch.name}</b> · ${MB.Missions.novelName(ch.novel)}<br><small>📍 ${st.bg.trim()}</small></div>`;
       body += `<p class="mp-text">${q.text}</p>`;
       if (boss) body += `<div class="mp-boss" style="--c:${boss.color}">${boss.emoji} <b>${boss.name}:</b> ${boss.text}${boss.rage ? `<br>💢 <b>${boss.rage.name}:</b> ${boss.rage.text}` : ''}</div>`;
+      // a deck rule: what it asks, why, whether your active deck keeps it, and its one-time Glitter
+      if (q.rule) {
+        const u = U(), issues = S.ruleIssues(q, u.save.deck), kept = s.ruleWins.includes(q.id);
+        body += `<div class="mp-rule ${issues.length ? 'bad' : 'ok'}"${S.ruleWorlds(q) ? ` title="This act's worlds: ${S.ruleWorlds(q)}"` : ''}>📜 <b>Deck rule:</b> ${S.ruleText(q)}${q.rule.why ? `<br><small>${q.rule.why}</small>` : ''}`
+          + `<br><span>${issues.length ? `✖ ${u.save.decks[u.save.activeDeck].name}: ${issues.join(', ')}` : `✔ ${u.save.decks[u.save.activeDeck].name} keeps it`}</span>`
+          + `${kept ? ' · <span class="kept">✔ kept</span>' : ` · <span class="glit">+${S.RULE_GLITTER} ✨ first win</span>`}</div>`;
+      }
       if (st) {
         const have = s.stars[q.stage] | 0;
         body += `<div class="mp-stars">${MB.Stars.starsOf(q.stage).map((x, k) => `<span class="${have & (1 << k) ? 'on' : ''}">${have & (1 << k) ? '★' : '☆'} ${x.text}</span>`).join('')}</div>`;
@@ -648,7 +656,7 @@
       const fight = () => U().storyIntro(q.stage, lid);
       if (first && q.before) scene(S.sceneOf(q, 'before'), fight, titleOf(q));
       else fight();
-    }, q.foe, () => open({ focus: q.id }));
+    }, q.foe, () => open({ focus: q.id }), q);
   }
   function replay(q) {
     const parts = ['before', 'after'].map((k) => S.sceneOf(q, k)).filter(Boolean);

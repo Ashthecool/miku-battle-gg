@@ -99,6 +99,8 @@
     // Story secrets found, and the acts whose opening fly-over was shown
     s.secrets = [...new Set(s.secrets)].filter((id) => MB.Story.secrets.some((x) => x.id === id));
     s.actIntros = [...new Set(s.actIntros)].filter((a) => MB.ACTS[a]);
+    // side quests won with their deck rule kept (each pays once)
+    s.ruleWins = [...new Set(Array.isArray(s.ruleWins) ? s.ruleWins : [])].filter((id) => MB.Story.byId(id));
     // card levels: card id -> Lv 2..max, for characters you own (Lv 1 isn't written down)
     const levels = obj(s.levels) ? s.levels : {};
     s.levels = {};
@@ -166,7 +168,7 @@
   }
   function validSave(s) {
     return obj(s) && !(s.version > SAVE_VERSION)
-      && ['deck', 'starterDeck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny'].every((k) => s[k] === undefined || Array.isArray(s[k]))
+      && ['deck', 'starterDeck', 'decks', 'leaders', 'unlocked', 'progress', 'quests', 'storyActs', 'secrets', 'actIntros', 'avatars', 'shiny', 'ruleWins'].every((k) => s[k] === undefined || Array.isArray(s[k]))
       && ['costumes', 'stats', 'packs', 'shards', 'levels', 'stars'].every((k) => s[k] === undefined || obj(s[k]))
       && (s.missions == null || obj(s.missions)) && (s.arena == null || obj(s.arena)) && (s.shop == null || obj(s.shop))
       && (s.pvp == null || obj(s.pvp));
@@ -479,6 +481,7 @@
   let lessonResume = null;
   function title() {
     if (lessonResume) { const go = lessonResume; lessonResume = null; return go(); }
+    deckRule = null;
     hideBattle();
     show('screen-title');
     MB.audio.music(MB.MUSIC.title);
@@ -553,11 +556,23 @@
   }
 
   // ---------------------------------------------------------------- leader select
-  // onBack: where ← Back goes (the main menu, unless given)
-  function leaderSelect(onPick, foeId, onBack = title) {
+  // onBack: where ← Back goes (the main menu, unless given); quest: a Story quest whose deck rule must be kept
+  // (js/story.js): the rule shows above the leaders, and the deck builder opened from it comes back here
+  let deckRule = null; // { q, back } while picking for a rule quest
+  const ruleIssues = () => (deckRule ? MB.Story.ruleIssues(deckRule.q, save.deck) : []);
+  function leaderSelect(onPick, foeId, onBack = title, quest = null) {
+    deckRule = quest && quest.rule ? { q: quest, back: () => leaderSelect(onPick, foeId, onBack, quest) } : null;
     show('screen-leader');
     battleOpts();
-    $('#screen-leader [data-back]').onclick = () => { MB.audio.sfx('click'); onBack(); };
+    $('#screen-leader [data-back]').onclick = () => { MB.audio.sfx('click'); deckRule = null; onBack(); };
+    // a deck that breaks the rule can't start the fight: the rule box shakes instead
+    const pick = onPick;
+    onPick = (id) => {
+      if (!ruleIssues().length) { deckRule = null; return pick(id); }
+      MB.audio.sfx('bonk');
+      const box = $('#battle-opts .rule-box');
+      if (box) gsap.fromTo(box, { x: -10 }, { x: 0, duration: 0.5, ease: 'elastic.out(1,0.25)' });
+    };
     const grid = $('#leader-grid');
     grid.innerHTML = '';
     let novel = null;
@@ -586,9 +601,11 @@
     const sel = el('select');
     save.decks.forEach((d, i) => {
       const cards = i === save.activeDeck ? save.deck : d.cards;
-      sel.appendChild(new Option(`${d.name} (${cards.length}/${DECK_SIZE})`, i, false, i === save.activeDeck));
+      // under a deck rule, the decks that keep it are ticked
+      const keeps = deckRule && cards.length === DECK_SIZE && !MB.Story.ruleIssues(deckRule.q, cards).length;
+      sel.appendChild(new Option(`${keeps ? '✔ ' : ''}${d.name} (${cards.length}/${DECK_SIZE})`, i, false, i === save.activeDeck));
     });
-    sel.onchange = () => { MB.audio.sfx('click'); switchDeck(+sel.value); };
+    sel.onchange = () => { MB.audio.sfx('click'); switchDeck(+sel.value); battleOpts(); };
     const seg = el('div', 'seg');
     Object.entries(DIFFICULTY).forEach(([k, d]) => {
       const b = el('button', k === save.difficulty ? 'on' : '', d.name);
@@ -597,6 +614,21 @@
     });
     const lab = (text, ctl) => { const l = el('label', null, `<span>${text}</span>`); l.appendChild(ctl); return l; };
     box.append(lab('Deck', sel), lab('Difficulty', seg));
+    if (deckRule) box.appendChild(ruleBox(deckRule.q, true));
+  }
+  // a quest's deck rule and whether the active deck keeps it; `edit` adds a button to the deck builder
+  function ruleBox(q, edit) {
+    const issues = MB.Story.ruleIssues(q, save.deck), ok = !issues.length;
+    const won = save.ruleWins.includes(q.id);
+    const b = el('div', 'rule-box' + (ok ? ' ok' : ' bad'), `<div class="rb-head">📜 <b>Deck rule</b>${won ? '<span class="rb-won">✔ kept</span>' : `<span class="rb-pay">+${MB.Story.RULE_GLITTER} ✨ first win</span>`}</div>
+      <div class="rb-text"${MB.Story.ruleWorlds(q) ? ` title="This act's worlds: ${MB.Story.ruleWorlds(q)}"` : ''}>${MB.Story.ruleText(q)}</div>${q.rule.why ? `<div class="rb-why">${q.rule.why}</div>` : ''}
+      <div class="rb-state">${ok ? `✔ ${save.decks[save.activeDeck].name} keeps it` : `✖ ${save.decks[save.activeDeck].name}: ${issues.join(', ')}`}</div>`);
+    if (edit) {
+      const go = el('button', 'btn small', '🃏 Edit deck');
+      go.onclick = () => { MB.audio.sfx('click'); filt.rule = true; deck(); };
+      b.appendChild(go);
+    }
+    return b;
   }
 
   // ---------------------------------------------------------------- story
@@ -636,6 +668,8 @@
       + (save.difficulty === 'easy' ? '<em>Stars need Normal or Hard</em>' : ''));
     const foeLv = storyFoeLv(st.cardLv, save.deck, DIFFICULTY[save.difficulty]);
     if (foeLv > 1) stars.appendChild(el('em', 'intro-lv', `🃏 ${ch.name.split(' ')[0]}'s cards are Lv ${foeLv}`));
+    const rq = MB.Story.byStage(i);
+    if (rq && rq.rule) stars.appendChild(el('em', 'intro-rule', `📜 Deck rule: ${MB.Story.ruleText(rq)}`));
     $('#intro-text').after(stars);
     gsap.fromTo(stars, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.4 + text.length * 0.03 });
     if (boss) {
@@ -737,6 +771,9 @@
   async function startBattle(cfg) {
     // cfg.deck: the Arena's drafted deck instead of yours; the Arena sets its own foe HP and skill, so no difficulty
     if (!cfg.deck && save.deck.length !== DECK_SIZE) { alert(`${save.decks[save.activeDeck].name} needs exactly ${DECK_SIZE} cards.`); deck(); return; }
+    // a Story quest's deck rule (the leader select already holds the fight back; this is the last word)
+    const ruleQ = cfg.story != null ? MB.Story.byStage(cfg.story) : null, broken = MB.Story.ruleIssues(ruleQ, save.deck);
+    if (broken.length) { alert(`Deck rule: ${MB.Story.ruleText(ruleQ)}\n${save.decks[save.activeDeck].name}: ${broken.join(', ')}.`); return; }
     if (starting) return;
     // the practice lesson is the same easy fight whatever difficulty is set
     const diff = cfg.arena || cfg.pvp || cfg.lesson ? DIFFICULTY.normal : DIFFICULTY[save.difficulty];
@@ -814,6 +851,8 @@
     const finished = MB.Missions.progress(save, b ? b.tally : {}, cfg, win);
     // Story stars (and the chapter's Epic pack once every stage has all three)
     const stars = cfg.story != null && b ? MB.Stars.awardStars(save, cfg.story, { won: win, hp: b.me(0).leader.hp, tally: b.tally, difficulty: cfg.difficulty }) : null;
+    // a side quest's deck rule kept (the fight can't start without it): pays once
+    const ruled = win && quest ? MB.Story.ruleWin(save, quest) : 0;
     persist();
     MB.audio.music(win ? MB.MUSIC.win : MB.MUSIC.lose);
 
@@ -828,6 +867,7 @@
     else pics.forEach((id) => rewards.push({ kind: 'avatar', id, name: avatarById.get(id).name }));
     const newStars = stars ? MB.Stars.bits(stars.fresh) : 0, shine = glitter + (stars ? stars.glitter : 0);
     if (shine) rewards.push({ kind: 'glitter', n: shine, note: newStars ? `Win + ${newStars} star${newStars > 1 ? 's' : ''}` : 'Glitter' });
+    if (ruled) rewards.push({ kind: 'glitter', n: ruled, note: 'Deck rule kept' });
     const notes = [];
     const sides = done ? done.opened.filter((id) => MB.Story.byId(id).side).length : 0;
     if (sides) notes.push(`📜 ${sides} new side quest${sides > 1 ? 's' : ''} on the map!`);
@@ -874,6 +914,9 @@
   function deck() {
     hideBattle();
     show('screen-deck');
+    // opened for a Story quest's deck rule: Done goes back to that fight's leader select, and the rule shows by the deck
+    if (!deckRule) filt.rule = false;
+    $('#screen-deck [data-back]').onclick = () => { MB.audio.sfx('click'); if (deckRule) deckRule.back(); else title(); };
     MB.audio.music(MB.MUSIC.deck);
     collTools();
     renderDeck();
@@ -911,6 +954,7 @@
     if (filt.type.size && !filt.type.has(d.type)) return false;
     if (filt.rarity.size && !filt.rarity.has(d.rarity)) return false;
     if (filt.cost.size && !filt.cost.has(Math.min(7, d.cost))) return false;
+    if (filt.rule && deckRule && !MB.Story.ruleAllows(deckRule.q, id)) return false;
     return !filt.novel || MB.novelOf(id) === filt.novel;
   }
   const activeFilters = () => (filt.text ? 1 : 0) + filt.type.size + filt.rarity.size + filt.cost.size + (filt.novel ? 1 : 0) + (filt.show !== 'all' ? 1 : 0);
@@ -991,6 +1035,13 @@
       ['type', 'rarity', 'cost'].forEach((k) => filt[k].clear());
       collTools(); renderCollection();
     };
+    // under a Story quest's deck rule: only the cards it allows (on when the builder is opened from the rule)
+    if (deckRule) {
+      const r = el('button', 'ct-rule' + (filt.rule ? ' on' : ''), '📜 Rule');
+      r.title = `Only cards the deck rule allows: ${MB.Story.ruleText(deckRule.q)}`;
+      r.onclick = () => { MB.audio.sfx('click'); filt.rule = !filt.rule; r.classList.toggle('on', filt.rule); filt.page = 0; renderCollection(); };
+      low.appendChild(r);
+    }
     low.append(
       chips('type', [['unit', '👤', 'Characters'], ['spell', '🎒', 'Items']], 'Card type'),
       chips('rarity', COLL_RARITIES.map((r) => [r, '<i class="gem"></i>', MB.RARITY[r].name, MB.RARITY[r].color]), 'Rarity'),
@@ -1142,6 +1193,10 @@
     list.innerHTML = '';
     renderDeckTabs();
     $('#deck-name').textContent = save.decks[save.activeDeck].name;
+    const rule = $('#deck-rule');
+    rule.innerHTML = '';
+    rule.classList.toggle('hidden', !deckRule);
+    if (deckRule) rule.appendChild(ruleBox(deckRule.q, false));
     const counts = {};
     save.deck.forEach((id) => (counts[id] = (counts[id] || 0) + 1));
     Object.keys(counts).sort((a, b) => MB.CARDS[a].cost - MB.CARDS[b].cost).forEach((id) => {

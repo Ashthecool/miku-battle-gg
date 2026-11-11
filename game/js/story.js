@@ -17,7 +17,7 @@
 // its scene comes the practice battle that teaches you to play (js/tutorial.js), then its `after` scene. `art` stages the
 // quest panel's picture instead of acting out the scene's opening: { cast: [[id, mood, x], ...], rift: [x, y, size?, tilt?],
 // shadows: [[id, at], ...] } (x, y in % of the picture; at: -1 to 1 along the tear): the cast posed in those moods, a tear
-// in the sky, and the shadows of figures lingering in it.
+// in the sky, and the shadows of figures lingering in it. `rule` (side quests): a deck rule the fight needs, see "deck rules".
 //
 // Act fields: title, map (+ w, h: its size in px, size: how wide it is drawn), color, music, bg (for scenes), intro
 // (shown when the act opens), places: [{ id, title, map, w, h, size, at, icon, text }] (locations you enter from the
@@ -285,14 +285,14 @@ window.MB = window.MB || {};
         { foe: 'kayla-kate', side: true, from: 'maiko-ghan', at: [80, 86], title: 'Goth in the Woods', text: "Hayley's big sister Kayla is sulking in the woods at sunset. She agrees to one game. Whatever." },
         { foe: 'ben-brier', side: true, from: 'james-lone', at: [34, 44], title: 'Alley Toll', text: "Ben Brier has bullied James for years. Now he's blocking the shortcut behind the shops, and you walked in with James." },
         { foe: 'protagonist', side: true, from: 'sayori', at: [23, 69], title: "Sayori's Best Friend", text: "Sayori's childhood friend is standing at a crosswalk. They had a falling out, and now they're not even in the same town." },
-        { foe: 'natsuki', side: true, from: 'sayori', at: [44, 69], title: 'Manga Closet', text: "Natsuki guards the club's manga closet. Touch her Parfait Girls and you're dead. Win, and maybe you get a cupcake." },
+        { foe: 'natsuki', side: true, rule: { maxCost: 3, why: "The manga closet is tiny. Nothing big fits through the door." }, from: 'sayori', at: [44, 69], title: 'Manga Closet', text: "Natsuki guards the club's manga closet. Touch her Parfait Girls and you're dead. Win, and maybe you get a cupcake." },
         { foe: 'yuri', side: true, from: 'monika', at: [8, 64], title: 'A Gentle Soul', text: "Yuri is reading under a streetlight in a town she doesn't know, with a flask of green tea. She'd like some company." },
         { foe: 'janice-garmund', side: true, from: 'jay-lester', place: 'ih-school', at: [30, 33], title: 'Stage Fright', text: 'Janice has to announce the prom awards and has terrible stage fright. A card game calms her down. She read the rules twice.' },
-        { foe: 'clara-click', side: true, from: 'jay-lester', place: 'ih-school', at: [16, 68], title: 'Lemonade Standoff', text: "Clara Click from 2B is running a lemonade stand. It's not like she WANTS to play with you." },
+        { foe: 'clara-click', side: true, rule: { rarity: ['common', 'rare'], why: "A lemonade-stand budget. Nothing fancy. N-not that she's judging." }, from: 'jay-lester', place: 'ih-school', at: [16, 68], title: 'Lemonade Standoff', text: "Clara Click from 2B is running a lemonade stand. It's not like she WANTS to play with you." },
         { foe: 'mr-dino', side: true, from: 'jay-lester', place: 'ih-school', at: [76, 68], title: 'Huh.', text: '"Huh. You\'re new. Help me hang these prom posters, then we play. Future president, by the way."' },
         { foe: 'charlie-and-jenny', side: true, from: 'lilith', place: 'ih-school', at: [52, 82], title: 'After-Party', text: "Charlie and Jenny are picking on Janice again. Bet you can't beat BOTH of them." },
         { foe: 'celeste', side: true, from: 'lilith', place: 'ih-school', at: [56, 30], title: 'Guardian Angel', text: "Celeste insists on protecting you. From Lilith. From everything. She'd also like a date. With a card game." },
-        { foe: 'ethan', side: true, from: 'chris', at: [5, 8], title: 'Gated Community', text: "Skritz, Skylar's nephew, says the cul-de-sac is his turf. His dad's a dentist." },
+        { foe: 'ethan', side: true, rule: { only: ['Paradiso Suburbia', 'Adoptive Life RPG'], why: 'Residents only. The cul-de-sac checks every card at the gate.' }, from: 'chris', at: [5, 8], title: 'Gated Community', text: "Skritz, Skylar's nephew, says the cul-de-sac is his turf. His dad's a dentist." },
         { foe: 'evelyn', side: true, from: 'chris', at: [24, 7], title: 'Scary Story', text: "Evelyn, Olivia's little sister, wrote a horror story. It's a card game. She's very proud of it." },
         { foe: 'reina', side: true, from: 'chris', at: [13, 44], title: 'Live from the Mall', text: 'Reina is streaming the new town to her followers. Any attention is good attention, and you are the content now.' },
         { foe: 'peter-reeves', side: true, from: 'chris', at: [33, 20], title: 'Napoleon Would Have Won', text: 'Mr. Reeves has unrolled a battle map. Pop quiz, soldier! His "Napoleonic genius" awaits.' },
@@ -528,7 +528,7 @@ window.MB = window.MB || {};
         { foe: 'carys-crowner', side: true, from: 'seren-lockster', at: [84, 22], title: 'Pom-Pom Duel', text: "Carys, the squad's social star, wants to be friends! Wait, you're playing AGAINST each other? ...Yay!" },
         { foe: 'jack-lockster', side: true, from: 'seren-lockster', at: [93, 18], title: 'Game Day', text: "Jack, Seren's twin and the football captain, doesn't talk much. He cracks his knuckles instead." },
         { foe: 'megan-dilourice', side: true, from: 'carys-crowner', at: [89, 65], title: 'Squad Vote', text: 'Megan, the squad leader, runs everything democratically. The vote says you play for your place on the field.' },
-        { foe: 'owain-owegrain', side: true, from: 'megan-dilourice', at: [95, 72], title: 'Rules Are Rules', text: "Owain manages the squad and suspects Ellis isn't what she seems. Keep her secret: beat him first." },
+        { foe: 'owain-owegrain', side: true, rule: { singleton: true, why: 'Squad regulations: one of each player. Rules are rules.' }, from: 'megan-dilourice', at: [95, 72], title: 'Rules Are Rules', text: "Owain manages the squad and suspects Ellis isn't what she seems. Keep her secret: beat him first." },
         { foe: 'eva-vinn', side: true, from: 'andrea-lyle', at: [68, 33], title: 'Study Buddy', text: "Eva, Andrea's geeky friend, is bouncing off the walls of the study room." },
         { foe: 'ashley-lennette', side: true, from: 'andrea-lyle', at: [78, 73], title: 'Loser Buys Poutine', text: 'Ashley spins a basketball on one finger. Cards, eh? Loser buys the poutine.' },
         { foe: 'brizz-bigeyed', side: true, from: 'rowdy-brachy', place: 'workshop', at: [78, 80], title: 'CPR Drills', text: 'Brizz the beach medic heard you nearly drowned. Game first. Loser does the CPR drills.' },
@@ -537,7 +537,7 @@ window.MB = window.MB || {};
         { foe: 'rinco-typus', side: true, from: 'rirarra-charca', place: 'cove', at: [58, 80], title: 'Gentle Giant', text: 'Rinco, the lifeguards\' nine-foot leader, is feeding the birds by the shore. She would like to play... gently.' },
         { foe: 'joseph', side: true, from: 'aria', at: [48, 34], title: 'Lunch Rush', text: 'Joseph, the kangaroo who serves in the Institute cafeteria, has a crush on Diana and sees you as competition. One game before lunch goes cold.' },
         { foe: 'natalie', side: true, from: 'aria', at: [22, 38], title: 'Oh Deer', text: "Natalie is an elk. NOT a deer. She's also Aria's daughter, and her Christmas puns are sleigh-ing." },
-        { foe: 'daphne-bullen', side: true, from: 'diana', at: [10, 48], title: 'Earth 4', text: "A rift in Lab A-3 opens on Lab A-1, Earth 4: an underground institute where Daphne Bullen, a human Diana, builds synthetic anthros to dig. She calls them tools." },
+        { foe: 'daphne-bullen', side: true, rule: { ban: ['New Haven'], why: "Earth 4's institute only lets in what it doesn't recognise: nobody from New Haven." }, from: 'diana', at: [10, 48], title: 'Earth 4', text: "A rift in Lab A-3 opens on Lab A-1, Earth 4: an underground institute where Daphne Bullen, a human Diana, builds synthetic anthros to dig. She calls them tools." },
         { foe: 'quinta', side: true, from: 'diana', at: [20, 28], title: 'Stream Challenger', text: "Quinta, Diana's best friend since preschool, streams her lab work. Chat wants a card battle." },
         // the one-girl novels
         { foe: 'amy-lyn', side: true, from: 'jane', at: [22, 63], title: "Everythin' with Amy Lyn", text: 'A blonde girl with a ":3" smile waits outside the arcade in a school uniform. She says she can be anything. Mid-game.' },
@@ -550,10 +550,10 @@ window.MB = window.MB || {};
         // Cyber Delivery, in the Neon District
         { foe: 'dani', side: true, from: 'diana', place: 'neon', at: [22, 78], title: 'Delivery for You', text: "A pizza van skids to a stop in the rain. Dani, the delivery girl, is sure someone here ordered. It wasn't you. She'll play you for it anyway." },
         { foe: 'jet', side: true, from: 'dani', place: 'neon', at: [8, 60], title: "Can't Stand Still", text: "Jet, Dani's old coworker, can't stop moving. Cards are the only thing that holds him in one place. Almost." },
-        { foe: 'pedro', side: true, from: 'dani', place: 'neon', at: [42, 84], title: "Pedro's Diner", text: 'An ex-combat android runs the diner now. The food is great. The chef has seen things. Lose, and you wash the dishes.' },
+        { foe: 'pedro', side: true, rule: { maxCost: 4, why: 'The booths are tiny and Pedro hates a mess. Small orders only.' }, from: 'dani', place: 'neon', at: [42, 84], title: "Pedro's Diner", text: 'An ex-combat android runs the diner now. The food is great. The chef has seen things. Lose, and you wash the dishes.' },
         { foe: 'takeda', side: true, from: 'dani', place: 'neon', at: [30, 42], title: 'The Ronin', text: 'An android samurai guards the back alleys from the megacorps. He speaks in broken proverbs and refuses to use guns.' },
         { foe: 'crash', side: true, from: 'jet', place: 'neon', at: [62, 70], title: 'A Biker Named Crash', text: "The gang boss wants his full name used. His sister Hope wants this over with. They both want your turf." },
-        { foe: 'kat-13', side: true, from: 'takeda', place: 'neon', at: [72, 30], title: 'Enforcer', text: 'Valkyrie Corp sent KAT-13 to keep the peace. She keeps it very, very violently. She is smiling. Somehow.' },
+        { foe: 'kat-13', side: true, rule: { rarity: ['common', 'rare', 'epic'], why: 'Valkyrie Corp confiscates Legendaries at the checkpoint.' }, from: 'takeda', place: 'neon', at: [72, 30], title: 'Enforcer', text: 'Valkyrie Corp sent KAT-13 to keep the peace. She keeps it very, very violently. She is smiling. Somehow.' },
         { foe: 'lamina', side: true, from: 'crash', place: 'neon', at: [88, 86], title: 'The Chitin Creed', text: "Under the streets, the moth mother leads the experiments Jeong-ui threw away. She knows who made her. She'd like you to know too." },
         { foe: 'seo-jin-tae', side: true, from: 'lamina', place: 'neon', at: [84, 18], title: 'Machines of Flesh', text: "Jeong-ui BioWorks' CEO watches the city from his tower. To him, you're raw material with opinions." },
         { foe: 'nanami-hana', side: true, from: 'jane', at: [63, 74], title: 'The Furious Two', text: 'A boxing gym opened behind the shops. Its star, Nanami Hana, fights bullies for a living. Her friend Anon told her about you.' },
@@ -903,12 +903,12 @@ window.MB = window.MB || {};
         { foe: 'mai-yamanobe', side: true, from: 'petals', at: [36, 72], title: 'The River Hut', text: 'Mai lives alone by the river, fishing and farming. She fished you out. The least you can do is lose a game to her.' },
         { foe: 'aoi-kananori', side: true, from: 'shino-okita', at: [22, 93], title: 'The Heir in the Stories', text: 'Aoi, Sakura\'s cousin, has read every story about lost heirs, and is simply delighted that you are one.' },
         { foe: 'ayaka-yamanami', side: true, from: 'shino-okita', at: [50, 92], title: "Big Sister's Lesson", text: 'Ayaka, your appointed caretaker, will teach you palace etiquette. And tease you. Mostly tease you.' },
-        { foe: 'bandit', side: true, from: 'shino-okita', at: [96, 88], title: 'Ransom', text: 'A pipe glows in the night forest. A bandit has heard there is a lost heir worth a fortune in ransom.' },
+        { foe: 'bandit', side: true, rule: { rarity: ['common'], why: 'The bandit took your valuables. Commons are all you have left.' }, from: 'shino-okita', at: [96, 88], title: 'Ransom', text: 'A pipe glows in the night forest. A bandit has heard there is a lost heir worth a fortune in ransom.' },
         { foe: 'eri', side: true, from: 'yumi', at: [46, 63], title: 'Not Because I Care', text: 'Eri is sure she has more common sense than the rest of Shirayuki. She will test the boy herself. Baka!' },
         { foe: 'suzu', side: true, from: 'yumi', at: [62, 76], title: 'What Is a Boy?', text: "Suzu has never seen a man in her life and doesn't believe they exist. The stars said she'd meet someone strange today." },
         { foe: 'ai', side: true, from: 'yumi', at: [58, 88], title: 'Biggest Fan', text: "Ai worships Ichinose-sensei, your cousin. You live with her. Ai has... questions." },
         { foe: 'misaki', side: true, from: 'arisa', at: [72, 70], title: 'Cousin Sensei', text: 'Misaki wants half of those two million yen to go further. Beat her and she grades your homework. Lose and you grade hers.' },
-        { foe: 'evil-villainess-chan', side: true, from: 'eri', at: [78, 62], title: 'OHOHOHO!', text: 'The most devious girl at Shirayuki has built a coliseum in the auditorium, desu! Her eyes are never seen.' },
+        { foe: 'evil-villainess-chan', side: true, rule: { rarity: ['rare', 'epic', 'legendary'], why: 'Commoners? In HER coliseum? OHOHOHO! Not a single Common card.' }, from: 'eri', at: [78, 62], title: 'OHOHOHO!', text: 'The most devious girl at Shirayuki has built a coliseum in the auditorium, desu! Her eyes are never seen.' },
         // the one-girl novels
         { foe: 'hina', side: true, from: 'petals', at: [21, 74], title: 'Underground', text: 'Hina Miyabi, underground idol, just finished a set under the cherry tree. She hates fans. You are not a fan. Yet.' },
         { foe: 'maiko', side: true, from: 'petals', at: [8, 86], title: 'Sweet Garlic', text: "A very nervous succubus is hiding from a garlic festival. She's supposed to be scary. She'd like to practise on you." },
@@ -920,7 +920,7 @@ window.MB = window.MB || {};
         { foe: 'sugiura', side: true, from: 'keiji', at: [66, 78], title: 'The Two of Spades', text: 'A truck driver hunting the lodge for a lost ring deals cards alone by the fire. Bad luck follows him. It never touches him.' },
         { foe: 'fumiko', side: true, from: 'sugiura', at: [52, 70], title: 'Off Duty', text: 'A Nagano police officer is "on holiday" at the lodge. Someone broke into the storage cabin, and she has questions.' },
         { foe: 'atsuo', side: true, from: 'hakari', at: [88, 57], title: 'Yokai by Lamplight', text: 'The old owner of Spur tells ghost stories to his snowed-in guests. Tonight: the yuki-onna. And a card game.' },
-        { foe: 'itsuki', side: true, from: 'fumiko', at: [96, 50], title: 'Cries behind Snowfall', text: 'Two years ago a ski lift fell at this lodge. One man walked away. He has come back for everyone who kept laughing.' },
+        { foe: 'itsuki', side: true, rule: { only: 'act', why: "The snow has closed the passes. Only this act's worlds can reach the lodge." }, from: 'fumiko', at: [96, 50], title: 'Cries behind Snowfall', text: 'Two years ago a ski lift fell at this lodge. One man walked away. He has come back for everyone who kept laughing.' },
         // Phantastic Experiments: a science club with one clueless member, reviving itself one explosion at a time
         { foe: 'ken', side: true, from: 'yumi', at: [32, 48], title: 'The Reluctant Recruit', text: 'A boy with his hands in his pockets refuses to join the science club. He is very cool about it. He also has a rock in his bag.' },
         { foe: 'natsumi', side: true, from: 'ken', at: [40, 42], title: 'Gyaru Field Study', text: "A gyaru joined the science club to study its president 'in her natural habitat'. She pretends to be bad at maths. She isn't." },
@@ -1223,8 +1223,8 @@ window.MB = window.MB || {};
         { foe: 'ruby', side: true, from: 'miracle', at: [88, 72], title: 'A Golden Compass', text: "Ruby the peddler sells a golden compass that \"does nothing\". It looks exactly like yours. 100,000 gold. Or a game." },
         { foe: 'melise', side: true, from: 'miracle', at: [93, 58], title: 'Lesser Being', text: 'Melise the elf "archer" found a lesser being wandering the ancient ruins. How cute.' },
         { foe: 'ophelia', side: true, from: 'valse', at: [70, 44], title: 'Naughty Lamb', text: 'Madam Priestess Ophelia hears a voice. It says you are a naughty lamb. She would like to discuss it.' },
-        { foe: 'shirayukihime', side: true, from: 'valse', at: [84, 38], title: 'A Duel Most Glorious', text: 'This Fox, S-rank Shirayukihime, is desperate for a worthy foe. Her cursed blade insists on it.' },
-        { foe: 'hed', side: true, from: 'flora-aquila', at: [8, 46], title: 'Five Bucks', text: 'A floating head wants to play for five bucks. u pay first tho. lol.' },
+        { foe: 'shirayukihime', side: true, rule: { noItems: true, why: 'A duel of honour: blades and bonds only, no items.' }, from: 'valse', at: [84, 38], title: 'A Duel Most Glorious', text: 'This Fox, S-rank Shirayukihime, is desperate for a worthy foe. Her cursed blade insists on it.' },
+        { foe: 'hed', side: true, rule: { maxCost: 2, why: "Five bucks doesn't buy much. No card over 2." }, from: 'flora-aquila', at: [8, 46], title: 'Five Bucks', text: 'A floating head wants to play for five bucks. u pay first tho. lol.' },
         { foe: 'pepita-pazzarella', side: true, from: 'flora-aquila', at: [12, 34], title: 'Per Favore!', text: 'Pepita, the princess\'s chef, is sweating, shaking and screaming. She wants you OUT of her kitchen. After one game.' },
         { foe: 'kuku-hanetsu', side: true, from: 'flora-aquila', at: [40, 36], title: "Next Round's on the House", text: 'Kuku the fairy bartender: beat her and the next round is on the house, sugar.' },
         { foe: 'julia-aquacrucis', side: true, from: 'flora-aquila', at: [36, 50], title: 'S-Sorry!', text: "Sister Julia, who wields the icy Essentia GELO, has been told to test you. She's very sorry about it." },
@@ -1390,7 +1390,7 @@ window.MB = window.MB || {};
           after: [
             ['lord-gourdvain', 'happy', 'A bountiful harvest indeed! Should you venture into the mansion library, tread softly—Matron Murterta is deep in her research.'],
           ] },
-        { foe: 'murterta-cadaberica', side: true, from: 'lord-gourdvain', at: [82, 6], title: 'The Doll Matriarch',
+        { foe: 'murterta-cadaberica', side: true, rule: { ban: 'act', why: "The matriarch has studied every doll in this world. Bring her ones she's never seen." }, from: 'lord-gourdvain', at: [82, 6], title: 'The Doll Matriarch',
           text: 'In the hidden library of Cadaberica Mansion, the ancient matriarch studies life and death inside the porcelain doll of her younger self.',
           before: { bg: 'Haunted Library', music: 'dark-orchestral-organ-music-the-razing-of-heaven-original-royalty-free', lines: [
             { where: 'The Haunted Library', when: 'Witching Hour', light: 'candle' },
@@ -1569,7 +1569,66 @@ window.MB = window.MB || {};
     delete s.progress;
   }
 
+  // ---------------------------------------------------------------- deck rules
+  // A side quest can set `rule`: the fight only starts with a deck that keeps it, rematches included, so a cleared map
+  // asks for a new team. { only: [novels] | 'act', ban: [novels] | 'act', maxCost, rarity: [allowed rarities],
+  // singleton (one copy of each card), noItems, why (the flavour line) }. Novels are written as their names start
+  // ('Adoptive Life RPG'); 'act' is every novel with a rival in the quest's act. The leader is free. The first win
+  // under a rule pays RULE_GLITTER once (s.ruleWins), also for quests cleared before they had one.
+  const RULE_GLITTER = 60;
+  // the novels of an act's rivals you can see (NSFW mode off hides some)
+  const actNovels = (a) => [...new Set(QUESTS.filter((q) => q.act === a && q.foe && !hidden(q)).map((q) => MB.novelOf(q.foe)).filter(Boolean))];
+  const novelsOf = (q, list) => (list === 'act' ? actNovels(q.act) : list || []);
+  const inNovels = (id, names) => { const nv = (MB.novelOf(id) || '').toLowerCase(); return names.some((n) => nv.startsWith(n.toLowerCase())); };
+  const shortNovel = (n) => (MB.Missions ? MB.Missions.novelName(n) : n);
+  // whether one card may be in the deck (singleton is about copies, so it's checked on the whole deck)
+  function ruleAllows(q, id) {
+    const r = q.rule, c = MB.CARDS[id];
+    if (!r || !c) return !!c;
+    if (r.only && !inNovels(id, novelsOf(q, r.only))) return false;
+    if (r.ban && inNovels(id, novelsOf(q, r.ban))) return false;
+    if (r.maxCost != null && c.cost > r.maxCost) return false;
+    if (r.rarity && !r.rarity.includes(c.rarity)) return false;
+    if (r.noItems && c.type === 'spell') return false;
+    return true;
+  }
+  // the rule as short parts: ["Only cards from …", "No card costs more than 3"]
+  function ruleParts(q) {
+    const r = q.rule, out = [];
+    if (!r) return out;
+    const list = (x) => (x === 'act' ? `this act's worlds` : x.map(shortNovel).join(', '));
+    if (r.only) out.push(`Only cards from ${list(r.only)}`);
+    if (r.ban) out.push(`No cards from ${list(r.ban)}`);
+    if (r.maxCost != null) out.push(`No card costs more than ${r.maxCost}`);
+    if (r.rarity) out.push(`Only ${r.rarity.map((k) => MB.RARITY[k].name).join(', ').replace(/, ([^,]*)$/, ' and $1')} cards`);
+    if (r.singleton) out.push('One copy of each card');
+    if (r.noItems) out.push('No item cards');
+    return out;
+  }
+  const ruleText = (q) => ruleParts(q).join(' · ');
+  // the novels behind "this act's worlds", for a tooltip ('' when the rule doesn't use it)
+  const ruleWorlds = (q) => (q.rule && (q.rule.only === 'act' || q.rule.ban === 'act') ? actNovels(q.act).map(shortNovel).join(', ') : '');
+  // what's wrong with a deck under the quest's rule: [] when it keeps it
+  function ruleIssues(q, deck) {
+    if (!q || !q.rule) return [];
+    const out = [], bad = deck.filter((id) => !ruleAllows(q, id)).length;
+    if (bad) out.push(`${bad} card${bad > 1 ? 's' : ''} break${bad > 1 ? '' : 's'} the rule`);
+    if (q.rule.singleton) {
+      const extra = deck.length - new Set(deck).size;
+      if (extra) out.push(`${extra} extra cop${extra > 1 ? 'ies' : 'y'}`);
+    }
+    return out;
+  }
+  // a win with the rule kept: pays once; returns the Glitter paid
+  function ruleWin(s, q) {
+    if (!q || !q.rule || s.ruleWins.includes(q.id)) return 0;
+    s.ruleWins.push(q.id);
+    s.glitter += RULE_GLITTER;
+    return RULE_GLITTER;
+  }
+
   MB.Story = { quests: QUESTS, main: MAIN, secrets: SECRETS, byId: (id) => byId.get(id), byStage: (i) => byStage.get(i), place: (id) => PLACES.get(id),
     hidden, isDone, isOpen, next, actOpen, lastOf, arcsOf, mapOf, placesOf, complete, findSecret, clearedStages, sceneOf, secretScene, lineOf,
-    migrate, progressOf, depth, MOODS, LEVEL, SECRET_GLITTER };
+    migrate, progressOf, depth, MOODS, LEVEL, SECRET_GLITTER,
+    ruleAllows, ruleParts, ruleText, ruleWorlds, ruleIssues, ruleWin, actNovels, RULE_GLITTER };
 })();

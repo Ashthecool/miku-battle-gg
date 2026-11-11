@@ -2924,3 +2924,30 @@ body.dev .dev-only { display: flex !important; }
 .dfx.sk-neonbolt { filter: drop-shadow(0 0 14px #ff4ad8) drop-shadow(0 0 24px #ffffff); }
 .dfx.acid-glob { filter: drop-shadow(0 0 12px #7dff2a) drop-shadow(0 0 20px #9b30ff); }
 .dfx.acid-splat { filter: drop-shadow(0 0 16px #7dff2a) drop-shadow(0 4px 10px #0009); }
+
+/* Story deck rules (js/story.js "deck rules"): the quest panel, the map badge, the leader select, the deck builder */
+.mp-rule { padding: 8px 10px; border-radius: 10px; font-size: 14px; border-left: 4px solid #7fd4ff; background: #0e2a3acc; }
+.mp-rule small { opacity: .75; font-style: italic; }
+.mp-rule.ok span:first-of-type { color: #8dffb0; }
+.mp-rule.bad span:first-of-type { color: #ff9aa8; }
+.mp-rule .kept { color: #8dffb0; }
+.qn-rule { position: absolute; right: -6px; top: -48px; font-size: 22px; transform: rotate(-12deg); filter: drop-shadow(0 2px 2px #000); pointer-events: none;
+  animation: qnHop .9s infinite ease-in-out alternate; }
+#battle-opts { flex-wrap: wrap; }
+.rule-box { flex: 1 1 100%; display: flex; flex-direction: column; gap: 3px; padding: 8px 12px; border-radius: 12px; font-size: 14px; font-weight: 600;
+  background: #0e2a3acc; border: 2px solid #7fd4ff66; }
+.rule-box.bad { border-color: #ff6f8a; }
+.rule-box.ok { border-color: #5fe08f; }
+.rule-box .rb-head { display: flex; gap: 10px; align-items: center; }
+.rule-box .rb-pay { margin-left: auto; color: #ffe27a; font-size: 13px; }
+.rule-box .rb-won { margin-left: auto; color: #8dffb0; font-size: 13px; }
+.rule-box .rb-text { font-weight: 800; }
+.rule-box .rb-why { opacity: .7; font-style: italic; font-weight: 500; }
+.rule-box.ok .rb-state { color: #8dffb0; }
+.rule-box.bad .rb-state { color: #ff9aa8; }
+.rule-box .btn.small { align-self: flex-start; margin-top: 4px; font-size: 13px; padding: 5px 12px; border-radius: 10px; box-shadow: 0 3px 0 #120c33; }
+#deck-rule .rule-box { font-size: 13px; }
+.ct-rule { height: 30px; padding: 0 10px; border: 0; border-radius: 9px; background: transparent; color: #fff; opacity: .55; cursor: pointer; font-weight: 800; }
+.ct-rule:hover { opacity: .9; background: #ffffff14; }
+.ct-rule.on { opacity: 1; background: linear-gradient(#4fb8ff, #1f6aa8); box-shadow: 0 0 10px #4fb8ff88; }
+.intro-stars em.intro-rule { opacity: .9; color: #9fdcff; }

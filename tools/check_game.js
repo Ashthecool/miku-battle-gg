@@ -354,6 +354,29 @@ MB.STORY.forEach((st, i) => {
   // secrets pay once
   const x = St.secrets[0];
   if (x && (St.findSecret(s, x.id) !== St.SECRET_GLITTER || St.findSecret(s, x.id) !== 0)) err('secrets: should pay exactly once');
+  // deck rules: only side quests (a main quest must never wait on your collection), known fields and novels, and a
+  // full deck the rule allows can be built from the whole card pool (copies as the deck builder allows them)
+  const RULE_KEYS = ['only', 'ban', 'maxCost', 'rarity', 'singleton', 'noItems', 'why'];
+  const pool = Object.keys(MB.CARDS).filter((id) => !MB.CARDS[id].token && MB.CARDS[id].rarity !== 'bond' && !MB.HIDDEN_CARDS.has(id));
+  const novelNames = M.novels.concat(Object.keys(MB.ITEM_NOVELS));
+  St.quests.filter((q) => q.rule).forEach((q) => {
+    const r = q.rule, at = `rule ${q.id}`;
+    if (!q.side) err(`${at}: deck rules are for side quests only`);
+    if (St.quests.some((o) => o.needs.includes(q.id))) err(`${at}: another quest needs it, so the rule would lock that one too`);
+    Object.keys(r).forEach((k) => { if (!RULE_KEYS.includes(k)) err(`${at}: unknown field "${k}"`); });
+    ['only', 'ban'].forEach((k) => {
+      if (r[k] == null || r[k] === 'act') return;
+      if (!Array.isArray(r[k]) || !r[k].length) return err(`${at}: ${k} should be a list of novels or 'act'`);
+      r[k].forEach((n) => { if (!novelNames.some((nv) => nv.toLowerCase().startsWith(n.toLowerCase()))) err(`${at}: no novel starts with "${n}"`); });
+    });
+    (r.rarity || []).forEach((k) => { if (!MB.RARITY[k]) err(`${at}: unknown rarity "${k}"`); });
+    const fits = pool.filter((id) => St.ruleAllows(q, id))
+      .reduce((n, id) => n + (r.singleton ? 1 : MB.CARDS[id].copies || MB.RARITY[MB.CARDS[id].rarity].copies || 2), 0);
+    if (fits < MB.RULES.deckSize) err(`${at}: only ${fits} cards in the whole game keep "${St.ruleText(q)}" (a deck needs ${MB.RULES.deckSize})`);
+    if (!St.ruleText(q)) err(`${at}: says nothing`);
+  });
+  const rs = { ruleWins: [], glitter: 0 }, rq = St.quests.find((q) => q.rule);
+  if (rq && (St.ruleWin(rs, rq) !== St.RULE_GLITTER || St.ruleWin(rs, rq) !== 0 || rs.glitter !== St.RULE_GLITTER)) err('deck rules: the bonus should pay exactly once');
   // an old save (cleared stages counted per chapter) keeps its cleared rivals as done quests
   const old = { progress: MB.CHAPTERS.map((c, i) => (i === 0 ? 3 : i === 8 ? 10 : 0)) };
   St.migrate(old);
