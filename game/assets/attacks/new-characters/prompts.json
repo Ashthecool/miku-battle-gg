@@ -108,5 +108,21 @@
     "path": "game/assets/attacks/new-characters/amy-lyn/attack-poses.png",
     "prompt": "Use case: stylized-concept\nAsset type: transparent FOUR-POSE character attack animation SPRITE SHEET, exact 2 columns by 2 rows, one character pose in each equal cell, reading order.\nPrimary request: Draw Amy Lyn's \"Look At Me! :3\" signature sequence. Image 1 is the authoritative CHARACTER IDENTITY AND COSTUME reference: preserve face, hair, eyes, clothing, accessories and source anime linework. Image 2 is Priest Pristo's sheet, for GRID and expressiveness only; do not borrow his identity, guitar or costume.\nFour distinct poses, in reading order: Bouncing on her toes, waving one hand high overhead to get attention with a cat-mouth :3 smile; leans forward holding a fat pink crayon out toward the viewer's right like a wand, tongue poking out in concentration; mid-hop with one knee up, arm flung forward toward the viewer's right throwing a little sparkly paper star, big delighted grin; both hands on her cheeks, leaning in with a proud expectant :3 face, eyes shining.\nImage 1 is cropped at the thigh: extend her to full body with the same white blazer, tan sweater vest and dark pleated skirt worn modestly, white knee socks and brown loafers.\nComposition: Four complete full-body poses, consistent character scale and stable feet baseline at 92% of each cell height. Three-quarter front view, action goes toward viewer's RIGHT. Keep silhouette, hands, shoes, hair and props fully inside each cell, with at least 6% transparent gutters on all sides. Extend the source reference naturally to full body if needed with modest matching clothing and sensible shoes. Same face and costume across all four frames; facial expression and natural connected arms redraw per pose, no cut-and-rotate limbs.\nStyle: polished anime game character art matching Image 1, clean linework, expressive faces, cel shading, no chibi redesign. Props compact and integrated in hands. Only restrained local effects described in sequence, no extra objects.\nConstraints: True transparent alpha background throughout all empty space and gutters, not checkerboard or colored backdrop. No border, labels, text, watermarks, floor, scene, targets, other characters, contact sheets of unrelated items, detached body parts or duplicate limbs. Static PNG artwork only, no animation code.",
     "tool": "Codex image generation, repacked with tools/repack_pose_sheet.py"
+  },
+  {
+    "id": "x",
+    "name": "Dark Knight Protocol",
+    "reference": "sprites/x/neutral.webp",
+    "path": "game/assets/attacks/new-characters/x/attack-poses.png",
+    "prompt": "Mystic Blue Flame Snap Sequence: X in dark suit with blue flaming aura, raising gloved hand and snapping fingers with a brilliant command spark and flame burst.",
+    "tool": "User-provided sprite sheet (game/Mystic Blue Flame Snap Sequence.png), repacked into 2x2 attack pose sheet"
+  },
+  {
+    "id": "mang-shi",
+    "name": "Nine Children of the Dragon",
+    "reference": "sprites/mang-shi/neutral.webp",
+    "path": "game/assets/attacks/new-characters/mang-shi/attack-poses.png",
+    "prompt": "Dragon's Breath Before and After: Mang Shi arching back, inhaling with flame ignition at lips, and spewing a roaring vertical pillar of dragon fire.",
+    "tool": "User-provided sprite sheet (game/Dragon\u2019s Breath_ Before and After.png), repacked into 2x2 attack pose sheet"
   }
 ]

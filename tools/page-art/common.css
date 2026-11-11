@@ -1,0 +1,23 @@
+/* Shared look for the itch.io page art (banner, background, embed). Matches tools/cover/cover.html. */
+html,body{margin:0;overflow:hidden;background:#14061f}
+.stage{position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 60% 70% at var(--cx,50%) var(--cy,45%),#ff4f9a 0%,#a3207a 28%,#4a0f5e 58%,#14061f 100%)}
+.rays{position:absolute;left:var(--cx,50%);top:var(--cy,45%);width:3000px;height:3000px;margin:-1500px 0 0 -1500px;
+  background:repeating-conic-gradient(rgba(255,255,255,.08) 0 6deg,transparent 6deg 15deg);
+  -webkit-mask:radial-gradient(circle,#000 0,transparent var(--rays,40%));mask:radial-gradient(circle,#000 0,transparent var(--rays,40%))}
+.card{position:absolute;width:74px;height:104px;border-radius:9px;border:3px solid #ffe680;
+  background:linear-gradient(135deg,#3a1a6e,#7a2a9e);box-shadow:0 0 18px rgba(255,79,154,.7),0 6px 0 rgba(0,0,0,.4)}
+.card::after{content:var(--suit,'♥');position:absolute;inset:0;display:grid;place-items:center;font:900 38px 'Segoe UI';color:#ffb0d8;opacity:.85}
+.spark{position:absolute;color:#fff;font:20px 'Segoe UI Symbol';text-shadow:0 0 10px #8ff0ff}
+.ch{position:absolute;filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 14px rgba(255,120,200,.75))}
+.ch.back{filter:brightness(.5) saturate(.9) drop-shadow(0 0 2px rgba(255,255,255,.6)) drop-shadow(0 0 10px rgba(143,240,255,.5))}
+.logo .top{font:900 34px 'Segoe UI';letter-spacing:22px;margin-left:22px;color:#8ff0ff;text-shadow:0 0 18px #3fd0ff,0 3px 0 #000}
+.logo .main{font:900 112px/0.88 'Segoe UI Black','Arial Black',sans-serif;letter-spacing:3px;
+  filter:drop-shadow(0 5px 0 #5a0f3a) drop-shadow(0 0 22px #ff4f9a)}
+.logo .main span{background:linear-gradient(#fff 20%,#ffb0d8 55%,#ff4f9a 82%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px rgba(90,15,58,.5)}
+.logo .sub{font:italic 800 21px 'Segoe UI';letter-spacing:5px;color:#ffe680;text-shadow:0 3px 0 #000,0 0 12px rgba(255,200,80,.6);margin-top:8px}
+.ribbon{display:inline-block;padding:10px 26px 8px;border-radius:12px;transform:rotate(-3deg);
+  background:linear-gradient(#ffe680,#ffb020);box-shadow:0 6px 0 #a35a00,0 0 24px rgba(255,200,80,.6);
+  font:italic 900 34px 'Segoe UI Black','Arial Black',sans-serif;color:#2a0b3a;letter-spacing:1px}
+.ribbon small{display:block;font:italic 800 14px 'Segoe UI';letter-spacing:6px;margin-top:-2px}

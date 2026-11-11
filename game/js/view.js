@@ -218,6 +218,7 @@
       }
       v.status.innerHTML = (e.shield ? '<div class="bubble"></div>' : '') + (e.frozen ? '<div class="ice"></div>' : '') +
         (e.burning ? '<div class="flames"><i></i><i></i><i></i></div>' : '') +
+        (e.cursed ? '<div class="curse"><svg class="curse-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><polygon points="60,10 103,85 17,85"/><polygon points="60,110 103,35 17,35"/><circle class="core" cx="60" cy="60" r="14"/></svg><i></i><i></i><i></i><i></i></div>' : '') +
         (!e.isLeader && e.sick && !e.attacked && !e.frozen && this.b && e.side === this.b.active && !this.b.canAttack(e) ? '<div class="zzz">z<span>z</span><span>z</span></div>' : '');
       v.el.classList.toggle('stealthed', !e.isLeader && e.kw.has('stealth'));
       const low = e.hp > 0 && e.hp / e.maxHp < 0.4;
@@ -291,6 +292,17 @@
         case 'poison': this.floatText(p, h, 'Destroyed!', 'debuff'); MB.FX.burst(this, p, '#a35cff', 18, { h: h * 0.5 }); break;
         case 'burn': this.floatText(p, h, 'Ablaze!', 'burn'); MB.FX.burst(this, p, '#ff6a1c', 16, { h: h * 0.3, spread: 70 }); MB.audio.sfx('burn'); break;
         case 'extinguish': MB.FX.rise(this, p, '#cfd8e0', 8, h * 0.6); break;
+        case 'curse':
+          this.floatText(p, h, '🔮 Cursed!', 'curse');
+          MB.FX.burst(this, p, '#b84dff', 18, { h: h * 0.4, spread: 85, shape: 'shard' });
+          MB.FX.ring(this, p, '#4df5ff', 1.5);
+          MB.audio.sfx('rune');
+          break;
+        case 'cleanse': MB.FX.rise(this, p, '#b8f5ff', 8, h * 0.6); break;
+        case 'siphon':
+          if (evt.from && this.ents.has(evt.from.uid)) MB.FX.orbTo(this, this.pos(evt.from), p, '#d94dff', h, 0, 150, '🩸');
+          MB.FX.rise(this, p, '#d94dff', 10, h);
+          break;
         case 'guard':
           this.floatText(p, h, 'Guarded!', 'shield');
           MB.FX.ring(this, p, '#ffe9a0', 1.8);
@@ -420,6 +432,19 @@
       fn();
       this.refresh();
       await wait(300);
+    }
+
+    // dying cursed monsters unleash spectral hexes at their own leader
+    async curseFx(units, fn) {
+      MB.audio.sfx('rune');
+      await Promise.all(units.map((u, i) => {
+        const p = this.pos(u);
+        MB.FX.burst(this, p, '#b84dff', 14, { h: UNIT_H * 0.4, spread: 80 });
+        return MB.FX.orbTo(this, p, LEADER_POS[u.side], '#b84dff', LEADER_H, i * 0.08, 190, '🔮');
+      }));
+      fn();
+      this.refresh();
+      await wait(260);
     }
 
     // two partners run together, a cut-in plays, and the duo lands in its new costumes

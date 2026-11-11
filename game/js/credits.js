@@ -115,6 +115,12 @@
     { name: 'judgesenator', id: '9a4d779f-fa33-4e58-826a-f274f534d096', color: '#e0a35a', novels: [
         { novel: 'Noble One', id: 'ceaa122e-abbc-4c5b-96c4-4bdbe1d998c2' },
       ] },
+    { name: 'vbboy200_gotriev', aka: 'Jhon6Vlord9', id: 'b095b831-54be-45ca-95d5-a6dcbaaa01fa', color: '#ff6ad5',
+      pic: 'optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/fae94e9b-71e7-4172-a24c-246441f492fa.webp', novels: [
+        { novel: 'Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]', title: 'Emiro.exe Has Logged In', id: '3b1dee6b-0231-4a00-8914-c7ab00af8be7' },
+        { novel: 'Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)', title: 'Grim & Spook', id: '660f04a2-1dff-406a-b267-7276c8d12b4a' },
+        { novel: 'Protectors', id: '368413d1-67e5-42d5-ae0f-6b8a54021afb' },
+      ] },
   ];
 
   // Freesound authors of the sound effects (all CC0; assets/sounds/CREDITS.md has which sound is whose)

@@ -2,7 +2,7 @@
 // you're online; R2 images and imported local character sprites are cache-first.
 // Music from the miku.gg CDN needs a connection; our own songs (assets/music/) are same-origin and kept once played.
 // After changing images in the bucket, bump ASSETS so they are downloaded again.
-const SHELL = 'mb-shell-v37';
+const SHELL = 'mb-shell-v41';
 const ASSETS = 'mb-assets-v7';
 const SHELL_FILES = [
   './', 'index.html', 'css/style.css', 'lib/gsap.min.js', 'lib/CustomEase.min.js', 'lib/CustomWiggle.min.js', 'lib/Physics2DPlugin.min.js', 'lib/DrawSVGPlugin.min.js',
@@ -20,7 +20,15 @@ const SHELL_FILES = [
   'assets/attacks/pristo/guitar-poses.png',
   'assets/attacks/metal-mass/julia-singing-poses.png', 'assets/sounds/singing.flac',
   'assets/sounds/dolphin-456151.mp3',
-  'js/poses.js', 'assets/attacks/poses/cordelia.webp', 'assets/attacks/poses/eliza.webp', 'assets/attacks/poses/hanako-ikezawa.webp', 'assets/attacks/poses/ida.webp', 'assets/attacks/poses/lilly-satou.webp', 'assets/attacks/poses/maia.webp', 'assets/attacks/poses/reika.webp', 'assets/attacks/poses/seraphina.webp', 'assets/attacks/poses/uzi.webp', 'assets/attacks/poses/valerian.webp', 'assets/attacks/poses/yllara.webp', 'assets/attacks/poses/curtis-vongravis.webp', 'assets/attacks/poses/mitsuye.webp', 'assets/attacks/poses/maiko.webp', 'assets/attacks/poses/amy-lyn.webp',
+  'js/poses.js', 'assets/attacks/poses/cordelia.webp', 'assets/attacks/poses/eliza.webp', 'assets/attacks/poses/hanako-ikezawa.webp', 'assets/attacks/poses/ida.webp', 'assets/attacks/poses/lilly-satou.webp', 'assets/attacks/poses/maia.webp', 'assets/attacks/poses/reika.webp', 'assets/attacks/poses/seraphina.webp', 'assets/attacks/poses/uzi.webp', 'assets/attacks/poses/valerian.webp', 'assets/attacks/poses/yllara.webp', 'assets/attacks/poses/curtis-vongravis.webp', 'assets/attacks/poses/mitsuye.webp', 'assets/attacks/poses/maiko.webp', 'assets/attacks/poses/amy-lyn.webp', 'assets/attacks/poses/x.webp', 'assets/attacks/poses/mang-shi.webp',
+  'assets/attacks/new-props/boomstick.webp', 'assets/attacks/new-props/crowbar.webp', 'assets/attacks/new-props/pumpkin-staff.webp', 'assets/attacks/new-props/scissors-katanas.webp',
+  'assets/attacks/new-props/midas-revolver.webp', 'assets/attacks/new-props/acid-shotgun.webp', 'assets/attacks/new-props/hell-podao.webp', 'assets/attacks/new-props/doll-grimoire.webp',
+  'assets/attacks/new-props/dearth-eye-cutin.webp', 'assets/attacks/new-props/hell-eruption.webp', 'assets/attacks/new-props/white-smokebomb.webp', 'assets/attacks/new-props/katana-wave.webp',
+  'assets/attacks/new-props/acid-splat-giant.webp', 'assets/attacks/new-props/gerroid-closeup-punch.webp', 'assets/attacks/new-props/gerroid-aerial-slam.webp', 'assets/attacks/new-props/golden-fist-impact.webp', 'assets/attacks/new-props/giant-cargo-container.webp',
+  'assets/attacks/new-props/electric-overcharge.webp', 'assets/attacks/new-props/giant-document-pile.webp', 'assets/attacks/new-props/toxor-tail-strike.webp', 'assets/attacks/new-props/dragon-fire-geyser.webp',
+  'assets/attacks/new-props/dragon-fireball-meteor.webp', 'assets/attacks/new-props/ying-dojo-servant.webp', 'assets/attacks/new-props/iron-dragon-palm.webp', 'assets/attacks/new-props/finger-snap-spark.webp',
+  'assets/sounds/eyeglint.mp3', 'assets/sounds/acidsplat.mp3', 'assets/sounds/cratecrash.mp3', 'assets/sounds/electricburst.mp3',
+  'assets/sounds/paperdrop.mp3', 'assets/sounds/stingerstab.mp3', 'assets/sounds/dragonfire.mp3', 'assets/sounds/ironpalm.mp3', 'assets/sounds/brawlerslam.mp3',
 ];
 
 // these scripts assign to window.MB / window.MIKU_MANIFEST

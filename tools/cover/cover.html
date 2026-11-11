@@ -1,0 +1,119 @@
+<!doctype html>
+<!-- Store cover image (itch.io etc., 630x500). Render with tools/cover/render.ps1 -->
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;width:630px;height:500px;overflow:hidden;background:#12061f}
+#c{position:relative;width:630px;height:500px;overflow:hidden;
+  background:radial-gradient(ellipse 60% 55% at 50% 42%,#ff4f9a 0%,#a3207a 30%,#4a0f5e 60%,#14061f 100%)}
+/* sunburst rays */
+#rays{position:absolute;left:50%;top:42%;width:1400px;height:1400px;margin:-700px 0 0 -700px;
+  background:repeating-conic-gradient(rgba(255,255,255,.09) 0 6deg,transparent 6deg 15deg);
+  -webkit-mask:radial-gradient(circle,#000 0,transparent 55%);mask:radial-gradient(circle,#000 0,transparent 55%)}
+/* floating cards */
+.card{position:absolute;width:74px;height:104px;border-radius:9px;border:3px solid #ffe680;
+  background:linear-gradient(135deg,#3a1a6e,#7a2a9e);box-shadow:0 0 18px rgba(255,79,154,.7),0 6px 0 rgba(0,0,0,.4)}
+.card::after{content:'♥';position:absolute;inset:0;display:grid;place-items:center;font:900 38px 'Segoe UI';color:#ffb0d8;opacity:.85}
+.spark{position:absolute;color:#fff;font:20px 'Segoe UI Symbol';text-shadow:0 0 10px #8ff0ff}
+/* characters */
+.ch{position:absolute;bottom:-10px;filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 14px rgba(255,120,200,.75))}
+.ch.back{filter:brightness(.5) saturate(.9) drop-shadow(0 0 2px rgba(255,255,255,.6)) drop-shadow(0 0 10px rgba(143,240,255,.5))}
+.peek{filter:brightness(.8) drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px rgba(143,240,255,.6))}
+.comic{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px rgba(255,230,128,.7)) drop-shadow(0 4px 4px rgba(0,0,0,.6))}
+/* comic marks (sweat, bonk, dizzy stars) */
+.fx{position:absolute;font:28px 'Segoe UI Emoji';filter:drop-shadow(0 2px 0 rgba(0,0,0,.6))}
+/* the pixel card shark: round badge, smugly peeking over her hand */
+#shark{position:absolute;left:10px;top:10px;width:156px;height:156px;transform:rotate(-8deg);
+  filter:drop-shadow(0 0 0 #000) drop-shadow(0 0 3px #fff) drop-shadow(0 0 14px #b44dff) drop-shadow(0 5px 3px rgba(0,0,0,.6))}
+#shark img,#shark canvas{width:100%;height:100%;image-rendering:pixelated}
+#shark img{border-radius:50%;clip-path:circle(44.5% at 50% 54.5%);transform:scale(1.12) translateY(-5%)}
+#shark canvas{transform:scale(1.12) translateY(-5%)}
+/* a card she flicked, flying at the knight's helmet */
+#throw{position:absolute;left:46px;top:172px;width:34px;height:48px;border-radius:5px;border:2px solid #ffe680;
+  background:linear-gradient(135deg,#3a1a6e,#9a3ac0);transform:rotate(38deg);box-shadow:0 0 10px rgba(255,79,154,.8)}
+#throw::after{content:'♥';position:absolute;inset:0;display:grid;place-items:center;font:900 18px 'Segoe UI';color:#ffb0d8}
+#streak{position:absolute;left:72px;top:150px;width:12px;height:34px;transform:rotate(-38deg);
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.85) 0 2px,transparent 2px 4px);
+  -webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
+/* bottom shade behind the logo */
+#shade{position:absolute;left:0;right:0;bottom:0;height:230px;
+  background:linear-gradient(transparent,rgba(20,6,31,.75) 45%,#14061f 92%)}
+#logo{position:absolute;left:0;right:0;bottom:22px;text-align:center}
+.top{font:900 34px 'Segoe UI';letter-spacing:22px;margin-left:22px;color:#8ff0ff;
+  text-shadow:0 0 18px #3fd0ff,0 3px 0 #000}
+.main{font:900 112px/0.88 'Segoe UI Black','Arial Black',sans-serif;letter-spacing:3px;
+  filter:drop-shadow(0 5px 0 #5a0f3a) drop-shadow(0 0 22px #ff4f9a)}
+.main span{background:linear-gradient(#fff 20%,#ffb0d8 55%,#ff4f9a 82%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px rgba(90,15,58,.5)}
+.sub{font:italic 800 21px 'Segoe UI';letter-spacing:5px;color:#ffe680;text-shadow:0 3px 0 #000,0 0 12px rgba(255,200,80,.6);margin-top:8px}
+#frame{position:absolute;inset:6px;border:2px solid rgba(255,230,128,.55);border-radius:14px;pointer-events:none;
+  box-shadow:inset 0 0 30px rgba(255,79,154,.35)}
+</style></head><body><div id="c">
+<div id="rays"></div>
+<div class="card" style="right:24px;top:30px;transform:rotate(16deg)"></div>
+<div class="card" style="right:110px;top:-36px;transform:rotate(-10deg) scale(.7);opacity:.8"></div>
+<span class="spark" style="right:160px;top:96px;font-size:14px">✦</span>
+<span class="spark" style="left:180px;top:150px;font-size:13px">✦</span>
+<span class="spark" style="right:58px;top:200px">✦</span>
+
+<img class="ch back" src="../../game/assets/sprites/claire-larone/happy.webp"   style="left:-28px;height:380px;bottom:40px">
+<img class="ch back" src="../../game/assets/sprites/lilly-satou/happy.webp"     style="right:-22px;height:390px;bottom:40px">
+<!-- comic cameos peeking in from behind -->
+<img class="ch peek" src="../../game/assets/sprites/takuya-yamashiro/scared.webp" style="left:158px;height:300px;bottom:232px;transform:rotate(-10deg)">
+<img class="ch peek" src="../../game/assets/sprites/pippa/scared.webp"            style="right:120px;height:290px;bottom:236px;transform:rotate(12deg)">
+<div style="position:absolute;inset:0;background:radial-gradient(ellipse 34% 80% at 50% 45%,transparent 40%,rgba(30,6,48,.6) 100%)"></div>
+<img class="ch" src="../../game/assets/sprites/obliviahime-van-schwarzflugel/happy.webp" style="left:34px;height:430px">
+<img class="ch" src="../../game/assets/sprites/maia/happy.webp"                 style="right:40px;height:430px">
+<img class="ch" src="../../game/assets/sprites/hayley-kate/excited.webp"        style="left:50%;transform:translateX(-50%);height:470px;bottom:-20px">
+<span class="fx" style="left:290px;top:14px;transform:rotate(15deg)">💦</span>
+<span class="fx" style="right:118px;top:22px;transform:scaleX(-1) rotate(15deg)">💦</span>
+
+<div id="shade"></div>
+<!-- comic cameos photobombing from the bottom corners -->
+<img class="ch comic" src="../../game/assets/sprites/sakuragi/happy.webp" style="left:-34px;height:330px;bottom:-38px;transform:rotate(-6deg)">
+<img id="rusty" class="ch comic" src="../../game/assets/sprites/rusty/happy.webp"    style="right:-48px;height:330px;bottom:-55px;transform:rotate(7deg)">
+<div id="logo">
+  <div class="top">MIKU</div>
+  <div class="main"><span>BATTLE</span></div>
+  <div class="sub">miku.gg All-Stars</div>
+</div>
+<!-- the gnome perched on the logo, puffing his pipe -->
+<img class="ch comic" src="../../game/assets/sprites/dr-volde/happy.webp" style="right:104px;height:110px;bottom:139px;transform:rotate(4deg)">
+
+<!-- the card shark flicks a card straight into the knight's helmet; he still gives a thumbs-up -->
+<div id="shark"><img src="card-girl.jpg" alt=""></div>
+<div id="streak"></div>
+<div id="throw"></div>
+<span class="fx" style="left:50px;top:196px;font-size:34px">💥</span>
+<span class="fx" style="left:2px;top:204px;font-size:22px;transform:rotate(-20deg)">💫</span>
+<div id="frame"></div>
+</div>
+<script>/* ?nobeer: Mason panics in Rusty's corner instead of the beer can */
+if (location.search.includes('nobeer')) {
+  const r = document.getElementById('rusty');
+  r.src = '../../game/assets/sprites/mason-moose/scared.webp';
+  r.style.cssText = 'right:-30px;height:330px;bottom:-40px;transform:rotate(7deg) scaleX(-1)';
+}</script>
+<script>/* cut the black backdrop out of the card shark badge (flood fill from the edges) so her beret pokes out of the circle */
+(() => {
+  const img = document.querySelector('#shark img');
+  const cut = () => {
+    const w = img.naturalWidth, h = img.naturalHeight, cv = document.createElement('canvas');
+    cv.width = w; cv.height = h;
+    const g = cv.getContext('2d'); g.drawImage(img, 0, 0);
+    let d; try { d = g.getImageData(0, 0, w, h); } catch (e) { return; } // tainted: keep the circle crop
+    const px = d.data, seen = new Uint8Array(w * h), stack = [];
+    const dark = (i) => px[i * 4] < 20 && px[i * 4 + 1] < 20 && px[i * 4 + 2] < 20;
+    for (let x = 0; x < w; x++) stack.push(x, (h - 1) * w + x);
+    for (let y = 0; y < h; y++) stack.push(y * w, y * w + w - 1);
+    while (stack.length) {
+      const i = stack.pop();
+      if (seen[i] || !dark(i)) continue;
+      seen[i] = 1; px[i * 4 + 3] = 0;
+      const x = i % w;
+      if (x > 0) stack.push(i - 1); if (x < w - 1) stack.push(i + 1);
+      if (i >= w) stack.push(i - w); if (i < w * (h - 1)) stack.push(i + w);
+    }
+    g.putImageData(d, 0, 0); img.replaceWith(cv);
+  };
+  img.complete ? cut() : img.addEventListener('load', cut);
+})();</script>
+</body></html>

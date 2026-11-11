@@ -31,6 +31,8 @@ Order: all board steps happen during the animation, in order; card steps (`draw`
 | `buff` | `to`, `atk`, `hp` | +atk/+hp (negative atk for debuffs) |
 | `freeze` / `thaw` | `to` | frozen monsters skip their next attack |
 | `ignite` | `to` | Burn: 1 damage each turn until healed |
+| `curse` | `to` | Curse: takes +1 damage; when it dies, its leader takes 2 damage (healed cleanses) |
+| `siphon` | `to`, `atk`, `hp` | drains `atk`/`hp` from `to` and grants it to the caster (or strongest ally) |
 | `shield` | `to` | blocks the next damage |
 | `kill` | `to` | destroys a monster |
 | `swap` | `to` | swaps ATK and HP |
@@ -45,7 +47,7 @@ Order: all board steps happen during the animation, in order; card steps (`draw`
 | `copy` | `to` | adds a copy of the monsters' cards to your hand |
 
 Every step may also have:
-- `where`: narrows the targets: `hurt` `oddAtk` `evenAtk` `frozen` `unfrozen` `taunt` `shielded` `burning`
+- `where`: narrows the targets: `hurt` `oddAtk` `evenAtk` `frozen` `unfrozen` `taunt` `shielded` `burning` `cursed` `uncursed`
   `cheap` (cost ≤ 3) `big` (ATK ≥ 4) `monster` (not a leader).
 - `if`: only runs when: `targetDied` `targetAlive` `selfAlive` `handSmall` (≤3 cards) `hasAllies` `noAllies`
   `behind` (your leader has less HP) `outnumbered` (fewer monsters than the enemy) `lowHealth` (your leader has ≤ 10 HP).

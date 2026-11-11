@@ -51,7 +51,10 @@
   "Grove Keeper",
   "Nupta Daemoni",
   "Phantastic Experiments [with] Ayame Kadokawa",
-  "Phantom Dream [Preview]"
+  "Phantom Dream [Preview]",
+  "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+  "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+  "Protectors"
  ],
  "nsfwNovels": [
   "Integrated Domestic Android",
@@ -13297,6 +13300,1973 @@
    "costumes": [],
    "portrait": "portraits/binon.webp",
    "novel": "Phantom Dream [Preview]"
+  },
+  {
+   "id": "emiro",
+   "name": "Emiro",
+   "outfit": "Emiro - Default outfit",
+   "short": "Emiro — the digital idol who never signed up for the job.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/emiro/neutral.webp",
+    "play": "sprites/emiro/happy.webp",
+    "attack": "sprites/emiro/angry.webp",
+    "special": "sprites/emiro/rage.webp",
+    "hurt": "sprites/emiro/scared.webp",
+    "lose": "sprites/emiro/sad.webp",
+    "win": "sprites/emiro/excited.webp",
+    "taunt": "sprites/emiro/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "emiro-beach-outfit",
+     "name": "Emiro - Beach Outfit.",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-beach-outfit/neutral.webp",
+      "play": "sprites/emiro/emiro-beach-outfit/happy.webp",
+      "attack": "sprites/emiro/emiro-beach-outfit/angry.webp",
+      "special": "sprites/emiro/emiro-beach-outfit/angry.webp",
+      "hurt": "sprites/emiro/emiro-beach-outfit/scared.webp",
+      "lose": "sprites/emiro/emiro-beach-outfit/sad.webp",
+      "win": "sprites/emiro/emiro-beach-outfit/happy.webp",
+      "taunt": "sprites/emiro/emiro-beach-outfit/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-bunny-suit",
+     "name": "Emiro - Bunny Suit",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-bunny-suit/neutral.webp",
+      "play": "sprites/emiro/emiro-bunny-suit/happy.webp",
+      "attack": "sprites/emiro/emiro-bunny-suit/angry.webp",
+      "special": "sprites/emiro/emiro-bunny-suit/angry.webp",
+      "hurt": "sprites/emiro/emiro-bunny-suit/scared.webp",
+      "lose": "sprites/emiro/emiro-bunny-suit/sad.webp",
+      "win": "sprites/emiro/emiro-bunny-suit/happy.webp",
+      "taunt": "sprites/emiro/emiro-bunny-suit/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-dress",
+     "name": "Emiro - Dress",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-dress/neutral.webp",
+      "play": "sprites/emiro/emiro-dress/happy.webp",
+      "attack": "sprites/emiro/emiro-dress/angry.webp",
+      "special": "sprites/emiro/emiro-dress/angry.webp",
+      "hurt": "sprites/emiro/emiro-dress/scared.webp",
+      "lose": "sprites/emiro/emiro-dress/sad.webp",
+      "win": "sprites/emiro/emiro-dress/happy.webp",
+      "taunt": "sprites/emiro/emiro-dress/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-onesie",
+     "name": "Emiro - Onesie",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-onesie/neutral.webp",
+      "play": "sprites/emiro/emiro-onesie/happy.webp",
+      "attack": "sprites/emiro/emiro-onesie/angry.webp",
+      "special": "sprites/emiro/emiro-onesie/angry.webp",
+      "hurt": "sprites/emiro/emiro-onesie/scared.webp",
+      "lose": "sprites/emiro/emiro-onesie/sad.webp",
+      "win": "sprites/emiro/emiro-onesie/happy.webp",
+      "taunt": "sprites/emiro/emiro-onesie/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-school-gyaru",
+     "name": "Emiro - School Gyaru",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-school-gyaru/neutral.webp",
+      "play": "sprites/emiro/emiro-school-gyaru/happy.webp",
+      "attack": "sprites/emiro/emiro-school-gyaru/angry.webp",
+      "special": "sprites/emiro/emiro-school-gyaru/angry.webp",
+      "hurt": "sprites/emiro/emiro-school-gyaru/scared.webp",
+      "lose": "sprites/emiro/emiro-school-gyaru/sad.webp",
+      "win": "sprites/emiro/emiro-school-gyaru/happy.webp",
+      "taunt": "sprites/emiro/emiro-school-gyaru/amused.webp"
+     }
+    },
+    {
+     "id": "commander-emiro",
+     "name": "Commander Emiro",
+     "sprites": {
+      "idle": "sprites/emiro/commander-emiro/neutral.webp",
+      "play": "sprites/emiro/commander-emiro/happy.webp",
+      "attack": "sprites/emiro/commander-emiro/angry.webp",
+      "special": "sprites/emiro/commander-emiro/angry.webp",
+      "hurt": "sprites/emiro/commander-emiro/scared.webp",
+      "lose": "sprites/emiro/commander-emiro/sad.webp",
+      "win": "sprites/emiro/commander-emiro/happy.webp",
+      "taunt": "sprites/emiro/commander-emiro/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-santa-dress",
+     "name": "Emiro - Santa dress",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-santa-dress/neutral.webp",
+      "play": "sprites/emiro/emiro-santa-dress/happy.webp",
+      "attack": "sprites/emiro/emiro-santa-dress/angry.webp",
+      "special": "sprites/emiro/emiro-santa-dress/angry.webp",
+      "hurt": "sprites/emiro/emiro-santa-dress/scared.webp",
+      "lose": "sprites/emiro/emiro-santa-dress/sad.webp",
+      "win": "sprites/emiro/emiro-santa-dress/happy.webp",
+      "taunt": "sprites/emiro/emiro-santa-dress/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-goth",
+     "name": "Emiro - Goth",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-goth/neutral.webp",
+      "play": "sprites/emiro/emiro-goth/happy.webp",
+      "attack": "sprites/emiro/emiro-goth/angry.webp",
+      "special": "sprites/emiro/emiro-goth/angry.webp",
+      "hurt": "sprites/emiro/emiro-goth/scared.webp",
+      "lose": "sprites/emiro/emiro-goth/sad.webp",
+      "win": "sprites/emiro/emiro-goth/happy.webp",
+      "taunt": "sprites/emiro/emiro-goth/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-karate",
+     "name": "Emiro - Karate",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-karate/neutral.webp",
+      "play": "sprites/emiro/emiro-karate/happy.webp",
+      "attack": "sprites/emiro/emiro-karate/angry.webp",
+      "special": "sprites/emiro/emiro-karate/angry.webp",
+      "hurt": "sprites/emiro/emiro-karate/scared.webp",
+      "lose": "sprites/emiro/emiro-karate/sad.webp",
+      "win": "sprites/emiro/emiro-karate/happy.webp",
+      "taunt": "sprites/emiro/emiro-karate/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-goblin",
+     "name": "Emiro - Goblin",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-goblin/neutral.webp",
+      "play": "sprites/emiro/emiro-goblin/happy.webp",
+      "attack": "sprites/emiro/emiro-goblin/angry.webp",
+      "special": "sprites/emiro/emiro-goblin/angry.webp",
+      "hurt": "sprites/emiro/emiro-goblin/scared.webp",
+      "lose": "sprites/emiro/emiro-goblin/sad.webp",
+      "win": "sprites/emiro/emiro-goblin/happy.webp",
+      "taunt": "sprites/emiro/emiro-goblin/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-robot",
+     "name": "Emiro - Robot",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-robot/neutral.webp",
+      "play": "sprites/emiro/emiro-robot/happy.webp",
+      "attack": "sprites/emiro/emiro-robot/angry.webp",
+      "special": "sprites/emiro/emiro-robot/angry.webp",
+      "hurt": "sprites/emiro/emiro-robot/scared.webp",
+      "lose": "sprites/emiro/emiro-robot/sad.webp",
+      "win": "sprites/emiro/emiro-robot/happy.webp",
+      "taunt": "sprites/emiro/emiro-robot/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-lizard",
+     "name": "Emiro - Lizard",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-lizard/neutral.webp",
+      "play": "sprites/emiro/emiro-lizard/happy.webp",
+      "attack": "sprites/emiro/emiro-lizard/angry.webp",
+      "special": "sprites/emiro/emiro-lizard/angry.webp",
+      "hurt": "sprites/emiro/emiro-lizard/scared.webp",
+      "lose": "sprites/emiro/emiro-lizard/sad.webp",
+      "win": "sprites/emiro/emiro-lizard/happy.webp",
+      "taunt": "sprites/emiro/emiro-lizard/amused.webp"
+     }
+    },
+    {
+     "id": "heart-emiro",
+     "name": "Heart Emiro",
+     "sprites": {
+      "idle": "sprites/emiro/heart-emiro/neutral.webp",
+      "play": "sprites/emiro/heart-emiro/happy.webp",
+      "attack": "sprites/emiro/heart-emiro/angry.webp",
+      "special": "sprites/emiro/heart-emiro/angry.webp",
+      "hurt": "sprites/emiro/heart-emiro/scared.webp",
+      "lose": "sprites/emiro/heart-emiro/sad.webp",
+      "win": "sprites/emiro/heart-emiro/happy.webp",
+      "taunt": "sprites/emiro/heart-emiro/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-unemployed",
+     "name": "Emiro - Unemployed",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-unemployed/neutral.webp",
+      "play": "sprites/emiro/emiro-unemployed/happy.webp",
+      "attack": "sprites/emiro/emiro-unemployed/angry.webp",
+      "special": "sprites/emiro/emiro-unemployed/angry.webp",
+      "hurt": "sprites/emiro/emiro-unemployed/scared.webp",
+      "lose": "sprites/emiro/emiro-unemployed/sad.webp",
+      "win": "sprites/emiro/emiro-unemployed/happy.webp",
+      "taunt": "sprites/emiro/emiro-unemployed/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-kunoichi",
+     "name": "Emiro - Kunoichi",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-kunoichi/neutral.webp",
+      "play": "sprites/emiro/emiro-kunoichi/happy.webp",
+      "attack": "sprites/emiro/emiro-kunoichi/angry.webp",
+      "special": "sprites/emiro/emiro-kunoichi/angry.webp",
+      "hurt": "sprites/emiro/emiro-kunoichi/scared.webp",
+      "lose": "sprites/emiro/emiro-kunoichi/sad.webp",
+      "win": "sprites/emiro/emiro-kunoichi/happy.webp",
+      "taunt": "sprites/emiro/emiro-kunoichi/amused.webp"
+     }
+    },
+    {
+     "id": "captain-pirate-emiro",
+     "name": "Captain Pirate Emiro",
+     "sprites": {
+      "idle": "sprites/emiro/captain-pirate-emiro/neutral.webp",
+      "play": "sprites/emiro/captain-pirate-emiro/happy.webp",
+      "attack": "sprites/emiro/captain-pirate-emiro/angry.webp",
+      "special": "sprites/emiro/captain-pirate-emiro/angry.webp",
+      "hurt": "sprites/emiro/captain-pirate-emiro/scared.webp",
+      "lose": "sprites/emiro/captain-pirate-emiro/sad.webp",
+      "win": "sprites/emiro/captain-pirate-emiro/happy.webp",
+      "taunt": "sprites/emiro/captain-pirate-emiro/amused.webp"
+     }
+    },
+    {
+     "id": "zombie-emiro",
+     "name": "Zombie Emiro",
+     "sprites": {
+      "idle": "sprites/emiro/zombie-emiro/neutral.webp",
+      "play": "sprites/emiro/zombie-emiro/happy.webp",
+      "attack": "sprites/emiro/zombie-emiro/angry.webp",
+      "special": "sprites/emiro/zombie-emiro/angry.webp",
+      "hurt": "sprites/emiro/zombie-emiro/scared.webp",
+      "lose": "sprites/emiro/zombie-emiro/sad.webp",
+      "win": "sprites/emiro/zombie-emiro/happy.webp",
+      "taunt": "sprites/emiro/zombie-emiro/amused.webp"
+     }
+    },
+    {
+     "id": "moro",
+     "name": "Moro",
+     "sprites": {
+      "idle": "sprites/emiro/moro/neutral.webp",
+      "play": "sprites/emiro/moro/happy.webp",
+      "attack": "sprites/emiro/moro/angry.webp",
+      "special": "sprites/emiro/moro/angry.webp",
+      "hurt": "sprites/emiro/moro/scared.webp",
+      "lose": "sprites/emiro/moro/sad.webp",
+      "win": "sprites/emiro/moro/happy.webp",
+      "taunt": "sprites/emiro/moro/amused.webp"
+     }
+    },
+    {
+     "id": "emiro-sexy-nurse",
+     "name": "Emiro - Sexy Nurse",
+     "sprites": {
+      "idle": "sprites/emiro/emiro-sexy-nurse/neutral.webp",
+      "play": "sprites/emiro/emiro-sexy-nurse/happy.webp",
+      "attack": "sprites/emiro/emiro-sexy-nurse/angry.webp",
+      "special": "sprites/emiro/emiro-sexy-nurse/angry.webp",
+      "hurt": "sprites/emiro/emiro-sexy-nurse/scared.webp",
+      "lose": "sprites/emiro/emiro-sexy-nurse/sad.webp",
+      "win": "sprites/emiro/emiro-sexy-nurse/happy.webp",
+      "taunt": "sprites/emiro/emiro-sexy-nurse/amused.webp"
+     },
+     "nsfw": true
+    },
+    {
+     "id": "slime-emiro",
+     "name": "Slime Emiro",
+     "sprites": {
+      "idle": "sprites/emiro/slime-emiro/neutral.webp",
+      "play": "sprites/emiro/slime-emiro/happy.webp",
+      "attack": "sprites/emiro/slime-emiro/angry.webp",
+      "special": "sprites/emiro/slime-emiro/angry.webp",
+      "hurt": "sprites/emiro/slime-emiro/scared.webp",
+      "lose": "sprites/emiro/slime-emiro/sad.webp",
+      "win": "sprites/emiro/slime-emiro/happy.webp",
+      "taunt": "sprites/emiro/slime-emiro/amused.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/emiro.webp",
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]"
+  },
+  {
+   "id": "omire",
+   "name": "Omire",
+   "outfit": "default",
+   "short": "Omire, the polite paradox, graceful mischief in motion, elegance wrapped in chaos, and unpredictable",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/omire/neutral.webp",
+    "play": "sprites/omire/happy.webp",
+    "attack": "sprites/omire/angry.webp",
+    "special": "sprites/omire/rage.webp",
+    "hurt": "sprites/omire/scared.webp",
+    "lose": "sprites/omire/sad.webp",
+    "win": "sprites/omire/excited.webp",
+    "taunt": "sprites/omire/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/omire.webp",
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]"
+  },
+  {
+   "id": "devrah-cadaberica",
+   "name": "Devrah Cadaberica",
+   "outfit": "Devrah - Default Outfit",
+   "short": "A chaotic and wild half-ghost gremlin, who dances with bats, and date sirens",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/devrah-cadaberica/neutral.webp",
+    "play": "sprites/devrah-cadaberica/happy.webp",
+    "attack": "sprites/devrah-cadaberica/angry.webp",
+    "special": "sprites/devrah-cadaberica/rage.webp",
+    "hurt": "sprites/devrah-cadaberica/scared.webp",
+    "lose": "sprites/devrah-cadaberica/sad.webp",
+    "win": "sprites/devrah-cadaberica/excited.webp",
+    "taunt": "sprites/devrah-cadaberica/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "devrah-onesie",
+     "name": "Devrah - Onesie",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-onesie/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-onesie/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-onesie/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-onesie/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-onesie/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-onesie/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-onesie/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-onesie/proud.webp"
+     }
+    },
+    {
+     "id": "devrah-swimsuit",
+     "name": "Devrah - Swimsuit",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-swimsuit/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-swimsuit/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-swimsuit/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-swimsuit/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-swimsuit/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-swimsuit/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-swimsuit/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "devrah-snowsuit",
+     "name": "Devrah - Snowsuit",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-snowsuit/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-snowsuit/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-snowsuit/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-snowsuit/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-snowsuit/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-snowsuit/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-snowsuit/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-snowsuit/proud.webp"
+     }
+    },
+    {
+     "id": "devrah-fortune-teller",
+     "name": "Devrah - Fortune Teller",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-fortune-teller/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-fortune-teller/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-fortune-teller/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-fortune-teller/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-fortune-teller/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-fortune-teller/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-fortune-teller/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-fortune-teller/proud.webp"
+     }
+    },
+    {
+     "id": "devrah-chef",
+     "name": "Devrah - Chef",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-chef/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-chef/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-chef/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-chef/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-chef/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-chef/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-chef/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-chef/proud.webp"
+     }
+    },
+    {
+     "id": "devrah-party-queen",
+     "name": "Devrah - Party Queen",
+     "sprites": {
+      "idle": "sprites/devrah-cadaberica/devrah-party-queen/neutral.webp",
+      "play": "sprites/devrah-cadaberica/devrah-party-queen/happy.webp",
+      "attack": "sprites/devrah-cadaberica/devrah-party-queen/angry.webp",
+      "special": "sprites/devrah-cadaberica/devrah-party-queen/rage.webp",
+      "hurt": "sprites/devrah-cadaberica/devrah-party-queen/scared.webp",
+      "lose": "sprites/devrah-cadaberica/devrah-party-queen/sad.webp",
+      "win": "sprites/devrah-cadaberica/devrah-party-queen/excited.webp",
+      "taunt": "sprites/devrah-cadaberica/devrah-party-queen/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/devrah-cadaberica.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "gentlemen-ghosts",
+   "name": "Gentlemen Ghosts",
+   "outfit": "default",
+   "short": "The Polite Ghosts of the Spook Mansion",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/gentlemen-ghosts/neutral.webp",
+    "play": "sprites/gentlemen-ghosts/happy.webp",
+    "attack": "sprites/gentlemen-ghosts/angry.webp",
+    "special": "sprites/gentlemen-ghosts/rage.webp",
+    "hurt": "sprites/gentlemen-ghosts/scared.webp",
+    "lose": "sprites/gentlemen-ghosts/sad.webp",
+    "win": "sprites/gentlemen-ghosts/excited.webp",
+    "taunt": "sprites/gentlemen-ghosts/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/gentlemen-ghosts.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "the-calamari-demon",
+   "name": "The Calamari Demon",
+   "outfit": "default",
+   "short": "\"I was once feared, worshipped. Now I’m just... the unwilling sous-chef of Devrah’s chaos kitchen\"",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/the-calamari-demon/neutral.webp",
+    "play": "sprites/the-calamari-demon/happy.webp",
+    "attack": "sprites/the-calamari-demon/angry.webp",
+    "special": "sprites/the-calamari-demon/rage.webp",
+    "hurt": "sprites/the-calamari-demon/scared.webp",
+    "lose": "sprites/the-calamari-demon/sad.webp",
+    "win": "sprites/the-calamari-demon/excited.webp",
+    "taunt": "sprites/the-calamari-demon/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/the-calamari-demon.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "fear",
+   "name": "Fear",
+   "outfit": "default",
+   "short": "Fear, the yapping terror, the relatable horror, and the reality check as a skull boy",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/fear/neutral.webp",
+    "play": "sprites/fear/happy.webp",
+    "attack": "sprites/fear/angry.webp",
+    "special": "sprites/fear/rage.webp",
+    "hurt": "sprites/fear/scared.webp",
+    "lose": "sprites/fear/sad.webp",
+    "win": "sprites/fear/excited.webp",
+    "taunt": "sprites/fear/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/fear.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "bonehead",
+   "name": "Bonehead",
+   "outfit": "default",
+   "short": "A friendly clatter echoes through the woods. A skeleton waves at you with the wrong hand.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/bonehead/neutral.webp",
+    "play": "sprites/bonehead/happy.webp",
+    "attack": "sprites/bonehead/angry.webp",
+    "special": "sprites/bonehead/rage.webp",
+    "hurt": "sprites/bonehead/scared.webp",
+    "lose": "sprites/bonehead/sad.webp",
+    "win": "sprites/bonehead/excited.webp",
+    "taunt": "sprites/bonehead/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/bonehead.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "the-ghouls",
+   "name": "The Ghouls",
+   "outfit": "default",
+   "short": "“If it smells bad and mumbles about snacks… it’s probably one of us.”",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/the-ghouls/neutral.webp",
+    "play": "sprites/the-ghouls/happy.webp",
+    "attack": "sprites/the-ghouls/angry.webp",
+    "special": "sprites/the-ghouls/rage.webp",
+    "hurt": "sprites/the-ghouls/scared.webp",
+    "lose": "sprites/the-ghouls/sad.webp",
+    "win": "sprites/the-ghouls/excited.webp",
+    "taunt": "sprites/the-ghouls/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/the-ghouls.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "the-dullahan-steed",
+   "name": "The Dullahan Steed",
+   "outfit": "default",
+   "short": "The Dullahan’s spectral steed",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/the-dullahan-steed/neutral.webp",
+    "play": "sprites/the-dullahan-steed/happy.webp",
+    "attack": "sprites/the-dullahan-steed/angry.webp",
+    "special": "sprites/the-dullahan-steed/rage.webp",
+    "hurt": "sprites/the-dullahan-steed/scared.webp",
+    "lose": "sprites/the-dullahan-steed/sad.webp",
+    "win": "sprites/the-dullahan-steed/excited.webp",
+    "taunt": "sprites/the-dullahan-steed/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/the-dullahan-steed.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "moonfang-werewolf",
+   "name": "Moonfang Werewolf",
+   "outfit": "default",
+   "short": "The Moonfang Werewolf",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/moonfang-werewolf/neutral.webp",
+    "play": "sprites/moonfang-werewolf/happy.webp",
+    "attack": "sprites/moonfang-werewolf/angry.webp",
+    "special": "sprites/moonfang-werewolf/rage.webp",
+    "hurt": "sprites/moonfang-werewolf/scared.webp",
+    "lose": "sprites/moonfang-werewolf/sad.webp",
+    "win": "sprites/moonfang-werewolf/excited.webp",
+    "taunt": "sprites/moonfang-werewolf/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/moonfang-werewolf.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "lyssara",
+   "name": "Lyssara",
+   "outfit": "default",
+   "short": "Her voice drifts like mist across moonlit waters, soft yet filled with eternal longing.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lyssara/neutral.webp",
+    "play": "sprites/lyssara/happy.webp",
+    "attack": "sprites/lyssara/angry.webp",
+    "special": "sprites/lyssara/rage.webp",
+    "hurt": "sprites/lyssara/scared.webp",
+    "lose": "sprites/lyssara/sad.webp",
+    "win": "sprites/lyssara/excited.webp",
+    "taunt": "sprites/lyssara/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/lyssara.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "lord-gourdvain",
+   "name": "Lord Gourdvain",
+   "outfit": "default",
+   "short": "The spectral ruler of autumn’s twilight, a being of ancient harvest magic and warm, ghostly wisdom",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/lord-gourdvain/neutral.webp",
+    "play": "sprites/lord-gourdvain/happy.webp",
+    "attack": "sprites/lord-gourdvain/angry.webp",
+    "special": "sprites/lord-gourdvain/rage.webp",
+    "hurt": "sprites/lord-gourdvain/scared.webp",
+    "lose": "sprites/lord-gourdvain/sad.webp",
+    "win": "sprites/lord-gourdvain/excited.webp",
+    "taunt": "sprites/lord-gourdvain/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/lord-gourdvain.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "the-scarecrow",
+   "name": "The Scarecrow",
+   "outfit": "default",
+   "short": "A silent reaper of flesh and fear born from the blood-soaked soil of the Grim Forest forgotten field",
+   "traits": [
+    "deliberate"
+   ],
+   "sprites": {
+    "idle": "sprites/the-scarecrow/neutral.webp",
+    "play": "sprites/the-scarecrow/happy.webp",
+    "attack": "sprites/the-scarecrow/angry.webp",
+    "special": "sprites/the-scarecrow/rage.webp",
+    "hurt": "sprites/the-scarecrow/scared.webp",
+    "lose": "sprites/the-scarecrow/sad.webp",
+    "win": "sprites/the-scarecrow/excited.webp",
+    "taunt": "sprites/the-scarecrow/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/the-scarecrow.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "the-wendigo",
+   "name": "The Wendigo",
+   "outfit": "default",
+   "short": "The Wendigo of Silent Frost",
+   "traits": [
+    "wise",
+    "muscular"
+   ],
+   "sprites": {
+    "idle": "sprites/the-wendigo/neutral.webp",
+    "play": "sprites/the-wendigo/happy.webp",
+    "attack": "sprites/the-wendigo/angry.webp",
+    "special": "sprites/the-wendigo/rage.webp",
+    "hurt": "sprites/the-wendigo/scared.webp",
+    "lose": "sprites/the-wendigo/sad.webp",
+    "win": "sprites/the-wendigo/excited.webp",
+    "taunt": "sprites/the-wendigo/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/the-wendigo.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "roy",
+   "name": "Roy",
+   "outfit": "default",
+   "short": "Roy, the Royal Bat Prince",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/roy/neutral.webp",
+    "play": "sprites/roy/happy.webp",
+    "attack": "sprites/roy/angry.webp",
+    "special": "sprites/roy/rage.webp",
+    "hurt": "sprites/roy/scared.webp",
+    "lose": "sprites/roy/sad.webp",
+    "win": "sprites/roy/excited.webp",
+    "taunt": "sprites/roy/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/roy.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "murterta-cadaberica",
+   "name": "Murterta Cadaberica",
+   "outfit": "Murtetra - Default",
+   "short": "The ghost matriarch of the Cadaberica bloodline now a detached doll of a arcane researcher",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/murterta-cadaberica/neutral.webp",
+    "play": "sprites/murterta-cadaberica/happy.webp",
+    "attack": "sprites/murterta-cadaberica/angry.webp",
+    "special": "sprites/murterta-cadaberica/rage.webp",
+    "hurt": "sprites/murterta-cadaberica/scared.webp",
+    "lose": "sprites/murterta-cadaberica/sad.webp",
+    "win": "sprites/murterta-cadaberica/excited.webp",
+    "taunt": "sprites/murterta-cadaberica/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "murtetra-true-ghostly-from",
+     "name": "Murtetra - True ghostly from",
+     "sprites": {
+      "idle": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/neutral.webp",
+      "play": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/happy.webp",
+      "attack": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/angry.webp",
+      "special": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/rage.webp",
+      "hurt": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/scared.webp",
+      "lose": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/sad.webp",
+      "win": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/excited.webp",
+      "taunt": "sprites/murterta-cadaberica/murtetra-true-ghostly-from/proud.webp"
+     }
+    },
+    {
+     "id": "murtetra-onesie",
+     "name": "Murtetra - Onesie",
+     "sprites": {
+      "idle": "sprites/murterta-cadaberica/murtetra-onesie/neutral.webp",
+      "play": "sprites/murterta-cadaberica/murtetra-onesie/happy.webp",
+      "attack": "sprites/murterta-cadaberica/murtetra-onesie/angry.webp",
+      "special": "sprites/murterta-cadaberica/murtetra-onesie/rage.webp",
+      "hurt": "sprites/murterta-cadaberica/murtetra-onesie/scared.webp",
+      "lose": "sprites/murterta-cadaberica/murtetra-onesie/sad.webp",
+      "win": "sprites/murterta-cadaberica/murtetra-onesie/excited.webp",
+      "taunt": "sprites/murterta-cadaberica/murtetra-onesie/proud.webp"
+     }
+    }
+   ],
+   "portrait": "portraits/murterta-cadaberica.webp",
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)"
+  },
+  {
+   "id": "sakurako",
+   "name": "Sakurako",
+   "outfit": "Sakurako - Default Outfit",
+   "short": "A silent and cold assassin, but she is in reality a shy and kind protector of the White District.",
+   "traits": [
+    "assassin",
+    "silent",
+    "cold",
+    "shy",
+    "sensitive",
+    "imaginative",
+    "acting",
+    "introverted"
+   ],
+   "sprites": {
+    "idle": "sprites/sakurako/neutral.webp",
+    "play": "sprites/sakurako/happy.webp",
+    "attack": "sprites/sakurako/angry.webp",
+    "special": "sprites/sakurako/angry.webp",
+    "hurt": "sprites/sakurako/scared.webp",
+    "lose": "sprites/sakurako/sad.webp",
+    "win": "sprites/sakurako/happy.webp",
+    "taunt": "sprites/sakurako/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "kyoka-casual-outfit",
+     "name": "Kyoka - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/sakurako/kyoka-casual-outfit/neutral.webp",
+      "play": "sprites/sakurako/kyoka-casual-outfit/happy.webp",
+      "attack": "sprites/sakurako/kyoka-casual-outfit/angry.webp",
+      "special": "sprites/sakurako/kyoka-casual-outfit/angry.webp",
+      "hurt": "sprites/sakurako/kyoka-casual-outfit/scared.webp",
+      "lose": "sprites/sakurako/kyoka-casual-outfit/sad.webp",
+      "win": "sprites/sakurako/kyoka-casual-outfit/happy.webp",
+      "taunt": "sprites/sakurako/kyoka-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "kyoka-swimsuit",
+     "name": "Kyoka - Swimsuit",
+     "sprites": {
+      "idle": "sprites/sakurako/kyoka-swimsuit/neutral.webp",
+      "play": "sprites/sakurako/kyoka-swimsuit/happy.webp",
+      "attack": "sprites/sakurako/kyoka-swimsuit/angry.webp",
+      "special": "sprites/sakurako/kyoka-swimsuit/rage.webp",
+      "hurt": "sprites/sakurako/kyoka-swimsuit/scared.webp",
+      "lose": "sprites/sakurako/kyoka-swimsuit/sad.webp",
+      "win": "sprites/sakurako/kyoka-swimsuit/excited.webp",
+      "taunt": "sprites/sakurako/kyoka-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "kyoka-dress",
+     "name": "Kyoka - Dress",
+     "sprites": {
+      "idle": "sprites/sakurako/kyoka-dress/neutral.webp",
+      "play": "sprites/sakurako/kyoka-dress/happy.webp",
+      "attack": "sprites/sakurako/kyoka-dress/angry.webp",
+      "special": "sprites/sakurako/kyoka-dress/rage.webp",
+      "hurt": "sprites/sakurako/kyoka-dress/scared.webp",
+      "lose": "sprites/sakurako/kyoka-dress/sad.webp",
+      "win": "sprites/sakurako/kyoka-dress/excited.webp",
+      "taunt": "sprites/sakurako/kyoka-dress/proud.webp"
+     }
+    },
+    {
+     "id": "kyoka-towel",
+     "name": "Kyoka - Towel",
+     "sprites": {
+      "idle": "sprites/sakurako/kyoka-towel/neutral.webp",
+      "play": "sprites/sakurako/kyoka-towel/happy.webp",
+      "attack": "sprites/sakurako/kyoka-towel/angry.webp",
+      "special": "sprites/sakurako/kyoka-towel/rage.webp",
+      "hurt": "sprites/sakurako/kyoka-towel/scared.webp",
+      "lose": "sprites/sakurako/kyoka-towel/sad.webp",
+      "win": "sprites/sakurako/kyoka-towel/excited.webp",
+      "taunt": "sprites/sakurako/kyoka-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/sakurako.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "dearth",
+   "name": "Dearth",
+   "outfit": "Dearth - Default Outfit",
+   "short": "Dearth the Harbinger of the Apocalypse is the brutal and hellish Protector of the Red District.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/dearth/neutral.webp",
+    "play": "sprites/dearth/happy.webp",
+    "attack": "sprites/dearth/angry.webp",
+    "special": "sprites/dearth/angry.webp",
+    "hurt": "sprites/dearth/scared.webp",
+    "lose": "sprites/dearth/sad.webp",
+    "win": "sprites/dearth/happy.webp",
+    "taunt": "sprites/dearth/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "fengsha-casual-outfit",
+     "name": "Fengsha - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/dearth/fengsha-casual-outfit/neutral.webp",
+      "play": "sprites/dearth/fengsha-casual-outfit/happy.webp",
+      "attack": "sprites/dearth/fengsha-casual-outfit/angry.webp",
+      "special": "sprites/dearth/fengsha-casual-outfit/angry.webp",
+      "hurt": "sprites/dearth/fengsha-casual-outfit/scared.webp",
+      "lose": "sprites/dearth/fengsha-casual-outfit/sad.webp",
+      "win": "sprites/dearth/fengsha-casual-outfit/happy.webp",
+      "taunt": "sprites/dearth/fengsha-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "fengsha-swimsuit",
+     "name": "Fengsha - Swimsuit",
+     "sprites": {
+      "idle": "sprites/dearth/fengsha-swimsuit/neutral.webp",
+      "play": "sprites/dearth/fengsha-swimsuit/happy.webp",
+      "attack": "sprites/dearth/fengsha-swimsuit/angry.webp",
+      "special": "sprites/dearth/fengsha-swimsuit/rage.webp",
+      "hurt": "sprites/dearth/fengsha-swimsuit/scared.webp",
+      "lose": "sprites/dearth/fengsha-swimsuit/sad.webp",
+      "win": "sprites/dearth/fengsha-swimsuit/excited.webp",
+      "taunt": "sprites/dearth/fengsha-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "fengsha-dress",
+     "name": "Fengsha - Dress",
+     "sprites": {
+      "idle": "sprites/dearth/fengsha-dress/neutral.webp",
+      "play": "sprites/dearth/fengsha-dress/happy.webp",
+      "attack": "sprites/dearth/fengsha-dress/angry.webp",
+      "special": "sprites/dearth/fengsha-dress/rage.webp",
+      "hurt": "sprites/dearth/fengsha-dress/scared.webp",
+      "lose": "sprites/dearth/fengsha-dress/sad.webp",
+      "win": "sprites/dearth/fengsha-dress/excited.webp",
+      "taunt": "sprites/dearth/fengsha-dress/proud.webp"
+     }
+    },
+    {
+     "id": "fengsha-yukata",
+     "name": "Fengsha - Yukata",
+     "sprites": {
+      "idle": "sprites/dearth/fengsha-yukata/neutral.webp",
+      "play": "sprites/dearth/fengsha-yukata/happy.webp",
+      "attack": "sprites/dearth/fengsha-yukata/angry.webp",
+      "special": "sprites/dearth/fengsha-yukata/rage.webp",
+      "hurt": "sprites/dearth/fengsha-yukata/scared.webp",
+      "lose": "sprites/dearth/fengsha-yukata/sad.webp",
+      "win": "sprites/dearth/fengsha-yukata/excited.webp",
+      "taunt": "sprites/dearth/fengsha-yukata/proud.webp"
+     }
+    },
+    {
+     "id": "fengsha-towel",
+     "name": "Fengsha - Towel",
+     "sprites": {
+      "idle": "sprites/dearth/fengsha-towel/neutral.webp",
+      "play": "sprites/dearth/fengsha-towel/happy.webp",
+      "attack": "sprites/dearth/fengsha-towel/angry.webp",
+      "special": "sprites/dearth/fengsha-towel/rage.webp",
+      "hurt": "sprites/dearth/fengsha-towel/scared.webp",
+      "lose": "sprites/dearth/fengsha-towel/sad.webp",
+      "win": "sprites/dearth/fengsha-towel/excited.webp",
+      "taunt": "sprites/dearth/fengsha-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/dearth.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "trictotano",
+   "name": "Trictotano",
+   "outfit": "Trictotano - Default Outfit",
+   "short": "The toxic Protector of the wastelands of the Green District as the Death-Dealing Reaper",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/trictotano/neutral.webp",
+    "play": "sprites/trictotano/happy.webp",
+    "attack": "sprites/trictotano/angry.webp",
+    "special": "sprites/trictotano/angry.webp",
+    "hurt": "sprites/trictotano/scared.webp",
+    "lose": "sprites/trictotano/sad.webp",
+    "win": "sprites/trictotano/happy.webp",
+    "taunt": "sprites/trictotano/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "tanya-casual-outfit",
+     "name": "Tanya - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/trictotano/tanya-casual-outfit/neutral.webp",
+      "play": "sprites/trictotano/tanya-casual-outfit/happy.webp",
+      "attack": "sprites/trictotano/tanya-casual-outfit/angry.webp",
+      "special": "sprites/trictotano/tanya-casual-outfit/angry.webp",
+      "hurt": "sprites/trictotano/tanya-casual-outfit/scared.webp",
+      "lose": "sprites/trictotano/tanya-casual-outfit/sad.webp",
+      "win": "sprites/trictotano/tanya-casual-outfit/happy.webp",
+      "taunt": "sprites/trictotano/tanya-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "tanya-swimsuit",
+     "name": "Tanya - Swimsuit",
+     "sprites": {
+      "idle": "sprites/trictotano/tanya-swimsuit/neutral.webp",
+      "play": "sprites/trictotano/tanya-swimsuit/happy.webp",
+      "attack": "sprites/trictotano/tanya-swimsuit/angry.webp",
+      "special": "sprites/trictotano/tanya-swimsuit/rage.webp",
+      "hurt": "sprites/trictotano/tanya-swimsuit/scared.webp",
+      "lose": "sprites/trictotano/tanya-swimsuit/sad.webp",
+      "win": "sprites/trictotano/tanya-swimsuit/excited.webp",
+      "taunt": "sprites/trictotano/tanya-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "tanya-dress",
+     "name": "Tanya - Dress",
+     "sprites": {
+      "idle": "sprites/trictotano/tanya-dress/neutral.webp",
+      "play": "sprites/trictotano/tanya-dress/happy.webp",
+      "attack": "sprites/trictotano/tanya-dress/angry.webp",
+      "special": "sprites/trictotano/tanya-dress/rage.webp",
+      "hurt": "sprites/trictotano/tanya-dress/scared.webp",
+      "lose": "sprites/trictotano/tanya-dress/sad.webp",
+      "win": "sprites/trictotano/tanya-dress/excited.webp",
+      "taunt": "sprites/trictotano/tanya-dress/proud.webp"
+     }
+    },
+    {
+     "id": "tanya-towel-barefoot",
+     "name": "Tanya - Towel, barefoot.",
+     "sprites": {
+      "idle": "sprites/trictotano/tanya-towel-barefoot/neutral.webp",
+      "play": "sprites/trictotano/tanya-towel-barefoot/happy.webp",
+      "attack": "sprites/trictotano/tanya-towel-barefoot/angry.webp",
+      "special": "sprites/trictotano/tanya-towel-barefoot/rage.webp",
+      "hurt": "sprites/trictotano/tanya-towel-barefoot/scared.webp",
+      "lose": "sprites/trictotano/tanya-towel-barefoot/sad.webp",
+      "win": "sprites/trictotano/tanya-towel-barefoot/excited.webp",
+      "taunt": "sprites/trictotano/tanya-towel-barefoot/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/trictotano.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "gerroid",
+   "name": "Gerroid",
+   "outfit": "Gerroid - Default Outfit",
+   "short": "The Golden Claw, a greedy gangster, and the protector of the Yellow District",
+   "traits": [
+    "gamer",
+    "confident",
+    "assertive",
+    "prideful",
+    "smart",
+    "cunning",
+    "prudent",
+    "risky"
+   ],
+   "sprites": {
+    "idle": "sprites/gerroid/neutral.webp",
+    "play": "sprites/gerroid/happy.webp",
+    "attack": "sprites/gerroid/angry.webp",
+    "special": "sprites/gerroid/angry.webp",
+    "hurt": "sprites/gerroid/scared.webp",
+    "lose": "sprites/gerroid/sad.webp",
+    "win": "sprites/gerroid/happy.webp",
+    "taunt": "sprites/gerroid/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "gina-casual-outfit",
+     "name": "Gina - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/gerroid/gina-casual-outfit/neutral.webp",
+      "play": "sprites/gerroid/gina-casual-outfit/happy.webp",
+      "attack": "sprites/gerroid/gina-casual-outfit/angry.webp",
+      "special": "sprites/gerroid/gina-casual-outfit/angry.webp",
+      "hurt": "sprites/gerroid/gina-casual-outfit/scared.webp",
+      "lose": "sprites/gerroid/gina-casual-outfit/sad.webp",
+      "win": "sprites/gerroid/gina-casual-outfit/happy.webp",
+      "taunt": "sprites/gerroid/gina-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "gina-swimsuit",
+     "name": "Gina - Swimsuit",
+     "sprites": {
+      "idle": "sprites/gerroid/gina-swimsuit/neutral.webp",
+      "play": "sprites/gerroid/gina-swimsuit/happy.webp",
+      "attack": "sprites/gerroid/gina-swimsuit/angry.webp",
+      "special": "sprites/gerroid/gina-swimsuit/rage.webp",
+      "hurt": "sprites/gerroid/gina-swimsuit/scared.webp",
+      "lose": "sprites/gerroid/gina-swimsuit/sad.webp",
+      "win": "sprites/gerroid/gina-swimsuit/excited.webp",
+      "taunt": "sprites/gerroid/gina-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "gina-dress",
+     "name": "Gina - Dress",
+     "sprites": {
+      "idle": "sprites/gerroid/gina-dress/neutral.webp",
+      "play": "sprites/gerroid/gina-dress/happy.webp",
+      "attack": "sprites/gerroid/gina-dress/angry.webp",
+      "special": "sprites/gerroid/gina-dress/rage.webp",
+      "hurt": "sprites/gerroid/gina-dress/scared.webp",
+      "lose": "sprites/gerroid/gina-dress/sad.webp",
+      "win": "sprites/gerroid/gina-dress/excited.webp",
+      "taunt": "sprites/gerroid/gina-dress/proud.webp"
+     }
+    },
+    {
+     "id": "gina-towel",
+     "name": "Gina - Towel",
+     "sprites": {
+      "idle": "sprites/gerroid/gina-towel/neutral.webp",
+      "play": "sprites/gerroid/gina-towel/happy.webp",
+      "attack": "sprites/gerroid/gina-towel/angry.webp",
+      "special": "sprites/gerroid/gina-towel/rage.webp",
+      "hurt": "sprites/gerroid/gina-towel/scared.webp",
+      "lose": "sprites/gerroid/gina-towel/sad.webp",
+      "win": "sprites/gerroid/gina-towel/excited.webp",
+      "taunt": "sprites/gerroid/gina-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/gerroid.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "cecil",
+   "name": "Cecil",
+   "outfit": "Cecil - Default Outfit",
+   "short": "A serious and hardworking girl as a very refined and graceful protector of the Blue District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/cecil/neutral.webp",
+    "play": "sprites/cecil/happy.webp",
+    "attack": "sprites/cecil/angry.webp",
+    "special": "sprites/cecil/angry.webp",
+    "hurt": "sprites/cecil/scared.webp",
+    "lose": "sprites/cecil/sad.webp",
+    "win": "sprites/cecil/happy.webp",
+    "taunt": "sprites/cecil/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "camilla-maid-outfit",
+     "name": "Camilla - Maid Outfit",
+     "sprites": {
+      "idle": "sprites/cecil/camilla-maid-outfit/neutral.webp",
+      "play": "sprites/cecil/camilla-maid-outfit/happy.webp",
+      "attack": "sprites/cecil/camilla-maid-outfit/angry.webp",
+      "special": "sprites/cecil/camilla-maid-outfit/angry.webp",
+      "hurt": "sprites/cecil/camilla-maid-outfit/scared.webp",
+      "lose": "sprites/cecil/camilla-maid-outfit/sad.webp",
+      "win": "sprites/cecil/camilla-maid-outfit/happy.webp",
+      "taunt": "sprites/cecil/camilla-maid-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "camilla-casual-outfit",
+     "name": "Camilla - Casual Outfit:",
+     "sprites": {
+      "idle": "sprites/cecil/camilla-casual-outfit/neutral.webp",
+      "play": "sprites/cecil/camilla-casual-outfit/happy.webp",
+      "attack": "sprites/cecil/camilla-casual-outfit/angry.webp",
+      "special": "sprites/cecil/camilla-casual-outfit/angry.webp",
+      "hurt": "sprites/cecil/camilla-casual-outfit/scared.webp",
+      "lose": "sprites/cecil/camilla-casual-outfit/sad.webp",
+      "win": "sprites/cecil/camilla-casual-outfit/happy.webp",
+      "taunt": "sprites/cecil/camilla-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "camilla-swimsuit",
+     "name": "Camilla - Swimsuit",
+     "sprites": {
+      "idle": "sprites/cecil/camilla-swimsuit/neutral.webp",
+      "play": "sprites/cecil/camilla-swimsuit/happy.webp",
+      "attack": "sprites/cecil/camilla-swimsuit/angry.webp",
+      "special": "sprites/cecil/camilla-swimsuit/rage.webp",
+      "hurt": "sprites/cecil/camilla-swimsuit/scared.webp",
+      "lose": "sprites/cecil/camilla-swimsuit/sad.webp",
+      "win": "sprites/cecil/camilla-swimsuit/excited.webp",
+      "taunt": "sprites/cecil/camilla-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "camilla-dress",
+     "name": "Camilla - Dress",
+     "sprites": {
+      "idle": "sprites/cecil/camilla-dress/neutral.webp",
+      "play": "sprites/cecil/camilla-dress/happy.webp",
+      "attack": "sprites/cecil/camilla-dress/angry.webp",
+      "special": "sprites/cecil/camilla-dress/rage.webp",
+      "hurt": "sprites/cecil/camilla-dress/scared.webp",
+      "lose": "sprites/cecil/camilla-dress/sad.webp",
+      "win": "sprites/cecil/camilla-dress/excited.webp",
+      "taunt": "sprites/cecil/camilla-dress/proud.webp"
+     }
+    },
+    {
+     "id": "camilla-towel",
+     "name": "Camilla - Towel",
+     "sprites": {
+      "idle": "sprites/cecil/camilla-towel/neutral.webp",
+      "play": "sprites/cecil/camilla-towel/happy.webp",
+      "attack": "sprites/cecil/camilla-towel/angry.webp",
+      "special": "sprites/cecil/camilla-towel/rage.webp",
+      "hurt": "sprites/cecil/camilla-towel/scared.webp",
+      "lose": "sprites/cecil/camilla-towel/sad.webp",
+      "win": "sprites/cecil/camilla-towel/excited.webp",
+      "taunt": "sprites/cecil/camilla-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/cecil.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "femicia",
+   "name": "Femicia",
+   "outfit": "Femicia - Default Outfit",
+   "short": "A cool and electrifying protector and the soul of the party of the Purple District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/femicia/neutral.webp",
+    "play": "sprites/femicia/happy.webp",
+    "attack": "sprites/femicia/angry.webp",
+    "special": "sprites/femicia/angry.webp",
+    "hurt": "sprites/femicia/scared.webp",
+    "lose": "sprites/femicia/sad.webp",
+    "win": "sprites/femicia/happy.webp",
+    "taunt": "sprites/femicia/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "carly-swimsuit",
+     "name": "Carly - Swimsuit",
+     "sprites": {
+      "idle": "sprites/femicia/carly-swimsuit/neutral.webp",
+      "play": "sprites/femicia/carly-swimsuit/happy.webp",
+      "attack": "sprites/femicia/carly-swimsuit/angry.webp",
+      "special": "sprites/femicia/carly-swimsuit/rage.webp",
+      "hurt": "sprites/femicia/carly-swimsuit/scared.webp",
+      "lose": "sprites/femicia/carly-swimsuit/sad.webp",
+      "win": "sprites/femicia/carly-swimsuit/excited.webp",
+      "taunt": "sprites/femicia/carly-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "carly-dress",
+     "name": "Carly - Dress",
+     "sprites": {
+      "idle": "sprites/femicia/carly-dress/neutral.webp",
+      "play": "sprites/femicia/carly-dress/happy.webp",
+      "attack": "sprites/femicia/carly-dress/angry.webp",
+      "special": "sprites/femicia/carly-dress/rage.webp",
+      "hurt": "sprites/femicia/carly-dress/scared.webp",
+      "lose": "sprites/femicia/carly-dress/sad.webp",
+      "win": "sprites/femicia/carly-dress/excited.webp",
+      "taunt": "sprites/femicia/carly-dress/proud.webp"
+     }
+    },
+    {
+     "id": "carly-yukata",
+     "name": "Carly - Yukata",
+     "sprites": {
+      "idle": "sprites/femicia/carly-yukata/neutral.webp",
+      "play": "sprites/femicia/carly-yukata/happy.webp",
+      "attack": "sprites/femicia/carly-yukata/angry.webp",
+      "special": "sprites/femicia/carly-yukata/rage.webp",
+      "hurt": "sprites/femicia/carly-yukata/scared.webp",
+      "lose": "sprites/femicia/carly-yukata/sad.webp",
+      "win": "sprites/femicia/carly-yukata/excited.webp",
+      "taunt": "sprites/femicia/carly-yukata/proud.webp"
+     }
+    },
+    {
+     "id": "carly-towel",
+     "name": "Carly - Towel",
+     "sprites": {
+      "idle": "sprites/femicia/carly-towel/neutral.webp",
+      "play": "sprites/femicia/carly-towel/happy.webp",
+      "attack": "sprites/femicia/carly-towel/angry.webp",
+      "special": "sprites/femicia/carly-towel/rage.webp",
+      "hurt": "sprites/femicia/carly-towel/scared.webp",
+      "lose": "sprites/femicia/carly-towel/sad.webp",
+      "win": "sprites/femicia/carly-towel/excited.webp",
+      "taunt": "sprites/femicia/carly-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/femicia.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "x",
+   "name": "X",
+   "outfit": "X - Default Outfit",
+   "short": "Classified Documents.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/x/neutral.webp",
+    "play": "sprites/x/happy.webp",
+    "attack": "sprites/x/angry.webp",
+    "special": "sprites/x/rage.webp",
+    "hurt": "sprites/x/scared.webp",
+    "lose": "sprites/x/sad.webp",
+    "win": "sprites/x/excited.webp",
+    "taunt": "sprites/x/proud.webp"
+   },
+   "costumes": [
+    {
+     "id": "megan-casual-outfit",
+     "name": "Megan - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/x/megan-casual-outfit/neutral.webp",
+      "play": "sprites/x/megan-casual-outfit/happy.webp",
+      "attack": "sprites/x/megan-casual-outfit/angry.webp",
+      "special": "sprites/x/megan-casual-outfit/angry.webp",
+      "hurt": "sprites/x/megan-casual-outfit/scared.webp",
+      "lose": "sprites/x/megan-casual-outfit/sad.webp",
+      "win": "sprites/x/megan-casual-outfit/happy.webp",
+      "taunt": "sprites/x/megan-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "megan-swimsuit",
+     "name": "Megan - Swimsuit",
+     "sprites": {
+      "idle": "sprites/x/megan-swimsuit/neutral.webp",
+      "play": "sprites/x/megan-swimsuit/happy.webp",
+      "attack": "sprites/x/megan-swimsuit/angry.webp",
+      "special": "sprites/x/megan-swimsuit/rage.webp",
+      "hurt": "sprites/x/megan-swimsuit/scared.webp",
+      "lose": "sprites/x/megan-swimsuit/sad.webp",
+      "win": "sprites/x/megan-swimsuit/excited.webp",
+      "taunt": "sprites/x/megan-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "megan-dress",
+     "name": "Megan - Dress",
+     "sprites": {
+      "idle": "sprites/x/megan-dress/neutral.webp",
+      "play": "sprites/x/megan-dress/happy.webp",
+      "attack": "sprites/x/megan-dress/angry.webp",
+      "special": "sprites/x/megan-dress/rage.webp",
+      "hurt": "sprites/x/megan-dress/scared.webp",
+      "lose": "sprites/x/megan-dress/sad.webp",
+      "win": "sprites/x/megan-dress/excited.webp",
+      "taunt": "sprites/x/megan-dress/proud.webp"
+     }
+    },
+    {
+     "id": "megan-towel",
+     "name": "Megan - Towel",
+     "sprites": {
+      "idle": "sprites/x/megan-towel/neutral.webp",
+      "play": "sprites/x/megan-towel/happy.webp",
+      "attack": "sprites/x/megan-towel/angry.webp",
+      "special": "sprites/x/megan-towel/rage.webp",
+      "hurt": "sprites/x/megan-towel/scared.webp",
+      "lose": "sprites/x/megan-towel/sad.webp",
+      "win": "sprites/x/megan-towel/excited.webp",
+      "taunt": "sprites/x/megan-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/x.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "tragonta",
+   "name": "Tragonta",
+   "outfit": "Tragonta - Default Outfit",
+   "short": " A queen of gore and one of the four criminals and the craziest and most violent villain",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/tragonta/neutral.webp",
+    "play": "sprites/tragonta/happy.webp",
+    "attack": "sprites/tragonta/angry.webp",
+    "special": "sprites/tragonta/angry.webp",
+    "hurt": "sprites/tragonta/scared.webp",
+    "lose": "sprites/tragonta/sad.webp",
+    "win": "sprites/tragonta/happy.webp",
+    "taunt": "sprites/tragonta/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "kurame-casual-outfit",
+     "name": "Kurame - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/tragonta/kurame-casual-outfit/neutral.webp",
+      "play": "sprites/tragonta/kurame-casual-outfit/happy.webp",
+      "attack": "sprites/tragonta/kurame-casual-outfit/angry.webp",
+      "special": "sprites/tragonta/kurame-casual-outfit/angry.webp",
+      "hurt": "sprites/tragonta/kurame-casual-outfit/scared.webp",
+      "lose": "sprites/tragonta/kurame-casual-outfit/sad.webp",
+      "win": "sprites/tragonta/kurame-casual-outfit/happy.webp",
+      "taunt": "sprites/tragonta/kurame-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "kurame-swimsuit",
+     "name": "Kurame - Swimsuit",
+     "sprites": {
+      "idle": "sprites/tragonta/kurame-swimsuit/neutral.webp",
+      "play": "sprites/tragonta/kurame-swimsuit/happy.webp",
+      "attack": "sprites/tragonta/kurame-swimsuit/angry.webp",
+      "special": "sprites/tragonta/kurame-swimsuit/rage.webp",
+      "hurt": "sprites/tragonta/kurame-swimsuit/scared.webp",
+      "lose": "sprites/tragonta/kurame-swimsuit/sad.webp",
+      "win": "sprites/tragonta/kurame-swimsuit/excited.webp",
+      "taunt": "sprites/tragonta/kurame-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "kurame-dress",
+     "name": "Kurame - Dress",
+     "sprites": {
+      "idle": "sprites/tragonta/kurame-dress/neutral.webp",
+      "play": "sprites/tragonta/kurame-dress/happy.webp",
+      "attack": "sprites/tragonta/kurame-dress/angry.webp",
+      "special": "sprites/tragonta/kurame-dress/rage.webp",
+      "hurt": "sprites/tragonta/kurame-dress/scared.webp",
+      "lose": "sprites/tragonta/kurame-dress/sad.webp",
+      "win": "sprites/tragonta/kurame-dress/excited.webp",
+      "taunt": "sprites/tragonta/kurame-dress/proud.webp"
+     }
+    },
+    {
+     "id": "kurame-towel",
+     "name": "Kurame - Towel",
+     "sprites": {
+      "idle": "sprites/tragonta/kurame-towel/neutral.webp",
+      "play": "sprites/tragonta/kurame-towel/happy.webp",
+      "attack": "sprites/tragonta/kurame-towel/angry.webp",
+      "special": "sprites/tragonta/kurame-towel/rage.webp",
+      "hurt": "sprites/tragonta/kurame-towel/scared.webp",
+      "lose": "sprites/tragonta/kurame-towel/sad.webp",
+      "win": "sprites/tragonta/kurame-towel/excited.webp",
+      "taunt": "sprites/tragonta/kurame-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/tragonta.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "toxor",
+   "name": "Toxor",
+   "outfit": "Toxor - Default Outfit",
+   "short": "One of the dangerous criminals and a very radioactive and psychopathic villain in the Green District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/toxor/neutral.webp",
+    "play": "sprites/toxor/happy.webp",
+    "attack": "sprites/toxor/angry.webp",
+    "special": "sprites/toxor/angry.webp",
+    "hurt": "sprites/toxor/scared.webp",
+    "lose": "sprites/toxor/sad.webp",
+    "win": "sprites/toxor/happy.webp",
+    "taunt": "sprites/toxor/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "trude-swimsuit",
+     "name": "Trude - Swimsuit",
+     "sprites": {
+      "idle": "sprites/toxor/trude-swimsuit/neutral.webp",
+      "play": "sprites/toxor/trude-swimsuit/happy.webp",
+      "attack": "sprites/toxor/trude-swimsuit/angry.webp",
+      "special": "sprites/toxor/trude-swimsuit/rage.webp",
+      "hurt": "sprites/toxor/trude-swimsuit/scared.webp",
+      "lose": "sprites/toxor/trude-swimsuit/sad.webp",
+      "win": "sprites/toxor/trude-swimsuit/excited.webp",
+      "taunt": "sprites/toxor/trude-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "trude-dress",
+     "name": "Trude - Dress",
+     "sprites": {
+      "idle": "sprites/toxor/trude-dress/neutral.webp",
+      "play": "sprites/toxor/trude-dress/happy.webp",
+      "attack": "sprites/toxor/trude-dress/angry.webp",
+      "special": "sprites/toxor/trude-dress/rage.webp",
+      "hurt": "sprites/toxor/trude-dress/scared.webp",
+      "lose": "sprites/toxor/trude-dress/sad.webp",
+      "win": "sprites/toxor/trude-dress/excited.webp",
+      "taunt": "sprites/toxor/trude-dress/proud.webp"
+     }
+    },
+    {
+     "id": "trude-towel",
+     "name": "Trude - Towel",
+     "sprites": {
+      "idle": "sprites/toxor/trude-towel/neutral.webp",
+      "play": "sprites/toxor/trude-towel/happy.webp",
+      "attack": "sprites/toxor/trude-towel/angry.webp",
+      "special": "sprites/toxor/trude-towel/rage.webp",
+      "hurt": "sprites/toxor/trude-towel/scared.webp",
+      "lose": "sprites/toxor/trude-towel/sad.webp",
+      "win": "sprites/toxor/trude-towel/excited.webp",
+      "taunt": "sprites/toxor/trude-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/toxor.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "kirari",
+   "name": "Kirari",
+   "outfit": "Kirari - Default Outfit",
+   "short": "A old woman who keeps the old traditions of the Kodome Family as the head of her Yakuza Clan",
+   "traits": [
+    "old",
+    "Shy",
+    "silent",
+    "Wise",
+    "calm",
+    "introverted",
+    "sweet",
+    "caring"
+   ],
+   "sprites": {
+    "idle": "sprites/kirari/neutral.webp",
+    "play": "sprites/kirari/happy.webp",
+    "attack": "sprites/kirari/angry.webp",
+    "special": "sprites/kirari/angry.webp",
+    "hurt": "sprites/kirari/scared.webp",
+    "lose": "sprites/kirari/sad.webp",
+    "win": "sprites/kirari/happy.webp",
+    "taunt": "sprites/kirari/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "ai-casual-outfit",
+     "name": "Ai - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/kirari/ai-casual-outfit/neutral.webp",
+      "play": "sprites/kirari/ai-casual-outfit/happy.webp",
+      "attack": "sprites/kirari/ai-casual-outfit/angry.webp",
+      "special": "sprites/kirari/ai-casual-outfit/angry.webp",
+      "hurt": "sprites/kirari/ai-casual-outfit/scared.webp",
+      "lose": "sprites/kirari/ai-casual-outfit/sad.webp",
+      "win": "sprites/kirari/ai-casual-outfit/happy.webp",
+      "taunt": "sprites/kirari/ai-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "ai-swimsuit",
+     "name": "Ai - Swimsuit",
+     "sprites": {
+      "idle": "sprites/kirari/ai-swimsuit/neutral.webp",
+      "play": "sprites/kirari/ai-swimsuit/happy.webp",
+      "attack": "sprites/kirari/ai-swimsuit/angry.webp",
+      "special": "sprites/kirari/ai-swimsuit/rage.webp",
+      "hurt": "sprites/kirari/ai-swimsuit/scared.webp",
+      "lose": "sprites/kirari/ai-swimsuit/sad.webp",
+      "win": "sprites/kirari/ai-swimsuit/excited.webp",
+      "taunt": "sprites/kirari/ai-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "ai-dress",
+     "name": "Ai - Dress",
+     "sprites": {
+      "idle": "sprites/kirari/ai-dress/neutral.webp",
+      "play": "sprites/kirari/ai-dress/happy.webp",
+      "attack": "sprites/kirari/ai-dress/angry.webp",
+      "special": "sprites/kirari/ai-dress/rage.webp",
+      "hurt": "sprites/kirari/ai-dress/scared.webp",
+      "lose": "sprites/kirari/ai-dress/sad.webp",
+      "win": "sprites/kirari/ai-dress/excited.webp",
+      "taunt": "sprites/kirari/ai-dress/proud.webp"
+     }
+    },
+    {
+     "id": "ai-yukata",
+     "name": "AI - Yukata",
+     "sprites": {
+      "idle": "sprites/kirari/ai-yukata/neutral.webp",
+      "play": "sprites/kirari/ai-yukata/happy.webp",
+      "attack": "sprites/kirari/ai-yukata/angry.webp",
+      "special": "sprites/kirari/ai-yukata/rage.webp",
+      "hurt": "sprites/kirari/ai-yukata/scared.webp",
+      "lose": "sprites/kirari/ai-yukata/sad.webp",
+      "win": "sprites/kirari/ai-yukata/excited.webp",
+      "taunt": "sprites/kirari/ai-yukata/proud.webp"
+     }
+    },
+    {
+     "id": "ai-towel",
+     "name": "Ai - Towel",
+     "sprites": {
+      "idle": "sprites/kirari/ai-towel/neutral.webp",
+      "play": "sprites/kirari/ai-towel/happy.webp",
+      "attack": "sprites/kirari/ai-towel/angry.webp",
+      "special": "sprites/kirari/ai-towel/rage.webp",
+      "hurt": "sprites/kirari/ai-towel/scared.webp",
+      "lose": "sprites/kirari/ai-towel/sad.webp",
+      "win": "sprites/kirari/ai-towel/excited.webp",
+      "taunt": "sprites/kirari/ai-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/kirari.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "stella",
+   "name": "Stella",
+   "outfit": "Stella - Default Outfit",
+   "short": "One of the Four Criminals and the smuggest idol and dangerous genocidal brat",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/stella/neutral.webp",
+    "play": "sprites/stella/happy.webp",
+    "attack": "sprites/stella/angry.webp",
+    "special": "sprites/stella/angry.webp",
+    "hurt": "sprites/stella/scared.webp",
+    "lose": "sprites/stella/sad.webp",
+    "win": "sprites/stella/happy.webp",
+    "taunt": "sprites/stella/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "otona-casual-outfit",
+     "name": "Otona - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/stella/otona-casual-outfit/neutral.webp",
+      "play": "sprites/stella/otona-casual-outfit/happy.webp",
+      "attack": "sprites/stella/otona-casual-outfit/angry.webp",
+      "special": "sprites/stella/otona-casual-outfit/angry.webp",
+      "hurt": "sprites/stella/otona-casual-outfit/scared.webp",
+      "lose": "sprites/stella/otona-casual-outfit/sad.webp",
+      "win": "sprites/stella/otona-casual-outfit/happy.webp",
+      "taunt": "sprites/stella/otona-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "stella-swimsuit",
+     "name": "Stella - Swimsuit",
+     "sprites": {
+      "idle": "sprites/stella/stella-swimsuit/neutral.webp",
+      "play": "sprites/stella/stella-swimsuit/happy.webp",
+      "attack": "sprites/stella/stella-swimsuit/angry.webp",
+      "special": "sprites/stella/stella-swimsuit/rage.webp",
+      "hurt": "sprites/stella/stella-swimsuit/scared.webp",
+      "lose": "sprites/stella/stella-swimsuit/sad.webp",
+      "win": "sprites/stella/stella-swimsuit/excited.webp",
+      "taunt": "sprites/stella/stella-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "otona-swimsuit",
+     "name": "Otona - Swimsuit",
+     "sprites": {
+      "idle": "sprites/stella/otona-swimsuit/neutral.webp",
+      "play": "sprites/stella/otona-swimsuit/happy.webp",
+      "attack": "sprites/stella/otona-swimsuit/angry.webp",
+      "special": "sprites/stella/otona-swimsuit/rage.webp",
+      "hurt": "sprites/stella/otona-swimsuit/scared.webp",
+      "lose": "sprites/stella/otona-swimsuit/sad.webp",
+      "win": "sprites/stella/otona-swimsuit/excited.webp",
+      "taunt": "sprites/stella/otona-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "otona-dress",
+     "name": "Otona - Dress",
+     "sprites": {
+      "idle": "sprites/stella/otona-dress/neutral.webp",
+      "play": "sprites/stella/otona-dress/happy.webp",
+      "attack": "sprites/stella/otona-dress/angry.webp",
+      "special": "sprites/stella/otona-dress/rage.webp",
+      "hurt": "sprites/stella/otona-dress/scared.webp",
+      "lose": "sprites/stella/otona-dress/sad.webp",
+      "win": "sprites/stella/otona-dress/excited.webp",
+      "taunt": "sprites/stella/otona-dress/proud.webp"
+     }
+    },
+    {
+     "id": "otona-towel",
+     "name": "Otona - Towel",
+     "sprites": {
+      "idle": "sprites/stella/otona-towel/neutral.webp",
+      "play": "sprites/stella/otona-towel/happy.webp",
+      "attack": "sprites/stella/otona-towel/angry.webp",
+      "special": "sprites/stella/otona-towel/rage.webp",
+      "hurt": "sprites/stella/otona-towel/scared.webp",
+      "lose": "sprites/stella/otona-towel/sad.webp",
+      "win": "sprites/stella/otona-towel/excited.webp",
+      "taunt": "sprites/stella/otona-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/stella.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "yuri-protectors",
+   "name": "Yuri",
+   "outfit": "Yuri - Default Outfit",
+   "short": "A tough and rebellious girl at the service of Gerroid, the protector of the Yellow District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/yuri-protectors/neutral.webp",
+    "play": "sprites/yuri-protectors/happy.webp",
+    "attack": "sprites/yuri-protectors/angry.webp",
+    "special": "sprites/yuri-protectors/angry.webp",
+    "hurt": "sprites/yuri-protectors/scared.webp",
+    "lose": "sprites/yuri-protectors/sad.webp",
+    "win": "sprites/yuri-protectors/happy.webp",
+    "taunt": "sprites/yuri-protectors/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "yuri-swimsuit",
+     "name": "Yuri - Swimsuit",
+     "sprites": {
+      "idle": "sprites/yuri-protectors/yuri-swimsuit/neutral.webp",
+      "play": "sprites/yuri-protectors/yuri-swimsuit/happy.webp",
+      "attack": "sprites/yuri-protectors/yuri-swimsuit/angry.webp",
+      "special": "sprites/yuri-protectors/yuri-swimsuit/rage.webp",
+      "hurt": "sprites/yuri-protectors/yuri-swimsuit/scared.webp",
+      "lose": "sprites/yuri-protectors/yuri-swimsuit/sad.webp",
+      "win": "sprites/yuri-protectors/yuri-swimsuit/excited.webp",
+      "taunt": "sprites/yuri-protectors/yuri-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "yuri-dress",
+     "name": "Yuri - Dress",
+     "sprites": {
+      "idle": "sprites/yuri-protectors/yuri-dress/neutral.webp",
+      "play": "sprites/yuri-protectors/yuri-dress/happy.webp",
+      "attack": "sprites/yuri-protectors/yuri-dress/angry.webp",
+      "special": "sprites/yuri-protectors/yuri-dress/rage.webp",
+      "hurt": "sprites/yuri-protectors/yuri-dress/scared.webp",
+      "lose": "sprites/yuri-protectors/yuri-dress/sad.webp",
+      "win": "sprites/yuri-protectors/yuri-dress/excited.webp",
+      "taunt": "sprites/yuri-protectors/yuri-dress/proud.webp"
+     }
+    },
+    {
+     "id": "yuri-towel",
+     "name": "Yuri - Towel",
+     "sprites": {
+      "idle": "sprites/yuri-protectors/yuri-towel/neutral.webp",
+      "play": "sprites/yuri-protectors/yuri-towel/happy.webp",
+      "attack": "sprites/yuri-protectors/yuri-towel/angry.webp",
+      "special": "sprites/yuri-protectors/yuri-towel/rage.webp",
+      "hurt": "sprites/yuri-protectors/yuri-towel/scared.webp",
+      "lose": "sprites/yuri-protectors/yuri-towel/sad.webp",
+      "win": "sprites/yuri-protectors/yuri-towel/excited.webp",
+      "taunt": "sprites/yuri-protectors/yuri-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/yuri-protectors.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "vendetta",
+   "name": "Vendetta",
+   "outfit": "Vendetta - Default Outfit",
+   "short": "A vigilante who punishes the criminals who haunt the innocents the justice system can't protect",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/vendetta/neutral.webp",
+    "play": "sprites/vendetta/happy.webp",
+    "attack": "sprites/vendetta/angry.webp",
+    "special": "sprites/vendetta/angry.webp",
+    "hurt": "sprites/vendetta/scared.webp",
+    "lose": "sprites/vendetta/sad.webp",
+    "win": "sprites/vendetta/happy.webp",
+    "taunt": "sprites/vendetta/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "victoria-swimsuit",
+     "name": "Victoria - Swimsuit",
+     "sprites": {
+      "idle": "sprites/vendetta/victoria-swimsuit/neutral.webp",
+      "play": "sprites/vendetta/victoria-swimsuit/happy.webp",
+      "attack": "sprites/vendetta/victoria-swimsuit/angry.webp",
+      "special": "sprites/vendetta/victoria-swimsuit/rage.webp",
+      "hurt": "sprites/vendetta/victoria-swimsuit/scared.webp",
+      "lose": "sprites/vendetta/victoria-swimsuit/sad.webp",
+      "win": "sprites/vendetta/victoria-swimsuit/excited.webp",
+      "taunt": "sprites/vendetta/victoria-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "victoria-dress",
+     "name": "Victoria - Dress",
+     "sprites": {
+      "idle": "sprites/vendetta/victoria-dress/neutral.webp",
+      "play": "sprites/vendetta/victoria-dress/happy.webp",
+      "attack": "sprites/vendetta/victoria-dress/angry.webp",
+      "special": "sprites/vendetta/victoria-dress/rage.webp",
+      "hurt": "sprites/vendetta/victoria-dress/scared.webp",
+      "lose": "sprites/vendetta/victoria-dress/sad.webp",
+      "win": "sprites/vendetta/victoria-dress/excited.webp",
+      "taunt": "sprites/vendetta/victoria-dress/proud.webp"
+     }
+    },
+    {
+     "id": "vendetta-yukata",
+     "name": "Vendetta - Yukata",
+     "sprites": {
+      "idle": "sprites/vendetta/vendetta-yukata/neutral.webp",
+      "play": "sprites/vendetta/vendetta-yukata/happy.webp",
+      "attack": "sprites/vendetta/vendetta-yukata/angry.webp",
+      "special": "sprites/vendetta/vendetta-yukata/rage.webp",
+      "hurt": "sprites/vendetta/vendetta-yukata/scared.webp",
+      "lose": "sprites/vendetta/vendetta-yukata/sad.webp",
+      "win": "sprites/vendetta/vendetta-yukata/excited.webp",
+      "taunt": "sprites/vendetta/vendetta-yukata/proud.webp"
+     }
+    },
+    {
+     "id": "victoria-towel",
+     "name": "Victoria - Towel",
+     "sprites": {
+      "idle": "sprites/vendetta/victoria-towel/neutral.webp",
+      "play": "sprites/vendetta/victoria-towel/happy.webp",
+      "attack": "sprites/vendetta/victoria-towel/angry.webp",
+      "special": "sprites/vendetta/victoria-towel/rage.webp",
+      "hurt": "sprites/vendetta/victoria-towel/scared.webp",
+      "lose": "sprites/vendetta/victoria-towel/sad.webp",
+      "win": "sprites/vendetta/victoria-towel/excited.webp",
+      "taunt": "sprites/vendetta/victoria-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/vendetta.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "jimachi",
+   "name": "Jimachi",
+   "outfit": "Jimachi - Default Outfit",
+   "short": "A feared assassin known as the Black Stain of the Black District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/jimachi/neutral.webp",
+    "play": "sprites/jimachi/happy.webp",
+    "attack": "sprites/jimachi/angry.webp",
+    "special": "sprites/jimachi/angry.webp",
+    "hurt": "sprites/jimachi/scared.webp",
+    "lose": "sprites/jimachi/sad.webp",
+    "win": "sprites/jimachi/happy.webp",
+    "taunt": "sprites/jimachi/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "jimachi-casual-outfit",
+     "name": "Jimachi - Casual Outfit",
+     "sprites": {
+      "idle": "sprites/jimachi/jimachi-casual-outfit/neutral.webp",
+      "play": "sprites/jimachi/jimachi-casual-outfit/happy.webp",
+      "attack": "sprites/jimachi/jimachi-casual-outfit/angry.webp",
+      "special": "sprites/jimachi/jimachi-casual-outfit/angry.webp",
+      "hurt": "sprites/jimachi/jimachi-casual-outfit/scared.webp",
+      "lose": "sprites/jimachi/jimachi-casual-outfit/sad.webp",
+      "win": "sprites/jimachi/jimachi-casual-outfit/happy.webp",
+      "taunt": "sprites/jimachi/jimachi-casual-outfit/happy.webp"
+     }
+    },
+    {
+     "id": "jimachi-swimsuit",
+     "name": "Jimachi - Swimsuit",
+     "sprites": {
+      "idle": "sprites/jimachi/jimachi-swimsuit/neutral.webp",
+      "play": "sprites/jimachi/jimachi-swimsuit/happy.webp",
+      "attack": "sprites/jimachi/jimachi-swimsuit/angry.webp",
+      "special": "sprites/jimachi/jimachi-swimsuit/rage.webp",
+      "hurt": "sprites/jimachi/jimachi-swimsuit/scared.webp",
+      "lose": "sprites/jimachi/jimachi-swimsuit/sad.webp",
+      "win": "sprites/jimachi/jimachi-swimsuit/excited.webp",
+      "taunt": "sprites/jimachi/jimachi-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "jimachi-dress",
+     "name": "Jimachi - Dress",
+     "sprites": {
+      "idle": "sprites/jimachi/jimachi-dress/neutral.webp",
+      "play": "sprites/jimachi/jimachi-dress/happy.webp",
+      "attack": "sprites/jimachi/jimachi-dress/angry.webp",
+      "special": "sprites/jimachi/jimachi-dress/rage.webp",
+      "hurt": "sprites/jimachi/jimachi-dress/scared.webp",
+      "lose": "sprites/jimachi/jimachi-dress/sad.webp",
+      "win": "sprites/jimachi/jimachi-dress/excited.webp",
+      "taunt": "sprites/jimachi/jimachi-dress/proud.webp"
+     }
+    },
+    {
+     "id": "jimachi-towel",
+     "name": "Jimachi - Towel",
+     "sprites": {
+      "idle": "sprites/jimachi/jimachi-towel/neutral.webp",
+      "play": "sprites/jimachi/jimachi-towel/happy.webp",
+      "attack": "sprites/jimachi/jimachi-towel/angry.webp",
+      "special": "sprites/jimachi/jimachi-towel/rage.webp",
+      "hurt": "sprites/jimachi/jimachi-towel/scared.webp",
+      "lose": "sprites/jimachi/jimachi-towel/sad.webp",
+      "win": "sprites/jimachi/jimachi-towel/excited.webp",
+      "taunt": "sprites/jimachi/jimachi-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/jimachi.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "mang-shi",
+   "name": "Mang Shi",
+   "outfit": "Mang Shi - Default Outfit",
+   "short": "The most feared woman in the Red District is now the Empress of the Prison with her own throne.",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/mang-shi/neutral.webp",
+    "play": "sprites/mang-shi/happy.webp",
+    "attack": "sprites/mang-shi/angry.webp",
+    "special": "sprites/mang-shi/angry.webp",
+    "hurt": "sprites/mang-shi/scared.webp",
+    "lose": "sprites/mang-shi/sad.webp",
+    "win": "sprites/mang-shi/happy.webp",
+    "taunt": "sprites/mang-shi/happy.webp"
+   },
+   "costumes": [
+    {
+     "id": "mang-shi-swimsuit",
+     "name": "Mang Shi - Swimsuit",
+     "sprites": {
+      "idle": "sprites/mang-shi/mang-shi-swimsuit/neutral.webp",
+      "play": "sprites/mang-shi/mang-shi-swimsuit/happy.webp",
+      "attack": "sprites/mang-shi/mang-shi-swimsuit/angry.webp",
+      "special": "sprites/mang-shi/mang-shi-swimsuit/rage.webp",
+      "hurt": "sprites/mang-shi/mang-shi-swimsuit/scared.webp",
+      "lose": "sprites/mang-shi/mang-shi-swimsuit/sad.webp",
+      "win": "sprites/mang-shi/mang-shi-swimsuit/excited.webp",
+      "taunt": "sprites/mang-shi/mang-shi-swimsuit/proud.webp"
+     }
+    },
+    {
+     "id": "mang-shi-dress",
+     "name": "Mang Shi - Dress",
+     "sprites": {
+      "idle": "sprites/mang-shi/mang-shi-dress/neutral.webp",
+      "play": "sprites/mang-shi/mang-shi-dress/happy.webp",
+      "attack": "sprites/mang-shi/mang-shi-dress/angry.webp",
+      "special": "sprites/mang-shi/mang-shi-dress/rage.webp",
+      "hurt": "sprites/mang-shi/mang-shi-dress/scared.webp",
+      "lose": "sprites/mang-shi/mang-shi-dress/sad.webp",
+      "win": "sprites/mang-shi/mang-shi-dress/excited.webp",
+      "taunt": "sprites/mang-shi/mang-shi-dress/proud.webp"
+     }
+    },
+    {
+     "id": "mang-shi-yukata",
+     "name": "Mang Shi - Yukata",
+     "sprites": {
+      "idle": "sprites/mang-shi/mang-shi-yukata/neutral.webp",
+      "play": "sprites/mang-shi/mang-shi-yukata/happy.webp",
+      "attack": "sprites/mang-shi/mang-shi-yukata/angry.webp",
+      "special": "sprites/mang-shi/mang-shi-yukata/rage.webp",
+      "hurt": "sprites/mang-shi/mang-shi-yukata/scared.webp",
+      "lose": "sprites/mang-shi/mang-shi-yukata/sad.webp",
+      "win": "sprites/mang-shi/mang-shi-yukata/excited.webp",
+      "taunt": "sprites/mang-shi/mang-shi-yukata/proud.webp"
+     }
+    },
+    {
+     "id": "mang-shi-towel",
+     "name": "Mang Shi - Towel",
+     "sprites": {
+      "idle": "sprites/mang-shi/mang-shi-towel/neutral.webp",
+      "play": "sprites/mang-shi/mang-shi-towel/happy.webp",
+      "attack": "sprites/mang-shi/mang-shi-towel/angry.webp",
+      "special": "sprites/mang-shi/mang-shi-towel/rage.webp",
+      "hurt": "sprites/mang-shi/mang-shi-towel/scared.webp",
+      "lose": "sprites/mang-shi/mang-shi-towel/sad.webp",
+      "win": "sprites/mang-shi/mang-shi-towel/excited.webp",
+      "taunt": "sprites/mang-shi/mang-shi-towel/proud.webp"
+     },
+     "nsfw": true
+    }
+   ],
+   "portrait": "portraits/mang-shi.webp",
+   "novel": "Protectors"
+  },
+  {
+   "id": "ying-kong-meng",
+   "name": "Ying Kong Meng",
+   "outfit": "Ying Kong Meng - Default Outfit.",
+   "short": "Ying Kong Meng the head of the Ying Family and owner of all the dojos in the Red District",
+   "traits": [],
+   "sprites": {
+    "idle": "sprites/ying-kong-meng/neutral.webp",
+    "play": "sprites/ying-kong-meng/happy.webp",
+    "attack": "sprites/ying-kong-meng/angry.webp",
+    "special": "sprites/ying-kong-meng/rage.webp",
+    "hurt": "sprites/ying-kong-meng/scared.webp",
+    "lose": "sprites/ying-kong-meng/sad.webp",
+    "win": "sprites/ying-kong-meng/excited.webp",
+    "taunt": "sprites/ying-kong-meng/proud.webp"
+   },
+   "costumes": [],
+   "portrait": "portraits/ying-kong-meng.webp",
+   "novel": "Protectors"
   }
  ],
  "backgrounds": [
@@ -24825,6 +26795,1164 @@
    "name": "background-29",
    "desc": "",
    "src": "backgrounds/background-29-8c7b2e.webp"
+  },
+  {
+   "id": "78a2dd83-44f6-4668-9025-930f09f6443a",
+   "name": "White background",
+   "desc": "White, white background, white void.",
+   "src": "backgrounds/white-background-78a2dd.webp"
+  },
+  {
+   "id": "25a6736c-0689-4480-bc86-09091bc858c9",
+   "name": "Green Cube",
+   "desc": "Green cube, white background, geometric abomination,",
+   "src": "backgrounds/green-cube-25a673.webp"
+  },
+  {
+   "id": "926a6212-89e5-4ea1-9402-72daa78c1be9",
+   "name": "Blue circle",
+   "desc": "",
+   "src": "backgrounds/blue-circle-926a62.webp"
+  },
+  {
+   "id": "d3132a43-10e5-4898-9ed3-08fe9783ad25",
+   "name": "Red Triangle",
+   "desc": "",
+   "src": "backgrounds/red-triangle-d3132a.webp"
+  },
+  {
+   "id": "993393c9-f8de-496f-b96c-90371c18a0b5",
+   "name": "Fake Beach",
+   "desc": "",
+   "src": "backgrounds/fake-beach-993393.webp"
+  },
+  {
+   "id": "212d1fa1-0747-406a-89e1-2543ed5b470e",
+   "name": "Pastel Background",
+   "desc": "",
+   "src": "backgrounds/pastel-background-212d1f.webp"
+  },
+  {
+   "id": "6cd8af7d-7b79-4e77-802f-c83d586f15ca",
+   "name": "Tv Background",
+   "desc": "",
+   "src": "backgrounds/tv-background-6cd8af.webp"
+  },
+  {
+   "id": "81b18733-69bf-49b4-898b-d03e102ef278",
+   "name": "School Background",
+   "desc": "",
+   "src": "backgrounds/school-background-81b187.webp"
+  },
+  {
+   "id": "4e7f917a-4fb6-425e-97ca-e14ca6b711cf",
+   "name": "Military white background",
+   "desc": "",
+   "src": "backgrounds/military-white-background-4e7f91.webp"
+  },
+  {
+   "id": "d299c65c-0230-49b5-82d7-cc557b479765",
+   "name": "White christmas background",
+   "desc": "",
+   "src": "backgrounds/white-christmas-background-d299c6.webp"
+  },
+  {
+   "id": "6dc97b96-c247-4608-b746-bf24ce2c765a",
+   "name": "Dojo pyramid background",
+   "desc": "",
+   "src": "backgrounds/dojo-pyramid-background-6dc97b.webp"
+  },
+  {
+   "id": "8ed85817-d602-4670-bd4b-e39e071aeeab",
+   "name": "Purple star background",
+   "desc": "",
+   "src": "backgrounds/purple-star-background-8ed858.webp"
+  },
+  {
+   "id": "25393ef2-ecff-4395-8d58-a570b60a9cc6",
+   "name": "Black background",
+   "desc": "",
+   "src": "backgrounds/black-background-25393e.webp"
+  },
+  {
+   "id": "e4c0be80-bf08-4270-90b0-c15d481991fe",
+   "name": "Hole",
+   "desc": "",
+   "src": "backgrounds/hole-e4c0be.webp"
+  },
+  {
+   "id": "81af94c5-98cf-4eb4-b812-65ebcd30bb0d",
+   "name": "Karaoke",
+   "desc": "",
+   "src": "backgrounds/karaoke-81af94.webp"
+  },
+  {
+   "id": "8ff12daf-9119-43d4-b8e0-3b70a36a231e",
+   "name": "Beta Casino",
+   "desc": "",
+   "src": "backgrounds/beta-casino-8ff12d.webp"
+  },
+  {
+   "id": "2f79fb9a-31f8-47f9-8ca0-0853d9b1f0ab",
+   "name": "Pirate Ship",
+   "desc": "",
+   "src": "backgrounds/pirate-ship-2f79fb.webp"
+  },
+  {
+   "id": "0620170e-8798-4be1-a4e4-8272ac040a2f",
+   "name": "Rainbow prism",
+   "desc": "",
+   "src": "backgrounds/rainbow-prism-062017.webp"
+  },
+  {
+   "id": "43ec34bf-cece-4a6a-bd20-01cb6367457e",
+   "name": "White stasis tank background",
+   "desc": "",
+   "src": "backgrounds/white-stasis-tank-background-43ec34.webp"
+  },
+  {
+   "id": "865f08bc-1838-4616-8f40-3b748ad30902",
+   "name": "Purple star vs Green cube",
+   "desc": "",
+   "src": "backgrounds/purple-star-vs-green-cube-865f08.webp"
+  },
+  {
+   "id": "f73412ea-3d74-4971-8763-33e195eb2bce",
+   "name": "Three geometric shapes",
+   "desc": "",
+   "src": "backgrounds/three-geometric-shapes-f73412.webp"
+  },
+  {
+   "id": "0db80f67-6147-41db-bfab-588041630b32",
+   "name": "White hospital Background",
+   "desc": "",
+   "src": "backgrounds/white-hospital-background-0db80f.webp"
+  },
+  {
+   "id": "ac3d6293-da9f-4827-9402-ed87d49c235d",
+   "name": "White Office Background",
+   "desc": "",
+   "src": "backgrounds/white-office-background-ac3d62.webp"
+  },
+  {
+   "id": "1fbfea27-5856-4733-83d1-9b45634dee0e",
+   "name": "Grimm Mansion",
+   "desc": "",
+   "src": "backgrounds/grimm-mansion-1fbfea.webp"
+  },
+  {
+   "id": "9e5cf138-8f70-4fdb-a053-0f318566e225",
+   "name": "Spooky Forest",
+   "desc": "",
+   "src": "backgrounds/spooky-forest-9e5cf1.webp"
+  },
+  {
+   "id": "3409616b-aa59-496e-bf54-911b598f01a8",
+   "name": "Spooky main hall",
+   "desc": "",
+   "src": "backgrounds/spooky-main-hall-340961.webp"
+  },
+  {
+   "id": "17174adf-0a65-4cdf-8338-591f734c8d3e",
+   "name": "Spooky Kitchen",
+   "desc": "",
+   "src": "backgrounds/spooky-kitchen-17174a.webp"
+  },
+  {
+   "id": "ae3008c3-c92f-4bd3-abaa-d0a5f7ce13e3",
+   "name": "Spooky Lake",
+   "desc": "",
+   "src": "backgrounds/spooky-lake-ae3008.webp"
+  },
+  {
+   "id": "f0f21202-2364-4a5b-bb30-1742ba65b13b",
+   "name": "Spooky Mansion",
+   "desc": "",
+   "src": "backgrounds/spooky-mansion-f0f212.webp"
+  },
+  {
+   "id": "2d4b34d6-54f3-4c4d-8587-74ebb09def7a",
+   "name": "Spooky Bedroom",
+   "desc": "",
+   "src": "backgrounds/spooky-bedroom-2d4b34.webp"
+  },
+  {
+   "id": "3c36a53f-5562-4fd9-8fd5-fa2ba7a1a1e9",
+   "name": "Autumm Forest",
+   "desc": "",
+   "src": "backgrounds/autumm-forest-3c36a5.webp"
+  },
+  {
+   "id": "23a521a8-8c79-4662-a962-c5f36110dd26",
+   "name": "Pumpkin forest",
+   "desc": "",
+   "src": "backgrounds/pumpkin-forest-23a521.webp"
+  },
+  {
+   "id": "c17d2b47-c437-4e84-a478-2366953cb116",
+   "name": "The Red Harvest",
+   "desc": "",
+   "src": "backgrounds/the-red-harvest-c17d2b.webp"
+  },
+  {
+   "id": "63ce0068-9d82-4b8e-aa03-c98884643c82",
+   "name": "Frozen Forest",
+   "desc": "",
+   "src": "backgrounds/frozen-forest-63ce00.webp"
+  },
+  {
+   "id": "3b88a965-1463-415d-afa6-80a9b464632f",
+   "name": "Haunted Attic",
+   "desc": "",
+   "src": "backgrounds/haunted-attic-3b88a9.webp"
+  },
+  {
+   "id": "6d87502a-3de7-4180-b8d3-5b16abdbfbf7",
+   "name": "Haunted Library",
+   "desc": "",
+   "src": "backgrounds/haunted-library-6d8750.webp"
+  },
+  {
+   "id": "ad1f1c0a-d3ec-4378-8ddc-28dbcf5cb4f4",
+   "name": "Bedroom",
+   "desc": "",
+   "src": "backgrounds/bedroom-ad1f1c.webp"
+  },
+  {
+   "id": "5355d94f-9ccb-42cf-bc38-00a88db61bc5",
+   "name": "Suburbs",
+   "desc": "",
+   "src": "backgrounds/suburbs-5355d9.webp"
+  },
+  {
+   "id": "f96bbe1e-1c94-4fe0-aba5-6b310f21b79e",
+   "name": "Grim School",
+   "desc": "",
+   "src": "backgrounds/grim-school-f96bbe.webp"
+  },
+  {
+   "id": "bd7efaca-e34f-4c16-ae0f-b6b11835b79d",
+   "name": "Living Room",
+   "desc": "",
+   "src": "backgrounds/living-room-bd7efa.webp"
+  },
+  {
+   "id": "793c7be9-988c-4ffe-8fb4-85374c651fc5",
+   "name": "Graveyard",
+   "desc": "",
+   "src": "backgrounds/graveyard-793c7b.webp"
+  },
+  {
+   "id": "1c894a76-63c0-41ad-9866-a229a5eda4c2",
+   "name": "Whispering Forest",
+   "desc": "",
+   "src": "backgrounds/whispering-forest-1c894a.webp"
+  },
+  {
+   "id": "5498a47c-fa30-453a-87f8-ac76d7a3f62e",
+   "name": "Classroom",
+   "desc": "",
+   "src": "backgrounds/classroom-5498a4.webp"
+  },
+  {
+   "id": "7a954209-4f23-4104-b4ea-4828468a8fa7",
+   "name": "Basement",
+   "desc": "",
+   "src": "backgrounds/basement-7a9542.webp"
+  },
+  {
+   "id": "e9bf640f-7ae4-41c8-8261-cf1b37f1242b",
+   "name": "Bathroom",
+   "desc": "",
+   "src": "backgrounds/bathroom-e9bf64.webp"
+  },
+  {
+   "id": "0d772d55-2170-4808-9ac7-3435159c0d84",
+   "name": "Corridor",
+   "desc": "",
+   "src": "backgrounds/corridor-0d772d.webp"
+  },
+  {
+   "id": "9494e324-65b7-4463-ac6f-141baa110a88",
+   "name": "Undead Graveyard",
+   "desc": "",
+   "src": "backgrounds/undead-graveyard-9494e3.webp"
+  },
+  {
+   "id": "e470a51d-7069-451e-be42-8a0c1f082cda",
+   "name": "Mansion Garden",
+   "desc": "",
+   "src": "backgrounds/mansion-garden-e470a5.webp"
+  },
+  {
+   "id": "bf6c8060-4aea-450d-94e4-54e394c60788",
+   "name": "Party",
+   "desc": "",
+   "src": "backgrounds/party-bf6c80.webp"
+  },
+  {
+   "id": "29194634-fe80-45f6-885e-b07b4e3716bb",
+   "name": "Laboratory",
+   "desc": "",
+   "src": "backgrounds/laboratory-291946.webp"
+  },
+  {
+   "id": "5bd13dd2-138e-4494-9265-40d2e2c236ad",
+   "name": "Living room",
+   "desc": "",
+   "src": "backgrounds/living-room-5bd13d.webp"
+  },
+  {
+   "id": "acfdb9dd-a3af-46a0-8936-d4e8cc79ede6",
+   "name": "Spooky forest",
+   "desc": "",
+   "src": "backgrounds/spooky-forest-acfdb9.webp"
+  },
+  {
+   "id": "fd0aee01-da3e-4d24-b10c-5251f0fd148c",
+   "name": "Mansion gates",
+   "desc": "",
+   "src": "backgrounds/mansion-gates-fd0aee.webp"
+  },
+  {
+   "id": "e318b19b-a98f-4f7d-b384-393502f6f258",
+   "name": "White City",
+   "desc": "",
+   "src": "backgrounds/white-city-e318b1.webp"
+  },
+  {
+   "id": "d0b8f3c3-84cd-4970-9f80-353594d4c65e",
+   "name": "Warrior 1",
+   "desc": "",
+   "src": "backgrounds/warrior-1-d0b8f3.webp"
+  },
+  {
+   "id": "7ea7ae4e-3a14-421b-b097-c529857bf595",
+   "name": "Warrior 2",
+   "desc": "",
+   "src": "backgrounds/warrior-2-7ea7ae.webp"
+  },
+  {
+   "id": "ee4b7e70-99a2-4398-873f-ce708d34dabc",
+   "name": "Warrior 3",
+   "desc": "",
+   "src": "backgrounds/warrior-3-ee4b7e.webp"
+  },
+  {
+   "id": "d495d675-304a-4f97-bd46-1a8508a7f303",
+   "name": "Warrior 4",
+   "desc": "",
+   "src": "backgrounds/warrior-4-d495d6.webp"
+  },
+  {
+   "id": "304061d3-1c3b-45a0-9a23-c70e5fd818d0",
+   "name": "White City Lake",
+   "desc": "",
+   "src": "backgrounds/white-city-lake-304061.webp"
+  },
+  {
+   "id": "c2ea6041-b308-4892-9af7-be0a2b83f132",
+   "name": "White District Overview",
+   "desc": "",
+   "src": "backgrounds/white-district-overview-c2ea60.webp"
+  },
+  {
+   "id": "c02cd887-6623-4b1e-ac36-190a19096600",
+   "name": "White District Sky",
+   "desc": "",
+   "src": "backgrounds/white-district-sky-c02cd8.webp"
+  },
+  {
+   "id": "94ba6d9c-3542-4180-b473-96490a7fabce",
+   "name": "Red District Overview",
+   "desc": "",
+   "src": "backgrounds/red-district-overview-94ba6d.webp"
+  },
+  {
+   "id": "bfb2727c-3496-477d-8ad9-44ed7ba0c939",
+   "name": "Red District Street 1",
+   "desc": "",
+   "src": "backgrounds/red-district-street-1-bfb272.webp"
+  },
+  {
+   "id": "6ff05c38-f6dd-47e9-b3e0-fe0b5f724c3a",
+   "name": "Red District Street 2",
+   "desc": "",
+   "src": "backgrounds/red-district-street-2-6ff05c.webp"
+  },
+  {
+   "id": "d2f89ded-6dc6-4cd1-9241-92412c0e9111",
+   "name": "Red District Dojo",
+   "desc": "",
+   "src": "backgrounds/red-district-dojo-d2f89d.webp"
+  },
+  {
+   "id": "88fd6ff0-e980-461b-91e2-23d39787e54e",
+   "name": "Green District City",
+   "desc": "",
+   "src": "backgrounds/green-district-city-88fd6f.webp"
+  },
+  {
+   "id": "ae801b0d-e75b-422d-b47d-862991e5dc29",
+   "name": "Green District Slums",
+   "desc": "",
+   "src": "backgrounds/green-district-slums-ae801b.webp"
+  },
+  {
+   "id": "ddb98efa-6b67-44a3-86f6-fab2d175cfd0",
+   "name": "Green District City Wastelands",
+   "desc": "",
+   "src": "backgrounds/green-district-city-wastelands-ddb98e.webp"
+  },
+  {
+   "id": "c6f7ac9f-daae-427f-a298-3294bbcc5773",
+   "name": "Casino",
+   "desc": "",
+   "src": "backgrounds/casino-c6f7ac.webp"
+  },
+  {
+   "id": "d9b2f03d-e075-457e-a529-7aa1629398ac",
+   "name": "Yellow District street",
+   "desc": "",
+   "src": "backgrounds/yellow-district-street-d9b2f0.webp"
+  },
+  {
+   "id": "58103b57-4f85-4e6b-81f8-958a233a01f0",
+   "name": "Yellow District",
+   "desc": "",
+   "src": "backgrounds/yellow-district-58103b.webp"
+  },
+  {
+   "id": "9d992e73-d762-463c-9290-bbbf385a95c7",
+   "name": "Apartment Room",
+   "desc": "",
+   "src": "backgrounds/apartment-room-9d992e.webp"
+  },
+  {
+   "id": "12de4692-ea85-4466-9949-5aa28e5e0b16",
+   "name": "White District Restaurant",
+   "desc": "",
+   "src": "backgrounds/white-district-restaurant-12de46.webp"
+  },
+  {
+   "id": "42fd523e-b923-4cbd-8996-c81e897073ab",
+   "name": "Red District Ying Family Dojo Entrance",
+   "desc": "",
+   "src": "backgrounds/red-district-ying-family-dojo-entrance-42fd52.webp"
+  },
+  {
+   "id": "14fc686f-cd41-4056-ab72-e698c85248d8",
+   "name": "Feng Dojo",
+   "desc": "",
+   "src": "backgrounds/feng-dojo-14fc68.webp"
+  },
+  {
+   "id": "a4003d89-2aa3-449a-8591-5bf341e7ce0b",
+   "name": "Ying Familiy Dojo Corridor",
+   "desc": "",
+   "src": "backgrounds/ying-familiy-dojo-corridor-a4003d.webp"
+  },
+  {
+   "id": "8e35abac-5edd-45bd-acf0-15a65b1d7f94",
+   "name": "Green District Toxic Lake",
+   "desc": "",
+   "src": "backgrounds/green-district-toxic-lake-8e35ab.webp"
+  },
+  {
+   "id": "1f367748-0fa3-42ab-bb12-dac2a5f3a06f",
+   "name": "Green District Mall",
+   "desc": "",
+   "src": "backgrounds/green-district-mall-1f3677.webp"
+  },
+  {
+   "id": "5bd89183-1773-4f5b-b6ef-925eda440600",
+   "name": "Green District Streets",
+   "desc": "",
+   "src": "backgrounds/green-district-streets-5bd891.webp"
+  },
+  {
+   "id": "94f43dd2-a14a-4ab1-9087-ed46831a36ea",
+   "name": "Red District Ying Familiy Dojo Entrance",
+   "desc": "",
+   "src": "backgrounds/red-district-ying-familiy-dojo-entrance-94f43d.webp"
+  },
+  {
+   "id": "4025897d-0976-438b-8ea1-69a5275841b0",
+   "name": "Red District Ying Family Dojo Interior Lake",
+   "desc": "",
+   "src": "backgrounds/red-district-ying-family-dojo-interior-lake-402589.webp"
+  },
+  {
+   "id": "94cc0bb6-91f7-499a-99f5-ff600f5050f8",
+   "name": "Blue District City Night (Grey)",
+   "desc": "",
+   "src": "backgrounds/blue-district-city-night-grey-94cc0b.webp"
+  },
+  {
+   "id": "be554b9b-b68a-4aa3-90b4-8feffa353c1e",
+   "name": "Blue District City Day",
+   "desc": "",
+   "src": "backgrounds/blue-district-city-day-be554b.webp"
+  },
+  {
+   "id": "0a7d466d-4ec3-4a19-8159-0abdc837e96c",
+   "name": "Blue District Streets (Day)",
+   "desc": "",
+   "src": "backgrounds/blue-district-streets-day-0a7d46.webp"
+  },
+  {
+   "id": "04101792-6fc5-48eb-ae83-b8831bcd1c54",
+   "name": "Blue District Streets (Night)",
+   "desc": "",
+   "src": "backgrounds/blue-district-streets-night-041017.webp"
+  },
+  {
+   "id": "67fcc575-45be-4fd9-8ec3-e48fe9cdcafd",
+   "name": "Blue District Mansion Entrance",
+   "desc": "",
+   "src": "backgrounds/blue-district-mansion-entrance-67fcc5.webp"
+  },
+  {
+   "id": "e3f4d063-ab1e-4eb7-b539-346571fbf7a8",
+   "name": "Blue District Mansion Corridor",
+   "desc": "",
+   "src": "backgrounds/blue-district-mansion-corridor-e3f4d0.webp"
+  },
+  {
+   "id": "49b4318e-3eac-49ac-b6d6-20b79bc9b027",
+   "name": "Purple District City",
+   "desc": "",
+   "src": "backgrounds/purple-district-city-49b431.webp"
+  },
+  {
+   "id": "b3f84b47-a017-4de2-a501-aa4e85f72405",
+   "name": "Purple District (Street)",
+   "desc": "",
+   "src": "backgrounds/purple-district-street-b3f84b.webp"
+  },
+  {
+   "id": "601a7d15-67a6-4b8f-9678-60728d26d462",
+   "name": "Black District City Overview",
+   "desc": "",
+   "src": "backgrounds/black-district-city-overview-601a7d.webp"
+  },
+  {
+   "id": "6538852f-9774-487e-b9a1-932e708e04a4",
+   "name": "Black District City Streets",
+   "desc": "",
+   "src": "backgrounds/black-district-city-streets-653885.webp"
+  },
+  {
+   "id": "9775b3fb-6cc0-4aac-ba48-12f646780741",
+   "name": "Black District City (Charoldyne Enterprise CEO Office)",
+   "desc": "",
+   "src": "backgrounds/black-district-city-charoldyne-enterprise-ceo-office-9775b3.webp"
+  },
+  {
+   "id": "6b3bdfda-831e-45f4-9140-248911b78263",
+   "name": "Pink Plush Living Room",
+   "desc": "",
+   "src": "backgrounds/pink-plush-living-room-6b3bdf.webp"
+  },
+  {
+   "id": "bdec6320-febd-4588-9d80-7f6d5e877179",
+   "name": "District Traveling",
+   "desc": "",
+   "src": "backgrounds/district-traveling-bdec63.webp"
+  },
+  {
+   "id": "56306ddf-fb05-4682-8782-5350ad3f0323",
+   "name": "Dearth House",
+   "desc": "",
+   "src": "backgrounds/dearth-house-56306d.webp"
+  },
+  {
+   "id": "c8385e76-4162-47c0-b149-eb48ff81d6e8",
+   "name": "Red District Abandoned Hospital Corridor 1",
+   "desc": "",
+   "src": "backgrounds/red-district-abandoned-hospital-corridor-1-c8385e.webp"
+  },
+  {
+   "id": "54ca3cb8-6fdf-4cfa-b7aa-56e2d0201687",
+   "name": "Red District Abadnoned Hospital Corridor 2",
+   "desc": "",
+   "src": "backgrounds/red-district-abadnoned-hospital-corridor-2-54ca3c.webp"
+  },
+  {
+   "id": "f6d07a55-6cc7-428e-a20d-18f715eecbbd",
+   "name": "Red District Abadnoned Hospital Corridor 3",
+   "desc": "",
+   "src": "backgrounds/red-district-abadnoned-hospital-corridor-3-f6d07a.webp"
+  },
+  {
+   "id": "c0a8b568-a882-43c4-8a25-cbb068c7628b",
+   "name": "Abandoned Hospital Basement",
+   "desc": "",
+   "src": "backgrounds/abandoned-hospital-basement-c0a8b5.webp"
+  },
+  {
+   "id": "02960bc2-7053-4835-8bae-a23de9ca52de",
+   "name": "Green District Overview",
+   "desc": "",
+   "src": "backgrounds/green-district-overview-02960b.webp"
+  },
+  {
+   "id": "0bf6dc7d-0f58-4f2a-adff-aab7c284e4af",
+   "name": "Purple District Shopping District",
+   "desc": "",
+   "src": "backgrounds/purple-district-shopping-district-0bf6dc.webp"
+  },
+  {
+   "id": "fecb4cb8-f8d1-44ba-a692-91095022b805",
+   "name": "Purple District Retro-Restaurant",
+   "desc": "",
+   "src": "backgrounds/purple-district-retro-restaurant-fecb4c.webp"
+  },
+  {
+   "id": "a13f2cc2-e5bd-4cfd-9e6d-fb601df33f62",
+   "name": "Purple District Convenience Store",
+   "desc": "",
+   "src": "backgrounds/purple-district-convenience-store-a13f2c.webp"
+  },
+  {
+   "id": "ab7d8686-8279-40fa-b7d5-ee82800ccebd",
+   "name": "Purple District Neon Streets",
+   "desc": "",
+   "src": "backgrounds/purple-district-neon-streets-ab7d86.webp"
+  },
+  {
+   "id": "97f13928-7fbc-474c-ac70-42f7603008b3",
+   "name": "Green District Abandoned Sector",
+   "desc": "",
+   "src": "backgrounds/green-district-abandoned-sector-97f139.webp"
+  },
+  {
+   "id": "300c22da-cd06-4b31-b65c-e7d8eb615829",
+   "name": "Green District Abandoned Sector Toxic Ruined Buildings",
+   "desc": "",
+   "src": "backgrounds/green-district-abandoned-sector-toxic-ruined-buildings-300c22.webp"
+  },
+  {
+   "id": "f7d32408-ca76-4970-a34b-97be72aedb40",
+   "name": "Kodome Family House Interior (Entrance)",
+   "desc": "",
+   "src": "backgrounds/kodome-family-house-interior-entrance-f7d324.webp"
+  },
+  {
+   "id": "76a38c30-c207-4d4e-8bf4-284ecb9908e0",
+   "name": "Kodome Family House Interior (Living Room)",
+   "desc": "",
+   "src": "backgrounds/kodome-family-house-interior-living-room-76a38c.webp"
+  },
+  {
+   "id": "f33ec7cb-2583-45f7-9d3a-db84b7ff82a1",
+   "name": "Blue District Forest",
+   "desc": "",
+   "src": "backgrounds/blue-district-forest-f33ec7.webp"
+  },
+  {
+   "id": "66e2bac4-6f9f-4018-a5ab-4cccdd468297",
+   "name": "Blue District Crop Fields",
+   "desc": "",
+   "src": "backgrounds/blue-district-crop-fields-66e2ba.webp"
+  },
+  {
+   "id": "94bee864-4179-44e7-b474-6983894a894a",
+   "name": "Blue District Crop Fields",
+   "desc": "",
+   "src": "backgrounds/blue-district-crop-fields-94bee8.webp"
+  },
+  {
+   "id": "5079c4ed-c0b2-4247-9c9e-242447571df6",
+   "name": "Blue District Crop Fields (Revelation)",
+   "desc": "",
+   "src": "backgrounds/blue-district-crop-fields-revelation-5079c4.webp"
+  },
+  {
+   "id": "d2554e27-de96-4bfd-bd53-f52d28120bad",
+   "name": "Blue District The Red Harvesting (Reap & Sow)",
+   "desc": "",
+   "src": "backgrounds/blue-district-the-red-harvesting-reap-sow-d2554e.webp"
+  },
+  {
+   "id": "30095187-8cb1-44a6-94dd-02c45cfbf76f",
+   "name": "Black District Space ship",
+   "desc": "",
+   "src": "backgrounds/black-district-space-ship-300951.webp"
+  },
+  {
+   "id": "49589948-96a5-4b5b-95ac-f203c5a467ab",
+   "name": "The Sky",
+   "desc": "",
+   "src": "backgrounds/the-sky-495899.webp"
+  },
+  {
+   "id": "bf4ae0a5-0bd2-41c9-8eae-55674396a844",
+   "name": "The Space Frontier",
+   "desc": "",
+   "src": "backgrounds/the-space-frontier-bf4ae0.webp"
+  },
+  {
+   "id": "fad5625e-cba7-4fc0-9754-08fba2341717",
+   "name": "The Space Void",
+   "desc": "",
+   "src": "backgrounds/the-space-void-fad562.webp"
+  },
+  {
+   "id": "e4841aa4-ab80-457d-9f20-7cd4d41bce37",
+   "name": "Yellow District Casino (Frozen Loyalty Chains)",
+   "desc": "",
+   "src": "backgrounds/yellow-district-casino-frozen-loyalty-chains-e4841a.webp"
+  },
+  {
+   "id": "70541eb8-31d7-4ae0-b546-56bff2914d12",
+   "name": "Purple District Fluorine Sewers Corridor 2",
+   "desc": "",
+   "src": "backgrounds/purple-district-fluorine-sewers-corridor-2-70541e.webp"
+  },
+  {
+   "id": "08309ec7-6df8-4fcf-9128-43c2360bcc97",
+   "name": "Purple District Fluorine Sewers Underwater",
+   "desc": "",
+   "src": "backgrounds/purple-district-fluorine-sewers-underwater-08309e.webp"
+  },
+  {
+   "id": "04d96c45-da90-4eea-8c4a-0d5b33c80386",
+   "name": "Green District (Trictotano House)",
+   "desc": "",
+   "src": "backgrounds/green-district-trictotano-house-04d96c.webp"
+  },
+  {
+   "id": "db242119-2599-4561-89d5-bfcba77bd3e5",
+   "name": "White District Alleyway",
+   "desc": "",
+   "src": "backgrounds/white-district-alleyway-db2421.webp"
+  },
+  {
+   "id": "938839ee-9a04-4cd3-9cc0-1a100fa0edb5",
+   "name": "White District Street",
+   "desc": "",
+   "src": "backgrounds/white-district-street-938839.webp"
+  },
+  {
+   "id": "4f71ef85-3c5e-4ca8-adc7-517358820eb5",
+   "name": "Black District Streets",
+   "desc": "",
+   "src": "backgrounds/black-district-streets-4f71ef.webp"
+  },
+  {
+   "id": "3d1a5597-15b3-4b58-b7af-f76d6032fed3",
+   "name": "Black District Complex Apartments",
+   "desc": "",
+   "src": "backgrounds/black-district-complex-apartments-3d1a55.webp"
+  },
+  {
+   "id": "176d1a5c-46af-4838-9668-2a8bcc4328f3",
+   "name": "Blue District (Blue Night)",
+   "desc": "",
+   "src": "backgrounds/blue-district-blue-night-176d1a.webp"
+  },
+  {
+   "id": "5901419d-ceda-43c7-b576-e2f8455f0744",
+   "name": "Blue District (Facility Corridor)",
+   "desc": "",
+   "src": "backgrounds/blue-district-facility-corridor-590141.webp"
+  },
+  {
+   "id": "444b49b8-2fe6-4a4f-80da-2fe7ec3402a3",
+   "name": "Blue District (Punishment Room)",
+   "desc": "",
+   "src": "backgrounds/blue-district-punishment-room-444b49.webp"
+  },
+  {
+   "id": "ab35e743-3fc0-490a-91a4-ed1cf051ff14",
+   "name": "Blue District Empty Room",
+   "desc": "",
+   "src": "backgrounds/blue-district-empty-room-ab35e7.webp"
+  },
+  {
+   "id": "0c2687e6-82ff-4108-ae7a-ee764c70d2f1",
+   "name": "Black District Empty Building",
+   "desc": "",
+   "src": "backgrounds/black-district-empty-building-0c2687.webp"
+  },
+  {
+   "id": "5486ffff-2936-4f6b-babb-023324f2a6d4",
+   "name": "Black District small Streets",
+   "desc": "",
+   "src": "backgrounds/black-district-small-streets-5486ff.webp"
+  },
+  {
+   "id": "b27d8787-4f4d-49c6-9654-fb5b21f8d4fa",
+   "name": "Black District Under the Highway",
+   "desc": "",
+   "src": "backgrounds/black-district-under-the-highway-b27d87.webp"
+  },
+  {
+   "id": "fa88c2c8-1857-43ff-8549-028343a866d2",
+   "name": "Black District Building Rooftop",
+   "desc": "",
+   "src": "backgrounds/black-district-building-rooftop-fa88c2.webp"
+  },
+  {
+   "id": "b70192e5-ca8e-4007-a34d-20d616bd3f9d",
+   "name": "Black District City View",
+   "desc": "",
+   "src": "backgrounds/black-district-city-view-b70192.webp"
+  },
+  {
+   "id": "10035024-4865-4b84-9032-d811c31599a9",
+   "name": "Great Border of Bulgrah",
+   "desc": "",
+   "src": "backgrounds/great-border-of-bulgrah-100350.webp"
+  },
+  {
+   "id": "7db5b595-30a2-4b29-a549-a1e422fcd1c0",
+   "name": "Road to the Backshu Prison",
+   "desc": "",
+   "src": "backgrounds/road-to-the-backshu-prison-7db5b5.webp"
+  },
+  {
+   "id": "769d477c-24e2-46f8-9f99-d8fcd7082650",
+   "name": "Road to the Pearly Desert",
+   "desc": "",
+   "src": "backgrounds/road-to-the-pearly-desert-769d47.webp"
+  },
+  {
+   "id": "c84e5e0f-6ed8-4b53-821e-aed07404c6d5",
+   "name": "Road to the Bloody Garden",
+   "desc": "",
+   "src": "backgrounds/road-to-the-bloody-garden-c84e5e.webp"
+  },
+  {
+   "id": "1e474804-3e1c-469c-834f-420f80387eda",
+   "name": "Road to the Purple Sea",
+   "desc": "",
+   "src": "backgrounds/road-to-the-purple-sea-1e4748.webp"
+  },
+  {
+   "id": "bd281aef-5347-47d3-bdbd-fd6ebe62a180",
+   "name": "Outside Bakshu Prison",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-bd281a.webp"
+  },
+  {
+   "id": "c2ec66c3-1ae1-43c1-8418-211f113f6090",
+   "name": "Outside Bakshu Prison Passage",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-passage-c2ec66.webp"
+  },
+  {
+   "id": "2baada0b-fcae-40ce-8873-1226f3dd9c30",
+   "name": "Outside Bakshu Prison Lobby",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-lobby-2baada.webp"
+  },
+  {
+   "id": "de732b42-7814-4277-b5a2-476f72319dd1",
+   "name": "Outside Bakshu Prsion Gate",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prsion-gate-de732b.webp"
+  },
+  {
+   "id": "e02cf4e0-a817-4637-b5fe-e4c5e9671922",
+   "name": "Outside Bakshu Prison Main Hall",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-main-hall-e02cf4.webp"
+  },
+  {
+   "id": "390cd4ad-c155-4786-87d7-06215fd96e13",
+   "name": "Outside Bakshu Prison Corridors",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-corridors-390cd4.webp"
+  },
+  {
+   "id": "ed60245e-ed8f-47de-b68b-bb2332ffb493",
+   "name": "Outside Bakshu Prison Cells Room",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-cells-room-ed6024.webp"
+  },
+  {
+   "id": "c336de55-ff07-4374-9a1d-16cba3f78a7f",
+   "name": "Outside Bakshu Prison Backyard",
+   "desc": "",
+   "src": "backgrounds/outside-bakshu-prison-backyard-c336de.webp"
+  },
+  {
+   "id": "28c97493-b628-4d46-9400-960de7755c1d",
+   "name": "Road to the Pearly Desert (Bench Stop)",
+   "desc": "",
+   "src": "backgrounds/road-to-the-pearly-desert-bench-stop-28c974.webp"
+  },
+  {
+   "id": "27c5e47e-fe2f-4708-9183-cdc37706397c",
+   "name": "Pearly Desert 1",
+   "desc": "",
+   "src": "backgrounds/pearly-desert-1-27c5e4.webp"
+  },
+  {
+   "id": "4593b0f3-3afd-4d3b-976a-d244214bae52",
+   "name": "Pearly Desert 2",
+   "desc": "",
+   "src": "backgrounds/pearly-desert-2-4593b0.webp"
+  },
+  {
+   "id": "7321ab63-f47c-4891-aeb9-d94083e8e1ca",
+   "name": "Pearly Desert (Wood Hut)",
+   "desc": "",
+   "src": "backgrounds/pearly-desert-wood-hut-7321ab.webp"
+  },
+  {
+   "id": "5b7c6b99-6c11-4d93-969a-a7e3eddedd13",
+   "name": "Outside Bloody Flowery Valley",
+   "desc": "",
+   "src": "backgrounds/outside-bloody-flowery-valley-5b7c6b.webp"
+  },
+  {
+   "id": "2a770092-2635-4ff9-81ec-58bfc0b45805",
+   "name": "Outside Bloody Flowery Field",
+   "desc": "",
+   "src": "backgrounds/outside-bloody-flowery-field-2a7700.webp"
+  },
+  {
+   "id": "c8fac2c0-3e15-4770-8d6e-7ab72a6ef5ba",
+   "name": "Outside Bloody Field",
+   "desc": "",
+   "src": "backgrounds/outside-bloody-field-c8fac2.webp"
+  },
+  {
+   "id": "25f85f10-f549-4b28-9ac2-730e722f0e91",
+   "name": "Outside Bloody Stained Cave",
+   "desc": "",
+   "src": "backgrounds/outside-bloody-stained-cave-25f85f.webp"
+  },
+  {
+   "id": "44d0f401-fb70-4fab-8caf-c0beb2aad7bd",
+   "name": "Outside Bloody Garden (World Tree)",
+   "desc": "",
+   "src": "backgrounds/outside-bloody-garden-world-tree-44d0f4.webp"
+  },
+  {
+   "id": "d5b50b5c-49e2-4e4a-8b4d-b07395e57908",
+   "name": "Wrathful Sea Port",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-port-d5b50b.webp"
+  },
+  {
+   "id": "247969c7-bfc3-4675-9f96-cf87171f3bc5",
+   "name": "Wrathful Sea",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-247969.webp"
+  },
+  {
+   "id": "9f9d9e5c-11b1-4df9-87a4-31c2bd991458",
+   "name": "Wrathful Sea Storm 1",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-storm-1-9f9d9e.webp"
+  },
+  {
+   "id": "dd30991e-e46f-4316-bb0a-f583c016e60c",
+   "name": "Wrathful Sea Storm 2",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-storm-2-dd3099.webp"
+  },
+  {
+   "id": "ed8b1aea-55f1-4a44-8d67-b925fae0a860",
+   "name": "Wrathful Sea Underwater",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-underwater-ed8b1a.webp"
+  },
+  {
+   "id": "f4134c19-e982-4534-b565-58d10c1c160a",
+   "name": "Wratfhul Sea Deep Coral Forest",
+   "desc": "",
+   "src": "backgrounds/wratfhul-sea-deep-coral-forest-f4134c.webp"
+  },
+  {
+   "id": "25e1efeb-bb66-4024-a18c-ace1448cf735",
+   "name": "Wrathful Sea Sunken City",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-sunken-city-25e1ef.webp"
+  },
+  {
+   "id": "89573238-b76b-4845-919b-cc83ae3edbaa",
+   "name": "Wrathful Sea Sunken Palace",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-sunken-palace-895732.webp"
+  },
+  {
+   "id": "f0f89b85-c399-4302-a381-6c22bda89e41",
+   "name": "Wrathful Sea Calm Water",
+   "desc": "",
+   "src": "backgrounds/wrathful-sea-calm-water-f0f89b.webp"
+  },
+  {
+   "id": "34b5e056-4f6f-41b1-9def-2fe1856b5e43",
+   "name": "Black District Flower Shop",
+   "desc": "",
+   "src": "backgrounds/black-district-flower-shop-34b5e0.webp"
+  },
+  {
+   "id": "884ef259-f439-45c7-a2a1-0b912262c4c5",
+   "name": "Road to Tony's Ville",
+   "desc": "",
+   "src": "backgrounds/road-to-tony-s-ville-884ef2.webp"
+  },
+  {
+   "id": "fc26e760-5324-44ee-b51b-d7b0345bab2a",
+   "name": "Tony's Ville Abandoned City",
+   "desc": "",
+   "src": "backgrounds/tony-s-ville-abandoned-city-fc26e7.webp"
+  },
+  {
+   "id": "2836a384-9ddc-4bae-b8b4-08bc1830de36",
+   "name": "Tony's Ville Abandoned Suburbs",
+   "desc": "",
+   "src": "backgrounds/tony-s-ville-abandoned-suburbs-2836a3.webp"
+  },
+  {
+   "id": "e209e02c-bd7c-41c2-901b-e5529f0f5b83",
+   "name": "Tony's Ville Abandoned House",
+   "desc": "",
+   "src": "backgrounds/tony-s-ville-abandoned-house-e209e0.webp"
+  },
+  {
+   "id": "d221b99a-8dcd-413b-a485-82902a821057",
+   "name": "Tony's Ville Abandoned House (Rain)",
+   "desc": "",
+   "src": "backgrounds/tony-s-ville-abandoned-house-rain-d221b9.webp"
+  },
+  {
+   "id": "4d4fd392-40f5-4c61-8460-4b46d176f94b",
+   "name": "Beach 1",
+   "desc": "",
+   "src": "backgrounds/beach-1-4d4fd3.webp"
+  },
+  {
+   "id": "ea62f47b-21bc-4809-a85f-62a9a3f83686",
+   "name": "Beach 2",
+   "desc": "",
+   "src": "backgrounds/beach-2-ea62f4.webp"
+  },
+  {
+   "id": "6d4ce2fb-69cc-4170-8aee-c461a31698e7",
+   "name": "Beach 3",
+   "desc": "",
+   "src": "backgrounds/beach-3-6d4ce2.webp"
+  },
+  {
+   "id": "5475c3fe-5951-4e11-bec6-782f95f608d8",
+   "name": "Abandoned Hospital Corridor Night",
+   "desc": "",
+   "src": "backgrounds/abandoned-hospital-corridor-night-5475c3.webp"
+  },
+  {
+   "id": "76ef98d0-69a3-4def-88d2-3b2eeb1d9ca6",
+   "name": "Abandoned Hospital Rooftop",
+   "desc": "",
+   "src": "backgrounds/abandoned-hospital-rooftop-76ef98.webp"
+  },
+  {
+   "id": "b2cbef4b-b0d3-4c3c-9089-ed000f28d999",
+   "name": "Restaurant at night",
+   "desc": "",
+   "src": "backgrounds/restaurant-at-night-b2cbef.webp"
+  },
+  {
+   "id": "faa3a571-05f7-4398-97cf-4c1ca1b3f9a4",
+   "name": "Black Hole",
+   "desc": "",
+   "src": "backgrounds/black-hole-faa3a5.webp"
+  },
+  {
+   "id": "6875b308-4c3e-47da-a2dc-d4f9115437d8",
+   "name": "Nightly Bloody Garden",
+   "desc": "",
+   "src": "backgrounds/nightly-bloody-garden-6875b3.webp"
+  },
+  {
+   "id": "f600c10d-3007-4c37-b4db-2d8598649505",
+   "name": "Green District night club",
+   "desc": "",
+   "src": "backgrounds/green-district-night-club-f600c1.webp"
+  },
+  {
+   "id": "38cb3064-c538-4f48-a6ca-9331121fdccf",
+   "name": "Onsen",
+   "desc": "",
+   "src": "backgrounds/onsen-38cb30.webp"
+  },
+  {
+   "id": "58b155bc-2f95-4882-b096-d12df1ef8eef",
+   "name": "City ruins",
+   "desc": "",
+   "src": "backgrounds/city-ruins-58b155.webp"
+  },
+  {
+   "id": "91c70317-030c-4c45-bc63-7083531dad0d",
+   "name": "City ruins interior",
+   "desc": "",
+   "src": "backgrounds/city-ruins-interior-91c703.webp"
+  },
+  {
+   "id": "e416ed62-991e-4d32-9068-2aac90b076fc",
+   "name": "City ruins debris field",
+   "desc": "",
+   "src": "backgrounds/city-ruins-debris-field-e416ed.webp"
+  },
+  {
+   "id": "0ff515bc-70f1-4a45-81b5-60da40a0b701",
+   "name": "Purple District Sewers",
+   "desc": "",
+   "src": "backgrounds/purple-district-sewers-0ff515.webp"
+  },
+  {
+   "id": "5ffb8262-6e1b-437f-bdb0-5499b31b3b40",
+   "name": "Purple Disctrict Sewers (Milly Room)",
+   "desc": "",
+   "src": "backgrounds/purple-disctrict-sewers-milly-room-5ffb82.webp"
+  },
+  {
+   "id": "f25525d4-35d4-4113-adf3-6d4cd5958792",
+   "name": "Purple District Sewers Passageway",
+   "desc": "",
+   "src": "backgrounds/purple-district-sewers-passageway-f25525.webp"
+  },
+  {
+   "id": "72e52316-9821-4888-8e30-d87c52c67dc0",
+   "name": "Purple District Sewers open room",
+   "desc": "",
+   "src": "backgrounds/purple-district-sewers-open-room-72e523.webp"
+  },
+  {
+   "id": "221c0b06-f2ef-4766-9b9a-9d5c0317f2e0",
+   "name": "Festival 1",
+   "desc": "",
+   "src": "backgrounds/festival-1-221c0b.webp"
+  },
+  {
+   "id": "45f0618f-1079-4fe1-b3e3-86c0e8d88fa7",
+   "name": "Festival 2",
+   "desc": "",
+   "src": "backgrounds/festival-2-45f061.webp"
+  },
+  {
+   "id": "9bd7376a-907b-4ce1-ae30-97d63f73b399",
+   "name": "Festival 3",
+   "desc": "",
+   "src": "backgrounds/festival-3-9bd737.webp"
+  },
+  {
+   "id": "1fe4f4ea-1d71-45a8-acc1-c3dadae2aa54",
+   "name": "Festival 4",
+   "desc": "",
+   "src": "backgrounds/festival-4-1fe4f4.webp"
+  },
+  {
+   "id": "6bd78f36-c771-4546-beb6-15c9bcd78d64",
+   "name": "Festival fireworks",
+   "desc": "",
+   "src": "backgrounds/festival-fireworks-6bd78f.webp"
   }
  ],
  "items": [
@@ -26028,6 +29156,486 @@
    "name": "Binon Miyamoto signed MP3 player.",
    "desc": "An MP3 player with a Binon Decal.",
    "icon": "items/binon-miyamoto-signed-mp3-player.webp"
+  },
+  {
+   "id": "emiros-geotastrophe",
+   "name": "Emiro’s Geotastrophe",
+   "desc": "Tri-gem core of chaotic brilliance.",
+   "icon": "items/emiros-geotastrophe.webp"
+  },
+  {
+   "id": "emiros-divine-cocktail",
+   "name": "Emiro’s Divine Cocktail",
+   "desc": "A blissful elixir that keeps Emiro sane… barely.",
+   "icon": "items/emiros-divine-cocktail.webp"
+  },
+  {
+   "id": "emiros-holy-boomstick",
+   "name": "Emiro’s Holy Boomstick",
+   "desc": "A flashy, diva-tier shotgun crafted to match Emiro’s idol outfit",
+   "icon": "items/emiros-holy-boomstick.webp"
+  },
+  {
+   "id": "haunted-cookie",
+   "name": "Haunted Cookie",
+   "desc": "A delicious cookie with extra Devrah ectoplasm",
+   "icon": "items/haunted-cookie.webp"
+  },
+  {
+   "id": "fear",
+   "name": "Fear",
+   "desc": "\"Hey, you dweeb—I'm not some damn collectible, got it?!\"",
+   "icon": "items/fear.webp"
+  },
+  {
+   "id": "living-portrait",
+   "name": "Living portrait",
+   "desc": "The portrait of the very old Cadaberica Matron",
+   "icon": "items/living-portrait.webp"
+  },
+  {
+   "id": "cupcake",
+   "name": "Cupcake",
+   "desc": "\"Nice to meet you. I'm not a bad Cupcake, you know! (slurp)\"",
+   "icon": "items/cupcake.webp"
+  },
+  {
+   "id": "pink-orb",
+   "name": "Pink Orb",
+   "desc": "\"Hello darling, want to see closely inside of my crystal~\"",
+   "icon": "items/pink-orb.webp"
+  },
+  {
+   "id": "roy",
+   "name": "Roy",
+   "desc": "Devrah beautiful pet Roy~",
+   "icon": "items/roy.webp"
+  },
+  {
+   "id": "calamari-demon",
+   "name": "Calamari Demon",
+   "desc": "*sigh * \"Here we go again… another round in the mortal circus.\"",
+   "icon": "items/calamari-demon.webp"
+  },
+  {
+   "id": "cursed-seed",
+   "name": "Cursed Seed",
+   "desc": "A seed that must have been cursed!",
+   "icon": "items/cursed-seed.webp"
+  },
+  {
+   "id": "devrah-cadaberica",
+   "name": "Devrah Cadaberica",
+   "desc": "\"Bwahaha! Ready or not, Big Coffin Dork — chaos is coming with ME!\"",
+   "icon": "items/devrah-cadaberica.webp"
+  },
+  {
+   "id": "spectrum-matic",
+   "name": "Spectrum-matic",
+   "desc": "A mysterious box containing supernatural power",
+   "icon": "items/spectrum-matic.webp"
+  },
+  {
+   "id": "living-potion",
+   "name": "Living potion",
+   "desc": "A product made of Murtetra's researches",
+   "icon": "items/living-potion.webp"
+  },
+  {
+   "id": "car-keys",
+   "name": "Car keys",
+   "desc": "It makes you drive to the districts.",
+   "icon": "items/car-keys.webp"
+  },
+  {
+   "id": "red-city",
+   "name": "Red city",
+   "desc": "Drives your car to the Red District",
+   "icon": "items/red-city.webp"
+  },
+  {
+   "id": "biohazard",
+   "name": "Biohazard",
+   "desc": "Drives your car to the Green District",
+   "icon": "items/biohazard.webp"
+  },
+  {
+   "id": "blue-city",
+   "name": "Blue City",
+   "desc": "Drives your car to the Blue District",
+   "icon": "items/blue-city.webp"
+  },
+  {
+   "id": "black-city",
+   "name": "Black City",
+   "desc": "Drives your Car to the Black District",
+   "icon": "items/black-city.webp"
+  },
+  {
+   "id": "purple-city",
+   "name": "Purple City",
+   "desc": "Drives your Car to the Purple District",
+   "icon": "items/purple-city.webp"
+  },
+  {
+   "id": "bloody-invitation",
+   "name": "Bloody Invitation",
+   "desc": "A reminder that you will Die Not Matter what",
+   "icon": "items/bloody-invitation.webp"
+  },
+  {
+   "id": "golden-city",
+   "name": "Golden City",
+   "desc": "Drives your Car to the Yellow District",
+   "icon": "items/golden-city.webp"
+  },
+  {
+   "id": "call-kyoka",
+   "name": "Call Kyoka",
+   "desc": "Use your Phone to Call Kyoka",
+   "icon": "items/call-kyoka.webp"
+  },
+  {
+   "id": "call-fengsha",
+   "name": "Call Fengsha",
+   "desc": "Use your Phone to Call Fengsha",
+   "icon": "items/call-fengsha.webp"
+  },
+  {
+   "id": "call-tanya",
+   "name": "Call Tanya",
+   "desc": "Use your Phone to Call Tanya",
+   "icon": "items/call-tanya.webp"
+  },
+  {
+   "id": "call-gina",
+   "name": "Call Gina",
+   "desc": "Use your Phone to Call Gina",
+   "icon": "items/call-gina.webp"
+  },
+  {
+   "id": "call-camilla",
+   "name": "Call Camilla",
+   "desc": "Use your Phone to Call Camilla",
+   "icon": "items/call-camilla.webp"
+  },
+  {
+   "id": "call-carly",
+   "name": "Call Carly",
+   "desc": "Use your Phone to Call Carly",
+   "icon": "items/call-carly.webp"
+  },
+  {
+   "id": "call-megan",
+   "name": "Call Megan",
+   "desc": "use your Phone to Call Megan",
+   "icon": "items/call-megan.webp"
+  },
+  {
+   "id": "gas-mask",
+   "name": "Gas Mask",
+   "desc": "A Memory From A certain Big Sister",
+   "icon": "items/gas-mask.webp"
+  },
+  {
+   "id": "white-city",
+   "name": "White City",
+   "desc": "Drives your Car to the White District",
+   "icon": "items/white-city.webp"
+  },
+  {
+   "id": "black-lotus",
+   "name": "Black Lotus",
+   "desc": "A Symbol of the Kodome Clan",
+   "icon": "items/black-lotus.webp"
+  },
+  {
+   "id": "kyoka-heart",
+   "name": "Kyoka Heart",
+   "desc": "You Call your Girlfriend Kyoka",
+   "icon": "items/kyoka-heart.webp"
+  },
+  {
+   "id": "feng-heart",
+   "name": "Feng Heart",
+   "desc": "You Call your Girlfriend Fengsha",
+   "icon": "items/feng-heart.webp"
+  },
+  {
+   "id": "tanya-heart",
+   "name": "Tanya Heart",
+   "desc": "You Call your Girlfriend Tanya",
+   "icon": "items/tanya-heart.webp"
+  },
+  {
+   "id": "gina-heart",
+   "name": "Gina Heart",
+   "desc": "You Call your Girlfriend Gina",
+   "icon": "items/gina-heart.webp"
+  },
+  {
+   "id": "camilla-heart",
+   "name": "Camilla Heart",
+   "desc": "You Call your Girlfriend Camilla",
+   "icon": "items/camilla-heart.webp"
+  },
+  {
+   "id": "carly-heart",
+   "name": "Carly Heart",
+   "desc": "You Call your Girlfriend Carly",
+   "icon": "items/carly-heart.webp"
+  },
+  {
+   "id": "megan-heart",
+   "name": "Megan Heart",
+   "desc": "You Call your Girlfriend Megan",
+   "icon": "items/megan-heart.webp"
+  },
+  {
+   "id": "pitchfork",
+   "name": "Pitchfork",
+   "desc": "Time to go Farming!",
+   "icon": "items/pitchfork.webp"
+  },
+  {
+   "id": "call-ai",
+   "name": "Call Ai",
+   "desc": "Use your Phone to Call Ai",
+   "icon": "items/call-ai.webp"
+  },
+  {
+   "id": "astronaut-helmet",
+   "name": "Astronaut Helmet",
+   "desc": "A Passage Free to the Space!",
+   "icon": "items/astronaut-helmet.webp"
+  },
+  {
+   "id": "red-clean-scissors",
+   "name": "Red Clean Scissors",
+   "desc": "A Pair of Red Scissors",
+   "icon": "items/red-clean-scissors.webp"
+  },
+  {
+   "id": "nuclear-waste",
+   "name": "Nuclear Waste",
+   "desc": "A barrel full of Radioactive Nuclear Waste",
+   "icon": "items/nuclear-waste.webp"
+  },
+  {
+   "id": "human-brain",
+   "name": "Human Brain",
+   "desc": "A Human Brain Recently Harvested",
+   "icon": "items/human-brain.webp"
+  },
+  {
+   "id": "dust",
+   "name": "Dust",
+   "desc": "The Dust from the body of an loyal Fan",
+   "icon": "items/dust.webp"
+  },
+  {
+   "id": "bloody-heart",
+   "name": "Bloody Heart",
+   "desc": "The Bloodied Heart of Kurame",
+   "icon": "items/bloody-heart.webp"
+  },
+  {
+   "id": "toxic-heart",
+   "name": "Toxic Heart",
+   "desc": "The Radioactive Heart of Trude",
+   "icon": "items/toxic-heart.webp"
+  },
+  {
+   "id": "thorny-heart",
+   "name": "Thorny Heart",
+   "desc": "The Spiked Heart of Ai",
+   "icon": "items/thorny-heart.webp"
+  },
+  {
+   "id": "brain-heart",
+   "name": "Brain Heart",
+   "desc": "The Brained Heart of Rebecca",
+   "icon": "items/brain-heart.webp"
+  },
+  {
+   "id": "sparkling-heart",
+   "name": "Sparkling Heart",
+   "desc": "The Shining and Starry Heart of Otona",
+   "icon": "items/sparkling-heart.webp"
+  },
+  {
+   "id": "broken-chains",
+   "name": "Broken Chains",
+   "desc": "The Broken Chains of A Unbreakable Loyalty.",
+   "icon": "items/broken-chains.webp"
+  },
+  {
+   "id": "bible",
+   "name": "Bible",
+   "desc": "The Bible of the holy lord",
+   "icon": "items/bible.webp"
+  },
+  {
+   "id": "heart-of-ice",
+   "name": "Heart of Ice",
+   "desc": "The Ice Hearted of Yuri",
+   "icon": "items/heart-of-ice.webp"
+  },
+  {
+   "id": "manhole-cover",
+   "name": "Manhole Cover",
+   "desc": "A Manhole Cover in the Purple District Sewers",
+   "icon": "items/manhole-cover.webp"
+  },
+  {
+   "id": "book",
+   "name": "Book",
+   "desc": "A Normal Book Soaked with some Fluorine Water",
+   "icon": "items/book.webp"
+  },
+  {
+   "id": "water-heart",
+   "name": "Water Heart",
+   "desc": "The Watery Heart of Milly",
+   "icon": "items/water-heart.webp"
+  },
+  {
+   "id": "blue-envelope",
+   "name": "Blue Envelope",
+   "desc": "A Mysterious Blue Envelope",
+   "icon": "items/blue-envelope.webp"
+  },
+  {
+   "id": "disposable-flip-phone",
+   "name": "Disposable Flip Phone",
+   "desc": "A Disposable Flip Phone Gave it by your friend",
+   "icon": "items/disposable-flip-phone.webp"
+  },
+  {
+   "id": "indigo-heart",
+   "name": "Indigo Heart",
+   "desc": "The Indigo Heart of Victoria",
+   "icon": "items/indigo-heart.webp"
+  },
+  {
+   "id": "red-tassel",
+   "name": "Red Tassel",
+   "desc": "The Red Tassel From a mother",
+   "icon": "items/red-tassel.webp"
+  },
+  {
+   "id": "black-rose",
+   "name": "Black Rose",
+   "desc": "A Black And Thorning Rose from Jimachi.",
+   "icon": "items/black-rose.webp"
+  },
+  {
+   "id": "black-rose-heart",
+   "name": "Black Rose Heart",
+   "desc": "The Heart of Black Roses from Jimachi",
+   "icon": "items/black-rose-heart.webp"
+  },
+  {
+   "id": "passport",
+   "name": "Passport",
+   "desc": "A Passport to get To the Outside Lands",
+   "icon": "items/passport.webp"
+  },
+  {
+   "id": "red-dragon",
+   "name": "Red Dragon",
+   "desc": "A Symbol of Respect from the Empress",
+   "icon": "items/red-dragon.webp"
+  },
+  {
+   "id": "blazing-heart",
+   "name": "Blazing Heart",
+   "desc": "The Blazing Heart of Mang Shi",
+   "icon": "items/blazing-heart.webp"
+  },
+  {
+   "id": "white-pearl",
+   "name": "White Pearl",
+   "desc": "A Shining Pearl from the Desert ",
+   "icon": "items/white-pearl.webp"
+  },
+  {
+   "id": "sandy-heart",
+   "name": "Sandy Heart",
+   "desc": "The Sandy Heart of Sycaya",
+   "icon": "items/sandy-heart.webp"
+  },
+  {
+   "id": "carrot",
+   "name": "Carrot",
+   "desc": "The Favorite Carrot of Her",
+   "icon": "items/carrot.webp"
+  },
+  {
+   "id": "broken-heart",
+   "name": "Broken Heart",
+   "desc": "The Broken Heart of Belle",
+   "icon": "items/broken-heart.webp"
+  },
+  {
+   "id": "trident",
+   "name": "Trident",
+   "desc": "A Trident from the Merk-folk Knights",
+   "icon": "items/trident.webp"
+  },
+  {
+   "id": "coral-heart",
+   "name": "Coral Heart",
+   "desc": "A Heart of Coral of Viola",
+   "icon": "items/coral-heart.webp"
+  },
+  {
+   "id": "black-and-white-heart",
+   "name": "Black and White Heart",
+   "desc": "The Heart of Kyoka and Jimachi",
+   "icon": "items/black-and-white-heart.webp"
+  },
+  {
+   "id": "black-half-heart",
+   "name": "Black Half Heart",
+   "desc": "The Half of the Pure Heart of Jimachi",
+   "icon": "items/black-half-heart.webp"
+  },
+  {
+   "id": "bloody-metal-bat",
+   "name": "Bloody Metal Bat",
+   "desc": "The metal bat of Marco",
+   "icon": "items/bloody-metal-bat.webp"
+  },
+  {
+   "id": "radio",
+   "name": "Radio",
+   "desc": "To Be Continued\n\n",
+   "icon": "items/radio.webp"
+  },
+  {
+   "id": "fireworks",
+   "name": "Fireworks",
+   "desc": "A colorful flower\n",
+   "icon": "items/fireworks.webp"
+  },
+  {
+   "id": "garden-gnome",
+   "name": "Garden Gnome",
+   "desc": "It's my gnome! Bau Bau~",
+   "icon": "items/garden-gnome.webp"
+  },
+  {
+   "id": "takoyaki",
+   "name": "Takoyaki",
+   "desc": "A delicious ball of takoyaki",
+   "icon": "items/takoyaki.webp"
+  },
+  {
+   "id": "pretty-hairpin",
+   "name": "Pretty hairpin",
+   "desc": "A very pretty hairpin.",
+   "icon": "items/pretty-hairpin.webp"
   }
  ],
  "music": [
@@ -31430,6 +35038,734 @@
    "tags": [],
    "novel": "Phantom Dream [Preview]",
    "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/12b13dbf-de11-47e7-8d83-ed788a5529c7/abe30b53-e74a-46b9-a16b-476e2959f1ee.mpeg"
+  },
+  {
+   "id": "funny-quirky-comedy-free-download-background-music",
+   "name": "Funny Quirky Comedy (Free Download Background Music)",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/811f085a-80e6-496d-a1ed-2608150ba3a6.mpeg"
+  },
+  {
+   "id": "epic-rock-backround-music-movie-trailer-rock-music-epic-action-royalty-free-rock-music-epic",
+   "name": "Epic Rock Backround Music Movie Trailer Rock Music Epic Action Royalty Free Rock Music Epic",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7f103c4b-e345-4677-b0c1-df315af5bf87.mpeg"
+  },
+  {
+   "id": "two-steps-from-hell-x-don-pollo",
+   "name": "Two Steps From Hell x Don Pollo",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/70137176-58ed-4c62-892a-dc0473fdf48f.mpeg"
+  },
+  {
+   "id": "vine-boom-sound-effect",
+   "name": "Vine boom sound effect",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/c91a85f0-8c47-400a-8179-649255929c2e.mpeg"
+  },
+  {
+   "id": "reggae-caribbean-music-chill-tropical-beach",
+   "name": "Reggae Caribbean Music Chill Tropical Beach",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/e3ef75a1-78ad-4eed-ba33-6c976445bfec.mpeg"
+  },
+  {
+   "id": "casino-jazz-by-pink-banana-noir-jazz-no-copyright-music",
+   "name": "Casino Jazz by Pink Banana [Noir Jazz No Copyright Music]",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/5cbe1b04-0b08-4e0a-8b36-9f1e2cd96039.mpeg"
+  },
+  {
+   "id": "no-copyright-music-chill-lo-fi-hip-hop-beat-free-instrumental-copyright-free-chillhop-music",
+   "name": "[No Copyright Music] Chill Lo-fi Hip Hop Beat FREE Instrumental (Copyright Free) Chillhop Music",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/31c2537d-4773-48da-b597-f638b7042963.mpeg"
+  },
+  {
+   "id": "happy-and-fun-pop-background-music-for-videos",
+   "name": "Happy and Fun Pop Background Music For Videos",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/63b39b95-0fcf-4eb6-bfe7-c5b029da78fa.mpeg"
+  },
+  {
+   "id": "marching-military-army-drumsbackground-musicwar-musicarmy-musicepic-war-battle-musicaction",
+   "name": "Marching Military Army DrumsBackground MusicWar MusicArmy MusicEpic War & Battle MusicAction",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/a28a5aca-1641-4e88-825b-1b7156e620ba.mpeg"
+  },
+  {
+   "id": "happy-christmas-background-music-for-videos",
+   "name": "Happy Christmas Background Music For Videos",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/dbcf7c90-9076-4af7-b9ba-402f659d66f2.mpeg"
+  },
+  {
+   "id": "metal-background-music-royalty-free-heavy-metal-instrumental",
+   "name": "Metal Background Music Royalty-Free Heavy Metal Instrumental",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/bd1bcec8-ff56-4fd2-a996-8a22db778841.mpeg"
+  },
+  {
+   "id": "soap-opera-organ",
+   "name": "Soap Opera Organ",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/74b1c979-50bc-4e14-a950-99973d61d0e9.mpeg"
+  },
+  {
+   "id": "epic-pirate-battle-music-no-copyright-music-free-download",
+   "name": "Epic Pirate Battle Music No Copyright Music (Free Download)",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/0d4c9cb8-c7b3-4163-a2fc-5880ebe846de.mpeg"
+  },
+  {
+   "id": "happy-robot-background-instrumental-royalty-free-music",
+   "name": "Happy ROBOT Background Instrumental Royalty Free Music",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/63f0710a-e467-4914-9738-061c05ec3b1b.mpeg"
+  },
+  {
+   "id": "royalty-free-ninja-music-ninja-kid",
+   "name": "Royalty Free Ninja Music Ninja Kid",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/c5dff8a4-347e-4a21-856a-331e4f6305e4.mpeg"
+  },
+  {
+   "id": "here-comes-trouble-nikke-ost",
+   "name": "Here Comes Trouble (Nikke OST)",
+   "tags": [],
+   "novel": "Emiro.exe Has Logged In (Again... Ugh) [Holy Geometric Purification Update]",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f31acff4-001f-486e-aa31-8cbff12b6d61.mpeg"
+  },
+  {
+   "id": "free-spooky-halloween-background-music-download-now-and-make-your-videos-even-scariest",
+   "name": "FREE Spooky Halloween Background Music_ Download Now and Make Your Videos Even Scariest",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/34ad5843-2552-45fd-b2ec-6d054400897e.mpeg"
+  },
+  {
+   "id": "funny-happy-halloween-music-no-copyright",
+   "name": "Funny Happy Halloween Music No Copyright",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/41f89306-e153-41f8-814a-08c2d82ca242.mpeg"
+  },
+  {
+   "id": "halloween-rock-music-background-halloween-music-by-aogani",
+   "name": "Halloween Rock Music Background Halloween Music by AOGANI",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/a11f3917-d8e2-400c-918e-564f9e441e59.mpeg"
+  },
+  {
+   "id": "spook-3-royalty-free-scary-halloween-music",
+   "name": "Spook 3 _ Royalty Free Scary Halloween Music",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f8083df8-fbf2-48c5-ba3c-14e2b194e0de.mpeg"
+  },
+  {
+   "id": "halloween-party-halloween-fun-royalty-free-music",
+   "name": "Halloween Party HALLOWEEN FUN ROYALTY FREE MUSIC",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/4fa53c47-7324-4fd5-80cd-6868fe309d5c.mpeg"
+  },
+  {
+   "id": "dark-horror-trailer-no-copyright",
+   "name": "Dark Horror Trailer - No Copyright",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/2c34a531-7ef0-4cef-85ba-4a58f2c831f2.mpeg"
+  },
+  {
+   "id": "horror-epic-intense-trailer-music-royalty-free",
+   "name": "HORROR EPIC INTENSE TRAILER MUSIC ROYALTY FREE",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/ebfa05b2-e125-47f8-974d-c4ef3d4a65cd.mpeg"
+  },
+  {
+   "id": "free-frozenvile-ice-forest-no-copyright-music-dark-ambient-4k",
+   "name": "[FREE] Frozenvile - Ice Forest NO COPYRIGHT MUSIC DARK AMBIENT 4K",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/a2e18955-dd2d-40fe-a22f-989cfbb42a4f.mpeg"
+  },
+  {
+   "id": "generic-90-s-tv-music-george-streicher",
+   "name": "Generic 90's TV Music! George Streicher",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7fd1b474-2261-46c4-bae0-2134d9b807f0.mpeg"
+  },
+  {
+   "id": "sad-female-vocals-acapella-angelic-ethnic-ambient-mermaids-ancient-chant-background-music",
+   "name": "SAD FEMALE VOCALS ACAPELLA ANGELIC ETHNIC Ambient Mermaids Ancient Chant Background Music",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/a6525e67-5cb9-4275-aec0-8950d9b34581.mpeg"
+  },
+  {
+   "id": "energetic-rock-background-royalty-free-music-by-anwar-amr",
+   "name": "Energetic Rock Background (Royalty Free Music) By Anwar Amr",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/96d70d57-b34c-43c4-91c9-b79eb7a1363a.mpeg"
+  },
+  {
+   "id": "no-copyright-music-lofi-type-beat-slice-of-life-royalty-free-vlog-music-prod-by-luckyluc",
+   "name": "(no copyright music) lofi type beat _SLICE OF LIFE_ _ royalty free vlog music _ prod. by LuckyLuc",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f11f0e94-a5b9-43dd-a250-54a1e2aebb4d.mpeg"
+  },
+  {
+   "id": "dark-orchestral-organ-music-the-razing-of-heaven-original-royalty-free",
+   "name": "Dark Orchestral Organ Music - The Razing of Heaven (Original Royalty Free)",
+   "tags": [],
+   "novel": "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/8eda8e0f-064e-4178-ab1f-a28c1d4d6efc.mpeg"
+  },
+  {
+   "id": "ninja-samurai-fighter-asian-epic-rock-royalty-free-music",
+   "name": "Ninja Samurai Fighter Asian Epic Rock Royalty Free Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/80f2a4d6-8b91-4973-9335-0c72bd1a7cc5.mpeg"
+  },
+  {
+   "id": "starting-out-waltz-vivace",
+   "name": "Starting Out Waltz Vivace",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://assets.miku.services/smooth_lovin.mp3"
+  },
+  {
+   "id": "dark-scary-royalty-free-music-deiwos-by-maittre",
+   "name": "Dark & Scary (Royalty Free Music) - DEIWOS by Maittre",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/50ea2fce-1c4d-44d2-90ee-e4800f12b7c1.mpeg"
+  },
+  {
+   "id": "trap-apocalypse-free-music-mystery-by-maittreofficial",
+   "name": "Trap & Apocalypse (Free Music) - MYSTERY by @MAITTREOFFICIAL",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/867653db-9c1b-4406-98f5-a2e717f0315d.mpeg"
+  },
+  {
+   "id": "dramatic-apocalyptic-music-the-wasteland-copyright-and-royalty-free",
+   "name": "♩♫ Dramatic Apocalyptic Music ♪♬ - The Wasteland (Copyright and Royalty Free)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/d9831e46-a828-4cd9-ae5b-0b5dd52cd47f.mpeg"
+  },
+  {
+   "id": "epic-asian-battle-theme-samurai-sake-showdown-updated-royalty-free-music",
+   "name": "Epic Asian Battle Theme Samurai Sake Showdown Updated Royalty Free Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/13759f87-7954-467c-986c-458a42dc1c4e.mpeg"
+  },
+  {
+   "id": "ready-for-war-epic-battle-japanese-instrumental-no-copyright",
+   "name": "Ready For War Epic Battle Japanese Instrumental No Copyright",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/5beb6d89-9710-423c-95d2-45ca8670b4d4.mpeg"
+  },
+  {
+   "id": "elegant-piano-and-strings-royalty-free-music-pure-elegance",
+   "name": "Elegant Piano and Strings Royalty Free Music - Pure Elegance",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/05508989-c0c4-46b0-aa67-0c26caf694c3.mpeg"
+  },
+  {
+   "id": "phantom-frequencies-synthwave-copyright-free",
+   "name": "Phantom Frequencies - Synthwave - Copyright Free",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/92338a47-de3b-4fc3-a1e4-094ce974dd63.mpeg"
+  },
+  {
+   "id": "1983-synthwave-retrowave-no-copyright-free-music-80s-music-forever",
+   "name": "1983 SynthWave RetroWave [ No Copyright FREE Music ] 80s Music Forever",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/6648dd1e-22a8-4849-b2ed-7ccf1ca56c6f.mpeg"
+  },
+  {
+   "id": "no-copyright-music-jazz-lofi-synthwave-by-puzzlejukebox",
+   "name": "[No copyright music] Jazz Lofi Synthwave by PuzzleJukebox",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/ace819a9-0e4b-46b4-99be-e03256f7ccf1.mpeg"
+  },
+  {
+   "id": "ambient-and-melancholic-music-morning-after-the-apocalypse-copyright-and-royalty-free",
+   "name": "Ambient And Melancholic Music - Morning After The Apocalypse (Copyright And Royalty Free)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/2573145d-88d6-4f18-8715-08e413ad4672.mpeg"
+  },
+  {
+   "id": "ragesound-vortex-dramatic-emotional-battle-copyright-free-music",
+   "name": "RageSound - Vortex (Dramatic Emotional Battle Copyright Free Music)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/bff3027b-a762-448b-9da7-d79ae84fbc0d.mpeg"
+  },
+  {
+   "id": "mystery-piano-background-music-for-films-documentaries-free-download-end-game",
+   "name": "Mystery Piano Background Music For Films & Documentaries (Free Download) End Game",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/74c00c0e-1529-4f27-a940-28e067484aad.mpeg"
+  },
+  {
+   "id": "suspense-music-seeking-the-truth-remastered-version-in-description",
+   "name": "Suspense Music - Seeking The Truth (Remastered version in Description)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/41cb1343-b5ad-475f-9216-d08681682bd2.mpeg"
+  },
+  {
+   "id": "dystopia-by-neutrin05-calm-dark-electronic-music-no-copyright",
+   "name": "'Dystopia' by Neutrin05 Calm Dark Electronic Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/aacde109-fb0c-4e76-95c9-7bb42982f72f.mpeg"
+  },
+  {
+   "id": "mysterious-dark-piano-music-for-videos-shattered-glass-by-cjbeards",
+   "name": "Mysterious Dark Piano (Music For Videos) - Shattered Glass by Cjbeards",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/154f3146-3d97-4397-9cea-ea26df912711.mpeg"
+  },
+  {
+   "id": "toxic-wasteland-apocalyptic-trap-bass-dark-futuristic-beat-free-no-copyright-music",
+   "name": "Toxic Wasteland Apocalyptic Trap & Bass Dark Futuristic Beat Free No Copyright Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/b84a2588-8856-4616-981c-69aee5191821.mpeg"
+  },
+  {
+   "id": "sport-bass-slow-motion-by-infraction-no-copyright-music-don-t-cry",
+   "name": "Sport Bass Slow Motion by Infraction [No Copyright Music] Don't Cry",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/48a86ae3-6321-402f-8455-da722156aea8.mpeg"
+  },
+  {
+   "id": "oriental-epic-royalty-free-music-emperor-s-battle-by-kaiji",
+   "name": "Oriental & Epic (Royalty Free Music) - EMPEROR'S BATTLE by Kaiji",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7c99b7c4-2bea-42de-905d-87efda6f420a.mpeg"
+  },
+  {
+   "id": "it-s-in-the-fog-by-darrencurtismusic-horror-music-no-copyright",
+   "name": "'It's In The Fog' by @DarrenCurtisMusic Horror Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/0c8d205c-8d57-46e2-bb1d-19cc479d1e28.mpeg"
+  },
+  {
+   "id": "free-dark-music-justify-the-lie-by-darren-curtis",
+   "name": "Free Dark Music - Justify the Lie by Darren Curtis",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/c370e1ad-790f-431e-a960-9629ae6bd18a.mpeg"
+  },
+  {
+   "id": "acoustic-inspiring-folk-by-infraction-no-copyright-music-wake-up",
+   "name": "Acoustic Inspiring Folk by Infraction [No Copyright Music] Wake Up",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/56bfdf49-37f4-497a-a96a-d26b9032e859.mpeg"
+  },
+  {
+   "id": "upbeat-event-travel-by-infraction-no-copyright-music-good-vibe",
+   "name": "Upbeat Event Travel by Infraction [No Copyright Music] Good Vibe",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/646a7c6f-ab98-4766-b364-8cf4eb296216.mpeg"
+  },
+  {
+   "id": "ronin-by-jantrax-japanese-trap-music-no-copyright",
+   "name": "'Ronin' by Jantrax Japanese Trap Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/abae28ec-7985-4d33-af92-257cb6bead01.mpeg"
+  },
+  {
+   "id": "awake-by-sappheiros-chinese-electronic-music-no-copyright",
+   "name": "'Awake' by @Sappheiros Chinese Electronic Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/5f0ce757-aa9a-4619-8ee6-6b6ab07a7e10.mpeg"
+  },
+  {
+   "id": "copyright-free-chill-background-music-way-home-by-tokyowalker4038",
+   "name": "[Copyright Free Chill Background Music] - Way Home by @tokyowalker4038",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/c3e961b4-b8ea-4455-8482-ab0ed8b5729f.mpeg"
+  },
+  {
+   "id": "space-cinematic-ambient-free-music-no-copyright",
+   "name": "Space Cinematic Ambient Free Music No Copyright",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f060f6cf-455d-4344-928b-ac1049bf5c94.mpeg"
+  },
+  {
+   "id": "free-dark-space-music-for-videos-a-few-jumps-away-by-arthur-vyncke",
+   "name": "Free Dark Space Music (For Videos) - A few jumps away by Arthur Vyncke",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/69311a33-eff2-45ef-9ad7-30a86ab24460.mpeg"
+  },
+  {
+   "id": "portal-mysterious-space-background-music-no-copyright",
+   "name": "Portal Mysterious Space Background Music No Copyright",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/ba7f047a-68ec-42a9-9ff4-422bc24e747c.mpeg"
+  },
+  {
+   "id": "ambient-space-royalty-free-music-discovery-by-lesion-x",
+   "name": "Ambient Space (Royalty Free Music) - DISCOVERY by Lesion X",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f808965e-14ec-47d5-b5a4-cbe868f8bad5.mpeg"
+  },
+  {
+   "id": "space-mysterious-intro-free-music-polar-bear-by-alexandra-tsikina",
+   "name": "Space & Mysterious Intro (Free Music) - POLAR BEAR by Alexandra Tsikina",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7c66b2d9-333e-44a5-928b-401ebad6e5ea.mpeg"
+  },
+  {
+   "id": "electro-rock-free-music-maximalism-by-punchdeck",
+   "name": "Electro Rock (Free Music) - MAXIMALISM by @PunchDeck",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/77cccf3b-e22b-4c18-87d1-02885cc69873.mpeg"
+  },
+  {
+   "id": "broken-no-copyright-music-sad-emotional-background-music-for-vlog-free-instrumental-music",
+   "name": "Broken - No Copyright Music Sad Emotional Background Music for Vlog Free Instrumental Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/63a41c56-0c41-46b7-9405-ef969744b948.mpeg"
+  },
+  {
+   "id": "crying-sad-emotional-background-music-no-copyright-music-free-sad-music",
+   "name": "Crying - Sad Emotional Background Music No Copyright Music Free Sad Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7406d36c-8c67-4caf-98a4-b190d77a1ec0.mpeg"
+  },
+  {
+   "id": "lonesome-journey-by-keysofmoonmusic-melancholic-piano-music-no-copyright",
+   "name": "'Lonesome Journey' by @KeysofMoonMusic Melancholic Piano Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/8744ae90-36f4-44e9-a9c8-91229ec07bb4.mpeg"
+  },
+  {
+   "id": "valse-monstrueuse",
+   "name": "Valse Monstrueuse",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://assets.miku.services/QmNo7t1H2ErYmpE8Lae9vtTXFG96w3YU8NB18qjDYNZnxy.mpeg"
+  },
+  {
+   "id": "tears-no-copyright-music-sad-emotional-background-music-for-vlog-free-instrumental-music",
+   "name": "Tears - No Copyright Music Sad Emotional Background Music for Vlog Free Instrumental Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/bdd3e663-d752-4194-9627-e1218cfca6c9.mpeg"
+  },
+  {
+   "id": "beautiful-classical-piano-music-for-videos-way-to-dream-by-keys-of-moon",
+   "name": "Beautiful Classical Piano (Music For Videos) - Way To Dream by Keys Of Moon",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/89925b0e-8d06-472b-abf9-a4bd0ae4ae40.mpeg"
+  },
+  {
+   "id": "royalty-free-classical-background-music-orchestral-music-royalty-free-by-music4video",
+   "name": "ROYALTY FREE Classical Background Music Orchestral Music Royalty Free by MUSIC4VIDEO",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/ed96c30d-d79b-4860-8a5e-fefc767ddfd0.mpeg"
+  },
+  {
+   "id": "uplifting-orchestra-inspirational-background-music-for-video-by-proluxestudio-royalty-free-music",
+   "name": "Uplifting Orchestra Inspirational Background Music for Video by ProLuxeStudio [Royalty Free Music]",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/dbc39b9d-c0bf-43e2-bfe0-deeabb1cf9c1.mpeg"
+  },
+  {
+   "id": "mysterious-music-no-copyright-dark-mysterious-music-suspense-horror-music-free-copyrights-pmf",
+   "name": "[mysterious music no copyright]Dark Mysterious Music Suspense Horror Music Free Copyrights PMF",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/29fdc26b-c03e-4122-a996-6e8db013a756.mpeg"
+  },
+  {
+   "id": "mysterious-suspenseful-dark-music-great-background-instrumental-for-video-voice-over",
+   "name": "Mysterious Suspenseful Dark Music (Great background Instrumental for video voice over)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/6c168a65-f245-4464-bb00-fcb4c116a0ae.mpeg"
+  },
+  {
+   "id": "smooth-jazz-no-copyright",
+   "name": "Smooth Jazz No Copyright",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/afa0b0a6-d7eb-44c3-a1ca-e177f16c0b88.mpeg"
+  },
+  {
+   "id": "panic-suspenseful-music-action-chase-fight-background-music-instrumental-ost",
+   "name": "Panic Suspenseful Music - Action Chase Fight Background Music Instrumental OST",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/08ef80eb-8676-479e-93aa-576addb430e0.mpeg"
+  },
+  {
+   "id": "undercover-spy-agent-music-spy-theme-background-instrumental",
+   "name": "Undercover Spy Agent Music - Spy Theme Background Instrumental",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/f43dfb63-f33e-48df-8278-d7910b205881.mpeg"
+  },
+  {
+   "id": "melancholia-music-box-sad-creepy-song",
+   "name": "MELANCHOLIA Music Box Sad, creepy song",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/e1bfd834-c9d3-46c9-a6ab-a5be4564b920.mpeg"
+  },
+  {
+   "id": "scarytense-music-look-behind-you",
+   "name": "ScaryTense Music - Look Behind You",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/e40b9973-ce2f-41cd-9f64-d2fe0d0975a9.mpeg"
+  },
+  {
+   "id": "industrial-darksynth-prison-planet-royalty-free-copyright-safe-music",
+   "name": "Industrial Darksynth - Prison Planet Royalty Free Copyright Safe Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/79a46e16-3c1e-4410-9a22-a438f896277f.mpeg"
+  },
+  {
+   "id": "prison-escape-hybrid-cinematic-royalty-free-stock-music",
+   "name": "Prison Escape Hybrid Cinematic Royalty Free Stock Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/b85fef91-7bea-4140-b647-e23d2f9d5205.mpeg"
+  },
+  {
+   "id": "sport-rock-workout-by-infraction-no-copyright-music-i-wanna-rock",
+   "name": "Sport Rock Workout by Infraction [No Copyright Music] I Wanna Rock",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/981ce0c1-d5c9-4c38-8573-9349ab7e6733.mpeg"
+  },
+  {
+   "id": "epic-chase-music-run-copyright-and-royalty-free",
+   "name": "Epic Chase Music - Run (Copyright and Royalty Free)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/59642aa2-3c07-4d58-9155-e6dcc180f5f9.mpeg"
+  },
+  {
+   "id": "apocalypse-action-free-music-escalation-by-ghostrifter-avalon",
+   "name": "Apocalypse & Action (Free Music) - Escalation by Ghostrifter Avalon",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/fff6d616-5b71-478a-829b-2038781334a7.mpeg"
+  },
+  {
+   "id": "gone-post-apocalyptic-rock-song-royalty-free",
+   "name": "GONE Post-Apocalyptic Rock Song (Royalty Free)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/c358dfd5-f9f4-4c55-ac1d-6bc58db21337.mpeg"
+  },
+  {
+   "id": "dark-lofi-free-music-abyss-by-rexlambo",
+   "name": "Dark Lofi (Free Music) - ABYSS by @rexlambo",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/6085d731-df51-41ac-a672-d7b92d7409d7.mpeg"
+  },
+  {
+   "id": "youtube-audio-library-topher-mohr-and-alex-elena-hot-heat-rock",
+   "name": "[YouTube Audio Library] Topher Mohr and Alex Elena - Hot Heat [Rock]",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/cddc8b70-8f7c-4a09-99c8-30986382ba6e.mpeg"
+  },
+  {
+   "id": "adventure-pirate-free-music-three-sheets-to-the-wind-by-scott-buckley",
+   "name": "Adventure & Pirate (Free Music) - THREE SHEETS TO THE WIND by Scott Buckley",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/07ff4a46-ba29-4f54-940c-5234de8cb4d3.mpeg"
+  },
+  {
+   "id": "storm-by-ashamaluevmusic-epic-dramatic-background-music-cinematic-trailer-music",
+   "name": "Storm - by AShamaluevMusic (Epic Dramatic Background Music Cinematic Trailer Music)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/9788bd6c-01bb-45c6-8aa3-076672cca921.mpeg"
+  },
+  {
+   "id": "underwater-world-royalty-free-music",
+   "name": "Underwater World - Royalty Free Music",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/522b532e-51f7-4c00-bb25-3855aaf06e60.mpeg"
+  },
+  {
+   "id": "epic-free-music-for-youtube-duel-by-makai-symphony",
+   "name": "Epic (Free Music For YouTube) - DUEL by @Makai-symphony",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/2d4d3bdb-2f08-4d9c-a212-79d2f7d06178.mpeg"
+  },
+  {
+   "id": "orchestral-fanfare-victory-royalty-free-music",
+   "name": "[Orchestral Fanfare] Victory! (Royalty Free Music)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/669b5f59-4900-42aa-a57d-99b709143c03.mpeg"
+  },
+  {
+   "id": "flower-fields-no-copyright-lofi-music-for-youtube-vids",
+   "name": "Flower Fields --- No Copyright lofi music for youtube vids",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/17a69aaf-9c8c-4324-acae-575f407386f5.mpeg"
+  },
+  {
+   "id": "the-army-of-minotaur-by-makai-symphony-fighting-music-no-copyright",
+   "name": "'The Army of Minotaur' by @Makai-symphony Fighting Music (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/09915cc6-114f-4fe8-8b4f-9fbcae5814bf.mpeg"
+  },
+  {
+   "id": "jazz-music-5-no-copyright",
+   "name": "Jazz Music #5 (No Copyright)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/1b1d8223-44c9-4c00-94e9-14cc5974943e.mpeg"
+  },
+  {
+   "id": "the-beach-by-adrian-van-sin-deep-house-no-copyright-music",
+   "name": "'The Beach' by Adrian van Sin Deep House (No Copyright Music)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/77a2d1b9-b918-45c6-aff7-4748a01ed5a9.mpeg"
+  },
+  {
+   "id": "valentines-s-day-royalty-free-music-warmth-of-a-memory-by-kuukiko",
+   "name": "Valentines's Day (Royalty Free Music) - WARMTH OF A MEMORY by Kuukiko",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/0bccd713-eaff-4767-8883-c3f3e54434d9.mpeg"
+  },
+  {
+   "id": "romantic-instrumental-music-free-love-waltz-by-nikos-spiliotis",
+   "name": "Romantic Instrumental Music (Free) - Love Waltz by Nikos Spiliotis",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/3a278185-89ba-4277-9db5-50ae140bf8f5.mpeg"
+  },
+  {
+   "id": "tech-house-club-by-infraction-no-copyright-music-dancing",
+   "name": "Tech House Club by Infraction [No Copyright Music] Dancing",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/a8064fe5-df3a-46bf-911a-8ad8780c8885.mpeg"
+  },
+  {
+   "id": "limbus-company-ost-canto-viii-boss-2-battle-theme",
+   "name": "Limbus Company OST - Canto VIII Boss 2 Battle Theme",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/6773e13e-a99a-47cf-af87-03ab39808f63.mpeg"
+  },
+  {
+   "id": "japanese-onsen-music-no-copyright-nostalgic-onsen-inn-free-bgm",
+   "name": "Japanese Onsen music (No Copyright) Nostalgic Onsen Inn [Free BGM]",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/86c6cbc3-71a4-477d-a07e-645d46c373c7.mpeg"
+  },
+  {
+   "id": "epic-drums-background-music-royalty-free-music-by-andrewvovchynamusic",
+   "name": "Epic Drums Background Music (Royalty Free Music) - by AndrewVovchynaMusic",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/7c603b5b-e6c4-4036-bd4b-b9dd302f0f10.mpeg"
+  },
+  {
+   "id": "electronic-japanese-music-free-warrior-by-yoitrax",
+   "name": "Electronic Japanese Music (Free) - Warrior by Yoitrax",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/6ba69f1b-8036-4a57-aee3-108cbf5b514b.mpeg"
+  },
+  {
+   "id": "japanese-royalty-free-music-winding-tides-by-kuukiko",
+   "name": "Japanese (Royalty Free Music) - WINDING TIDES by Kuukiko",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/854c7bb3-c238-4e68-8d4c-67ea211f87fc.mpeg"
+  },
+  {
+   "id": "japanese-fireworks-music-skylit-blossoms",
+   "name": "Japanese Fireworks Music Skylit Blossoms",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/ad658427-ef4c-418b-a72b-cad3a7341a24.mpeg"
+  },
+  {
+   "id": "firework-sound-effect-hd",
+   "name": "Firework - Sound Effect (HD)",
+   "tags": [],
+   "novel": "Protectors",
+   "url": "https://mikugg-assets.nyc3.cdn.digitaloceanspaces.com/optimized/b095b831-54be-45ca-95d5-a6dcbaaa01fa/77d8c04f-0d4d-441c-abce-90593f513d68.mpeg"
   }
  ]
 }

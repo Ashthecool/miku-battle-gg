@@ -63,6 +63,8 @@ SKIP_OUTFITS = {
     # Grove Keeper, Nupta Daemoni, Phantastic Experiments: blank outfits and placeholder silhouettes (Masashi has no art)
     "berry/blank", "holly/blank", "elsie-mae/clear", "azrael/lingerie", "ayame/new-outfit", "ken/new-outfit",
     "natsumi/new-outfit", "masashi/default",
+    # Emiro.exe Has Logged In: empty placeholder images
+    "emiro/no-sprite", "omire/no-omire-means-no-bitches-for-you",
 }
 
 # NSFW content is downloaded too but tagged `nsfw: true` in the manifest; the game only shows it in NSFW mode
@@ -89,6 +91,8 @@ NSFW_OUTFITS = {
     "cupid/lewd-outfit", "dani/lewd", "marine/lewd",
     # the ten single-character novels (Hanako, Ida, Lilly, Yllara)
     "hanako-ikezawa/lewd", "ida/lewd", "lilly-satou/lewd",
+    # Emiro.exe Has Logged In: nude slime body and lingerie nurse outfit
+    "emiro/slime-emiro", "emiro/emiro-sexy-nurse",
 }
 # novels that are NSFW as a whole: their characters, backgrounds, items and music only show in NSFW mode
 NSFW_NOVELS = {"Noble One", "Integrated Domestic Android", "WTF STEP BRO", "Reincarnation Colosseum"}
@@ -160,6 +164,15 @@ ONLY_CHARACTERS = {
     # the named cast (without the nameless workers, guards and goons)
     "Cyber Delivery": {"dani", "kat-13", "stv-3", "takeda", "jet", "lamina", "seo-jin-tae", "nikita", "mel", "crash",
                        "hope", "pedro"},
+    # without the alternate-universe human copy of Devrah (Devrah Calbine)
+    "Grim & Spook: Crazy adventures: Slice-of life of Hallowen (With extra bones)": {
+        "devrah-cadaberica", "murterta-cadaberica", "lyssara", "the-calamari-demon", "roy", "fear", "bonehead",
+        "gentlemen-ghosts", "lord-gourdvain", "the-scarecrow", "the-wendigo", "moonfang-werewolf",
+        "the-dullahan-steed", "the-ghouls"},
+    # the seven District Protectors, their families, bodyguards and rival criminals (without nameless grunts)
+    "Protectors": {
+        "sakurako", "kirari", "jimachi", "dearth", "mang-shi", "ying-kong-meng", "trictotano", "toxor",
+        "gerroid", "yuri", "cecil", "vendetta", "femicia", "x", "stella", "tragonta"},
 }
 
 # Emotions the battle system uses; first match per role wins.

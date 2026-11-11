@@ -113,7 +113,7 @@
 
     // the whole battle state as a short string, the same in both PvP runs (checked at every end of turn)
     digest() {
-      const ent = (e) => [e.uid, e.atk, e.hp, e.maxHp, e.shield ? 1 : 0, e.frozen ? 1 : 0, e.burning ? 1 : 0, e.attacksLeft | 0, e.kw ? [...e.kw].sort().join('+') : ''].join(',');
+      const ent = (e) => [e.uid, e.atk, e.hp, e.maxHp, e.shield ? 1 : 0, e.frozen ? 1 : 0, e.burning ? 1 : 0, e.cursed ? 1 : 0, e.attacksLeft | 0, e.kw ? [...e.kw].sort().join('+') : ''].join(',');
       const text = [this.turn, this.canon(this.active), ...this.order.map((side) => {
         const p = this.players[side];
         return [p.leader.hp, p.gold, p.maxGold, p.fatigue, p.powerUsed ? 1 : 0, p.hand.map((c) => c.cid + ':' + c.cost).join('.'),
@@ -375,7 +375,7 @@
       const u = {
         uid: 'u' + (++this.seq), card, name: card.name, side, slot,
         atk: card.atk, hp: card.hp, maxHp: card.hp, kw: new Set(card.kw),
-        shield: card.kw.includes('shield'), frozen: false, thaw: false, burning: false,
+        shield: card.kw.includes('shield'), frozen: false, thaw: false, burning: false, cursed: false,
         sick: true, attacksLeft: 0, onTurnStart: card.onTurnStart, onDeath: card.onDeath,
         onHurt: card.onHurt, onAllyDeath: card.onAllyDeath, onAttack: card.onAttack, onKill: card.onKill, onTurnEnd: card.onTurnEnd,
       };
@@ -418,7 +418,7 @@
       const u = {
         uid: 'u' + (++this.seq), card, name: bond.name, side, slot: stay.slot,
         atk, hp: a.hp + b.hp + bond.bonus[1], maxHp, kw,
-        shield: kw.has('shield') || a.shield || b.shield, frozen: false, thaw: false, burning: false,
+        shield: kw.has('shield') || a.shield || b.shield, frozen: false, thaw: false, burning: false, cursed: false,
         sick: false, attacksLeft: this.active === side ? (kw.has('frenzy') ? 2 : 1) : 0,
         onTurnStart: a.onTurnStart || b.onTurnStart, onTurnEnd: a.onTurnEnd || b.onTurnEnd, onDeath: null,
       };
@@ -520,6 +520,7 @@
         this.view.react({ type: 'shieldBreak', ent: target });
         return 0;
       }
+      if (!target.isLeader && target.cursed) amount += 1;
       target.hp -= amount;
       if (target.isLeader && !self) this.count(1 - target.side, 'face', amount);
       this.view.react({ type: 'damage', ent: target, amount, counter });
@@ -531,6 +532,7 @@
         }
         if (!target.isLeader && source.kw.has('freeze') && target.hp > 0) this.freeze(target);
         if (!target.isLeader && source.kw.has('burn') && target.hp > 0) this.ignite(target);
+        if (!target.isLeader && source.kw.has('curse') && target.hp > 0) this.curse(target);
       }
       // Betty: every scar makes her tougher
       if (target.onHurt === 'scarred' && target.hp > 0) {
@@ -546,12 +548,34 @@
       this.count(t.side, 'healed', t.hp - before);
       if (t.hp > before) this.view.react({ type: 'heal', ent: t, amount: t.hp - before });
       if (t.burning) { t.burning = false; this.view.react({ type: 'extinguish', ent: t }); }
+      if (t.cursed) { t.cursed = false; this.view.react({ type: 'cleanse', ent: t }); }
     }
 
     ignite(u) {
       if (u.isLeader || u.burning) return;
       u.burning = true;
       this.view.react({ type: 'burn', ent: u });
+    }
+
+    curse(u) {
+      if (u.isLeader || u.cursed) return;
+      u.cursed = true;
+      this.view.react({ type: 'curse', ent: u });
+    }
+
+    siphon(u, to, atk = 0, hp = 0) {
+      if (!u || u.isLeader || u.hp <= 0) return;
+      if (atk > 0) this.buff(u, -atk, 0);
+      const dealt = hp > 0 ? this.deal(u, hp, to && !to.isLeader ? to : null) : 0;
+      if (to && to.hp > 0 && (atk > 0 || dealt > 0)) {
+        if (to.isLeader) {
+          if (dealt > 0) this.heal(to, dealt);
+          if (atk > 0) { const a = this.pick(this.units(to.side)); if (a) this.buff(a, atk, 0); }
+        } else {
+          this.buff(to, atk, dealt);
+        }
+        this.view.react({ type: 'siphon', ent: to, from: u, atk, hp: dealt });
+      }
     }
 
     swapStats(u, label) {
@@ -600,7 +624,9 @@
         for (const u of this.allUnits()) if (u.undying && u.hp <= 0) { u.hp = u.maxHp; u.killedBy = null; }
         const dead = this.allUnits().filter((u) => u.hp <= 0);
         if (!dead.length) break;
+        const cursed = dead.filter((u) => u.cursed);
         for (const u of dead) { this.me(u.side).board[u.slot] = null; this.count(1 - u.side, 'kills'); this.count(u.side, 'lost'); }
+        if (cursed.length) await this.view.curseFx(cursed, () => cursed.forEach((u) => this.deal(this.me(u.side).leader, 2, null, false, true)));
         await this.view.death(dead);
         for (const u of dead) if (u.onDeath) await this.trigger(u.onDeath, u);
         for (const u of dead) for (const a of this.units(u.side)) if (a.onAllyDeath && a.hp > 0) await this.trigger(a.onAllyDeath, a);

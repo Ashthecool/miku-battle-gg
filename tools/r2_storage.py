@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 BUCKET = os.environ.get("R2_BUCKET", "game-assets")
 MIME = {".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".gif": "image/gif",
-        ".json": "application/json"}
+        ".json": "application/json", ".mp3": "audio/mpeg", ".wav": "audio/wav"}
 NS = "{http://s3.amazonaws.com/doc/2006-03-01/}"
 
 

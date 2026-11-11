@@ -1,3 +1,5 @@
+ElevenLabs (ElevenLabs Sound Generation API): eyeglint.mp3, acidsplat.mp3, cratecrash.mp3, electricburst.mp3, paperdrop.mp3, stingerstab.mp3, dragonfire.mp3, ironpalm.mp3, brawlerslam.mp3.
+
 # Sound credits
 
 Pixabay (Pixabay Content License): `animated-cartoon-explosion-impact.mp3`, `cartoon-blinking.mp3`.

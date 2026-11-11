@@ -36,7 +36,8 @@
   const WHERE = {
     hurt: (t) => t.hp < t.maxHp, oddAtk: (t) => t.atk % 2 === 1, evenAtk: (t) => t.atk % 2 === 0,
     frozen: (t) => t.frozen, unfrozen: (t) => !t.frozen, taunt: (t) => t.kw.has('taunt'), shielded: (t) => t.shield,
-    burning: (t) => t.burning, cheap: (t) => !t.isLeader && t.card.cost <= 3, big: (t) => !t.isLeader && t.atk >= 4,
+    burning: (t) => t.burning, cursed: (t) => t.cursed, uncursed: (t) => !t.cursed,
+    cheap: (t) => !t.isLeader && t.card.cost <= 3, big: (t) => !t.isLeader && t.atk >= 4,
     monster: (t) => !t.isLeader,
   };
 
@@ -46,11 +47,13 @@
   const monster = (t) => !t.isLeader;
   const OPS = {
     damage: { apply: (c, t, s) => c.b.deal(t, s.n || 1, null, false, t.isLeader && t.side === c.side) },
-    heal:   { valid: (t) => t.hp < t.maxHp || t.burning, apply: (c, t, s) => c.b.heal(t, s.n === 'full' ? t.maxHp : s.n || 1) },
+    heal:   { valid: (t) => t.hp < t.maxHp || t.burning || t.cursed, apply: (c, t, s) => c.b.heal(t, s.n === 'full' ? t.maxHp : s.n || 1) },
     buff:   { valid: monster, apply: (c, t, s) => c.b.buff(t, s.atk || 0, s.hp || 0) },
     freeze: { valid: (t) => monster(t) && !t.frozen, apply: (c, t) => c.b.freeze(t) },
     thaw:   { valid: (t) => t.frozen, apply: (c, t) => { t.frozen = false; t.thaw = false; c.b.view.react({ type: 'thaw', ent: t }); } },
     ignite: { valid: (t) => monster(t) && !t.burning, apply: (c, t) => c.b.ignite(t) },
+    curse:  { valid: (t) => monster(t) && !t.cursed, apply: (c, t) => c.b.curse(t) },
+    siphon: { valid: monster, apply: (c, t, s) => c.b.siphon(t, c.self && c.self.hp > 0 ? c.self : c.b.me(c.side).leader, s.atk || (!s.hp ? 1 : 0), s.hp || (!s.atk ? 1 : 0)) },
     shield: { valid: (t) => monster(t) && !t.shield, apply: (c, t) => { t.shield = true; c.b.view.react({ type: 'shield', ent: t }); } },
     kill:   { valid: monster, apply: (c, t) => { t.hp = 0; t.killedBy = null; c.b.view.react({ type: 'poison', ent: t }); } },
     swap:   { valid: monster, apply: (c, t, s) => c.b.swapStats(t, s.say || 'Swapped!') },
@@ -174,7 +177,7 @@
   const needsSlot = (spec) => stepsOf(spec).every((s) => s.op === 'summon');
 
   // ---------------------------------------------------------------- AI
-  const HOSTILE = new Set(['damage', 'kill', 'freeze', 'ignite', 'strip', 'bounce']);
+  const HOSTILE = new Set(['damage', 'kill', 'freeze', 'ignite', 'curse', 'siphon', 'strip', 'bounce']);
   // is a targeted spell / power worth using now, and on whom? Returns { target } or {} or null.
   function plan(b, side, src) {
     const steps = stepsOf(src.effect), me = b.me(side);
@@ -200,9 +203,11 @@
         else if (st.op === 'kill') s += t.isLeader ? -99 : value(t);
         else if (st.op === 'freeze') s += t.frozen || t.isLeader ? 0 : t.atk;
         else if (st.op === 'ignite') s += t.burning || t.isLeader ? 0 : value(t) / 2;
+        else if (st.op === 'curse') s += t.cursed || t.isLeader ? 0 : value(t) * 0.6 + 2;
+        else if (st.op === 'siphon') s += t.isLeader ? -99 : (st.atk || 1) * 2 + (st.hp || 1) * 2 + (t.hp <= (st.hp || 0) ? 8 + value(t) : value(t) / 3);
         else if (st.op === 'strip') s += t.isLeader ? 0 : t.kw.size * 2 + (t.shield ? 3 : 0);
         else if (st.op === 'swap') s += t.isLeader ? -99 : friendly ? t.hp - t.atk - 1 : t.atk - t.hp;
-        else if (st.op === 'heal') s += Math.min(st.n === 'full' ? 99 : st.n || 1, t.maxHp - t.hp) + (t.burning ? 2 : 0) + (t.frozen && on.some((x) => x.op === 'thaw') ? 3 : 0) - 1;
+        else if (st.op === 'heal') s += Math.min(st.n === 'full' ? 99 : st.n || 1, t.maxHp - t.hp) + (t.burning ? 2 : 0) + (t.cursed ? 2 : 0) + (t.frozen && on.some((x) => x.op === 'thaw') ? 3 : 0) - 1;
         else if (st.op === 'thaw') s += t.frozen ? 3 : 0;
         else if (st.op === 'buff') s += t.isLeader ? 0 : st.atk < 0 ? t.atk : value(t) / 2 + (t.attacksLeft > 0 ? 3 : 0);
         else if (st.op === 'keyword') s += t.isLeader || t.kw.has(st.kw) ? -2 : value(t) / 2 + (t.attacksLeft > 0 ? 2 : 0);
@@ -219,7 +224,7 @@
 
   // ---------------------------------------------------------------- card text
   const TARGET_NAME = { enemyUnit: 'an enemy monster', allyUnit: 'an ally', anyUnit: 'a monster', enemyAny: 'an enemy character', friendlyAny: 'a friendly character' };
-  const WHERE_NAME = { hurt: 'damaged', oddAtk: 'odd-ATK', evenAtk: 'even-ATK', frozen: 'frozen', unfrozen: 'unfrozen', taunt: 'Taunt', shielded: 'shielded', burning: 'burning', cheap: 'cheap', big: 'big' };
+  const WHERE_NAME = { hurt: 'damaged', oddAtk: 'odd-ATK', evenAtk: 'even-ATK', frozen: 'frozen', unfrozen: 'unfrozen', taunt: 'Taunt', shielded: 'shielded', burning: 'burning', cursed: 'cursed', uncursed: 'uncursed', cheap: 'cheap', big: 'big' };
   const IF_NAME = { targetDied: 'if it dies, ', targetAlive: 'if it survives, ', selfAlive: 'if it survives, ', handSmall: 'if you hold 3 or fewer cards, ',
     hasAllies: 'if you have another monster, ', noAllies: 'if it stands alone, ', behind: 'if your leader has less HP, ', outnumbered: 'if you have fewer monsters, ', lowHealth: 'if your leader has 10 or less HP, ' };
   const NUM = ['no', 'a', 'two', 'three', 'four', 'five'];
@@ -260,6 +265,8 @@
       case 'freeze': return `freeze ${t}${times}`;
       case 'thaw': return `thaw ${t}`;
       case 'ignite': return `set ${t} ablaze${times}`;
+      case 'curse': return `curse ${t}${times}`;
+      case 'siphon': { const a = s.atk || (!s.hp ? 1 : 0), h = s.hp || (!s.atk ? 1 : 0); return `siphon ${a && h ? `+${a}/+${h}` : a ? `${a} ATK` : `${h} HP`} from ${t}${times}`; }
       case 'shield': return `give ${t} Shield`;
       case 'kill': return `destroy ${t}`;
       case 'swap': return `swap the ATK and HP of ${t}`;

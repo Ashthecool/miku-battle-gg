@@ -182,6 +182,15 @@
     pour: { file: 'pour-207781.mp3', vol: 0.5, max: 1.4 },
     ghostly: { file: 'ghostly-359153.mp3', vol: 0.5, max: 1.5 },
     servicebell: { file: 'servicebell-243701.mp3', vol: 0.7 },
+    eyeglint: { file: 'eyeglint.mp3', vol: 0.8 },
+    acidsplat: { file: 'acidsplat.mp3', vol: 0.85, vary: 0.08 },
+    cratecrash: { file: 'cratecrash.mp3', vol: 0.85 },
+    electricburst: { file: 'electricburst.mp3', vol: 0.85 },
+    paperdrop: { file: 'paperdrop.mp3', vol: 0.8 },
+    stingerstab: { file: 'stingerstab.mp3', vol: 0.85 },
+    dragonfire: { file: 'dragonfire.mp3', vol: 0.85 },
+    ironpalm: { file: 'ironpalm.mp3', vol: 0.85 },
+    brawlerslam: { file: 'brawlerslam.mp3', vol: 0.85 },
   };
   const buffers = {};
   const sampleLoads = {};
@@ -464,6 +473,15 @@
     keys: () => [0, 0.04, 0.09].forEach((d, i) => tone({ type: 'triangle', f0: 3000 - i * 300, dur: 0.06, vol: 0.06, delay: d })),
     rubberband: () => tone({ type: 'triangle', f0: 180, f1: 90, dur: 0.25, vol: 0.2, vib: { rate: 40, depth: 30, end: 5 } }),
     riserhit: () => { tone({ type: 'sawtooth', f0: 200, f1: 1200, dur: 0.7, vol: 0.08, attack: 0.6, lp: 3000 }); tone({ type: 'sine', f0: 120, f1: 40, dur: 0.4, vol: 0.3, delay: 0.7 }); },
+    eyeglint: () => SFX.glint(),
+    acidsplat: () => SFX.splat(),
+    cratecrash: () => SFX.slam(),
+    electricburst: () => { SFX.zap(); SFX.thunder(); },
+    paperdrop: () => { SFX.pageflip(); SFX.thud(); },
+    stingerstab: () => { SFX.stab(); SFX.sizzle(); },
+    dragonfire: () => { SFX.roar(); SFX.fire(); },
+    ironpalm: () => { SFX.punch(); SFX.gong(); },
+    brawlerslam: () => { SFX.slam(); SFX.thud(); },
   };
 
   // a recorded sample when it's loaded (optional options object, see sample()), else the synth version

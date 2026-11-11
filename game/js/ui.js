@@ -407,6 +407,7 @@
       const notes = [];
       if (ent.frozen) notes.push('❄️ Frozen — skips its next attack.');
       if (ent.burning) notes.push('♨️ Burning — takes 1 damage each turn until healed.');
+      if (ent.cursed) notes.push('🔮 Cursed — takes +1 damage and haunts its leader for 2 damage on death until healed.');
       if (ent.shield) notes.push('🔰 Shielded.');
       if (ent.sick && !ent.kw.has('haste')) notes.push('🆕 Just arrived — can fight enemy monsters now, the enemy leader next turn.');
       if (ent.card.fused) notes.push(`💞 <b>${ent.card.members.map((m) => MB.charById(m.id).name).join(' & ')}</b> — ${ent.card.bond.relation}`);
@@ -1372,7 +1373,7 @@
     await galDummies();
     const target = MB.pick(gal.dummies.filter(Boolean));
     if (!target) { gal.busy = false; return; }
-    target.hp = target.maxHp; target.frozen = false; target.shield = false; target.burning = false;
+    target.hp = target.maxHp; target.frozen = false; target.shield = false; target.burning = false; target.cursed = false;
     const unit = gal.unit, card = unit.card;
     if (gal.sky) unit.card = { ...card, attack: { ...card.attack, sky: gal.sky } };
     try { await b.attack(unit, target); } finally { unit.card = card; await galDummies(); gal.busy = false; }

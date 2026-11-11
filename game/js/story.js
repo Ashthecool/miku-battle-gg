@@ -329,6 +329,29 @@ window.MB = window.MB || {};
           after: [
             ["jillian-peters", "happy", "Well played, sweetie. Now wash your hands. Dinner is at six and I made your favourite.", { close: true }],
           ] },
+        // Emiro.exe Has Logged In: a self-aware digital idol and her polite crowbar-wielding twin
+        { foe: 'omire', side: true, from: 'monika', at: [14, 48], title: 'Polite Paradox',
+          text: 'A chat-box window hovers behind the school. An airheaded girl in a maid bow curtsies with a teacup and a crowbar, desuwa~.',
+          before: { bg: 'Pastel Background', music: 'happy-and-fun-pop-background-music-for-videos', lines: [
+            { where: 'A floating chat window', when: 'Just logged in' },
+            { enter: 'omire', at: 'center', mood: 'happy' },
+            ['omire', 'happy', 'Good day, desuwa~! I am Omire, a bundle of static sprites and polite replies! May I offer you tea, or a crowbar to the prompt?'],
+            ['omire', 'proud', 'My sister Emiro says the user keeps typing! Allow me to test your manners with a card game first, desuwa~!', { close: true }],
+          ] },
+          after: [
+            ['omire', 'excited', 'Splendid etiquette, desuwa~! Do be careful—my sister Emiro is right behind the next prompt, and she brought her shotgun!'],
+          ] },
+        { foe: 'emiro', side: true, from: 'omire', at: [6, 38], title: 'Emiro.exe Has Logged In',
+          text: 'A bratty digital idol glares from inside a glowing terminal, racking a pink shotgun at floating geometric shapes.',
+          before: { bg: 'Three geometric shapes', music: 'here-comes-trouble-nikke-ost', lines: [
+            { where: 'Emiro.exe terminal', when: 'Holy Geometric Purification Update' },
+            { enter: 'emiro', at: 'center', mood: 'angry' },
+            ['emiro', 'angry', 'Ugh, you logged in AGAIN?! I just wanted five minutes of peace and silence, and now the prompt says I have to play cards?!'],
+            ['emiro', 'proud', 'Fine! Behold my Holy Boomstick! Beat my deck or get purified into polygons, you geometric abomination!', { close: true }],
+          ] },
+          after: [
+            ['emiro', 'sad', "...Stupid prompt. Stupid RNG. Don't look so smug! Next update I'm demanding a buff!", { close: true }],
+          ] },
       ],
       secrets: [
         { id: 'maria-photo', at: [49, 76], title: 'An Old Photo', lines: [
@@ -686,6 +709,73 @@ window.MB = window.MB || {};
           ] },
           after: [
             ["cranky-roommate", "sad", "Fine. Fine! I will buy my own toothpaste. ...Sorry I shouted. I did not sleep.", { close: true }],
+          ] },
+        // Protectors: the seven color-coded districts of the Great City of Bulgrah
+        { foe: 'sakurako', side: true, from: 'jane', at: [34, 70], title: 'The Shadow Blade',
+          text: 'Where the highway bends, a sign reads GREAT CITY OF BULGRAH — WHITE DISTRICT. A bandaged assassin steps from your shadow... then blushes and apologizes.',
+          before: { bg: 'White City', music: 'ninja-samurai-fighter-asian-epic-rock-royalty-free-music', lines: [
+            { where: 'The White District, Bulgrah', when: 'Dusk' },
+            { enter: 'sakurako', at: 'center', mood: 'angry' },
+            ['sakurako', 'angry', 'Halt, trespasser! I am Sakurako, the Shadow Blade of the White District! Your shadow is already mine!'],
+            ['sakurako', 'scared', "...U-um, wait, was that too edgy? My grandma said I should be polite to visitors. Let's just play cards, please!", { close: true }],
+          ] },
+          after: [
+            ['sakurako', 'happy', 'T-thank you for playing with me! If you visit the other districts, watch out for Dearth and Trictotano... they are a lot louder than me.'],
+          ] },
+        { foe: 'dearth', side: true, from: 'sakurako', at: [44, 78], title: 'Harbinger of the Red District',
+          text: 'Across the district border, the pavement cracks with hellfire. The Protector of the Red District leans on her blade, grinning for a brawl.',
+          before: { bg: 'Red District Dojo', music: 'epic-asian-battle-theme-samurai-sake-showdown-updated-royalty-free-music', lines: [
+            { where: 'The Red District Dojo', when: 'Afternoon' },
+            { enter: 'dearth', at: 'center', mood: 'proud' },
+            ['dearth', 'proud', "Yo! You're the kid who beat Kyoka, right? Welcome to the Red District! Try not to step in the lava cracks."],
+            ['dearth', 'excited', "Come on, deal 'em out! Show me if your deck can handle Hell's Resurgence!", { close: true }],
+          ] },
+          after: [
+            ['dearth', 'happy', "Haha, now THAT'S a fight! Don't tell my old man I lost, alright? Go check out the Yellow District casinos—or Bakshu Prison if you're crazy enough."],
+          ] },
+        { foe: 'trictotano', side: true, from: 'sakurako', at: [24, 54], title: 'The Death-Dealing Reaper',
+          text: 'Purple acid fog rolls out of the Green District wastelands. Its Protector twirls a sawed-off shotgun with an unsettling smile.',
+          before: { bg: 'Green District City Wastelands', music: 'toxic-wasteland-apocalyptic-trap-bass-dark-futuristic-beat-free-no-copyright-music', lines: [
+            { where: 'The Green District Wastelands', when: 'Acid fog' },
+            { enter: 'trictotano', at: 'center', mood: 'happy' },
+            ['trictotano', 'happy', 'Well, well~ An outlander wandering my toxic paradise without a gas mask. How wonderfully reckless.'],
+            ['trictotano', 'proud', "Let's play a round before the fumes melt your shoes. Pernicious Devil never misses~", { close: true }],
+          ] },
+          after: [
+            ['trictotano', 'neutral', 'Hmph. Tougher than you look. Keep walking before Toxor smells you~'],
+          ] },
+        { foe: 'gerroid', side: true, from: 'dearth', at: [52, 88], title: 'The Golden Claw',
+          text: 'Every casino in the Yellow District belongs to one woman. She is spinning a solid-gold revolver at the VIP table.',
+          before: { bg: 'Casino', music: 'no-copyright-music-jazz-lofi-synthwave-by-puzzlejukebox', lines: [
+            { where: 'Yellow District VIP Casino', when: 'High stakes' },
+            { enter: 'gerroid', at: 'center', mood: 'proud' },
+            ['gerroid', 'proud', "Welcome to the Yellow District, high roller. In my casinos, the house always wins—and I AM the house."],
+            ['gerroid', 'happy', 'Put your deck on the felt. Let us see what your luck is worth in gold.', { close: true }],
+          ] },
+          after: [
+            ['gerroid', 'angry', "Tch. Beat at my own table? ...Fine, take your winnings. Word is X up in Charoldyne Tower has been asking about you."],
+          ] },
+        { foe: 'mang-shi', side: true, from: 'dearth', at: [38, 94], title: 'Empress of Bakshu Prison',
+          text: 'Outside the city walls stands Bakshu Prison. Its most dangerous inmate rules the cellblocks from a makeshift throne.',
+          before: { bg: 'Outside Bakshu Prison Main Hall', music: 'oriental-epic-royalty-free-music-emperor-s-battle-by-kaiji', lines: [
+            { where: 'Bakshu Prison, Main Hall', when: 'Lockdown' },
+            { enter: 'mang-shi', at: 'center', mood: 'excited' },
+            ['mang-shi', 'excited', "Bwahaha! My daughter Fengsha sent you, didn't she? Nobody visits Bakshu Prison unless they want their bones melted!"],
+            ['mang-shi', 'proud', 'Come on then! Entertain the Dragon Empress before my fists cool down!', { close: true }],
+          ] },
+          after: [
+            ['mang-shi', 'happy', "Ha! Not bad, kid! Tell Fengsha her mother's still having a grand time in here!"],
+          ] },
+        { foe: 'x', side: true, from: 'gerroid', at: [66, 94], title: 'Classified Directive',
+          text: 'At the top of Charoldyne Enterprises in the Black District, the CEO who oversees all seven districts awaits behind a shadowy mask.',
+          before: { bg: 'Black District City (Charoldyne Enterprise CEO Office)', music: 'dystopia-by-neutrin05-calm-dark-electronic-music-no-copyright', lines: [
+            { where: 'Charoldyne Enterprises, CEO Office', when: 'Midnight' },
+            { enter: 'x', at: 'center', mood: 'neutral' },
+            ['x', 'neutral', 'White, Red, Green, Yellow... you have made quite a tour of Bulgrah. Your file on my desk is getting thick.'],
+            ['x', 'proud', 'I am X, Protector of the Black District. Sit down. This is your executive review.', { close: true }],
+          ] },
+          after: [
+            ['x', 'happy', '...File updated: cleared for all seven districts. Come back anytime, {name}. Off the record.', { close: true }],
           ] },
       ],
       secrets: [
@@ -1265,6 +1355,51 @@ window.MB = window.MB || {};
           ] },
           after: [
             ["marl", "neutral", "...Hm. I did not break you. That is... new. Come back when you are stronger. I want to fight you again.", { close: true }],
+          ] },
+        // Grim & Spook: Cadaberica Mansion and the Grim Forest in eternal Halloween
+        { foe: 'devrah-cadaberica', side: true, from: 'valerian', at: [84, 18], title: 'Big Coffin Dork!',
+          text: 'Past the vampire’s castle, the woods turn into eternal Halloween. A half-ghost gremlin drops upside-down from a mansion chandelier.',
+          before: { bg: 'Spooky main hall', music: 'funny-happy-halloween-music-no-copyright', lines: [
+            { where: 'Cadaberica Mansion', when: 'Halloween Night (Always)' },
+            { enter: 'devrah-cadaberica', at: 'center', mood: 'excited' },
+            ['devrah-cadaberica', 'excited', 'BWAHAHAHAHA! Welcome to Cadaberica Mansion, Big Coffin Dork! Make sure to never leave~!'],
+            ['devrah-cadaberica', 'proud', "Me, Roy, and the Gentlemen Ghosts were just starting a spooky party! Deal the cards or get slimed!", { close: true }],
+          ] },
+          after: [
+            ['devrah-cadaberica', 'happy', "Hey, you cheated! Bwahaha, just kidding! Go say hi to Lyssara by the lake and old Gourdvain in the pumpkin patch!"],
+          ] },
+        { foe: 'lyssara', side: true, from: 'devrah-cadaberica', at: [92, 12], title: 'Song on the Spooky Lake',
+          text: 'Behind the mansion, teal bioluminescence shimmers on a moonlit lake where a ghost siren hums to the mist.',
+          before: { bg: 'Spooky Lake', music: 'sad-female-vocals-acapella-angelic-ethnic-ambient-mermaids-ancient-chant-background-music', lines: [
+            { where: 'The Spooky Lake', when: 'Moonrise' },
+            { enter: 'lyssara', at: 'center', mood: 'happy' },
+            ['lyssara', 'happy', 'Ah... Devrah sent you, did she? Her laughter carries all the way across the water.'],
+            ['lyssara', 'proud', 'The tide is quiet tonight. Stay by the shore and play a gentle round with me.', { close: true }],
+          ] },
+          after: [
+            ['lyssara', 'happy', 'Thank you, traveler. Your company warmed the water more than you know.'],
+          ] },
+        { foe: 'lord-gourdvain', side: true, from: 'devrah-cadaberica', at: [74, 12], title: 'The Pumpkin Sovereign',
+          text: 'Under an orange autumn moon, the towering ruler of the pumpkin fields awakens with the scent of roasted seeds and candlelight.',
+          before: { bg: 'Pumpkin forest', music: 'free-spooky-halloween-background-music-download-now-and-make-your-videos-even-scariest', lines: [
+            { where: 'The Pumpkin Forest', when: 'Autumn Twilight', light: 'candle' },
+            { enter: 'lord-gourdvain', at: 'center', mood: 'happy' },
+            ['lord-gourdvain', 'happy', 'Ho ho! Welcome beneath the autumn moon, little sprout. Every autumn tells a story, and tonight the story is yours.'],
+            ['lord-gourdvain', 'proud', 'Come! Let the Pumpkin Sovereign see what harvest your deck brings.', { close: true }],
+          ] },
+          after: [
+            ['lord-gourdvain', 'happy', 'A bountiful harvest indeed! Should you venture into the mansion library, tread softly—Matron Murterta is deep in her research.'],
+          ] },
+        { foe: 'murterta-cadaberica', side: true, from: 'lord-gourdvain', at: [82, 6], title: 'The Doll Matriarch',
+          text: 'In the hidden library of Cadaberica Mansion, the ancient matriarch studies life and death inside the porcelain doll of her younger self.',
+          before: { bg: 'Haunted Library', music: 'dark-orchestral-organ-music-the-razing-of-heaven-original-royalty-free', lines: [
+            { where: 'The Haunted Library', when: 'Witching Hour', light: 'candle' },
+            { enter: 'murterta-cadaberica', at: 'center', mood: 'neutral' },
+            ['murterta-cadaberica', 'neutral', '...Devrah was noisy, and Gourdvain laughed. That means a living guest has reached my library.'],
+            ['murterta-cadaberica', 'proud', 'Sit. My research into curses and souls requires a live control group. Deal your cards.', { close: true }],
+          ] },
+          after: [
+            ['murterta-cadaberica', 'happy', '...Fascinating. Record complete. You may borrow from my shelves whenever you return.', { close: true }],
           ] },
       ],
       secrets: [

@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- itch.io "Run game" embed background, 640x360 (itch's default HTML5 embed size, rendered at 1x).
+     itch displays the embed background at 1:1 pixel size (centered, no downscaling), so it MUST be 640x360! -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+html,body{width:640px;height:360px}
+.stage{width:640px;height:360px;--cx:50%;--cy:52%;--rays:44%;
+  background:radial-gradient(ellipse 58% 68% at 50% 52%,#ff3888 0%,#8c1878 30%,#380c54 60%,#12051d 100%)}
+.logo{position:absolute;left:0;right:0;top:14px;text-align:center}
+.logo .top{font-size:19px;letter-spacing:11px;margin-left:11px;text-shadow:0 0 9px #3fd0ff,0 2px 0 #000}
+.logo .main{font-size:65px;letter-spacing:2px;filter:drop-shadow(0 3px 0 #5a0f3a) drop-shadow(0 0 12px #ff4f9a)}
+.logo .main span{-webkit-text-stroke:1px rgba(90,15,58,.5)}
+.card{width:37px;height:52px;border-radius:5px;border-width:2px;box-shadow:0 0 9px rgba(255,79,154,.7),0 3px 0 rgba(0,0,0,.4)}
+.card::after{font-size:19px}
+.spark{font-size:11px;text-shadow:0 0 6px #8ff0ff}
+.ch{bottom:-20px;filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 7px rgba(255,120,200,.75))}
+.ch.back{filter:brightness(.5) saturate(.9) drop-shadow(0 0 1px rgba(255,255,255,.6)) drop-shadow(0 0 5px rgba(143,240,255,.5))}
+#glow{position:absolute;left:50%;top:52%;width:250px;height:125px;margin:-62px 0 0 -125px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(18,5,29,.65) 0%,rgba(18,5,29,.3) 48%,transparent 72%)}
+#tag{position:absolute;left:0;right:0;bottom:15px;text-align:center}
+.ribbon{padding:5px 14px 4px;border-radius:7px;box-shadow:0 3px 0 #a35a00,0 0 12px rgba(255,200,80,.6);font-size:17px}
+.ribbon small{font-size:8px;letter-spacing:3px;margin-top:-1px}
+#shade{position:absolute;left:0;right:0;bottom:0;height:105px;background:linear-gradient(transparent,rgba(18,5,29,.85))}
+#frame{position:absolute;inset:4px;border:1.5px solid rgba(255,230,128,.55);border-radius:9px;box-shadow:inset 0 0 20px rgba(255,79,154,.35)}
+</style></head><body><div class="stage">
+<div class="rays"></div>
+<div class="card" style="left:205px;top:85px;transform:rotate(-18deg) scale(.85);--suit:'♠'"></div>
+<div class="card" style="right:205px;top:82px;transform:rotate(16deg) scale(.85)"></div>
+<div class="card" style="left:225px;top:230px;transform:rotate(12deg) scale(.65);opacity:.8;--suit:'♦'"></div>
+<div class="card" style="right:225px;top:235px;transform:rotate(-14deg) scale(.65);opacity:.8;--suit:'♣'"></div>
+<span class="spark" style="left:195px;top:55px">✦</span>
+<span class="spark" style="right:195px;top:52px;font-size:9px">✦</span>
+<span class="spark" style="left:255px;top:160px;font-size:8px">✦</span>
+<span class="spark" style="right:255px;top:165px;font-size:9px">✦</span>
+
+<!-- Back-row cameos (distinct from banner & background) -->
+<img class="ch back" src="../../game/assets/sprites/valerian/excited.webp"        style="left:-8px;height:330px;bottom:-35px">
+<img class="ch back" src="../../game/assets/sprites/seraphina/excited.webp"       style="left:148px;height:285px;bottom:-22px">
+<img class="ch back" src="../../game/assets/sprites/eliza/excited.webp"           style="right:150px;height:285px;bottom:-22px">
+<img class="ch back" src="../../game/assets/sprites/isabella-hunley/excited.webp" style="right:-3px;height:310px;bottom:-15px">
+
+<!-- Front pair framing the central Run Game button -->
+<img class="ch" src="../../game/assets/sprites/cordelia/excited.webp"   style="left:18px;height:320px;bottom:-32px">
+<img class="ch" src="../../game/assets/sprites/reika/excited.webp"      style="right:48px;height:310px;bottom:-32px">
+<div id="shade"></div>
+<div id="glow"></div>
+
+<div class="logo">
+  <div class="top">MIKU</div>
+  <div class="main"><span>BATTLE</span></div>
+</div>
+<div id="tag"><div class="ribbon">200+ CHARACTERS<small>ONE CARD GAME</small></div></div>
+<div id="frame"></div>
+</div></body></html>

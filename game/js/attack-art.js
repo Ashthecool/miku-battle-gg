@@ -37,6 +37,12 @@
   // drawn 2x2 attack pose sheets (js/poses.js, tools/pose_sheets.py): one per character with a posed signature attack
   const poses = MB.POSES || {};
   urls.push(...Object.values(poses).map((p) => p.src));
+  [
+    'boomstick', 'crowbar', 'pumpkin-staff', 'scissors-katanas', 'midas-revolver', 'acid-shotgun', 'hell-podao', 'doll-grimoire',
+    'dearth-eye-cutin', 'hell-eruption', 'white-smokebomb', 'katana-wave', 'acid-splat-giant', 'gerroid-closeup-punch', 'gerroid-aerial-slam',
+    'golden-fist-impact', 'giant-cargo-container', 'electric-overcharge', 'giant-document-pile', 'toxor-tail-strike',
+    'dragon-fire-geyser', 'dragon-fireball-meteor', 'ying-dojo-servant', 'iron-dragon-palm', 'finger-snap-spark',
+  ].forEach((n) => urls.push(`assets/attacks/new-props/${n}.webp`));
   const entries = [
     ['sparkle', '✨ ✦ ✧'], ['star', '⭐ 🌟 💫 ★'], ['heart', '💗 💖 💕 💞 💘 ❤️ ❤ ♥'], ['broken-heart', '💔'],
     ['feather', '🪶'], ['blossom', '🌸 💮'], ['note', '🎵 🎶 ♪ ♫'], ['kiss', '💋'],

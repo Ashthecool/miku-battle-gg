@@ -18482,6 +18482,1368 @@
     await wait(0.8);
   });
 
+  // ---------------------------------------------------------------- Nano Banana 2 prop helper & Drawn Effects IV (Emiro.exe, Grim & Spook, Protectors)
+  const propImg = (V, P, h, file, w = 136, hPx = 126, c = '#ffffff') =>
+    svgBB(V, P, h, 'prop-img', `<img src="assets/attacks/new-props/${file}.webp" width="${w}" height="${hPx}" style="display:block;object-fit:contain;pointer-events:none"/>`, c);
+
+  // ---- geopurify: floating geometric shapes (green cube, blue circle, red triangle) trap the target, then Emiro's Holy Boomstick blasts them into rainbow prism shards
+  RFX.geopurify = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), shapes = [
+      skSvg(70, 70, [['rectangle', 8, 8, 54, 54, { fill: '#2ecc71', fillStyle: 'solid', stroke: '#145a32', strokeWidth: 3 }]], '', [64, 64]),
+      skSvg(70, 70, [['circle', 35, 35, 54, { fill: '#3498db', fillStyle: 'solid', stroke: '#1b4f72', strokeWidth: 3 }]], '', [64, 64]),
+      skSvg(70, 70, [['polygon', [[35, 6], [64, 62], [6, 62]], { fill: '#e74c3c', fillStyle: 'solid', stroke: '#78281f', strokeWidth: 3 }]], '', [64, 64]),
+    ];
+    const gs = shapes.map((svg, i) => {
+      const a0 = (i / 3) * Math.PI * 2, P = { x: r.T.x + Math.cos(a0) * 65, y: r.T.y + Math.sin(a0) * 28 };
+      const b = svgBB(V, P, r.hT + (i - 1) * 22, 'geo-shape', svg, '#ff6ad5');
+      gsap.fromTo(b.body, { scale: 0, rotation: -90 }, { scale: 1, rotation: (i - 1) * 18, duration: 0.22, ease: 'back.out(2)' });
+      return b;
+    });
+    MB.audio.sfx('glitch');
+    const gunPos = { x: lerp(F.x, r.T.x, 0.35), y: lerp(F.y, r.T.y, 0.35) };
+    const gun = propImg(V, gunPos, r.hA * 1.05, 'boomstick', 148, 136, '#ff6ad5');
+    gsap.set(gun.body, { scaleX: -sx });
+    gsap.fromTo(gun.body, { scale: 0, rotation: -sx * 25 }, { scale: 1, scaleX: -sx, rotation: 0, duration: 0.22, ease: 'back.out(2)' });
+    await wait(0.28);
+    MB.audio.sfx('gunshot'); MB.audio.sfx('laser');
+    gsap.to(gun.body, { x: -sx * 22, rotation: -sx * 18, duration: 0.08, yoyo: true, repeat: 1 });
+    const beam = span(V, gunPos, r.hA, r.T, r.hT, 'prism-beam', (x0, y0, x1, y1) =>
+      sk([['line', x0, y0, x1, y1, { stroke: '#ff6ad5', strokeWidth: 16 }], ['line', x0, y0, x1, y1, { stroke: '#7afcff', strokeWidth: 8 }], ['line', x0, y0, x1, y1, { stroke: '#ffffff', strokeWidth: 4 }]]), '#ff6ad5');
+    await skDraw(beam.body.querySelectorAll('.d'), { duration: 0.14 });
+    lands(land, o);
+    V.shake(16);
+    flash(V, r.T, r.hT, '#ff9af5', 260);
+    impactStar(V, r.T, r.hT, '#ff6ad5', o.word || 'PURIFIED!', 175);
+    shards(V, r.T, r.hT, 12);
+    gs.forEach((b, i) => toss(b, { v: [220, 380], ang: [-160 + i * 50, -30], dur: 0.55, spin: 360 }));
+    drop(beam, 0.05, 0.2); drop(gun, 0.15, 0.25);
+    await wait(0.45);
+  };
+
+  // ---- crowbarswing: Omire's blue-ribboned crowbar arcs over the target and delivers three polite, bone-rattling clangs with teacup & monocle sparkles
+  RFX.crowbarswing = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), P = { x: r.T.x - sx * 36, y: r.T.y };
+    const bar = propImg(V, P, r.hT * 1.15, 'crowbar', 124, 164, '#6ab8ff');
+    gsap.set(bar.body, { scaleX: sx, rotation: -sx * 55 });
+    gsap.fromTo(bar.body, { scale: 0 }, { scale: 1, scaleX: sx, duration: 0.2, ease: 'back.out(2)' });
+    await wait(0.2);
+    for (let i = 0; i < 3; i++) {
+      MB.audio.sfx('whoosh');
+      await gsap.to(bar.body, { rotation: (i % 2 ? -1 : 1) * sx * 65, x: sx * 28, duration: 0.12, ease: 'power3.in' });
+      land(i);
+      MB.audio.sfx('clang'); V.shake(11);
+      if (i === 0) impactStar(V, r.T, r.hT, '#6ab8ff', o.word || 'DESUWA~!', 160);
+      squash(victim(V, t), 0.72);
+    }
+    shards(V, r.T, r.hT, 8, 205);
+    drop(bar, 0.12, 0.25);
+    await wait(0.38);
+  };
+
+  // ---- ectobomb: a sketched coffin slams over the target, pops open with bats and a splashing green ectoplasm explosion
+  RFX.ectobomb = async (V, t, r, F, land, o) => {
+    const c = o.ecto || '#4eff8a', top = overhead(t, r, 70, 75);
+    const cof = svgBB(V, r.T, top, 'sk-coffin', skSvg(110, 150, [
+      ['polygon', [[32, 6], [78, 6], [102, 46], [84, 144], [26, 144], [8, 46]], { fill: '#3a1f3d', fillStyle: 'solid', stroke: c, strokeWidth: 4 }],
+      ['line', 55, 28, 55, 92, { stroke: c, strokeWidth: 4 }], ['line', 34, 52, 76, 52, { stroke: c, strokeWidth: 4 }],
+    ], '', [102, 140]), c);
+    gsap.fromTo(cof.body, { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.22, ease: 'back.out(2)' });
+    await wait(0.22);
+    MB.audio.sfx('whoosh');
+    await gsap.to(cof.body, { y: -r.hT, duration: 0.16, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('boom'); MB.audio.sfx('bat'); V.shake(14);
+    flash(V, r.T, r.hT, c, 240);
+    impactStar(V, r.T, r.hT, c, o.word || 'BWAHAHA!', 165);
+    for (let i = 0; i < 6; i++) {
+      const d = svgBB(V, r.T, r.hT, 'drop', dropSvg(c), c);
+      toss(d, { v: [220, 400], ang: [-160, -20], dur: 0.65, spin: 90 });
+    }
+    drop(cof, 0.15, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- hexgrimoire: Murterta's porcelain doll hands & arcane grimoire open over the target, drawing glowing puppet strings and a curse hexagram
+  RFX.hexgrimoire = async (V, t, r, F, land, o) => {
+    const c = o.hex || '#b86bff', top = overhead(t, r, 60, 75);
+    const grim = propImg(V, r.T, top, 'doll-grimoire', 150, 146, c);
+    gsap.fromTo(grim.body, { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.28, ease: 'back.out(2)' });
+    MB.audio.sfx('pageflip'); MB.audio.sfx('rune');
+    const sig = svgBB(V, r.T, r.hT, 'hex-sigil', sigilSvg('#5ef2ff', t.isLeader ? 155 : 195), c);
+    gsap.to(sig.body, { rotation: 160, duration: 0.75, ease: 'power1.inOut' });
+    await draw(sig.body.querySelectorAll('.d'), { duration: 0.38, stagger: 0.04 });
+    await gsap.to(grim.body, { y: -r.hT * 1.05, duration: 0.16, ease: 'power2.in' });
+    lands(land, o);
+    MB.audio.sfx('blast'); V.shake(14);
+    flash(V, r.T, r.hT, '#5ef2ff', 260);
+    tint(victim(V, t), 'hue-rotate(240deg) saturate(1.8) brightness(0.75)', 0.9);
+    drop(sig, 0.1, 0.25); drop(grim, 0.15, 0.25);
+    await wait(0.45);
+  };
+
+  // ---- jackolantern: Lord Gourdvain's pumpkin staff summons a grinning spectral jack-o'-lantern that engulfs the target in harvest flame
+  RFX.jackolantern = async (V, t, r, F, land, o) => {
+    const c = o.pumpkin || '#ff7a1a', staffPos = { x: lerp(F.x, r.T.x, 0.4), y: lerp(F.y, r.T.y, 0.4) };
+    const stf = propImg(V, staffPos, r.hA * 1.15, 'pumpkin-staff', 132, 146, c);
+    gsap.fromTo(stf.body, { scale: 0, rotation: -30 }, { scale: 1, rotation: 10, duration: 0.25, ease: 'back.out(2)' });
+    MB.audio.sfx('rune');
+    const jk = svgBB(V, r.T, r.hT, 'sk-jack', skSvg(160, 140, [
+      ['ellipse', 80, 76, 144, 112, { fill: c, fillStyle: 'solid', stroke: '#3a1400', strokeWidth: 4 }],
+      ['polygon', [[72, 20], [88, 6], [92, 24]], { fill: '#2e6b3a', fillStyle: 'solid', stroke: '#1a3a1a', strokeWidth: 3 }],
+      ['polygon', [[42, 62], [58, 44], [68, 64]], { fill: '#fff36a', fillStyle: 'solid', stroke: '#3a1400', strokeWidth: 3 }],
+      ['polygon', [[118, 62], [102, 44], [92, 64]], { fill: '#fff36a', fillStyle: 'solid', stroke: '#3a1400', strokeWidth: 3 }],
+      ['polygon', [[38, 92], [56, 108], [70, 96], [80, 112], [90, 96], [104, 108], [122, 92], [106, 118], [54, 118]], { fill: '#fff36a', fillStyle: 'solid', stroke: '#3a1400', strokeWidth: 3 }],
+    ], '', [t.isLeader ? 145 : 165, t.isLeader ? 126 : 144]), c);
+    gsap.fromTo(jk.body, { scale: 0.2 }, { scale: 1.08, duration: 0.3, ease: 'back.out(2)' });
+    await wait(0.32);
+    lands(land, o);
+    MB.audio.sfx('fire'); MB.audio.sfx('laugh'); V.shake(14);
+    flash(V, r.T, r.hT, '#ffb347', 260);
+    floorRing(V, r.T, c, 95, 6);
+    drop(stf, 0.1, 0.25); drop(jk, 0.2, 0.3);
+    await wait(0.45);
+  };
+
+  // ---- sirenmist: bioluminescent teal musical waves and mist rings spiral around the target and crash inward
+  RFX.sirenmist = async (V, t, r, F, land, o) => {
+    const c = o.mist || '#3ef0d0';
+    MB.audio.sfx('chime');
+    await soundArcs(V, F, r.hA * 0.85, r.T, r.hT, c, 4, 0.38);
+    const wave = svgBB(V, r.T, r.hT, 'sk-siren', skSvg(190, 150, [
+      ['circle', 95, 75, 130, { stroke: c, strokeWidth: 5, roughness: 2 }],
+      ['circle', 95, 75, 88, { stroke: '#ff6a8a', strokeWidth: 4, roughness: 2 }],
+      ['path', 'M18 95 Q55 45 95 95 T172 95', { stroke: '#ffffff', strokeWidth: 5 }],
+    ], '<text x="95" y="84" text-anchor="middle" font-size="38" fill="#3ef0d0">♪</text>', [175, 138]), c);
+    await skDraw(wave.body.querySelectorAll('.d'), { duration: 0.32 });
+    lands(land, o);
+    MB.audio.sfx('splash'); V.shake(10);
+    flash(V, r.T, r.hT, c, 230);
+    tint(victim(V, t), 'hue-rotate(150deg) brightness(1.3)', 0.8);
+    drop(wave, 0.15, 0.28);
+    await wait(0.4);
+  };
+
+  // ---- phantomtoast: two spectral crystal goblets clink over the target and burst in ghostly candlelight
+  RFX.phantomtoast = async (V, t, r, F, land, o) => {
+    const c = o.ghost || '#b8dcff', cupSvg = skSvg(64, 96, [
+      ['polygon', [[12, 10], [52, 10], [38, 52], [26, 52]], { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 3 }],
+      ['line', 32, 52, 32, 84, { stroke: '#ffffff', strokeWidth: 4 }],
+      ['line', 16, 86, 48, 86, { stroke: '#ffffff', strokeWidth: 4 }],
+    ], '', [58, 86]);
+    const gs = [-1, 1].map((s) => {
+      const b = svgBB(V, { x: r.T.x + s * 65, y: r.T.y }, r.hT * 1.1, 'sk-goblet', cupSvg, c);
+      gsap.fromTo(b.body, { scale: 0, rotation: s * 25 }, { scale: 1, rotation: s * 15, duration: 0.22, ease: 'back.out(2)' });
+      return b;
+    });
+    await wait(0.24);
+    await Promise.all(gs.map((b, i) => gsap.to(b, { x: r.T.x + (i ? 14 : -14), duration: 0.16, ease: 'power3.in' })));
+    lands(land, o);
+    MB.audio.sfx('glass'); MB.audio.sfx('chime'); V.shake(10);
+    flash(V, r.T, r.hT, '#ffffff', 240);
+    impactStar(V, r.T, r.hT * 1.1, c, 'CHEERS!', 155);
+    shards(V, r.T, r.hT, 8, 200);
+    gs.forEach((b) => drop(b, 0.1, 0.22));
+    await wait(0.38);
+  };
+
+  // ---- abysspot: dark crimson-violet kraken tentacles and a heavy iron stockpot slam the target in Devrah's chaos kitchen
+  RFX.abysspot = async (V, t, r, F, land, o) => {
+    const c = '#9b30ff', top = overhead(t, r, 75, 65);
+    const pot = svgBB(V, r.T, top, 'sk-pot', skSvg(150, 120, [
+      ['rectangle', 20, 28, 110, 82, { fill: '#2a2238', fillStyle: 'solid', stroke: c, strokeWidth: 4 }],
+      ['ellipse', 75, 28, 114, 24, { fill: '#4a154b', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['path', 'M32 22 C42 4 62 6 58 26 M118 22 C108 4 88 6 92 26', { stroke: '#ff2a6d', strokeWidth: 6 }],
+    ], '', [140, 112]), c);
+    gsap.fromTo(pot.body, { scale: 0 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
+    MB.audio.sfx('bubble');
+    await wait(0.22);
+    await gsap.to(pot.body, { y: -r.hT, rotation: 180, duration: 0.18, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('clang'); MB.audio.sfx('splat'); V.shake(15);
+    squash(victim(V, t), 0.65);
+    impactStar(V, r.T, r.hT, '#ff2a6d', 'ORDER UP!', 165);
+    drop(pot, 0.18, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- bluedread: a chattering skull wreathed in blue fire locks its hollow gaze on the target and erupts in panic flames
+  RFX.bluedread = async (V, t, r, F, land, o) => {
+    const c = '#2ad4ff';
+    const sk = svgBB(V, r.T, r.hT * 1.1, 'sk-dread', skSvg(150, 160, [
+      ['path', 'M75 10 C25 10 14 55 24 96 C28 112 38 118 42 142 L108 142 C112 118 122 112 126 96 C136 55 125 10 75 10Z', { fill: '#eef8ff', fillStyle: 'solid', stroke: c, strokeWidth: 5 }],
+      ['circle', 52, 74, 24, { fill: '#0a1428', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['circle', 98, 74, 24, { fill: '#0a1428', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['polygon', [[75, 88], [67, 106], [83, 106]], { fill: '#0a1428', fillStyle: 'solid' }],
+      ['line', 48, 126, 102, 126, { stroke: '#0a1428', strokeWidth: 4 }],
+    ], '', [142, 152]), c);
+    gsap.fromTo(sk.body, { scale: 0.2 }, { scale: 1.05, duration: 0.25, ease: 'back.out(2)' });
+    MB.audio.sfx('ghost');
+    await gsap.to(sk.body, { rotation: 8, duration: 0.06, yoyo: true, repeat: 5 });
+    lands(land, o);
+    MB.audio.sfx('fire'); V.shake(13);
+    flash(V, r.T, r.hT, c, 260);
+    tint(victim(V, t), 'hue-rotate(180deg) contrast(1.5)', 0.85);
+    drop(sk, 0.15, 0.28);
+    await wait(0.4);
+  };
+
+  // ---- ribboomerang: Bonehead's skeletal hand & bone spin across to bonk the target and boomerang back
+  RFX.ribboomerang = async (V, t, r, F, land, o) => {
+    const bone = svgBB(V, F, r.hA, 'sk-bone', skSvg(110, 46, [
+      ['circle', 16, 14, 18, { fill: '#faf6e8', fillStyle: 'solid', stroke: '#4a3f35', strokeWidth: 3 }],
+      ['circle', 16, 32, 18, { fill: '#faf6e8', fillStyle: 'solid', stroke: '#4a3f35', strokeWidth: 3 }],
+      ['circle', 94, 14, 18, { fill: '#faf6e8', fillStyle: 'solid', stroke: '#4a3f35', strokeWidth: 3 }],
+      ['circle', 94, 32, 18, { fill: '#faf6e8', fillStyle: 'solid', stroke: '#4a3f35', strokeWidth: 3 }],
+      ['rectangle', 18, 15, 74, 16, { fill: '#faf6e8', fillStyle: 'solid', stroke: '#4a3f35', strokeWidth: 3 }],
+    ], '', [104, 42]), '#faf6e8');
+    MB.audio.sfx('whoosh');
+    await path(bone, (k) => ({ ...arc(F, r.T, r.hA, r.hT, 85)(k), r: k * 720 }), 0.36, 'power1.in');
+    lands(land, o);
+    MB.audio.sfx('bonk'); V.shake(11);
+    impactStar(V, r.T, r.hT, '#faf6e8', 'CLATTER!', 155);
+    await path(bone, (k) => ({ ...arc(r.T, F, r.hT, r.hA, 75)(k), r: k * -720 }), 0.34, 'power1.out');
+    drop(bone, 0, 0.15);
+    await wait(0.25);
+  };
+
+  // ---- ghoulsnack: rocks, old bones, and green rot rain over the target in a frantic snack pile-up
+  RFX.ghoulsnack = async (V, t, r, F, land, o) => {
+    const c = '#7ab85a';
+    const items = [0, 1, 2].map((i) => {
+      const b = svgBB(V, { x: r.T.x + (i - 1) * 34, y: r.T.y }, overhead(t, r, 60, 45), 'sk-snack', skSvg(64, 64, [
+        ['circle', 32, 32, 48, { fill: i % 2 ? '#8a7f70' : '#c8d6a0', fillStyle: 'solid', stroke: '#2e3824', strokeWidth: 3 }],
+      ], '', [58, 58]), c);
+      return b;
+    });
+    MB.audio.sfx('rumble');
+    await Promise.all(items.map((b, i) => gsap.to(b.body, { y: -r.hT, rotation: (i - 1) * 45, duration: 0.22, delay: i * 0.05, ease: 'power3.in' })));
+    lands(land, o);
+    MB.audio.sfx('crunch'); V.shake(12);
+    squash(victim(V, t), 0.68);
+    impactStar(V, r.T, r.hT, c, 'MY SNACK!', 160);
+    items.forEach((b) => toss(b, { v: [180, 320], dur: 0.55, spin: 240 }));
+    await wait(0.45);
+  };
+
+  // ---- soulfirehoof: green phantom hoofprints scorch across the board and erupt in an emerald soul-fire pillar on the target
+  RFX.soulfirehoof = async (V, t, r, F, land, o) => {
+    const c = '#2eff9a';
+    tracks(V, F, r.T, 'hoof', c, 7, 0.34, 0.8);
+    MB.audio.sfx('charge');
+    await wait(0.32);
+    const fl = svgBB(V, r.T, r.hT, 'sk-soulfire', skSvg(150, 190, [
+      ['path', 'M75 6 C115 55 135 95 120 150 C108 178 42 178 30 150 C15 95 35 55 75 6Z', { fill: c, fillStyle: 'solid', stroke: '#0a4a2a', strokeWidth: 4 }],
+      ['path', 'M75 42 C98 78 106 110 96 148 C86 166 64 166 54 148 C44 110 52 78 75 42Z', { fill: '#d8fff0', fillStyle: 'solid' }],
+    ], '', [142, 178]), c);
+    gsap.fromTo(fl.body, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.18, ease: 'power3.out' });
+    lands(land, o);
+    MB.audio.sfx('fire'); V.shake(14);
+    flash(V, r.T, r.hT, c, 260);
+    drop(fl, 0.22, 0.28);
+    await wait(0.45);
+  };
+
+  // ---- moonfangs: twin silver-blue moons gleam, then golden sizzling werewolf fangs and claw slashes rend the target
+  RFX.moonfangs = async (V, t, r, F, land, o) => {
+    const c = '#5ab8ff', gold = '#ffd84a';
+    const jaws = svgBB(V, r.T, r.hT, 'sk-moonfang', skSvg(170, 160, [
+      ['polygon', [[22, 14], [48, 82], [68, 18], [85, 76], [102, 18], [122, 82], [148, 14]], { fill: gold, fillStyle: 'solid', stroke: '#4a2e00', strokeWidth: 4 }],
+      ['polygon', [[28, 146], [52, 92], [85, 134], [118, 92], [142, 146]], { fill: gold, fillStyle: 'solid', stroke: '#4a2e00', strokeWidth: 4 }],
+      ['line', 16, 22, 154, 138, { stroke: c, strokeWidth: 8 }],
+      ['line', 154, 22, 16, 138, { stroke: c, strokeWidth: 8 }],
+    ], '', [162, 152]), c);
+    MB.audio.sfx('slash');
+    await skDraw(jaws.body.querySelectorAll('.d'), { duration: 0.24 });
+    lands(land, o);
+    MB.audio.sfx('chomp'); MB.audio.sfx('sizzle'); V.shake(15);
+    flash(V, r.T, r.hT, gold, 250);
+    drop(jaws, 0.2, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- bloodscythe: a towering crimson harvest scythe reaps across the target in a shower of wheat stalks and blood-moon light
+  RFX.bloodscythe = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), c = '#e01e37';
+    const sc = svgBB(V, r.T, r.hT * 1.1, 'sk-scythe', skSvg(190, 170, [
+      ['path', 'M22 36 C78 6 156 14 178 64 C132 46 78 52 34 78 Z', { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 3 }],
+      ['line', 30, 24, 148, 158, { stroke: '#4a2c18', strokeWidth: 8 }],
+    ], '', [180, 160]), c);
+    gsap.set(sc.body, { scaleX: sx, rotation: -sx * 55 });
+    MB.audio.sfx('unsheathe');
+    await gsap.to(sc.body, { rotation: sx * 45, duration: 0.2, ease: 'power4.in' });
+    lands(land, o);
+    MB.audio.sfx('slash'); V.shake(15);
+    flash(V, r.T, r.hT, c, 260);
+    impactStar(V, r.T, r.hT, c, 'REAPED', 165);
+    drop(sc, 0.18, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- iceantlers: jagged crystalline antlers of silent frost erupt around the target and encase it in winter ice
+  RFX.iceantlers = async (V, t, r, F, land, o) => {
+    const c = '#9aefff';
+    const ant = svgBB(V, r.T, r.hT, 'sk-iceantler', skSvg(190, 170, [
+      ['polygon', [[95, 158], [72, 95], [22, 65], [48, 72], [18, 18], [62, 58], [82, 24], [95, 78]], { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 3 }],
+      ['polygon', [[95, 158], [118, 95], [168, 65], [142, 72], [172, 18], [128, 58], [108, 24], [95, 78]], { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 3 }],
+    ], '', [180, 160]), c);
+    MB.audio.sfx('frost');
+    await gsap.fromTo(ant.body, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.24, ease: 'back.out(2)' });
+    lands(land, o);
+    MB.audio.sfx('freeze'); MB.audio.sfx('glass'); V.shake(13);
+    tint(victim(V, t), 'brightness(1.5) hue-rotate(170deg)', 1);
+    shards(V, r.T, r.hT, 10, 195);
+    drop(ant, 0.2, 0.28);
+    await wait(0.42);
+  };
+
+  // ---- batshriek: Roy's royal midnight-blue bat wings and red ribbon unleash ultrasonic shriek rings on the target
+  RFX.batshriek = async (V, t, r, F, land, o) => {
+    const c = '#b44cff';
+    MB.audio.sfx('bat');
+    await soundArcs(V, F, r.hA, r.T, r.hT, c, 4, 0.32);
+    const bat = svgBB(V, r.T, r.hT, 'sk-roy', skSvg(180, 130, [
+      ['polygon', [[90, 65], [14, 18], [28, 68], [8, 98], [58, 86], [90, 112], [122, 86], [172, 98], [152, 68], [166, 18]], { fill: '#241b4b', fillStyle: 'solid', stroke: c, strokeWidth: 4 }],
+      ['polygon', [[70, 74], [90, 84], [110, 74], [104, 96], [90, 88], [76, 96]], { fill: '#e8203a', fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 2 }],
+    ], '', [170, 122]), c);
+    gsap.fromTo(bat.body, { scale: 0.3 }, { scale: 1.1, duration: 0.18, ease: 'back.out(2)' });
+    lands(land, o);
+    MB.audio.sfx('screech'); V.shake(13);
+    impactStar(V, r.T, r.hT, '#e8203a', 'SCREEE!', 165);
+    drop(bat, 0.18, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- shadowblades: Sakurako's Dual Black Edge Katanas (Nano Banana 2 sprite) teleport out of the target's shadow and carve a crimson-black X
+  RFX.shadowblades = async (V, t, r, F, land, o) => {
+    const c = '#e01e5a', pud = svgFlat(V, r.T, 'shadow-pud', blobSvg('#12091c', 175), c);
+    gsap.fromTo(pud, { scale: 0 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
+    MB.audio.sfx('dark');
+    const prop = propImg(V, r.T, r.hT * 1.05, 'scissors-katanas', 148, 145, c);
+    gsap.fromTo(prop.body, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.22, ease: 'back.out(2)' });
+    await wait(0.24);
+    const x = svgBB(V, r.T, r.hT, 'shadow-x', skSvg(170, 170, [
+      ['line', 16, 16, 154, 154, { stroke: '#12091c', strokeWidth: 14 }],
+      ['line', 154, 16, 16, 154, { stroke: c, strokeWidth: 10 }],
+    ], '', [162, 162]), c);
+    MB.audio.sfx('unsheathe'); MB.audio.sfx('slash');
+    await skDraw(x.body.querySelectorAll('.d'), { duration: 0.16 });
+    lands(land, o);
+    V.shake(14);
+    flash(V, r.T, r.hT, c, 240);
+    drop(x, 0.15, 0.25); drop(prop, 0.12, 0.25);
+    gsap.to(pud, { scale: 0, opacity: 0, duration: 0.28, delay: 0.15, onComplete: () => pud.remove() });
+    await wait(0.42);
+  };
+
+  // ---- hellgates: Dearth's blazing chained podao (Nano Banana 2 sprite) cleaves the earth and erupts in chained hell-fire
+  RFX.hellgates = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), c = '#ff3814', top = overhead(t, r, 75, 75);
+    const sword = propImg(V, r.T, top, 'hell-podao', 154, 150, c);
+    gsap.fromTo(sword.body, { scale: 0, rotation: -sx * 60 }, { scale: 1, rotation: sx * 25, duration: 0.22, ease: 'back.out(2)' });
+    MB.audio.sfx('unsheathe');
+    await gsap.to(sword.body, { y: -r.hT * 0.95, rotation: sx * 55, duration: 0.16, ease: 'power4.in' });
+    cracks(V, r.T, c, { n: 6, len: 100, hold: 0.6, w: 4 });
+    lands(land, o);
+    MB.audio.sfx('boom'); MB.audio.sfx('fire'); V.shake(17);
+    flash(V, r.T, r.hT, '#ff9a2a', 280);
+    impactStar(V, r.T, r.hT, c, 'HELL GATE!', 175);
+    floorRing(V, r.T, c, 105, 7);
+    drop(sword, 0.2, 0.28);
+    await wait(0.46);
+  };
+
+  // ---- acidshell: Trictotano's Pernicious Devil sawed-off shotgun (Nano Banana 2 sprite) blasts corrosive purple-green acid over the target
+  RFX.acidshell = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), c = '#7dff2a', purple = '#9b30ff', gunPos = { x: lerp(F.x, r.T.x, 0.4), y: lerp(F.y, r.T.y, 0.4) };
+    const gun = propImg(V, gunPos, r.hA * 1.05, 'acid-shotgun', 148, 115, c);
+    gsap.set(gun.body, { scaleX: sx });
+    gsap.fromTo(gun.body, { scale: 0 }, { scale: 1, scaleX: sx, duration: 0.2, ease: 'back.out(2)' });
+    await wait(0.2);
+    MB.audio.sfx('gunshot');
+    gsap.to(gun.body, { x: -sx * 20, rotation: -sx * 20, duration: 0.08, yoyo: true, repeat: 1 });
+    const shell = svgBB(V, gunPos, r.hA, 'acid-glob', `<svg viewBox="0 0 60 60" width="54" height="54"><circle cx="30" cy="30" r="24" fill="${c}" stroke="${purple}" stroke-width="5"/></svg>`, c);
+    await path(shell, (k) => ({ x: lerp(gunPos.x, r.T.x, k), y: lerp(gunPos.y, r.T.y, k), h: lerp(r.hA, r.hT, k), s: 0.8 + k * 0.6 }), 0.22, 'power2.in');
+    shell.remove();
+    const splat = svgBB(V, r.T, r.hT, 'acid-splat', inkBlob(c, t.isLeader ? 165 : 190), c);
+    lands(land, o);
+    MB.audio.sfx('splat'); MB.audio.sfx('sizzle'); V.shake(14);
+    tint(victim(V, t), 'hue-rotate(85deg) saturate(2.2) brightness(0.85)', 0.9);
+    drop(gun, 0.1, 0.22); drop(splat, 0.22, 0.3);
+    await wait(0.45);
+  };
+
+  // ---- goldroulette: Gerroid's Midas Envy golden revolver (Nano Banana 2 sprite) fans golden bullets into a spinning casino wheel on the target
+  RFX.goldroulette = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), c = '#ffd84a', gunPos = { x: lerp(F.x, r.T.x, 0.38), y: lerp(F.y, r.T.y, 0.38) };
+    const gun = propImg(V, gunPos, r.hA * 1.08, 'midas-revolver', 146, 127, c);
+    gsap.set(gun.body, { scaleX: sx });
+    gsap.fromTo(gun.body, { scale: 0, rotation: -sx * 30 }, { scale: 1, scaleX: sx, rotation: 0, duration: 0.22, ease: 'back.out(2)' });
+    const wheel = svgBB(V, r.T, r.hT, 'sk-roulette', skSvg(160, 160, [
+      ['circle', 80, 80, 144, { fill: '#1a1206', fillStyle: 'solid', stroke: c, strokeWidth: 6 }],
+      ['circle', 80, 80, 92, { stroke: '#e8203a', strokeWidth: 5 }],
+      ['line', 80, 10, 80, 150, { stroke: c, strokeWidth: 4 }],
+      ['line', 10, 80, 150, 80, { stroke: c, strokeWidth: 4 }],
+    ], '<text x="80" y="92" text-anchor="middle" font-size="36" font-weight="900" fill="#ffd84a">$$$</text>', [152, 152]), c);
+    gsap.fromTo(wheel.body, { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.26, ease: 'back.out(2)' });
+    await wait(0.24);
+    for (let i = 0; i < 3; i++) {
+      MB.audio.sfx('gunshot');
+      gsap.to(gun.body, { rotation: -sx * 22, duration: 0.05, yoyo: true, repeat: 1 });
+      land(i);
+      await wait(0.08);
+    }
+    MB.audio.sfx('kaching'); V.shake(14);
+    flash(V, r.T, r.hT, c, 250);
+    impactStar(V, r.T, r.hT, c, 'JACKPOT!', 170);
+    drop(gun, 0.1, 0.22); drop(wheel, 0.18, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- zephyrwings: Cecil's Wings of Freedom unfurl and carve three azure gale-force wind crescents across the target
+  RFX.zephyrwings = async (V, t, r, F, land, o) => {
+    const c = '#4ac8ff';
+    const w = svgBB(V, r.T, r.hT, 'sk-zephyr', skSvg(190, 160, [
+      ['path', 'M14 128 Q95 14 176 34', { stroke: c, strokeWidth: 10 }],
+      ['path', 'M14 88 Q95 148 176 58', { stroke: '#ffffff', strokeWidth: 8 }],
+      ['path', 'M32 32 Q105 95 168 134', { stroke: c, strokeWidth: 9 }],
+    ], '', [182, 152]), c);
+    MB.audio.sfx('wind'); MB.audio.sfx('slash');
+    await skDraw(w.body.querySelectorAll('.d'), { duration: 0.26, stagger: 0.05 });
+    lands(land, o);
+    V.shake(12);
+    flash(V, r.T, r.hT, '#d8f4ff', 230);
+    drop(w, 0.12, 0.2);
+    await wait(0.42);
+  };
+
+  // ---- neoncurrent: Femicia's Entrancing Lake spreads a glowing pink puddle under the target and arcs violet lightning through it
+  RFX.neoncurrent = async (V, t, r, F, land, o) => {
+    const pink = '#ff4ad8', violet = '#9b30ff';
+    const pud = svgFlat(V, r.T, 'neon-pud', blobSvg(pink, 185), pink);
+    gsap.fromTo(pud, { scale: 0.1 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+    const bolt = svgBB(V, r.T, r.hT, 'sk-neonbolt', skSvg(160, 190, [
+      ['linearPath', [[95, 6], [52, 68], [98, 76], [44, 134], [88, 140], [58, 184]], { stroke: '#ffffff', strokeWidth: 9 }],
+      ['linearPath', [[65, 12], [112, 64], [64, 82], [118, 138], [74, 184]], { stroke: pink, strokeWidth: 7 }],
+    ], '', [152, 180]), pink);
+    MB.audio.sfx('zap');
+    await skDraw(bolt.body.querySelectorAll('.d'), { duration: 0.2 });
+    lands(land, o);
+    MB.audio.sfx('thunder'); V.shake(14);
+    flash(V, r.T, r.hT, pink, 250);
+    tint(victim(V, t), 'hue-rotate(280deg) brightness(1.5)', 0.8);
+    drop(bolt, 0.15, 0.22);
+    gsap.to(pud, { opacity: 0, duration: 0.3, delay: 0.2, onComplete: () => pud.remove() });
+    await wait(0.4);
+  };
+
+  // ---- redactedblade: black [CLASSIFIED] bars censor the target, then X's dark flame blade slices straight through them
+  RFX.redactedblade = async (V, t, r, F, land, o) => {
+    const c = '#ff2a55';
+    const bars = svgBB(V, r.T, r.hT, 'sk-redact', skSvg(180, 150, [
+      ['rectangle', 10, 18, 160, 28, { fill: '#0d0d12', fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 2 }],
+      ['rectangle', 18, 62, 144, 28, { fill: '#0d0d12', fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 2 }],
+      ['rectangle', 8, 106, 164, 28, { fill: '#0d0d12', fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 2 }],
+      ['line', 12, 140, 168, 10, { stroke: c, strokeWidth: 10 }],
+    ], '<text x="90" y="82" text-anchor="middle" font-size="18" font-weight="900" fill="#ff2a55">CLASSIFIED</text>', [172, 144]), c);
+    MB.audio.sfx('stamp');
+    await skDraw(bars.body.querySelectorAll('.d'), { duration: 0.26, stagger: 0.04 });
+    lands(land, o);
+    MB.audio.sfx('slash'); V.shake(13);
+    flash(V, r.T, r.hT, c, 240);
+    drop(bars, 0.2, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- crimsonhospital: Tragonta's crimson scissors (Nano Banana 2 sprite) snip across a red hospital ECG line over the target
+  RFX.crimsonhospital = async (V, t, r, F, land, o) => {
+    const c = '#e81838';
+    const prop = propImg(V, r.T, r.hT * 1.08, 'scissors-katanas', 148, 145, c);
+    gsap.fromTo(prop.body, { scale: 0, rotation: 45 }, { scale: 1, rotation: 0, duration: 0.22, ease: 'back.out(2)' });
+    const ecg = svgBB(V, r.T, r.hT, 'sk-ecg', skSvg(190, 120, [
+      ['linearPath', [[6, 65], [48, 65], [64, 18], [82, 108], [98, 12], [114, 98], [128, 65], [184, 65]], { stroke: c, strokeWidth: 6 }],
+    ], '', [182, 114]), c);
+    MB.audio.sfx('slash');
+    await skDraw(ecg.body.querySelectorAll('.d'), { duration: 0.24 });
+    lands(land, o);
+    MB.audio.sfx('chomp'); V.shake(14);
+    flash(V, r.T, r.hT, c, 250);
+    impactStar(V, r.T, r.hT, c, 'SNIP-SNIP!', 165);
+    drop(prop, 0.15, 0.25); drop(ecg, 0.18, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- biohazardcloud: Toxor's Decaying Paradise radioactive purple cloud and biohazard crest melt over the target
+  RFX.biohazardcloud = async (V, t, r, F, land, o) => {
+    const c = '#b82aff', acid = '#9dff2a';
+    const cl = svgBB(V, r.T, r.hT, 'sk-bio', `<svg viewBox="0 0 200 200" width="180" height="180"><path d="${blobD(100, 100, 80, 14, 0.22)}" fill="${c}" fill-opacity=".85" stroke="${acid}" stroke-width="5"/><circle cx="100" cy="72" r="22" fill="none" stroke="${acid}" stroke-width="6"/><circle cx="76" cy="114" r="22" fill="none" stroke="${acid}" stroke-width="6"/><circle cx="124" cy="114" r="22" fill="none" stroke="${acid}" stroke-width="6"/><circle cx="100" cy="100" r="10" fill="#1a0826"/></svg>`, c);
+    gsap.fromTo(cl.body, { scale: 0.2 }, { scale: 1.06, duration: 0.28, ease: 'back.out(2)' });
+    MB.audio.sfx('bubble'); MB.audio.sfx('sizzle');
+    await wait(0.26);
+    lands(land, o);
+    V.shake(13);
+    tint(victim(V, t), 'hue-rotate(260deg) saturate(2) brightness(0.8)', 0.9);
+    drop(cl, 0.2, 0.28);
+    await wait(0.42);
+  };
+
+  // ---- obsidianspikes: Kirari's black obsidian stingers fan out and impale the target from every angle
+  RFX.obsidianspikes = async (V, t, r, F, land, o) => {
+    const c = '#9b5de5';
+    const sp = svgBB(V, r.T, r.hT, 'sk-obsidian', skSvg(190, 170, [
+      ['polygon', [[12, 18], [95, 92], [28, 8]], { fill: '#14111f', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['polygon', [[178, 18], [95, 92], [162, 8]], { fill: '#14111f', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['polygon', [[8, 95], [95, 92], [14, 74]], { fill: '#14111f', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['polygon', [[182, 95], [95, 92], [176, 74]], { fill: '#14111f', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+      ['polygon', [[95, 4], [82, 98], [108, 98]], { fill: '#14111f', fillStyle: 'solid', stroke: c, strokeWidth: 3 }],
+    ], '', [182, 162]), c);
+    MB.audio.sfx('stab');
+    await gsap.fromTo(sp.body, { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('crunch'); V.shake(14);
+    flash(V, r.T, r.hT, c, 240);
+    drop(sp, 0.2, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- supernovaidol: Stella's Solar Idol drops a blazing idol star over the target that goes supernova
+  RFX.supernovaidol = async (V, t, r, F, land, o) => {
+    const c = '#ff9a1f', top = overhead(t, r, 70, 70);
+    const st = svgBB(V, r.T, top, 'sk-supernova', starSvg('#ffe34a', 135), c);
+    gsap.fromTo(st.body, { scale: 0, rotation: -120 }, { scale: 1.15, rotation: 0, duration: 0.25, ease: 'back.out(2)' });
+    MB.audio.sfx('powerup');
+    await gsap.to(st.body, { y: -r.hT, rotation: 180, duration: 0.2, ease: 'power3.in' });
+    lands(land, o);
+    MB.audio.sfx('boom'); MB.audio.sfx('sparkle'); V.shake(16);
+    flash(V, r.T, r.hT, '#fff4a8', 280);
+    impactStar(V, r.T, r.hT, c, 'SOLAR IDOL★', 175);
+    drop(st, 0.15, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- glacierchains: Yuri's Permafrost Condemnation binds the target in platinum chains and a shattering glacier crystal
+  RFX.glacierchains = async (V, t, r, F, land, o) => {
+    const c = '#a8f0ff';
+    const gl = svgBB(V, r.T, r.hT, 'sk-glacier', skSvg(170, 180, [
+      ['polygon', [[85, 6], [154, 58], [136, 168], [34, 168], [16, 58]], { fill: c, fillStyle: 'solid', stroke: '#ffffff', strokeWidth: 4 }],
+      ['line', 12, 64, 158, 118, { stroke: '#5a6878', strokeWidth: 9 }],
+      ['line', 158, 64, 12, 118, { stroke: '#5a6878', strokeWidth: 9 }],
+    ], '', [162, 170]), c);
+    MB.audio.sfx('chain'); MB.audio.sfx('freeze');
+    await gsap.fromTo(gl.body, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 0.92, duration: 0.24, ease: 'back.out(2)' });
+    lands(land, o);
+    MB.audio.sfx('glass'); V.shake(14);
+    shards(V, r.T, r.hT, 10, 195);
+    drop(gl, 0.18, 0.25);
+    await wait(0.4);
+  };
+
+  // ---- indigocircle: Vendetta's Unfair Retribution expands an indigo judgment circle under the target that collapses in a pillar of ruin
+  RFX.indigocircle = async (V, t, r, F, land, o) => {
+    const c = '#4f46e5';
+    const ring = svgFlat(V, r.T, 'indigo-ring', `<svg viewBox="0 0 220 220" width="210" height="210"><circle cx="110" cy="110" r="98" fill="${c}" fill-opacity=".35" stroke="#818cf8" stroke-width="7"/><circle cx="110" cy="110" r="68" fill="none" stroke="#c7d2fe" stroke-width="4" stroke-dasharray="12 8"/></svg>`, c);
+    gsap.fromTo(ring, { scale: 0.1 }, { scale: 1.15, duration: 0.28, ease: 'back.out(2)' });
+    MB.audio.sfx('rune');
+    const pil = svgBB(V, r.T, r.hT, 'indigo-pil', skSvg(130, 190, [
+      ['rectangle', 24, 6, 82, 178, { fill: c, fillStyle: 'solid', stroke: '#c7d2fe', strokeWidth: 4 }],
+    ], '', [122, 178]), c);
+    await gsap.fromTo(pil.body, { scaleY: 0, transformOrigin: '50% 100%' }, { scaleY: 1, duration: 0.2, ease: 'power3.out' });
+    lands(land, o);
+    MB.audio.sfx('blast'); V.shake(14);
+    flash(V, r.T, r.hT, '#818cf8', 260);
+    drop(pil, 0.15, 0.25);
+    gsap.to(ring, { scale: 0, opacity: 0, duration: 0.28, delay: 0.15, onComplete: () => ring.remove() });
+    await wait(0.4);
+  };
+
+  // ---- lotusbullet: Jimachi's Black Lotus seed bullets strike the target and violently bloom into thorny black lotus flowers
+  RFX.lotusbullet = async (V, t, r, F, land, o) => {
+    const c = '#d90429';
+    MB.audio.sfx('gunshot');
+    const seed = svgBB(V, F, r.hA, 'lotus-seed', `<svg viewBox="0 0 40 24" width="38" height="22"><ellipse cx="20" cy="12" rx="18" ry="9" fill="#1a1118" stroke="${c}" stroke-width="3"/></svg>`, c);
+    await path(seed, (k) => ({ x: lerp(F.x, r.T.x, k), y: lerp(F.y, r.T.y, k), h: lerp(r.hA, r.hT, k) }), 0.2, 'power2.in');
+    seed.remove();
+    const lotus = svgBB(V, r.T, r.hT, 'sk-lotus', roseSvg('#1f1224'), c);
+    await gsap.fromTo(lotus.body, { scale: 0.4, rotation: -90 }, { scale: 1.25, rotation: 0, duration: 0.18, ease: 'back.out(2)' });
+    lands(land, o);
+    MB.audio.sfx('slash'); V.shake(13);
+    flash(V, r.T, r.hT, c, 240);
+    drop(lotus, 0.18, 0.24);
+    await wait(0.45);
+  };
+
+  // ---- moltendragon: Mang Shi's Nine Children of the Dragon drives a searing molten dragon fist through the target
+  RFX.moltendragon = async (V, t, r, F, land, o) => {
+    const sx = sgnX(r), c = '#ff4d00';
+    const fist = svgBB(V, F, r.hA, 'sk-dragonfist', skSvg(150, 120, [
+      ['polygon', [[12, 32], [108, 12], [144, 60], [108, 108], [12, 88]], { fill: c, fillStyle: 'solid', stroke: '#ffe66d', strokeWidth: 4 }],
+      ['circle', 102, 42, 14, { fill: '#ffffff', fillStyle: 'solid' }],
+    ], '', [142, 114]), c);
+    gsap.set(fist.body, { scaleX: sx });
+    MB.audio.sfx('roar'); MB.audio.sfx('fire');
+    await path(fist, (k) => ({ x: lerp(F.x, r.T.x, k), y: lerp(F.y, r.T.y, k), h: lerp(r.hA, r.hT, k), s: 0.8 + k * 0.45 }), 0.26, 'power3.in');
+    lands(land, o);
+    MB.audio.sfx('boom'); V.shake(17);
+    flash(V, r.T, r.hT, '#ffb703', 280);
+    impactStar(V, r.T, r.hT, c, 'DRAGON FIST!', 175);
+    drop(fist, 0.15, 0.25);
+    await wait(0.42);
+  };
+
+  // ---- dojostamp: Ying Kong Meng drops an iron Ying-clan dojo seal and shockwave palm onto the target
+  RFX.dojostamp = async (V, t, r, F, land, o) => {
+    const c = '#d62828', top = overhead(t, r, 70, 65);
+    const seal = svgBB(V, r.T, top, 'sk-dojoseal', skSvg(150, 150, [
+      ['rectangle', 10, 10, 130, 130, { fill: '#1d1e24', fillStyle: 'solid', stroke: c, strokeWidth: 6 }],
+      ['rectangle', 22, 22, 106, 106, { stroke: '#fcbf49', strokeWidth: 3 }],
+    ], '<text x="75" y="98" text-anchor="middle" font-size="68" font-weight="900" fill="#d62828">應</text>', [142, 142]), c);
+    gsap.fromTo(seal.body, { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: 'power3.in' });
+    await gsap.to(seal.body, { y: -r.hT, duration: 0.16, ease: 'power4.in' });
+    lands(land, o);
+    MB.audio.sfx('slam'); MB.audio.sfx('gong'); V.shake(16);
+    squash(victim(V, t), 0.65);
+    floorRing(V, r.T, c, 100, 6);
+    drop(seal, 0.2, 0.26);
+    await wait(0.42);
+  };
+
+  // ---------------------------------------------------------------- Signature Styles: Emiro.exe, Grim & Spook, Protectors
+  const soloBeat = (cry, cls, move, fxFn, fin) => async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, T, C, hT } = r, H = V.heightOf(a);
+    pop(V, A, H + 85, own(a, 'cry', cry), 'float-text ' + cls, 1);
+    if (move === 'rush') await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.26, ease: 'power2.in' });
+    else if (move === 'hop') await gsap.timeline().to(v.el, { x: C.x, y: C.y, duration: 0.34 }).to(v.figure, { y: -70, duration: 0.17, yoyo: true, repeat: 1 }, 0);
+    else await gsap.to(v.figure, { y: -14, duration: 0.12, yoyo: true, repeat: 1 });
+    await fxFn(V, t, r, move ? C : A, land);
+    pop(V, T, hT + 140, own(a, 'finish', fin), 'float-text ' + cls, 1.05);
+    if (move) await goHome(v, A, 0.28);
+    else await wait(0.25);
+  };
+
+  // Emiro.exe
+  S.boomstick = soloBeat('Another geometric abomination?! Ugh!', 'burn', null, (V, t, r, F, land) => RFX.geopurify(V, t, r, F, land, {}), 'Prompt purified. You are welcome.');
+  S.crowbarteatime = soloBeat('Leave it to Omire, desuwa~!', 'buff', 'rush', (V, t, r, F, land) => RFX.crowbarswing(V, t, r, F, land, {}), 'Proper etiquette, desuwa~');
+
+  // Grim & Spook
+  S.coffinprank = soloBeat('Ready or not, Big Coffin Dork!', 'debuff', 'hop', (V, t, r, F, land) => RFX.ectobomb(V, t, r, F, land, {}), 'Bwahahahaha!');
+  S.dollgrimoire = soloBeat('Fascinating arcane specimen...', 'curse', null, (V, t, r, F, land) => RFX.hexgrimoire(V, t, r, F, land, {}), 'Recorded in the Cadaberica archives.');
+  S.pumpkinharvest = soloBeat('The autumn moon rises, little soul.', 'burn', null, (V, t, r, F, land) => RFX.jackolantern(V, t, r, F, land, {}), 'Rest beneath the pumpkin roots.');
+  S.mistlullaby = soloBeat('Drift away with the moonlit tide...', 'heal', null, (V, t, r, F, land) => RFX.sirenmist(V, t, r, F, land, {}), 'May the waters comfort you~');
+  S.spectralsoiree = soloBeat('Good evening, honored guest~', 'shield', null, (V, t, r, F, land) => RFX.phantomtoast(V, t, r, F, land, {}), 'Do enjoy the spectral soirée.');
+  S.souschef = soloBeat('*sigh* Another order from Devrah...', 'debuff', null, (V, t, r, F, land) => RFX.abysspot(V, t, r, F, land, {}), 'Dinner is served. Leave me be.');
+  S.yappingskull = soloBeat('Do you KNOW how hard undeath is?!', 'debuff', null, (V, t, r, F, land) => RFX.bluedread(V, t, r, F, land, {}), 'Nobody ever listens to a skull!');
+  S.wronghand = soloBeat('Got a BONE to pick with ya!', 'baka', null, (V, t, r, F, land) => RFX.ribboomerang(V, t, r, F, land, {}), 'Oops—wrong hand! Hehehe!');
+  S.snackshuffle = soloBeat('Hey... is that our last snack...?', 'debuff', 'rush', (V, t, r, F, land) => RFX.ghoulsnack(V, t, r, F, land, {}), 'Nyehehe... crunchy rock...');
+  S.headlesscharge = soloBeat('*spectral neigh of emerald fire*', 'burn', 'rush', (V, t, r, F, land) => RFX.soulfirehoof(V, t, r, F, land, {}), '*the green flame rides on*');
+  S.twinmoons = soloBeat('Beneath the twin moons—HUNT!', 'buff', 'hop', (V, t, r, F, land) => RFX.moonfangs(V, t, r, F, land, {}), 'Leave these woods in peace.');
+  S.redharvest = soloBeat('...The red moon rises over the wheat.', 'debuff', 'rush', (V, t, r, F, land) => RFX.bloodscythe(V, t, r, F, land, {}), '...The harvest is tended.');
+  S.silentfrost = soloBeat('All warmth fades into winter...', 'shield', null, (V, t, r, F, land) => RFX.iceantlers(V, t, r, F, land, {}), 'Preserved for eternity.');
+  S.royalbat = soloBeat('SCREEEE! *adjusts royal ribbon*', 'buff', 'hop', (V, t, r, F, land) => RFX.batshriek(V, t, r, F, land, {}), 'Bow to Prince Roy!');
+
+  // Protectors helpers: Dearth anime eye cut-in & Gerroid Golden Claw close-up
+  function dearthEyeCutIn(V, color = '#ff3814') {
+    if (typeof document === 'undefined') return Promise.resolve();
+    const root = (V && V.root) || document.getElementById('arena') || document.getElementById('ui-root');
+    if (!root || !root.appendChild) return Promise.resolve();
+    const ov = document.createElement('div');
+    ov.className = 'anime-eye-cutin';
+    ov.style.setProperty('--c', color);
+    ov.innerHTML = `<div class="aec-backdrop"></div><div class="aec-flash"></div><div class="aec-band"><div class="aec-speedlines"></div><div class="aec-art-wrap"><img class="aec-img" src="assets/attacks/new-props/dearth-eye-cutin.webp" alt=""></div><div class="aec-caption">AHAHAHAHAHA!!</div></div>`;
+    root.appendChild(ov);
+    MB.audio.sfx('eyeglint'); MB.audio.sfx('unsheathe');
+    const band = ov.querySelector('.aec-band'), img = ov.querySelector('.aec-img'), cap = ov.querySelector('.aec-caption'), fl = ov.querySelector('.aec-flash'), spd = ov.querySelector('.aec-speedlines');
+    const tl = gsap.timeline({ onComplete: () => ov.remove() });
+    if (band && img) {
+      tl.fromTo(fl, { opacity: 0.7 }, { opacity: 0, duration: 0.16 }, 0)
+        .fromTo(band, { scaleY: 0.08, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.14, ease: 'power4.out' }, 0)
+        .fromTo(spd, { x: -120 }, { x: 120, duration: 0.62, ease: 'none' }, 0)
+        .fromTo(img, { x: -70, scale: 1.18 }, { x: 0, scale: 1.02, duration: 0.48, ease: 'power3.out' }, 0)
+        .fromTo(cap, { x: 40, scale: 1.5, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(2)' }, 0.14)
+        .to(ov, { opacity: 0, duration: 0.14, ease: 'power2.in' }, 0.54);
+    } else {
+      tl.to(ov, { opacity: 0, duration: 0.4 });
+    }
+    return wait(0.66);
+  }
+
+  function gerroidCloseUp(V, sx = 1) {
+    if (typeof document === 'undefined') return Promise.resolve();
+    const root = (V && V.root) || document.getElementById('arena') || document.getElementById('ui-root');
+    if (!root || !root.appendChild) return Promise.resolve();
+    const ov = document.createElement('div');
+    ov.className = 'gerroid-closeup-cutin';
+    ov.innerHTML = `<div class="gcc-backdrop"></div><div class="gcc-panel"><div class="gcc-rays"></div><img class="gcc-img" src="assets/attacks/new-props/gerroid-closeup-punch.webp" alt="" style="transform:scaleX(${sx})"><div class="gcc-fist-flash"></div><div class="gcc-caption">GOLDEN CLAW UPPERCUT!!</div></div>`;
+    root.appendChild(ov);
+    MB.audio.sfx('charge'); MB.audio.sfx('eyeglint');
+    const panel = ov.querySelector('.gcc-panel'), rays = ov.querySelector('.gcc-rays'), img = ov.querySelector('.gcc-img'), fist = ov.querySelector('.gcc-fist-flash'), cap = ov.querySelector('.gcc-caption');
+    const tl = gsap.timeline({ onComplete: () => ov.remove() });
+    if (panel && img) {
+      tl.fromTo(ov, { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0)
+        .fromTo(rays, { rotation: 0, scale: 0.6 }, { rotation: 65, scale: 1.15, duration: 0.58, ease: 'none' }, 0)
+        .fromTo(img, { y: 110, scaleX: sx * 0.75, scaleY: 0.75 }, { y: 0, scaleX: sx * 1.08, scaleY: 1.08, duration: 0.26, ease: 'back.out(2.2)' }, 0)
+        .fromTo(fist, { scale: 0.1, opacity: 0 }, { scale: 1.65, opacity: 1, duration: 0.22, ease: 'power3.out' }, 0.14)
+        .fromTo(cap, { scale: 2.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: 'back.out(2.5)' }, 0.14)
+        .to(ov, { opacity: 0, duration: 0.14, ease: 'power2.in' }, 0.46);
+    } else {
+      tl.to(ov, { opacity: 0, duration: 0.35 });
+    }
+    return wait(0.56);
+  }
+
+  // Protectors Signature Styles
+  // 1. Dearth: Gets her weapon, holds it, jumps up in the air, anime eye cut-in before landing, exploding landing area with laugh, jumps back
+  S.hellresurgence = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, C, T, hT } = r, H = V.heightOf(a), c = '#ff3814', gold = '#ffbe0b', sx = sgnX(r);
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Hell’s Resurgence—OPEN THE GATES!'), 'float-text burn', 1.05);
+    floorRing(V, A, c, 130, 7);
+    // Beat 1: Summons her Hell Podao, spins it into grip, and holds it in battle stance
+    const podao = propImg(V, { x: A.x + sx * 34, y: A.y }, H * 0.58, 'hell-podao', 175, 170, c);
+    MB.audio.sfx('unsheathe'); MB.audio.sfx('fire');
+    await gsap.fromTo(podao.body, { scale: 0, rotation: -sx * 240 }, { scale: 1.12, rotation: sx * 16, duration: 0.28, ease: 'back.out(2.2)' });
+    flash(V, { x: A.x + sx * 34, y: A.y }, H * 0.65, gold, 180);
+    await gsap.to(v.figure, { y: 12, rotation: -sx * 8, duration: 0.22, ease: 'sine.out' });
+    await wait(0.18);
+    // Beat 2: Jumps high up into the air holding her weapon
+    MB.audio.sfx('whoosh'); MB.audio.sfx('whistleUp');
+    puff(V, A, c, 8, 20, 1.1);
+    const midX = lerp(A.x, C.x, 0.55), midY = lerp(A.y, C.y, 0.55);
+    await Promise.all([
+      gsap.to(v.el, { x: midX, y: midY, duration: 0.36, ease: 'power2.out' }),
+      gsap.to(v.figure, { y: -230, rotation: -sx * 14, duration: 0.36, ease: 'power2.out' }),
+      gsap.to(podao, { x: midX, y: midY, duration: 0.36, ease: 'power2.out' }),
+      gsap.to(podao.body, { y: -145, rotation: -sx * 55, scale: 0.85, opacity: 0, duration: 0.32, ease: 'power2.out' }),
+    ]);
+    // Beat 3: Anime eye cut-in of Dearth before she lands
+    V.emote(a, 'taunt', 0);
+    await dearthEyeCutIn(V, c);
+    // Beat 4: Meteors down onto target, exploding the spot she laughed at
+    V.emote(a, 'attack', 0);
+    pop(V, T, hT + 135, 'AHAHAHAHAHA! BURST!!', 'float-text burn', 1.2);
+    const top = t.isLeader ? hT * 0.55 : overhead(t, r, 45, 110);
+    const hLand = t.isLeader ? hT * 0.42 : hT * 0.72;
+    gsap.set(podao, { x: T.x, y: T.y });
+    await Promise.all([
+      gsap.to(v.el, { x: C.x, y: C.y, duration: 0.18, ease: 'power4.in', onUpdate: () => ghost(V, v, c) }),
+      gsap.to(v.figure, { y: 0, rotation: sx * 10, duration: 0.18, ease: 'power4.in' }),
+      gsap.fromTo(podao.body, { y: -top, opacity: 1, scale: 0.72, rotation: -sx * 65 }, { y: -hLand, scale: t.isLeader ? 0.98 : 1.18, rotation: sx * 50, duration: 0.18, ease: 'power4.in' }),
+    ]);
+    const erupt = propImg(V, T, hLand, 'hell-eruption', 235, 235, c);
+    gsap.fromTo(erupt.body, { scaleX: 0.35, scaleY: 0.2 }, { scaleX: t.isLeader ? 0.96 : 1.15, scaleY: t.isLeader ? 0.88 : 1.15, duration: 0.22, ease: 'back.out(1.7)' });
+    land();
+    V.emote(t, 'hurt', 0);
+    MB.audio.sfx('boom'); MB.audio.sfx('dragonfire'); MB.audio.sfx('axe'); V.hitStop(); V.shake(26);
+    flash(V, T, hT, gold, 320);
+    flameBurst(V, T, hT);
+    decal(V, T, 'crater', c, 0.55);
+    cracks(V, T, c, { n: 9, len: 155, hold: 0.45, w: 5, glow: gold });
+    floorRing(V, T, gold, 145, 8);
+    squash(victim(V, t), 0.48);
+    debris(V, T, c, 14, { chars: ['🔥', '💥', '✨'], spread: 185 });
+    impactStar(V, T, hT, c, 'HELL GATE!', 180);
+    drop(podao, 0.1, 0.2);
+    drop(erupt, 0.2, 0.22);
+    await wait(0.24);
+    pop(V, T, hT + 130, own(a, 'finish', 'Red District stays standing!'), 'float-text burn', 1.05);
+    // Beat 5: Jumps back to her slot in a high arc
+    MB.audio.sfx('whoosh');
+    await gsap.timeline()
+      .to(v.el, { x: A.x, y: A.y, duration: 0.46, ease: 'power2.inOut' })
+      .to(v.figure, { y: -155, duration: 0.23, ease: 'power2.out' }, 0)
+      .to(v.figure, { y: 0, duration: 0.23, ease: 'power2.in' }, 0.23)
+      .to(v.figure, { rotation: 0, opacity: 1, duration: 0.46 }, 0);
+    await wait(0.25);
+  };
+
+  // 2. Sakurako: Disappears into white smoke, comes horizontally slicing through all enemies, seen moving back
+  S.shadowguest = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, T, hT } = r, H = V.heightOf(a), c = '#e01e5a', sx = sgnX(r);
+    const sp = spillOf(), aims = [{ u: t, T, hT, tv: victim(V, t) }, ...spillAims(V, sp)];
+    if (sp) sp.units.forEach((u) => { if (!V.ents.has(u.uid)) sp.hit(u); });
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Shadow Guest... vanish into white mist.'), 'float-text debuff', 1.05);
+    // Beat 1: Drops white smoke bomb and disappears completely into billowing white smoke
+    MB.audio.sfx('smoke'); MB.audio.sfx('poof'); MB.audio.sfx('warp');
+    const smokeA = propImg(V, A, H * 0.55, 'white-smokebomb', 220, 210, '#ffffff');
+    gsap.fromTo(smokeA.body, { scale: 0.2, opacity: 0.95 }, { scale: 1.2, opacity: 1, duration: 0.28, ease: 'back.out(2)' });
+    puff(V, A, '#ffffff', 16, H * 0.45, 1.35);
+    scatter(V, A, H * 0.5, ['🌸', '💨'], 8, 115);
+    await gsap.to(v.figure, { opacity: 0, scaleX: 0.35, scaleY: 1.25, duration: 0.22, ease: 'power2.in' });
+    drop(smokeA, 0.08, 0.25);
+    await wait(0.24);
+    // Beat 2: Appears at row edge and slices horizontally across ALL enemies
+    const startX = sx > 0 ? 190 : 990, endX = sx > 0 ? 990 : 190, rowY = T.y;
+    const propH = t.isLeader ? hT * 0.48 : hT * 0.85;
+    aims.sort((p, q) => (sx > 0 ? p.T.x - q.T.x : q.T.x - p.T.x));
+    const spanW = 780;
+    const gleam = svgBB(V, { x: 590, y: rowY }, propH, 'shadow-gleam', `<svg viewBox="0 0 ${spanW} 36" width="${spanW}" height="36"><line x1="10" y1="18" x2="${spanW - 10}" y2="18" stroke="${c}" stroke-width="10" stroke-linecap="round"/><line x1="10" y1="18" x2="${spanW - 10}" y2="18" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/></svg>`, c);
+    MB.audio.sfx('unsheathe'); MB.audio.sfx('eyeglint');
+    await gsap.fromTo(gleam.body, { scaleX: 0, opacity: 1 }, { scaleX: 1, opacity: 1, duration: 0.16, ease: 'power3.out' });
+    drop(gleam, 0.18, 0.2);
+    gsap.set(v.el, { x: startX, y: rowY });
+    gsap.set(v.figure, { opacity: 1, scaleX: 1, scaleY: 1, rotation: sx * 16 });
+    const blades = propImg(V, { x: startX, y: rowY }, propH, 'scissors-katanas', 175, 168, c);
+    const wave = propImg(V, { x: startX, y: rowY }, propH, 'katana-wave', 230, 186, c);
+    gsap.set(wave.body, { scaleX: sx });
+    MB.audio.sfx('whoosh');
+    const sliceDur = 0.48;
+    const hitTasks = aims.map((m) => {
+      const frac = Math.max(0.05, Math.min(0.92, Math.abs(m.T.x - startX) / Math.max(1, Math.abs(endX - startX))));
+      return wait(frac * sliceDur).then(() => {
+        MB.audio.sfx('slash');
+        const shY = m.u.isLeader ? -m.hT * 0.38 : -m.hT;
+        slashArc(V, m.T, shY, c, 32);
+        slashArc(V, m.T, shY, '#ffffff', -32);
+        flash(V, m.T, m.hT, c, 240);
+        burst(V, m.T, c, 12, { h: m.hT, spread: 120, shape: 'shard' });
+        scatter(V, m.T, m.hT, ['🌸', '🗡️'], 5, 95);
+        squash(m.tv, 0.58);
+        if (m.u === t) land();
+        else if (sp) spillHit(V, sp, m.u, c, true);
+      });
+    });
+    await Promise.all([
+      gsap.to(v.el, { x: endX, y: rowY, duration: sliceDur, ease: 'power2.inOut', onUpdate: () => ghost(V, v, c) }),
+      gsap.to(blades, { x: endX, y: rowY, duration: sliceDur, ease: 'power2.inOut' }),
+      gsap.fromTo(blades.body, { rotation: -sx * 90, scale: 0.9 }, { rotation: sx * 180, scale: t.isLeader ? 1.02 : 1.18, duration: sliceDur, ease: 'none' }),
+      gsap.to(wave, { x: endX, y: rowY, duration: sliceDur, ease: 'power2.inOut' }),
+      ...hitTasks,
+    ]);
+    V.hitStop(); V.shake(22);
+    drop(blades, 0.05, 0.18);
+    drop(wave, 0.05, 0.18);
+    // Beat 3: Skids to a stop, clicks blades shut, then visibly moves back to her slot
+    gsap.set(v.figure, { rotation: 0 });
+    MB.audio.sfx('click');
+    flash(V, { x: endX, y: rowY }, H * 0.65, '#ffffff', 150);
+    await wait(0.22);
+    V.emote(a, 'hurt', 0);
+    pop(V, { x: endX, y: rowY }, H + 90, own(a, 'finish', '...W-was that edgy enough?!'), 'float-text debuff', 1.05);
+    gsap.set(v.figure, { scaleX: -sx });
+    MB.audio.sfx('whoosh');
+    await gsap.timeline()
+      .to(v.el, { x: A.x, y: A.y, duration: 0.52, ease: 'power2.inOut', onUpdate: () => { if (Math.random() < 0.45) ghost(V, v, '#ffffff'); } })
+      .to(v.figure, { y: -75, duration: 0.13, yoyo: true, repeat: 3, ease: 'sine.out' }, 0);
+    puff(V, A, '#ffffff', 8, H * 0.4, 0.95);
+    gsap.set(v.figure, { scaleX: 1, y: 0, rotation: 0 });
+    await wait(0.22);
+  };
+
+  // 3. Trictotano: Shoots acid gun in the air and a giant splat of acid lands on enemy
+  S.perniciousdevil = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, T, hT } = r, H = V.heightOf(a), c = '#7dff2a', purple = '#9b30ff', sx = sgnX(r);
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Say hello to the Pernicious Devil~'), 'float-text debuff', 1.05);
+    // Beat 1: Pulls out her purple sawed-off acid shotgun, racks it, and aims straight up into the air
+    const gunX = Math.max(190, Math.min(990, A.x + sx * 32));
+    const gun = propImg(V, { x: gunX, y: A.y }, H * 0.62, 'acid-shotgun', 175, 138, c);
+    gsap.set(gun.body, { scaleX: sx });
+    MB.audio.sfx('click');
+    await gsap.fromTo(gun.body, { scale: 0, rotation: sx * 25 }, { scale: 1.12, scaleX: sx * 1.12, rotation: 0, duration: 0.22, ease: 'back.out(2.2)' });
+    await Promise.all([
+      gsap.to(v.figure, { rotation: -sx * 8, duration: 0.22, ease: 'power2.out' }),
+      gsap.to(gun.body, { rotation: -sx * 82, y: -H * 0.78, duration: 0.24, ease: 'back.out(1.8)' }),
+    ]);
+    await wait(0.14);
+    // Beat 2: Fires pressurized toxic shell high into the sky
+    MB.audio.sfx('gunshot'); MB.audio.sfx('blast'); V.shake(12);
+    flash(V, { x: gunX, y: A.y }, H * 1.05, c, 230);
+    burst(V, { x: gunX, y: A.y }, c, 12, { h: H * 1.05, spread: 95 });
+    gsap.to(gun.body, { y: -H * 0.55, duration: 0.08, yoyo: true, repeat: 1 });
+    const topA = overhead(a, r, 55, 85);
+    const shell = svgBB(V, { x: gunX, y: A.y }, H * 0.85, 'acid-glob', `<svg viewBox="0 0 80 100" width="68" height="84"><path d="M40 6 C65 34 74 58 70 74 C66 90 54 96 40 96 C26 96 14 90 10 74 C6 58 15 34 40 6 Z" fill="${c}" stroke="${purple}" stroke-width="6"/><circle cx="32" cy="62" r="10" fill="#d8ff9c"/></svg>`, c);
+    await gsap.to(shell.body, { y: -topA, scale: 0.55, opacity: 0, duration: 0.32, ease: 'power2.out' });
+    shell.remove();
+    drop(gun, 0.05, 0.22);
+    gsap.to(v.figure, { rotation: 0, duration: 0.2 });
+    // Beat 3: Whistle down as giant splat of corrosive acid plummets and explodes on the enemy
+    MB.audio.sfx('whistleDown');
+    const pool = decal(V, T, 'splat', purple, 0.7);
+    const topT = t.isLeader ? hT * 0.55 : overhead(t, r, 50, 105);
+    const hSplat = t.isLeader ? hT * 0.45 : hT * 0.75;
+    const fallingGlob = svgBB(V, T, topT, 'acid-glob', `<svg viewBox="0 0 90 110" width="82" height="100"><path d="M45 104 C16 74 8 46 14 28 C20 10 32 4 45 4 C58 4 70 10 76 28 C82 46 74 74 45 104 Z" fill="${c}" stroke="${purple}" stroke-width="7"/><circle cx="35" cy="42" r="12" fill="#e2ffb0"/></svg>`, c);
+    await gsap.fromTo(fallingGlob.body, { y: -topT, scale: 0.6 }, { y: -hSplat, scale: 1.12, duration: 0.34, ease: 'power3.in' });
+    fallingGlob.remove();
+    const splat = propImg(V, T, hSplat, 'acid-splat-giant', 240, 230, c);
+    gsap.fromTo(splat.body, { scaleX: 0.35, scaleY: 1.25 }, { scaleX: t.isLeader ? 1.05 : 1.2, scaleY: t.isLeader ? 0.95 : 1.12, duration: 0.24, ease: 'elastic.out(1.1, 0.45)' });
+    land();
+    V.emote(t, 'hurt', 0);
+    MB.audio.sfx('acidsplat'); MB.audio.sfx('sizzle'); MB.audio.sfx('splash'); V.hitStop(); V.shake(24);
+    decal(V, T, 'splat', c, 0.6);
+    flash(V, T, hT, c, 280);
+    floorRing(V, T, c, 145, 7);
+    tint(victim(V, t), 'hue-rotate(85deg) saturate(3.2) brightness(0.88)', 1.15);
+    squash(victim(V, t), 0.48);
+    rise(V, T, c, 16, hT * 1.4);
+    debris(V, T, c, 16, { chars: ['☣️', '🧪', '💀', '🫧'], spread: 195 });
+    impactStar(V, T, hT, c, 'ACID MELT!', 175);
+    pop(V, T, hT + 130, own(a, 'finish', 'Melted right down to the bone~'), 'float-text debuff', 1.05);
+    gsap.to(splat.body, { y: -hSplat * 0.7, scaleX: 1.28, scaleY: 0.82, opacity: 0, duration: 0.32, delay: 0.2, onComplete: () => splat.remove() });
+    if (pool && pool.remove) gsap.delayedCall(0.5, () => pool.remove());
+    await wait(0.6);
+  };
+
+  // 4. Gerroid: Doesn't use her gun, epic close up, soccer punches enemy into the air, jumps up and slams them down again, landing on the spot again
+  S.midasenvy = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, C, T, hT } = r, H = V.heightOf(a), c = '#ffd84a', sx = sgnX(r);
+    const tv = V.ents.get(t.uid), origSrc = v && v.img && v.img.tagName === 'IMG' ? v.img.src : null;
+    try {
+      V.emote(a, 'attack', 0);
+      pop(V, A, H + 90, own(a, 'cry', 'No gun needed—catch these Golden Claws!'), 'float-text buff', 1.05);
+      // Beat 1: Rushes in & triggers epic Golden Gauntlet close-up cut-in
+      MB.audio.sfx('whoosh');
+      await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.28, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+      await gsap.to(v.figure, { x: -sx * 28, rotation: -sx * 16, scaleY: 0.88, duration: 0.14 });
+      await gerroidCloseUp(V, sx);
+      // Beat 2: Sucker-punches / uppercuts the enemy high into the air using her Golden Claw Uppercut pose!
+      if (origSrc) v.img.src = 'assets/attacks/new-props/gerroid-closeup-punch.webp';
+      MB.audio.sfx('punch'); MB.audio.sfx('clang'); V.shake(20);
+      await gsap.to(v.figure, { x: sx * 38, y: -36, rotation: sx * 10, scaleY: 1.08, duration: 0.12, ease: 'power4.out' });
+      hit(V, t, c, false);
+      V.emote(t, 'hurt', 0);
+      flash(V, T, hT, '#fffbe0', 260);
+      impactStar(V, T, hT, c, 'GOLDEN UPPERCUT!', 175);
+      scatter(V, T, hT, ['🪙', '✨', '💥'], 8, 120);
+      if (tv && tv.figure) {
+        await gsap.to(tv.figure, { y: t.isLeader ? -125 : -195, rotation: sx * 22, duration: 0.34, ease: 'power2.out' });
+      } else {
+        await wait(0.3);
+      }
+      // Beat 3: Gerroid leaps high into the air above the airborne enemy in her aerial downward-slam pose and SLAMS them straight down!
+      if (origSrc) v.img.src = 'assets/attacks/new-props/gerroid-aerial-slam.webp';
+      MB.audio.sfx('whistleUp');
+      await Promise.all([
+        gsap.to(v.el, { x: T.x, y: T.y, duration: 0.26, ease: 'power2.out' }),
+        gsap.to(v.figure, { x: 0, y: t.isLeader ? -145 : -215, rotation: -sx * 8, duration: 0.26, ease: 'power2.out' }),
+      ]);
+      MB.audio.sfx('glint');
+      await wait(0.1);
+      MB.audio.sfx('whack');
+      await Promise.all([
+        gsap.to(v.figure, { y: 0, rotation: 0, scaleY: 1, duration: 0.18, ease: 'power4.in' }),
+        tv && tv.figure ? gsap.to(tv.figure, { y: 0, rotation: 0, duration: 0.18, ease: 'power4.in' }) : wait(0.18),
+      ]);
+      land();
+      MB.audio.sfx('brawlerslam'); MB.audio.sfx('boom'); MB.audio.sfx('kaching'); V.hitStop(); V.shake(28);
+      flash(V, T, hT, c, 320);
+      decal(V, T, 'crater', c, 0.55);
+      cracks(V, T, '#3d2800', { n: 10, len: 165, hold: 0.45, w: 6, glow: c });
+      floorRing(V, T, c, 150, 8);
+      squash(victim(V, t), 0.44);
+      debris(V, T, c, 16, { chars: ['💰', '🪙', '💎', '🎰'], spread: 205 });
+      impactStar(V, T, hT, c, 'MIDAS SLAM!!', 185);
+      await wait(0.24);
+      pop(V, T, hT + 130, own(a, 'finish', 'The Yellow District house always wins.'), 'float-text buff', 1.05);
+      // Beat 4: Vaults back through the air and lands cleanly on her own spot again
+      MB.audio.sfx('whoosh');
+      if (origSrc) v.img.src = origSrc;
+      await gsap.timeline()
+        .to(v.el, { x: A.x, y: A.y, duration: 0.44, ease: 'power2.inOut' })
+        .to(v.figure, { y: -145, duration: 0.22, ease: 'power2.out' }, 0)
+        .to(v.figure, { y: 0, duration: 0.22, ease: 'power2.in' }, 0.22);
+      puff(V, A, c, 6, 15, 0.85);
+      await wait(0.22);
+    } finally {
+      if (origSrc && v && v.img) v.img.src = origSrc;
+    }
+  };
+
+  // 5. Cecil: Controls the wind and makes something big fall into an enemy
+  S.wingsoffreedom = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, T, hT } = r, H = V.heightOf(a), c = '#4ac8ff', sx = sgnX(r);
+    const tv = victim(V, t);
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Wings of Freedom—mind the gale, luv!'), 'float-text shield', 1.05);
+    // Beat 1: Cecil summons swirling azure wind currents around herself and the enemy
+    MB.audio.sfx('wind'); MB.audio.sfx('storm');
+    floorRing(V, A, c, 135, 7);
+    floorRing(V, T, c, 135, 7);
+    gsap.to(v.figure, { y: -32, duration: 0.3, ease: 'sine.out' });
+    scatter(V, A, H * 0.65, ['🍃', '🪶', '💨'], 8, 130);
+    const hWind = t.isLeader ? hT * 0.45 : hT * 0.8;
+    const wind = svgBB(V, T, hWind, 'sk-zephyr', skSvg(210, 180, [
+      ['path', 'M16 144 Q105 14 194 36', { stroke: c, strokeWidth: 11 }],
+      ['path', 'M14 96 Q105 166 196 62', { stroke: '#ffffff', strokeWidth: 9 }],
+      ['path', 'M34 32 Q115 105 186 150', { stroke: c, strokeWidth: 10 }],
+    ], '', [200, 170]), c);
+    if (tv && tv.figure) gsap.to(tv.figure, { x: 9, rotation: 5, yoyo: true, repeat: 5, duration: 0.06 });
+    await skDraw(wind.body.querySelectorAll('.d'), { duration: 0.34, stagger: 0.05 });
+    // Beat 2: Sweeps her hand down—a massive cargo shipping container & armored vault wrapped in cyclone winds plummets onto the enemy!
+    gsap.to(v.figure, { rotation: sx * 12, y: 0, duration: 0.22, ease: 'power3.in' });
+    MB.audio.sfx('whistleDown');
+    const sh = svgFlat(V, T, 'fall-shadow', '', c);
+    gsap.fromTo(sh, { scale: 0.2, opacity: 0.2 }, { scale: 1.45, opacity: 0.75, duration: 0.36, ease: 'power2.in' });
+    const top = t.isLeader ? hT * 0.52 : overhead(t, r, 45, 115);
+    const hCargo = t.isLeader ? hT * 0.42 : hT * 0.68;
+    const cargo = propImg(V, T, top, 'giant-cargo-container', 240, 232, c);
+    await gsap.fromTo(cargo.body, { y: -top, scale: 0.52, rotation: -sx * 18 }, { y: -hCargo, scale: t.isLeader ? 1.0 : 1.18, rotation: sx * 4, duration: 0.36, ease: 'power4.in' });
+    sh.remove();
+    land();
+    V.emote(t, 'hurt', 0);
+    MB.audio.sfx('cratecrash'); MB.audio.sfx('collision'); MB.audio.sfx('boulder'); V.hitStop(); V.shake(28);
+    // Heavy metallic bounce on impact
+    gsap.timeline()
+      .to(cargo.body, { y: -hCargo * 1.15, rotation: -sx * 6, scaleX: t.isLeader ? 1.06 : 1.25, scaleY: t.isLeader ? 0.96 : 1.1, duration: 0.11, ease: 'power2.out' })
+      .to(cargo.body, { y: -hCargo * 0.9, rotation: sx * 2, scaleX: t.isLeader ? 1.0 : 1.18, scaleY: t.isLeader ? 1.0 : 1.18, duration: 0.13, ease: 'bounce.out' });
+    flash(V, T, hT, '#ffffff', 300);
+    decal(V, T, 'crater', '#1e293b', 0.45);
+    cracks(V, T, c, { n: 9, len: 165, hold: 0.45, w: 6, glow: '#ffffff' });
+    floorRing(V, T, c, 155, 8);
+    puff(V, T, '#e2e8f0', 14, 30, 1.35);
+    squash(tv, 0.4);
+    burst(V, T, c, 12, { h: hCargo, spread: 145, shape: 'shard' });
+    debris(V, T, '#94a3b8', 14, { chars: ['⚙️', '🔩', '💨', '💥'], spread: 195 });
+    impactStar(V, T, hT, c, '10,000 KG DROP!', 180);
+    pop(V, T, hT + 130, own(a, 'finish', 'Blue District is all tidy, luv.'), 'float-text shield', 1.05);
+    gsap.to(v.figure, { rotation: 0, duration: 0.25 });
+    drop(wind, 0.04, 0.18);
+    drop(cargo, 0.16, 0.22);
+    await wait(0.52);
+  };
+
+  // 6. Femicia: Electricutes an enemy till they explode, the explosion hurting enemies besides them
+  S.entrancinglake = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, T, hT } = r, H = V.heightOf(a), pink = '#ff4ad8';
+    const sp = spillOf(), aims = spillAims(V, sp), tv = V.ents.get(t.uid);
+    if (sp) sp.units.forEach((u) => { if (!V.ents.has(u.uid)) sp.hit(u); });
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Step into my Entrancing Lake—FRY!!'), 'float-text burn', 1.05);
+    // Beat 1: Liquid neon-pink electricity puddles spread & Femicia charges high-voltage current
+    MB.audio.sfx('charge'); MB.audio.sfx('zap');
+    floorRing(V, A, pink, 135, 7);
+    const pud = svgFlat(V, T, 'neon-pud', blobSvg(pink, 205), pink);
+    gsap.fromTo(pud, { scale: 0.1 }, { scale: 1.15, duration: 0.25, ease: 'back.out(2)' });
+    gsap.to(v.figure, { x: 7, yoyo: true, repeat: 7, duration: 0.05 });
+    // Beat 2: Sustained high-voltage electrocution build-up on the enemy until they overload!
+    const hCore = t.isLeader ? hT * 0.42 : hT * 0.75;
+    const core = propImg(V, T, hCore, 'electric-overcharge', 210, 210, pink);
+    gsap.set(core.body, { scale: 0.35, opacity: 0.9 });
+    const bolt = svgBB(V, T, hCore, 'sk-neonbolt', skSvg(175, 200, [
+      ['linearPath', [[102, 6], [52, 68], [108, 76], [44, 138], [96, 146], [58, 194]], { stroke: '#ffffff', strokeWidth: 10 }],
+      ['linearPath', [[65, 12], [122, 64], [64, 86], [128, 142], [74, 194]], { stroke: pink, strokeWidth: 8 }],
+    ], '', [165, 190]), pink);
+    skDraw(bolt.body.querySelectorAll('.d'), { duration: 0.25 });
+    V.emote(t, 'hurt', 0);
+    for (let step = 0; step < 4; step++) {
+      MB.audio.sfx(step % 2 ? 'buzz' : 'zap');
+      V.shake(6 + step * 3);
+      gsap.to(core.body, { scale: 0.48 + step * (t.isLeader ? 0.13 : 0.2), rotation: step * 55, duration: 0.16, ease: 'power2.out' });
+      gsap.set(bolt.body, { scaleX: step % 2 ? -1.1 : 1.1 });
+      if (tv && tv.figure) {
+        gsap.fromTo(tv.figure, { x: -11, y: -6, rotation: -5 }, { x: 11, y: 4, rotation: 5, duration: 0.04, yoyo: true, repeat: 3 });
+      }
+      if (tv && tv.img) {
+        gsap.set(tv.img, { filter: step % 2 ? 'invert(1) brightness(2.1) drop-shadow(0 0 16px #ff4ad8)' : 'hue-rotate(285deg) saturate(3.5) brightness(1.7)' });
+      }
+      if (step === 2) pop(V, T, hT + 95, '⚡ MAX OVERLOAD!! ⚡', 'float-text dmg', 1.0);
+      await wait(0.17);
+    }
+    if (tv && tv.figure) gsap.set(tv.figure, { x: 0, y: 0, rotation: 0 });
+    if (tv && tv.img) gsap.set(tv.img, { clearProps: 'filter' });
+    // Beat 3: The electrocuted enemy EXPLODES, blasting chain-lightning shockwaves into adjacent enemies!
+    gsap.to(core.body, { scale: t.isLeader ? 0.98 : 1.32, rotation: 240, duration: 0.14, ease: 'back.out(1.7)' });
+    land();
+    MB.audio.sfx('electricburst'); MB.audio.sfx('boom'); MB.audio.sfx('thunder'); V.hitStop(); V.shake(28);
+    flash(V, T, hT, '#ffffff', 360);
+    floorRing(V, T, pink, 175, 9);
+    cracks(V, T, pink, { n: 8, len: 160, hold: 0.45, w: 5, glow: '#ffffff' });
+    tint(victim(V, t), 'hue-rotate(280deg) brightness(1.8)', 0.8);
+    squash(victim(V, t), 0.46);
+    debris(V, T, pink, 16, { chars: ['⚡', '💥', '✨', '💜'], spread: 205 });
+    impactStar(V, T, hT, pink, 'PLASMA BURST!', 185);
+    // Lateral arcs & neighbor splash explosions
+    const leftX = Math.max(195, T.x - 135), rightX = Math.min(985, T.x + 135);
+    const zapL = svgBB(V, { x: leftX, y: T.y }, hCore, 'sk-neonbolt', `<svg viewBox="0 0 120 90" width="110" height="82"><path d="M110 15 L60 42 L80 52 L12 80" stroke="#ffffff" stroke-width="8" fill="none"/><path d="M110 15 L60 42 L80 52 L12 80" stroke="${pink}" stroke-width="4" fill="none"/></svg>`, pink);
+    const zapR = svgBB(V, { x: rightX, y: T.y }, hCore, 'sk-neonbolt', `<svg viewBox="0 0 120 90" width="110" height="82"><path d="M10 15 L60 42 L40 52 L108 80" stroke="#ffffff" stroke-width="8" fill="none"/><path d="M10 15 L60 42 L40 52 L108 80" stroke="${pink}" stroke-width="4" fill="none"/></svg>`, pink);
+    await Promise.all(aims.map(async (m, i) => {
+      await wait(0.06 + i * 0.06);
+      const mH = m.u.isLeader ? m.hT * 0.42 : m.hT * 0.75;
+      const beads = beadLine(V, T, hCore, m.T, mH, pink, 10, 25, 12, 0.16);
+      dropAll(beads, 0.12, 0.18);
+      const sub = propImg(V, m.T, mH, 'electric-overcharge', 165, 165, pink);
+      gsap.fromTo(sub.body, { scale: 0.2 }, { scale: 1.05, duration: 0.16, ease: 'back.out(1.8)' });
+      MB.audio.sfx('zap');
+      flash(V, m.T, m.hT, pink, 240);
+      floorRing(V, m.T, pink, 120, 6);
+      tint(m.tv, 'hue-rotate(280deg) brightness(1.8)', 0.7);
+      squash(m.tv, 0.58);
+      if (sp) spillHit(V, sp, m.u, pink, true);
+      drop(sub, 0.12, 0.18);
+    }));
+    pop(V, T, hT + 130, own(a, 'finish', 'D-don’t get the wrong idea, idiot!'), 'float-text burn', 1.05);
+    drop(core, 0.1, 0.2); drop(bolt, 0.08, 0.18); drop(zapL, 0.12, 0.18); drop(zapR, 0.12, 0.18);
+    gsap.to(pud, { opacity: 0, duration: 0.22, delay: 0.12, onComplete: () => pud.remove() });
+    await wait(0.45);
+  };
+
+  // 7. X: Snaps fingers and a giant pile of documents land on an enemy
+  S.classifiedknight = (V, a, t, impact) => posed(V, a, t, impact, 'x', async (k) => {
+    const { A, T, H, dir, actor, land, hT, r } = k, c = '#ff2a55';
+    // Frame 0: Stance - X stands composed in dark suit, flaming blue aura
+    pop(V, A, H + 90, own(a, 'cry', 'By order of Charoldyne: [REDACTED].'), 'float-text debuff', 1.05);
+    decal(V, A, 'dark', '#111827', 0.75);
+    floorRing(V, A, c, 125, 6);
+    await wait(0.45);
+
+    // Frame 1: Wind-up - Raises gloved hand, fingers poised to snap
+    actor.set(1);
+    MB.audio.sfx('glint');
+    const handSpot = k.hand(0, 1, 0.65);
+    flash(V, handSpot, handSpot.h, '#70d6ff', 90);
+    await wait(0.35);
+
+    // Frame 2: Release - *SNAP!* Fingers click, bursting with cyan/crimson spark
+    actor.set(2);
+    MB.audio.sfx('click'); MB.audio.sfx('glint'); MB.audio.sfx('stamp'); V.shake(12);
+    const snapPt = k.hand(0, 2, 0.65);
+    flash(V, snapPt, snapPt.h, c, 220);
+    floorRing(V, A, c, 140, 7);
+    impactStar(V, snapPt, snapPt.h, c, 'SNAP!', 130);
+
+    // Beat 2: Warning flutter of loose pages, colossal mountain of classified documents crashing down
+    MB.audio.sfx('whistleDown'); MB.audio.sfx('rustle');
+    const sh = svgFlat(V, T, 'fall-shadow', '', c);
+    gsap.fromTo(sh, { scale: 0.2, opacity: 0.2 }, { scale: 1.5, opacity: 0.8, duration: 0.34, ease: 'power2.in' });
+    scatter(V, T, hT * 1.1, ['📄', '📁', '📑'], 6, 110);
+    const top = t.isLeader ? hT * 0.52 : overhead(t, r, 45, 115);
+    const hDocs = t.isLeader ? hT * 0.42 : hT * 0.68;
+    const docs = propImg(V, T, top, 'giant-document-pile', 245, 236, c);
+    await gsap.fromTo(docs.body, { y: -top, scale: 0.52, rotation: -8 }, { y: -hDocs, scale: t.isLeader ? 1.02 : 1.2, rotation: 0, duration: 0.34, ease: 'power4.in' });
+    sh.remove();
+    land();
+    V.emote(t, 'hurt', 0);
+    MB.audio.sfx('paperdrop'); MB.audio.sfx('bookslam'); MB.audio.sfx('slam'); V.hitStop(); V.shake(26);
+    gsap.fromTo(docs.body, { scaleX: t.isLeader ? 1.15 : 1.35, scaleY: 0.86 }, { scaleX: t.isLeader ? 1.02 : 1.2, scaleY: t.isLeader ? 1.02 : 1.2, duration: 0.24, ease: 'elastic.out(1.1, 0.4)' });
+    flash(V, T, hT, '#ffffff', 280);
+    cracks(V, T, '#1f2937', { n: 8, len: 160, hold: 0.45, w: 5, glow: c });
+    floorRing(V, T, c, 150, 7);
+    puff(V, T, '#f8fafc', 14, 30, 1.3);
+    squash(victim(V, t), 0.38);
+    debris(V, T, '#ffffff', 18, { chars: ['📄', '📃', '📁', '📑', '📜', '🗂️'], spread: 210 });
+    await wait(0.14);
+
+    // Frame 3: Recover - Lower hand back to ready stance, finish callout
+    actor.set(3);
+    MB.audio.sfx('stamp'); V.shake(12);
+    impactStar(V, T, hT + 15, c, '[REDACTED]', 185);
+    pop(V, T, hT + 130, own(a, 'finish', 'File closed. Identity erased.'), 'float-text debuff', 1.05);
+    drop(docs, 0.2, 0.22);
+    await wait(0.52);
+  });
+
+  S.splitscissors = soloBeat('Hold still! I’ll heal you into pieces~!', 'debuff', 'rush', (V, t, r, F, land) => RFX.crimsonhospital(V, t, r, F, land, {}), 'Ahahaha! So much prettier now!');
+
+  // 8. Toxor: Impales an enemy with their tail
+  S.decayingparadise = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, C, T, hT } = r, H = V.heightOf(a), c = '#b82aff', acid = '#9dff2a', sx = sgnX(r);
+    const tv = V.ents.get(t.uid);
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Kehehehe! Taste my Decaying Stinger!'), 'float-text debuff', 1.05);
+    // Beat 1: Toxor lunges in low & coils her giant biomechanical scorpion tail high behind her back
+    MB.audio.sfx('hiss');
+    puff(V, A, c, 10, H * 0.45, 1.15);
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.3, ease: 'power3.in', onUpdate: () => ghost(V, v, c) });
+    const tailStart = { x: lerp(C.x, T.x, 0.6), y: T.y };
+    const hTail = t.isLeader ? hT * 0.38 : hT * 0.78;
+    const tail = propImg(V, tailStart, hTail, 'toxor-tail-strike', 225, 254, acid);
+    MB.audio.sfx('unsheathe'); MB.audio.sfx('charge');
+    await Promise.all([
+      gsap.to(v.figure, { rotation: -sx * 14, y: 10, duration: 0.24, ease: 'power2.out' }),
+      gsap.fromTo(tail.body, { x: -sx * 55, scale: 0.35, scaleX: sx * 0.35, rotation: -sx * 48 }, { x: -sx * 25, scale: t.isLeader ? 0.82 : 1.02, scaleX: sx * (t.isLeader ? 0.82 : 1.02), rotation: -sx * 28, duration: 0.26, ease: 'back.out(1.8)' }),
+    ]);
+    await wait(0.1);
+    // Beat 2: WHIP-IMPALES the enemy straight through the chest and pumps radioactive venom!
+    MB.audio.sfx('whipcrack');
+    await Promise.all([
+      gsap.to(v.figure, { rotation: sx * 16, y: 0, duration: 0.13, ease: 'power4.in' }),
+      gsap.to(tail, { x: T.x, y: T.y, duration: 0.13, ease: 'power4.in' }),
+      gsap.to(tail.body, { x: sx * 12, y: -hTail, scale: t.isLeader ? 0.92 : 1.2, scaleX: sx * (t.isLeader ? 0.92 : 1.2), rotation: sx * 10, duration: 0.13, ease: 'power4.in' }),
+    ]);
+    land();
+    V.emote(t, 'hurt', 0);
+    MB.audio.sfx('stingerstab'); MB.audio.sfx('rip'); MB.audio.sfx('sizzle'); V.hitStop(); V.shake(24);
+    slashArc(V, T, t.isLeader ? -hT * 0.38 : -hT, acid, sx * 24);
+    flash(V, T, hT, acid, 300);
+    decal(V, T, 'splat', c, 0.65);
+    cracks(V, T, acid, { n: 7, len: 135, hold: 0.45, w: 5, glow: c });
+    floorRing(V, T, acid, 140, 7);
+    tint(victim(V, t), 'hue-rotate(260deg) saturate(3.2) brightness(1.2)', 1.15);
+    debris(V, T, acid, 16, { chars: ['☣️', '💜', '🧪', '💀'], spread: 190 });
+    rise(V, T, acid, 14, hT * 1.3);
+    impactStar(V, T, hT, acid, 'IMPALED!!', 180);
+    // Venom pulse while impaled
+    if (tv && tv.figure) {
+      await gsap.to(tv.figure, { y: -26, x: sx * 10, duration: 0.06, yoyo: true, repeat: 5 });
+      gsap.set(tv.figure, { y: 0, x: 0 });
+    } else {
+      await wait(0.32);
+    }
+    // Beat 3: Wrenches tail free and leaps back to her slot
+    MB.audio.sfx('rip');
+    squash(victim(V, t), 0.52);
+    drop(tail, 0.05, 0.2);
+    pop(V, T, hT + 130, own(a, 'finish', 'Breathe deep and melt, kehehehe!'), 'float-text debuff', 1.05);
+    gsap.to(v.figure, { rotation: 0, duration: 0.2 });
+    await goHome(v, A, 0.36);
+    await wait(0.22);
+  };
+
+  S.obsidianstingers = soloBeat('The Kodome traditions do not rust.', 'debuff', null, (V, t, r, F, land) => RFX.obsidianspikes(V, t, r, F, land, {}), 'Rest now, child.');
+  S.solaridol = soloBeat('Eyes on your Aggressive Star, peasants~★', 'burn', 'hop', (V, t, r, F, land) => RFX.supernovaidol(V, t, r, F, land, {}), 'Turn to glittering ash for me~★');
+  S.permafrostchains = soloBeat('Permafrost Condemnation—for Lady Gerroid!', 'shield', null, (V, t, r, F, land) => RFX.glacierchains(V, t, r, F, land, {}), 'Did you see me, Majesty Gerroid?!');
+  S.unfairretribution = soloBeat('The law missed you. My circle won’t~', 'debuff', null, (V, t, r, F, land) => RFX.indigocircle(V, t, r, F, land, {}), 'Unfair Retribution complete~');
+  S.blacklotusgun = soloBeat('Black Lotus. Bloom.', 'debuff', null, (V, t, r, F, land) => RFX.lotusbullet(V, t, r, F, land, {}), '...Target eliminated.');
+
+  // 9. Mang Shi: Spews fire into the air and sends it all over the enemies
+  S.ninedragons = (V, a, t, impact) => posed(V, a, t, impact, 'mang-shi', async (k) => {
+    const { A, T, H, dir, actor, land, hT, r } = k, c = '#ff4d00', gold = '#ffb703';
+    const sp = spillOf(), aims = [{ u: t, T, hT, tv: victim(V, t) }, ...spillAims(V, sp)];
+    if (sp) sp.units.forEach((u) => { if (!V.ents.has(u.uid)) sp.hit(u); });
+
+    // Frame 0: Stomp ground, battle cry
+    pop(V, A, H + 90, own(a, 'cry', 'Nine Children of the Dragon—BURN IT ALL!!'), 'float-text burn', 1.1);
+    MB.audio.sfx('stomp'); V.shake(12);
+    floorRing(V, A, c, 135, 7);
+    await wait(0.45);
+
+    // Frame 1: Wind-up - Arches back, deep inhale, flame igniting at mouth
+    actor.set(1);
+    MB.audio.sfx('dragonfire'); MB.audio.sfx('roar'); V.shake(16);
+    rise(V, A, gold, 18, H * 1.4);
+    await wait(0.35);
+
+    // Frame 2: Release - SPEWS a roaring Dragon Fire Geyser straight up into the sky!
+    actor.set(2);
+    MB.audio.sfx('dragonfire'); V.shake(20);
+    floorRing(V, A, gold, 150, 8);
+    flameBurst(V, A, H * 0.9);
+    await wait(0.4);
+
+    // Beat 2: Rains blazing Dragon-Fire Meteors down ALL OVER THE ENEMIES across the entire enemy side!
+    MB.audio.sfx('whistleDown');
+    const topT = t.isLeader ? hT * 0.55 : overhead(t, r, 45, 105);
+    const extraSpots = [-180, -70, 70, 180].map((dx) => ({
+      u: null,
+      T: { x: Math.max(195, Math.min(985, T.x + dx)), y: T.y },
+      hT,
+      tv: null,
+    }));
+    const drops = [...aims, ...extraSpots];
+    const meteors = drops.map((spot, i) => {
+      const hMet = (spot.u ? spot.u.isLeader : t.isLeader) ? spot.hT * 0.42 : spot.hT * 0.72;
+      const m = propImg(V, spot.T, topT, 'dragon-fireball-meteor', 150, 154, c);
+      gsap.fromTo(m.body, { y: -topT, scale: 0.5 }, { y: -hMet, scale: spot.u ? 1.12 : 0.9, duration: 0.28 + (i % 3) * 0.04, ease: 'power4.in' });
+      return m;
+    });
+    await wait(0.3);
+    land();
+    MB.audio.sfx('boom'); MB.audio.sfx('fire'); MB.audio.sfx('dragonfire'); V.hitStop(); V.shake(28);
+    aims.forEach((m) => {
+      V.emote(m.u, 'hurt', 0);
+      if (m.u !== t && sp) spillHit(V, sp, m.u, c, true);
+      flash(V, m.T, m.hT, gold, 310);
+      flameBurst(V, m.T, m.hT);
+      decal(V, m.T, 'crater', c, 0.55);
+      cracks(V, m.T, c, { n: 7, len: 145, hold: 0.45, w: 5, glow: gold });
+      floorRing(V, m.T, gold, 145, 7);
+      squash(m.tv, 0.5);
+      debris(V, m.T, c, 10, { chars: ['🔥', '🐉', '☄️', '💥'], spread: 175 });
+    });
+
+    // Frame 3: Recover - Flame subsides, smoke clears, triumphant roar
+    actor.set(3);
+    impactStar(V, T, hT, c, 'DRAGON INFERNO!!', 190);
+    pop(V, T, hT + 130, own(a, 'finish', 'Bakshu Prison is my blazing throne!'), 'float-text burn', 1.05);
+    dropAll(meteors, 0.14, 0.22);
+    await wait(0.5);
+  });
+
+  // 10. Ying Kong Meng: Spawns his servants to hold an enemy while he comes to land the hit
+  S.ironpatriarch = async (V, a, t, impact) => {
+    const { r, land } = kit(V, a, t, impact), { v, A, C, T, hT } = r, H = V.heightOf(a), c = '#d62828', gold = '#fcbf49', sx = sgnX(r);
+    const tv = V.ents.get(t.uid);
+    V.emote(a, 'attack', 0);
+    pop(V, A, H + 90, own(a, 'cry', 'Disciples of the Ying Clan—HOLD THEM!'), 'float-text buff', 1.05);
+    // Beat 1: Claps hands & summons two Ying Clan dojo servants who lunge in and grapple the enemy from both sides!
+    MB.audio.sfx('clap'); MB.audio.sfx('gong'); V.shake(10);
+    await gsap.to(v.figure, { scale: 1.08, duration: 0.14, yoyo: true, repeat: 1 });
+    const leftX = Math.max(185, T.x - 56), rightX = Math.min(995, T.x + 56);
+    const hProp = t.isLeader ? hT * 0.42 : hT * 0.78;
+    puff(V, { x: leftX, y: T.y }, c, 8, 35, 1.0);
+    puff(V, { x: rightX, y: T.y }, c, 8, 35, 1.0);
+    const s1 = propImg(V, { x: leftX, y: T.y }, hProp, 'ying-dojo-servant', 175, 160, c);
+    const s2 = propImg(V, { x: rightX, y: T.y }, hProp, 'ying-dojo-servant', 175, 160, c);
+    gsap.set(s2.body, { scaleX: -1 });
+    MB.audio.sfx('karate'); MB.audio.sfx('chain');
+    await Promise.all([
+      gsap.fromTo(s1.body, { x: -45, scale: 0 }, { x: 0, scale: t.isLeader ? 0.92 : 1.05, duration: 0.25, ease: 'back.out(2)' }),
+      gsap.fromTo(s2.body, { x: 45, scale: 0, scaleX: 0 }, { x: 0, scale: t.isLeader ? 0.92 : 1.05, scaleX: -(t.isLeader ? 0.92 : 1.05), duration: 0.25, ease: 'back.out(2)' }),
+    ]);
+    V.emote(t, 'hurt', 0);
+    pop(V, T, hT + 90, 'LOCKED IN PLACE!', 'float-text debuff', 0.95);
+    if (tv && tv.figure) {
+      gsap.to(tv.figure, { x: 6, scaleX: 0.92, yoyo: true, repeat: 7, duration: 0.055 });
+    }
+    await wait(0.28);
+    // Beat 2: While servants hold the enemy, Ying Kong Meng charges across the board and lands the crushing Iron Dragon Palm!
+    MB.audio.sfx('stomp'); V.shake(10);
+    await gsap.to(v.el, { x: C.x, y: C.y, duration: 0.32, ease: 'power3.in', onUpdate: () => ghost(V, v, gold) });
+    MB.audio.sfx('charge');
+    await gsap.to(v.figure, { x: -sx * 26, rotation: -sx * 10, scale: 1.12, duration: 0.16, ease: 'power2.out' });
+    await gsap.to(v.figure, { x: sx * 34, rotation: sx * 12, scale: 1.18, duration: 0.09, ease: 'power4.out' });
+    const palm = propImg(V, T, hProp, 'iron-dragon-palm', 225, 225, gold);
+    gsap.fromTo(palm.body, { scale: 0.2, rotation: -25 }, { scale: t.isLeader ? 0.98 : 1.24, rotation: 0, duration: 0.18, ease: 'back.out(1.7)' });
+    land();
+    if (tv && tv.figure) gsap.set(tv.figure, { x: 0, scaleX: 1 });
+    MB.audio.sfx('ironpalm'); MB.audio.sfx('gong'); MB.audio.sfx('boom'); V.hitStop(); V.shake(28);
+    flash(V, T, hT, gold, 340);
+    decal(V, T, 'crater', c, 0.55);
+    cracks(V, T, '#2b0909', { n: 9, len: 165, hold: 0.45, w: 6, glow: gold });
+    floorRing(V, T, gold, 160, 8);
+    floorRing(V, T, c, 120, 6);
+    squash(victim(V, t), 0.44);
+    debris(V, T, gold, 16, { chars: ['🥋', '🐉', '💥', '✨'], spread: 200 });
+    impactStar(V, T, hT, c, 'YING IRON PALM!!', 190);
+    // Servants leap clear as the shockwave detonates
+    gsap.to(s1.body, { x: -45, opacity: 0, duration: 0.22, delay: 0.08, onComplete: () => s1.remove() });
+    gsap.to(s2.body, { x: 45, opacity: 0, duration: 0.22, delay: 0.08, onComplete: () => s2.remove() });
+    drop(palm, 0.22, 0.26);
+    pop(V, T, hT + 130, own(a, 'finish', 'Hmph. Train another hundred years.'), 'float-text buff', 1.05);
+    await gsap.to(v.figure, { x: 0, rotation: 0, scale: 1, duration: 0.22 });
+    await goHome(v, A, 0.36);
+    await wait(0.24);
+  };
+
+  // Duo Styles for Emiro.exe, Grim & Spook, and Protectors
+  S.twincompile = duoBeat('Delete this prompt, Omire!', (p, r) => p.flank(r.T, 135, 0.36),
+    (V, t, r, p, land) => RFX.geopurify(V, t, r, p.pos(0), land, { word: 'DESUWA BOOM!' }), 'Purified with crowbar etiquette~', 'float-text burn');
+  S.cadabericacurse = duoBeat('Watch this, Grandma Doll!', (p, r) => both(p.hop(0, besideOf(r, 0, 130), 3, 0.5), p.rise(1, 35, 0.35)),
+    (V, t, r, p, land) => RFX.hexgrimoire(V, t, r, p.pos(1), land, {}), 'Cadaberica bloodline prevails.', 'float-text debuff');
+  S.moonlitduet = duoBeat('Sing the spooky part, Lyssara!', (p, r) => both(p.hop(0, besideOf(r, 0, 135), 2, 0.45), p.rise(1, 40, 0.4)),
+    (V, t, r, p, land) => RFX.sirenmist(V, t, r, p.pos(1), land, {}), 'Bwahaha! Encore, encore!', 'float-text heal');
+  S.chaoskitchen = duoBeat('Chef Calamari! Chop-chop!', (p, r) => both(p.rush(0, besideOf(r, 0, 130), 0.35), p.rise(1, 20, 0.3)),
+    (V, t, r, p, land) => RFX.abysspot(V, t, r, p.pos(1), land, {}), '*sigh* Kitchen’s closed.', 'float-text debuff');
+  S.royalroost = duoBeat('Sick ’em, Prince Roy!', (p, r) => both(p.hop(0, besideOf(r, 0, 130), 2, 0.45), p.leap(1, r.C, 120, 0.4)),
+    (V, t, r, p, land) => RFX.batshriek(V, t, r, p.pos(1), land, {}), 'Who’s a handsome bat monarch?!', 'float-text buff');
+  S.harvestball = duoBeat('Shall we dance beneath the autumn moon?', (p, r) => p.flank(r.T, 140, 0.4),
+    (V, t, r, p, land) => RFX.jackolantern(V, t, r, p.pos(0), land, {}), 'A mostsplendid harvest soirée!', 'float-text burn');
+  S.bonechat = duoBeat('Stop waving the wrong arm, Bonehead!', (p, r) => both(p.rise(0, 35, 0.3), p.rush(1, besideOf(r, 1, 130), 0.35)),
+    (V, t, r, p, land) => RFX.bluedread(V, t, r, p.pos(0), land, {}), 'We rattled ’em good, Fear!', 'float-text baka');
+  S.kodomeblood = duoBeat('From the shadows... Mother?', (p, r) => p.flank(r.T, 125, 0.34),
+    (V, t, r, p, land) => RFX.shadowblades(V, t, r, p.pos(0), land, {}), '...You have grown strong, Kyoka.', 'float-text debuff');
+  S.kodomelegacy = duoBeat('Grandmother, watch my blade!', (p, r) => both(p.rush(0, r.C, 0.32), p.rise(1, 20, 0.25)),
+    (V, t, r, p, land) => RFX.obsidianspikes(V, t, r, p.pos(1), land, {}), 'The White District is safe in your hands.', 'float-text debuff');
+  S.yingfamily = duoBeat('Stay out of my way, old man!', (p, r) => p.flank(r.T, 130, 0.35),
+    (V, t, r, p, land) => RFX.hellgates(V, t, r, p.pos(0), land, {}), 'Hmph. Not bad, Fengsha.', 'float-text burn');
+  S.dragonblood = duoBeat('Mother! Let’s burn this whole place down!', (p, r) => p.flank(r.T, 125, 0.35),
+    (V, t, r, p, land) => RFX.moltendragon(V, t, r, p.pos(1), land, {}), 'That’s my daughter! Bwahaha!', 'float-text burn');
+  S.forsteinsisters = duoBeat('Ready to melt ’em, Trude~?', (p, r) => p.flank(r.T, 135, 0.35),
+    (V, t, r, p, land) => RFX.acidshell(V, t, r, p.pos(0), land, {}), 'Kehehehe! Biohazard sisterhood!', 'float-text debuff');
+  S.goldenloyalty = duoBeat('Clear the table, Yuri.', (p, r) => both(p.rise(0, 20, 0.25), p.rush(1, r.C, 0.32)),
+    (V, t, r, p, land) => RFX.goldroulette(V, t, r, p.pos(0), land, {}), 'Anything for Your Majesty Gerroid!', 'float-text buff');
+  S.bluejustice = duoBeat('No killing on my watch, Vendetta!', (p, r) => p.flank(r.T, 130, 0.35),
+    (V, t, r, p, land) => RFX.indigocircle(V, t, r, p.pos(1), land, {}), 'Just a little retribution, Cecil~', 'float-text shield');
+
+
   // ---------------------------------------------------------------- shared helpers
   // styles that bring their own sky (attack.sky overrides it; sky: 'none' turns it off)
   const STYLE_SKY = { meteor: 'night', blackhole: 'void', hack: 'matrix', volcano: 'inferno', tornado: 'storm', runes: 'night', gravity: 'void',
@@ -18506,7 +19868,17 @@
     peerreview: 'space', rocksample: 'sunset', exorcism: 'sakura',
     dreamthief: 'void', pricecheck: 'sunset', observed: 'dream', streamer: 'dream', hypothesis: 'void', investigate: 'night', rougemignon: 'sakura', deadpan: 'none',
     doomscroll: 'matrix', fishinglesson: 'sunny', bihime: 'night', anomalyreport: 'void', coldcase: 'night', konbini: 'night', selfexperiment: 'space', screentest: 'night',
-    verdict: 'storm', starion: 'sunset', clumsybite: 'dream', lookatme: 'sunny' };
+    verdict: 'storm', starion: 'sunset', clumsybite: 'dream', lookatme: 'sunny',
+    boomstick: 'matrix', crowbarteatime: 'dream', coffinprank: 'night', dollgrimoire: 'void', pumpkinharvest: 'sunset',
+    mistlullaby: 'ocean', spectralsoiree: 'night', souschef: 'void', yappingskull: 'night', wronghand: 'night',
+    snackshuffle: 'night', headlesscharge: 'night', twinmoons: 'night', redharvest: 'blood', silentfrost: 'storm',
+    royalbat: 'blood', shadowguest: 'night', hellresurgence: 'inferno', perniciousdevil: 'void', midasenvy: 'sunset',
+    wingsoffreedom: 'sunny', entrancinglake: 'dream', classifiedknight: 'void', splitscissors: 'blood', decayingparadise: 'void',
+    obsidianstingers: 'night', solaridol: 'space', permafrostchains: 'storm', unfairretribution: 'night', blacklotusgun: 'blood',
+    ninedragons: 'inferno', ironpatriarch: 'sunset',
+    twincompile: 'matrix', cadabericacurse: 'void', moonlitduet: 'ocean', chaoskitchen: 'void', royalroost: 'blood',
+    harvestball: 'sunset', bonechat: 'night', kodomeblood: 'blood', kodomelegacy: 'night', yingfamily: 'inferno',
+    dragonblood: 'inferno', forsteinsisters: 'void', goldenloyalty: 'sunset', bluejustice: 'night' };
   // the other duo styles; any single style works for a duo too
   const DUO_STYLES = ['combo', 'bookstairs', 'dolphinduet', 'metalmass', 'dojo', 'waltz', 'jackpot', 'miracle', 'harmony', 'gothic', 'sleepover', 'party', 'lesson', 'cheerchain', 'howl', 'twinstar',
     'breakfast', 'riptide', 'restock', 'flashbang', 'feeding', 'tidal', 'workshop', 'yuri', 'alleyoop', 'crossfire', 'launch', 'sync',
@@ -18523,7 +19895,8 @@
     'pancakeflip', 'spoonsmack', 'passit', 'rescuesurf', 'phasers', 'soulblades', 'twiniaido', 'startalisman', 'brimstone', 'puppetstrings', 'firstcontact', 'teddytag', 'grapestomp',
     'gardenblessing', 'honestchop', 'noogierush', 'grounded', 'overlooked', 'brainfreeze', 'coffeerun', 'ouioui', 'clubwar', 'rockbottom', 'nobiting', 'allnighter', 'onechanguard', 'bookmarkslash', 'routinecheck', 'factcheck', 'doeduo', 'dataclaws', 'punchcocktail', 'viralstunt', 'cheeseedict', 'dusterduo', 'mangaliterature', 'requiredreading', 'familyroast', 'hungoverdrill', 'doubledelivery', 'coopmode', 'glitterbomb', 'thornedbat',
     'hauntedwing', 'lastorders', 'customerservice', 'yokailecture', 'dramaticplea', 'fateddecree', 'mindfulbreathing', 'quietcup', 'facultyfeud', 'synthpanic', 'infernalgossip', 'cosplayduo', 'roomkey', 'quietcompany', 'replyall',
-    'redpenreview', 'labswap', 'smileforonce', 'grassknuckle', 'sermonsalve', 'studysweat', 'autographdanish', 'beachyoga', 'sugardelivery', 'secrethandshake', 'whoisscarier', 'paperbackdelivery', 'breakroomtruce', 'studygroup'];
+    'redpenreview', 'labswap', 'smileforonce', 'grassknuckle', 'sermonsalve', 'studysweat', 'autographdanish', 'beachyoga', 'sugardelivery', 'secrethandshake', 'whoisscarier', 'paperbackdelivery', 'breakroomtruce', 'studygroup',
+    'twincompile', 'cadabericacurse', 'moonlitduet', 'chaoskitchen', 'royalroost', 'harvestball', 'bonechat', 'kodomeblood', 'kodomelegacy', 'yingfamily', 'dragonblood', 'forsteinsisters', 'goldenloyalty', 'bluejustice'];
 
   async function attack(V, a, t, impact, spill) {
     const at = a.card.attack, style = S[at.style] || (at.move || at.fx ? recipe : S.dash);
