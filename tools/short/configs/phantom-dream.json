@@ -1,0 +1,28 @@
+{
+  "novel": "Phantom Dream [Preview]",
+  "title": ["PHANTOM", "DREAM"],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by Grailzy on miku.gg",
+  "accent": "#a77bff",
+  "accent2": "#ff7ac8",
+  "music": { "id": "weird-comedy", "bpm": 100, "offset": 0.21 },
+  "bgs": ["Strange dream 1", "Strange classroom", "Typical Classroom", "Strange dream 3", "Trip to the Arcade", "Strange dream 4"],
+  "cast": [
+    { "id": "delphie", "tag": "THE DREAM EATER", "mood": "attack" },
+    { "id": "reiko", "tag": "THE MAGICAL INVESTIGATOR", "mood": "win" },
+    { "id": "binon", "tag": "THE FAMOUS ACTRESS", "mood": "taunt" },
+    { "id": "ayame-phantom", "tag": "THE MAD SCIENTIST", "mood": "attack" },
+    { "id": "kouji", "tag": "THE FISHING TEACHER", "mood": "idle" },
+    { "id": "henry", "tag": "THE LIVESTREAMER", "mood": "win" },
+    { "id": "daisuke", "tag": "THE DETECTIVE", "mood": "idle" }
+  ],
+  "battle": {
+    "bg": "Strange classroom",
+    "leader": "delphie",
+    "foe": "maya",
+    "foeDeck": ["satsuki", "erika", "ai-phantom"],
+    "groups": [["delphie", "ayame-phantom"], ["reiko", "kouji"], ["binon", "daisuke"], ["henry"]],
+    "plays": false
+  },
+  "by": "Grailzy"
+}

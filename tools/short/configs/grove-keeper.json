@@ -1,0 +1,29 @@
+{
+  "novel": "Grove Keeper",
+  "title": ["GROVE", "KEEPER"],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by druidlydude on miku.gg",
+  "accent": "#ff8a3d",
+  "accent2": "#7be0a8",
+  "music": { "id": "tavern", "bpm": 136, "offset": 0.16 },
+  "bgs": ["Wenshir Village", "Sacred Grove", "Farm", "Grove Night", "Hot Springs", "Forest Night"],
+  "cast": [
+    { "id": "paloma", "tag": "THE MOMMA BEAR", "mood": "attack" },
+    { "id": "nephila", "tag": "THE SPIDER WITCH", "mood": "win" },
+    { "id": "spruce", "tag": "THE PROTECTIVE STAG", "mood": "attack" },
+    { "id": "dr-volde", "tag": "THE MAD GNOME", "mood": "taunt" },
+    { "id": "berry", "tag": "THE INN BUNNY", "mood": "win" },
+    { "id": "rusty", "tag": "THE GRUMPY VETERAN", "mood": "idle" },
+    { "id": "ember", "tag": "THE SQUIRREL PRANKSTER", "mood": "attack" },
+    { "id": "elsie-mae", "tag": "THE FARM COW", "mood": "idle" }
+  ],
+  "battle": {
+    "bg": "Wenshir Village",
+    "leader": "paloma",
+    "foe": "milo",
+    "foeDeck": ["lumin", "holly", "pippa", "kiera"],
+    "groups": [["paloma", "spruce"], ["berry", "rusty"], ["ember", "dr-volde"], ["nephila", "elsie-mae"]],
+    "plays": false
+  },
+  "by": "druidlydude"
+}
