@@ -22,7 +22,7 @@ async function preflight(id, { quiet } = {}) {
   // every portrait in the grid
   manifest.characters.filter((c) => c.novel === cfg.novel).forEach((c) => add('portraits/' + c.id + '.webp', 'grid'));
   // backgrounds: any variant of the name that exists
-  const bgFound = async (name) => { for (const b of manifest.backgrounds.filter((x) => x.name === name)) { const r = await assets.find(b.src); if (r.file) return; } add('?background:' + name, 'background'); };
+  const bgFound = async (name) => { for (const b of manifest.backgrounds.filter((x) => x.id === name || x.name === name)) { const r = await assets.find(b.src); if (r.file) return; } add('?background:' + name, 'background'); };
   for (const n of [...(cfg.bgs || []), B.bg].filter(Boolean)) await bgFound(n);
   // sounds the page and the game's own samples use
   const html = fs.readFileSync(path.join(HERE, 'short.html'), 'utf8');

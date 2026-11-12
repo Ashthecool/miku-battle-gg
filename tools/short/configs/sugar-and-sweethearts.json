@@ -1,0 +1,127 @@
+{
+  "novel": "Sugar & Sweethearts",
+  "title": [
+    "SUGAR &",
+    "SWEETHEARTS"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by piedarling on miku.gg",
+  "accent": "#ff7fb0",
+  "accent2": "#8a6bff",
+  "music": {
+    "id": "parisian-cheers",
+    "bpm": 111,
+    "offset": 0.38
+  },
+  "bgs": [
+    "9c1c1a99-95db-423f-b5fb-5538467a43a9",
+    "6dd0743d-1f6c-47bd-815b-e03dfdee94da",
+    "00e63801-2dfd-455a-bb0e-25c845024e99",
+    "c985ea01-92ea-4bf2-be2e-bfdc69433e9d",
+    "9b6ad92d-5636-46d5-aa5d-f1c56da72934",
+    "5092de3b-3a1a-4119-9e5e-a62aad652da3"
+  ],
+  "cast": [
+    {
+      "id": "dante",
+      "tag": "THE CAFÉ OWNER",
+      "mood": "attack"
+    },
+    {
+      "id": "cupid",
+      "tag": "THE GOD OF LOVE",
+      "mood": "win"
+    },
+    {
+      "id": "momo",
+      "tag": "THE PASTRY CHEF",
+      "mood": "taunt"
+    },
+    {
+      "id": "velour",
+      "tag": "THE NIGHT MAID",
+      "mood": "idle"
+    },
+    {
+      "id": "haruka",
+      "tag": "THE GERMAN STUDENT",
+      "mood": "attack"
+    },
+    {
+      "id": "ryu",
+      "tag": "THE BAND SERVER",
+      "mood": "win"
+    },
+    {
+      "id": "finn",
+      "tag": "THE BALLET STUDENT",
+      "mood": "taunt"
+    },
+    {
+      "id": "zero",
+      "tag": "THE SERVER ON BREAK",
+      "mood": "idle"
+    },
+    {
+      "id": "nico",
+      "tag": "THE STRAY CAT",
+      "mood": "attack"
+    },
+    {
+      "id": "dani-sugar",
+      "tag": "THE SPANISH GYARU",
+      "mood": "win"
+    },
+    {
+      "id": "marine",
+      "tag": "THE SEAHORSE KEMONOMIMI",
+      "mood": "taunt"
+    }
+  ],
+  "battle": {
+    "bg": "9c1c1a99-95db-423f-b5fb-5538467a43a9",
+    "leader": "dante",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "dante",
+        "cupid"
+      ],
+      [
+        "momo",
+        "velour"
+      ],
+      [
+        "haruka",
+        "finn"
+      ],
+      [
+        "ryu",
+        "zero"
+      ],
+      [
+        "nico",
+        "dani-sugar"
+      ],
+      [
+        "marine"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "piedarling",
+  "name": "Sugar & Sweethearts",
+  "beats": {
+    "cast": 4
+  }
+}

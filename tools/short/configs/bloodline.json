@@ -1,0 +1,116 @@
+{
+  "novel": "Bloodline",
+  "title": [
+    "THE",
+    "BLOODLINE"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by Setsuna on miku.gg",
+  "accent": "#e0304c",
+  "accent2": "#ff8a3d",
+  "music": {
+    "id": "fight",
+    "bpm": 139.5,
+    "offset": 0.25
+  },
+  "bgs": [
+    "de2c825b-dff8-412d-9502-b199cafdea72",
+    "aae105bd-8a22-4484-a3e8-5a920b359eaf",
+    "8c1fb21c-f072-47ee-8011-e241eff5972d",
+    "9f28cfa3-d8a0-46ef-8529-6e598f6a12ba",
+    "21ba6358-4b69-4991-8dc7-dcf9fb7fbe33",
+    "f2a424b0-a8b4-4648-b0df-5ea0c505b848"
+  ],
+  "cast": [
+    {
+      "id": "shogun-kagetora",
+      "tag": "THE SHOGUN",
+      "mood": "attack"
+    },
+    {
+      "id": "sakura-tooyama",
+      "tag": "THE SHOGUN'S DAUGHTER",
+      "mood": "win"
+    },
+    {
+      "id": "shino-okita",
+      "tag": "THE COLD BODYGUARD",
+      "mood": "taunt"
+    },
+    {
+      "id": "ayaka-yamanami",
+      "tag": "THE KANZASHI BLOOM",
+      "mood": "idle"
+    },
+    {
+      "id": "haruka-hijikata",
+      "tag": "THE DEMON VICE-CAPTAIN",
+      "mood": "attack"
+    },
+    {
+      "id": "saito-iroha",
+      "tag": "THE AIR HEAD",
+      "mood": "win"
+    },
+    {
+      "id": "bandit",
+      "tag": "THE BANDIT",
+      "mood": "taunt"
+    },
+    {
+      "id": "rimu-hiraga",
+      "tag": "THE CHILDHOOD FRIEND",
+      "mood": "idle"
+    },
+    {
+      "id": "aoi-kananori",
+      "tag": "THE VISUAL NOVEL HEROINE",
+      "mood": "attack"
+    },
+    {
+      "id": "mai-yamanobe",
+      "tag": "THE DANGO SHOPKEEPER",
+      "mood": "win"
+    }
+  ],
+  "battle": {
+    "bg": "de2c825b-dff8-412d-9502-b199cafdea72",
+    "leader": "shogun-kagetora",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "shogun-kagetora",
+        "shino-okita"
+      ],
+      [
+        "sakura-tooyama",
+        "ayaka-yamanami"
+      ],
+      [
+        "haruka-hijikata",
+        "saito-iroha"
+      ],
+      [
+        "bandit",
+        "rimu-hiraga"
+      ],
+      [
+        "aoi-kananori",
+        "mai-yamanobe"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "Setsuna",
+  "name": "Bloodline"
+}

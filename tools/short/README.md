@@ -17,6 +17,9 @@ The method, the rules (why characters vanished from the footage and what stops i
 [.claude/skills/novel-short/SKILL.md](../../.claude/skills/novel-short/SKILL.md). Art that is not in `game/assets/` is fetched
 from the R2 bucket by `lib/assets.js`, as the game does.
 
+Several shorts at once: `node tools/short/batch.js capture <id...> --workers 5`, then `node tools/short/batch.js render <id...> --chunks 4 [--upload public]`
+(slot pool: each browser job gets its own `SLOT` ports and Chrome profile; render splits the frames of one short into chunks, joins them, mixes the sound and checks the file).
+
 Needs Chrome and ffmpeg. `output/` is git-ignored. Without a capture the cast slots fall back to sprite cards.
 
 ## Make one for another novel
@@ -36,7 +39,7 @@ Needs Chrome and ffmpeg. `output/` is git-ignored. Without a capture the cast sl
    **Characters that share a relationship (`MB.BONDS`) fuse when they stand together**, so keep bonded pairs in
    different groups (the fusion would replace the attack you came for).
 7. `accent` / `accent2` colour the title, wipes and sparkles. Each character's card takes the colour of their attack.
-8. Optional: `kicker`, `credit` (the small line at the end; name the novel's real creator, see `js/credits.js`), `by` (the creator's name, shown on the portrait grid as "from <novel> by <by>"), `url`, `stats` (`[[16, "CHARACTERS"], ...]`; by default the
+8. Optional: `name` (display name for the YouTube title/tags), `beats` (`{ "cast": 3 }` shortens a slot for big casts), `kicker`, `credit` (the small line at the end; name the novel's real creator, see `js/credits.js`), `by` (the creator's name, shown on the portrait grid as "from <novel> by <by>"), `url`, `stats` (`[[16, "CHARACTERS"], ...]`; by default the
    numbers are counted from the game: characters, duo bonds, items, signature attacks).
 
 Card rows (cost, ATK, HP, rarity, attack name) come from `MB.CARDS`, so a new novel needs its cards in `js/data.js` first.

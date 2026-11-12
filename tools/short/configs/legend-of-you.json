@@ -1,0 +1,119 @@
+{
+  "novel": "Legend Of You 1.7 ",
+  "title": [
+    "LEGEND",
+    "OF YOU"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by Grailzy on miku.gg",
+  "accent": "#4cc9ff",
+  "accent2": "#b07cff",
+  "music": {
+    "id": "celtic-upbeat",
+    "bpm": 83.25,
+    "offset": 0.32
+  },
+  "bgs": [
+    "83f67b55-207f-4e6e-8f54-07cd0cad76db",
+    "1fe45bb4-10de-479a-ae82-538c0146f636",
+    "bf84ec24-a550-4bc3-a58d-a245b94b292a",
+    "6b064239-433a-4d77-8090-1629d0f2ef9c",
+    "b6ab2001-8e18-4dba-887f-bb78d2d2f1a3",
+    "19b1d303-c95a-4c66-b39e-c1479eef85af"
+  ],
+  "cast": [
+    {
+      "id": "valse",
+      "tag": "THE MERCIFUL SAINTESS",
+      "mood": "attack"
+    },
+    {
+      "id": "daphne",
+      "tag": "THE DEMON LORD'S HEIR",
+      "mood": "win"
+    },
+    {
+      "id": "shirayukihime",
+      "tag": "THE KITSUNE DUELIST",
+      "mood": "taunt"
+    },
+    {
+      "id": "miracle",
+      "tag": "THE GUILD RECEPTIONIST",
+      "mood": "idle"
+    },
+    {
+      "id": "melise",
+      "tag": "THE ELF ARCHER",
+      "mood": "attack"
+    },
+    {
+      "id": "ophelia",
+      "tag": "THE DEVOUT NUN",
+      "mood": "win"
+    },
+    {
+      "id": "serris",
+      "tag": "THE WHITE MAGE",
+      "mood": "taunt"
+    },
+    {
+      "id": "faneel",
+      "tag": "THE TSUNDERE THIEF",
+      "mood": "idle"
+    },
+    {
+      "id": "ruby",
+      "tag": "THE CURSED MERCHANT",
+      "mood": "attack"
+    },
+    {
+      "id": "ororahime",
+      "tag": "THE TEA-SERVING CAT GIRL",
+      "mood": "win"
+    }
+  ],
+  "battle": {
+    "bg": "bf84ec24-a550-4bc3-a58d-a245b94b292a",
+    "leader": "valse",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "valse",
+        "daphne"
+      ],
+      [
+        "shirayukihime",
+        "miracle"
+      ],
+      [
+        "melise",
+        "ophelia"
+      ],
+      [
+        "serris",
+        "faneel"
+      ],
+      [
+        "ruby",
+        "ororahime"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "Grailzy",
+  "name": "Legend Of You",
+  "beats": {
+    "cast": 3
+  }
+}

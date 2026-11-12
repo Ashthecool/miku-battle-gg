@@ -1,0 +1,96 @@
+{
+  "novel": "Exodus: Bound for Beyond",
+  "title": [
+    "EXODUS:",
+    "BOUND FOR BEYOND"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by mahorfeus on miku.gg",
+  "accent": "#6f8cff",
+  "accent2": "#2fd6ff",
+  "music": {
+    "id": "momentum-unleashed",
+    "bpm": 111,
+    "offset": 0.1
+  },
+  "bgs": [
+    "3511a20c-f8e1-41a2-b0b0-bea48e2044c4",
+    "b291f77a-985d-4095-98a8-60c68c92134a",
+    "f2475f4e-5704-40a9-8815-ecf480644a2f",
+    "e3da9eec-b1cd-4e63-bfb2-c64d1f19f8d8",
+    "ffc7ba5a-4764-44c1-bd09-787ec6e1abcf",
+    "f381f2f9-55f9-4b95-ad59-110cfcb9dc9e"
+  ],
+  "cast": [
+    {
+      "id": "sakuragi",
+      "tag": "THE EXECUTIVE OVERLORD",
+      "mood": "attack"
+    },
+    {
+      "id": "obliviahime-van-schwarzflugel",
+      "tag": "THE MIDNIGHT ORACLE",
+      "mood": "win"
+    },
+    {
+      "id": "marise-kanzaki",
+      "tag": "THE LIAISON",
+      "mood": "taunt"
+    },
+    {
+      "id": "jin-asakura",
+      "tag": "THE TWICE-CHOSEN",
+      "mood": "idle"
+    },
+    {
+      "id": "rika-and-haruka",
+      "tag": "THE INTERNS",
+      "mood": "attack"
+    },
+    {
+      "id": "kosuke-fujimoto",
+      "tag": "THE WEARY WANDERER",
+      "mood": "win"
+    },
+    {
+      "id": "takuya-yamashiro",
+      "tag": "THE SCHOLAR OF FICTION",
+      "mood": "taunt"
+    }
+  ],
+  "battle": {
+    "bg": "3511a20c-f8e1-41a2-b0b0-bea48e2044c4",
+    "leader": "sakuragi",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "sakuragi",
+        "jin-asakura"
+      ],
+      [
+        "obliviahime-van-schwarzflugel",
+        "marise-kanzaki"
+      ],
+      [
+        "rika-and-haruka",
+        "kosuke-fujimoto"
+      ],
+      [
+        "takuya-yamashiro"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "mahorfeus",
+  "name": "Exodus: Bound for Beyond"
+}

@@ -1,0 +1,141 @@
+{
+  "novel": "Cries behind Snowfall",
+  "title": [
+    "CRIES BEHIND",
+    "SNOWFALL"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by axt on miku.gg",
+  "accent": "#5ea8ff",
+  "accent2": "#ff4d6d",
+  "music": {
+    "id": "no-turning-back",
+    "bpm": 85.5,
+    "offset": 0.24
+  },
+  "bgs": [
+    "71f94c86-b0c3-4e7e-a10e-ef4e77b44a7b",
+    "ae5ffa11-2c7a-4a1e-8b14-97658fddc90f",
+    "b7a6fb49-9d9f-427d-a13c-586d8f95f1a5",
+    "a24bb0bc-233b-4e06-8f7c-7fcee6eb4833",
+    "c74f48ca-760d-4a37-88dc-0f07238522ed",
+    "4172f3fd-5e7d-423a-9938-0f4995b390e6"
+  ],
+  "cast": [
+    {
+      "id": "yuuki",
+      "tag": "CAMELLIA OF COURAGE",
+      "mood": "attack"
+    },
+    {
+      "id": "itsuki",
+      "tag": "REPENTANCE AND RETRIBUTION",
+      "mood": "win"
+    },
+    {
+      "id": "fumiko",
+      "tag": "DUTY FOR RIGHTEOUSNESS",
+      "mood": "taunt"
+    },
+    {
+      "id": "atsuo",
+      "tag": "WISDOM IN MANY FACES",
+      "mood": "idle"
+    },
+    {
+      "id": "mitsuye",
+      "tag": "THE RIGHT WOMAN, WRONG TIME",
+      "mood": "attack"
+    },
+    {
+      "id": "hakari",
+      "tag": "MELODY WITHIN REGRET",
+      "mood": "win"
+    },
+    {
+      "id": "sugiura",
+      "tag": "TWO OF SPADES",
+      "mood": "taunt"
+    },
+    {
+      "id": "sora",
+      "tag": "ENCLOSED SOUL",
+      "mood": "idle"
+    },
+    {
+      "id": "sumire",
+      "tag": "SEEKER AND VAGABOND",
+      "mood": "attack"
+    },
+    {
+      "id": "mizuha",
+      "tag": "BLIND HEART",
+      "mood": "win"
+    },
+    {
+      "id": "keiko-cries",
+      "tag": "SHADE OF AN OPAQUE SOUL",
+      "mood": "taunt"
+    },
+    {
+      "id": "celia",
+      "tag": "FAITH BENEATH FEAR",
+      "mood": "idle"
+    },
+    {
+      "id": "keiji",
+      "tag": "RECKLESS SIGHT",
+      "mood": "attack"
+    }
+  ],
+  "battle": {
+    "bg": "71f94c86-b0c3-4e7e-a10e-ef4e77b44a7b",
+    "leader": "yuuki",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "yuuki",
+        "itsuki"
+      ],
+      [
+        "fumiko",
+        "atsuo"
+      ],
+      [
+        "mitsuye",
+        "hakari"
+      ],
+      [
+        "sugiura",
+        "sora"
+      ],
+      [
+        "sumire",
+        "mizuha"
+      ],
+      [
+        "keiko-cries",
+        "celia"
+      ],
+      [
+        "keiji"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "axt",
+  "name": "Cries behind Snowfall",
+  "beats": {
+    "cast": 3
+  }
+}

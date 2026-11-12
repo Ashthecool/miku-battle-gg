@@ -1,0 +1,78 @@
+{
+  "novel": "Phantastic Experiments [with] Ayame Kadokawa",
+  "title": [
+    "PHANTASTIC",
+    "EXPERIMENTS"
+  ],
+  "kicker": "NOW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by Grailzy on miku.gg",
+  "accent": "#2fe3a5",
+  "accent2": "#ff5aa0",
+  "music": {
+    "id": "experiment",
+    "bpm": 78.75,
+    "offset": 0.38
+  },
+  "bgs": [
+    "604e1e70-c7b0-4f6d-85df-6af85d14c0ac",
+    "0c827794-863f-4db5-8f2a-10553702ff3b",
+    "87d8cedd-352f-4d36-bc53-70a13e9e7cc9",
+    "41010ffa-f35d-4ee3-87b6-ed0f1ee48484",
+    "f915c473-f1ca-498a-bff2-47bbce7c9fd0"
+  ],
+  "cast": [
+    {
+      "id": "ayame",
+      "tag": "THE WANNABE SCIENTIST",
+      "mood": "attack"
+    },
+    {
+      "id": "natsumi",
+      "tag": "THE GYARU",
+      "mood": "win"
+    },
+    {
+      "id": "rui",
+      "tag": "THE RESPONSIBLE ONE",
+      "mood": "taunt"
+    },
+    {
+      "id": "ken",
+      "tag": "THE AVERAGE HIGHSCHOOLER",
+      "mood": "idle"
+    }
+  ],
+  "battle": {
+    "bg": "604e1e70-c7b0-4f6d-85df-6af85d14c0ac",
+    "leader": "ayame",
+    "foe": "catherine-jones",
+    "foeDeck": [
+      "julie-hunley",
+      "isabella-hunley",
+      "keiko-ghan",
+      "wert-lone",
+      "zoe-brier",
+      "harris-kate",
+      "ben-brier",
+      "farley-kate"
+    ],
+    "groups": [
+      [
+        "ayame"
+      ],
+      [
+        "natsumi",
+        "ken"
+      ],
+      [
+        "rui"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "Grailzy",
+  "name": "Phantastic Experiments",
+  "beats": {
+    "cast": 4
+  }
+}

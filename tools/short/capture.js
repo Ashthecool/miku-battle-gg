@@ -10,7 +10,7 @@
 const fs = require('fs'), path = require('path'), http = require('http'), { spawn } = require('child_process');
 const assets = require('./lib/assets'), { preflight } = require('./check');
 const HERE = __dirname, REPO = path.join(HERE, '..', '..'), GAME = path.join(REPO, 'game');
-const PORT = 8796, DBG = 9338, STEP = 1000 / 30, VW = 1600, VH = 900, DSF = +(process.env.DSF || 1.5);
+const SLOT = +(process.env.SLOT || 0), PORT = 8796 + SLOT * 20, DBG = 9338 + SLOT * 20, STEP = 1000 / 30, VW = 1600, VH = 900, DSF = +(process.env.DSF || 1.5);
 const CHROME = process.env.CHROME || ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find(fs.existsSync);
 const [, , id, only] = process.argv;
 const cfg = JSON.parse(fs.readFileSync(path.join(HERE, 'configs', id + '.json'), 'utf8')), B = cfg.battle;
@@ -79,11 +79,13 @@ const director = (group, opts) => `(async () => {
 
 (async () => {
   if ((await preflight(id)).length) process.exit(1);
-  bgSrc = (manifest.backgrounds.filter((b) => b.name === B.bg)).map((b) => b.src).find((src) => fs.existsSync(path.join(GAME, 'assets', src))) || (await Promise.all(manifest.backgrounds.filter((b) => b.name === B.bg).map((b) => assets.find(b.src)))).find((r) => r.file).rel;
+  bgSrc = (manifest.backgrounds.filter((b) => b.id === B.bg || b.name === B.bg)).map((b) => b.src).find((src) => fs.existsSync(path.join(GAME, 'assets', src))) || (await Promise.all(manifest.backgrounds.filter((b) => b.id === B.bg || b.name === B.bg).map((b) => assets.find(b.src)))).find((r) => r.file).rel;
   await new Promise((r) => server.listen(PORT, r));
   const groups = only != null ? [B.groups[+only]] : B.groups;
-  const ch = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${DBG}`, `--user-data-dir=${path.join(CACHE, 'chrome-capture')}`, `--window-size=${VW},${VH}`, '--hide-scrollbars', '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required', 'about:blank'], { stdio: 'ignore' });
-  let tgt; for (let i = 0; i < 60 && !tgt; i++) { try { tgt = (await (await fetch(`http://127.0.0.1:${DBG}/json`)).json()).find((x) => x.type === 'page'); } catch {} if (!tgt) await new Promise((r) => setTimeout(r, 300)); }
+  const UNIQ = process.env.SLOT != null, UDD = UNIQ ? path.join(CACHE, 'chrome-capture-' + SLOT + '-' + process.pid) : path.join(CACHE, 'chrome-capture' + (SLOT ? '-' + SLOT : ''));
+  const ch = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${UNIQ ? 0 : DBG}`, `--user-data-dir=${UDD}`, `--window-size=${VW},${VH}`, '--hide-scrollbars', '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required', 'about:blank'], { stdio: 'ignore' });
+  let dbg = DBG; if (UNIQ) for (let i = 0; i < 200; i++) { try { dbg = +fs.readFileSync(path.join(UDD, 'DevToolsActivePort'), 'utf8').split(/\r?\n/)[0]; if (dbg) break; } catch {} await new Promise((r) => setTimeout(r, 300)); }
+  let tgt; for (let i = 0; i < 200 && !tgt; i++) { try { tgt = (await (await fetch(`http://127.0.0.1:${dbg}/json`)).json()).find((x) => x.type === 'page'); } catch {} if (!tgt) await new Promise((r) => setTimeout(r, 300)); }
   const ws = new WebSocket(tgt.webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r));
   let n = 0; const wait = new Map(), events = [];
   ws.onmessage = (m) => { const o = JSON.parse(m.data); if (o.id && wait.has(o.id)) { wait.get(o.id)(o); wait.delete(o.id); } else if (o.method === 'Emulation.virtualTimeBudgetExpired') events.push('b'); else if (o.method === 'Runtime.exceptionThrown') console.log('EXC', JSON.stringify(o.params.exceptionDetails).slice(0, 500)); else if (o.method === 'Runtime.consoleAPICalled' && o.params.type === 'error') console.log('ERR', o.params.args.map((a) => a.value || a.description).join(' ').slice(0, 300)); };

@@ -34,8 +34,22 @@ node tools/short/render.js <id> audit             # every gameplay frame loaded,
 node tools/short/render.js <id> all               # audit, then the video: output/miku-battle-<id>-short.mp4, ~8 min
 ```
 
-Run long ones with `run_in_background` and one job at a time (they use fixed ports and one Chrome profile). Needs Chrome and ffmpeg;
-there is no Python on this machine, so everything is Node.
+Run long ones with `run_in_background`. One run uses fixed ports and one Chrome profile; to run several at once give each its own `SLOT=<n>` env
+(ports and profile are offset by 20 per slot), or use the batch runner:
+
+```
+node tools/short/batch.js capture <id...> --workers 5            # every battle group of every short, W at a time, a failed group retried once
+node tools/short/batch.js render  <id...> --workers 4 --chunks 4 [--upload public]   # audit, frames in parallel chunks, join, mix, ffprobe/volumedetect, upload
+```
+
+What limits a batch on this laptop (measured Nov 2026, 6 shorts / 55 cast / 30 battle groups):
+- **Power**: on battery (Balanced plan) the cores run at ~21-51% clock and half of them idle; plugged in, a group records in ~1 min and a 40 s short renders in ~4-5 min. Check `Win32_Battery.BatteryStatus` (2 = AC) before a big batch.
+- **Memory**: 15.6 GB total, ~4 GB free with the editor and browser open. More than 2-3 Chromes at once fail (image decodes return width 0, so `audit` fails; ffmpeg pipes die with exit 3221226505). Use `--workers 2`.
+- **Disk**: `output/short/` is ~0.4 GB per short and the cache grows by Chrome profiles; a full disk (`ENOSPC`) corrupts captures and crashes renders. Keep a few GB free; `rm` `output/short/cache/chrome-*` when no job runs (batch.js removes its own profile after each job and the render intermediates after the mix).
+- Each job gets its own profile and an ephemeral debug port when `SLOT` is set; a slot reused right after another job otherwise meets its dying Chrome (`webSocketDebuggerUrl` of undefined).
+- `render.js <id> mix` redoes only the sound mix from `timeline.json` + `silent.mp4`.
+Run `check.js` for each id once before a parallel batch so the bucket art is cached and the jobs do not race to download it.
+Needs Chrome and ffmpeg; there is no Python on this machine, so everything is Node.
 
 ## Upload to YouTube (automatic, last step of every short)
 
@@ -89,6 +103,7 @@ The first "fix" (a cut-out beside the footage) hid the symptom; the cause was th
 
 ## Look before you ship
 
+`node tools/short/review.js <id>` does the following for every cast member in one go (3 stills each, tiled 4 cast per image: `output/short/<id>/review-N.jpg`).
 Use `peek` at, for every cast member, the wind-up (~0.3 s into their slot), the hit (~1.1 s) and the finish (~2.2 s), then open the
 stills (Read tool; tile them with ffmpeg `hstack` to see several at once). For each:
 
@@ -107,7 +122,11 @@ Say plainly what you checked and that you have not listened to it.
 1. Preconditions: the novel is in the game (see the add-novel skill) with its cards in `game/js/data.js`; each cast member has an attack.
 2. Copy `configs/adoptive-life.json`; set `novel`, `title`, `cast` (4-8, strongest first), `bgs`, `music` (`file` from `game/assets/music/`,
    or `id` of a novel song; leave `bpm`/`offset` out to have them measured, then sanity-check the tempo), `battle`.
-3. `battle`: `bg`, `leader`, `foe`, `foeDeck` (cheap monsters so there is a target; the director also moves the cheapest to the top of the deck),
+3. `bgs` and `battle.bg` take a background **name or id**; many novels name theirs `background-<n>` (shared by several novels), so use the id
+   (the boss fights in `MB.STORY` in `data.js` show which background a novel uses). A big cast (10+) can set `"beats": { "cast": 3 }` (beats per slot,
+   default 5) and a half-time `music.bpm` so each slot is ~2 s and the short stays under ~45 s. Cuts still land on beats when the tempo is halved.
+   Songs from commercial game OSTs (Falcom, Tales of...) risk a Content ID claim on a public upload: pick an original or royalty-free track.
+4. `battle`: `bg`, `leader`, `foe`, `foeDeck` (cheap monsters so there is a target; the director also moves the cheapest to the top of the deck),
    `groups` (rule 5). Set `foeShots: true` for extra B-roll of the foe's attacks, `plays: true` to also record card entrances (slower).
 4. Run the sequence above. Capture takes ~2-4 minutes per group; re-record one group with `capture.js <id> <index>`.
 5. Commit the config and tools (`git add tools/short`). `output/` is ignored. Never name the config folder `novels/`: `.gitignore` excludes it.

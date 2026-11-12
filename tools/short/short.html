@@ -35,7 +35,7 @@ window.MIKU_MANIFEST = manifest;
 await new Promise((r) => { const sc = document.createElement('script'); sc.src = '/game/js/data.js'; sc.onload = r; document.head.append(sc); });
 const cards = MB.CARDS || {};
 const rarity = (id) => (MB.RARITY[(cards[id] || {}).rarity] || MB.RARITY.common);
-const loadBg = async (n) => { for (const b of manifest.backgrounds.filter((x) => x.name === n)) { const img = await load(A + b.src); if (img) return img; } console.error('no background ' + n); return null; };
+const loadBg = async (n) => { for (const b of manifest.backgrounds.filter((x) => x.id === n || x.name === n)) { const img = await load(A + b.src); if (img) return img; } console.error('no background ' + n); return null; };
 const bgs = (await Promise.all(cfg.bgs.map(loadBg))).filter(Boolean);
 const firstOf = async (ch, ...keys) => { for (const k of keys) { const img = await load(A + ch.sprites[k]); if (img) return img; } return null; }; // a pose that is not on disk falls back to the next one
 const cast = [];
@@ -60,7 +60,7 @@ const stats = (cfg.stats || [
 // ---------------------------------------------------------------- timeline (counted in beats so cuts land on the music)
 const BPM = cfg.music.bpm || 120, B = 60 / BPM;
 const hasClips = cast.some((c) => c.clip);
-const L = { intro: 6, cast: hasClips ? 5 : 4, grid: 5, stats: 4, finale: 8 };
+const L = { intro: 6, cast: hasClips ? 5 : 4, grid: 5, stats: 4, finale: 8 }; Object.assign(L, cfg.beats || {}); // beats per segment; a config with a big cast can shorten the slots ("beats": { "cast": 3 })
 const segs = []; let cur = 0;
 const addSeg = (name, beats, draw, i) => { segs.push({ name, i, start: cur * B, end: (cur + beats) * B, draw }); cur += beats; };
 const events = [], impulses = [];
