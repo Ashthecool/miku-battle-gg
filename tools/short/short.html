@@ -255,7 +255,7 @@ function drawGrid(x, lt, t) {
   const bump = 1 + .12 * Math.max(0, 1 - ((lt - .25) * 6 % 1.0)) * (visible < show ? 1 : 0);
   if (visible) T(x, String(visible), W / 2, 335, { size: 330, fill: vgrad('#fff', ACC), ext: 18, extFill: '#7a2d8f', sx: bump, sy: bump });
   T(x, 'CHARACTERS', W / 2, 550, { size: 120, ext: 8, extFill: '#2a0e5a', maxW: 900 });
-  T(x, 'from ' + cfg.novel, W / 2, 638, { size: 46, fill: ACC, sw: 8 });
+  T(x, 'from ' + cfg.novel + (cfg.by ? ' by ' + cfg.by : ''), W / 2, 638, { size: 46, fill: ACC, sw: 8, maxW: 960 });
   x.fillStyle = '#fff'; floaters(x, t, 12, 5, ['#fff', ACC, ACC2]);
   hud(x, t, -1, 0);
 }

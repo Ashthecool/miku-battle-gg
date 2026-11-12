@@ -1,0 +1,100 @@
+{
+  "novel": "Protectors",
+  "title": [
+    "BULGRAH'S",
+    "PROTECTORS"
+  ],
+  "kicker": "NEW IN MIKU BATTLE",
+  "credit": "Fan-made and unofficial. Novel by vbboy200_gotriev on miku.gg",
+  "accent": "#ff2a55",
+  "accent2": "#35c2ff",
+  "music": {
+    "id": "epic-chase-music-run-copyright-and-royalty-free",
+    "bpm": 120,
+    "offset": 0.07
+  },
+  "bgs": [
+    "Black District City Overview",
+    "Red District Street 1",
+    "Green District City",
+    "Yellow District",
+    "Purple District Neon Streets",
+    "Blue District City Night (Grey)"
+  ],
+  "cast": [
+    {
+      "id": "x",
+      "tag": "THE BLACK DISTRICT CEO",
+      "mood": "attack"
+    },
+    {
+      "id": "dearth",
+      "tag": "THE RED DISTRICT BRAWLER",
+      "mood": "win"
+    },
+    {
+      "id": "gerroid",
+      "tag": "THE YELLOW DISTRICT BOSS",
+      "mood": "taunt"
+    },
+    {
+      "id": "mang-shi",
+      "tag": "THE DRAGON EMPRESS",
+      "mood": "attack"
+    },
+    {
+      "id": "sakurako",
+      "tag": "THE SHADOW BLADE",
+      "mood": "idle"
+    },
+    {
+      "id": "trictotano",
+      "tag": "THE ACID SHOTGUN",
+      "mood": "taunt"
+    },
+    {
+      "id": "femicia",
+      "tag": "THE PURPLE SPARK",
+      "mood": "win"
+    },
+    {
+      "id": "cecil",
+      "tag": "THE BLUE SERENITY",
+      "mood": "idle"
+    }
+  ],
+  "battle": {
+    "bg": "Red District Street 1",
+    "leader": "x",
+    "foe": "ying-kong-meng",
+    "foeDeck": [
+      "yuri-protectors",
+      "toxor",
+      "kirari",
+      "vendetta",
+      "tragonta",
+      "jimachi",
+      "stella"
+    ],
+    "groups": [
+      [
+        "x",
+        "dearth"
+      ],
+      [
+        "gerroid",
+        "mang-shi"
+      ],
+      [
+        "sakurako",
+        "trictotano"
+      ],
+      [
+        "femicia",
+        "cecil"
+      ]
+    ],
+    "plays": false
+  },
+  "by": "vbboy200_gotriev"
+}

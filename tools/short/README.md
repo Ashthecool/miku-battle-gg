@@ -36,7 +36,7 @@ Needs Chrome and ffmpeg. `output/` is git-ignored. Without a capture the cast sl
    **Characters that share a relationship (`MB.BONDS`) fuse when they stand together**, so keep bonded pairs in
    different groups (the fusion would replace the attack you came for).
 7. `accent` / `accent2` colour the title, wipes and sparkles. Each character's card takes the colour of their attack.
-8. Optional: `kicker`, `credit` (the small line at the end), `url`, `stats` (`[[16, "CHARACTERS"], ...]`; by default the
+8. Optional: `kicker`, `credit` (the small line at the end; name the novel's real creator, see `js/credits.js`), `by` (the creator's name, shown on the portrait grid as "from <novel> by <by>"), `url`, `stats` (`[[16, "CHARACTERS"], ...]`; by default the
    numbers are counted from the game: characters, duo bonds, items, signature attacks).
 
 Card rows (cost, ATK, HP, rarity, attack name) come from `MB.CARDS`, so a new novel needs its cards in `js/data.js` first.
